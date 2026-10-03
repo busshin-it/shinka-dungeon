@@ -181,10 +181,14 @@ function prepareBattle(n){
  const names={1:"スケルトンナイト",2:"亡霊騎士",3:"石像魔導兵",4:"古城の守護者"};
  const intros={1:"第1戦：スケルトンナイト",2:"第2戦：亡霊騎士。攻撃と呪詛が交互に来る",3:"深部戦：石像魔導兵。溜めから強打を狙う",4:"最終戦：古城の守護者。進化した力で挑もう"};
  $("#enemyName").textContent=names[n]||"亡霊騎士";
- const enemyArt={1:"./assets/enemies/file_00000000f45082099c3eb3dc4f816258.png",2:"./assets/enemies/wraith-knight.png",3:"./assets/enemies/stone-magus.png",4:"./assets/enemies/castle-guardian.png"};
+ const enemyArt={
+ 1:"./assets/enemies/file_000000000aa08209a145fe2c08c95c63.png",
+ 2:"./assets/enemies/file_0000000026708209bdc57ca765680f16.png",
+ 3:"./assets/enemies/file_00000000d884820699086830880feb94.png",
+ 4:"./assets/enemies/file_00000000e20c8206abc7f1fbc2b88845.png"
+};
  const enemyImg=$("#skeleton");const target=enemyArt[n];
- if(n===1)enemyImg.src=target;
- else{const probe=new Image();probe.onload=()=>enemyImg.src=target;probe.src=target}
+ enemyImg.src=target;
  log.textContent=intros[n]||"戦闘開始";render()
 }
 function updateDungeonMap(){
