@@ -15,7 +15,7 @@
   ],
   "jobs": [
     {
-      "asset_id": "card-ice-arrow",
+      "asset_id": "shinka_card_ice_arrow",
       "name": "氷の矢",
       "type": "card",
       "prompt": "鋭い青白い氷の魔法矢が古城空間を高速で飛翔する瞬間。小さく表示しても氷の矢と判別できる一本の強いシルエット。",
@@ -35,10 +35,18 @@
       "status": "adopted",
       "attempts": 1,
       "qa": {},
-      "github_synced": true
+      "github_synced": true,
+      "legacy_asset_id": "card-ice-arrow",
+      "project_id": "shinka",
+      "game_key": "ice",
+      "filename": "ice-arrow.png",
+      "path": "assets/cards/ice-arrow.png",
+      "display_title": "氷の矢｜カード",
+      "legacy_path": "assets/cards/file_0000000026948209a5bf61548ca87c69.png",
+      "generation_id": null
     },
     {
-      "asset_id": "card-lightning",
+      "asset_id": "shinka_card_lightning",
       "name": "雷撃",
       "type": "card",
       "prompt": "上空から古城遺跡へ一直線に落ちる強烈な青白い雷。瞬間的な高火力と破壊力が一目で分かる。",
@@ -58,10 +66,18 @@
       "status": "adopted",
       "attempts": 1,
       "qa": {},
-      "github_synced": true
+      "github_synced": true,
+      "legacy_asset_id": "card-lightning",
+      "project_id": "shinka",
+      "game_key": "bolt",
+      "filename": "lightning.png",
+      "path": "assets/cards/lightning.png",
+      "display_title": "雷撃｜カード",
+      "legacy_path": "assets/cards/file_0000000045dc8209a4abc4b50484d629.png",
+      "generation_id": null
     },
     {
-      "asset_id": "card-dark-bolt",
+      "asset_id": "shinka_card_dark_bolt",
       "name": "闇弾",
       "type": "card",
       "prompt": "紫黒色の魔力が凝縮された単一の闇弾。中心は光を吸い込むように暗く、古城空間を歪ませる不穏な魔法。",
@@ -81,10 +97,18 @@
       "status": "adopted",
       "attempts": 1,
       "qa": {},
-      "github_synced": true
+      "github_synced": true,
+      "legacy_asset_id": "card-dark-bolt",
+      "project_id": "shinka",
+      "game_key": "dark",
+      "filename": "dark-bolt.png",
+      "path": "assets/cards/dark-bolt.png",
+      "display_title": "闇弾｜カード",
+      "legacy_path": "assets/cards/file_000000001be0820991c3c7673ba4e4c0.png",
+      "generation_id": null
     },
     {
-      "asset_id": "card-light-wall",
+      "asset_id": "shinka_card_light_wall",
       "name": "光壁",
       "type": "card",
       "prompt": "金白色に輝く半透明の魔法障壁が古城で攻撃を受け止める。強固な防御魔法として一目で分かる大きな壁面。",
@@ -104,10 +128,18 @@
       "status": "adopted",
       "attempts": 1,
       "qa": {},
-      "github_synced": true
+      "github_synced": true,
+      "legacy_asset_id": "card-light-wall",
+      "project_id": "shinka",
+      "game_key": "guard",
+      "filename": "light-wall.png",
+      "path": "assets/cards/light-wall.png",
+      "display_title": "光壁｜カード",
+      "legacy_path": "assets/cards/file_00000000e8f88209badd4e6ee4c65332.png",
+      "generation_id": null
     },
     {
-      "asset_id": "card-focus",
+      "asset_id": "shinka_card_focus",
       "name": "集中",
       "type": "card",
       "prompt": "青白い魔力と細密な魔法陣が静かに一点へ収束する古城空間。攻撃ではなく次の大魔法への準備と分かる蓄積感。",
@@ -127,10 +159,18 @@
       "status": "adopted",
       "attempts": 1,
       "qa": {},
-      "github_synced": true
+      "github_synced": true,
+      "legacy_asset_id": "card-focus",
+      "project_id": "shinka",
+      "game_key": "focus",
+      "filename": "focus.png",
+      "path": "assets/cards/focus.png",
+      "display_title": "集中｜カード",
+      "legacy_path": "assets/cards/file_00000000afe08209badd4e6ee4c65332.png",
+      "generation_id": null
     },
     {
-      "asset_id": "card-frost-nova",
+      "asset_id": "shinka_card_frost_nova",
       "name": "霜の輪",
       "type": "card",
       "prompt": "石床の一点から円形に広がる青白い冷気と氷晶の輪。広範囲を凍てつかせ敵を弱める魔法だと分かる。",
@@ -150,10 +190,18 @@
       "status": "adopted",
       "attempts": 1,
       "qa": {},
-      "github_synced": true
+      "github_synced": true,
+      "legacy_asset_id": "card-frost-nova",
+      "project_id": "shinka",
+      "game_key": "frostNova",
+      "filename": "frost-nova.png",
+      "path": "assets/cards/frost-nova.png",
+      "display_title": "霜の輪｜カード",
+      "legacy_path": "assets/cards/file_00000000f5cc8209a5d8cc66b911376d.png",
+      "generation_id": null
     },
     {
-      "asset_id": "card-mana-surge",
+      "asset_id": "shinka_card_mana_surge",
       "name": "魔力奔流",
       "type": "card",
       "prompt": "大量の青紫色の魔力が巨大な一本の流れとなり一点へ集積して噴き上がる。次の魔法を大幅強化するエネルギー蓄積感。",
@@ -173,10 +221,18 @@
       "status": "adopted",
       "attempts": 1,
       "qa": {},
-      "github_synced": true
+      "github_synced": true,
+      "legacy_asset_id": "card-mana-surge",
+      "project_id": "shinka",
+      "game_key": "manaBurst",
+      "filename": "mana-surge.png",
+      "path": "assets/cards/mana-surge.png",
+      "display_title": "魔力奔流｜カード",
+      "legacy_path": "assets/cards/file_00000000b984820980078cb0cf6e8fe5.png",
+      "generation_id": null
     },
     {
-      "asset_id": "card-mirror-barrier",
+      "asset_id": "shinka_card_mirror_barrier",
       "name": "鏡の結界",
       "type": "card",
       "prompt": "鏡やガラスのような複数の魔法障壁が攻撃を受け止め、光を相手へ反射する。青白い反射光と鏡面の層。",
@@ -196,10 +252,18 @@
       "status": "adopted",
       "attempts": 1,
       "qa": {},
-      "github_synced": true
+      "github_synced": true,
+      "legacy_asset_id": "card-mirror-barrier",
+      "project_id": "shinka",
+      "game_key": "mirror",
+      "filename": "mirror-barrier.png",
+      "path": "assets/cards/mirror-barrier.png",
+      "display_title": "鏡の結界｜カード",
+      "legacy_path": "assets/cards/file_00000000cae082099bd9fb794f9208d6.png",
+      "generation_id": null
     },
     {
-      "asset_id": "card-ice-spear",
+      "asset_id": "shinka_card_ice_spear",
       "name": "氷槍",
       "type": "card",
       "prompt": "氷の矢から進化した、巨大で鋭利な一本の青白い氷槍が古城を貫く。基本魔法より明確に上位の威力と重量感。",
@@ -219,10 +283,18 @@
       "status": "adopted",
       "attempts": 1,
       "qa": {},
-      "github_synced": true
+      "github_synced": true,
+      "legacy_asset_id": "card-ice-spear",
+      "project_id": "shinka",
+      "game_key": "iceSpear",
+      "filename": "ice-spear.png",
+      "path": "assets/cards/ice-spear.png",
+      "display_title": "氷槍｜カード",
+      "legacy_path": "assets/cards/file_000000005f30820995176d66b39af9d9.png",
+      "generation_id": null
     },
     {
-      "asset_id": "card-blizzard",
+      "asset_id": "shinka_card_blizzard",
       "name": "吹雪",
       "type": "card",
       "prompt": "猛烈な冷気と無数の氷片が古城全体を飲み込む広範囲魔法。単体の槍ではなく画面全体を覆う氷雪。",
@@ -242,10 +314,18 @@
       "status": "adopted",
       "attempts": 1,
       "qa": {},
-      "github_synced": true
+      "github_synced": true,
+      "legacy_asset_id": "card-blizzard",
+      "project_id": "shinka",
+      "game_key": "blizzard",
+      "filename": "blizzard.png",
+      "path": "assets/cards/blizzard.png",
+      "display_title": "吹雪｜カード",
+      "legacy_path": "assets/cards/file_00000000d3fc820982193d7a00f71fa5.png",
+      "generation_id": null
     },
     {
-      "asset_id": "card-chain-lightning",
+      "asset_id": "shinka_card_chain_lightning",
       "name": "連鎖雷",
       "type": "card",
       "prompt": "雷撃から進化した一本の青白い雷が着弾後に複数方向へ次々と枝分かれする。連続攻撃と連鎖が一目で分かる。",
@@ -265,10 +345,17 @@
       "status": "waiting",
       "attempts": 0,
       "qa": {},
-      "github_synced": false
+      "github_synced": false,
+      "legacy_asset_id": "card-chain-lightning",
+      "project_id": "shinka",
+      "game_key": "chainBolt",
+      "filename": "chain-lightning.png",
+      "path": "assets/cards/chain-lightning.png",
+      "display_title": "連鎖雷｜カード",
+      "generation_id": null
     },
     {
-      "asset_id": "card-abyss",
+      "asset_id": "shinka_card_abyss",
       "name": "奈落弾",
       "type": "card",
       "prompt": "闇弾から進化した巨大な紫黒の圧縮魔力球。中心は底なしの奈落のような完全な暗黒で周囲の光と瓦礫を吸い込む。",
@@ -288,10 +375,17 @@
       "status": "waiting",
       "attempts": 0,
       "qa": {},
-      "github_synced": false
+      "github_synced": false,
+      "legacy_asset_id": "card-abyss",
+      "project_id": "shinka",
+      "game_key": "abyss",
+      "filename": "abyss.png",
+      "path": "assets/cards/abyss.png",
+      "display_title": "奈落弾｜カード",
+      "generation_id": null
     },
     {
-      "asset_id": "card-mana-barrier",
+      "asset_id": "shinka_card_mana_barrier",
       "name": "魔力障壁",
       "type": "card",
       "prompt": "光壁から進化した巨大で高密度な青白から金色の魔法障壁。内部に魔力が蓄積され、通常の光壁より明確に強固。",
@@ -311,10 +405,17 @@
       "status": "waiting",
       "attempts": 0,
       "qa": {},
-      "github_synced": false
+      "github_synced": false,
+      "legacy_asset_id": "card-mana-barrier",
+      "project_id": "shinka",
+      "game_key": "manaBarrier",
+      "filename": "mana-barrier.png",
+      "path": "assets/cards/mana-barrier.png",
+      "display_title": "魔力障壁｜カード",
+      "generation_id": null
     },
     {
-      "asset_id": "enemy-skeleton-knight",
+      "asset_id": "shinka_enemy_skeleton_knight",
       "name": "スケルトンナイト",
       "type": "enemy",
       "prompt": "全身のスケルトン騎士1体。古びた鎧と剣、破れた赤い布。同一ゲーム世界の通常敵。左方向の主人公と対峙する向き。",
@@ -335,10 +436,18 @@
       "status": "adopted",
       "attempts": 1,
       "qa": {},
-      "github_synced": true
+      "github_synced": true,
+      "legacy_asset_id": "enemy-skeleton-knight",
+      "project_id": "shinka",
+      "game_key": "skeletonKnight",
+      "filename": "skeleton-knight.png",
+      "path": "assets/enemies/skeleton-knight.png",
+      "display_title": "スケルトンナイト｜敵",
+      "legacy_path": "assets/enemies/file_00000000f45082099c3eb3dc4f816258.png",
+      "generation_id": null
     },
     {
-      "asset_id": "enemy-wraith-knight",
+      "asset_id": "shinka_enemy_wraith_knight",
       "name": "亡霊騎士",
       "type": "enemy",
       "prompt": "半透明の亡霊騎士1体。壊れた黒銀鎧、長剣、破れたマント、青白い霊気。スケルトンより強いがボス級ではない。",
@@ -359,10 +468,18 @@
       "status": "adopted",
       "attempts": 2,
       "qa": {},
-      "github_synced": true
+      "github_synced": true,
+      "legacy_asset_id": "enemy-wraith-knight",
+      "project_id": "shinka",
+      "game_key": "wraithKnight",
+      "filename": "wraith-knight.png",
+      "path": "assets/enemies/wraith-knight.png",
+      "display_title": "亡霊騎士｜敵",
+      "legacy_path": "assets/enemies/file_00000000e20c8206abc7f1fbc2b88845.png",
+      "generation_id": null
     },
     {
-      "asset_id": "enemy-stone-magus",
+      "asset_id": "shinka_enemy_stone_magus",
       "name": "石像魔導兵",
       "type": "enemy",
       "prompt": "巨大な石造りの魔導兵1体。ゴーレムと騎士の中間、身体に青い魔力亀裂、胸部に魔力核。重厚で魔力を溜めて強打する敵。",
@@ -383,10 +500,18 @@
       "status": "adopted",
       "attempts": 1,
       "qa": {},
-      "github_synced": true
+      "github_synced": true,
+      "legacy_asset_id": "enemy-stone-magus",
+      "project_id": "shinka",
+      "game_key": "stoneMagus",
+      "filename": "stone-magus.png",
+      "path": "assets/enemies/stone-magus.png",
+      "display_title": "石像魔導兵｜敵",
+      "legacy_path": "assets/enemies/file_000000000aa08209a145fe2c08c95c63.png",
+      "generation_id": null
     },
     {
-      "asset_id": "enemy-castle-guardian",
+      "asset_id": "shinka_enemy_castle_guardian",
       "name": "古城の守護者",
       "type": "enemy",
       "prompt": "最終ボスの巨大な古代守護騎士1体。黒鉄・古金・石の超重装甲、王冠意匠、巨大武器、内部から強い青白い魔力光。長い年月で一部が崩れ、神聖さと恐ろしさを併せ持つ。",
@@ -407,10 +532,18 @@
       "status": "adopted",
       "attempts": 1,
       "qa": {},
-      "github_synced": true
+      "github_synced": true,
+      "legacy_asset_id": "enemy-castle-guardian",
+      "project_id": "shinka",
+      "game_key": "castleGuardian",
+      "filename": "castle-guardian.png",
+      "path": "assets/enemies/castle-guardian.png",
+      "display_title": "古城の守護者｜敵",
+      "legacy_path": "assets/enemies/file_00000000d884820699086830880feb94.png",
+      "generation_id": null
     },
     {
-      "asset_id": "class-frost-mage",
+      "asset_id": "shinka_class_frost_mage",
       "name": "氷結師",
       "type": "class",
       "prompt": "基本魔法師と同一人物。若い女性、銀から淡いラベンダーの長髪、青い瞳。氷特化へ進化し、青白い氷晶装飾、冷気、氷結した杖、濃紺から白銀の衣装。全身。",
@@ -435,10 +568,18 @@
       "github_synced": true,
       "reference_paths": [
         "assets/characters/file_00000000195082099d8a0cbca09a8f30.png"
-      ]
+      ],
+      "legacy_asset_id": "class-frost-mage",
+      "project_id": "shinka",
+      "game_key": "frost-mage",
+      "filename": "frost-mage.png",
+      "path": "assets/classes/frost-mage.png",
+      "display_title": "氷結師｜進化クラス",
+      "legacy_path": "assets/characters/file_00000000fd08820681a7d7ae9ae4b8be.png",
+      "generation_id": null
     },
     {
-      "asset_id": "class-thunder-mage",
+      "asset_id": "shinka_class_thunder_mage",
       "name": "雷術師",
       "type": "class",
       "prompt": "基本魔法師と同一人物。銀から淡いラベンダーの長髪、青い瞳。青白から金の雷が身体と杖を走り、高速・高火力を感じる進化衣装。全身。",
@@ -463,10 +604,17 @@
       "github_synced": false,
       "reference_paths": [
         "assets/characters/file_00000000195082099d8a0cbca09a8f30.png"
-      ]
+      ],
+      "legacy_asset_id": "class-thunder-mage",
+      "project_id": "shinka",
+      "game_key": "thunder-mage",
+      "filename": "thunder-mage.png",
+      "path": "assets/classes/thunder-mage.png",
+      "display_title": "雷術師｜進化クラス",
+      "generation_id": null
     },
     {
-      "asset_id": "class-dark-mage",
+      "asset_id": "shinka_class_dark_mage",
       "name": "黒魔導士",
       "type": "class",
       "prompt": "基本魔法師と同一人物。銀から淡いラベンダーの長髪、青い瞳。紫黒の魔力、影、呪術的装飾へ進化。危険だが悪役そのものにはしない。全身。",
@@ -491,10 +639,17 @@
       "github_synced": false,
       "reference_paths": [
         "assets/characters/file_00000000195082099d8a0cbca09a8f30.png"
-      ]
+      ],
+      "legacy_asset_id": "class-dark-mage",
+      "project_id": "shinka",
+      "game_key": "dark-mage",
+      "filename": "dark-mage.png",
+      "path": "assets/classes/dark-mage.png",
+      "display_title": "黒魔導士｜進化クラス",
+      "generation_id": null
     },
     {
-      "asset_id": "class-barrier-mage",
+      "asset_id": "shinka_class_barrier_mage",
       "name": "結界術師",
       "type": "class",
       "prompt": "基本魔法師と同一人物。銀から淡いラベンダーの長髪、青い瞳。白・金・淡い青の衣装、複数の魔法陣と透明障壁、守護と反射を感じる進化。全身。",
@@ -519,10 +674,17 @@
       "github_synced": false,
       "reference_paths": [
         "assets/characters/file_00000000195082099d8a0cbca09a8f30.png"
-      ]
+      ],
+      "legacy_asset_id": "class-barrier-mage",
+      "project_id": "shinka",
+      "game_key": "barrier-mage",
+      "filename": "barrier-mage.png",
+      "path": "assets/classes/barrier-mage.png",
+      "display_title": "結界術師｜進化クラス",
+      "generation_id": null
     },
     {
-      "asset_id": "class-star-seer",
+      "asset_id": "shinka_class_star_seer",
       "name": "星詠み",
       "type": "class",
       "prompt": "基本魔法師と同一人物。銀から淡いラベンダーの長髪、青い瞳。紺・青・金、星・天球儀・時計を思わせる魔法陣。大魔法を準備する賢者的進化。全身。",
@@ -547,10 +709,17 @@
       "github_synced": false,
       "reference_paths": [
         "assets/characters/file_00000000195082099d8a0cbca09a8f30.png"
-      ]
+      ],
+      "legacy_asset_id": "class-star-seer",
+      "project_id": "shinka",
+      "game_key": "star-seer",
+      "filename": "star-seer.png",
+      "path": "assets/classes/star-seer.png",
+      "display_title": "星詠み｜進化クラス",
+      "generation_id": null
     },
     {
-      "asset_id": "class-elementalist",
+      "asset_id": "shinka_class_elementalist",
       "name": "元素術師",
       "type": "class",
       "prompt": "基本魔法師と同一人物。銀から淡いラベンダーの長髪、青い瞳。氷・雷・闇など複数属性の魔力を主人公中心に美しく統合し、万能な最終進化と分かる。全身。",
@@ -576,7 +745,14 @@
       "github_synced": false,
       "reference_paths": [
         "assets/characters/file_00000000195082099d8a0cbca09a8f30.png"
-      ]
+      ],
+      "legacy_asset_id": "class-elementalist",
+      "project_id": "shinka",
+      "game_key": "elementalist",
+      "filename": "elementalist.png",
+      "path": "assets/classes/elementalist.png",
+      "display_title": "元素術師｜進化クラス",
+      "generation_id": null
     }
   ]
 }
