@@ -1,0 +1,103 @@
+{
+  "project": "進化ダンジョン",
+  "source_folder": "assets/characters",
+  "note": "ユーザー目視による対応表。元のランダムファイル名と意味を紐付ける。",
+  "assets": [
+    {
+      "order": 1,
+      "file": "file_000000000c30820698b91abeca671653.png",
+      "role": "staff",
+      "label": "杖"
+    },
+    {
+      "order": 2,
+      "file": "file_00000000195082099d8a0cbca09a8f30.png",
+      "role": "character_standing",
+      "label": "キャラクター立ち絵"
+    },
+    {
+      "order": 3,
+      "file": "file_000000001d848209970a8e0c1719cae4.png",
+      "role": "back_hair",
+      "label": "髪の毛のみ・後ろから見た"
+    },
+    {
+      "order": 4,
+      "file": "file_000000003a188206ba89b2462f6365ad.png",
+      "role": "head_front",
+      "label": "顔・首から上・正面"
+    },
+    {
+      "order": 5,
+      "file": "file_000000004f4c8209b009e23817d45c0f.png",
+      "role": "left_upper_arm",
+      "label": "左肩から肘"
+    },
+    {
+      "order": 6,
+      "file": "file_0000000056a88209b797a455b7c47600.png",
+      "role": "left_forearm_hand",
+      "label": "左肘から手"
+    },
+    {
+      "order": 7,
+      "file": "file_0000000064148209b4cd962d56b51aa4.png",
+      "role": "right_forearm_hand_a",
+      "label": "右肘から手"
+    },
+    {
+      "order": 8,
+      "file": "file_000000006cb082098936c098c1d124f5.png",
+      "role": "lower_body_legs",
+      "label": "両足・腰から下"
+    },
+    {
+      "order": 9,
+      "file": "file_00000000b07082099ddf8591c50bf43b.png",
+      "role": "hair_ornament",
+      "label": "髪飾り"
+    },
+    {
+      "order": 10,
+      "file": "file_00000000b0f48209bc20d55491c3bcce.png",
+      "role": "upper_torso",
+      "label": "首から肩と胸・おへそまで"
+    },
+    {
+      "order": 11,
+      "file": "file_00000000bc9c820984f6ef585f3b35cb.png",
+      "role": "hat",
+      "label": "ハットのみ"
+    },
+    {
+      "order": 12,
+      "file": "file_00000000bf98820999c641cdd9f89771.png",
+      "role": "right_upper_arm",
+      "label": "右肩から肘"
+    },
+    {
+      "order": 13,
+      "file": "file_00000000cdd08206be68ca1aec8a6e25.png",
+      "role": "right_forearm_hand_b",
+      "label": "右肘から手"
+    },
+    {
+      "order": 14,
+      "file": "file_00000000d60c8209ab208717b7efe3cc.png",
+      "role": "fullbody_front",
+      "label": "全身立ち絵・正面"
+    },
+    {
+      "order": 15,
+      "file": "file_00000000eee482099d2c1ddb77cba30f.png",
+      "role": "skirt",
+      "label": "スカート"
+    },
+    {
+      "order": 16,
+      "file": "file_00000000fd08820681a7d7ae9ae4b8be.png",
+      "role": "class_change_fullbody_front",
+      "label": "クラスチェンジ・立ち絵・正面"
+    }
+  ]
+}
