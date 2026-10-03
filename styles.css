@@ -198,3 +198,13 @@
 .class-evo-card{position:relative;overflow:hidden}
 .class-evo-card:before{content:"";position:absolute;inset:0;background-image:var(--evo-art);background-position:center;background-size:cover;opacity:.12;pointer-events:none}
 .class-evo-card>*{position:relative}
+
+/* Merchant / treasure build choices */
+.merchant-panel{width:min(700px,92vw)}
+.merchant-options{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin:10px 0;max-height:56vh;overflow:auto}
+.merchant-choice{padding:9px 11px;border:1px solid #725d3d;border-radius:10px;background:#15120e;color:#eee;text-align:left}
+.merchant-choice strong,.merchant-choice span,.merchant-choice em{display:block}
+.merchant-choice strong{color:#efd08e}.merchant-choice span{font:10px system-ui;color:#c9c1b4;margin:2px 0}.merchant-choice em{font:700 10px system-ui;color:#9fd3ff;font-style:normal}
+.merchant-choice:disabled{opacity:.35}.merchant-choice.wide,.merchant-tip{grid-column:1/-1}.merchant-tip{margin:0;color:#aaa;font:11px system-ui}
+.weapon-options button{min-width:0}
+@media(max-height:460px){.merchant-options{max-height:46vh;gap:5px}.merchant-choice{padding:5px 7px}.merchant-choice strong{font-size:11px}.merchant-choice span,.merchant-choice em{font-size:8px}}
