@@ -1,4 +1,4 @@
-const CACHE="shinka-dungeon-v4";
+const CACHE="shinka-dungeon-v5";
 const ASSETS=["./","./index.html","./styles.css","./src/game.js"];
 
 self.addEventListener("install",event=>{
