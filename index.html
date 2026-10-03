@@ -1,73 +1,47 @@
 <!doctype html>
 <html lang="ja">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-  <meta name="theme-color" content="#070b12">
-  <title>進化ダンジョン</title>
-  <link rel="stylesheet" href="./styles.css">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#070b12">
+<title>進化ダンジョン</title>
+<link rel="stylesheet" href="./styles.css">
 </head>
 <body>
-  <main class="game-shell">
-    <section class="battlefield" aria-label="戦闘画面">
-      <img class="battle-bg" src="./assets/backgrounds/file_00000000e0fc8209ab0c2f0f6ecdb091.png" alt="">
-      <div class="shade"></div>
-
-      <section class="hud player-hud">
-        <strong>魔法師 Lv.1</strong>
-        <span>HP <b id="playerHp">60</b>/60</span>
-        <div class="bar"><i id="playerHpBar"></i></div>
-      </section>
-
-      <section class="hud enemy-hud">
-        <strong>スケルトンナイト</strong>
-        <span>HP <b id="enemyHp">48</b>/48</span>
-        <div class="bar enemy"><i id="enemyHpBar"></i></div>
-        <small id="intent">次の行動：8ダメージ</small>
-      </section>
-
-      <div class="actor player">
-        <img id="mage" src="./assets/characters/file_00000000195082099d8a0cbca09a8f30.png" alt="魔法師">
-        <div class="fallback">🧙‍♀️</div>
-      </div>
-
-      <div class="actor foe">
-        <img id="skeleton" src="./assets/enemies/file_00000000f45082099c3eb3dc4f816258.png" alt="スケルトンナイト">
-        <div class="fallback">💀</div>
-      </div>
-
-      <div id="iceFx" class="ice-fx" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
-      <div id="damageText" class="damage-text"></div>
-      <div id="battleLog" class="battle-log">カードを選んでください。</div>
-    </section>
-
-    <section class="controls">
-      <div class="energy" id="energy">3/3</div>
-      <div class="hand">
-        <button class="card" data-card="ice">
-          <span class="cost">1</span>
-          <img src="./assets/cards/file_0000000026948209a5bf61548ca87c69.png" alt="">
-          <strong>氷の矢</strong>
-          <small>6ダメージ＋凍結1</small>
-        </button>
-
-        <button class="card utility" data-card="guard">
-          <span class="cost">1</span>
-          <div class="simple-art">🛡️</div>
-          <strong>魔力障壁</strong>
-          <small>6ブロック</small>
-        </button>
-
-        <button class="card utility" data-card="focus">
-          <span class="cost">0</span>
-          <div class="simple-art">✦</div>
-          <strong>集中</strong>
-          <small>次の魔法+3</small>
-        </button>
-      </div>
-      <button id="endTurn" class="end-turn">ターン終了</button>
-    </section>
-  </main>
-  <script src="./src/game.js"></script>
-</body>
-</html>
+<div class="rotate"><div>↻</div><strong>端末を横向きにしてください</strong><small>進化ダンジョンは横画面で遊びます</small></div>
+<main class="game-shell">
+<section class="battlefield">
+<img class="battle-bg" src="./assets/backgrounds/file_00000000e0fc8209ab0c2f0f6ecdb091.png" alt="">
+<div class="shade"></div>
+<section class="hud player-hud"><strong>魔法師 Lv.1</strong><span>HP <b id="playerHp">60</b>/60</span><div class="bar"><i id="playerHpBar"></i></div><small id="playerStatus">ブロック 0</small></section>
+<section class="hud enemy-hud"><strong>スケルトンナイト</strong><span>HP <b id="enemyHp">48</b>/48</span><div class="bar enemy"><i id="enemyHpBar"></i></div><small id="intent">次の行動：斬撃 8</small></section>
+<div class="actor player"><img id="mage" src="./assets/characters/file_00000000195082099d8a0cbca09a8f30.png" alt="魔法師"></div>
+<div class="actor foe"><img id="skeleton" src="./assets/enemies/file_00000000f45082099c3eb3dc4f816258.png" alt="スケルトンナイト"></div>
+<div id="iceFx" class="ice-fx"><i></i><i></i><i></i></div>
+<div id="boltFx" class="bolt-fx">ϟ</div>
+<div id="darkFx" class="dark-fx"></div>
+<div id="slashFx" class="slash-fx"></div>
+<div id="damageText" class="damage-text"></div>
+<div id="battleLog" class="battle-log">カードを選んでください。</div>
+<div id="victory" class="victory"><strong>VICTORY</strong><span>スケルトンナイトを撃破</span><button id="rewardBtn">進化を選ぶ</button></div>
+</section>
+<section class="controls">
+<div class="energy"><b id="energy">3</b><small>/3</small></div>
+<div class="hand">
+<button class="card ice" data-card="ice"><span class="cost">1</span><img src="./assets/cards/file_0000000026948209a5bf61548ca87c69.png" alt=""><strong>氷の矢</strong><small>6ダメージ・凍結</small></button>
+<button class="card lightning" data-card="bolt"><span class="cost">2</span><div class="simple-art">ϟ</div><strong>雷撃</strong><small>11ダメージ</small></button>
+<button class="card dark" data-card="dark"><span class="cost">1</span><div class="simple-art">●</div><strong>闇弾</strong><small>5ダメージ・弱体</small></button>
+<button class="card guard" data-card="guard"><span class="cost">1</span><div class="simple-art">◇</div><strong>光壁</strong><small>7ブロック</small></button>
+<button class="card focus" data-card="focus"><span class="cost">0</span><div class="simple-art">✦</div><strong>集中</strong><small>次の魔法 +3</small></button>
+</div>
+<button id="endTurn" class="end-turn">ターン<br>終了</button>
+</section>
+<div id="reward" class="reward">
+<div class="reward-panel"><h2>氷の矢が進化する</h2><p>今回の戦いで使った魔法が、新しい力を獲得した。</p><div class="reward-options">
+<button data-evo="spear"><b>氷槍</b><span>10ダメージ<br>単体火力を強化</span></button>
+<button data-evo="blizzard"><b>吹雪</b><span>7ダメージ<br>凍結を強化</span></button>
+</div></div>
+</div>
+</main>
+<script src="./src/game.js"></script>
+</body></html>
