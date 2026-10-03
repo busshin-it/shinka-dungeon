@@ -1,4 +1,4 @@
-const CACHE="shinka-dungeon-v1";
+const CACHE="shinka-dungeon-v2";
 const ASSETS=["./","./index.html","./styles.css","./src/game.js"];
 self.addEventListener("install",e=>e.waitUntil(caches.open(CACHE).then(c=>c.addAll(ASSETS))));
 self.addEventListener("activate",e=>e.waitUntil(self.clients.claim()));
