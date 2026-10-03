@@ -1,21 +1,73 @@
 <!doctype html>
 <html lang="ja">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>進化ダンジョン</title>
-<style>
-html,body{margin:0;height:100%;background:#070b12;color:#fff;font-family:system-ui,-apple-system,sans-serif}
-main{min-height:100%;display:grid;place-items:center;padding:24px;text-align:center;background:radial-gradient(circle at 50% 20%,#172336,#070b12 60%)}
-.card{max-width:720px;border:1px solid #7d5a33;border-radius:18px;padding:28px;background:#0c121bdd;box-shadow:0 20px 60px #0008}
-h1{margin:0 0 8px;color:#f0d4a0}.tag{opacity:.7}.ok{margin-top:20px;color:#8dd8ff}
-</style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#070b12">
+  <title>進化ダンジョン</title>
+  <link rel="stylesheet" href="./styles.css">
 </head>
 <body>
-<main><section class="card">
-<h1>進化ダンジョン</h1>
-<div class="tag">GitHub版 開発環境</div>
-<p>リポジトリ連携に成功しました。ここからゲーム本体と画像素材を順番に追加します。</p>
-<p class="ok">✓ GitHubへの書き込み確認済み</p>
-</section></main>
-</body></html>
+  <main class="game-shell">
+    <section class="battlefield" aria-label="戦闘画面">
+      <img class="battle-bg" src="./assets/backgrounds/castle.png" alt="">
+      <div class="shade"></div>
+
+      <section class="hud player-hud">
+        <strong>魔法師 Lv.1</strong>
+        <span>HP <b id="playerHp">60</b>/60</span>
+        <div class="bar"><i id="playerHpBar"></i></div>
+      </section>
+
+      <section class="hud enemy-hud">
+        <strong>スケルトンナイト</strong>
+        <span>HP <b id="enemyHp">48</b>/48</span>
+        <div class="bar enemy"><i id="enemyHpBar"></i></div>
+        <small id="intent">次の行動：8ダメージ</small>
+      </section>
+
+      <div class="actor player">
+        <img id="mage" src="./assets/characters/mage.png" alt="魔法師">
+        <div class="fallback">🧙‍♀️</div>
+      </div>
+
+      <div class="actor foe">
+        <img id="skeleton" src="./assets/enemies/skeleton.png" alt="スケルトンナイト">
+        <div class="fallback">💀</div>
+      </div>
+
+      <img id="iceFx" class="ice-fx" src="./assets/effects/ice-fx.png" alt="">
+      <div id="damageText" class="damage-text"></div>
+      <div id="battleLog" class="battle-log">カードを選んでください。</div>
+    </section>
+
+    <section class="controls">
+      <div class="energy" id="energy">3/3</div>
+      <div class="hand">
+        <button class="card" data-card="ice">
+          <span class="cost">1</span>
+          <img src="./assets/cards/ice-card.png" alt="">
+          <strong>氷の矢</strong>
+          <small>6ダメージ＋凍結1</small>
+        </button>
+
+        <button class="card utility" data-card="guard">
+          <span class="cost">1</span>
+          <div class="simple-art">🛡️</div>
+          <strong>魔力障壁</strong>
+          <small>6ブロック</small>
+        </button>
+
+        <button class="card utility" data-card="focus">
+          <span class="cost">0</span>
+          <div class="simple-art">✦</div>
+          <strong>集中</strong>
+          <small>次の魔法+3</small>
+        </button>
+      </div>
+      <button id="endTurn" class="end-turn">ターン終了</button>
+    </section>
+  </main>
+  <script src="./src/game.js"></script>
+</body>
+</html>
