@@ -8,8 +8,9 @@ const CARD={
  manaBurst:{name:"魔力奔流",cost:1,text:"次の魔法 +6",kind:"focus",art:"✧"},
  mirror:{name:"鏡の結界",cost:1,text:"5ブロック・3反射",kind:"guard",art:"◈"}
 };
-const state={enemyHp:48,playerHp:60,energy:3,block:0,focus:false,weak:false,frozen:false,busy:false,iceEvo:null,enemyTurn:1,
- draw:["ice","guard","bolt","dark","focus","ice","guard","dark"],discard:[],hand:[],used:[],bonusFocus:0,reflect:0,enemyPenalty:0,battle:1,maxEnemy:48,mapStage:0,nextBattle:2};
+const state={enemyHp:48,playerHp:60,energy:3,block:0,focus:false,weak:false,frozen:false,busy:false,iceEvo:null,enemyTurn:1,enemyCharge:0,nextBattleFocus:false,
+ draw:["ice","guard","bolt","dark","focus","ice","guard","dark"],discard:[],hand:[],used:[],bonusFocus:0,reflect:0,enemyPenalty:0,battle:1,maxEnemy:48,mapStage:0,nextBattle:2,
+ usage:{cards:{},families:{ice:0,lightning:0,dark:0,guard:0,focus:0}}};
 const $=s=>document.querySelector(s),wait=ms=>new Promise(r=>setTimeout(r,ms));
 const mage=$(".actor.player"),foe=$(".actor.foe"),field=$(".battlefield"),dmg=$("#damageText"),log=$("#battleLog");
 function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
@@ -32,27 +33,33 @@ function render(){
  $("#intent").textContent=state.frozen?"次の行動：凍結中":"次の行動："+enemyIntent();
  renderHand();if(state.enemyHp<=0){$("#victory").classList.add("show");log.textContent="勝利！"}
 }
+const CARD_FAMILY={ice:"ice",frostNova:"ice",bolt:"lightning",dark:"dark",guard:"guard",mirror:"guard",focus:"focus",manaBurst:"focus"};
+function recordUse(id){state.usage.cards[id]=(state.usage.cards[id]||0)+1;const family=CARD_FAMILY[id];if(family)state.usage.families[family]=(state.usage.families[family]||0)+1}
+function previewEnemyDamage(base){return Math.max(0,base+state.enemyCharge-(state.weak?2:0)-state.enemyPenalty)}
 function enemyIntent(){
- if(state.battle===1)return "斬撃 "+(state.weak?6:8);
- if(state.battle===2)return state.enemyTurn%2?"霊刃 "+(state.weak?7:10):"呪詛 4 + 弱体";
- return state.enemyTurn%3===0?"重撃 "+(state.weak?11:14):state.enemyTurn%3===1?"炎爪 "+(state.weak?8:11):"防壁 + 次撃強化";
+ if(state.battle===1)return "斬撃 "+previewEnemyDamage(8);
+ if(state.battle===2)return state.enemyTurn%2?"霊刃 "+previewEnemyDamage(10):"呪詛 "+previewEnemyDamage(4);
+ const phase=state.enemyTurn%3;
+ if(phase===0)return "重撃 "+previewEnemyDamage(14);
+ if(phase===1)return "炎爪 "+previewEnemyDamage(11);
+ return "魔力充填（次の攻撃 +3）";
 }
 function popDamage(n,onPlayer=false){dmg.textContent="-"+n;dmg.className="damage-text"+(onPlayer?" player-dmg":"");void dmg.offsetWidth;dmg.classList.add("pop");field.classList.remove("impact");void field.offsetWidth;field.classList.add("impact");field.addEventListener("animationend",()=>field.classList.remove("impact"),{once:true})}
 async function playerPose(kind,ms=420){mage.classList.remove("guard-cast","focus-cast");mage.classList.add(kind);await wait(ms);mage.classList.remove(kind)}
 async function hitEnemy(n){await wait(240);foe.classList.add("hit");state.enemyHp=Math.max(0,state.enemyHp-n);popDamage(n);render();await wait(280);foe.classList.remove("hit")}
-async function spell(type,base){mage.classList.add("cast");let n=base+(state.focus?3:0)+state.bonusFocus;state.focus=false;state.bonusFocus=0;
- if(type==="ice"){log.textContent="《"+cardName("ice")+"》！";let fx=$("#iceFx");fx.classList.remove("fly");void fx.offsetWidth;fx.classList.add("fly");fx.addEventListener("animationend",()=>fx.classList.remove("fly"),{once:true});state.frozen=true}
+async function spell(type,base,{freeze=type==="ice",applyWeak=type==="dark"}={}){mage.classList.add("cast");let n=base+(state.focus?3:0)+state.bonusFocus;state.focus=false;state.bonusFocus=0;
+ if(type==="ice"){log.textContent="《"+cardName("ice")+"》！";let fx=$("#iceFx");fx.classList.remove("fly");void fx.offsetWidth;fx.classList.add("fly");fx.addEventListener("animationend",()=>fx.classList.remove("fly"),{once:true});if(freeze)state.frozen=true}
  if(type==="bolt"){log.textContent="《雷撃》！";let fx=$("#boltFx");fx.classList.remove("strike");void fx.offsetWidth;fx.classList.add("strike");fx.addEventListener("animationend",()=>fx.classList.remove("strike"),{once:true})}
- if(type==="dark"){log.textContent="《闇弾》！";let fx=$("#darkFx");fx.classList.remove("fly");void fx.offsetWidth;fx.classList.add("fly");fx.addEventListener("animationend",()=>fx.classList.remove("fly"),{once:true});state.weak=true}
+ if(type==="dark"){log.textContent="《闇弾》！";let fx=$("#darkFx");fx.classList.remove("fly");void fx.offsetWidth;fx.classList.add("fly");fx.addEventListener("animationend",()=>fx.classList.remove("fly"),{once:true});if(applyWeak)state.weak=true}
  await hitEnemy(n);mage.classList.remove("cast")
 }
 async function play(i){if(state.busy)return;const id=state.hand[i],c=CARD[id];if(!id||state.energy<c.cost)return;
- state.busy=true;state.energy-=c.cost;state.hand.splice(i,1);state.used.push(id);state.discard.push(id);render();
+ state.busy=true;state.energy-=c.cost;state.hand.splice(i,1);state.used.push(id);state.discard.push(id);recordUse(id);render();
  if(id==="ice")await spell("ice",state.iceEvo==="spear"?10:state.iceEvo==="blizzard"?7:6);
  if(id==="bolt")await spell("bolt",11);if(id==="dark")await spell("dark",5);
  if(id==="guard"){state.block+=7;log.textContent="《光壁》：7ブロック";await playerPose("guard-cast")}
  if(id==="focus"){state.focus=true;log.textContent="《集中》：次の魔法 +3";await playerPose("focus-cast",520)}
- if(id==="frostNova"){state.enemyPenalty=Math.max(state.enemyPenalty,4);await spell("ice",4)}
+ if(id==="frostNova"){state.enemyPenalty=Math.max(state.enemyPenalty,4);await spell("ice",4,{freeze:false})}
  if(id==="manaBurst"){state.bonusFocus+=6;log.textContent="《魔力奔流》：次の魔法 +6";await playerPose("focus-cast",520)}
  if(id==="mirror"){state.block+=5;state.reflect=3;log.textContent="《鏡の結界》：5ブロック・反射3";await playerPose("guard-cast")}
  state.busy=false;render()
@@ -64,9 +71,8 @@ $("#endTurn").onclick=async()=>{if(state.busy||state.enemyHp<=0)return;state.bus
  let raw=8,curse=false;
  if(state.battle===1)raw=8;
  if(state.battle===2){if(state.enemyTurn%2){raw=10}else{raw=4;curse=true}}
- if(state.battle===3){const phase=state.enemyTurn%3;if(phase===0)raw=14;else if(phase===1)raw=11;else{raw=0;state.enemyPenalty=Math.max(0,state.enemyPenalty-2);log.textContent="守護者が防壁を展開した";await wait(500)}}
- if(state.weak)raw=Math.max(0,raw-2);raw=Math.max(0,raw-state.enemyPenalty);state.weak=false;state.enemyPenalty=0;
- if(raw>0){log.textContent=(state.battle===1?"スケルトンの斬撃！":state.battle===2?(curse?"亡霊騎士の呪詛！":"亡霊騎士の霊刃！"):"守護者の攻撃！");foe.classList.add("attack");await wait(260);let slash=$("#slashFx");slash.classList.remove("slash");void slash.offsetWidth;slash.classList.add("slash");mage.classList.add("hit");let n=Math.max(0,raw-state.block);state.block=Math.max(0,state.block-raw);state.playerHp=Math.max(0,state.playerHp-n);popDamage(n,true);if(n>0&&state.reflect>0)state.enemyHp=Math.max(0,state.enemyHp-state.reflect);state.reflect=0;if(curse)state.enemyPenalty=-2;render();await wait(400);foe.classList.remove("attack");mage.classList.remove("hit")}
+ if(state.battle===3){const phase=state.enemyTurn%3;if(phase===0)raw=14;else if(phase===1)raw=11;else{raw=0;state.enemyCharge=3;log.textContent="守護者が魔力を充填した！ 次の攻撃 +3";await wait(500)}}
+ if(raw>0){raw=previewEnemyDamage(raw);state.enemyCharge=0;state.weak=false;state.enemyPenalty=0;log.textContent=(state.battle===1?"スケルトンの斬撃！":state.battle===2?(curse?"亡霊騎士の呪詛！":"亡霊騎士の霊刃！"):"守護者の攻撃！");foe.classList.add("attack");await wait(260);let slash=$("#slashFx");slash.classList.remove("slash");void slash.offsetWidth;slash.classList.add("slash");mage.classList.add("hit");let n=Math.max(0,raw-state.block);state.block=Math.max(0,state.block-raw);state.playerHp=Math.max(0,state.playerHp-n);popDamage(n,true);if(n>0&&state.reflect>0)state.enemyHp=Math.max(0,state.enemyHp-state.reflect);state.reflect=0;render();await wait(400);foe.classList.remove("attack");mage.classList.remove("hit")}
  state.enemyTurn++;
 }
  state.block=0;state.energy=3;drawTo(5);state.busy=false;
@@ -89,7 +95,7 @@ function finishReward(id){
 document.querySelectorAll("[data-reward]").forEach(b=>b.onclick=()=>finishReward(b.dataset.reward));
 $("#skipReward").onclick=()=>finishReward(null);
 function prepareBattle(n){
- state.battle=n;state.enemyTurn=1;state.maxEnemy=n===2?62:78;state.enemyHp=state.maxEnemy;state.energy=3;state.block=0;state.focus=false;state.weak=false;state.frozen=false;state.enemyPenalty=0;state.reflect=0;state.hand=[];state.draw=shuffle([...state.draw,...state.discard]);state.discard=[];drawTo(5);
+ state.battle=n;state.enemyTurn=1;state.maxEnemy=n===2?62:78;state.enemyHp=state.maxEnemy;state.energy=3;state.block=0;state.focus=state.nextBattleFocus;state.nextBattleFocus=false;state.weak=false;state.frozen=false;state.enemyPenalty=0;state.enemyCharge=0;state.reflect=0;state.hand=[];state.draw=shuffle([...state.draw,...state.discard]);state.discard=[];drawTo(5);
  $("#enemyName").textContent=n===2?"亡霊騎士":"古城の守護者";log.textContent=n===2?"第2戦：亡霊騎士。攻撃と呪詛が交互に来る":"最終戦：古城の守護者。行動パターンを読もう";render()
 }
 function updateDungeonMap(){
@@ -101,7 +107,7 @@ function openEvent(type){
  $("#mapScreen").classList.remove("show");$("#eventScreen").classList.add("show");
  const kind=$("#eventKind"),title=$("#eventTitle"),txt=$("#eventText");
  if(type==="shop"){kind.textContent="MERCHANT";title.textContent="旅の商人";txt.textContent="試作：魔力を整え、HPを6回復した。";state.playerHp=Math.min(60,state.playerHp+6)}
- if(type==="event"){kind.textContent="UNKNOWN";title.textContent="青白い泉";txt.textContent="泉の魔力がカードに宿る。次の戦闘で集中状態から始まる。";state.focus=true}
+ if(type==="event"){kind.textContent="UNKNOWN";title.textContent="青白い泉";txt.textContent="泉の魔力がカードに宿る。次の戦闘で集中状態から始まる。";state.nextBattleFocus=true}
  if(type==="rest"){kind.textContent="REST";title.textContent="静かな篝火";txt.textContent="休息してHPを12回復した。";state.playerHp=Math.min(60,state.playerHp+12)}
 }
 document.querySelectorAll(".dnode[data-type]").forEach(n=>n.onclick=()=>{
