@@ -17,7 +17,7 @@ const CARD={
  manaBarrier:{name:"魔力障壁",cost:1,text:"10ブロック・集中",kind:"guard",art:"◇"}
 };
 const state={enemyHp:48,playerHp:60,energy:3,block:0,focus:false,weak:false,frozen:false,busy:false,enemyTurn:1,enemyCharge:0,nextBattleFocus:false,
- draw:["ice","guard","bolt","dark","focus","ice","guard","dark"],discard:[],hand:[],used:[],bonusFocus:0,reflect:0,enemyPenalty:0,battle:1,maxEnemy:48,mapStage:0,nextBattle:2,roomsCleared:0,routeDepth:0,weapon:null,forgePower:0,sanctumBlessing:false,fusions:[],
+ draw:["ice","guard","bolt","dark","focus","ice","guard","dark"],discard:[],hand:[],used:[],bonusFocus:0,reflect:0,enemyPenalty:0,battle:1,maxEnemy:48,mapStage:0,nextBattle:2,roomsCleared:0,routeDepth:0,weapon:null,forgePower:0,sanctumBlessing:false,fusions:[],gold:40,eliteBattle:false,
  usage:{cards:{},families:{ice:0,lightning:0,dark:0,guard:0,focus:0}},classEvo:null,classEvoApplied:false,spellsThisTurn:0,lastSpellFamily:null};
 const $=s=>document.querySelector(s),wait=ms=>new Promise(r=>setTimeout(r,ms));
 const mage=$(".actor.player"),foe=$(".actor.foe"),field=$(".battlefield"),dmg=$("#damageText"),log=$("#battleLog");
@@ -117,6 +117,7 @@ $("#endTurn").onclick=async()=>{if(state.busy||state.enemyHp<=0)return;state.bus
 $("#rewardBtn").onclick=()=>{$("#reward").classList.add("show")};
 function finishReward(id){
  if(id)state.discard.push(id);$("#reward").classList.remove("show");$("#victory").classList.remove("show");
+ const goldGain=state.eliteBattle?35:20;state.gold+=goldGain;state.eliteBattle=false;
  if(state.battle>=4){
  const f=state.usage.families;
  const top=Object.entries(f).sort((a,b)=>b[1]-a[1])[0];
@@ -239,14 +240,58 @@ function advanceMapAfterEvent(message){
  $("#mapScreen").classList.add("show");render()
 }
 
+
+function addCardToDeck(id){state.discard.push(id)}
+function removeCardFromDeck(id){
+ const total=allDeckCards().length;if(total<=5)return false;
+ return removeOneFromDeck(id)
+}
+function openMerchant(){
+ $("#mapScreen").classList.remove("show");
+ const box=$("#merchantOptions");box.innerHTML="";$("#merchantGold").textContent=state.gold;
+ const offers=[
+  {kind:"card",id:"frostNova",cost:25},
+  {kind:"card",id:"manaBurst",cost:25},
+  {kind:"card",id:"mirror",cost:25},
+  {kind:"heal",cost:15}
+ ];
+ offers.forEach(o=>{
+  const b=document.createElement("button");b.className="merchant-choice";
+  if(o.kind==="card")b.innerHTML="<strong>"+CARD[o.id].name+"</strong><span>"+CARD[o.id].text+"</span><em>"+o.cost+" G</em>";
+  else b.innerHTML="<strong>治療</strong><span>HPを12回復</span><em>"+o.cost+" G</em>";
+  b.disabled=state.gold<o.cost;
+  b.onclick=()=>{
+   if(state.gold<o.cost)return;state.gold-=o.cost;
+   if(o.kind==="card")addCardToDeck(o.id);else state.playerHp=Math.min(60,state.playerHp+12);
+   openMerchant()
+  };
+  box.appendChild(b)
+ });
+ const remove=document.createElement("button");remove.className="merchant-choice wide";
+ remove.innerHTML="<strong>カードを1枚削除</strong><span>デッキを軽くする</span><em>20 G</em>";
+ remove.disabled=state.gold<20||allDeckCards().length<=5;
+ remove.onclick=()=>openCardRemoval();box.appendChild(remove);
+ $("#merchantScreen").classList.add("show")
+}
+function openCardRemoval(){
+ const box=$("#merchantOptions");box.innerHTML="<p class='merchant-tip'>削除するカードを選ぶ</p>";
+ const counts={};allDeckCards().forEach(id=>counts[id]=(counts[id]||0)+1);
+ Object.keys(counts).forEach(id=>{
+  const b=document.createElement("button");b.className="merchant-choice";
+  b.innerHTML="<strong>"+CARD[id].name+" ×"+counts[id]+"</strong><span>"+CARD[id].text+"</span><em>削除</em>";
+  b.onclick=()=>{if(state.gold>=20&&removeCardFromDeck(id)){state.gold-=20;openMerchant()}};
+  box.appendChild(b)
+ })
+}
+function openTreasure(){
+ $("#mapScreen").classList.remove("show");$("#weaponScreen").classList.add("show")
+}
+
 function openEvent(type){
  $("#mapScreen").classList.remove("show");$("#eventScreen").classList.add("show");
  const kind=$("#eventKind"),title=$("#eventTitle"),txt=$("#eventText"),reward=$("#eventReward");reward.textContent="";
- if(type==="shop"){kind.textContent="MERCHANT";title.textContent="旅の商人";txt.textContent="試作：魔力を整え、HPを6回復した。";state.playerHp=Math.min(60,state.playerHp+6)}
  if(type==="event"){kind.textContent="UNKNOWN";title.textContent="青白い泉";txt.textContent="泉の魔力がカードに宿る。次の戦闘で集中状態から始まる。";state.nextBattleFocus=true}
  if(type==="rest"){kind.textContent="REST";title.textContent="静かな篝火";txt.textContent="休息してHPを12回復した。";reward.textContent="HP +12";state.playerHp=Math.min(60,state.playerHp+12)}
- if(type==="treasure"){kind.textContent="TREASURE";title.textContent="封印された宝箱";const weapons=[{name:"氷晶の杖",family:"ice"},{name:"雷鳴の宝珠",family:"lightning"},{name:"黒曜の魔導書",family:"dark"}];state.weapon=weapons[Math.floor(Math.random()*weapons.length)];txt.textContent="装備を発見した。装備はこのラン中、対応する魔法を強化する。";reward.textContent="装備："+state.weapon.name}
- if(type==="shop")reward.textContent="HP +6";
  if(type==="event")reward.textContent="次戦：集中状態";
  if(type==="sanctum"){kind.textContent="SANCTUM";title.textContent="星読みの祭壇";txt.textContent="祭壇の魔力を受け、次の戦闘を集中状態で開始する。";state.sanctumBlessing=true;state.playerHp=Math.min(60,state.playerHp+6);reward.textContent="HP +6 / 次戦：集中"}
 }
@@ -254,10 +299,12 @@ document.querySelectorAll(".dnode[data-type]").forEach(n=>n.onclick=()=>{
  if(!n.classList.contains("available"))return;
  const type=n.dataset.type;n.classList.remove("available");n.classList.add("cleared");
  if(type==="forge"){openFusion();return}
- if(type==="event"||type==="shop"||type==="rest"||type==="treasure"||type==="sanctum"){openEvent(type);return}
+ if(type==="shop"){openMerchant();return}
+ if(type==="treasure"){openTreasure();return}
+ if(type==="event"||type==="rest"||type==="sanctum"){openEvent(type);return}
  $("#mapScreen").classList.remove("show");
  if(type==="enemy"){prepareBattle(2)}
- else if(type==="elite"){prepareBattle(2);state.maxEnemy=72;state.enemyHp=72;state.enemyCharge=2;$("#enemyName").textContent="亡霊騎士・精鋭";log.textContent="エリート戦：強敵だが突破すれば報酬を得られる";render()}
+ else if(type==="elite"){state.eliteBattle=true;prepareBattle(2);state.maxEnemy=72;state.enemyHp=72;state.enemyCharge=2;$("#enemyName").textContent="亡霊騎士・精鋭";log.textContent="エリート戦：強敵だが突破すれば報酬を得られる";render()}
  else if(type==="battle3"){prepareBattle(3)}
  else if(type==="boss"){
  state.nextBattle=4;
@@ -265,6 +312,18 @@ document.querySelectorAll(".dnode[data-type]").forEach(n=>n.onclick=()=>{
 }
 });
 $("#eventContinue").onclick=()=>{$("#eventScreen").classList.remove("show");state.roomsCleared++;state.routeDepth++;updateDungeonMap();$("#mapHint").textContent=state.routeDepth===2?"危険な道か、準備を整える道か。":state.routeDepth===3?"古城の深部へ進む。":state.routeDepth===4?"最後の準備を選ぶ。":"守護者への道が開いた。";$("#mapScreen").classList.add("show");render()};
+
+const WEAPONS={
+ staff:{name:"氷晶の杖",family:"ice"},
+ orb:{name:"雷鳴の宝珠",family:"lightning"},
+ grimoire:{name:"黒曜の魔導書",family:"dark"}
+};
+document.querySelectorAll("[data-weapon]").forEach(b=>b.onclick=()=>{
+ state.weapon=WEAPONS[b.dataset.weapon];$("#weaponScreen").classList.remove("show");
+ advanceMapAfterEvent("装備："+state.weapon.name)
+});
+$("#leaveMerchant").onclick=()=>{$("#merchantScreen").classList.remove("show");advanceMapAfterEvent("商人を後にした")};
+
 const fsBtn=$("#fullscreenBtn");if(fsBtn)fsBtn.onclick=async()=>{try{if(!document.fullscreenElement){await document.documentElement.requestFullscreen();if(screen.orientation?.lock)await screen.orientation.lock("landscape").catch(()=>{})}else await document.exitFullscreen()}catch(e){}};
 document.addEventListener("fullscreenchange",()=>{if(fsBtn)fsBtn.textContent=document.fullscreenElement?"×":"⛶"});
 shuffle(state.draw);drawTo(5);render();
