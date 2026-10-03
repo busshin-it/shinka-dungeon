@@ -9,7 +9,7 @@ const CARD={
  mirror:{name:"鏡の結界",cost:1,text:"5ブロック・3反射",kind:"guard",art:"◈"}
 };
 const state={enemyHp:48,playerHp:60,energy:3,block:0,focus:false,weak:false,frozen:false,busy:false,iceEvo:null,enemyTurn:1,
- draw:["ice","guard","bolt","dark","focus","ice","guard","dark"],discard:[],hand:[],used:[],bonusFocus:0,reflect:0,enemyPenalty:0,battle:1,maxEnemy:48};
+ draw:["ice","guard","bolt","dark","focus","ice","guard","dark"],discard:[],hand:[],used:[],bonusFocus:0,reflect:0,enemyPenalty:0,battle:1,maxEnemy:48,mapStage:0,nextBattle:2};
 const $=s=>document.querySelector(s),wait=ms=>new Promise(r=>setTimeout(r,ms));
 const mage=$(".actor.player"),foe=$(".actor.foe"),dmg=$("#damageText"),log=$("#battleLog");
 function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
@@ -68,7 +68,9 @@ $("#endTurn").onclick=async()=>{if(state.busy||state.enemyHp<=0)return;state.bus
  if(raw>0){log.textContent=(state.battle===1?"スケルトンの斬撃！":state.battle===2?(curse?"亡霊騎士の呪詛！":"亡霊騎士の霊刃！"):"守護者の攻撃！");foe.classList.add("attack");await wait(260);let slash=$("#slashFx");slash.classList.remove("slash");void slash.offsetWidth;slash.classList.add("slash");mage.classList.add("hit");let n=Math.max(0,raw-state.block);state.block=Math.max(0,state.block-raw);state.playerHp=Math.max(0,state.playerHp-n);popDamage(n,true);if(n>0&&state.reflect>0)state.enemyHp=Math.max(0,state.enemyHp-state.reflect);state.reflect=0;if(curse)state.enemyPenalty=-2;render();await wait(400);foe.classList.remove("attack");mage.classList.remove("hit")}
  state.enemyTurn++;
 }
- state.block=0;state.energy=3;drawTo(5);state.busy=false;log.textContent=state.playerHp<=0?"敗北…":"新しい手札を引いた";render()};
+ state.block=0;state.energy=3;drawTo(5);state.busy=false;
+ if(state.playerHp<=0){log.textContent="敗北…";$("#defeat").classList.add("show")}else log.textContent="新しい手札を引いた";
+ render()};
 $("#rewardBtn").onclick=()=>{
  if(state.battle===1){$("#evolutionStep").hidden=false;$("#cardRewardStep").hidden=true}
  else{$("#evolutionStep").hidden=true;$("#cardRewardStep").hidden=false}
@@ -78,8 +80,9 @@ document.querySelectorAll("[data-evo]").forEach(b=>b.onclick=()=>{state.iceEvo=b
 function finishReward(id){
  if(id)state.discard.push(id);$("#reward").classList.remove("show");$("#victory").classList.remove("show");
  if(state.battle>=3){$("#runClear").classList.add("show");return}
- document.querySelectorAll(".map-node").forEach(n=>{const room=+n.dataset.room;n.classList.toggle("cleared",room<=state.battle);n.classList.toggle("current",room===state.battle+1)});
- $("#mapHint").textContent=state.battle===1?"次は亡霊騎士。攻撃と呪詛を見分けよう。":"最終部屋。古城の守護者が待っている。";
+ state.mapStage++;
+ updateDungeonMap();
+ $("#mapHint").textContent="次に進む部屋を選んでください。";
  $("#mapScreen").classList.add("show")
 }
 document.querySelectorAll("[data-reward]").forEach(b=>b.onclick=()=>finishReward(b.dataset.reward));
@@ -88,8 +91,30 @@ function prepareBattle(n){
  state.battle=n;state.enemyTurn=1;state.maxEnemy=n===2?62:78;state.enemyHp=state.maxEnemy;state.energy=3;state.block=0;state.focus=false;state.weak=false;state.frozen=false;state.enemyPenalty=0;state.reflect=0;state.hand=[];state.draw=shuffle([...state.draw,...state.discard]);state.discard=[];drawTo(5);
  $("#enemyName").textContent=n===2?"亡霊騎士":"古城の守護者";log.textContent=n===2?"第2戦：亡霊騎士。攻撃と呪詛が交互に来る":"最終戦：古城の守護者。行動パターンを読もう";render()
 }
-$("#continueRun").onclick=()=>{$("#mapScreen").classList.remove("show");prepareBattle(state.battle+1)};
+function updateDungeonMap(){
+ document.querySelectorAll(".dnode").forEach(n=>{if(n.classList.contains("start"))return;n.classList.remove("available");n.classList.add("locked")});
+ let ids=state.mapStage===1?["enemy","event","shop"]:state.mapStage===2?["elite","rest"]:["boss"];
+ ids.forEach(id=>{const n=document.querySelector('[data-node="'+id+'"]');if(n){n.classList.remove("locked");n.classList.add("available")}});
+}
+function openEvent(type){
+ $("#mapScreen").classList.remove("show");$("#eventScreen").classList.add("show");
+ const kind=$("#eventKind"),title=$("#eventTitle"),txt=$("#eventText");
+ if(type==="shop"){kind.textContent="MERCHANT";title.textContent="旅の商人";txt.textContent="試作：魔力を整え、HPを6回復した。";state.playerHp=Math.min(60,state.playerHp+6)}
+ if(type==="event"){kind.textContent="UNKNOWN";title.textContent="青白い泉";txt.textContent="泉の魔力がカードに宿る。次の戦闘で集中状態から始まる。";state.focus=true}
+ if(type==="rest"){kind.textContent="REST";title.textContent="静かな篝火";txt.textContent="休息してHPを12回復した。";state.playerHp=Math.min(60,state.playerHp+12)}
+}
+document.querySelectorAll(".dnode[data-type]").forEach(n=>n.onclick=()=>{
+ if(!n.classList.contains("available"))return;
+ const type=n.dataset.type;n.classList.remove("available");n.classList.add("cleared");
+ if(type==="event"||type==="shop"||type==="rest"){openEvent(type);return}
+ $("#mapScreen").classList.remove("show");
+ if(type==="enemy"){prepareBattle(2)}
+ else if(type==="elite"){prepareBattle(2);state.maxEnemy=68;state.enemyHp=68;$("#enemyName").textContent="亡霊騎士・精鋭";render()}
+ else if(type==="boss"){prepareBattle(3)}
+});
+$("#eventContinue").onclick=()=>{$("#eventScreen").classList.remove("show");state.mapStage++;updateDungeonMap();$("#mapScreen").classList.add("show");render()};
 const fsBtn=$("#fullscreenBtn");if(fsBtn)fsBtn.onclick=async()=>{try{if(!document.fullscreenElement){await document.documentElement.requestFullscreen();if(screen.orientation?.lock)await screen.orientation.lock("landscape").catch(()=>{})}else await document.exitFullscreen()}catch(e){}};
 document.addEventListener("fullscreenchange",()=>{if(fsBtn)fsBtn.textContent=document.fullscreenElement?"×":"⛶"});
 shuffle(state.draw);drawTo(5);render();
 $("#restartRun").onclick=()=>location.reload();
+$("#retryRun").onclick=()=>location.reload();
