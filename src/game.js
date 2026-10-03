@@ -10,7 +10,7 @@ const CARD={
 };
 const state={enemyHp:48,playerHp:60,energy:3,block:0,focus:false,weak:false,frozen:false,busy:false,iceEvo:null,enemyTurn:1,enemyCharge:0,nextBattleFocus:false,
  draw:["ice","guard","bolt","dark","focus","ice","guard","dark"],discard:[],hand:[],used:[],bonusFocus:0,reflect:0,enemyPenalty:0,battle:1,maxEnemy:48,mapStage:0,nextBattle:2,
- usage:{cards:{},families:{ice:0,lightning:0,dark:0,guard:0,focus:0}}};
+ usage:{cards:{},families:{ice:0,lightning:0,dark:0,guard:0,focus:0}},classEvo:null};
 const $=s=>document.querySelector(s),wait=ms=>new Promise(r=>setTimeout(r,ms));
 const mage=$(".actor.player"),foe=$(".actor.foe"),field=$(".battlefield"),dmg=$("#damageText"),log=$("#battleLog");
 function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
@@ -86,12 +86,35 @@ $("#rewardBtn").onclick=()=>{
 document.querySelectorAll("[data-evo]").forEach(b=>b.onclick=()=>{state.iceEvo=b.dataset.evo;$("#evolutionStep").hidden=true;$("#cardRewardStep").hidden=false});
 function finishReward(id){
  if(id)state.discard.push(id);$("#reward").classList.remove("show");$("#victory").classList.remove("show");
- if(state.battle>=3){$("#runClear").classList.add("show");return}
+ if(state.battle>=3){showClassEvolution();return}
  state.mapStage++;
  updateDungeonMap();
  $("#mapHint").textContent="次に進む部屋を選んでください。";
  $("#mapScreen").classList.add("show")
 }
+function chooseClassEvolution(){
+ const f=state.usage.families;
+ const ranked=Object.entries(f).sort((a,b)=>b[1]-a[1]);
+ const top=ranked[0]?.[0]||"focus", second=ranked[1]?.[1]||0, topN=ranked[0]?.[1]||0;
+ if(topN-second<=1 && Object.values(f).filter(v=>v>0).length>=3)return {name:"元素術師",icon:"✦",trait:"複数属性を織り交ぜた戦い方",ability:"異なる属性の魔法を連続で使うと、2枚目のダメージ +2"};
+ const table={
+  ice:{name:"氷結師",icon:"❄",trait:"凍結と氷魔法を極めた魔法師",ability:"凍結中の敵への氷ダメージ +2"},
+  lightning:{name:"雷術師",icon:"ϟ",trait:"高火力の雷魔法を磨いた魔法師",ability:"同じターンの2枚目の魔法に追加雷撃 3"},
+  dark:{name:"黒魔導士",icon:"●",trait:"弱体と闇魔法を重ねる魔法師",ability:"弱体中の敵への闇ダメージ +3"},
+  guard:{name:"結界術師",icon:"◇",trait:"防御と反射を軸にした魔法師",ability:"戦闘開始時に4ブロックを得る"},
+  focus:{name:"星詠み",icon:"✧",trait:"集中から大魔法を放つ魔法師",ability:"集中の魔法強化量 +2"}
+ };
+ return table[top]||table.focus;
+}
+function showClassEvolution(){
+ const evo=chooseClassEvolution();state.classEvo=evo;
+ $("#classEvoIcon").textContent=evo.icon;$("#classEvoName").textContent=evo.name;
+ $("#classEvoTrait").textContent=evo.trait;$("#classEvoAbility").textContent=evo.ability;
+ const f=state.usage.families;$("#classEvoReason").textContent="このランの使用傾向：氷 "+f.ice+" / 雷 "+f.lightning+" / 闇 "+f.dark+" / 結界 "+f.guard+" / 集中 "+f.focus;
+ $("#classEvolution").classList.add("show");
+}
+$("#acceptClassEvo").onclick=()=>{$("#classEvolution").classList.remove("show");$("#runClear").classList.add("show");$("#runClear h2").textContent=state.classEvo.name+"として古城を踏破";};
+
 document.querySelectorAll("[data-reward]").forEach(b=>b.onclick=()=>finishReward(b.dataset.reward));
 $("#skipReward").onclick=()=>finishReward(null);
 function prepareBattle(n){
