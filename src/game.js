@@ -149,29 +149,32 @@ function prepareBattle(n){
 }
 function updateDungeonMap(){
  document.querySelectorAll(".dnode").forEach(n=>{if(n.classList.contains("start"))return;n.classList.remove("available");n.classList.add("locked")});
- let ids=state.mapStage===1?["enemy","event","shop"]:state.mapStage===2?["elite","rest"]:["boss"];
+ let ids=state.mapStage===1?["enemy","event","shop"]:state.mapStage===2?["elite","rest","treasure"]:["boss"];
  ids.forEach(id=>{const n=document.querySelector('[data-node="'+id+'"]');if(n){n.classList.remove("locked");n.classList.add("available")}});
 }
 function openEvent(type){
  $("#mapScreen").classList.remove("show");$("#eventScreen").classList.add("show");
- const kind=$("#eventKind"),title=$("#eventTitle"),txt=$("#eventText");
+ const kind=$("#eventKind"),title=$("#eventTitle"),txt=$("#eventText"),reward=$("#eventReward");reward.textContent="";
  if(type==="shop"){kind.textContent="MERCHANT";title.textContent="旅の商人";txt.textContent="試作：魔力を整え、HPを6回復した。";state.playerHp=Math.min(60,state.playerHp+6)}
  if(type==="event"){kind.textContent="UNKNOWN";title.textContent="青白い泉";txt.textContent="泉の魔力がカードに宿る。次の戦闘で集中状態から始まる。";state.nextBattleFocus=true}
- if(type==="rest"){kind.textContent="REST";title.textContent="静かな篝火";txt.textContent="休息してHPを12回復した。";state.playerHp=Math.min(60,state.playerHp+12)}
+ if(type==="rest"){kind.textContent="REST";title.textContent="静かな篝火";txt.textContent="休息してHPを12回復した。";reward.textContent="HP +12";state.playerHp=Math.min(60,state.playerHp+12)}
+ if(type==="treasure"){kind.textContent="TREASURE";title.textContent="封印された宝箱";txt.textContent="古い魔導書から新しい術式を得た。";const pool=["frostNova","manaBurst","mirror"];const id=pool[Math.floor(Math.random()*pool.length)];state.discard.push(id);reward.textContent="獲得："+CARD[id].name}
+ if(type==="shop")reward.textContent="HP +6";
+ if(type==="event")reward.textContent="次戦：集中状態";
 }
 document.querySelectorAll(".dnode[data-type]").forEach(n=>n.onclick=()=>{
  if(!n.classList.contains("available"))return;
  const type=n.dataset.type;n.classList.remove("available");n.classList.add("cleared");
- if(type==="event"||type==="shop"||type==="rest"){openEvent(type);return}
+ if(type==="event"||type==="shop"||type==="rest"||type==="treasure"){openEvent(type);return}
  $("#mapScreen").classList.remove("show");
  if(type==="enemy"){prepareBattle(2)}
- else if(type==="elite"){prepareBattle(2);state.maxEnemy=68;state.enemyHp=68;$("#enemyName").textContent="亡霊騎士・精鋭";render()}
+ else if(type==="elite"){prepareBattle(2);state.maxEnemy=72;state.enemyHp=72;state.enemyCharge=2;$("#enemyName").textContent="亡霊騎士・精鋭";log.textContent="エリート戦：強敵だが突破すれば報酬を得られる";render()}
  else if(type==="boss"){
  state.nextBattle=3;
  if(!maybeEvolveBeforeBoss(3))prepareBattle(3)
 }
 });
-$("#eventContinue").onclick=()=>{$("#eventScreen").classList.remove("show");state.mapStage++;updateDungeonMap();$("#mapScreen").classList.add("show");render()};
+$("#eventContinue").onclick=()=>{$("#eventScreen").classList.remove("show");state.mapStage++;updateDungeonMap();$("#mapHint").textContent=state.mapStage===2?"危険な道か、準備を整える道か。":"守護者への道が開いた。";$("#mapScreen").classList.add("show");render()};
 const fsBtn=$("#fullscreenBtn");if(fsBtn)fsBtn.onclick=async()=>{try{if(!document.fullscreenElement){await document.documentElement.requestFullscreen();if(screen.orientation?.lock)await screen.orientation.lock("landscape").catch(()=>{})}else await document.exitFullscreen()}catch(e){}};
 document.addEventListener("fullscreenchange",()=>{if(fsBtn)fsBtn.textContent=document.fullscreenElement?"×":"⛶"});
 shuffle(state.draw);drawTo(5);render();
