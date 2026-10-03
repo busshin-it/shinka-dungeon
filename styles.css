@@ -139,3 +139,13 @@
  50%{transform:translate(3px,-1px)}
  75%{transform:translate(-2px,0)}
 }
+
+/* Class evolution */
+.class-evolution{display:none;position:fixed;inset:0;z-index:45;background:radial-gradient(circle at 50% 42%,#17294a,#05070bf5 68%);place-items:center;text-align:center}
+.class-evolution.show{display:grid}
+.class-evo-panel{width:min(580px,90vw);padding:20px 28px;border:1px solid #8b714d;border-radius:16px;background:#090d15ee;box-shadow:0 22px 80px #000}
+.class-evo-panel>small{letter-spacing:.28em;color:#9dcdf1}.class-evo-panel h2{margin:5px 0}.class-evo-panel>p{margin:4px 0 10px;font:11px system-ui;color:#aaa}
+.class-evo-card{margin:auto;width:min(360px,75vw);padding:13px;border:1px solid #78644a;border-radius:12px;background:linear-gradient(145deg,#172033,#0d1018);box-shadow:inset 0 0 28px #6688cc12}
+.class-evo-card>span{display:block;font-size:38px;color:#d7ecff;text-shadow:0 0 18px #6abaff}.class-evo-card strong,.class-evo-card em{display:block}.class-evo-card strong{font-size:25px;color:#f3ddad}.class-evo-card em{margin:2px;font:11px system-ui;color:#b8c7d7}.class-evo-card p{font:11px system-ui;color:#ddd}
+.class-evo-panel button{margin-top:10px;padding:9px 25px;border:1px solid #c39b61;border-radius:9px;background:#2b2116;color:#f6e5c8;font-weight:700}
+@media(max-height:460px){.class-evo-panel{padding:8px 20px}.class-evo-card{padding:7px}.class-evo-card>span{font-size:26px}.class-evo-card strong{font-size:20px}}
