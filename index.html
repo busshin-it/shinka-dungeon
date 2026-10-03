@@ -59,20 +59,28 @@
   </div>
 </div>
 <div id="mapScreen" class="map-screen">
-  <div class="map-panel">
-    <small>古城深部</small>
-    <h2>ダンジョンマップ</h2>
-    <div class="map-route">
-      <div class="map-node cleared" data-room="1"><b>1</b><span>スケルトン</span></div>
-      <div class="map-line"></div>
-      <div class="map-node" data-room="2"><b>2</b><span>亡霊騎士</span></div>
-      <div class="map-line"></div>
-      <div class="map-node boss" data-room="3"><b>3</b><span>守護者</span></div>
+  <div class="map-panel branching">
+    <small>古城深部</small><h2>進む道を選ぶ</h2>
+    <div id="dungeonMap" class="dungeon-map">
+      <div class="floor floor-4"><button class="dnode boss locked" data-node="boss" data-type="boss"><b>♛</b><span>守護者</span></button></div>
+      <div class="links l34"><i></i><i></i></div>
+      <div class="floor floor-3">
+        <button class="dnode locked" data-node="elite" data-type="elite"><b>☠</b><span>エリート</span></button>
+        <button class="dnode locked" data-node="rest" data-type="rest"><b>♨</b><span>休息</span></button>
+      </div>
+      <div class="links l23"><i></i><i></i><i></i></div>
+      <div class="floor floor-2">
+        <button class="dnode available" data-node="enemy" data-type="enemy"><b>⚔</b><span>敵</span></button>
+        <button class="dnode available" data-node="event" data-type="event"><b>?</b><span>未知</span></button>
+        <button class="dnode available" data-node="shop" data-type="shop"><b>¤</b><span>商人</span></button>
+      </div>
+      <div class="links l12"><i></i><i></i><i></i></div>
+      <div class="floor floor-1"><div class="dnode start cleared"><b>◆</b><span>現在地</span></div></div>
     </div>
-    <p id="mapHint">進化したデッキを持って次の部屋へ。</p>
-    <button id="continueRun">次の部屋へ進む</button>
+    <p id="mapHint">次に進む部屋を選んでください。</p>
   </div>
 </div>
+<div id="eventScreen" class="event-screen"><div class="event-panel"><small id="eventKind">EVENT</small><h2 id="eventTitle">古城の気配</h2><p id="eventText"></p><button id="eventContinue">進む</button></div></div>
 <div id="runClear" class="run-clear">
   <div class="run-clear-panel">
     <small>RUN COMPLETE</small>
