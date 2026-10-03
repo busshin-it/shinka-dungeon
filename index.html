@@ -4,12 +4,17 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#070b12">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="manifest" href="./manifest.webmanifest">
 <title>進化ダンジョン</title>
 <link rel="stylesheet" href="./styles.css">
 </head>
 <body>
 <div class="rotate"><div>↻</div><strong>端末を横向きにしてください</strong><small>進化ダンジョンは横画面で遊びます</small></div>
 <main class="game-shell">
+<button id="fullscreenBtn" class="fullscreen-btn" aria-label="全画面">⛶</button>
 <section class="battlefield">
 <img class="battle-bg" src="./assets/backgrounds/file_00000000e0fc8209ab0c2f0f6ecdb091.png" alt="">
 <div class="shade"></div>
@@ -44,4 +49,7 @@
 </div>
 </main>
 <script src="./src/game.js"></script>
+<script>
+if ("serviceWorker" in navigator) window.addEventListener("load",()=>navigator.serviceWorker.register("./sw.js"));
+</script>
 </body></html>
