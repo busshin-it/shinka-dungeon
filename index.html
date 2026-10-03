@@ -37,10 +37,57 @@
 <button id="endTurn" class="end-turn">ターン<br>終了</button>
 </section>
 <div id="reward" class="reward">
-<div class="reward-panel"><h2>氷の矢が進化する</h2><p>今回の戦いで使った魔法が、新しい力を獲得した。</p><div class="reward-options">
-<button data-evo="spear"><b>氷槍</b><span>10ダメージ<br>単体火力を強化</span></button>
-<button data-evo="blizzard"><b>吹雪</b><span>7ダメージ<br>凍結を強化</span></button>
-</div></div>
+  <div class="reward-panel">
+    <div id="evolutionStep">
+      <h2>氷の矢が進化する</h2>
+      <p>戦い方に応じて、カードの性質が分岐する。</p>
+      <div class="reward-options">
+        <button data-evo="spear"><b>氷槍</b><span>10ダメージ<br>単体火力を強化</span></button>
+        <button data-evo="blizzard"><b>吹雪</b><span>7ダメージ<br>凍結を強化</span></button>
+      </div>
+    </div>
+    <div id="cardRewardStep" hidden>
+      <h2>新しいカードを1枚選ぶ</h2>
+      <p>選んだカードは次の戦闘からデッキに加わる。</p>
+      <div class="reward-options three">
+        <button data-reward="frostNova"><b>霜の輪</b><span>1コスト｜4ダメージ<br>次の敵攻撃 -4</span></button>
+        <button data-reward="manaBurst"><b>魔力奔流</b><span>1コスト｜次の魔法 +6</span></button>
+        <button data-reward="mirror"><b>鏡の結界</b><span>1コスト｜5ブロック<br>被弾時3反射</span></button>
+      </div>
+      <button id="skipReward" class="skip-reward">今回は取らない</button>
+    </div>
+  </div>
+</div>
+<div id="mapScreen" class="map-screen">
+  <div class="map-panel">
+    <small>古城深部</small>
+    <h2>ダンジョンマップ</h2>
+    <div class="map-route">
+      <div class="map-node cleared" data-room="1"><b>1</b><span>スケルトン</span></div>
+      <div class="map-line"></div>
+      <div class="map-node" data-room="2"><b>2</b><span>亡霊騎士</span></div>
+      <div class="map-line"></div>
+      <div class="map-node boss" data-room="3"><b>3</b><span>守護者</span></div>
+    </div>
+    <p id="mapHint">進化したデッキを持って次の部屋へ。</p>
+    <button id="continueRun">次の部屋へ進む</button>
+  </div>
+</div>
+<div id="runClear" class="run-clear">
+  <div class="run-clear-panel">
+    <small>RUN COMPLETE</small>
+    <h2>古城を踏破した</h2>
+    <p>カード進化と報酬を引き継いで3戦を突破。</p>
+    <button id="restartRun">もう一度遊ぶ</button>
+  </div>
+</div>
+<div id="defeat" class="defeat">
+  <div class="defeat-panel">
+    <small>RUN FAILED</small>
+    <h2>力尽きた</h2>
+    <p>デッキの使い方を変えて、もう一度挑もう。</p>
+    <button id="retryRun">最初からやり直す</button>
+  </div>
 </div>
 </main>
 <script src="./src/game.js"></script>
