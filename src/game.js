@@ -1,14 +1,14 @@
 const CARD_ART={
- ice:"./assets/cards/file_0000000026948209a5bf61548ca87c69.png",
- guard:"./assets/cards/file_000000000d54820992e6206621eb8767.png",
- dark:"./assets/cards/file_000000001be0820991c3c7673ba4e4c0.png",
- manaBurst:"./assets/cards/file_000000002dcc820997d6257f7bb5c181.png",
- bolt:"./assets/cards/file_0000000045dc8209a4abc4b50484d629.png",
- frostNova:"./assets/cards/file_000000007bb48209bf90b9e4be3fa4b5.png",
- focus:"./assets/cards/file_00000000afe08209badd4e6ee4c65332.png",
- chainBolt:"./assets/cards/file_00000000b984820980078cb0cf6e8fe5.png",
- abyss:"./assets/cards/file_00000000c7988209a6b66b21978b5891.png",
- manaBarrier:"./assets/cards/file_00000000cae082099bd9fb794f9208d6.png"
+ ice:"./assets/runtime/cards/file_0000000026948209a5bf61548ca87c69.webp",
+ guard:"./assets/runtime/cards/file_000000000d54820992e6206621eb8767.webp",
+ dark:"./assets/runtime/cards/file_000000001be0820991c3c7673ba4e4c0.webp",
+ manaBurst:"./assets/runtime/cards/file_000000002dcc820997d6257f7bb5c181.webp",
+ bolt:"./assets/runtime/cards/file_0000000045dc8209a4abc4b50484d629.webp",
+ frostNova:"./assets/runtime/cards/file_000000007bb48209bf90b9e4be3fa4b5.webp",
+ focus:"./assets/runtime/cards/file_00000000afe08209badd4e6ee4c65332.webp",
+ chainBolt:"./assets/runtime/cards/file_00000000b984820980078cb0cf6e8fe5.webp",
+ abyss:"./assets/runtime/cards/file_00000000c7988209a6b66b21978b5891.webp",
+ manaBarrier:"./assets/runtime/cards/file_00000000cae082099bd9fb794f9208d6.webp"
 };
 const CARD={
  ice:{name:"氷の矢",cost:1,text:"6ダメージ・凍結",kind:"ice",art:"image"},
@@ -35,12 +35,12 @@ function refill(){if(!state.draw.length&&state.discard.length)state.draw=shuffle
 function drawTo(n=5){while(state.hand.length<n){refill();if(!state.draw.length)break;state.hand.push(state.draw.pop())}}
 function cardName(id){return CARD[id].name}
 function cardText(id){return CARD[id].text}
-const ASSET_BUILD="20261003-2126";
+const ASSET_BUILD="20261003-2138";
 function cardArt(id,c){
  const src=CARD_ART[id];
  if(!src)return '<span class="card-symbol">'+c.art+'</span>';
  const u=src+(src.includes("?")?"&":"?")+"v="+ASSET_BUILD;
- return '<div class="card-art-bg" style="background-image:url(&quot;'+u+'&quot;)"></div>';
+ return '<img class="card-art-img" src="'+u+'" alt="" loading="eager" decoding="async">';
 }
 function renderHand(){
  const hand=$("#hand");hand.innerHTML="";
@@ -194,10 +194,10 @@ function prepareBattle(n){
  const intros={1:"第1戦：スケルトンナイト",2:"第2戦：亡霊騎士。攻撃と呪詛が交互に来る",3:"深部戦：石像魔導兵。溜めから強打を狙う",4:"最終戦：古城の守護者。進化した力で挑もう"};
  $("#enemyName").textContent=names[n]||"亡霊騎士";
  const enemyArt={
- 1:"./assets/enemies/file_000000000aa08209a145fe2c08c95c63.png",
- 2:"./assets/enemies/file_0000000026708209bdc57ca765680f16.png",
- 3:"./assets/enemies/file_00000000d884820699086830880feb94.png",
- 4:"./assets/enemies/file_00000000e20c8206abc7f1fbc2b88845.png"
+ 1:"./assets/runtime/enemies/file_000000000aa08209a145fe2c08c95c63.webp",
+ 2:"./assets/runtime/enemies/file_0000000026708209bdc57ca765680f16.webp",
+ 3:"./assets/runtime/enemies/file_00000000d884820699086830880feb94.webp",
+ 4:"./assets/runtime/enemies/file_00000000e20c8206abc7f1fbc2b88845.webp"
 };
  const enemyImg=$("#skeleton");const target=enemyArt[n];
  enemyImg.src=target;
