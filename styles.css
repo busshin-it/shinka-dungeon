@@ -338,3 +338,78 @@
     overflow:hidden!important;
   }
 }
+
+/* Layered mage puppet assembled from identified PNG parts */
+.mage-fallback{display:block}
+.mage-puppet{display:none;position:relative;width:min(250px,92%);height:100%;min-height:150px;pointer-events:none;transform-origin:50% 88%;filter:drop-shadow(0 12px 15px #000c)}
+.puppet-ready>.mage-fallback{display:none}
+.puppet-ready>.mage-puppet{display:block}
+.mage-puppet .mpart{position:absolute;object-fit:contain;pointer-events:none;user-select:none;-webkit-user-drag:none;max-width:none;max-height:none;filter:none!important;animation:none!important}
+.mage-puppet .backhair{z-index:1;width:45%;left:28%;top:7%;transform-origin:50% 20%}
+.mage-puppet .lowerbody{z-index:2;width:47%;left:28%;top:49%}
+.mage-puppet .skirt{z-index:4;width:50%;left:26.5%;top:41%}
+.mage-puppet .torso{z-index:5;width:43%;left:30%;top:31%}
+.mage-puppet .left-upper{z-index:4;width:24%;left:19%;top:34%;transform-origin:78% 16%}
+.mage-puppet .left-fore{z-index:6;width:25%;left:11%;top:48%;transform-origin:80% 10%}
+.mage-puppet .right-upper{z-index:4;width:24%;right:18%;top:34%;transform-origin:22% 16%}
+.mage-puppet .right-fore{z-index:7;width:27%;right:8%;top:46%;transform-origin:18% 10%}
+.mage-puppet .cast-arm{opacity:0}
+.mage-puppet .head{z-index:7;width:31%;left:36%;top:16%}
+.mage-puppet .hair-ornament{z-index:8;width:14%;left:31%;top:19%}
+.mage-puppet .hat{z-index:9;width:52%;left:25%;top:-1%}
+.mage-puppet .staff{z-index:8;width:20%;right:1%;top:18%;transform-origin:50% 78%}
+
+.actor.player .mage-puppet{animation:puppetIdle 3.2s ease-in-out infinite}
+.actor.player.cast .mage-puppet{animation:puppetCastBody .55s cubic-bezier(.2,.9,.25,1)}
+.actor.player.cast .mage-puppet .right-upper{animation:puppetRightUpperCast .55s ease-out}
+.actor.player.cast .mage-puppet .idle-arm{opacity:0}
+.actor.player.cast .mage-puppet .cast-arm{opacity:1;animation:puppetForeCast .55s ease-out}
+.actor.player.cast .mage-puppet .staff{animation:puppetStaffCast .55s ease-out}
+.actor.player.cast .mage-puppet .backhair{animation:puppetHairCast .7s ease-out}
+.actor.player.guard-cast .mage-puppet .left-upper,
+.actor.player.guard-cast .mage-puppet .left-fore{animation:puppetGuard .42s ease-out}
+.actor.player.focus-cast .mage-puppet{animation:puppetFocus .55s ease-out}
+.actor.player.hit .mage-puppet{animation:puppetHit .34s ease-out}
+
+@keyframes puppetIdle{
+ 0%,100%{transform:translateY(0) rotate(0deg)}
+ 50%{transform:translateY(-3px) rotate(-.35deg)}
+}
+@keyframes puppetCastBody{
+ 0%{transform:translateX(0) rotate(0)}
+ 45%{transform:translateX(8px) rotate(1.2deg)}
+ 100%{transform:translateX(0) rotate(0)}
+}
+@keyframes puppetRightUpperCast{
+ 0%,100%{transform:rotate(0)}
+ 45%,70%{transform:rotate(-28deg)}
+}
+@keyframes puppetForeCast{
+ 0%{transform:rotate(0) translate(0,0)}
+ 50%,72%{transform:rotate(-34deg) translate(4px,-3px)}
+ 100%{transform:rotate(0) translate(0,0)}
+}
+@keyframes puppetStaffCast{
+ 0%,100%{transform:rotate(0)}
+ 48%,72%{transform:rotate(-18deg) translateY(-4px)}
+}
+@keyframes puppetHairCast{
+ 0%,100%{transform:rotate(0)}
+ 55%{transform:rotate(3deg) translateX(-2px)}
+}
+@keyframes puppetGuard{
+ 0%,100%{transform:rotate(0)}
+ 45%{transform:rotate(16deg) translateY(-4px)}
+}
+@keyframes puppetFocus{
+ 0%,100%{transform:translateY(0) scale(1)}
+ 45%{transform:translateY(-7px) scale(1.025);filter:drop-shadow(0 0 16px #9aa8ff)}
+}
+@keyframes puppetHit{
+ 0%,100%{transform:translateX(0) rotate(0)}
+ 35%{transform:translateX(-14px) rotate(-3deg);filter:brightness(1.5)}
+ 70%{transform:translateX(-5px) rotate(-1deg)}
+}
+@media (orientation:landscape) and (max-height:700px){
+ .mage-puppet{width:min(210px,92%);height:100%}
+}
