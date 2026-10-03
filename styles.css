@@ -338,3 +338,16 @@
     overflow:hidden!important;
   }
 }
+
+/* Reliable card artwork rendering */
+.card>.card-art-bg{
+  grid-row:1!important;
+  width:100%!important;
+  height:100%!important;
+  min-height:0!important;
+  display:block!important;
+  background-position:center!important;
+  background-repeat:no-repeat!important;
+  background-size:cover!important;
+  border-radius:6px!important;
+}
