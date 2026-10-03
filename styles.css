@@ -269,3 +269,72 @@
 .update-btn:disabled{opacity:.55}
 @media(display-mode:fullscreen),(display-mode:standalone){.update-btn{top:max(8px,env(safe-area-inset-top));right:58px}}
 @media (orientation:landscape) and (max-height:460px){.update-btn{height:34px;right:48px;top:8px;padding:0 9px;font-size:9px}}
+
+/* Final landscape hand fit: keep card art, name and text fully inside viewport */
+@media (orientation:landscape) and (max-height:700px){
+  .game-shell{
+    height:100dvh!important;
+    grid-template-rows:minmax(0,62%) minmax(0,38%)!important;
+    overflow:hidden!important;
+  }
+  .controls{
+    height:100%!important;
+    min-height:0!important;
+    overflow:hidden!important;
+    align-items:stretch!important;
+    padding:4px 8px max(4px,env(safe-area-inset-bottom))!important;
+  }
+  .hand{
+    min-width:0!important;
+    min-height:0!important;
+    height:100%!important;
+    max-height:100%!important;
+    display:flex!important;
+    align-items:stretch!important;
+    justify-content:center!important;
+    gap:6px!important;
+    overflow:hidden!important;
+  }
+  .card{
+    flex:1 1 0!important;
+    width:0!important;
+    min-width:0!important;
+    max-width:128px!important;
+    height:100%!important;
+    min-height:0!important;
+    max-height:100%!important;
+    padding:3px!important;
+    display:grid!important;
+    grid-template-rows:minmax(0,1fr) 15px 20px!important;
+    overflow:hidden!important;
+  }
+  .card>.card-art-img,
+  .card>.card-symbol{
+    grid-row:1!important;
+    width:100%!important;
+    height:100%!important;
+    min-height:0!important;
+    max-height:100%!important;
+    object-fit:cover!important;
+    align-self:stretch!important;
+  }
+  .card strong{
+    grid-row:2!important;
+    height:15px!important;
+    min-height:0!important;
+    margin:0!important;
+    font-size:9px!important;
+    line-height:14px!important;
+    white-space:nowrap!important;
+    overflow:hidden!important;
+  }
+  .card small{
+    grid-row:3!important;
+    height:20px!important;
+    min-height:0!important;
+    margin:0!important;
+    font-size:6.5px!important;
+    line-height:9px!important;
+    overflow:hidden!important;
+  }
+}
