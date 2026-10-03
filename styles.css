@@ -226,3 +226,39 @@
  .dnode b{width:36px;height:36px;font-size:16px}
  .dnode span{font-size:8px}
 }
+
+/* Definitive dungeon map fix: remove inherited button padding and make the whole panel scroll */
+.map-screen.show{overflow:auto!important;-webkit-overflow-scrolling:touch;touch-action:pan-y}
+.map-panel.branching{
+  overflow-y:auto!important;
+  overflow-x:hidden!important;
+  -webkit-overflow-scrolling:touch;
+  touch-action:pan-y;
+  overscroll-behavior:contain;
+}
+.map-panel.branching .dungeon-map{
+  height:auto!important;
+  min-height:max-content!important;
+  overflow:visible!important;
+  flex:0 0 auto!important;
+  justify-content:flex-start!important;
+}
+.map-panel.branching .dnode{
+  padding:0!important;
+  min-height:0!important;
+  height:auto!important;
+  touch-action:manipulation;
+}
+@media (orientation:landscape) and (max-height:700px){
+  .map-panel.branching{height:calc(100dvh - 6px)!important;max-height:none!important;padding:4px 14px 10px!important}
+  .map-panel.branching .dungeon-map{gap:2px!important;padding:2px 0 10px!important}
+  .map-panel.branching .floor{min-height:46px!important;gap:56px!important}
+  .map-panel.branching .floor-2{gap:42px!important}
+  .map-panel.branching .floor-3{gap:46px!important}
+  .map-panel.branching .dnode{width:70px!important}
+  .map-panel.branching .dnode b{width:30px!important;height:30px!important;font-size:14px!important}
+  .map-panel.branching .dnode span{font-size:7px!important;margin-top:1px!important}
+  .map-panel.branching h2{font-size:20px!important;margin:0 0 2px!important}
+  .map-panel.branching>small{font-size:8px!important}
+  .map-panel.branching #mapHint{font-size:8px!important;margin:2px 0 0!important}
+}
