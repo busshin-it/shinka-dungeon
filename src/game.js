@@ -30,7 +30,7 @@ const ASSET_BUILD="20261003-2152";
 function cardArt(id,c){
  const src=CARD_ART[id];
  if(!src)return '<span class="card-symbol">'+c.art+'</span>';
- const u=src+(src.includes("?")?"&":"?")+"v="+ASSET_BUILD;
+ const u=src.startsWith("data:") ? src : src+(src.includes("?")?"&":"?")+"v="+ASSET_BUILD;
  return '<img class="card-art-img" src="'+u+'" alt="" loading="eager" decoding="async">';
 }
 function renderHand(){
