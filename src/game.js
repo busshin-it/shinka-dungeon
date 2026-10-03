@@ -1,3 +1,6 @@
+const CARD_ART={
+ ice:"./assets/cards/file_0000000026948209a5bf61548ca87c69.png"
+};
 const CARD={
  ice:{name:"氷の矢",cost:1,text:"6ダメージ・凍結",kind:"ice",art:"image"},
  bolt:{name:"雷撃",cost:2,text:"11ダメージ",kind:"lightning",art:"ϟ"},
@@ -18,6 +21,10 @@ function refill(){if(!state.draw.length&&state.discard.length)state.draw=shuffle
 function drawTo(n=5){while(state.hand.length<n){refill();if(!state.draw.length)break;state.hand.push(state.draw.pop())}}
 function cardName(id){if(id==="ice"&&state.iceEvo)return state.iceEvo==="spear"?"氷槍":"吹雪";return CARD[id].name}
 function cardText(id){if(id==="ice"&&state.iceEvo)return state.iceEvo==="spear"?"10ダメージ":"7ダメージ・強凍結";return CARD[id].text}
+function cardArt(id,c){
+ const src=CARD_ART[id];
+ return src?'<img class="card-art-img" src="'+src+'" alt="">':'<span class="card-symbol">'+c.art+'</span>';
+}
 function renderHand(){
  const hand=$("#hand");hand.innerHTML="";
  state.hand.forEach((id,i)=>{const c=CARD[id],b=document.createElement("button");b.className="card "+c.kind;b.dataset.index=i;
