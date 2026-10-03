@@ -163,18 +163,11 @@ async function hardUpdate(){
   try{
     if("serviceWorker" in navigator){
       const regs=await navigator.serviceWorker.getRegistrations();
-      for(const reg of regs){
-        try{await reg.update()}catch(e){}
-        if(reg.waiting)reg.waiting.postMessage({type:"SKIP_WAITING"});
-      }
-    }
-    if("caches" in window){
-      const keys=await caches.keys();
-      await Promise.all(keys.filter(k=>k.startsWith("shinka-dungeon-")).map(k=>caches.delete(k)));
+      await Promise.all(regs.map(async reg=>{try{await reg.update()}catch(e){}}));
     }
   }catch(e){}
   const u=new URL(location.href);
-  u.searchParams.set("v",Date.now());
+  u.searchParams.set("v","20261003-2126");
   location.replace(u.toString());
 }
 if(updateBtn)updateBtn.addEventListener("click",hardUpdate);
@@ -195,7 +188,7 @@ if("serviceWorker" in navigator){
       });
     });
   });
-  navigator.serviceWorker.addEventListener("controllerchange",()=>location.reload());
+  navigator.serviceWorker.addEventListener("controllerchange",()=>{});
 }
 </script>
 </body></html>
