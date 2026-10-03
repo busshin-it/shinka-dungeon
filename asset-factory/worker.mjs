@@ -6,6 +6,7 @@ import { structuralQa } from './lib/png.mjs';
 
 const ROOT = path.resolve(process.cwd());
 const QUEUE_PATH = path.join(ROOT, 'asset-factory', 'queue.json');
+const MANIFEST_PATH = path.join(ROOT, 'asset-factory', 'asset-manifest.json');
 const ACTIVE = new Set(['waiting','queued','needs_fix','regenerate']);
 const MAX_IMAGE_CALLS = Math.max(1, Number(process.env.ASSET_FACTORY_MAX_IMAGE_CALLS || 6));
 let imageCalls = 0;
@@ -28,8 +29,36 @@ export function selectJobs(queue, { count, asset }) {
   return jobs.slice(0, count);
 }
 
+function manifestFrom(queue) {
+  return {
+    version: 1,
+    project_id: 'shinka',
+    project: queue.project,
+    naming_rule: 'asset_id + type + name + filename + path + game_key; random generation IDs are metadata only',
+    assets: queue.jobs.map(j => ({
+      asset_id: j.asset_id,
+      game_key: j.game_key || null,
+      project_id: j.project_id || 'shinka',
+      type: j.type,
+      name: j.name,
+      display_title: j.display_title || j.name,
+      filename: j.filename || path.basename(j.save_path),
+      path: j.path || j.save_path,
+      current_path: j.current_path || null,
+      legacy_path: j.legacy_path || null,
+      generation_id: j.generation_id || null,
+      transparent: !!j.transparent,
+      status: j.status,
+      prompt: j.prompt,
+      generator: j.generator || null,
+      qa: j.qa || null,
+    }))
+  };
+}
+
 async function writeQueue(queue) {
   await fs.writeFile(QUEUE_PATH, `${JSON.stringify(queue, null, 2)}\n`, 'utf8');
+  await fs.writeFile(MANIFEST_PATH, `${JSON.stringify(manifestFrom(queue), null, 2)}\n`, 'utf8');
 }
 
 function now() { return new Date().toISOString(); }
