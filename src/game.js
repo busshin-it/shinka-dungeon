@@ -28,3 +28,15 @@ $("#endTurn").onclick=async()=>{if(state.busy||state.enemyHp<=0)return;state.bus
 $("#rewardBtn").onclick=()=>$("#reward").classList.add("show");
 document.querySelectorAll("[data-evo]").forEach(b=>b.onclick=()=>{state.iceEvo=b.dataset.evo;$("#reward").classList.remove("show");$("#victory").classList.remove("show");log.textContent=(state.iceEvo==="spear"?"《氷槍》":"《吹雪》")+"へ進化した！";document.querySelector('[data-card="ice"] strong').textContent=state.iceEvo==="spear"?"氷槍":"吹雪";render()});
 render();
+const fsBtn=document.querySelector("#fullscreenBtn");
+if(fsBtn) fsBtn.addEventListener("click",async()=>{
+ try{
+  if(!document.fullscreenElement){
+   await document.documentElement.requestFullscreen();
+   if(screen.orientation?.lock) await screen.orientation.lock("landscape").catch(()=>{});
+  }else{
+   await document.exitFullscreen();
+  }
+ }catch(e){}
+});
+document.addEventListener("fullscreenchange",()=>{if(fsBtn)fsBtn.textContent=document.fullscreenElement?"×":"⛶"});
