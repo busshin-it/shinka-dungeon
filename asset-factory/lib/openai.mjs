@@ -67,7 +67,7 @@ async function generateFromReferences(job, prompt, root, model, quality) {
 }
 
 export async function generateImage(job, prompt, root = process.cwd()) {
-  const model = process.env.ASSET_FACTORY_IMAGE_MODEL || 'gpt-image-2.5-sunburst';
+  const model = process.env.ASSET_FACTORY_IMAGE_MODEL || 'gpt-image-2';
   const quality = process.env.ASSET_FACTORY_IMAGE_QUALITY || 'medium';
   const refs = (job.reference_paths || []).filter(Boolean);
   const result = refs.length
@@ -83,7 +83,15 @@ export async function generateImage(job, prompt, root = process.cwd()) {
       });
   const b64 = result?.data?.[0]?.b64_json;
   if (!b64) throw new Error('Image API returned no b64_json');
-  return { buffer: Buffer.from(b64, 'base64'), model, quality, usedReferences: refs.length };
+  return {
+    buffer: Buffer.from(b64, 'base64'),
+    model,
+    quality,
+    usedReferences: refs.length,
+    generationId: result?.id || result?.data?.[0]?.id || null,
+    created: result?.created || null,
+    usage: result?.usage || null,
+  };
 }
 
 function responseText(payload) {
@@ -107,7 +115,7 @@ function parseJsonLoose(text) {
 }
 
 export async function visionQa(queue, job, buffer, structural, root = process.cwd()) {
-  const model = process.env.ASSET_FACTORY_QA_MODEL || 'gpt-5.6';
+  const model = process.env.ASSET_FACTORY_QA_MODEL || 'gpt-5.6-luna';
   const rules = [
     'exactly one asset; no contact sheet, split panel, or multiple variants',
     'no text, numbers, card title, cost, or UI',
@@ -136,8 +144,9 @@ Return ONLY JSON in exactly this shape: {"pass":boolean,"score":0-100,"checks":{
     const bytes = await fs.readFile(path.join(root, ref));
     content.push({ type: 'input_image', image_url: `data:image/png;base64,${bytes.toString('base64')}`, detail: 'high' });
   }
-  const result = await post('/responses', { model, input: [{ role: 'user', content }] });
+  const result = await post('/responses', { model, reasoning: { effort: 'none' }, max_output_tokens: 800, input: [{ role: 'user', content }] });
   const qa = parseJsonLoose(responseText(result));
   qa.model = model;
+  qa.usage = result?.usage || null;
   return qa;
 }
