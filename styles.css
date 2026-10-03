@@ -262,3 +262,10 @@
   .map-panel.branching>small{font-size:8px!important}
   .map-panel.branching #mapHint{font-size:8px!important;margin:2px 0 0!important}
 }
+
+/* PWA update control */
+.update-btn{position:fixed;right:58px;top:10px;z-index:31;height:42px;padding:0 12px;border:1px solid #6c7d8e;border-radius:10px;background:#0b111acc;color:#dce8f2;font:700 11px system-ui}
+.update-btn.has-update{border-color:#d0a45e;color:#ffe2a8;box-shadow:0 0 14px #d0a45e44}
+.update-btn:disabled{opacity:.55}
+@media(display-mode:fullscreen),(display-mode:standalone){.update-btn{top:max(8px,env(safe-area-inset-top));right:58px}}
+@media (orientation:landscape) and (max-height:460px){.update-btn{height:34px;right:48px;top:8px;padding:0 9px;font-size:9px}}
