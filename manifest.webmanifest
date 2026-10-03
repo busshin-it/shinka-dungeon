@@ -1,11 +1,21 @@
 {
+  "id":"./",
   "name":"進化ダンジョン",
   "short_name":"進化ダンジョン",
   "start_url":"./",
   "scope":"./",
   "display":"fullscreen",
+  "display_override":["fullscreen","standalone"],
   "orientation":"landscape",
   "background_color":"#070a0e",
   "theme_color":"#070b12",
-  "description":"カードを育て、クラスを進化させるローグライク・デッキビルダー"
+  "description":"カードを育て、クラスを進化させるローグライク・デッキビルダー",
+  "icons":[
+    {
+      "src":"./assets/characters/file_00000000195082099d8a0cbca09a8f30.png",
+      "sizes":"any",
+      "type":"image/png",
+      "purpose":"any maskable"
+    }
+  ]
 }
