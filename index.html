@@ -72,7 +72,15 @@
   <div class="map-panel branching">
     <small>古城深部</small><h2>進む道を選ぶ</h2>
     <div id="dungeonMap" class="dungeon-map">
-      <div class="floor floor-4"><button class="dnode boss locked" data-node="boss" data-type="boss"><b>♛</b><span>守護者</span></button></div>
+      <div class="floor floor-6"><button class="dnode boss locked" data-node="boss" data-type="boss"><b>♛</b><span>守護者</span></button></div>
+      <div class="floor floor-5">
+        <button class="dnode locked" data-node="forge" data-type="forge"><b>⚒</b><span>鍛冶</span></button>
+        <button class="dnode locked" data-node="sanctum" data-type="sanctum"><b>✦</b><span>祭壇</span></button>
+      </div>
+      <div class="floor floor-4">
+        <button class="dnode locked" data-node="battle3" data-type="battle3"><b>⚔</b><span>深部戦</span></button>
+        <button class="dnode locked" data-node="treasure2" data-type="treasure"><b>◆</b><span>宝箱</span></button>
+      </div>
       <div class="links l34"><i></i><i></i></div>
       <div class="floor floor-3">
         <button class="dnode locked" data-node="elite" data-type="elite"><b>☠</b><span>エリート</span></button>
@@ -92,6 +100,7 @@
   </div>
 </div>
 <div id="eventScreen" class="event-screen"><div class="event-panel"><small id="eventKind">EVENT</small><h2 id="eventTitle">古城の気配</h2><p id="eventText"></p><div id="eventReward"></div><button id="eventContinue">進む</button></div></div>
+<div id="weaponScreen" class="event-screen"><div class="event-panel"><small>WEAPON</small><h2>装備を1つ選ぶ</h2><p>このランの戦い方を変える装備。</p><div class="reward-options three weapon-options"><button data-weapon="staff"><b>氷晶の杖</b><span>氷魔法 +2</span></button><button data-weapon="orb"><b>雷鳴の宝珠</b><span>雷撃のコスト -1</span></button><button data-weapon="grimoire"><b>影の魔導書</b><span>闇魔法 +2</span></button></div></div></div>
 <div id="classEvolution" class="class-evolution">
   <div class="class-evo-panel">
     <small>CLASS EVOLUTION</small>
