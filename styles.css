@@ -182,3 +182,12 @@
  .actor{height:66%}
  .hud{padding:4px 8px}
 }
+
+/* Forge card fusion */
+.fusion-panel{width:min(680px,92vw)}
+.fusion-options{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;margin:12px 0;max-height:58vh;overflow:auto}
+.fusion-choice{padding:10px;border:1px solid #806a49;border-radius:10px;background:#15120f;color:#f2e3c7;text-align:left}
+.fusion-choice span,.fusion-choice strong,.fusion-choice small{display:block}
+.fusion-choice span{font:11px system-ui;color:#aaa}.fusion-choice strong{margin:3px 0;color:#f1d08f}.fusion-choice small{font:10px system-ui;color:#c9c2b5}
+.fusion-empty{grid-column:1/-1;color:#aaa;font:12px system-ui}
+@media(max-height:460px){.fusion-panel{padding:10px 18px}.fusion-options{max-height:48vh;gap:6px}.fusion-choice{padding:6px}.fusion-choice strong{font-size:12px}.fusion-choice small{font-size:8px}}
