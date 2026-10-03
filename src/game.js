@@ -1,5 +1,14 @@
 const CARD_ART={
- ice:"./assets/cards/file_0000000026948209a5bf61548ca87c69.png"
+ ice:"./assets/cards/file_0000000026948209a5bf61548ca87c69.png",
+ guard:"./assets/cards/file_000000000d54820992e6206621eb8767.png",
+ dark:"./assets/cards/file_000000001be0820991c3c7673ba4e4c0.png",
+ manaBurst:"./assets/cards/file_000000002dcc820997d6257f7bb5c181.png",
+ bolt:"./assets/cards/file_0000000045dc8209a4abc4b50484d629.png",
+ frostNova:"./assets/cards/file_000000007bb48209bf90b9e4be3fa4b5.png",
+ focus:"./assets/cards/file_00000000afe08209badd4e6ee4c65332.png",
+ chainBolt:"./assets/cards/file_00000000b984820980078cb0cf6e8fe5.png",
+ abyss:"./assets/cards/file_00000000c7988209a6b66b21978b5891.png",
+ manaBarrier:"./assets/cards/file_00000000cae082099bd9fb794f9208d6.png"
 };
 const CARD={
  ice:{name:"氷の矢",cost:1,text:"6ダメージ・凍結",kind:"ice",art:"image"},
