@@ -12,7 +12,7 @@ const CARD={
  mirror:{name:"鏡の結界",cost:1,text:"5ブロック・3反射",kind:"guard",art:"◈"}
 };
 const state={enemyHp:48,playerHp:60,energy:3,block:0,focus:false,weak:false,frozen:false,busy:false,iceEvo:null,enemyTurn:1,enemyCharge:0,nextBattleFocus:false,
- draw:["ice","guard","bolt","dark","focus","ice","guard","dark"],discard:[],hand:[],used:[],bonusFocus:0,reflect:0,enemyPenalty:0,battle:1,maxEnemy:48,mapStage:0,nextBattle:2,
+ draw:["ice","guard","bolt","dark","focus","ice","guard","dark"],discard:[],hand:[],used:[],bonusFocus:0,reflect:0,enemyPenalty:0,battle:1,maxEnemy:48,mapStage:0,nextBattle:2,roomsCleared:0,routeDepth:0,weapon:null,
  usage:{cards:{},families:{ice:0,lightning:0,dark:0,guard:0,focus:0}},classEvo:null,classEvoApplied:false,spellsThisTurn:0,lastSpellFamily:null};
 const $=s=>document.querySelector(s),wait=ms=>new Promise(r=>setTimeout(r,ms));
 const mage=$(".actor.player"),foe=$(".actor.foe"),field=$(".battlefield"),dmg=$("#damageText"),log=$("#battleLog");
@@ -58,6 +58,7 @@ async function spell(type,base,{freeze=type==="ice",applyWeak=type==="dark"}={})
  mage.classList.add("cast");
  const evo=state.classEvoApplied&&state.classEvo?state.classEvo.name:null;
  let n=base+(state.focus?(evo==="星詠み"?5:3):0)+state.bonusFocus;
+ if(state.weapon?.family===type)n+=2;
  if(evo==="氷結師"&&type==="ice"&&state.frozen)n+=2;
  if(evo==="黒魔導士"&&type==="dark"&&state.weak)n+=3;
  state.focus=false;state.bonusFocus=0;
@@ -104,7 +105,7 @@ document.querySelectorAll("[data-evo]").forEach(b=>b.onclick=()=>{state.iceEvo=b
 function finishReward(id){
  if(id)state.discard.push(id);$("#reward").classList.remove("show");$("#victory").classList.remove("show");
  if(state.battle>=3){$("#runClear").classList.add("show");return}
- state.mapStage++;
+ state.roomsCleared++;state.routeDepth++;
  updateDungeonMap();
  $("#mapHint").textContent="次に進む部屋を選んでください。";
  $("#mapScreen").classList.add("show")
@@ -149,7 +150,7 @@ function prepareBattle(n){
 }
 function updateDungeonMap(){
  document.querySelectorAll(".dnode").forEach(n=>{if(n.classList.contains("start"))return;n.classList.remove("available");n.classList.add("locked")});
- let ids=state.mapStage===1?["enemy","event","shop"]:state.mapStage===2?["elite","rest","treasure"]:["boss"];
+ let ids=state.routeDepth===1?["enemy","event","shop"]:state.routeDepth===2?["elite","rest","treasure"]:["boss"];
  ids.forEach(id=>{const n=document.querySelector('[data-node="'+id+'"]');if(n){n.classList.remove("locked");n.classList.add("available")}});
 }
 function openEvent(type){
@@ -158,7 +159,7 @@ function openEvent(type){
  if(type==="shop"){kind.textContent="MERCHANT";title.textContent="旅の商人";txt.textContent="試作：魔力を整え、HPを6回復した。";state.playerHp=Math.min(60,state.playerHp+6)}
  if(type==="event"){kind.textContent="UNKNOWN";title.textContent="青白い泉";txt.textContent="泉の魔力がカードに宿る。次の戦闘で集中状態から始まる。";state.nextBattleFocus=true}
  if(type==="rest"){kind.textContent="REST";title.textContent="静かな篝火";txt.textContent="休息してHPを12回復した。";reward.textContent="HP +12";state.playerHp=Math.min(60,state.playerHp+12)}
- if(type==="treasure"){kind.textContent="TREASURE";title.textContent="封印された宝箱";txt.textContent="古い魔導書から新しい術式を得た。";const pool=["frostNova","manaBurst","mirror"];const id=pool[Math.floor(Math.random()*pool.length)];state.discard.push(id);reward.textContent="獲得："+CARD[id].name}
+ if(type==="treasure"){kind.textContent="TREASURE";title.textContent="封印された宝箱";const weapons=[{name:"氷晶の杖",family:"ice"},{name:"雷鳴の宝珠",family:"lightning"},{name:"黒曜の魔導書",family:"dark"}];state.weapon=weapons[Math.floor(Math.random()*weapons.length)];txt.textContent="装備を発見した。装備はこのラン中、対応する魔法を強化する。";reward.textContent="装備："+state.weapon.name}
  if(type==="shop")reward.textContent="HP +6";
  if(type==="event")reward.textContent="次戦：集中状態";
 }
@@ -174,7 +175,7 @@ document.querySelectorAll(".dnode[data-type]").forEach(n=>n.onclick=()=>{
  if(!maybeEvolveBeforeBoss(3))prepareBattle(3)
 }
 });
-$("#eventContinue").onclick=()=>{$("#eventScreen").classList.remove("show");state.mapStage++;updateDungeonMap();$("#mapHint").textContent=state.mapStage===2?"危険な道か、準備を整える道か。":"守護者への道が開いた。";$("#mapScreen").classList.add("show");render()};
+$("#eventContinue").onclick=()=>{$("#eventScreen").classList.remove("show");state.roomsCleared++;state.routeDepth++;updateDungeonMap();$("#mapHint").textContent=state.routeDepth===2?"危険な道か、準備を整える道か。":"守護者への道が開いた。";$("#mapScreen").classList.add("show");render()};
 const fsBtn=$("#fullscreenBtn");if(fsBtn)fsBtn.onclick=async()=>{try{if(!document.fullscreenElement){await document.documentElement.requestFullscreen();if(screen.orientation?.lock)await screen.orientation.lock("landscape").catch(()=>{})}else await document.exitFullscreen()}catch(e){}};
 document.addEventListener("fullscreenchange",()=>{if(fsBtn)fsBtn.textContent=document.fullscreenElement?"×":"⛶"});
 shuffle(state.draw);drawTo(5);render();
