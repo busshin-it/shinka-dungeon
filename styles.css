@@ -160,3 +160,25 @@
 #eventReward{margin:9px auto 2px;width:max-content;max-width:90%;padding:5px 12px;border:1px solid #756247;border-radius:999px;background:#17130e;color:#f0d39a;font:700 11px system-ui}
 .floor-3{gap:68px}.dnode[data-type="treasure"] b{border-color:#7c6eb0}.dnode[data-type="treasure"].available b{border-color:#b9a2ff;box-shadow:0 0 18px #8b74d855}
 @media(max-height:460px){.floor-3{gap:52px}#eventReward{margin:4px auto 0;padding:3px 9px;font-size:9px}}
+
+/* 2026-10-03 phone landscape viewport fix: keep full cards above browser/system chrome */
+@media (orientation:landscape) and (max-height:700px){
+ html,body{height:100dvh;min-height:0}
+ .game-shell{height:100dvh;min-height:0;grid-template-rows:minmax(0,64%) minmax(0,36%);overflow:hidden}
+ .battlefield{min-height:0}
+ .controls{box-sizing:border-box;height:auto!important;min-height:0;overflow:hidden;padding:4px 8px max(5px,env(safe-area-inset-bottom));grid-template-columns:50px minmax(0,1fr) 68px}
+ .hand{height:100%;min-height:0;max-height:100%;overflow:hidden;align-items:stretch;gap:5px}
+ .card{box-sizing:border-box;height:100%!important;min-height:0!important;max-height:100%!important;max-width:118px;padding:3px;display:grid;grid-template-rows:minmax(0,1fr) 13px 17px;overflow:hidden}
+ .card img,.card .simple-art{height:100%!important;min-height:0!important;max-height:100%!important;width:100%;object-fit:cover}
+ .card strong{height:13px;margin:1px 0 0;font-size:9px;line-height:12px;white-space:nowrap;overflow:hidden}
+ .card small{height:17px;min-height:0!important;font-size:6.5px;line-height:8px;overflow:hidden}
+ .cost{width:19px;height:19px;font-size:10px}
+ .energy{width:40px;height:40px}.energy b{font-size:16px}
+ .end-turn{padding:7px 3px;font-size:10px}
+ .deck-info{display:none}
+}
+@media (orientation:landscape) and (max-height:430px){
+ .game-shell{grid-template-rows:minmax(0,60%) minmax(0,40%)}
+ .actor{height:66%}
+ .hud{padding:4px 8px}
+}
