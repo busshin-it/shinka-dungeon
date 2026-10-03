@@ -38,7 +38,7 @@
 <div id="slashFx" class="slash-fx"></div>
 <div id="damageText" class="damage-text"></div>
 <div id="battleLog" class="battle-log">カードを選んでください。</div>
-<div id="victory" class="victory"><strong>VICTORY</strong><span>スケルトンナイトを撃破</span><button id="rewardBtn">進化を選ぶ</button></div>
+<div id="victory" class="victory"><strong>VICTORY</strong><span>スケルトンナイトを撃破</span><button id="rewardBtn">報酬へ</button></div>
 </section>
 <section class="controls">
 <div class="energy"><b id="energy">3</b><small>/3</small></div>
@@ -48,15 +48,7 @@
 </section>
 <div id="reward" class="reward">
   <div class="reward-panel">
-    <div id="evolutionStep">
-      <h2>氷の矢が進化する</h2>
-      <p>戦い方に応じて、カードの性質が分岐する。</p>
-      <div class="reward-options">
-        <button data-evo="spear"><b>氷槍</b><span>10ダメージ<br>単体火力を強化</span></button>
-        <button data-evo="blizzard"><b>吹雪</b><span>7ダメージ<br>凍結を強化</span></button>
-      </div>
-    </div>
-    <div id="cardRewardStep" hidden>
+    <div id="cardRewardStep">
       <h2>新しいカードを1枚選ぶ</h2>
       <p>選んだカードは次の戦闘からデッキに加わる。</p>
       <div class="reward-options three">
@@ -66,6 +58,15 @@
       </div>
       <button id="skipReward" class="skip-reward">今回は取らない</button>
     </div>
+  </div>
+</div>
+<div id="fusionScreen" class="event-screen">
+  <div class="event-panel fusion-panel">
+    <small>FORGE / FUSION</small>
+    <h2>カードを合成する</h2>
+    <p>デッキの2枚を素材に、より強い1枚へ作り替える。</p>
+    <div id="fusionOptions" class="fusion-options"></div>
+    <button id="skipFusion" class="skip-reward">合成せず進む</button>
   </div>
 </div>
 <div id="mapScreen" class="map-screen">
@@ -119,7 +120,7 @@
   <div class="run-clear-panel">
     <small>RUN COMPLETE</small>
     <h2>古城を踏破した</h2>
-    <p>カード進化と報酬を引き継いで3戦を突破。</p>
+    <p>カード合成とクラス進化で、自分だけのビルドを完成させた。</p>
     <button id="restartRun">もう一度遊ぶ</button>
   </div>
 </div>
