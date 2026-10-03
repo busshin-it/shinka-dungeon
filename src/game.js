@@ -9,9 +9,14 @@ const CARD={
  focus:{name:"集中",cost:0,text:"次の魔法 +3",kind:"focus",art:"✦"},
  frostNova:{name:"霜の輪",cost:1,text:"4ダメージ・敵攻撃 -4",kind:"ice",art:"❄"},
  manaBurst:{name:"魔力奔流",cost:1,text:"次の魔法 +6",kind:"focus",art:"✧"},
- mirror:{name:"鏡の結界",cost:1,text:"5ブロック・3反射",kind:"guard",art:"◈"}
+ mirror:{name:"鏡の結界",cost:1,text:"5ブロック・3反射",kind:"guard",art:"◈"},
+ iceSpear:{name:"氷槍",cost:2,text:"12ダメージ・凍結",kind:"ice",art:"❄"},
+ blizzard:{name:"吹雪",cost:2,text:"7ダメージ・凍結・敵攻撃 -3",kind:"ice",art:"❄"},
+ chainBolt:{name:"連鎖雷",cost:2,text:"9ダメージ・このターン2枚目なら +4",kind:"lightning",art:"ϟ"},
+ abyss:{name:"奈落弾",cost:2,text:"9ダメージ・弱体",kind:"dark",art:"●"},
+ manaBarrier:{name:"魔力障壁",cost:1,text:"10ブロック・集中",kind:"guard",art:"◇"}
 };
-const state={enemyHp:48,playerHp:60,energy:3,block:0,focus:false,weak:false,frozen:false,busy:false,iceEvo:null,enemyTurn:1,enemyCharge:0,nextBattleFocus:false,
+const state={enemyHp:48,playerHp:60,energy:3,block:0,focus:false,weak:false,frozen:false,busy:false,enemyTurn:1,enemyCharge:0,nextBattleFocus:false,
  draw:["ice","guard","bolt","dark","focus","ice","guard","dark"],discard:[],hand:[],used:[],bonusFocus:0,reflect:0,enemyPenalty:0,battle:1,maxEnemy:48,mapStage:0,nextBattle:2,roomsCleared:0,routeDepth:0,weapon:null,forgePower:0,sanctumBlessing:false,
  usage:{cards:{},families:{ice:0,lightning:0,dark:0,guard:0,focus:0}},classEvo:null,classEvoApplied:false,spellsThisTurn:0,lastSpellFamily:null};
 const $=s=>document.querySelector(s),wait=ms=>new Promise(r=>setTimeout(r,ms));
@@ -19,8 +24,8 @@ const mage=$(".actor.player"),foe=$(".actor.foe"),field=$(".battlefield"),dmg=$(
 function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
 function refill(){if(!state.draw.length&&state.discard.length)state.draw=shuffle(state.discard.splice(0))}
 function drawTo(n=5){while(state.hand.length<n){refill();if(!state.draw.length)break;state.hand.push(state.draw.pop())}}
-function cardName(id){if(id==="ice"&&state.iceEvo)return state.iceEvo==="spear"?"氷槍":"吹雪";return CARD[id].name}
-function cardText(id){if(id==="ice"&&state.iceEvo)return state.iceEvo==="spear"?"10ダメージ":"7ダメージ・強凍結";return CARD[id].text}
+function cardName(id){return CARD[id].name}
+function cardText(id){return CARD[id].text}
 function cardArt(id,c){
  const src=CARD_ART[id];
  return src?'<img class="card-art-img" src="'+src+'" alt="">':'<span class="card-symbol">'+c.art+'</span>';
@@ -28,7 +33,7 @@ function cardArt(id,c){
 function renderHand(){
  const hand=$("#hand");hand.innerHTML="";
  state.hand.forEach((id,i)=>{const c=CARD[id],b=document.createElement("button");b.className="card "+c.kind;b.dataset.index=i;
- const art=c.art==="image"?'<img src="./assets/cards/file_0000000026948209a5bf61548ca87c69.png" alt="">':`<div class="simple-art">${c.art}</div>`;
+ const art=cardArt(id,c);
  b.innerHTML=`<span class="cost">${c.cost}</span>${art}<strong>${cardName(id)}</strong><small>${cardText(id)}</small>`;
  b.disabled=state.busy||c.cost>state.energy||state.enemyHp<=0;b.onclick=()=>play(i);hand.appendChild(b)});
  $("#drawCount").textContent=state.draw.length;$("#discardCount").textContent=state.discard.length
@@ -40,7 +45,13 @@ function render(){
  $("#intent").textContent=state.frozen?"次の行動：凍結中":"次の行動："+enemyIntent();
  renderHand();if(state.enemyHp<=0){$("#victory").classList.add("show");log.textContent="勝利！"}
 }
-const CARD_FAMILY={ice:"ice",frostNova:"ice",bolt:"lightning",dark:"dark",guard:"guard",mirror:"guard",focus:"focus",manaBurst:"focus"};
+const CARD_FAMILY={
+ ice:"ice",frostNova:"ice",iceSpear:"ice",blizzard:"ice",
+ bolt:"lightning",chainBolt:"lightning",
+ dark:"dark",abyss:"dark",
+ guard:"guard",mirror:"guard",manaBarrier:"guard",
+ focus:"focus",manaBurst:"focus"
+};
 function recordUse(id){state.usage.cards[id]=(state.usage.cards[id]||0)+1;const family=CARD_FAMILY[id];if(family)state.usage.families[family]=(state.usage.families[family]||0)+1}
 function previewEnemyDamage(base){return Math.max(0,base+state.enemyCharge-(state.weak?2:0)-state.enemyPenalty)}
 function enemyIntent(){
@@ -67,14 +78,19 @@ async function spell(type,base,{freeze=type==="ice",applyWeak=type==="dark"}={})
  if(evo==="雷術師"&&state.spellsThisTurn>=2){n+=3;}
  if(evo==="元素術師"&&state.lastSpellFamily&&state.lastSpellFamily!==type)n+=2;
  state.lastSpellFamily=type;
- if(type==="ice"){log.textContent="《"+cardName("ice")+"》！";let fx=$("#iceFx");fx.classList.remove("fly");void fx.offsetWidth;fx.classList.add("fly");fx.addEventListener("animationend",()=>fx.classList.remove("fly"),{once:true});if(freeze)state.frozen=true}
+ if(type==="ice"){log.textContent="《氷魔法》！";let fx=$("#iceFx");fx.classList.remove("fly");void fx.offsetWidth;fx.classList.add("fly");fx.addEventListener("animationend",()=>fx.classList.remove("fly"),{once:true});if(freeze)state.frozen=true}
  if(type==="bolt"){log.textContent="《雷撃》！";let fx=$("#boltFx");fx.classList.remove("strike");void fx.offsetWidth;fx.classList.add("strike");fx.addEventListener("animationend",()=>fx.classList.remove("strike"),{once:true})}
  if(type==="dark"){log.textContent="《闇弾》！";let fx=$("#darkFx");fx.classList.remove("fly");void fx.offsetWidth;fx.classList.add("fly");fx.addEventListener("animationend",()=>fx.classList.remove("fly"),{once:true});if(applyWeak)state.weak=true}
  await hitEnemy(n);mage.classList.remove("cast")
 }
 async function play(i){if(state.busy)return;const id=state.hand[i],c=CARD[id];if(!id||state.energy<c.cost)return;
  state.busy=true;state.energy-=c.cost;state.hand.splice(i,1);state.used.push(id);state.discard.push(id);recordUse(id);render();
- if(id==="ice")await spell("ice",state.iceEvo==="spear"?10:state.iceEvo==="blizzard"?7:6);
+ if(id==="ice")await spell("ice",6);
+ if(id==="iceSpear")await spell("ice",12);
+ if(id==="blizzard"){state.enemyPenalty=Math.max(state.enemyPenalty,3);await spell("ice",7)}
+ if(id==="chainBolt"){const bonus=state.spellsThisTurn>=1?4:0;await spell("bolt",9+bonus)}
+ if(id==="abyss")await spell("dark",9);
+ if(id==="manaBarrier"){state.block+=10;state.focus=true;log.textContent="《魔力障壁》：10ブロック・集中";await playerPose("guard-cast")}
  if(id==="bolt")await spell("bolt",11);if(id==="dark")await spell("dark",5);
  if(id==="guard"){state.block+=7;log.textContent="《光壁》：7ブロック";await playerPose("guard-cast")}
  if(id==="focus"){state.focus=true;log.textContent="《集中》：次の魔法 +3";await playerPose("focus-cast",520)}
@@ -103,7 +119,6 @@ $("#rewardBtn").onclick=()=>{
  else{$("#evolutionStep").hidden=true;$("#cardRewardStep").hidden=false}
  $("#reward").classList.add("show")
 };
-document.querySelectorAll("[data-evo]").forEach(b=>b.onclick=()=>{state.iceEvo=b.dataset.evo;$("#evolutionStep").hidden=true;$("#cardRewardStep").hidden=false});
 function finishReward(id){
  if(id)state.discard.push(id);$("#reward").classList.remove("show");$("#victory").classList.remove("show");
  if(state.battle>=4){$("#runClear").classList.add("show");return}
@@ -168,6 +183,53 @@ function updateDungeonMap(){
          ["boss"];
  ids.forEach(id=>{const n=document.querySelector('[data-node="'+id+'"]');if(n){n.classList.remove("locked");n.classList.add("available")}});
 }
+
+const FUSION_RECIPES=[
+ {a:"ice",b:"ice",out:"iceSpear"},
+ {a:"ice",b:"focus",out:"blizzard"},
+ {a:"bolt",b:"focus",out:"chainBolt"},
+ {a:"dark",b:"dark",out:"abyss"},
+ {a:"guard",b:"dark",out:"mirror"},
+ {a:"guard",b:"focus",out:"manaBarrier"}
+];
+function allDeckCards(){return [...state.draw,...state.discard,...state.hand]}
+function cardCount(id){return allDeckCards().filter(x=>x===id).length}
+function canFuse(r){return r.a===r.b?cardCount(r.a)>=2:cardCount(r.a)>=1&&cardCount(r.b)>=1}
+function removeOneFromDeck(id){
+ for(const pile of [state.hand,state.draw,state.discard]){
+  const i=pile.indexOf(id);if(i>=0){pile.splice(i,1);return true}
+ }
+ return false
+}
+function openFusion(){
+ $("#mapScreen").classList.remove("show");
+ const box=$("#fusionOptions");box.innerHTML="";
+ const available=FUSION_RECIPES.filter(canFuse);
+ if(!available.length){
+  box.innerHTML='<p class="fusion-empty">今のデッキでは合成できる組み合わせがない。</p>';
+ }else{
+  available.forEach(r=>{
+   const b=document.createElement("button");b.className="fusion-choice";
+   b.innerHTML='<span>'+CARD[r.a].name+' ＋ '+CARD[r.b].name+'</span><strong>→ '+CARD[r.out].name+'</strong><small>'+CARD[r.out].text+'</small>';
+   b.onclick=()=>completeFusion(r);box.appendChild(b)
+  })
+ }
+ $("#fusionScreen").classList.add("show")
+}
+function completeFusion(r){
+ removeOneFromDeck(r.a);removeOneFromDeck(r.b);state.discard.push(r.out);
+ $("#fusionScreen").classList.remove("show");
+ advanceMapAfterEvent("合成完了："+CARD[r.out].name)
+}
+function advanceMapAfterEvent(message){
+ state.roomsCleared++;state.routeDepth++;updateDungeonMap();
+ $("#mapHint").textContent=message||(
+  state.routeDepth===2?"危険な道か、準備を整える道か。":
+  state.routeDepth===3?"古城の深部へ進む。":
+  state.routeDepth===4?"最後の準備を選ぶ。":"守護者への道が開いた。");
+ $("#mapScreen").classList.add("show");render()
+}
+
 function openEvent(type){
  $("#mapScreen").classList.remove("show");$("#eventScreen").classList.add("show");
  const kind=$("#eventKind"),title=$("#eventTitle"),txt=$("#eventText"),reward=$("#eventReward");reward.textContent="";
@@ -177,13 +239,13 @@ function openEvent(type){
  if(type==="treasure"){kind.textContent="TREASURE";title.textContent="封印された宝箱";const weapons=[{name:"氷晶の杖",family:"ice"},{name:"雷鳴の宝珠",family:"lightning"},{name:"黒曜の魔導書",family:"dark"}];state.weapon=weapons[Math.floor(Math.random()*weapons.length)];txt.textContent="装備を発見した。装備はこのラン中、対応する魔法を強化する。";reward.textContent="装備："+state.weapon.name}
  if(type==="shop")reward.textContent="HP +6";
  if(type==="event")reward.textContent="次戦：集中状態";
- if(type==="forge"){kind.textContent="FORGE";title.textContent="古城の鍛冶場";txt.textContent="魔導具を研ぎ直し、このラン中のすべての攻撃魔法を強化した。";state.forgePower+=1;reward.textContent="全攻撃魔法 +1"}
  if(type==="sanctum"){kind.textContent="SANCTUM";title.textContent="星読みの祭壇";txt.textContent="祭壇の魔力を受け、次の戦闘を集中状態で開始する。";state.sanctumBlessing=true;state.playerHp=Math.min(60,state.playerHp+6);reward.textContent="HP +6 / 次戦：集中"}
 }
 document.querySelectorAll(".dnode[data-type]").forEach(n=>n.onclick=()=>{
  if(!n.classList.contains("available"))return;
  const type=n.dataset.type;n.classList.remove("available");n.classList.add("cleared");
- if(type==="event"||type==="shop"||type==="rest"||type==="treasure"||type==="forge"||type==="sanctum"){openEvent(type);return}
+ if(type==="forge"){openFusion();return}
+ if(type==="event"||type==="shop"||type==="rest"||type==="treasure"||type==="sanctum"){openEvent(type);return}
  $("#mapScreen").classList.remove("show");
  if(type==="enemy"){prepareBattle(2)}
  else if(type==="elite"){prepareBattle(2);state.maxEnemy=72;state.enemyHp=72;state.enemyCharge=2;$("#enemyName").textContent="亡霊騎士・精鋭";log.textContent="エリート戦：強敵だが突破すれば報酬を得られる";render()}
@@ -199,3 +261,4 @@ document.addEventListener("fullscreenchange",()=>{if(fsBtn)fsBtn.textContent=doc
 shuffle(state.draw);drawTo(5);render();
 $("#restartRun").onclick=()=>location.reload();
 $("#retryRun").onclick=()=>location.reload();
+$("#skipFusion").onclick=()=>{$("#fusionScreen").classList.remove("show");advanceMapAfterEvent("合成せず先へ進んだ")};
