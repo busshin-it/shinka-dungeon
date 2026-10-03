@@ -7,6 +7,8 @@ import { structuralQa } from './lib/png.mjs';
 const ROOT = path.resolve(process.cwd());
 const QUEUE_PATH = path.join(ROOT, 'asset-factory', 'queue.json');
 const ACTIVE = new Set(['waiting','queued','needs_fix','regenerate']);
+const MAX_IMAGE_CALLS = Math.max(1, Number(process.env.ASSET_FACTORY_MAX_IMAGE_CALLS || 6));
+let imageCalls = 0;
 
 export function parseArgs(argv) {
   const out = { count: 1, asset: '', maxRetries: 2, dryRun: false };
@@ -51,9 +53,25 @@ async function processJob(queue, job, options) {
     }
 
     try {
+      if (imageCalls >= MAX_IMAGE_CALLS) {
+        job.status = 'queued';
+        job.last_error = { message: `Cost guard stopped run at ${MAX_IMAGE_CALLS} image API calls`, at: now() };
+        await writeQueue(queue);
+        console.log(`[asset-factory] COST GUARD: stopped before ${job.name}`);
+        return { pass: false, costGuard: true };
+      }
+      imageCalls++;
       const generated = await generateImage(job, prompt, ROOT);
       job.status = 'qa';
-      job.generator = { model: generated.model, quality: generated.quality, used_references: generated.usedReferences };
+      job.generator = {
+        model: generated.model,
+        quality: generated.quality,
+        used_references: generated.usedReferences,
+        generation_id: generated.generationId || null,
+        created: generated.created || null,
+        usage: generated.usage || null
+      };
+      job.generation_id = generated.generationId || job.generation_id || null;
       await writeQueue(queue);
 
       const structural = structuralQa(job, generated.buffer);
@@ -69,6 +87,7 @@ async function processJob(queue, job, options) {
         remediation: semantic.remediation || (structural.issues || []).join('; '),
         checked_at: now(),
         model: semantic.model || null,
+        usage: semantic.usage || null,
       };
       job.qa = qa;
 
