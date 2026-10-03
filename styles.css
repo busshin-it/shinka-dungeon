@@ -155,3 +155,8 @@
 .card-art-img{width:100%;height:100%;object-fit:cover;display:block}
 .card-symbol{font-size:38px;line-height:1}
 @media(max-height:460px){.card-symbol{font-size:30px}}
+
+/* Dungeon choice readability */
+#eventReward{margin:9px auto 2px;width:max-content;max-width:90%;padding:5px 12px;border:1px solid #756247;border-radius:999px;background:#17130e;color:#f0d39a;font:700 11px system-ui}
+.floor-3{gap:68px}.dnode[data-type="treasure"] b{border-color:#7c6eb0}.dnode[data-type="treasure"].available b{border-color:#b9a2ff;box-shadow:0 0 18px #8b74d855}
+@media(max-height:460px){.floor-3{gap:52px}#eventReward{margin:4px auto 0;padding:3px 9px;font-size:9px}}
