@@ -351,3 +351,12 @@
   background-size:cover!important;
   border-radius:6px!important;
 }
+
+/* Replay-safe PWA viewport: prevent hand clipping after "play again" */
+:root{--app-vh:100dvh}
+@media (orientation:landscape) and (max-height:700px){
+  .game-shell{height:min(100dvh,var(--app-vh))!important}
+  .controls{box-sizing:border-box!important;min-height:0!important}
+  .hand{box-sizing:border-box!important;min-height:0!important}
+  .card{box-sizing:border-box!important;min-height:0!important}
+}
