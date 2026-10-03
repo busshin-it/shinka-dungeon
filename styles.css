@@ -78,3 +78,64 @@
  .card small{height:18px;min-height:0;font-size:7px;line-height:8px;overflow:hidden}
  .energy{width:42px;height:42px}.end-turn{align-self:center}
 }
+
+/* Character motion polish */
+.actor img{transform-origin:50% 88%;will-change:transform,filter}
+.actor.player img{animation:playerIdle 3.2s ease-in-out infinite}
+.actor.foe img{animation:enemyIdle 2.7s ease-in-out infinite}
+.actor.player.cast img{animation:playerCast .55s cubic-bezier(.2,.9,.25,1)}
+.actor.player.guard-cast img{animation:playerGuard .42s ease-out}
+.actor.player.focus-cast img{animation:playerFocus .55s ease-out}
+.actor.foe.attack img{animation:enemySlash .58s cubic-bezier(.18,.8,.25,1)}
+.actor.foe.hit img{animation:enemyRecoil .32s ease-out}
+.actor.player.hit img{animation:playerRecoil .34s ease-out}
+.battlefield.impact{animation:screenImpact .22s linear}
+@keyframes playerIdle{
+ 0%,100%{transform:translateY(0) rotate(0deg) scale(1)}
+ 50%{transform:translateY(-3px) rotate(-.4deg) scale(1.008)}
+}
+@keyframes enemyIdle{
+ 0%,100%{transform:translateY(0) rotate(0deg)}
+ 50%{transform:translateY(-2px) rotate(.5deg)}
+}
+@keyframes playerCast{
+ 0%{transform:translateX(0) translateY(0) rotate(0) scale(1);filter:brightness(1)}
+ 28%{transform:translateX(-10px) translateY(3px) rotate(-2deg) scale(.98);filter:brightness(1.05)}
+ 58%{transform:translateX(24px) translateY(-5px) rotate(3deg) scale(1.04);filter:brightness(1.38) drop-shadow(0 0 14px #7dcfff)}
+ 100%{transform:translateX(0) translateY(0) rotate(0) scale(1);filter:brightness(1)}
+}
+@keyframes playerGuard{
+ 0%{transform:scale(1)}
+ 45%{transform:translateY(-3px) scale(1.045);filter:brightness(1.35) drop-shadow(0 0 16px #f4df9a)}
+ 100%{transform:scale(1)}
+}
+@keyframes playerFocus{
+ 0%{transform:scale(1) rotate(0)}
+ 40%{transform:translateY(-7px) scale(1.035) rotate(-1deg);filter:brightness(1.45) drop-shadow(0 0 18px #a895ff)}
+ 100%{transform:scale(1) rotate(0)}
+}
+@keyframes enemySlash{
+ 0%{transform:translateX(0) rotate(0deg) scale(1)}
+ 25%{transform:translateX(12px) rotate(3deg) scale(.99)}
+ 58%{transform:translateX(-145px) translateY(-4px) rotate(-8deg) scale(1.08)}
+ 72%{transform:translateX(-115px) rotate(-4deg) scale(1.04)}
+ 100%{transform:translateX(0) rotate(0deg) scale(1)}
+}
+@keyframes enemyRecoil{
+ 0%{transform:translateX(0) rotate(0)}
+ 35%{transform:translateX(18px) rotate(4deg);filter:brightness(1.8)}
+ 68%{transform:translateX(8px) rotate(2deg)}
+ 100%{transform:translateX(0) rotate(0);filter:brightness(1)}
+}
+@keyframes playerRecoil{
+ 0%{transform:translateX(0) rotate(0)}
+ 35%{transform:translateX(-18px) rotate(-4deg);filter:brightness(1.65)}
+ 70%{transform:translateX(-7px) rotate(-2deg)}
+ 100%{transform:translateX(0) rotate(0);filter:brightness(1)}
+}
+@keyframes screenImpact{
+ 0%,100%{transform:translate(0,0)}
+ 25%{transform:translate(-3px,1px)}
+ 50%{transform:translate(3px,-1px)}
+ 75%{transform:translate(-2px,0)}
+}
