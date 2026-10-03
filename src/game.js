@@ -337,6 +337,23 @@ $("#leaveMerchant").onclick=()=>{$("#merchantScreen").classList.remove("show");a
 const fsBtn=$("#fullscreenBtn");if(fsBtn)fsBtn.onclick=async()=>{try{if(!document.fullscreenElement){await document.documentElement.requestFullscreen();if(screen.orientation?.lock)await screen.orientation.lock("landscape").catch(()=>{})}else await document.exitFullscreen()}catch(e){}};
 document.addEventListener("fullscreenchange",()=>{if(fsBtn)fsBtn.textContent=document.fullscreenElement?"×":"⛶"});
 shuffle(state.draw);drawTo(5);render();
-$("#restartRun").onclick=()=>location.reload();
-$("#retryRun").onclick=()=>location.reload();
+function restartStable(){
+  try{
+    sessionStorage.setItem("shinka-restart","1");
+  }catch(e){}
+  const u=new URL(location.href);
+  u.searchParams.set("r",Date.now());
+  location.replace(u.toString());
+}
+$("#restartRun").onclick=restartStable;
+$("#retryRun").onclick=restartStable;
+try{
+  if(sessionStorage.getItem("shinka-restart")==="1"){
+    sessionStorage.removeItem("shinka-restart");
+    requestAnimationFrame(()=>requestAnimationFrame(()=>{
+      window.dispatchEvent(new Event("resize"));
+      document.documentElement.style.setProperty("--app-vh",window.innerHeight+"px");
+    }));
+  }
+}catch(e){}
 $("#skipFusion").onclick=()=>{$("#fusionScreen").classList.remove("show");advanceMapAfterEvent("合成せず先へ進んだ")};
