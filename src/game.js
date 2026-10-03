@@ -55,7 +55,8 @@ async function spell(type,base,{freeze=type==="ice",applyWeak=type==="dark"}={})
  if(evo==="黒魔導士"&&type==="dark"&&state.weak)n+=3;
  state.focus=false;state.bonusFocus=0;
  state.spellsThisTurn++;
- if(evo==="雷術師"&&state.spellsThisTurn>=2){n+=3;log.textContent="雷術師：連続魔法 +3";}
+ if(evo==="雷術師"&&state.spellsThisTurn>=2){n+=3;}
+ if(evo==="元素術師"&&state.lastSpellFamily&&state.lastSpellFamily!==type)n+=2;
  state.lastSpellFamily=type;
  if(type==="ice"){log.textContent="《"+cardName("ice")+"》！";let fx=$("#iceFx");fx.classList.remove("fly");void fx.offsetWidth;fx.classList.add("fly");fx.addEventListener("animationend",()=>fx.classList.remove("fly"),{once:true});if(freeze)state.frozen=true}
  if(type==="bolt"){log.textContent="《雷撃》！";let fx=$("#boltFx");fx.classList.remove("strike");void fx.offsetWidth;fx.classList.add("strike");fx.addEventListener("animationend",()=>fx.classList.remove("strike"),{once:true})}
@@ -158,7 +159,10 @@ document.querySelectorAll(".dnode[data-type]").forEach(n=>n.onclick=()=>{
  $("#mapScreen").classList.remove("show");
  if(type==="enemy"){prepareBattle(2)}
  else if(type==="elite"){prepareBattle(2);state.maxEnemy=68;state.enemyHp=68;$("#enemyName").textContent="亡霊騎士・精鋭";render()}
- else if(type==="boss"){prepareBattle(3)}
+ else if(type==="boss"){
+ state.nextBattle=3;
+ if(!maybeEvolveBeforeBoss(3))prepareBattle(3)
+}
 });
 $("#eventContinue").onclick=()=>{$("#eventScreen").classList.remove("show");state.mapStage++;updateDungeonMap();$("#mapScreen").classList.add("show");render()};
 const fsBtn=$("#fullscreenBtn");if(fsBtn)fsBtn.onclick=async()=>{try{if(!document.fullscreenElement){await document.documentElement.requestFullscreen();if(screen.orientation?.lock)await screen.orientation.lock("landscape").catch(()=>{})}else await document.exitFullscreen()}catch(e){}};
