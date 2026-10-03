@@ -11,7 +11,7 @@ const CARD={
 const state={enemyHp:48,playerHp:60,energy:3,block:0,focus:false,weak:false,frozen:false,busy:false,iceEvo:null,enemyTurn:1,
  draw:["ice","guard","bolt","dark","focus","ice","guard","dark"],discard:[],hand:[],used:[],bonusFocus:0,reflect:0,enemyPenalty:0,battle:1,maxEnemy:48,mapStage:0,nextBattle:2};
 const $=s=>document.querySelector(s),wait=ms=>new Promise(r=>setTimeout(r,ms));
-const mage=$(".actor.player"),foe=$(".actor.foe"),dmg=$("#damageText"),log=$("#battleLog");
+const mage=$(".actor.player"),foe=$(".actor.foe"),field=$(".battlefield"),dmg=$("#damageText"),log=$("#battleLog");
 function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
 function refill(){if(!state.draw.length&&state.discard.length)state.draw=shuffle(state.discard.splice(0))}
 function drawTo(n=5){while(state.hand.length<n){refill();if(!state.draw.length)break;state.hand.push(state.draw.pop())}}
@@ -37,7 +37,8 @@ function enemyIntent(){
  if(state.battle===2)return state.enemyTurn%2?"霊刃 "+(state.weak?7:10):"呪詛 4 + 弱体";
  return state.enemyTurn%3===0?"重撃 "+(state.weak?11:14):state.enemyTurn%3===1?"炎爪 "+(state.weak?8:11):"防壁 + 次撃強化";
 }
-function popDamage(n,onPlayer=false){dmg.textContent="-"+n;dmg.className="damage-text"+(onPlayer?" player-dmg":"");void dmg.offsetWidth;dmg.classList.add("pop")}
+function popDamage(n,onPlayer=false){dmg.textContent="-"+n;dmg.className="damage-text"+(onPlayer?" player-dmg":"");void dmg.offsetWidth;dmg.classList.add("pop");field.classList.remove("impact");void field.offsetWidth;field.classList.add("impact");field.addEventListener("animationend",()=>field.classList.remove("impact"),{once:true})}
+async function playerPose(kind,ms=420){mage.classList.remove("guard-cast","focus-cast");mage.classList.add(kind);await wait(ms);mage.classList.remove(kind)}
 async function hitEnemy(n){await wait(240);foe.classList.add("hit");state.enemyHp=Math.max(0,state.enemyHp-n);popDamage(n);render();await wait(280);foe.classList.remove("hit")}
 async function spell(type,base){mage.classList.add("cast");let n=base+(state.focus?3:0)+state.bonusFocus;state.focus=false;state.bonusFocus=0;
  if(type==="ice"){log.textContent="《"+cardName("ice")+"》！";let fx=$("#iceFx");fx.classList.remove("fly");void fx.offsetWidth;fx.classList.add("fly");fx.addEventListener("animationend",()=>fx.classList.remove("fly"),{once:true});state.frozen=true}
@@ -49,11 +50,11 @@ async function play(i){if(state.busy)return;const id=state.hand[i],c=CARD[id];if
  state.busy=true;state.energy-=c.cost;state.hand.splice(i,1);state.used.push(id);state.discard.push(id);render();
  if(id==="ice")await spell("ice",state.iceEvo==="spear"?10:state.iceEvo==="blizzard"?7:6);
  if(id==="bolt")await spell("bolt",11);if(id==="dark")await spell("dark",5);
- if(id==="guard"){state.block+=7;log.textContent="《光壁》：7ブロック"}
- if(id==="focus"){state.focus=true;log.textContent="《集中》：次の魔法 +3"}
+ if(id==="guard"){state.block+=7;log.textContent="《光壁》：7ブロック";await playerPose("guard-cast")}
+ if(id==="focus"){state.focus=true;log.textContent="《集中》：次の魔法 +3";await playerPose("focus-cast",520)}
  if(id==="frostNova"){state.enemyPenalty=Math.max(state.enemyPenalty,4);await spell("ice",4)}
- if(id==="manaBurst"){state.bonusFocus+=6;log.textContent="《魔力奔流》：次の魔法 +6"}
- if(id==="mirror"){state.block+=5;state.reflect=3;log.textContent="《鏡の結界》：5ブロック・反射3"}
+ if(id==="manaBurst"){state.bonusFocus+=6;log.textContent="《魔力奔流》：次の魔法 +6";await playerPose("focus-cast",520)}
+ if(id==="mirror"){state.block+=5;state.reflect=3;log.textContent="《鏡の結界》：5ブロック・反射3";await playerPose("guard-cast")}
  state.busy=false;render()
 }
 $("#endTurn").onclick=async()=>{if(state.busy||state.enemyHp<=0)return;state.busy=true;render();
