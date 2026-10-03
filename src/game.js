@@ -97,7 +97,10 @@ async function play(i){if(state.busy)return;const id=state.hand[i],c=CARD[id];if
  if(id==="frostNova"){state.enemyPenalty=Math.max(state.enemyPenalty,4);await spell("ice",4,{freeze:false})}
  if(id==="manaBurst"){state.bonusFocus+=6;log.textContent="《魔力奔流》：次の魔法 +6";await playerPose("focus-cast",520)}
  if(id==="mirror"){state.block+=5;state.reflect=3;log.textContent="《鏡の結界》：5ブロック・反射3";await playerPose("guard-cast")}
- state.busy=false;render()
+ state.busy=false;render();
+ if(state.energy===0&&state.enemyHp>0&&state.playerHp>0){
+   setTimeout(()=>{if(!state.busy&&state.energy===0&&state.enemyHp>0&&state.playerHp>0)$("#endTurn").click()},320)
+ }
 }
 $("#endTurn").onclick=async()=>{if(state.busy||state.enemyHp<=0)return;state.busy=true;render();
  state.discard.push(...state.hand.splice(0));
