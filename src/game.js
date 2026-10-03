@@ -35,9 +35,12 @@ function refill(){if(!state.draw.length&&state.discard.length)state.draw=shuffle
 function drawTo(n=5){while(state.hand.length<n){refill();if(!state.draw.length)break;state.hand.push(state.draw.pop())}}
 function cardName(id){return CARD[id].name}
 function cardText(id){return CARD[id].text}
+const ASSET_BUILD="20261003-2126";
 function cardArt(id,c){
  const src=CARD_ART[id];
- return src?'<img class="card-art-img" src="'+src+'" alt="">':'<span class="card-symbol">'+c.art+'</span>';
+ if(!src)return '<span class="card-symbol">'+c.art+'</span>';
+ const u=src+(src.includes("?")?"&":"?")+"v="+ASSET_BUILD;
+ return '<div class="card-art-bg" style="background-image:url(&quot;'+u+'&quot;)"></div>';
 }
 function renderHand(){
  const hand=$("#hand");hand.innerHTML="";
