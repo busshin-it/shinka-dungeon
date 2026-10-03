@@ -20,3 +20,13 @@
 
 - Define the player-facing meaning of Wraith Knight curse before implementing a debuff.
 - Decide class names, evolution thresholds, and whether hybrid classes should be possible.
+
+
+## 2026-10-03 run integrity pass
+
+- Fixed next-battle deck rebuilding so cards left in hand at victory are preserved together with draw and discard piles. The invariant is now: every owned card survives a battle transition unless a future mechanic explicitly removes it.
+- Routed hand artwork through `CARD_ART` instead of hardcoding the ice image path. New one-image-per-card assets can now be mapped without changing the renderer.
+- Restored evolved class names in the battle HUD and made victory copy use the current enemy name.
+- Added a tie-state guardrail: the victory overlay only appears when enemy HP is 0 and player HP is still above 0.
+- Smoke checks: patched `game.js` parses successfully; source checks confirm deck preservation, art mapping, evolved-class HUD, and alive-only victory conditions.
+- Balance note: no card numbers were changed in this pass. This intentionally isolates progression-integrity fixes before re-evaluating battle 2 and boss difficulty.

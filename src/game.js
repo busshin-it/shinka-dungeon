@@ -23,12 +23,12 @@ function cardName(id){if(id==="ice"&&state.iceEvo)return state.iceEvo==="spear"?
 function cardText(id){if(id==="ice"&&state.iceEvo)return state.iceEvo==="spear"?"10ダメージ":"7ダメージ・強凍結";return CARD[id].text}
 function cardArt(id,c){
  const src=CARD_ART[id];
- return src?'<img class="card-art-img" src="'+src+'" alt="">':'<span class="card-symbol">'+c.art+'</span>';
+ return src?'<img class="card-art-img" src="'+src+'" alt="">':'<div class="simple-art"><span class="card-symbol">'+c.art+'</span></div>';
 }
 function renderHand(){
  const hand=$("#hand");hand.innerHTML="";
  state.hand.forEach((id,i)=>{const c=CARD[id],b=document.createElement("button");b.className="card "+c.kind;b.dataset.index=i;
- const art=c.art==="image"?'<img src="./assets/cards/file_0000000026948209a5bf61548ca87c69.png" alt="">':`<div class="simple-art">${c.art}</div>`;
+ const art=cardArt(id,c);
  b.innerHTML=`<span class="cost">${c.cost}</span>${art}<strong>${cardName(id)}</strong><small>${cardText(id)}</small>`;
  b.disabled=state.busy||c.cost>state.energy||state.enemyHp<=0;b.onclick=()=>play(i);hand.appendChild(b)});
  $("#drawCount").textContent=state.draw.length;$("#discardCount").textContent=state.discard.length
@@ -37,8 +37,12 @@ function render(){
  $("#enemyHp").textContent=state.enemyHp;$("#enemyMax").textContent=state.maxEnemy;$("#enemyHpBar").style.width=(state.enemyHp/state.maxEnemy*100)+"%";
  $("#playerHp").textContent=state.playerHp;$("#playerHpBar").style.width=(state.playerHp/60*100)+"%";
  $("#energy").textContent=state.energy;$("#playerStatus").textContent="ブロック "+state.block+(state.focus?" ｜ 集中":"");
+ $("#playerClassLabel").textContent=(state.classEvoApplied&&state.classEvo?state.classEvo.name:"魔法師")+" Lv.1";
  $("#intent").textContent=state.frozen?"次の行動：凍結中":"次の行動："+enemyIntent();
- renderHand();if(state.enemyHp<=0){$("#victory").classList.add("show");log.textContent="勝利！"}
+ renderHand();
+ const won=state.enemyHp<=0&&state.playerHp>0;
+ $("#victory").classList.toggle("show",won);
+ if(won){$("#victory span").textContent=$("#enemyName").textContent+"を撃破";$("#rewardBtn").textContent=state.battle===1?"進化を選ぶ":"報酬を選ぶ";log.textContent="勝利！"}
 }
 const CARD_FAMILY={ice:"ice",frostNova:"ice",bolt:"lightning",dark:"dark",guard:"guard",mirror:"guard",focus:"focus",manaBurst:"focus"};
 function recordUse(id){state.usage.cards[id]=(state.usage.cards[id]||0)+1;const family=CARD_FAMILY[id];if(family)state.usage.families[family]=(state.usage.families[family]||0)+1}
@@ -145,7 +149,8 @@ function maybeEvolveBeforeBoss(n){
  return false;
 }
 function prepareBattle(n){
- state.battle=n;state.enemyTurn=1;state.maxEnemy=n===2?62:78;state.enemyHp=state.maxEnemy;state.energy=3;state.block=(state.classEvoApplied&&state.classEvo?.name==="結界術師")?4:0;state.spellsThisTurn=0;state.lastSpellFamily=null;state.focus=state.nextBattleFocus;state.nextBattleFocus=false;state.weak=false;state.frozen=false;state.enemyPenalty=0;state.enemyCharge=0;state.reflect=0;state.hand=[];state.draw=shuffle([...state.draw,...state.discard]);state.discard=[];drawTo(5);
+ const nextDeck=[...state.draw,...state.discard,...state.hand];
+ state.battle=n;state.enemyTurn=1;state.maxEnemy=n===2?62:78;state.enemyHp=state.maxEnemy;state.energy=3;state.block=(state.classEvoApplied&&state.classEvo?.name==="結界術師")?4:0;state.spellsThisTurn=0;state.lastSpellFamily=null;state.focus=state.nextBattleFocus;state.nextBattleFocus=false;state.weak=false;state.frozen=false;state.enemyPenalty=0;state.enemyCharge=0;state.reflect=0;state.hand=[];state.draw=shuffle(nextDeck);state.discard=[];drawTo(5);
  $("#enemyName").textContent=n===2?"亡霊騎士":"古城の守護者";log.textContent=n===2?"第2戦：亡霊騎士。攻撃と呪詛が交互に来る":"最終戦：古城の守護者。行動パターンを読もう";render()
 }
 function updateDungeonMap(){
