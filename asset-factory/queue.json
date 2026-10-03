@@ -432,7 +432,10 @@
       "status": "adopted",
       "attempts": 1,
       "qa": {},
-      "github_synced": true
+      "github_synced": true,
+      "reference_paths": [
+        "assets/characters/file_00000000195082099d8a0cbca09a8f30.png"
+      ]
     },
     {
       "asset_id": "class-thunder-mage",
@@ -457,7 +460,10 @@
       "status": "waiting",
       "attempts": 0,
       "qa": {},
-      "github_synced": false
+      "github_synced": false,
+      "reference_paths": [
+        "assets/characters/file_00000000195082099d8a0cbca09a8f30.png"
+      ]
     },
     {
       "asset_id": "class-dark-mage",
@@ -482,7 +488,10 @@
       "status": "waiting",
       "attempts": 0,
       "qa": {},
-      "github_synced": false
+      "github_synced": false,
+      "reference_paths": [
+        "assets/characters/file_00000000195082099d8a0cbca09a8f30.png"
+      ]
     },
     {
       "asset_id": "class-barrier-mage",
@@ -507,7 +516,10 @@
       "status": "waiting",
       "attempts": 0,
       "qa": {},
-      "github_synced": false
+      "github_synced": false,
+      "reference_paths": [
+        "assets/characters/file_00000000195082099d8a0cbca09a8f30.png"
+      ]
     },
     {
       "asset_id": "class-star-seer",
@@ -532,7 +544,10 @@
       "status": "waiting",
       "attempts": 0,
       "qa": {},
-      "github_synced": false
+      "github_synced": false,
+      "reference_paths": [
+        "assets/characters/file_00000000195082099d8a0cbca09a8f30.png"
+      ]
     },
     {
       "asset_id": "class-elementalist",
@@ -558,7 +573,10 @@
       "status": "waiting",
       "attempts": 0,
       "qa": {},
-      "github_synced": false
+      "github_synced": false,
+      "reference_paths": [
+        "assets/characters/file_00000000195082099d8a0cbca09a8f30.png"
+      ]
     }
   ]
 }
