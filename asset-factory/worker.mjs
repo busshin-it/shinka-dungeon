@@ -10,15 +10,18 @@ const QUEUE_PATH = path.join(ROOT, 'asset-factory', 'queue.json');
 const MANIFEST_PATH = path.join(ROOT, 'asset-factory', 'asset-manifest.json');
 const ACTIVE = new Set(['waiting','queued','needs_fix','regenerate']);
 const MAX_IMAGE_CALLS = Math.max(1, Number(process.env.ASSET_FACTORY_MAX_IMAGE_CALLS || 6));
+const DEFAULT_MAX_TOTAL_ATTEMPTS = Math.max(1, Number(process.env.ASSET_FACTORY_MAX_TOTAL_ATTEMPTS || 8));
 let imageCalls = 0;
 
 export function parseArgs(argv) {
-  const out = { count: 1, asset: '', maxRetries: 2, dryRun: false };
+  const out = { count: 1, asset: '', maxRetries: 2, maxTotalAttempts: DEFAULT_MAX_TOTAL_ATTEMPTS, autoRequeue: true, dryRun: false };
   for (let i = 0; i < argv.length; i++) {
     const a = argv[i];
     if (a === '--count') out.count = Math.max(1, Number(argv[++i] || 1));
     else if (a === '--asset') out.asset = argv[++i] || '';
     else if (a === '--max-retries') out.maxRetries = Math.max(0, Number(argv[++i] || 0));
+    else if (a === '--max-total-attempts') out.maxTotalAttempts = Math.max(1, Number(argv[++i] || 1));
+    else if (a === '--no-auto-requeue') out.autoRequeue = false;
     else if (a === '--dry-run') out.dryRun = true;
   }
   return out;
@@ -63,6 +66,41 @@ async function writeQueue(queue) {
 }
 
 function now() { return new Date().toISOString(); }
+
+function recordFailure(job, kind, detail = {}) {
+  job.failure_history = Array.isArray(job.failure_history) ? job.failure_history : [];
+  job.failure_history.push({
+    at: now(),
+    attempt: Number(job.attempts || 0),
+    kind,
+    ...detail,
+  });
+  if (job.failure_history.length > 20) job.failure_history = job.failure_history.slice(-20);
+}
+
+export function decideFailureAction(job, options, { retryable = true } = {}) {
+  const attempts = Number(job.attempts || 0);
+  const exhausted = attempts >= Number(options.maxTotalAttempts || DEFAULT_MAX_TOTAL_ATTEMPTS);
+  if (!options.autoRequeue || exhausted || !retryable) {
+    return { status: 'needs_fix', requeue: false, exhausted, manual: true };
+  }
+  return { status: 'queued', requeue: true, exhausted: false, manual: false };
+}
+
+function markDeferred(job, reason, options, detail = {}) {
+  const action = decideFailureAction(job, options, detail);
+  job.status = action.status;
+  job.updated_at = now();
+  job.self_heal = {
+    enabled: !!options.autoRequeue,
+    max_total_attempts: options.maxTotalAttempts,
+    requeued: action.requeue,
+    exhausted: action.exhausted,
+    last_reason: reason,
+    updated_at: now(),
+  };
+  return action;
+}
 
 function canAutoAdoptPart(job) {
   if (job.type !== 'part') return false;
@@ -199,11 +237,13 @@ async function processJob(queue, job, options) {
 
     try {
       if (imageCalls >= MAX_IMAGE_CALLS) {
-        job.status = 'queued';
-        job.last_error = { message: `Cost guard stopped run at ${MAX_IMAGE_CALLS} image API calls`, at: now() };
+        const message = `Cost guard stopped run at ${MAX_IMAGE_CALLS} image API calls`;
+        job.last_error = { message, at: now() };
+        recordFailure(job, 'cost_guard', { message });
+        markDeferred(job, 'cost_guard', options, { retryable: true });
         await writeQueue(queue);
-        console.log(`[asset-factory] COST GUARD: stopped before ${job.name}`);
-        return { pass: false, costGuard: true };
+        console.log(`[asset-factory] COST GUARD: deferred ${job.name} to a future run`);
+        return { pass: false, deferred: true, costGuard: true };
       }
       imageCalls++;
       const generated = await generateImage(job, prompt, ROOT);
@@ -291,18 +331,49 @@ async function processJob(queue, job, options) {
       }
 
       remediation = qa.remediation || `Fix all QA issues: ${qa.issues.join('; ')}`;
-      job.status = retry < options.maxRetries ? 'regenerate' : 'needs_fix';
+      recordFailure(job, 'qa', {
+        score: qa.score,
+        issues: qa.issues,
+        remediation,
+      });
+      if (retry < options.maxRetries) {
+        job.status = 'regenerate';
+        await writeQueue(queue);
+        console.log(`[asset-factory] FAIL ${job.name}: ${qa.issues.join(' / ')}`);
+        continue;
+      }
+      const action = markDeferred(job, 'qa_failed_after_local_retries', options, { retryable: true });
       await writeQueue(queue);
       console.log(`[asset-factory] FAIL ${job.name}: ${qa.issues.join(' / ')}`);
-      if (retry >= options.maxRetries) return { pass: false, qa };
+      if (action.requeue) {
+        console.log(`[asset-factory] SELF-HEAL: requeued ${job.name} for a future run (attempt ${job.attempts}/${options.maxTotalAttempts})`);
+        return { pass: false, deferred: true, qa };
+      }
+      console.log(`[asset-factory] MANUAL REVIEW: ${job.name} exhausted self-healing attempts`);
+      return { pass: false, manualReview: true, qa };
     } catch (error) {
       job.last_error = { message: error.message, code: error.code || null, status: error.status || null, at: now() };
-      const retryable = error.status === 429 || (error.status >= 500 && error.status < 600);
-      job.status = retryable && retry < options.maxRetries ? 'regenerate' : 'needs_fix';
-      await writeQueue(queue);
+      const retryable = error.status === 429 || (error.status >= 500 && error.status < 600) || !error.status;
+      recordFailure(job, 'api_error', {
+        message: error.message,
+        code: error.code || null,
+        status: error.status || null,
+        retryable,
+      });
       console.error(`[asset-factory] ERROR ${job.name}: ${error.message}`);
-      if (!retryable || retry >= options.maxRetries) return { pass: false, error: error.message };
-      await new Promise(r => setTimeout(r, Math.min(30000, 2000 * (retry + 1))));
+      if (retryable && retry < options.maxRetries) {
+        job.status = 'regenerate';
+        await writeQueue(queue);
+        await new Promise(r => setTimeout(r, Math.min(30000, 2000 * (retry + 1))));
+        continue;
+      }
+      const action = markDeferred(job, retryable ? 'api_error_after_local_retries' : 'non_retryable_api_error', options, { retryable });
+      await writeQueue(queue);
+      if (action.requeue) {
+        console.log(`[asset-factory] SELF-HEAL: API error requeued ${job.name} for a future run`);
+        return { pass: false, deferred: true, error: error.message };
+      }
+      return { pass: false, manualReview: true, error: error.message };
     }
   }
 }
@@ -318,9 +389,12 @@ export async function main(argv = process.argv.slice(2)) {
   console.log(`[asset-factory] processing ${jobs.length} job(s), one image per asset`);
   const results = [];
   for (const job of jobs) results.push(await processJob(queue, job, options));
-  const failed = results.filter(r => !r?.pass && !r?.dryRun);
-  if (failed.length) {
-    throw new Error(`Asset Factory finished with ${failed.length} asset(s) not passing QA.`);
+  const deferred = results.filter(r => r?.deferred);
+  const manual = results.filter(r => r?.manualReview);
+  const passed = results.filter(r => r?.pass);
+  console.log(`[asset-factory] summary: passed=${passed.length}, deferred=${deferred.length}, manual_review=${manual.length}`);
+  if (manual.length) {
+    throw new Error(`Asset Factory finished with ${manual.length} asset(s) requiring manual review after self-healing was exhausted.`);
   }
 }
 

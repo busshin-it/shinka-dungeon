@@ -1,33 +1,9 @@
-name: Asset Factory
+name: Asset Factory Auto
 
 on:
+  schedule:
+    - cron: '17 */6 * * *'
   workflow_dispatch:
-    inputs:
-      count:
-        description: 'How many pending assets to process sequentially'
-        required: true
-        default: '20'
-      asset_id:
-        description: 'Optional single asset_id (leave blank for queue order)'
-        required: false
-        default: ''
-      max_retries:
-        description: 'Automatic QA regeneration attempts per asset'
-        required: true
-        default: '2'
-      max_total_attempts:
-        description: 'Maximum total generation attempts across future runs before manual review'
-        required: true
-        default: '8'
-      quality:
-        description: 'Image quality'
-        required: true
-        default: 'medium'
-        type: choice
-        options:
-          - low
-          - medium
-          - high
 
 permissions:
   contents: write
@@ -38,6 +14,7 @@ concurrency:
 
 jobs:
   generate:
+    if: ${{ vars.ASSET_FACTORY_AUTO_PAUSED != 'true' }}
     runs-on: ubuntu-latest
     timeout-minutes: 120
     env:
@@ -45,12 +22,13 @@ jobs:
       ASSET_FACTORY_IMAGE_MODEL: ${{ vars.ASSET_FACTORY_IMAGE_MODEL || 'gpt-image-2' }}
       ASSET_FACTORY_TRANSPARENT_IMAGE_MODEL: ${{ vars.ASSET_FACTORY_TRANSPARENT_IMAGE_MODEL || 'gpt-image-2.5-flare' }}
       ASSET_FACTORY_QA_MODEL: ${{ vars.ASSET_FACTORY_QA_MODEL || 'gpt-5.6-luna' }}
-      ASSET_FACTORY_IMAGE_QUALITY: ${{ inputs.quality }}
-      ASSET_FACTORY_MAX_IMAGE_CALLS: '18'
+      ASSET_FACTORY_IMAGE_QUALITY: medium
+      ASSET_FACTORY_MAX_IMAGE_CALLS: '12'
+      ASSET_FACTORY_MAX_TOTAL_ATTEMPTS: '8'
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: ${{ github.ref_name }}
+          ref: main
           fetch-depth: 0
 
       - uses: actions/setup-node@v4
@@ -68,14 +46,10 @@ jobs:
             exit 1
           fi
 
-      - name: Run Asset Factory
+      - name: Run self-healing Asset Factory queue
         shell: bash
         run: |
-          args=(--count "${{ inputs.count }}" --max-retries "${{ inputs.max_retries }}" --max-total-attempts "${{ inputs.max_total_attempts }}")
-          if [ -n "${{ inputs.asset_id }}" ]; then
-            args+=(--asset "${{ inputs.asset_id }}")
-          fi
-          node asset-factory/worker.mjs "${args[@]}"
+          node asset-factory/worker.mjs             --count 20             --max-retries 2             --max-total-attempts 8
 
       - name: Test queue tooling
         if: always()
@@ -92,5 +66,5 @@ jobs:
           git config user.name "asset-factory[bot]"
           git config user.email "asset-factory[bot]@users.noreply.github.com"
           git add asset-factory/queue.json asset-factory/asset-manifest.json asset-factory/debug/ assets/
-          git commit -m "Asset Factory: persist generation result"
-          git push origin "HEAD:${GITHUB_REF_NAME}"
+          git commit -m "Asset Factory: automated generation pass"
+          git push origin HEAD:main
