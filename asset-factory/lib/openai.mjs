@@ -118,13 +118,46 @@ export async function visionQa(queue, job, buffer, structural, root = process.cw
   const model = process.env.ASSET_FACTORY_QA_MODEL || 'gpt-5.6-luna';
   const rules = [
     'exactly one asset; no contact sheet, split panel, or multiple variants',
-    'no text, numbers, card title, cost, or UI',
+    'no text, numbers, card title, cost, logo, or UI',
     'matches the requested subject and its gameplay meaning',
     'matches the project gothic silhouette puppet dark-fantasy art direction',
-    'reads clearly as a theatrical 2D puppet/shadow-theatre design rather than photorealistic or glossy 3D CGI',
-    ...(job.type === 'card' ? ['not a rendered card object; artwork only', 'portrait-friendly composition and clear small-size silhouette'] : []),
-    ...(job.type === 'enemy' ? ['one enemy only', 'full body and full weapon visible', 'no scenery or floor', 'limbs and weapon are visually separated enough for 2D puppet animation', 'shoulders, elbows, wrists, hips, and knees remain visually understandable'] : []),
-    ...(job.type === 'class' ? ['same player identity as the reference if supplied', 'full body, staff/hair/clothing fully visible', 'no scenery or floor', 'limbs are not excessively overlapped and puppet joints remain visually understandable', 'long hair, cloth, cape, and ornaments look separable into puppet parts'] : []),
+    'reads clearly at small game-screen size',
+    ...(job.type === 'card' ? [
+      'not a rendered card object; artwork only',
+      'portrait-friendly composition with a strong readable spell silhouette',
+      'an illustrated gothic/theatrical background is allowed and preferred; do NOT require transparency',
+      'do not show checkerboard transparency patterns, blank studio backdrops, or fake alpha backgrounds',
+      'the magic should feel like it belongs to the puppet-theatre world, but it does NOT need articulated puppet joints'
+    ] : []),
+    ...(job.type === 'enemy' ? [
+      'one enemy only',
+      'full body and full weapon visible',
+      'fully transparent alpha background with no scenery, floor, or stage',
+      'limbs and weapon are visually separated enough for 2D puppet animation',
+      'shoulders, elbows, wrists, hips, and knees remain visually understandable'
+    ] : []),
+    ...(job.type === 'class' ? [
+      'same player identity as the reference if supplied',
+      'full body, staff/hair/clothing fully visible',
+      'fully transparent alpha background with no scenery or floor',
+      'limbs are not excessively overlapped and puppet joints remain visually understandable',
+      'long hair, cloth, cape, and ornaments look separable into puppet parts'
+    ] : []),
+    ...(job.type === 'character' ? [
+      'full body visible',
+      'fully transparent alpha background with no scenery or floor',
+      'limbs are not excessively overlapped and puppet joints remain visually understandable'
+    ] : []),
+    ...(job.type === 'part' ? [
+      'exactly one body/weapon part only',
+      'fully transparent alpha background',
+      'no other body parts are mixed in',
+      'sufficient overlap margin exists for rigging'
+    ] : []),
+    ...(job.type === 'background' ? [
+      'no characters or enemies',
+      'clear foreground/midground/background separation suitable for parallax'
+    ] : []),
   ];
   const refs = (job.reference_paths || []).filter(Boolean);
   const prompt = `You are the QA gate for an automated game asset factory.
@@ -135,7 +168,7 @@ Requested prompt: ${job.prompt}
 Negative conditions: ${(job.negative || []).join(', ')}
 Structural PNG checks: ${JSON.stringify(structural)}
 Evaluate these rules: ${rules.join('; ')}.
-Be strict. If transparency is required, visible checkerboard, solid studio backdrop, scenery, or floor is a failure. If references are supplied, compare identity or visual lineage as appropriate.
+Be strict. Transparency is required ONLY when job.transparent is true. When job.transparent is false (especially cards/backgrounds), do not fail the asset for being opaque; instead reject fake transparency checkerboards or empty studio backdrops. For cards, a gothic illustrated background is valid and preferred. If references are supplied, compare identity or visual lineage as appropriate.
 Return ONLY JSON in exactly this shape: {"pass":boolean,"score":0-100,"checks":{"single_asset":boolean,"no_text_ui":boolean,"subject_match":boolean,"art_direction":boolean,"puppet_style":boolean,"joint_readability":boolean,"small_screen_silhouette":boolean,"composition":boolean,"transparency_visual":boolean,"reference_consistency":boolean},"issues":["..."],"remediation":"one concise corrected-generation instruction"}`;
   const content = [
     { type: 'input_text', text: prompt },
