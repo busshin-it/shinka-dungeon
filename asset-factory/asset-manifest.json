@@ -117,19 +117,19 @@
         "quality": "medium",
         "used_references": 0,
         "generation_id": null,
-        "created": 1791125771,
+        "created": 1791132724,
         "usage": {
-          "input_tokens": 1009,
+          "input_tokens": 1034,
           "input_tokens_details": {
             "image_tokens": 0,
-            "text_tokens": 1009
+            "text_tokens": 1034
           },
           "output_tokens": 439,
           "output_tokens_details": {
             "image_tokens": 439,
             "text_tokens": 0
           },
-          "total_tokens": 1448
+          "total_tokens": 1473
         }
       },
       "qa": {
@@ -146,11 +146,11 @@
             "hasAlpha": true,
             "alpha_stats": {
               "pixels": 1048576,
-              "transparent": 954775,
-              "translucent": 134,
-              "opaque": 93667,
-              "transparent_ratio": 0.9105443954467773,
-              "nonopaque_ratio": 0.9106721878051758
+              "transparent": 941777,
+              "translucent": 144,
+              "opaque": 106655,
+              "transparent_ratio": 0.8981485366821289,
+              "nonopaque_ratio": 0.8982858657836914
             }
           }
         },
@@ -158,7 +158,7 @@
           "single_asset": true,
           "no_text_ui": true,
           "subject_match": false,
-          "art_direction": false,
+          "art_direction": true,
           "puppet_style": true,
           "joint_readability": true,
           "small_screen_silhouette": true,
@@ -167,12 +167,11 @@
           "reference_consistency": true
         },
         "issues": [
-          "表示上、右上脚だけでなく膝関節と下脚まで含む複数の身体パーツになっている",
-          "平面的な切り絵調ではあるが、強い立体的な円形関節表現と陰影があり、指定の硬い2〜4色マット表現から外れる",
-          "股関節側の重ね代はあるが、下端が膝関節まで明確に含まれ、右上脚単体としての切り分けが不十分"
+          "要求は右上脚パーツのみだが、画像は上脚と下脚が膝関節で連結された脚全体になっている",
+          "上脚単体としての切断端ではなく、膝関節および下脚まで含んでいる"
         ],
-        "remediation": "透明背景のまま、右上脚の細身パーツ1点だけを描き、股関節側と膝側に丸い重ね代を残す；下脚は完全に除外し、黒〜濃紺の硬い2〜4色の平面塗りで、立体的な円盤陰影や緑背景を入れない。",
-        "checked_at": "2026-10-04T14:56:17.112Z",
+        "remediation": "右上脚だけを単独で生成し、股関節側と膝側に丸い重ね代を残す。下脚・膝関節部品・胴体・衣装布は描かず、背景は完全透明、黒〜濃紺の平面的な2〜4色マット塗りにする。",
+        "checked_at": "2026-10-04T16:52:08.545Z",
         "model": "gpt-5.6-luna",
         "usage": {
           "input_tokens": 2131,
@@ -180,11 +179,11 @@
             "cache_write_tokens": 2128,
             "cached_tokens": 0
           },
-          "output_tokens": 326,
+          "output_tokens": 258,
           "output_tokens_details": {
             "reasoning_tokens": 0
           },
-          "total_tokens": 2457
+          "total_tokens": 2389
         }
       }
     },
@@ -474,24 +473,24 @@
         "quality": "medium",
         "used_references": 0,
         "generation_id": null,
-        "created": 1791125811,
+        "created": 1791132758,
         "usage": {
-          "input_tokens": 983,
+          "input_tokens": 995,
           "input_tokens_details": {
             "image_tokens": 0,
-            "text_tokens": 983
+            "text_tokens": 995
           },
           "output_tokens": 439,
           "output_tokens_details": {
             "image_tokens": 439,
             "text_tokens": 0
           },
-          "total_tokens": 1422
+          "total_tokens": 1434
         }
       },
       "qa": {
         "pass": false,
-        "score": 68,
+        "score": 52,
         "structural": {
           "pass": true,
           "issues": [],
@@ -503,11 +502,11 @@
             "hasAlpha": true,
             "alpha_stats": {
               "pixels": 1048576,
-              "transparent": 901130,
-              "translucent": 0,
-              "opaque": 147446,
-              "transparent_ratio": 0.8593845367431641,
-              "nonopaque_ratio": 0.8593845367431641
+              "transparent": 945563,
+              "translucent": 99,
+              "opaque": 102914,
+              "transparent_ratio": 0.901759147644043,
+              "nonopaque_ratio": 0.9018535614013672
             }
           }
         },
@@ -524,23 +523,23 @@
           "reference_consistency": true
         },
         "issues": [
-          "魔力球自体は単一パーツで明確だが、光沢の強いハイライト、滑らかな陰影、立体的な球面表現があり、指定のマット塗り・硬い輪郭・2〜4段階の平面色面から外れている",
-          "内部の白い円と複数の流線状ハイライトにより、単純な発光核1つという要件より装飾的で複雑に見える"
+          "単一の青白い魔力球として認識できるが、指定の単純な円形〜楕円形の発光核1つではなく、外周リングと複数の炎状ハイライトが加わっている",
+          "色面が多く、光沢のある立体的な球表現に寄っており、2〜4段階のマットな切り絵表現という指定から外れる"
         ],
-        "remediation": "杖や背景なしで、青白い円形または楕円形の発光核を1つだけ描き、濃紺の硬い外輪郭と青・淡青・白の平坦な2〜4色面 בלבדに限定し、グラデーション・光沢・流線・立体的ハイライトを除去する",
-        "checked_at": "2026-10-04T14:56:56.834Z",
+        "remediation": "透明背景上に、硬い輪郭の単純な円形または楕円形の青白い発光核を1つだけ描き、外周リング・炎状模様・光沢・立体陰影を हट除し、2〜4色のマットな平面塗りにする",
+        "checked_at": "2026-10-04T16:52:43.166Z",
         "model": "gpt-5.6-luna",
         "usage": {
-          "input_tokens": 2119,
+          "input_tokens": 2118,
           "input_tokens_details": {
-            "cache_write_tokens": 2116,
+            "cache_write_tokens": 2115,
             "cached_tokens": 0
           },
-          "output_tokens": 273,
+          "output_tokens": 296,
           "output_tokens_details": {
             "reasoning_tokens": 0
           },
-          "total_tokens": 2392
+          "total_tokens": 2414
         }
       }
     },
@@ -651,24 +650,24 @@
         "quality": "medium",
         "used_references": 0,
         "generation_id": null,
-        "created": 1791125911,
+        "created": 1791132812,
         "usage": {
-          "input_tokens": 902,
+          "input_tokens": 909,
           "input_tokens_details": {
             "image_tokens": 0,
-            "text_tokens": 902
+            "text_tokens": 909
           },
           "output_tokens": 343,
           "output_tokens_details": {
             "image_tokens": 343,
             "text_tokens": 0
           },
-          "total_tokens": 1245
+          "total_tokens": 1252
         }
       },
       "qa": {
         "pass": false,
-        "score": 38,
+        "score": 58,
         "structural": {
           "pass": true,
           "issues": [],
@@ -680,11 +679,103 @@
             "hasAlpha": true,
             "alpha_stats": {
               "pixels": 1572864,
-              "transparent": 1223769,
-              "translucent": 2820,
-              "opaque": 346275,
-              "transparent_ratio": 0.7780513763427734,
-              "nonopaque_ratio": 0.7798442840576172
+              "transparent": 1195343,
+              "translucent": 3194,
+              "opaque": 374327,
+              "transparent_ratio": 0.7599786122639974,
+              "nonopaque_ratio": 0.7620093027750651
+            }
+          }
+        },
+        "checks": {
+          "single_asset": true,
+          "no_text_ui": true,
+          "subject_match": true,
+          "art_direction": true,
+          "puppet_style": false,
+          "joint_readability": false,
+          "small_screen_silhouette": true,
+          "composition": true,
+          "transparency_visual": true,
+          "reference_consistency": true
+        },
+        "issues": [
+          "写実寄りで細部が過密な描画になっており、2Dパペット用の頭・胴体・四肢・剣・マントの分離が不十分",
+          "肩、肘、手首、股関節、膝の境界が鎧やマントの重なりで読み取りにくい",
+          "長剣と左腕が近接し、分離パーツとして扱いにくい",
+          "マントが胴体・脚に大きく重なり、関節アニメーションの妨げになる"
+        ],
+        "remediation": "緑背景を完全に除去した透明PNGで、細身のゴシック亡霊騎士を単体フルボディ表示し、頭・胴体・左右上腕/前腕・左右手・左右太腿/下腿・左右足・長剣・破れマントを明確な隙間付きの独立シルエットとして描く。関節を見やすくし、写実的な質感と過密な重なりを避ける。",
+        "checked_at": "2026-10-04T16:53:38.883Z",
+        "model": "gpt-5.6-luna",
+        "usage": {
+          "input_tokens": 2622,
+          "input_tokens_details": {
+            "cache_write_tokens": 2619,
+            "cached_tokens": 0
+          },
+          "output_tokens": 357,
+          "output_tokens_details": {
+            "reasoning_tokens": 0
+          },
+          "total_tokens": 2979
+        }
+      }
+    },
+    {
+      "asset_id": "shinka_enemy_stone_magus_puppet_v1",
+      "game_key": null,
+      "project_id": "shinka",
+      "type": "enemy",
+      "name": "石像魔導兵",
+      "display_title": "石像魔導兵｜敵｜パペットv1",
+      "filename": "stone-magus.png",
+      "path": "assets/enemies/puppet-v1/stone-magus.png",
+      "current_path": "assets/enemies/puppet-v1/stone-magus.png",
+      "legacy_path": null,
+      "generation_id": null,
+      "transparent": true,
+      "status": "github_synced",
+      "prompt": "古代魔法文明の石造魔導兵。ゴーレムと騎士の中間。石の身体に青い魔力亀裂、胸部の魔力核。重厚だが関節位置が読みやすく、腕・脚が動かせる石人形の構造。",
+      "generator": {
+        "model": "gpt-image-2.5-flare",
+        "quality": "medium",
+        "used_references": 0,
+        "generation_id": null,
+        "created": 1791132845,
+        "usage": {
+          "input_tokens": 906,
+          "input_tokens_details": {
+            "image_tokens": 0,
+            "text_tokens": 906
+          },
+          "output_tokens": 343,
+          "output_tokens_details": {
+            "image_tokens": 343,
+            "text_tokens": 0
+          },
+          "total_tokens": 1249
+        }
+      },
+      "qa": {
+        "pass": true,
+        "score": 91,
+        "structural": {
+          "pass": true,
+          "issues": [],
+          "image": {
+            "valid": true,
+            "width": 1024,
+            "height": 1536,
+            "colorType": 6,
+            "hasAlpha": true,
+            "alpha_stats": {
+              "pixels": 1572864,
+              "transparent": 1202773,
+              "translucent": 0,
+              "opaque": 370091,
+              "transparent_ratio": 0.7647024790445963,
+              "nonopaque_ratio": 0.7647024790445963
             }
           }
         },
@@ -700,45 +791,23 @@
           "transparency_visual": true,
           "reference_consistency": true
         },
-        "issues": [
-          "長剣が腕・手と大きく重なり、剣の持ち手と腕の分離が不明瞭で、パペット用の武器分離として不十分。",
-          "頭部の霊気とマントの輪郭が大きく広がり、細身の敵シルエットとしてやや過剰で小画面での識別を阻害する。",
-          "両腕・肩周辺の装甲片が浮遊して見え、関節構造や接続位置がやや不自然。"
-        ],
-        "remediation": "完全なアルファ透明背景で再生成し、剣を手から明確に離して独立パーツ化、肩・肘・手首・腰・膝の接続を整理し、霊気とマントを細身で読みやすい範囲に抑えた全身亡霊騎士にする。",
-        "checked_at": "2026-10-04T14:58:37.337Z",
+        "issues": [],
+        "remediation": "Maintain the single full-body stone magic soldier with separated articulated limbs, visible blue cracks and chest core, transparent background, and painterly gothic silhouette styling.",
+        "checked_at": "2026-10-04T16:54:09.030Z",
         "model": "gpt-5.6-luna",
         "usage": {
-          "input_tokens": 2622,
+          "input_tokens": 2618,
           "input_tokens_details": {
-            "cache_write_tokens": 2619,
+            "cache_write_tokens": 2615,
             "cached_tokens": 0
           },
-          "output_tokens": 323,
+          "output_tokens": 109,
           "output_tokens_details": {
             "reasoning_tokens": 0
           },
-          "total_tokens": 2945
+          "total_tokens": 2727
         }
       }
-    },
-    {
-      "asset_id": "shinka_enemy_stone_magus_puppet_v1",
-      "game_key": null,
-      "project_id": "shinka",
-      "type": "enemy",
-      "name": "石像魔導兵",
-      "display_title": "石像魔導兵｜敵｜パペットv1",
-      "filename": "stone-magus.png",
-      "path": "assets/enemies/puppet-v1/stone-magus.png",
-      "current_path": null,
-      "legacy_path": null,
-      "generation_id": null,
-      "transparent": true,
-      "status": "queued",
-      "prompt": "古代魔法文明の石造魔導兵。ゴーレムと騎士の中間。石の身体に青い魔力亀裂、胸部の魔力核。重厚だが関節位置が読みやすく、腕・脚が動かせる石人形の構造。",
-      "generator": null,
-      "qa": {}
     },
     {
       "asset_id": "shinka_enemy_castle_guardian_puppet_v1",
@@ -755,8 +824,81 @@
       "transparent": true,
       "status": "queued",
       "prompt": "最終ボスの巨大な古代守護騎士。黒鉄・古金・石の重装甲、守護王の意匠、巨大武器、内部から強い青白い魔力光。神聖さと恐ろしさ。大型でも肩・肘・股関節・膝と武器の境界が明瞭なパペット設計。",
-      "generator": null,
-      "qa": {}
+      "generator": {
+        "model": "gpt-image-2.5-flare",
+        "quality": "medium",
+        "used_references": 0,
+        "generation_id": null,
+        "created": 1791132859,
+        "usage": {
+          "input_tokens": 808,
+          "input_tokens_details": {
+            "image_tokens": 0,
+            "text_tokens": 808
+          },
+          "output_tokens": 343,
+          "output_tokens_details": {
+            "image_tokens": 343,
+            "text_tokens": 0
+          },
+          "total_tokens": 1151
+        }
+      },
+      "qa": {
+        "pass": false,
+        "score": 62,
+        "structural": {
+          "pass": true,
+          "issues": [],
+          "image": {
+            "valid": true,
+            "width": 1024,
+            "height": 1536,
+            "colorType": 6,
+            "hasAlpha": true,
+            "alpha_stats": {
+              "pixels": 1572864,
+              "transparent": 1116638,
+              "translucent": 3735,
+              "opaque": 452491,
+              "transparent_ratio": 0.7099393208821615,
+              "nonopaque_ratio": 0.7123139699300131
+            }
+          }
+        },
+        "checks": {
+          "single_asset": true,
+          "no_text_ui": true,
+          "subject_match": true,
+          "art_direction": true,
+          "puppet_style": false,
+          "joint_readability": false,
+          "small_screen_silhouette": true,
+          "composition": false,
+          "transparency_visual": true,
+          "reference_consistency": true
+        },
+        "issues": [
+          "巨大武器は全体表示されているが、守護騎士本体と装飾・マント・武器が複雑に重なり、2Dパペット用の分離設計として肩・肘・手首・股関節・膝の境界が不十分。",
+          "装飾的な尖塔、翼状マント、垂れ布が多く、関節の読みやすさと人形劇的なパーツ分離を損なっている。",
+          "構図が横方向に大きく広がり、武器とマントが本体から離れすぎて小画面での一体感と敵シルエットの明瞭さを弱めている。"
+        ],
+        "remediation": "背景を完全なアルファ透明にし、緑色の背景ピクセルを全除去したうえで、装飾とマントを整理し、頭・胴体・左右上腕・前腕・手・左右腿・脛・足・武器を明確な隙間付きの独立パーツとして描いた正面全身の古代守護騎士を生成する。",
+        "checked_at": "2026-10-04T16:54:25.608Z",
+        "model": "gpt-5.6-luna",
+        "usage": {
+          "input_tokens": 2639,
+          "input_tokens_details": {
+            "cache_write_tokens": 2636,
+            "cached_tokens": 0
+          },
+          "output_tokens": 398,
+          "output_tokens_details": {
+            "reasoning_tokens": 0
+          },
+          "total_tokens": 3037
+        }
+      }
     },
     {
       "asset_id": "shinka_class_frost_mage_puppet_v1",
@@ -1023,7 +1165,7 @@
       "legacy_path": null,
       "generation_id": null,
       "transparent": false,
-      "status": "waiting",
+      "status": "queued",
       "prompt": "氷の矢から進化した巨大で鋭利な一本の氷槍。上位魔法として明確に強そうな重量感。",
       "generator": null,
       "qa": {}

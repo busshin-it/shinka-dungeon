@@ -156,7 +156,7 @@
       "format": "png",
       "style_version": "gothic-silhouette-puppet-v0.1",
       "status": "needs_fix",
-      "attempts": 12,
+      "attempts": 15,
       "generation_count": 0,
       "generation_id": null,
       "qa": {
@@ -173,11 +173,11 @@
             "hasAlpha": true,
             "alpha_stats": {
               "pixels": 1048576,
-              "transparent": 954775,
-              "translucent": 134,
-              "opaque": 93667,
-              "transparent_ratio": 0.9105443954467773,
-              "nonopaque_ratio": 0.9106721878051758
+              "transparent": 941777,
+              "translucent": 144,
+              "opaque": 106655,
+              "transparent_ratio": 0.8981485366821289,
+              "nonopaque_ratio": 0.8982858657836914
             }
           }
         },
@@ -185,7 +185,7 @@
           "single_asset": true,
           "no_text_ui": true,
           "subject_match": false,
-          "art_direction": false,
+          "art_direction": true,
           "puppet_style": true,
           "joint_readability": true,
           "small_screen_silhouette": true,
@@ -194,12 +194,11 @@
           "reference_consistency": true
         },
         "issues": [
-          "表示上、右上脚だけでなく膝関節と下脚まで含む複数の身体パーツになっている",
-          "平面的な切り絵調ではあるが、強い立体的な円形関節表現と陰影があり、指定の硬い2〜4色マット表現から外れる",
-          "股関節側の重ね代はあるが、下端が膝関節まで明確に含まれ、右上脚単体としての切り分けが不十分"
+          "要求は右上脚パーツのみだが、画像は上脚と下脚が膝関節で連結された脚全体になっている",
+          "上脚単体としての切断端ではなく、膝関節および下脚まで含んでいる"
         ],
-        "remediation": "透明背景のまま、右上脚の細身パーツ1点だけを描き、股関節側と膝側に丸い重ね代を残す；下脚は完全に除外し、黒〜濃紺の硬い2〜4色の平面塗りで、立体的な円盤陰影や緑背景を入れない。",
-        "checked_at": "2026-10-04T14:56:17.112Z",
+        "remediation": "右上脚だけを単独で生成し、股関節側と膝側に丸い重ね代を残す。下脚・膝関節部品・胴体・衣装布は描かず、背景は完全透明、黒〜濃紺の平面的な2〜4色マット塗りにする。",
+        "checked_at": "2026-10-04T16:52:08.545Z",
         "model": "gpt-5.6-luna",
         "usage": {
           "input_tokens": 2131,
@@ -207,11 +206,11 @@
             "cache_write_tokens": 2128,
             "cached_tokens": 0
           },
-          "output_tokens": 326,
+          "output_tokens": 258,
           "output_tokens_details": {
             "reasoning_tokens": 0
           },
-          "total_tokens": 2457
+          "total_tokens": 2389
         }
       },
       "quality_result": null,
@@ -254,26 +253,26 @@
       "negative_prompt": "背景 / 地面 / 文字 / UI / 他の身体パーツ / パーツ一覧 / 複数案 / 写実3DCG / 3Dレンダー / 写実的陰影 / ソフトグラデーション / 美麗アニメ立ち絵 / 光沢 / 宝石 / 複雑な刺繍 / 複数パーツ / パーツシート / 人体全身",
       "chroma_key": true,
       "last_error": null,
-      "updated_at": "2026-10-04T14:56:17.112Z",
-      "last_prompt": "Project: 進化ダンジョン. Style version: gothic-silhouette-puppet-v0.1.\nOfficial art direction: ゴシック・シルエット風パペット・ダークファンタジー。2D、手描き・絵画的、少し不気味だが美しい人形劇・影絵の世界。ゴシック古城・地下迷宮・魔術世界。黒・濃紺・紫・青・古金を基調とし、写実的3DCG感を避ける。キャラクターは最初から2Dパペットアニメーションで動かす前提で、細身で読みやすいシルエット、頭・胴体・腕・脚・武器の分離、関節の認識しやすさを重視する。小さいゲーム画面での視認性と既存素材との統一感を最優先する。\nOfficial style: Gothic silhouette puppet dark fantasy.\n2D dark fantasy with gothic castles, underground ruins, magical architecture, and theatrical puppet-stage atmosphere.\nHand-painted and painterly, slightly eerie but beautiful.\nStrong readable silhouettes inspired by shadow theatre and articulated stage puppets.\nAvoid photorealism, realistic human rendering, glossy 3D CGI, toy-render aesthetics, bright pop colors, anime moe, chibi, or cute deformation.\nPrimary palette: black, deep navy, purple, blue, and antique gold. Attribute-specific magical glow colors are allowed.\nPrioritize visual consistency with the existing game world over standalone prettiness.\nDesign for readability on a small landscape game screen.\nCreate exactly ONE isolated puppet part only, never a sheet of parts.\nThis is a production rig asset, not a beauty illustration. Treat limb-related jobs as clothed puppet costume components, not detached human anatomy. Do not depict exposed flesh, injury, gore, or anatomical cut surfaces.\nUse flat cutout / shadow-puppet / stage-puppet 2D construction with 2–4 matte color values and a hard readable outline.\nAvoid realistic volume shading, glossy rendering, cinematic light, detailed anime illustration, soft gradients, and decorative complexity.\nDo not include any other body parts, scenery, UI, text, labels, or assembly guides.\nKeep enough overlap margin at the joint connection for rigging.\nCenter the single part with generous empty margin and keep its silhouette clean at small size.\nAsset: 基本魔法師 右上脚.\n基本魔法師の右上脚パーツのみ。黒〜濃紺の細身の脚。股関節側と膝側を丸く明確にし、両端に重ね代。下脚、胴体、衣装布は描かない。 最重要：ゴシック影絵・切り絵・舞台人形の平面的2Dパーツ。色面は2〜4段階、マット塗り、硬めの輪郭。写実的3D陰影、アニメ美麗立ち絵質感、グラデーション、光沢、複雑な刺繍や宝石を使わない。OUTPUT PIPELINE REQUIREMENTの単色背景以外は描かない。\nOUTPUT PIPELINE REQUIREMENT: draw the subject on a single flat pure chroma green background (#00FF00), edge-to-edge, with NO gradient, NO vignette, NO floor, NO cast shadow, NO aura, NO glow behind the subject, and NO other background objects. Do not use green anywhere on the subject. The production pipeline will remove this green background and convert it to alpha transparency.\nDo NOT include: 地面, 文字, UI, 他の身体パーツ, パーツ一覧, 複数案, 写実3DCG, 3Dレンダー, 写実的陰影, ソフトグラデーション, 美麗アニメ立ち絵, 光沢, 宝石, 複雑な刺繍, 複数パーツ, パーツシート, 人体全身, checkerboard transparency pattern, gray checkerboard, fake transparency grid.\nCritical production rule: 1 asset = 1 image. Never make a contact sheet, comparison sheet, character lineup, asset sheet, split panel, or multiple design variants.\nDo not add explanatory text, labels, captions, logos, or decorative typography.\nPrevious QA correction to apply strictly: 右上脚だけを単独で生成し、股関節側と膝側の丸い関節端および重ね代のみ残す。膝下の下脚・足首・足・胴体・衣装布は完全に削除し、透明背景の中央に配置する。",
+      "updated_at": "2026-10-04T16:52:08.545Z",
+      "last_prompt": "Project: 進化ダンジョン. Style version: gothic-silhouette-puppet-v0.1.\nOfficial art direction: ゴシック・シルエット風パペット・ダークファンタジー。2D、手描き・絵画的、少し不気味だが美しい人形劇・影絵の世界。ゴシック古城・地下迷宮・魔術世界。黒・濃紺・紫・青・古金を基調とし、写実的3DCG感を避ける。キャラクターは最初から2Dパペットアニメーションで動かす前提で、細身で読みやすいシルエット、頭・胴体・腕・脚・武器の分離、関節の認識しやすさを重視する。小さいゲーム画面での視認性と既存素材との統一感を最優先する。\nOfficial style: Gothic silhouette puppet dark fantasy.\n2D dark fantasy with gothic castles, underground ruins, magical architecture, and theatrical puppet-stage atmosphere.\nHand-painted and painterly, slightly eerie but beautiful.\nStrong readable silhouettes inspired by shadow theatre and articulated stage puppets.\nAvoid photorealism, realistic human rendering, glossy 3D CGI, toy-render aesthetics, bright pop colors, anime moe, chibi, or cute deformation.\nPrimary palette: black, deep navy, purple, blue, and antique gold. Attribute-specific magical glow colors are allowed.\nPrioritize visual consistency with the existing game world over standalone prettiness.\nDesign for readability on a small landscape game screen.\nCreate exactly ONE isolated puppet part only, never a sheet of parts.\nThis is a production rig asset, not a beauty illustration. Treat limb-related jobs as clothed puppet costume components, not detached human anatomy. Do not depict exposed flesh, injury, gore, or anatomical cut surfaces.\nUse flat cutout / shadow-puppet / stage-puppet 2D construction with 2–4 matte color values and a hard readable outline.\nAvoid realistic volume shading, glossy rendering, cinematic light, detailed anime illustration, soft gradients, and decorative complexity.\nDo not include any other body parts, scenery, UI, text, labels, or assembly guides.\nKeep enough overlap margin at the joint connection for rigging.\nCenter the single part with generous empty margin and keep its silhouette clean at small size.\nAsset: 基本魔法師 右上脚.\n基本魔法師の右上脚パーツのみ。黒〜濃紺の細身の脚。股関節側と膝側を丸く明確にし、両端に重ね代。下脚、胴体、衣装布は描かない。 最重要：ゴシック影絵・切り絵・舞台人形の平面的2Dパーツ。色面は2〜4段階、マット塗り、硬めの輪郭。写実的3D陰影、アニメ美麗立ち絵質感、グラデーション、光沢、複雑な刺繍や宝石を使わない。OUTPUT PIPELINE REQUIREMENTの単色背景以外は描かない。\nOUTPUT PIPELINE REQUIREMENT: draw the subject on a single flat pure chroma green background (#00FF00), edge-to-edge, with NO gradient, NO vignette, NO floor, NO cast shadow, NO aura, NO glow behind the subject, and NO other background objects. Do not use green anywhere on the subject. The production pipeline will remove this green background and convert it to alpha transparency.\nDo NOT include: 地面, 文字, UI, 他の身体パーツ, パーツ一覧, 複数案, 写実3DCG, 3Dレンダー, 写実的陰影, ソフトグラデーション, 美麗アニメ立ち絵, 光沢, 宝石, 複雑な刺繍, 複数パーツ, パーツシート, 人体全身, checkerboard transparency pattern, gray checkerboard, fake transparency grid.\nCritical production rule: 1 asset = 1 image. Never make a contact sheet, comparison sheet, character lineup, asset sheet, split panel, or multiple design variants.\nDo not add explanatory text, labels, captions, logos, or decorative typography.\nPrevious QA correction to apply strictly: 透明背景の上に、黒〜濃紺の細身な右上脚だけを描き、股関節側と膝側を丸く明確にして両端に重ね代を残す。下脚・足・胴体・衣装布・金色装飾は除き、硬い輪郭と2〜4色の平面マット塗りのみで生成する。",
       "generator": {
         "model": "gpt-image-2.5-flare",
         "quality": "medium",
         "used_references": 0,
         "generation_id": null,
-        "created": 1791125771,
+        "created": 1791132724,
         "usage": {
-          "input_tokens": 1009,
+          "input_tokens": 1034,
           "input_tokens_details": {
             "image_tokens": 0,
-            "text_tokens": 1009
+            "text_tokens": 1034
           },
           "output_tokens": 439,
           "output_tokens_details": {
             "image_tokens": 439,
             "text_tokens": 0
           },
-          "total_tokens": 1448
+          "total_tokens": 1473
         }
       },
       "debug_paths": {
@@ -427,6 +426,41 @@
             "股関節側の重ね代はあるが、下端が膝関節まで明確に含まれ、右上脚単体としての切り分けが不十分"
           ],
           "remediation": "透明背景のまま、右上脚の細身パーツ1点だけを描き、股関節側と膝側に丸い重ね代を残す；下脚は完全に除外し、黒〜濃紺の硬い2〜4色の平面塗りで、立体的な円盤陰影や緑背景を入れない。"
+        },
+        {
+          "at": "2026-10-04T16:51:41.594Z",
+          "attempt": 13,
+          "kind": "qa",
+          "score": 45,
+          "issues": [
+            "右上脚パーツに加えて下脚・膝下相当の形状が一体化しており、指定の『右上脚のみ』を満たしていない",
+            "股関節側と膝側の重ね代はあるが、下脚を含むためパーツ分離用途に不適切"
+          ],
+          "remediation": "右上脚だけを残し、股関節側と膝側に丸い明確な関節と重ね代を設け、膝から下を完全に削除して、他の背景を一切含まない完全透明PNGで生成する"
+        },
+        {
+          "at": "2026-10-04T16:51:55.571Z",
+          "attempt": 14,
+          "kind": "qa",
+          "score": 42,
+          "issues": [
+            "右上脚ではなく、鎧状で装飾的な脚パーツに見える",
+            "下端に下脚または足に相当する形状が混在している",
+            "股関節側・膝側の重ね代はあるが、指定の細身の基本魔法師脚としては形状が複雑",
+            "金色の大きな装飾リングがあり、単純な2〜4段階のマット切り絵表現から逸脱している"
+          ],
+          "remediation": "透明背景の上に、黒〜濃紺の細身な右上脚だけを描き、股関節側と膝側を丸く明確にして両端に重ね代を残す。下脚・足・胴体・衣装布・金色装飾は除き、硬い輪郭と2〜4色の平面マット塗りのみで生成する。"
+        },
+        {
+          "at": "2026-10-04T16:52:08.545Z",
+          "attempt": 15,
+          "kind": "qa",
+          "score": 52,
+          "issues": [
+            "要求は右上脚パーツのみだが、画像は上脚と下脚が膝関節で連結された脚全体になっている",
+            "上脚単体としての切断端ではなく、膝関節および下脚まで含んでいる"
+          ],
+          "remediation": "右上脚だけを単独で生成し、股関節側と膝側に丸い重ね代を残す。下脚・膝関節部品・胴体・衣装布は描かず、背景は完全透明、黒〜濃紺の平面的な2〜4色マット塗りにする。"
         }
       ],
       "self_heal": {
@@ -435,7 +469,7 @@
         "requeued": false,
         "exhausted": true,
         "last_reason": "qa_failed_after_local_retries",
-        "updated_at": "2026-10-04T14:56:17.112Z"
+        "updated_at": "2026-10-04T16:52:08.545Z"
       }
     },
     {
@@ -874,12 +908,12 @@
       "format": "png",
       "style_version": "gothic-silhouette-puppet-v0.1",
       "status": "needs_fix",
-      "attempts": 12,
+      "attempts": 15,
       "generation_count": 0,
       "generation_id": null,
       "qa": {
         "pass": false,
-        "score": 68,
+        "score": 52,
         "structural": {
           "pass": true,
           "issues": [],
@@ -891,11 +925,11 @@
             "hasAlpha": true,
             "alpha_stats": {
               "pixels": 1048576,
-              "transparent": 901130,
-              "translucent": 0,
-              "opaque": 147446,
-              "transparent_ratio": 0.8593845367431641,
-              "nonopaque_ratio": 0.8593845367431641
+              "transparent": 945563,
+              "translucent": 99,
+              "opaque": 102914,
+              "transparent_ratio": 0.901759147644043,
+              "nonopaque_ratio": 0.9018535614013672
             }
           }
         },
@@ -912,23 +946,23 @@
           "reference_consistency": true
         },
         "issues": [
-          "魔力球自体は単一パーツで明確だが、光沢の強いハイライト、滑らかな陰影、立体的な球面表現があり、指定のマット塗り・硬い輪郭・2〜4段階の平面色面から外れている",
-          "内部の白い円と複数の流線状ハイライトにより、単純な発光核1つという要件より装飾的で複雑に見える"
+          "単一の青白い魔力球として認識できるが、指定の単純な円形〜楕円形の発光核1つではなく、外周リングと複数の炎状ハイライトが加わっている",
+          "色面が多く、光沢のある立体的な球表現に寄っており、2〜4段階のマットな切り絵表現という指定から外れる"
         ],
-        "remediation": "杖や背景なしで、青白い円形または楕円形の発光核を1つだけ描き、濃紺の硬い外輪郭と青・淡青・白の平坦な2〜4色面 בלבדに限定し、グラデーション・光沢・流線・立体的ハイライトを除去する",
-        "checked_at": "2026-10-04T14:56:56.834Z",
+        "remediation": "透明背景上に、硬い輪郭の単純な円形または楕円形の青白い発光核を1つだけ描き、外周リング・炎状模様・光沢・立体陰影を हट除し、2〜4色のマットな平面塗りにする",
+        "checked_at": "2026-10-04T16:52:43.166Z",
         "model": "gpt-5.6-luna",
         "usage": {
-          "input_tokens": 2119,
+          "input_tokens": 2118,
           "input_tokens_details": {
-            "cache_write_tokens": 2116,
+            "cache_write_tokens": 2115,
             "cached_tokens": 0
           },
-          "output_tokens": 273,
+          "output_tokens": 296,
           "output_tokens_details": {
             "reasoning_tokens": 0
           },
-          "total_tokens": 2392
+          "total_tokens": 2414
         }
       },
       "quality_result": null,
@@ -971,26 +1005,26 @@
       "negative_prompt": "背景 / 地面 / 文字 / UI / 他の身体パーツ / パーツ一覧 / 複数案 / 写実3DCG / 3Dレンダー / 写実的陰影 / ソフトグラデーション / 美麗アニメ立ち絵 / 光沢 / 宝石 / 複雑な刺繍 / 複数パーツ / パーツシート / 人体全身",
       "chroma_key": true,
       "last_error": null,
-      "updated_at": "2026-10-04T14:56:56.834Z",
-      "last_prompt": "Project: 進化ダンジョン. Style version: gothic-silhouette-puppet-v0.1.\nOfficial art direction: ゴシック・シルエット風パペット・ダークファンタジー。2D、手描き・絵画的、少し不気味だが美しい人形劇・影絵の世界。ゴシック古城・地下迷宮・魔術世界。黒・濃紺・紫・青・古金を基調とし、写実的3DCG感を避ける。キャラクターは最初から2Dパペットアニメーションで動かす前提で、細身で読みやすいシルエット、頭・胴体・腕・脚・武器の分離、関節の認識しやすさを重視する。小さいゲーム画面での視認性と既存素材との統一感を最優先する。\nOfficial style: Gothic silhouette puppet dark fantasy.\n2D dark fantasy with gothic castles, underground ruins, magical architecture, and theatrical puppet-stage atmosphere.\nHand-painted and painterly, slightly eerie but beautiful.\nStrong readable silhouettes inspired by shadow theatre and articulated stage puppets.\nAvoid photorealism, realistic human rendering, glossy 3D CGI, toy-render aesthetics, bright pop colors, anime moe, chibi, or cute deformation.\nPrimary palette: black, deep navy, purple, blue, and antique gold. Attribute-specific magical glow colors are allowed.\nPrioritize visual consistency with the existing game world over standalone prettiness.\nDesign for readability on a small landscape game screen.\nCreate exactly ONE isolated puppet part only, never a sheet of parts.\nThis is a production rig asset, not a beauty illustration. Treat limb-related jobs as clothed puppet costume components, not detached human anatomy. Do not depict exposed flesh, injury, gore, or anatomical cut surfaces.\nUse flat cutout / shadow-puppet / stage-puppet 2D construction with 2–4 matte color values and a hard readable outline.\nAvoid realistic volume shading, glossy rendering, cinematic light, detailed anime illustration, soft gradients, and decorative complexity.\nDo not include any other body parts, scenery, UI, text, labels, or assembly guides.\nKeep enough overlap margin at the joint connection for rigging.\nCenter the single part with generous empty margin and keep its silhouette clean at small size.\nAsset: 基本魔法師 杖の魔力球.\n杖先端用の青白い魔力球パーツのみ。単純な円形〜楕円形の発光核1つだけ。杖、手、人物、背景エフェクトは描かない。 最重要：ゴシック影絵・切り絵・舞台人形の平面的2Dパーツ。色面は2〜4段階、マット塗り、硬めの輪郭。写実的3D陰影、アニメ美麗立ち絵質感、グラデーション、光沢、複雑な刺繍や宝石を使わない。OUTPUT PIPELINE REQUIREMENTの単色背景以外は描かない。\nOUTPUT PIPELINE REQUIREMENT: draw the subject on a single flat pure chroma green background (#00FF00), edge-to-edge, with NO gradient, NO vignette, NO floor, NO cast shadow, NO aura, NO glow behind the subject, and NO other background objects. Do not use green anywhere on the subject. The production pipeline will remove this green background and convert it to alpha transparency.\nDo NOT include: 地面, 文字, UI, 他の身体パーツ, パーツ一覧, 複数案, 写実3DCG, 3Dレンダー, 写実的陰影, ソフトグラデーション, 美麗アニメ立ち絵, 光沢, 宝石, 複雑な刺繍, 複数パーツ, パーツシート, 人体全身, checkerboard transparency pattern, gray checkerboard, fake transparency grid.\nCritical production rule: 1 asset = 1 image. Never make a contact sheet, comparison sheet, character lineup, asset sheet, split panel, or multiple design variants.\nDo not add explanatory text, labels, captions, logos, or decorative typography.\nPrevious QA correction to apply strictly: 背景を完全な透明アルファにし、青白い円形〜楕円形の魔力核1つだけを、硬い輪郭と2〜4段階のマットな色面で簡略化して生成する。",
+      "updated_at": "2026-10-04T16:52:43.166Z",
+      "last_prompt": "Project: 進化ダンジョン. Style version: gothic-silhouette-puppet-v0.1.\nOfficial art direction: ゴシック・シルエット風パペット・ダークファンタジー。2D、手描き・絵画的、少し不気味だが美しい人形劇・影絵の世界。ゴシック古城・地下迷宮・魔術世界。黒・濃紺・紫・青・古金を基調とし、写実的3DCG感を避ける。キャラクターは最初から2Dパペットアニメーションで動かす前提で、細身で読みやすいシルエット、頭・胴体・腕・脚・武器の分離、関節の認識しやすさを重視する。小さいゲーム画面での視認性と既存素材との統一感を最優先する。\nOfficial style: Gothic silhouette puppet dark fantasy.\n2D dark fantasy with gothic castles, underground ruins, magical architecture, and theatrical puppet-stage atmosphere.\nHand-painted and painterly, slightly eerie but beautiful.\nStrong readable silhouettes inspired by shadow theatre and articulated stage puppets.\nAvoid photorealism, realistic human rendering, glossy 3D CGI, toy-render aesthetics, bright pop colors, anime moe, chibi, or cute deformation.\nPrimary palette: black, deep navy, purple, blue, and antique gold. Attribute-specific magical glow colors are allowed.\nPrioritize visual consistency with the existing game world over standalone prettiness.\nDesign for readability on a small landscape game screen.\nCreate exactly ONE isolated puppet part only, never a sheet of parts.\nThis is a production rig asset, not a beauty illustration. Treat limb-related jobs as clothed puppet costume components, not detached human anatomy. Do not depict exposed flesh, injury, gore, or anatomical cut surfaces.\nUse flat cutout / shadow-puppet / stage-puppet 2D construction with 2–4 matte color values and a hard readable outline.\nAvoid realistic volume shading, glossy rendering, cinematic light, detailed anime illustration, soft gradients, and decorative complexity.\nDo not include any other body parts, scenery, UI, text, labels, or assembly guides.\nKeep enough overlap margin at the joint connection for rigging.\nCenter the single part with generous empty margin and keep its silhouette clean at small size.\nAsset: 基本魔法師 杖の魔力球.\n杖先端用の青白い魔力球パーツのみ。単純な円形〜楕円形の発光核1つだけ。杖、手、人物、背景エフェクトは描かない。 最重要：ゴシック影絵・切り絵・舞台人形の平面的2Dパーツ。色面は2〜4段階、マット塗り、硬めの輪郭。写実的3D陰影、アニメ美麗立ち絵質感、グラデーション、光沢、複雑な刺繍や宝石を使わない。OUTPUT PIPELINE REQUIREMENTの単色背景以外は描かない。\nOUTPUT PIPELINE REQUIREMENT: draw the subject on a single flat pure chroma green background (#00FF00), edge-to-edge, with NO gradient, NO vignette, NO floor, NO cast shadow, NO aura, NO glow behind the subject, and NO other background objects. Do not use green anywhere on the subject. The production pipeline will remove this green background and convert it to alpha transparency.\nDo NOT include: 地面, 文字, UI, 他の身体パーツ, パーツ一覧, 複数案, 写実3DCG, 3Dレンダー, 写実的陰影, ソフトグラデーション, 美麗アニメ立ち絵, 光沢, 宝石, 複雑な刺繍, 複数パーツ, パーツシート, 人体全身, checkerboard transparency pattern, gray checkerboard, fake transparency grid.\nCritical production rule: 1 asset = 1 image. Never make a contact sheet, comparison sheet, character lineup, asset sheet, split panel, or multiple design variants.\nDo not add explanatory text, labels, captions, logos, or decorative typography.\nPrevious QA correction to apply strictly: 完全透明背景上に、装飾枠・突起・反射・グラデーションを一切付けず、硬い輪郭の青白い単純な円形発光核を1つだけ、2〜4色のマットな平面塗りで生成する",
       "generator": {
         "model": "gpt-image-2.5-flare",
         "quality": "medium",
         "used_references": 0,
         "generation_id": null,
-        "created": 1791125811,
+        "created": 1791132758,
         "usage": {
-          "input_tokens": 983,
+          "input_tokens": 995,
           "input_tokens_details": {
             "image_tokens": 0,
-            "text_tokens": 983
+            "text_tokens": 995
           },
           "output_tokens": 439,
           "output_tokens_details": {
             "image_tokens": 439,
             "text_tokens": 0
           },
-          "total_tokens": 1422
+          "total_tokens": 1434
         }
       },
       "debug_paths": {
@@ -1131,6 +1165,40 @@
             "内部の白い円と複数の流線状ハイライトにより、単純な発光核1つという要件より装飾的で複雑に見える"
           ],
           "remediation": "杖や背景なしで、青白い円形または楕円形の発光核を1つだけ描き、濃紺の硬い外輪郭と青・淡青・白の平坦な2〜4色面 בלבדに限定し、グラデーション・光沢・流線・立体的ハイライトを除去する"
+        },
+        {
+          "at": "2026-10-04T16:52:19.574Z",
+          "attempt": 13,
+          "kind": "qa",
+          "score": 48,
+          "issues": [
+            "魔力球自体は単一で明瞭だが、光沢のある立体的な球面表現と複雑な白い反射模様があり、指定の平面的な切り絵・舞台人形風から外れている。",
+            "色面が多く、グラデーションおよびハイライトによる美麗な3Dレンダー調の質感に見える。"
+          ],
+          "remediation": "完全透明背景に、青白い円形または楕円形の魔力核を1つだけ描き、濃紺の硬い外輪・青・淡青・白の4色以内の平坦なマット色面で構成し、グラデーション、光沢、反射模様、立体陰影、追加エフェクトを排除する。"
+        },
+        {
+          "at": "2026-10-04T16:52:31.668Z",
+          "attempt": 14,
+          "kind": "qa",
+          "score": 48,
+          "issues": [
+            "魔力球単体ではなく、周囲に大きな濃紺の装飾的な枠・突起があり、単純な円形〜楕円形の発光核1つという要件に違反している",
+            "色数と形状が複雑で、複数の反射ハイライトや円弧パーツを含む",
+            "写実的・光沢的な発光表現と滑らかなグラデーションがあり、指定のマットな2〜4段階の硬い切り絵表現から外れている"
+          ],
+          "remediation": "完全透明背景上に、装飾枠・突起・反射・グラデーションを一切付けず、硬い輪郭の青白い単純な円形発光核を1つだけ、2〜4色のマットな平面塗りで生成する"
+        },
+        {
+          "at": "2026-10-04T16:52:43.166Z",
+          "attempt": 15,
+          "kind": "qa",
+          "score": 52,
+          "issues": [
+            "単一の青白い魔力球として認識できるが、指定の単純な円形〜楕円形の発光核1つではなく、外周リングと複数の炎状ハイライトが加わっている",
+            "色面が多く、光沢のある立体的な球表現に寄っており、2〜4段階のマットな切り絵表現という指定から外れる"
+          ],
+          "remediation": "透明背景上に、硬い輪郭の単純な円形または楕円形の青白い発光核を1つだけ描き、外周リング・炎状模様・光沢・立体陰影を हट除し、2〜4色のマットな平面塗りにする"
         }
       ],
       "self_heal": {
@@ -1139,7 +1207,7 @@
         "requeued": false,
         "exhausted": true,
         "last_reason": "qa_failed_after_local_retries",
-        "updated_at": "2026-10-04T14:56:56.834Z"
+        "updated_at": "2026-10-04T16:52:43.166Z"
       }
     },
     {
@@ -1380,12 +1448,12 @@
       "format": "png",
       "style_version": "gothic-silhouette-puppet-v0.1",
       "status": "needs_fix",
-      "attempts": 10,
+      "attempts": 13,
       "generation_count": 0,
       "generation_id": null,
       "qa": {
         "pass": false,
-        "score": 38,
+        "score": 58,
         "structural": {
           "pass": true,
           "issues": [],
@@ -1397,11 +1465,11 @@
             "hasAlpha": true,
             "alpha_stats": {
               "pixels": 1572864,
-              "transparent": 1223769,
-              "translucent": 2820,
-              "opaque": 346275,
-              "transparent_ratio": 0.7780513763427734,
-              "nonopaque_ratio": 0.7798442840576172
+              "transparent": 1195343,
+              "translucent": 3194,
+              "opaque": 374327,
+              "transparent_ratio": 0.7599786122639974,
+              "nonopaque_ratio": 0.7620093027750651
             }
           }
         },
@@ -1410,20 +1478,21 @@
           "no_text_ui": true,
           "subject_match": true,
           "art_direction": true,
-          "puppet_style": true,
-          "joint_readability": true,
+          "puppet_style": false,
+          "joint_readability": false,
           "small_screen_silhouette": true,
           "composition": true,
           "transparency_visual": true,
           "reference_consistency": true
         },
         "issues": [
-          "長剣が腕・手と大きく重なり、剣の持ち手と腕の分離が不明瞭で、パペット用の武器分離として不十分。",
-          "頭部の霊気とマントの輪郭が大きく広がり、細身の敵シルエットとしてやや過剰で小画面での識別を阻害する。",
-          "両腕・肩周辺の装甲片が浮遊して見え、関節構造や接続位置がやや不自然。"
+          "写実寄りで細部が過密な描画になっており、2Dパペット用の頭・胴体・四肢・剣・マントの分離が不十分",
+          "肩、肘、手首、股関節、膝の境界が鎧やマントの重なりで読み取りにくい",
+          "長剣と左腕が近接し、分離パーツとして扱いにくい",
+          "マントが胴体・脚に大きく重なり、関節アニメーションの妨げになる"
         ],
-        "remediation": "完全なアルファ透明背景で再生成し、剣を手から明確に離して独立パーツ化、肩・肘・手首・腰・膝の接続を整理し、霊気とマントを細身で読みやすい範囲に抑えた全身亡霊騎士にする。",
-        "checked_at": "2026-10-04T14:58:37.337Z",
+        "remediation": "緑背景を完全に除去した透明PNGで、細身のゴシック亡霊騎士を単体フルボディ表示し、頭・胴体・左右上腕/前腕・左右手・左右太腿/下腿・左右足・長剣・破れマントを明確な隙間付きの独立シルエットとして描く。関節を見やすくし、写実的な質感と過密な重なりを避ける。",
+        "checked_at": "2026-10-04T16:53:38.883Z",
         "model": "gpt-5.6-luna",
         "usage": {
           "input_tokens": 2622,
@@ -1431,11 +1500,11 @@
             "cache_write_tokens": 2619,
             "cached_tokens": 0
           },
-          "output_tokens": 323,
+          "output_tokens": 357,
           "output_tokens_details": {
             "reasoning_tokens": 0
           },
-          "total_tokens": 2945
+          "total_tokens": 2979
         }
       },
       "quality_result": null,
@@ -1467,8 +1536,8 @@
       "path": "assets/enemies/puppet-v1/wraith-knight.png",
       "negative_prompt": "背景 / 地面 / 文字 / UI / 複数体 / 体切れ / 武器切れ / 写実3DCG / 極端な手足の重なり",
       "chroma_key": true,
-      "updated_at": "2026-10-04T14:58:37.337Z",
-      "last_prompt": "Project: 進化ダンジョン. Style version: gothic-silhouette-puppet-v0.1.\nOfficial art direction: ゴシック・シルエット風パペット・ダークファンタジー。2D、手描き・絵画的、少し不気味だが美しい人形劇・影絵の世界。ゴシック古城・地下迷宮・魔術世界。黒・濃紺・紫・青・古金を基調とし、写実的3DCG感を避ける。キャラクターは最初から2Dパペットアニメーションで動かす前提で、細身で読みやすいシルエット、頭・胴体・腕・脚・武器の分離、関節の認識しやすさを重視する。小さいゲーム画面での視認性と既存素材との統一感を最優先する。\nOfficial style: Gothic silhouette puppet dark fantasy.\n2D dark fantasy with gothic castles, underground ruins, magical architecture, and theatrical puppet-stage atmosphere.\nHand-painted and painterly, slightly eerie but beautiful.\nStrong readable silhouettes inspired by shadow theatre and articulated stage puppets.\nAvoid photorealism, realistic human rendering, glossy 3D CGI, toy-render aesthetics, bright pop colors, anime moe, chibi, or cute deformation.\nPrimary palette: black, deep navy, purple, blue, and antique gold. Attribute-specific magical glow colors are allowed.\nPrioritize visual consistency with the existing game world over standalone prettiness.\nDesign for readability on a small landscape game screen.\nCreate exactly ONE enemy character only.\nShow the complete full body including feet and the complete weapon, with generous clear margin around the silhouette.\nNo scenery, floor, platform, shadow stage, UI, text, or extra characters.\nDesign from the beginning as a 2D articulated puppet that can be animated with a small number of bones/parts.\nKeep the silhouette slender, theatrical, and easy to read.\nKeep head, torso, arms, and legs visually separable.\nDo not overlap limbs excessively.\nKeep shoulders, elbows, wrists, hips, and knees visually understandable.\nSeparate weapons from the body silhouette whenever possible.\nLong hair, cloth, capes, and dangling ornaments should look separable into independent puppet parts later.\nDo not hide every joint under bulky clothing or effects.\nThe enemy type must be recognizable from silhouette alone.\nAsset: 亡霊騎士.\n半透明の亡霊騎士。壊れた黒銀鎧、長剣、破れたマント、青白い霊気。スケルトンより強いがボス級ではない。腕・脚・剣・マントが分離しやすいパペット構造。\nOUTPUT PIPELINE REQUIREMENT: draw the subject on a single flat pure chroma green background (#00FF00), edge-to-edge, with NO gradient, NO vignette, NO floor, NO cast shadow, NO aura, NO glow behind the subject, and NO other background objects. Do not use green anywhere on the subject. The production pipeline will remove this green background and convert it to alpha transparency.\nDo NOT include: 地面, 文字, UI, 複数体, 体切れ, 武器切れ, 写実3DCG, 極端な手足の重なり, checkerboard transparency pattern, gray checkerboard, fake transparency grid.\nCritical production rule: 1 asset = 1 image. Never make a contact sheet, comparison sheet, character lineup, asset sheet, split panel, or multiple design variants.\nDo not add explanatory text, labels, captions, logos, or decorative typography.\nPrevious QA correction to apply strictly: 背景を完全透明にしたうえで、細身の2Dパペット用亡霊騎士を正面立ちで再生成し、頭・胴・左右上腕・前腕・手・左右上腿・下腿・足・長剣・破れマントを明確に分離、関節間に透明な隙間を設け、重なりと過剰な装飾を減らす。",
+      "updated_at": "2026-10-04T16:53:38.883Z",
+      "last_prompt": "Project: 進化ダンジョン. Style version: gothic-silhouette-puppet-v0.1.\nOfficial art direction: ゴシック・シルエット風パペット・ダークファンタジー。2D、手描き・絵画的、少し不気味だが美しい人形劇・影絵の世界。ゴシック古城・地下迷宮・魔術世界。黒・濃紺・紫・青・古金を基調とし、写実的3DCG感を避ける。キャラクターは最初から2Dパペットアニメーションで動かす前提で、細身で読みやすいシルエット、頭・胴体・腕・脚・武器の分離、関節の認識しやすさを重視する。小さいゲーム画面での視認性と既存素材との統一感を最優先する。\nOfficial style: Gothic silhouette puppet dark fantasy.\n2D dark fantasy with gothic castles, underground ruins, magical architecture, and theatrical puppet-stage atmosphere.\nHand-painted and painterly, slightly eerie but beautiful.\nStrong readable silhouettes inspired by shadow theatre and articulated stage puppets.\nAvoid photorealism, realistic human rendering, glossy 3D CGI, toy-render aesthetics, bright pop colors, anime moe, chibi, or cute deformation.\nPrimary palette: black, deep navy, purple, blue, and antique gold. Attribute-specific magical glow colors are allowed.\nPrioritize visual consistency with the existing game world over standalone prettiness.\nDesign for readability on a small landscape game screen.\nCreate exactly ONE enemy character only.\nShow the complete full body including feet and the complete weapon, with generous clear margin around the silhouette.\nNo scenery, floor, platform, shadow stage, UI, text, or extra characters.\nDesign from the beginning as a 2D articulated puppet that can be animated with a small number of bones/parts.\nKeep the silhouette slender, theatrical, and easy to read.\nKeep head, torso, arms, and legs visually separable.\nDo not overlap limbs excessively.\nKeep shoulders, elbows, wrists, hips, and knees visually understandable.\nSeparate weapons from the body silhouette whenever possible.\nLong hair, cloth, capes, and dangling ornaments should look separable into independent puppet parts later.\nDo not hide every joint under bulky clothing or effects.\nThe enemy type must be recognizable from silhouette alone.\nAsset: 亡霊騎士.\n半透明の亡霊騎士。壊れた黒銀鎧、長剣、破れたマント、青白い霊気。スケルトンより強いがボス級ではない。腕・脚・剣・マントが分離しやすいパペット構造。\nOUTPUT PIPELINE REQUIREMENT: draw the subject on a single flat pure chroma green background (#00FF00), edge-to-edge, with NO gradient, NO vignette, NO floor, NO cast shadow, NO aura, NO glow behind the subject, and NO other background objects. Do not use green anywhere on the subject. The production pipeline will remove this green background and convert it to alpha transparency.\nDo NOT include: 地面, 文字, UI, 複数体, 体切れ, 武器切れ, 写実3DCG, 極端な手足の重なり, checkerboard transparency pattern, gray checkerboard, fake transparency grid.\nCritical production rule: 1 asset = 1 image. Never make a contact sheet, comparison sheet, character lineup, asset sheet, split panel, or multiple design variants.\nDo not add explanatory text, labels, captions, logos, or decorative typography.\nPrevious QA correction to apply strictly: 頭・胴体・腕・脚を自然な関節位置で接続した一体の全身亡霊騎士として描き、長剣は片手で明確に握らせ、肩・肘・手首・股関節・膝を読みやすく分離しつつ、破れたマントは背後に控えめに配置して全身と武器を完全に収める透明背景の2Dパペット素材にする",
       "last_error": {
         "message": "Cost guard stopped run at 12 image API calls",
         "at": "2026-10-04T11:27:20.345Z"
@@ -1593,6 +1662,46 @@
             "両腕・肩周辺の装甲片が浮遊して見え、関節構造や接続位置がやや不自然。"
           ],
           "remediation": "完全なアルファ透明背景で再生成し、剣を手から明確に離して独立パーツ化、肩・肘・手首・腰・膝の接続を整理し、霊気とマントを細身で読みやすい範囲に抑えた全身亡霊騎士にする。"
+        },
+        {
+          "at": "2026-10-04T16:53:03.354Z",
+          "attempt": 11,
+          "kind": "qa",
+          "score": 48,
+          "issues": [
+            "全身と剣は見えるが、剣がキャラクターから大きく離れた別配置で、単一のパペット用アセットとして扱いにくい。",
+            "腕・脚・胴体・マントが大きく重なり、肩・肘・手首・股関節・膝の関節境界が不明瞭。",
+            "写実寄りの高密度な鎧表現で、分離パーツを前提とした2Dパペット構造が弱い。",
+            "大きく広がったマントと装飾、分離した剣により、ゲーム画面上でのまとまりと扱いやすさが低い。"
+          ],
+          "remediation": "鮮緑背景を完全に除去した真の透明PNGで、細身の亡霊騎士を正面寄りに単体配置し、頭・胴・左右腕・左右脚・剣・破れマントを明確に離して関節が読める2Dパペット用シルエットとして再生成する。"
+        },
+        {
+          "at": "2026-10-04T16:53:22.202Z",
+          "attempt": 12,
+          "kind": "qa",
+          "score": 68,
+          "issues": [
+            "頭部、胴体、両腕、腰、両脚が大きく分離しており、完成キャラクターとしての一体感と関節の連続性が弱い",
+            "長剣が手から離れて独立配置されており、武器を保持している状態に見えない",
+            "脚部と足先のパーツ分離が過剰で、肩・肘・手首・股関節・膝の接続関係が小画面で判別しにくい",
+            "マントの面積が大きく、右側へ広がりすぎて腕や下半身のシルエットを圧迫している",
+            "全身が縦長で画面内の余白が少なく、パペット用の各パーツとして整理された配置になっていない"
+          ],
+          "remediation": "頭・胴体・腕・脚を自然な関節位置で接続した一体の全身亡霊騎士として描き、長剣は片手で明確に握らせ、肩・肘・手首・股関節・膝を読みやすく分離しつつ、破れたマントは背後に控えめに配置して全身と武器を完全に収める透明背景の2Dパペット素材にする"
+        },
+        {
+          "at": "2026-10-04T16:53:38.883Z",
+          "attempt": 13,
+          "kind": "qa",
+          "score": 58,
+          "issues": [
+            "写実寄りで細部が過密な描画になっており、2Dパペット用の頭・胴体・四肢・剣・マントの分離が不十分",
+            "肩、肘、手首、股関節、膝の境界が鎧やマントの重なりで読み取りにくい",
+            "長剣と左腕が近接し、分離パーツとして扱いにくい",
+            "マントが胴体・脚に大きく重なり、関節アニメーションの妨げになる"
+          ],
+          "remediation": "緑背景を完全に除去した透明PNGで、細身のゴシック亡霊騎士を単体フルボディ表示し、頭・胴体・左右上腕/前腕・左右手・左右太腿/下腿・左右足・長剣・破れマントを明確な隙間付きの独立シルエットとして描く。関節を見やすくし、写実的な質感と過密な重なりを避ける。"
         }
       ],
       "self_heal": {
@@ -1601,26 +1710,26 @@
         "requeued": false,
         "exhausted": true,
         "last_reason": "qa_failed_after_local_retries",
-        "updated_at": "2026-10-04T14:58:37.337Z"
+        "updated_at": "2026-10-04T16:53:38.883Z"
       },
       "generator": {
         "model": "gpt-image-2.5-flare",
         "quality": "medium",
         "used_references": 0,
         "generation_id": null,
-        "created": 1791125911,
+        "created": 1791132812,
         "usage": {
-          "input_tokens": 902,
+          "input_tokens": 909,
           "input_tokens_details": {
             "image_tokens": 0,
-            "text_tokens": 902
+            "text_tokens": 909
           },
           "output_tokens": 343,
           "output_tokens_details": {
             "image_tokens": 343,
             "text_tokens": 0
           },
-          "total_tokens": 1245
+          "total_tokens": 1252
         }
       },
       "debug_paths": {
@@ -1633,13 +1742,63 @@
       "project_id": "shinka",
       "format": "png",
       "style_version": "gothic-silhouette-puppet-v0.1",
-      "status": "queued",
-      "attempts": 4,
+      "status": "github_synced",
+      "attempts": 6,
       "generation_count": 0,
       "generation_id": null,
-      "qa": {},
-      "quality_result": null,
-      "github_synced": false,
+      "qa": {
+        "pass": true,
+        "score": 91,
+        "structural": {
+          "pass": true,
+          "issues": [],
+          "image": {
+            "valid": true,
+            "width": 1024,
+            "height": 1536,
+            "colorType": 6,
+            "hasAlpha": true,
+            "alpha_stats": {
+              "pixels": 1572864,
+              "transparent": 1202773,
+              "translucent": 0,
+              "opaque": 370091,
+              "transparent_ratio": 0.7647024790445963,
+              "nonopaque_ratio": 0.7647024790445963
+            }
+          }
+        },
+        "checks": {
+          "single_asset": true,
+          "no_text_ui": true,
+          "subject_match": true,
+          "art_direction": true,
+          "puppet_style": true,
+          "joint_readability": true,
+          "small_screen_silhouette": true,
+          "composition": true,
+          "transparency_visual": true,
+          "reference_consistency": true
+        },
+        "issues": [],
+        "remediation": "Maintain the single full-body stone magic soldier with separated articulated limbs, visible blue cracks and chest core, transparent background, and painterly gothic silhouette styling.",
+        "checked_at": "2026-10-04T16:54:09.030Z",
+        "model": "gpt-5.6-luna",
+        "usage": {
+          "input_tokens": 2618,
+          "input_tokens_details": {
+            "cache_write_tokens": 2615,
+            "cached_tokens": 0
+          },
+          "output_tokens": 109,
+          "output_tokens_details": {
+            "reasoning_tokens": 0
+          },
+          "total_tokens": 2727
+        }
+      },
+      "quality_result": "passed_qa",
+      "github_synced": true,
       "asset_id": "shinka_enemy_stone_magus_puppet_v1",
       "name": "石像魔導兵",
       "display_title": "石像魔導兵｜敵｜パペットv1",
@@ -1667,8 +1826,8 @@
       "path": "assets/enemies/puppet-v1/stone-magus.png",
       "negative_prompt": "背景 / 地面 / 文字 / UI / 複数体 / 体切れ / 武器切れ / 写実3DCG / 極端な手足の重なり",
       "chroma_key": true,
-      "updated_at": "2026-10-04T14:58:37.348Z",
-      "last_prompt": "Project: 進化ダンジョン. Style version: gothic-silhouette-puppet-v0.1.\nOfficial art direction: ゴシック・シルエット風パペット・ダークファンタジー。2D、手描き・絵画的、少し不気味だが美しい人形劇・影絵の世界。ゴシック古城・地下迷宮・魔術世界。黒・濃紺・紫・青・古金を基調とし、写実的3DCG感を避ける。キャラクターは最初から2Dパペットアニメーションで動かす前提で、細身で読みやすいシルエット、頭・胴体・腕・脚・武器の分離、関節の認識しやすさを重視する。小さいゲーム画面での視認性と既存素材との統一感を最優先する。\nOfficial style: Gothic silhouette puppet dark fantasy.\n2D dark fantasy with gothic castles, underground ruins, magical architecture, and theatrical puppet-stage atmosphere.\nHand-painted and painterly, slightly eerie but beautiful.\nStrong readable silhouettes inspired by shadow theatre and articulated stage puppets.\nAvoid photorealism, realistic human rendering, glossy 3D CGI, toy-render aesthetics, bright pop colors, anime moe, chibi, or cute deformation.\nPrimary palette: black, deep navy, purple, blue, and antique gold. Attribute-specific magical glow colors are allowed.\nPrioritize visual consistency with the existing game world over standalone prettiness.\nDesign for readability on a small landscape game screen.\nCreate exactly ONE enemy character only.\nShow the complete full body including feet and the complete weapon, with generous clear margin around the silhouette.\nNo scenery, floor, platform, shadow stage, UI, text, or extra characters.\nDesign from the beginning as a 2D articulated puppet that can be animated with a small number of bones/parts.\nKeep the silhouette slender, theatrical, and easy to read.\nKeep head, torso, arms, and legs visually separable.\nDo not overlap limbs excessively.\nKeep shoulders, elbows, wrists, hips, and knees visually understandable.\nSeparate weapons from the body silhouette whenever possible.\nLong hair, cloth, capes, and dangling ornaments should look separable into independent puppet parts later.\nDo not hide every joint under bulky clothing or effects.\nThe enemy type must be recognizable from silhouette alone.\nAsset: 石像魔導兵.\n古代魔法文明の石造魔導兵。ゴーレムと騎士の中間。石の身体に青い魔力亀裂、胸部の魔力核。重厚だが関節位置が読みやすく、腕・脚が動かせる石人形の構造。\nOUTPUT PIPELINE REQUIREMENT: draw the subject on a single flat pure chroma green background (#00FF00), edge-to-edge, with NO gradient, NO vignette, NO floor, NO cast shadow, NO aura, NO glow behind the subject, and NO other background objects. Do not use green anywhere on the subject. The production pipeline will remove this green background and convert it to alpha transparency.\nDo NOT include: 地面, 文字, UI, 複数体, 体切れ, 武器切れ, 写実3DCG, 極端な手足の重なり, checkerboard transparency pattern, gray checkerboard, fake transparency grid.\nCritical production rule: 1 asset = 1 image. Never make a contact sheet, comparison sheet, character lineup, asset sheet, split panel, or multiple design variants.\nDo not add explanatory text, labels, captions, logos, or decorative typography.",
+      "updated_at": "2026-10-04T16:53:54.653Z",
+      "last_prompt": "Project: 進化ダンジョン. Style version: gothic-silhouette-puppet-v0.1.\nOfficial art direction: ゴシック・シルエット風パペット・ダークファンタジー。2D、手描き・絵画的、少し不気味だが美しい人形劇・影絵の世界。ゴシック古城・地下迷宮・魔術世界。黒・濃紺・紫・青・古金を基調とし、写実的3DCG感を避ける。キャラクターは最初から2Dパペットアニメーションで動かす前提で、細身で読みやすいシルエット、頭・胴体・腕・脚・武器の分離、関節の認識しやすさを重視する。小さいゲーム画面での視認性と既存素材との統一感を最優先する。\nOfficial style: Gothic silhouette puppet dark fantasy.\n2D dark fantasy with gothic castles, underground ruins, magical architecture, and theatrical puppet-stage atmosphere.\nHand-painted and painterly, slightly eerie but beautiful.\nStrong readable silhouettes inspired by shadow theatre and articulated stage puppets.\nAvoid photorealism, realistic human rendering, glossy 3D CGI, toy-render aesthetics, bright pop colors, anime moe, chibi, or cute deformation.\nPrimary palette: black, deep navy, purple, blue, and antique gold. Attribute-specific magical glow colors are allowed.\nPrioritize visual consistency with the existing game world over standalone prettiness.\nDesign for readability on a small landscape game screen.\nCreate exactly ONE enemy character only.\nShow the complete full body including feet and the complete weapon, with generous clear margin around the silhouette.\nNo scenery, floor, platform, shadow stage, UI, text, or extra characters.\nDesign from the beginning as a 2D articulated puppet that can be animated with a small number of bones/parts.\nKeep the silhouette slender, theatrical, and easy to read.\nKeep head, torso, arms, and legs visually separable.\nDo not overlap limbs excessively.\nKeep shoulders, elbows, wrists, hips, and knees visually understandable.\nSeparate weapons from the body silhouette whenever possible.\nLong hair, cloth, capes, and dangling ornaments should look separable into independent puppet parts later.\nDo not hide every joint under bulky clothing or effects.\nThe enemy type must be recognizable from silhouette alone.\nAsset: 石像魔導兵.\n古代魔法文明の石造魔導兵。ゴーレムと騎士の中間。石の身体に青い魔力亀裂、胸部の魔力核。重厚だが関節位置が読みやすく、腕・脚が動かせる石人形の構造。\nOUTPUT PIPELINE REQUIREMENT: draw the subject on a single flat pure chroma green background (#00FF00), edge-to-edge, with NO gradient, NO vignette, NO floor, NO cast shadow, NO aura, NO glow behind the subject, and NO other background objects. Do not use green anywhere on the subject. The production pipeline will remove this green background and convert it to alpha transparency.\nDo NOT include: 地面, 文字, UI, 複数体, 体切れ, 武器切れ, 写実3DCG, 極端な手足の重なり, checkerboard transparency pattern, gray checkerboard, fake transparency grid.\nCritical production rule: 1 asset = 1 image. Never make a contact sheet, comparison sheet, character lineup, asset sheet, split panel, or multiple design variants.\nDo not add explanatory text, labels, captions, logos, or decorative typography.\nPrevious QA correction to apply strictly: 緑背景を完全なアルファ透過にし、単一の重厚な石造ゴーレム騎士として再生成する。頭・胴・肩・上腕・前腕・手・腰・大腿・脛・足・武器を明確に分離し、浮遊装飾と長すぎる布・吊り飾りを削減、青い亀裂と胸部核を残して全身と武器を完全表示する。",
       "last_error": {
         "message": "Cost guard stopped run at 12 image API calls",
         "at": "2026-10-04T14:58:37.348Z"
@@ -1697,6 +1856,19 @@
           "attempt": 4,
           "kind": "cost_guard",
           "message": "Cost guard stopped run at 12 image API calls"
+        },
+        {
+          "at": "2026-10-04T16:53:54.646Z",
+          "attempt": 5,
+          "kind": "qa",
+          "score": 48,
+          "issues": [
+            "武器が極端に大型で、敵本体と分離した別オブジェクトのように見える",
+            "頭部・肩部に浮遊する装飾パーツがあり、石像魔導兵の一体化した人形構造を損なっている",
+            "細身すぎて重厚な石造ゴーレム騎士という印象が弱く、下半身の布状パーツも多い",
+            "複数の吊り下げ装飾や尖った外装が多く、小画面で主要な関節と身体シルエットが散漫になる"
+          ],
+          "remediation": "緑背景を完全なアルファ透過にし、単一の重厚な石造ゴーレム騎士として再生成する。頭・胴・肩・上腕・前腕・手・腰・大腿・脛・足・武器を明確に分離し、浮遊装飾と長すぎる布・吊り飾りを削減、青い亀裂と胸部核を残して全身と武器を完全表示する。"
         }
       ],
       "self_heal": {
@@ -1706,7 +1878,33 @@
         "exhausted": false,
         "last_reason": "cost_guard",
         "updated_at": "2026-10-04T14:58:37.348Z"
-      }
+      },
+      "generator": {
+        "model": "gpt-image-2.5-flare",
+        "quality": "medium",
+        "used_references": 0,
+        "generation_id": null,
+        "created": 1791132845,
+        "usage": {
+          "input_tokens": 906,
+          "input_tokens_details": {
+            "image_tokens": 0,
+            "text_tokens": 906
+          },
+          "output_tokens": 343,
+          "output_tokens_details": {
+            "image_tokens": 343,
+            "text_tokens": 0
+          },
+          "total_tokens": 1249
+        }
+      },
+      "debug_paths": {
+        "generated": "asset-factory/debug/shinka_enemy_stone_magus_puppet_v1/last-generated.png",
+        "processed": "asset-factory/debug/shinka_enemy_stone_magus_puppet_v1/last-processed.png"
+      },
+      "current_path": "assets/enemies/puppet-v1/stone-magus.png",
+      "completed_at": "2026-10-04T16:54:09.032Z"
     },
     {
       "project": "進化ダンジョン",
@@ -1714,10 +1912,64 @@
       "format": "png",
       "style_version": "gothic-silhouette-puppet-v0.1",
       "status": "queued",
-      "attempts": 4,
+      "attempts": 6,
       "generation_count": 0,
       "generation_id": null,
-      "qa": {},
+      "qa": {
+        "pass": false,
+        "score": 62,
+        "structural": {
+          "pass": true,
+          "issues": [],
+          "image": {
+            "valid": true,
+            "width": 1024,
+            "height": 1536,
+            "colorType": 6,
+            "hasAlpha": true,
+            "alpha_stats": {
+              "pixels": 1572864,
+              "transparent": 1116638,
+              "translucent": 3735,
+              "opaque": 452491,
+              "transparent_ratio": 0.7099393208821615,
+              "nonopaque_ratio": 0.7123139699300131
+            }
+          }
+        },
+        "checks": {
+          "single_asset": true,
+          "no_text_ui": true,
+          "subject_match": true,
+          "art_direction": true,
+          "puppet_style": false,
+          "joint_readability": false,
+          "small_screen_silhouette": true,
+          "composition": false,
+          "transparency_visual": true,
+          "reference_consistency": true
+        },
+        "issues": [
+          "巨大武器は全体表示されているが、守護騎士本体と装飾・マント・武器が複雑に重なり、2Dパペット用の分離設計として肩・肘・手首・股関節・膝の境界が不十分。",
+          "装飾的な尖塔、翼状マント、垂れ布が多く、関節の読みやすさと人形劇的なパーツ分離を損なっている。",
+          "構図が横方向に大きく広がり、武器とマントが本体から離れすぎて小画面での一体感と敵シルエットの明瞭さを弱めている。"
+        ],
+        "remediation": "背景を完全なアルファ透明にし、緑色の背景ピクセルを全除去したうえで、装飾とマントを整理し、頭・胴体・左右上腕・前腕・手・左右腿・脛・足・武器を明確な隙間付きの独立パーツとして描いた正面全身の古代守護騎士を生成する。",
+        "checked_at": "2026-10-04T16:54:25.608Z",
+        "model": "gpt-5.6-luna",
+        "usage": {
+          "input_tokens": 2639,
+          "input_tokens_details": {
+            "cache_write_tokens": 2636,
+            "cached_tokens": 0
+          },
+          "output_tokens": 398,
+          "output_tokens_details": {
+            "reasoning_tokens": 0
+          },
+          "total_tokens": 3037
+        }
+      },
       "quality_result": null,
       "github_synced": false,
       "asset_id": "shinka_enemy_castle_guardian_puppet_v1",
@@ -1747,11 +1999,11 @@
       "path": "assets/enemies/puppet-v1/castle-guardian.png",
       "negative_prompt": "背景 / 地面 / 文字 / UI / 複数体 / 体切れ / 武器切れ / 写実3DCG / 極端な手足の重なり",
       "chroma_key": true,
-      "updated_at": "2026-10-04T14:58:37.358Z",
-      "last_prompt": "Project: 進化ダンジョン. Style version: gothic-silhouette-puppet-v0.1.\nOfficial art direction: ゴシック・シルエット風パペット・ダークファンタジー。2D、手描き・絵画的、少し不気味だが美しい人形劇・影絵の世界。ゴシック古城・地下迷宮・魔術世界。黒・濃紺・紫・青・古金を基調とし、写実的3DCG感を避ける。キャラクターは最初から2Dパペットアニメーションで動かす前提で、細身で読みやすいシルエット、頭・胴体・腕・脚・武器の分離、関節の認識しやすさを重視する。小さいゲーム画面での視認性と既存素材との統一感を最優先する。\nOfficial style: Gothic silhouette puppet dark fantasy.\n2D dark fantasy with gothic castles, underground ruins, magical architecture, and theatrical puppet-stage atmosphere.\nHand-painted and painterly, slightly eerie but beautiful.\nStrong readable silhouettes inspired by shadow theatre and articulated stage puppets.\nAvoid photorealism, realistic human rendering, glossy 3D CGI, toy-render aesthetics, bright pop colors, anime moe, chibi, or cute deformation.\nPrimary palette: black, deep navy, purple, blue, and antique gold. Attribute-specific magical glow colors are allowed.\nPrioritize visual consistency with the existing game world over standalone prettiness.\nDesign for readability on a small landscape game screen.\nCreate exactly ONE enemy character only.\nShow the complete full body including feet and the complete weapon, with generous clear margin around the silhouette.\nNo scenery, floor, platform, shadow stage, UI, text, or extra characters.\nDesign from the beginning as a 2D articulated puppet that can be animated with a small number of bones/parts.\nKeep the silhouette slender, theatrical, and easy to read.\nKeep head, torso, arms, and legs visually separable.\nDo not overlap limbs excessively.\nKeep shoulders, elbows, wrists, hips, and knees visually understandable.\nSeparate weapons from the body silhouette whenever possible.\nLong hair, cloth, capes, and dangling ornaments should look separable into independent puppet parts later.\nDo not hide every joint under bulky clothing or effects.\nThe enemy type must be recognizable from silhouette alone.\nAsset: 古城の守護者.\n最終ボスの巨大な古代守護騎士。黒鉄・古金・石の重装甲、守護王の意匠、巨大武器、内部から強い青白い魔力光。神聖さと恐ろしさ。大型でも肩・肘・股関節・膝と武器の境界が明瞭なパペット設計。\nOUTPUT PIPELINE REQUIREMENT: draw the subject on a single flat pure chroma green background (#00FF00), edge-to-edge, with NO gradient, NO vignette, NO floor, NO cast shadow, NO aura, NO glow behind the subject, and NO other background objects. Do not use green anywhere on the subject. The production pipeline will remove this green background and convert it to alpha transparency.\nDo NOT include: 地面, 文字, UI, 複数体, 体切れ, 武器切れ, 写実3DCG, 極端な手足の重なり, checkerboard transparency pattern, gray checkerboard, fake transparency grid.\nCritical production rule: 1 asset = 1 image. Never make a contact sheet, comparison sheet, character lineup, asset sheet, split panel, or multiple design variants.\nDo not add explanatory text, labels, captions, logos, or decorative typography.",
+      "updated_at": "2026-10-04T16:54:25.615Z",
+      "last_prompt": "Project: 進化ダンジョン. Style version: gothic-silhouette-puppet-v0.1.\nOfficial art direction: ゴシック・シルエット風パペット・ダークファンタジー。2D、手描き・絵画的、少し不気味だが美しい人形劇・影絵の世界。ゴシック古城・地下迷宮・魔術世界。黒・濃紺・紫・青・古金を基調とし、写実的3DCG感を避ける。キャラクターは最初から2Dパペットアニメーションで動かす前提で、細身で読みやすいシルエット、頭・胴体・腕・脚・武器の分離、関節の認識しやすさを重視する。小さいゲーム画面での視認性と既存素材との統一感を最優先する。\nOfficial style: Gothic silhouette puppet dark fantasy.\n2D dark fantasy with gothic castles, underground ruins, magical architecture, and theatrical puppet-stage atmosphere.\nHand-painted and painterly, slightly eerie but beautiful.\nStrong readable silhouettes inspired by shadow theatre and articulated stage puppets.\nAvoid photorealism, realistic human rendering, glossy 3D CGI, toy-render aesthetics, bright pop colors, anime moe, chibi, or cute deformation.\nPrimary palette: black, deep navy, purple, blue, and antique gold. Attribute-specific magical glow colors are allowed.\nPrioritize visual consistency with the existing game world over standalone prettiness.\nDesign for readability on a small landscape game screen.\nCreate exactly ONE enemy character only.\nShow the complete full body including feet and the complete weapon, with generous clear margin around the silhouette.\nNo scenery, floor, platform, shadow stage, UI, text, or extra characters.\nDesign from the beginning as a 2D articulated puppet that can be animated with a small number of bones/parts.\nKeep the silhouette slender, theatrical, and easy to read.\nKeep head, torso, arms, and legs visually separable.\nDo not overlap limbs excessively.\nKeep shoulders, elbows, wrists, hips, and knees visually understandable.\nSeparate weapons from the body silhouette whenever possible.\nLong hair, cloth, capes, and dangling ornaments should look separable into independent puppet parts later.\nDo not hide every joint under bulky clothing or effects.\nThe enemy type must be recognizable from silhouette alone.\nAsset: 古城の守護者.\n最終ボスの巨大な古代守護騎士。黒鉄・古金・石の重装甲、守護王の意匠、巨大武器、内部から強い青白い魔力光。神聖さと恐ろしさ。大型でも肩・肘・股関節・膝と武器の境界が明瞭なパペット設計。\nOUTPUT PIPELINE REQUIREMENT: draw the subject on a single flat pure chroma green background (#00FF00), edge-to-edge, with NO gradient, NO vignette, NO floor, NO cast shadow, NO aura, NO glow behind the subject, and NO other background objects. Do not use green anywhere on the subject. The production pipeline will remove this green background and convert it to alpha transparency.\nDo NOT include: 地面, 文字, UI, 複数体, 体切れ, 武器切れ, 写実3DCG, 極端な手足の重なり, checkerboard transparency pattern, gray checkerboard, fake transparency grid.\nCritical production rule: 1 asset = 1 image. Never make a contact sheet, comparison sheet, character lineup, asset sheet, split panel, or multiple design variants.\nDo not add explanatory text, labels, captions, logos, or decorative typography.\nPrevious QA correction to apply strictly: 背景を完全なアルファ透明にし、緑色の背景ピクセルを全除去したうえで、装飾とマントを整理し、頭・胴体・左右上腕・前腕・手・左右腿・脛・足・武器を明確な隙間付きの独立パーツとして描いた正面全身の古代守護騎士を生成する。",
       "last_error": {
         "message": "Cost guard stopped run at 12 image API calls",
-        "at": "2026-10-04T14:58:37.358Z"
+        "at": "2026-10-04T16:54:25.615Z"
       },
       "failure_history": [
         {
@@ -1777,6 +2029,24 @@
           "attempt": 4,
           "kind": "cost_guard",
           "message": "Cost guard stopped run at 12 image API calls"
+        },
+        {
+          "at": "2026-10-04T16:54:25.609Z",
+          "attempt": 5,
+          "kind": "qa",
+          "score": 62,
+          "issues": [
+            "巨大武器は全体表示されているが、守護騎士本体と装飾・マント・武器が複雑に重なり、2Dパペット用の分離設計として肩・肘・手首・股関節・膝の境界が不十分。",
+            "装飾的な尖塔、翼状マント、垂れ布が多く、関節の読みやすさと人形劇的なパーツ分離を損なっている。",
+            "構図が横方向に大きく広がり、武器とマントが本体から離れすぎて小画面での一体感と敵シルエットの明瞭さを弱めている。"
+          ],
+          "remediation": "背景を完全なアルファ透明にし、緑色の背景ピクセルを全除去したうえで、装飾とマントを整理し、頭・胴体・左右上腕・前腕・手・左右腿・脛・足・武器を明確な隙間付きの独立パーツとして描いた正面全身の古代守護騎士を生成する。"
+        },
+        {
+          "at": "2026-10-04T16:54:25.615Z",
+          "attempt": 6,
+          "kind": "cost_guard",
+          "message": "Cost guard stopped run at 12 image API calls"
         }
       ],
       "self_heal": {
@@ -1785,7 +2055,31 @@
         "requeued": true,
         "exhausted": false,
         "last_reason": "cost_guard",
-        "updated_at": "2026-10-04T14:58:37.358Z"
+        "updated_at": "2026-10-04T16:54:25.615Z"
+      },
+      "generator": {
+        "model": "gpt-image-2.5-flare",
+        "quality": "medium",
+        "used_references": 0,
+        "generation_id": null,
+        "created": 1791132859,
+        "usage": {
+          "input_tokens": 808,
+          "input_tokens_details": {
+            "image_tokens": 0,
+            "text_tokens": 808
+          },
+          "output_tokens": 343,
+          "output_tokens_details": {
+            "image_tokens": 343,
+            "text_tokens": 0
+          },
+          "total_tokens": 1151
+        }
+      },
+      "debug_paths": {
+        "generated": "asset-factory/debug/shinka_enemy_castle_guardian_puppet_v1/last-generated.png",
+        "processed": "asset-factory/debug/shinka_enemy_castle_guardian_puppet_v1/last-processed.png"
       }
     },
     {
@@ -1794,7 +2088,7 @@
       "format": "png",
       "style_version": "gothic-silhouette-puppet-v0.1",
       "status": "queued",
-      "attempts": 4,
+      "attempts": 5,
       "generation_count": 0,
       "generation_id": null,
       "qa": {},
@@ -1831,11 +2125,11 @@
       "path": "assets/classes/puppet-v1/frost-mage.png",
       "negative_prompt": "背景 / 地面 / 文字 / UI / 別人 / 複数人 / 体切れ / 杖切れ / 写実3DCG / 極端な手足の重なり",
       "chroma_key": true,
-      "updated_at": "2026-10-04T14:58:37.370Z",
+      "updated_at": "2026-10-04T16:54:25.622Z",
       "last_prompt": "Project: 進化ダンジョン. Style version: gothic-silhouette-puppet-v0.1.\nOfficial art direction: ゴシック・シルエット風パペット・ダークファンタジー。2D、手描き・絵画的、少し不気味だが美しい人形劇・影絵の世界。ゴシック古城・地下迷宮・魔術世界。黒・濃紺・紫・青・古金を基調とし、写実的3DCG感を避ける。キャラクターは最初から2Dパペットアニメーションで動かす前提で、細身で読みやすいシルエット、頭・胴体・腕・脚・武器の分離、関節の認識しやすさを重視する。小さいゲーム画面での視認性と既存素材との統一感を最優先する。\nOfficial style: Gothic silhouette puppet dark fantasy.\n2D dark fantasy with gothic castles, underground ruins, magical architecture, and theatrical puppet-stage atmosphere.\nHand-painted and painterly, slightly eerie but beautiful.\nStrong readable silhouettes inspired by shadow theatre and articulated stage puppets.\nAvoid photorealism, realistic human rendering, glossy 3D CGI, toy-render aesthetics, bright pop colors, anime moe, chibi, or cute deformation.\nPrimary palette: black, deep navy, purple, blue, and antique gold. Attribute-specific magical glow colors are allowed.\nPrioritize visual consistency with the existing game world over standalone prettiness.\nDesign for readability on a small landscape game screen.\nCreate exactly ONE full-body evolved player class character only.\nPreserve the same player identity: silver to pale-lavender hair, blue eyes, same face, age impression, body type, and quiet personality.\nThe base look is a gothic mage in black/deep navy with antique gold details and a calm, slightly androgynous impression.\nExpress class evolution mainly through costume, ornaments, staff/weapon, magical effects, and controlled color accents.\nNo scenery, floor, UI, text, or extra characters.\nDesign from the beginning as a 2D articulated puppet that can be animated with a small number of bones/parts.\nKeep the silhouette slender, theatrical, and easy to read.\nKeep head, torso, arms, and legs visually separable.\nDo not overlap limbs excessively.\nKeep shoulders, elbows, wrists, hips, and knees visually understandable.\nSeparate weapons from the body silhouette whenever possible.\nLong hair, cloth, capes, and dangling ornaments should look separable into independent puppet parts later.\nDo not hide every joint under bulky clothing or effects.\nKeep staff, hair, clothing, hands, and feet fully in frame.\nAsset: 氷結師.\n氷魔法中心の進化。青白い氷晶、冷気、氷装飾、氷結した杖。基本魔法師と同一人物。\nOUTPUT PIPELINE REQUIREMENT: draw the subject on a single flat pure chroma green background (#00FF00), edge-to-edge, with NO gradient, NO vignette, NO floor, NO cast shadow, NO aura, NO glow behind the subject, and NO other background objects. Do not use green anywhere on the subject. The production pipeline will remove this green background and convert it to alpha transparency.\nDo NOT include: 地面, 文字, UI, 別人, 複数人, 体切れ, 杖切れ, 写実3DCG, 極端な手足の重なり, checkerboard transparency pattern, gray checkerboard, fake transparency grid.\nCritical production rule: 1 asset = 1 image. Never make a contact sheet, comparison sheet, character lineup, asset sheet, split panel, or multiple design variants.\nDo not add explanatory text, labels, captions, logos, or decorative typography.",
       "last_error": {
         "message": "Cost guard stopped run at 12 image API calls",
-        "at": "2026-10-04T14:58:37.370Z"
+        "at": "2026-10-04T16:54:25.622Z"
       },
       "failure_history": [
         {
@@ -1861,6 +2155,12 @@
           "attempt": 4,
           "kind": "cost_guard",
           "message": "Cost guard stopped run at 12 image API calls"
+        },
+        {
+          "at": "2026-10-04T16:54:25.622Z",
+          "attempt": 5,
+          "kind": "cost_guard",
+          "message": "Cost guard stopped run at 12 image API calls"
         }
       ],
       "self_heal": {
@@ -1869,7 +2169,7 @@
         "requeued": true,
         "exhausted": false,
         "last_reason": "cost_guard",
-        "updated_at": "2026-10-04T14:58:37.370Z"
+        "updated_at": "2026-10-04T16:54:25.622Z"
       }
     },
     {
@@ -1878,7 +2178,7 @@
       "format": "png",
       "style_version": "gothic-silhouette-puppet-v0.1",
       "status": "queued",
-      "attempts": 4,
+      "attempts": 5,
       "generation_count": 0,
       "generation_id": null,
       "qa": {},
@@ -1915,11 +2215,11 @@
       "path": "assets/classes/puppet-v1/thunder-mage.png",
       "negative_prompt": "背景 / 地面 / 文字 / UI / 別人 / 複数人 / 体切れ / 杖切れ / 写実3DCG / 極端な手足の重なり",
       "chroma_key": true,
-      "updated_at": "2026-10-04T14:58:37.381Z",
+      "updated_at": "2026-10-04T16:54:25.629Z",
       "last_prompt": "Project: 進化ダンジョン. Style version: gothic-silhouette-puppet-v0.1.\nOfficial art direction: ゴシック・シルエット風パペット・ダークファンタジー。2D、手描き・絵画的、少し不気味だが美しい人形劇・影絵の世界。ゴシック古城・地下迷宮・魔術世界。黒・濃紺・紫・青・古金を基調とし、写実的3DCG感を避ける。キャラクターは最初から2Dパペットアニメーションで動かす前提で、細身で読みやすいシルエット、頭・胴体・腕・脚・武器の分離、関節の認識しやすさを重視する。小さいゲーム画面での視認性と既存素材との統一感を最優先する。\nOfficial style: Gothic silhouette puppet dark fantasy.\n2D dark fantasy with gothic castles, underground ruins, magical architecture, and theatrical puppet-stage atmosphere.\nHand-painted and painterly, slightly eerie but beautiful.\nStrong readable silhouettes inspired by shadow theatre and articulated stage puppets.\nAvoid photorealism, realistic human rendering, glossy 3D CGI, toy-render aesthetics, bright pop colors, anime moe, chibi, or cute deformation.\nPrimary palette: black, deep navy, purple, blue, and antique gold. Attribute-specific magical glow colors are allowed.\nPrioritize visual consistency with the existing game world over standalone prettiness.\nDesign for readability on a small landscape game screen.\nCreate exactly ONE full-body evolved player class character only.\nPreserve the same player identity: silver to pale-lavender hair, blue eyes, same face, age impression, body type, and quiet personality.\nThe base look is a gothic mage in black/deep navy with antique gold details and a calm, slightly androgynous impression.\nExpress class evolution mainly through costume, ornaments, staff/weapon, magical effects, and controlled color accents.\nNo scenery, floor, UI, text, or extra characters.\nDesign from the beginning as a 2D articulated puppet that can be animated with a small number of bones/parts.\nKeep the silhouette slender, theatrical, and easy to read.\nKeep head, torso, arms, and legs visually separable.\nDo not overlap limbs excessively.\nKeep shoulders, elbows, wrists, hips, and knees visually understandable.\nSeparate weapons from the body silhouette whenever possible.\nLong hair, cloth, capes, and dangling ornaments should look separable into independent puppet parts later.\nDo not hide every joint under bulky clothing or effects.\nKeep staff, hair, clothing, hands, and feet fully in frame.\nAsset: 雷術師.\n雷魔法中心の進化。青白〜金の雷が身体と杖を走る。高速・高火力。基本魔法師と同一人物。\nOUTPUT PIPELINE REQUIREMENT: draw the subject on a single flat pure chroma green background (#00FF00), edge-to-edge, with NO gradient, NO vignette, NO floor, NO cast shadow, NO aura, NO glow behind the subject, and NO other background objects. Do not use green anywhere on the subject. The production pipeline will remove this green background and convert it to alpha transparency.\nDo NOT include: 地面, 文字, UI, 別人, 複数人, 体切れ, 杖切れ, 写実3DCG, 極端な手足の重なり, checkerboard transparency pattern, gray checkerboard, fake transparency grid.\nCritical production rule: 1 asset = 1 image. Never make a contact sheet, comparison sheet, character lineup, asset sheet, split panel, or multiple design variants.\nDo not add explanatory text, labels, captions, logos, or decorative typography.",
       "last_error": {
         "message": "Cost guard stopped run at 12 image API calls",
-        "at": "2026-10-04T14:58:37.381Z"
+        "at": "2026-10-04T16:54:25.629Z"
       },
       "failure_history": [
         {
@@ -1945,6 +2245,12 @@
           "attempt": 4,
           "kind": "cost_guard",
           "message": "Cost guard stopped run at 12 image API calls"
+        },
+        {
+          "at": "2026-10-04T16:54:25.629Z",
+          "attempt": 5,
+          "kind": "cost_guard",
+          "message": "Cost guard stopped run at 12 image API calls"
         }
       ],
       "self_heal": {
@@ -1953,7 +2259,7 @@
         "requeued": true,
         "exhausted": false,
         "last_reason": "cost_guard",
-        "updated_at": "2026-10-04T14:58:37.381Z"
+        "updated_at": "2026-10-04T16:54:25.629Z"
       }
     },
     {
@@ -1962,7 +2268,7 @@
       "format": "png",
       "style_version": "gothic-silhouette-puppet-v0.1",
       "status": "queued",
-      "attempts": 4,
+      "attempts": 5,
       "generation_count": 0,
       "generation_id": null,
       "qa": {},
@@ -1999,11 +2305,11 @@
       "path": "assets/classes/puppet-v1/dark-mage.png",
       "negative_prompt": "背景 / 地面 / 文字 / UI / 別人 / 複数人 / 体切れ / 杖切れ / 写実3DCG / 極端な手足の重なり",
       "chroma_key": true,
-      "updated_at": "2026-10-04T14:58:37.391Z",
+      "updated_at": "2026-10-04T16:54:25.635Z",
       "last_prompt": "Project: 進化ダンジョン. Style version: gothic-silhouette-puppet-v0.1.\nOfficial art direction: ゴシック・シルエット風パペット・ダークファンタジー。2D、手描き・絵画的、少し不気味だが美しい人形劇・影絵の世界。ゴシック古城・地下迷宮・魔術世界。黒・濃紺・紫・青・古金を基調とし、写実的3DCG感を避ける。キャラクターは最初から2Dパペットアニメーションで動かす前提で、細身で読みやすいシルエット、頭・胴体・腕・脚・武器の分離、関節の認識しやすさを重視する。小さいゲーム画面での視認性と既存素材との統一感を最優先する。\nOfficial style: Gothic silhouette puppet dark fantasy.\n2D dark fantasy with gothic castles, underground ruins, magical architecture, and theatrical puppet-stage atmosphere.\nHand-painted and painterly, slightly eerie but beautiful.\nStrong readable silhouettes inspired by shadow theatre and articulated stage puppets.\nAvoid photorealism, realistic human rendering, glossy 3D CGI, toy-render aesthetics, bright pop colors, anime moe, chibi, or cute deformation.\nPrimary palette: black, deep navy, purple, blue, and antique gold. Attribute-specific magical glow colors are allowed.\nPrioritize visual consistency with the existing game world over standalone prettiness.\nDesign for readability on a small landscape game screen.\nCreate exactly ONE full-body evolved player class character only.\nPreserve the same player identity: silver to pale-lavender hair, blue eyes, same face, age impression, body type, and quiet personality.\nThe base look is a gothic mage in black/deep navy with antique gold details and a calm, slightly androgynous impression.\nExpress class evolution mainly through costume, ornaments, staff/weapon, magical effects, and controlled color accents.\nNo scenery, floor, UI, text, or extra characters.\nDesign from the beginning as a 2D articulated puppet that can be animated with a small number of bones/parts.\nKeep the silhouette slender, theatrical, and easy to read.\nKeep head, torso, arms, and legs visually separable.\nDo not overlap limbs excessively.\nKeep shoulders, elbows, wrists, hips, and knees visually understandable.\nSeparate weapons from the body silhouette whenever possible.\nLong hair, cloth, capes, and dangling ornaments should look separable into independent puppet parts later.\nDo not hide every joint under bulky clothing or effects.\nKeep staff, hair, clothing, hands, and feet fully in frame.\nAsset: 黒魔導士.\n闇魔法中心の進化。紫黒の魔力、影、呪術的装飾。危険だが悪役そのものにはしない。基本魔法師と同一人物。\nOUTPUT PIPELINE REQUIREMENT: draw the subject on a single flat pure chroma green background (#00FF00), edge-to-edge, with NO gradient, NO vignette, NO floor, NO cast shadow, NO aura, NO glow behind the subject, and NO other background objects. Do not use green anywhere on the subject. The production pipeline will remove this green background and convert it to alpha transparency.\nDo NOT include: 地面, 文字, UI, 別人, 複数人, 体切れ, 杖切れ, 写実3DCG, 極端な手足の重なり, checkerboard transparency pattern, gray checkerboard, fake transparency grid.\nCritical production rule: 1 asset = 1 image. Never make a contact sheet, comparison sheet, character lineup, asset sheet, split panel, or multiple design variants.\nDo not add explanatory text, labels, captions, logos, or decorative typography.",
       "last_error": {
         "message": "Cost guard stopped run at 12 image API calls",
-        "at": "2026-10-04T14:58:37.391Z"
+        "at": "2026-10-04T16:54:25.635Z"
       },
       "failure_history": [
         {
@@ -2029,6 +2335,12 @@
           "attempt": 4,
           "kind": "cost_guard",
           "message": "Cost guard stopped run at 12 image API calls"
+        },
+        {
+          "at": "2026-10-04T16:54:25.635Z",
+          "attempt": 5,
+          "kind": "cost_guard",
+          "message": "Cost guard stopped run at 12 image API calls"
         }
       ],
       "self_heal": {
@@ -2037,7 +2349,7 @@
         "requeued": true,
         "exhausted": false,
         "last_reason": "cost_guard",
-        "updated_at": "2026-10-04T14:58:37.391Z"
+        "updated_at": "2026-10-04T16:54:25.635Z"
       }
     },
     {
@@ -2046,7 +2358,7 @@
       "format": "png",
       "style_version": "gothic-silhouette-puppet-v0.1",
       "status": "queued",
-      "attempts": 4,
+      "attempts": 5,
       "generation_count": 0,
       "generation_id": null,
       "qa": {},
@@ -2083,11 +2395,11 @@
       "path": "assets/classes/puppet-v1/barrier-mage.png",
       "negative_prompt": "背景 / 地面 / 文字 / UI / 別人 / 複数人 / 体切れ / 杖切れ / 写実3DCG / 極端な手足の重なり",
       "chroma_key": true,
-      "updated_at": "2026-10-04T14:58:37.402Z",
+      "updated_at": "2026-10-04T16:54:25.641Z",
       "last_prompt": "Project: 進化ダンジョン. Style version: gothic-silhouette-puppet-v0.1.\nOfficial art direction: ゴシック・シルエット風パペット・ダークファンタジー。2D、手描き・絵画的、少し不気味だが美しい人形劇・影絵の世界。ゴシック古城・地下迷宮・魔術世界。黒・濃紺・紫・青・古金を基調とし、写実的3DCG感を避ける。キャラクターは最初から2Dパペットアニメーションで動かす前提で、細身で読みやすいシルエット、頭・胴体・腕・脚・武器の分離、関節の認識しやすさを重視する。小さいゲーム画面での視認性と既存素材との統一感を最優先する。\nOfficial style: Gothic silhouette puppet dark fantasy.\n2D dark fantasy with gothic castles, underground ruins, magical architecture, and theatrical puppet-stage atmosphere.\nHand-painted and painterly, slightly eerie but beautiful.\nStrong readable silhouettes inspired by shadow theatre and articulated stage puppets.\nAvoid photorealism, realistic human rendering, glossy 3D CGI, toy-render aesthetics, bright pop colors, anime moe, chibi, or cute deformation.\nPrimary palette: black, deep navy, purple, blue, and antique gold. Attribute-specific magical glow colors are allowed.\nPrioritize visual consistency with the existing game world over standalone prettiness.\nDesign for readability on a small landscape game screen.\nCreate exactly ONE full-body evolved player class character only.\nPreserve the same player identity: silver to pale-lavender hair, blue eyes, same face, age impression, body type, and quiet personality.\nThe base look is a gothic mage in black/deep navy with antique gold details and a calm, slightly androgynous impression.\nExpress class evolution mainly through costume, ornaments, staff/weapon, magical effects, and controlled color accents.\nNo scenery, floor, UI, text, or extra characters.\nDesign from the beginning as a 2D articulated puppet that can be animated with a small number of bones/parts.\nKeep the silhouette slender, theatrical, and easy to read.\nKeep head, torso, arms, and legs visually separable.\nDo not overlap limbs excessively.\nKeep shoulders, elbows, wrists, hips, and knees visually understandable.\nSeparate weapons from the body silhouette whenever possible.\nLong hair, cloth, capes, and dangling ornaments should look separable into independent puppet parts later.\nDo not hide every joint under bulky clothing or effects.\nKeep staff, hair, clothing, hands, and feet fully in frame.\nAsset: 結界術師.\n防御・結界中心。白・金・淡い青、透明障壁、魔法陣、守護と反射。基本魔法師と同一人物。\nOUTPUT PIPELINE REQUIREMENT: draw the subject on a single flat pure chroma green background (#00FF00), edge-to-edge, with NO gradient, NO vignette, NO floor, NO cast shadow, NO aura, NO glow behind the subject, and NO other background objects. Do not use green anywhere on the subject. The production pipeline will remove this green background and convert it to alpha transparency.\nDo NOT include: 地面, 文字, UI, 別人, 複数人, 体切れ, 杖切れ, 写実3DCG, 極端な手足の重なり, checkerboard transparency pattern, gray checkerboard, fake transparency grid.\nCritical production rule: 1 asset = 1 image. Never make a contact sheet, comparison sheet, character lineup, asset sheet, split panel, or multiple design variants.\nDo not add explanatory text, labels, captions, logos, or decorative typography.",
       "last_error": {
         "message": "Cost guard stopped run at 12 image API calls",
-        "at": "2026-10-04T14:58:37.401Z"
+        "at": "2026-10-04T16:54:25.641Z"
       },
       "failure_history": [
         {
@@ -2113,6 +2425,12 @@
           "attempt": 4,
           "kind": "cost_guard",
           "message": "Cost guard stopped run at 12 image API calls"
+        },
+        {
+          "at": "2026-10-04T16:54:25.641Z",
+          "attempt": 5,
+          "kind": "cost_guard",
+          "message": "Cost guard stopped run at 12 image API calls"
         }
       ],
       "self_heal": {
@@ -2121,7 +2439,7 @@
         "requeued": true,
         "exhausted": false,
         "last_reason": "cost_guard",
-        "updated_at": "2026-10-04T14:58:37.402Z"
+        "updated_at": "2026-10-04T16:54:25.641Z"
       }
     },
     {
@@ -2130,7 +2448,7 @@
       "format": "png",
       "style_version": "gothic-silhouette-puppet-v0.1",
       "status": "queued",
-      "attempts": 4,
+      "attempts": 5,
       "generation_count": 0,
       "generation_id": null,
       "qa": {},
@@ -2167,11 +2485,11 @@
       "path": "assets/classes/puppet-v1/star-seer.png",
       "negative_prompt": "背景 / 地面 / 文字 / UI / 別人 / 複数人 / 体切れ / 杖切れ / 写実3DCG / 極端な手足の重なり",
       "chroma_key": true,
-      "updated_at": "2026-10-04T14:58:37.410Z",
+      "updated_at": "2026-10-04T16:54:25.648Z",
       "last_prompt": "Project: 進化ダンジョン. Style version: gothic-silhouette-puppet-v0.1.\nOfficial art direction: ゴシック・シルエット風パペット・ダークファンタジー。2D、手描き・絵画的、少し不気味だが美しい人形劇・影絵の世界。ゴシック古城・地下迷宮・魔術世界。黒・濃紺・紫・青・古金を基調とし、写実的3DCG感を避ける。キャラクターは最初から2Dパペットアニメーションで動かす前提で、細身で読みやすいシルエット、頭・胴体・腕・脚・武器の分離、関節の認識しやすさを重視する。小さいゲーム画面での視認性と既存素材との統一感を最優先する。\nOfficial style: Gothic silhouette puppet dark fantasy.\n2D dark fantasy with gothic castles, underground ruins, magical architecture, and theatrical puppet-stage atmosphere.\nHand-painted and painterly, slightly eerie but beautiful.\nStrong readable silhouettes inspired by shadow theatre and articulated stage puppets.\nAvoid photorealism, realistic human rendering, glossy 3D CGI, toy-render aesthetics, bright pop colors, anime moe, chibi, or cute deformation.\nPrimary palette: black, deep navy, purple, blue, and antique gold. Attribute-specific magical glow colors are allowed.\nPrioritize visual consistency with the existing game world over standalone prettiness.\nDesign for readability on a small landscape game screen.\nCreate exactly ONE full-body evolved player class character only.\nPreserve the same player identity: silver to pale-lavender hair, blue eyes, same face, age impression, body type, and quiet personality.\nThe base look is a gothic mage in black/deep navy with antique gold details and a calm, slightly androgynous impression.\nExpress class evolution mainly through costume, ornaments, staff/weapon, magical effects, and controlled color accents.\nNo scenery, floor, UI, text, or extra characters.\nDesign from the beginning as a 2D articulated puppet that can be animated with a small number of bones/parts.\nKeep the silhouette slender, theatrical, and easy to read.\nKeep head, torso, arms, and legs visually separable.\nDo not overlap limbs excessively.\nKeep shoulders, elbows, wrists, hips, and knees visually understandable.\nSeparate weapons from the body silhouette whenever possible.\nLong hair, cloth, capes, and dangling ornaments should look separable into independent puppet parts later.\nDo not hide every joint under bulky clothing or effects.\nKeep staff, hair, clothing, hands, and feet fully in frame.\nAsset: 星詠み.\n集中・強化中心。星、天球儀、時計を思わせる魔法陣。紺・青・金。基本魔法師と同一人物。\nOUTPUT PIPELINE REQUIREMENT: draw the subject on a single flat pure chroma green background (#00FF00), edge-to-edge, with NO gradient, NO vignette, NO floor, NO cast shadow, NO aura, NO glow behind the subject, and NO other background objects. Do not use green anywhere on the subject. The production pipeline will remove this green background and convert it to alpha transparency.\nDo NOT include: 地面, 文字, UI, 別人, 複数人, 体切れ, 杖切れ, 写実3DCG, 極端な手足の重なり, checkerboard transparency pattern, gray checkerboard, fake transparency grid.\nCritical production rule: 1 asset = 1 image. Never make a contact sheet, comparison sheet, character lineup, asset sheet, split panel, or multiple design variants.\nDo not add explanatory text, labels, captions, logos, or decorative typography.",
       "last_error": {
         "message": "Cost guard stopped run at 12 image API calls",
-        "at": "2026-10-04T14:58:37.410Z"
+        "at": "2026-10-04T16:54:25.648Z"
       },
       "failure_history": [
         {
@@ -2197,6 +2515,12 @@
           "attempt": 4,
           "kind": "cost_guard",
           "message": "Cost guard stopped run at 12 image API calls"
+        },
+        {
+          "at": "2026-10-04T16:54:25.648Z",
+          "attempt": 5,
+          "kind": "cost_guard",
+          "message": "Cost guard stopped run at 12 image API calls"
         }
       ],
       "self_heal": {
@@ -2205,7 +2529,7 @@
         "requeued": true,
         "exhausted": false,
         "last_reason": "cost_guard",
-        "updated_at": "2026-10-04T14:58:37.410Z"
+        "updated_at": "2026-10-04T16:54:25.648Z"
       }
     },
     {
@@ -2214,7 +2538,7 @@
       "format": "png",
       "style_version": "gothic-silhouette-puppet-v0.1",
       "status": "queued",
-      "attempts": 4,
+      "attempts": 5,
       "generation_count": 0,
       "generation_id": null,
       "qa": {},
@@ -2251,11 +2575,11 @@
       "path": "assets/classes/puppet-v1/elementalist.png",
       "negative_prompt": "背景 / 地面 / 文字 / UI / 別人 / 複数人 / 体切れ / 杖切れ / 写実3DCG / 極端な手足の重なり",
       "chroma_key": true,
-      "updated_at": "2026-10-04T14:58:37.419Z",
+      "updated_at": "2026-10-04T16:54:25.654Z",
       "last_prompt": "Project: 進化ダンジョン. Style version: gothic-silhouette-puppet-v0.1.\nOfficial art direction: ゴシック・シルエット風パペット・ダークファンタジー。2D、手描き・絵画的、少し不気味だが美しい人形劇・影絵の世界。ゴシック古城・地下迷宮・魔術世界。黒・濃紺・紫・青・古金を基調とし、写実的3DCG感を避ける。キャラクターは最初から2Dパペットアニメーションで動かす前提で、細身で読みやすいシルエット、頭・胴体・腕・脚・武器の分離、関節の認識しやすさを重視する。小さいゲーム画面での視認性と既存素材との統一感を最優先する。\nOfficial style: Gothic silhouette puppet dark fantasy.\n2D dark fantasy with gothic castles, underground ruins, magical architecture, and theatrical puppet-stage atmosphere.\nHand-painted and painterly, slightly eerie but beautiful.\nStrong readable silhouettes inspired by shadow theatre and articulated stage puppets.\nAvoid photorealism, realistic human rendering, glossy 3D CGI, toy-render aesthetics, bright pop colors, anime moe, chibi, or cute deformation.\nPrimary palette: black, deep navy, purple, blue, and antique gold. Attribute-specific magical glow colors are allowed.\nPrioritize visual consistency with the existing game world over standalone prettiness.\nDesign for readability on a small landscape game screen.\nCreate exactly ONE full-body evolved player class character only.\nPreserve the same player identity: silver to pale-lavender hair, blue eyes, same face, age impression, body type, and quiet personality.\nThe base look is a gothic mage in black/deep navy with antique gold details and a calm, slightly androgynous impression.\nExpress class evolution mainly through costume, ornaments, staff/weapon, magical effects, and controlled color accents.\nNo scenery, floor, UI, text, or extra characters.\nDesign from the beginning as a 2D articulated puppet that can be animated with a small number of bones/parts.\nKeep the silhouette slender, theatrical, and easy to read.\nKeep head, torso, arms, and legs visually separable.\nDo not overlap limbs excessively.\nKeep shoulders, elbows, wrists, hips, and knees visually understandable.\nSeparate weapons from the body silhouette whenever possible.\nLong hair, cloth, capes, and dangling ornaments should look separable into independent puppet parts later.\nDo not hide every joint under bulky clothing or effects.\nKeep staff, hair, clothing, hands, and feet fully in frame.\nAsset: 元素術師.\n氷・雷・闇など複数属性の魔力を統合する万能進化。色を無秩序に混ぜず美しく統一。基本魔法師と同一人物。\nOUTPUT PIPELINE REQUIREMENT: draw the subject on a single flat pure chroma green background (#00FF00), edge-to-edge, with NO gradient, NO vignette, NO floor, NO cast shadow, NO aura, NO glow behind the subject, and NO other background objects. Do not use green anywhere on the subject. The production pipeline will remove this green background and convert it to alpha transparency.\nDo NOT include: 地面, 文字, UI, 別人, 複数人, 体切れ, 杖切れ, 写実3DCG, 極端な手足の重なり, checkerboard transparency pattern, gray checkerboard, fake transparency grid.\nCritical production rule: 1 asset = 1 image. Never make a contact sheet, comparison sheet, character lineup, asset sheet, split panel, or multiple design variants.\nDo not add explanatory text, labels, captions, logos, or decorative typography.",
       "last_error": {
         "message": "Cost guard stopped run at 12 image API calls",
-        "at": "2026-10-04T14:58:37.418Z"
+        "at": "2026-10-04T16:54:25.654Z"
       },
       "failure_history": [
         {
@@ -2281,6 +2605,12 @@
           "attempt": 4,
           "kind": "cost_guard",
           "message": "Cost guard stopped run at 12 image API calls"
+        },
+        {
+          "at": "2026-10-04T16:54:25.654Z",
+          "attempt": 5,
+          "kind": "cost_guard",
+          "message": "Cost guard stopped run at 12 image API calls"
         }
       ],
       "self_heal": {
@@ -2289,7 +2619,7 @@
         "requeued": true,
         "exhausted": false,
         "last_reason": "cost_guard",
-        "updated_at": "2026-10-04T14:58:37.419Z"
+        "updated_at": "2026-10-04T16:54:25.654Z"
       }
     },
     {
@@ -2298,7 +2628,7 @@
       "format": "png",
       "style_version": "gothic-silhouette-puppet-v0.1",
       "status": "queued",
-      "attempts": 4,
+      "attempts": 5,
       "generation_count": 0,
       "generation_id": null,
       "qa": {},
@@ -2330,11 +2660,11 @@
       "filename": "ice-arrow.png",
       "path": "assets/cards/puppet-v1/ice-arrow.png",
       "negative_prompt": "文字 / 数字 / カード枠 / UI / ロゴ / 複数案 / 人物 / 写実3DCG",
-      "updated_at": "2026-10-04T14:58:37.428Z",
+      "updated_at": "2026-10-04T16:54:25.660Z",
       "last_prompt": "Project: 進化ダンジョン. Style version: gothic-silhouette-puppet-v0.1.\nOfficial art direction: ゴシック・シルエット風パペット・ダークファンタジー。2D、手描き・絵画的、少し不気味だが美しい人形劇・影絵の世界。ゴシック古城・地下迷宮・魔術世界。黒・濃紺・紫・青・古金を基調とし、写実的3DCG感を避ける。キャラクターは最初から2Dパペットアニメーションで動かす前提で、細身で読みやすいシルエット、頭・胴体・腕・脚・武器の分離、関節の認識しやすさを重視する。小さいゲーム画面での視認性と既存素材との統一感を最優先する。\nOfficial style: Gothic silhouette puppet dark fantasy.\n2D dark fantasy with gothic castles, underground ruins, magical architecture, and theatrical puppet-stage atmosphere.\nHand-painted and painterly, slightly eerie but beautiful.\nStrong readable silhouettes inspired by shadow theatre and articulated stage puppets.\nAvoid photorealism, realistic human rendering, glossy 3D CGI, toy-render aesthetics, bright pop colors, anime moe, chibi, or cute deformation.\nPrimary palette: black, deep navy, purple, blue, and antique gold. Attribute-specific magical glow colors are allowed.\nPrioritize visual consistency with the existing game world over standalone prettiness.\nDesign for readability on a small landscape game screen.\nCreate exactly ONE card illustration asset, not a card mockup.\nPortrait composition for a vertical card crop.\nNo card frame, no title, no letters, no numbers, no cost, no logo, and no UI.\nCreate only the pure illustration that appears inside the card.\nBackground is allowed and should feel like the same gothic puppet-theatre world.\nThe spell or phenomenon must be the unmistakable visual subject and remain readable at small size.\nAsset: 氷の矢.\n鋭い青白い氷の魔法矢がゴシック古城の暗い空間を高速で飛ぶ瞬間。一本の強いシルエットで小さくても氷の矢と分かる。\nOUTPUT REQUIREMENT: opaque illustrated background is allowed when appropriate for this asset type.\nDo NOT include: 文字, 数字, カード枠, UI, ロゴ, 複数案, 人物, 写実3DCG.\nCritical production rule: 1 asset = 1 image. Never make a contact sheet, comparison sheet, character lineup, asset sheet, split panel, or multiple design variants.\nDo not add explanatory text, labels, captions, logos, or decorative typography.",
       "last_error": {
         "message": "Cost guard stopped run at 12 image API calls",
-        "at": "2026-10-04T14:58:37.428Z"
+        "at": "2026-10-04T16:54:25.660Z"
       },
       "failure_history": [
         {
@@ -2360,6 +2690,12 @@
           "attempt": 4,
           "kind": "cost_guard",
           "message": "Cost guard stopped run at 12 image API calls"
+        },
+        {
+          "at": "2026-10-04T16:54:25.660Z",
+          "attempt": 5,
+          "kind": "cost_guard",
+          "message": "Cost guard stopped run at 12 image API calls"
         }
       ],
       "self_heal": {
@@ -2368,7 +2704,7 @@
         "requeued": true,
         "exhausted": false,
         "last_reason": "cost_guard",
-        "updated_at": "2026-10-04T14:58:37.428Z"
+        "updated_at": "2026-10-04T16:54:25.660Z"
       }
     },
     {
@@ -2377,7 +2713,7 @@
       "format": "png",
       "style_version": "gothic-silhouette-puppet-v0.1",
       "status": "queued",
-      "attempts": 4,
+      "attempts": 5,
       "generation_count": 0,
       "generation_id": null,
       "qa": {},
@@ -2409,11 +2745,11 @@
       "filename": "lightning.png",
       "path": "assets/cards/puppet-v1/lightning.png",
       "negative_prompt": "文字 / 数字 / カード枠 / UI / ロゴ / 複数案 / 人物 / 写実3DCG",
-      "updated_at": "2026-10-04T14:58:37.434Z",
+      "updated_at": "2026-10-04T16:54:25.666Z",
       "last_prompt": "Project: 進化ダンジョン. Style version: gothic-silhouette-puppet-v0.1.\nOfficial art direction: ゴシック・シルエット風パペット・ダークファンタジー。2D、手描き・絵画的、少し不気味だが美しい人形劇・影絵の世界。ゴシック古城・地下迷宮・魔術世界。黒・濃紺・紫・青・古金を基調とし、写実的3DCG感を避ける。キャラクターは最初から2Dパペットアニメーションで動かす前提で、細身で読みやすいシルエット、頭・胴体・腕・脚・武器の分離、関節の認識しやすさを重視する。小さいゲーム画面での視認性と既存素材との統一感を最優先する。\nOfficial style: Gothic silhouette puppet dark fantasy.\n2D dark fantasy with gothic castles, underground ruins, magical architecture, and theatrical puppet-stage atmosphere.\nHand-painted and painterly, slightly eerie but beautiful.\nStrong readable silhouettes inspired by shadow theatre and articulated stage puppets.\nAvoid photorealism, realistic human rendering, glossy 3D CGI, toy-render aesthetics, bright pop colors, anime moe, chibi, or cute deformation.\nPrimary palette: black, deep navy, purple, blue, and antique gold. Attribute-specific magical glow colors are allowed.\nPrioritize visual consistency with the existing game world over standalone prettiness.\nDesign for readability on a small landscape game screen.\nCreate exactly ONE card illustration asset, not a card mockup.\nPortrait composition for a vertical card crop.\nNo card frame, no title, no letters, no numbers, no cost, no logo, and no UI.\nCreate only the pure illustration that appears inside the card.\nBackground is allowed and should feel like the same gothic puppet-theatre world.\nThe spell or phenomenon must be the unmistakable visual subject and remain readable at small size.\nAsset: 雷撃.\n上空から一直線に落ちる強烈な青白い雷。舞台照明のような強い明暗と一瞬の高火力。\nOUTPUT REQUIREMENT: opaque illustrated background is allowed when appropriate for this asset type.\nDo NOT include: 文字, 数字, カード枠, UI, ロゴ, 複数案, 人物, 写実3DCG.\nCritical production rule: 1 asset = 1 image. Never make a contact sheet, comparison sheet, character lineup, asset sheet, split panel, or multiple design variants.\nDo not add explanatory text, labels, captions, logos, or decorative typography.",
       "last_error": {
         "message": "Cost guard stopped run at 12 image API calls",
-        "at": "2026-10-04T14:58:37.434Z"
+        "at": "2026-10-04T16:54:25.666Z"
       },
       "failure_history": [
         {
@@ -2439,6 +2775,12 @@
           "attempt": 4,
           "kind": "cost_guard",
           "message": "Cost guard stopped run at 12 image API calls"
+        },
+        {
+          "at": "2026-10-04T16:54:25.666Z",
+          "attempt": 5,
+          "kind": "cost_guard",
+          "message": "Cost guard stopped run at 12 image API calls"
         }
       ],
       "self_heal": {
@@ -2447,7 +2789,7 @@
         "requeued": true,
         "exhausted": false,
         "last_reason": "cost_guard",
-        "updated_at": "2026-10-04T14:58:37.434Z"
+        "updated_at": "2026-10-04T16:54:25.666Z"
       }
     },
     {
@@ -2456,7 +2798,7 @@
       "format": "png",
       "style_version": "gothic-silhouette-puppet-v0.1",
       "status": "queued",
-      "attempts": 4,
+      "attempts": 5,
       "generation_count": 0,
       "generation_id": null,
       "qa": {},
@@ -2488,11 +2830,11 @@
       "filename": "dark-bolt.png",
       "path": "assets/cards/puppet-v1/dark-bolt.png",
       "negative_prompt": "文字 / 数字 / カード枠 / UI / ロゴ / 複数案 / 人物 / 写実3DCG",
-      "updated_at": "2026-10-04T14:58:37.441Z",
+      "updated_at": "2026-10-04T16:54:25.671Z",
       "last_prompt": "Project: 進化ダンジョン. Style version: gothic-silhouette-puppet-v0.1.\nOfficial art direction: ゴシック・シルエット風パペット・ダークファンタジー。2D、手描き・絵画的、少し不気味だが美しい人形劇・影絵の世界。ゴシック古城・地下迷宮・魔術世界。黒・濃紺・紫・青・古金を基調とし、写実的3DCG感を避ける。キャラクターは最初から2Dパペットアニメーションで動かす前提で、細身で読みやすいシルエット、頭・胴体・腕・脚・武器の分離、関節の認識しやすさを重視する。小さいゲーム画面での視認性と既存素材との統一感を最優先する。\nOfficial style: Gothic silhouette puppet dark fantasy.\n2D dark fantasy with gothic castles, underground ruins, magical architecture, and theatrical puppet-stage atmosphere.\nHand-painted and painterly, slightly eerie but beautiful.\nStrong readable silhouettes inspired by shadow theatre and articulated stage puppets.\nAvoid photorealism, realistic human rendering, glossy 3D CGI, toy-render aesthetics, bright pop colors, anime moe, chibi, or cute deformation.\nPrimary palette: black, deep navy, purple, blue, and antique gold. Attribute-specific magical glow colors are allowed.\nPrioritize visual consistency with the existing game world over standalone prettiness.\nDesign for readability on a small landscape game screen.\nCreate exactly ONE card illustration asset, not a card mockup.\nPortrait composition for a vertical card crop.\nNo card frame, no title, no letters, no numbers, no cost, no logo, and no UI.\nCreate only the pure illustration that appears inside the card.\nBackground is allowed and should feel like the same gothic puppet-theatre world.\nThe spell or phenomenon must be the unmistakable visual subject and remain readable at small size.\nAsset: 闇弾.\n紫黒色の魔力が凝縮された単一の闇弾。周囲の光を吸い込む不穏な暗黒球。\nOUTPUT REQUIREMENT: opaque illustrated background is allowed when appropriate for this asset type.\nDo NOT include: 文字, 数字, カード枠, UI, ロゴ, 複数案, 人物, 写実3DCG.\nCritical production rule: 1 asset = 1 image. Never make a contact sheet, comparison sheet, character lineup, asset sheet, split panel, or multiple design variants.\nDo not add explanatory text, labels, captions, logos, or decorative typography.",
       "last_error": {
         "message": "Cost guard stopped run at 12 image API calls",
-        "at": "2026-10-04T14:58:37.441Z"
+        "at": "2026-10-04T16:54:25.671Z"
       },
       "failure_history": [
         {
@@ -2518,6 +2860,12 @@
           "attempt": 4,
           "kind": "cost_guard",
           "message": "Cost guard stopped run at 12 image API calls"
+        },
+        {
+          "at": "2026-10-04T16:54:25.671Z",
+          "attempt": 5,
+          "kind": "cost_guard",
+          "message": "Cost guard stopped run at 12 image API calls"
         }
       ],
       "self_heal": {
@@ -2526,7 +2874,7 @@
         "requeued": true,
         "exhausted": false,
         "last_reason": "cost_guard",
-        "updated_at": "2026-10-04T14:58:37.441Z"
+        "updated_at": "2026-10-04T16:54:25.671Z"
       }
     },
     {
@@ -2535,7 +2883,7 @@
       "format": "png",
       "style_version": "gothic-silhouette-puppet-v0.1",
       "status": "queued",
-      "attempts": 4,
+      "attempts": 5,
       "generation_count": 0,
       "generation_id": null,
       "qa": {},
@@ -2567,11 +2915,11 @@
       "filename": "light-wall.png",
       "path": "assets/cards/puppet-v1/light-wall.png",
       "negative_prompt": "文字 / 数字 / カード枠 / UI / ロゴ / 複数案 / 人物 / 写実3DCG",
-      "updated_at": "2026-10-04T14:58:37.446Z",
+      "updated_at": "2026-10-04T16:54:25.677Z",
       "last_prompt": "Project: 進化ダンジョン. Style version: gothic-silhouette-puppet-v0.1.\nOfficial art direction: ゴシック・シルエット風パペット・ダークファンタジー。2D、手描き・絵画的、少し不気味だが美しい人形劇・影絵の世界。ゴシック古城・地下迷宮・魔術世界。黒・濃紺・紫・青・古金を基調とし、写実的3DCG感を避ける。キャラクターは最初から2Dパペットアニメーションで動かす前提で、細身で読みやすいシルエット、頭・胴体・腕・脚・武器の分離、関節の認識しやすさを重視する。小さいゲーム画面での視認性と既存素材との統一感を最優先する。\nOfficial style: Gothic silhouette puppet dark fantasy.\n2D dark fantasy with gothic castles, underground ruins, magical architecture, and theatrical puppet-stage atmosphere.\nHand-painted and painterly, slightly eerie but beautiful.\nStrong readable silhouettes inspired by shadow theatre and articulated stage puppets.\nAvoid photorealism, realistic human rendering, glossy 3D CGI, toy-render aesthetics, bright pop colors, anime moe, chibi, or cute deformation.\nPrimary palette: black, deep navy, purple, blue, and antique gold. Attribute-specific magical glow colors are allowed.\nPrioritize visual consistency with the existing game world over standalone prettiness.\nDesign for readability on a small landscape game screen.\nCreate exactly ONE card illustration asset, not a card mockup.\nPortrait composition for a vertical card crop.\nNo card frame, no title, no letters, no numbers, no cost, no logo, and no UI.\nCreate only the pure illustration that appears inside the card.\nBackground is allowed and should feel like the same gothic puppet-theatre world.\nThe spell or phenomenon must be the unmistakable visual subject and remain readable at small size.\nAsset: 光壁.\n金白色に輝く半透明の魔法障壁。ゴシック舞台のような背景で、攻撃を強固に受け止める。\nOUTPUT REQUIREMENT: opaque illustrated background is allowed when appropriate for this asset type.\nDo NOT include: 文字, 数字, カード枠, UI, ロゴ, 複数案, 人物, 写実3DCG.\nCritical production rule: 1 asset = 1 image. Never make a contact sheet, comparison sheet, character lineup, asset sheet, split panel, or multiple design variants.\nDo not add explanatory text, labels, captions, logos, or decorative typography.",
       "last_error": {
         "message": "Cost guard stopped run at 12 image API calls",
-        "at": "2026-10-04T14:58:37.446Z"
+        "at": "2026-10-04T16:54:25.677Z"
       },
       "failure_history": [
         {
@@ -2597,6 +2945,12 @@
           "attempt": 4,
           "kind": "cost_guard",
           "message": "Cost guard stopped run at 12 image API calls"
+        },
+        {
+          "at": "2026-10-04T16:54:25.677Z",
+          "attempt": 5,
+          "kind": "cost_guard",
+          "message": "Cost guard stopped run at 12 image API calls"
         }
       ],
       "self_heal": {
@@ -2605,7 +2959,7 @@
         "requeued": true,
         "exhausted": false,
         "last_reason": "cost_guard",
-        "updated_at": "2026-10-04T14:58:37.446Z"
+        "updated_at": "2026-10-04T16:54:25.677Z"
       }
     },
     {
@@ -2614,7 +2968,7 @@
       "format": "png",
       "style_version": "gothic-silhouette-puppet-v0.1",
       "status": "queued",
-      "attempts": 3,
+      "attempts": 4,
       "generation_count": 0,
       "generation_id": null,
       "qa": {},
@@ -2646,11 +3000,11 @@
       "filename": "focus.png",
       "path": "assets/cards/puppet-v1/focus.png",
       "negative_prompt": "文字 / 数字 / カード枠 / UI / ロゴ / 複数案 / 人物 / 写実3DCG",
-      "updated_at": "2026-10-04T14:58:37.453Z",
+      "updated_at": "2026-10-04T16:54:25.683Z",
       "last_prompt": "Project: 進化ダンジョン. Style version: gothic-silhouette-puppet-v0.1.\nOfficial art direction: ゴシック・シルエット風パペット・ダークファンタジー。2D、手描き・絵画的、少し不気味だが美しい人形劇・影絵の世界。ゴシック古城・地下迷宮・魔術世界。黒・濃紺・紫・青・古金を基調とし、写実的3DCG感を避ける。キャラクターは最初から2Dパペットアニメーションで動かす前提で、細身で読みやすいシルエット、頭・胴体・腕・脚・武器の分離、関節の認識しやすさを重視する。小さいゲーム画面での視認性と既存素材との統一感を最優先する。\nOfficial style: Gothic silhouette puppet dark fantasy.\n2D dark fantasy with gothic castles, underground ruins, magical architecture, and theatrical puppet-stage atmosphere.\nHand-painted and painterly, slightly eerie but beautiful.\nStrong readable silhouettes inspired by shadow theatre and articulated stage puppets.\nAvoid photorealism, realistic human rendering, glossy 3D CGI, toy-render aesthetics, bright pop colors, anime moe, chibi, or cute deformation.\nPrimary palette: black, deep navy, purple, blue, and antique gold. Attribute-specific magical glow colors are allowed.\nPrioritize visual consistency with the existing game world over standalone prettiness.\nDesign for readability on a small landscape game screen.\nCreate exactly ONE card illustration asset, not a card mockup.\nPortrait composition for a vertical card crop.\nNo card frame, no title, no letters, no numbers, no cost, no logo, and no UI.\nCreate only the pure illustration that appears inside the card.\nBackground is allowed and should feel like the same gothic puppet-theatre world.\nThe spell or phenomenon must be the unmistakable visual subject and remain readable at small size.\nAsset: 集中.\n青白い魔力と魔法陣が静かに一点へ収束する。攻撃ではなく次の大魔法への準備と分かる。\nOUTPUT REQUIREMENT: opaque illustrated background is allowed when appropriate for this asset type.\nDo NOT include: 文字, 数字, カード枠, UI, ロゴ, 複数案, 人物, 写実3DCG.\nCritical production rule: 1 asset = 1 image. Never make a contact sheet, comparison sheet, character lineup, asset sheet, split panel, or multiple design variants.\nDo not add explanatory text, labels, captions, logos, or decorative typography.",
       "last_error": {
         "message": "Cost guard stopped run at 12 image API calls",
-        "at": "2026-10-04T14:58:37.453Z"
+        "at": "2026-10-04T16:54:25.683Z"
       },
       "failure_history": [
         {
@@ -2670,6 +3024,12 @@
           "attempt": 3,
           "kind": "cost_guard",
           "message": "Cost guard stopped run at 12 image API calls"
+        },
+        {
+          "at": "2026-10-04T16:54:25.683Z",
+          "attempt": 4,
+          "kind": "cost_guard",
+          "message": "Cost guard stopped run at 12 image API calls"
         }
       ],
       "self_heal": {
@@ -2678,7 +3038,7 @@
         "requeued": true,
         "exhausted": false,
         "last_reason": "cost_guard",
-        "updated_at": "2026-10-04T14:58:37.453Z"
+        "updated_at": "2026-10-04T16:54:25.683Z"
       }
     },
     {
@@ -2687,7 +3047,7 @@
       "format": "png",
       "style_version": "gothic-silhouette-puppet-v0.1",
       "status": "queued",
-      "attempts": 3,
+      "attempts": 4,
       "generation_count": 0,
       "generation_id": null,
       "qa": {},
@@ -2719,11 +3079,11 @@
       "filename": "frost-nova.png",
       "path": "assets/cards/puppet-v1/frost-nova.png",
       "negative_prompt": "文字 / 数字 / カード枠 / UI / ロゴ / 複数案 / 人物 / 写実3DCG",
-      "updated_at": "2026-10-04T14:58:37.458Z",
+      "updated_at": "2026-10-04T16:54:25.688Z",
       "last_prompt": "Project: 進化ダンジョン. Style version: gothic-silhouette-puppet-v0.1.\nOfficial art direction: ゴシック・シルエット風パペット・ダークファンタジー。2D、手描き・絵画的、少し不気味だが美しい人形劇・影絵の世界。ゴシック古城・地下迷宮・魔術世界。黒・濃紺・紫・青・古金を基調とし、写実的3DCG感を避ける。キャラクターは最初から2Dパペットアニメーションで動かす前提で、細身で読みやすいシルエット、頭・胴体・腕・脚・武器の分離、関節の認識しやすさを重視する。小さいゲーム画面での視認性と既存素材との統一感を最優先する。\nOfficial style: Gothic silhouette puppet dark fantasy.\n2D dark fantasy with gothic castles, underground ruins, magical architecture, and theatrical puppet-stage atmosphere.\nHand-painted and painterly, slightly eerie but beautiful.\nStrong readable silhouettes inspired by shadow theatre and articulated stage puppets.\nAvoid photorealism, realistic human rendering, glossy 3D CGI, toy-render aesthetics, bright pop colors, anime moe, chibi, or cute deformation.\nPrimary palette: black, deep navy, purple, blue, and antique gold. Attribute-specific magical glow colors are allowed.\nPrioritize visual consistency with the existing game world over standalone prettiness.\nDesign for readability on a small landscape game screen.\nCreate exactly ONE card illustration asset, not a card mockup.\nPortrait composition for a vertical card crop.\nNo card frame, no title, no letters, no numbers, no cost, no logo, and no UI.\nCreate only the pure illustration that appears inside the card.\nBackground is allowed and should feel like the same gothic puppet-theatre world.\nThe spell or phenomenon must be the unmistakable visual subject and remain readable at small size.\nAsset: 霜の輪.\n地面の一点から円形に広がる青白い冷気と氷晶。広範囲を凍てつかせる魔法。\nOUTPUT REQUIREMENT: opaque illustrated background is allowed when appropriate for this asset type.\nDo NOT include: 文字, 数字, カード枠, UI, ロゴ, 複数案, 人物, 写実3DCG.\nCritical production rule: 1 asset = 1 image. Never make a contact sheet, comparison sheet, character lineup, asset sheet, split panel, or multiple design variants.\nDo not add explanatory text, labels, captions, logos, or decorative typography.",
       "last_error": {
         "message": "Cost guard stopped run at 12 image API calls",
-        "at": "2026-10-04T14:58:37.458Z"
+        "at": "2026-10-04T16:54:25.688Z"
       },
       "failure_history": [
         {
@@ -2743,6 +3103,12 @@
           "attempt": 3,
           "kind": "cost_guard",
           "message": "Cost guard stopped run at 12 image API calls"
+        },
+        {
+          "at": "2026-10-04T16:54:25.688Z",
+          "attempt": 4,
+          "kind": "cost_guard",
+          "message": "Cost guard stopped run at 12 image API calls"
         }
       ],
       "self_heal": {
@@ -2751,7 +3117,7 @@
         "requeued": true,
         "exhausted": false,
         "last_reason": "cost_guard",
-        "updated_at": "2026-10-04T14:58:37.458Z"
+        "updated_at": "2026-10-04T16:54:25.688Z"
       }
     },
     {
@@ -2760,7 +3126,7 @@
       "format": "png",
       "style_version": "gothic-silhouette-puppet-v0.1",
       "status": "queued",
-      "attempts": 3,
+      "attempts": 4,
       "generation_count": 0,
       "generation_id": null,
       "qa": {},
@@ -2792,11 +3158,11 @@
       "filename": "mana-surge.png",
       "path": "assets/cards/puppet-v1/mana-surge.png",
       "negative_prompt": "文字 / 数字 / カード枠 / UI / ロゴ / 複数案 / 人物 / 写実3DCG",
-      "updated_at": "2026-10-04T14:58:37.465Z",
+      "updated_at": "2026-10-04T16:54:25.694Z",
       "last_prompt": "Project: 進化ダンジョン. Style version: gothic-silhouette-puppet-v0.1.\nOfficial art direction: ゴシック・シルエット風パペット・ダークファンタジー。2D、手描き・絵画的、少し不気味だが美しい人形劇・影絵の世界。ゴシック古城・地下迷宮・魔術世界。黒・濃紺・紫・青・古金を基調とし、写実的3DCG感を避ける。キャラクターは最初から2Dパペットアニメーションで動かす前提で、細身で読みやすいシルエット、頭・胴体・腕・脚・武器の分離、関節の認識しやすさを重視する。小さいゲーム画面での視認性と既存素材との統一感を最優先する。\nOfficial style: Gothic silhouette puppet dark fantasy.\n2D dark fantasy with gothic castles, underground ruins, magical architecture, and theatrical puppet-stage atmosphere.\nHand-painted and painterly, slightly eerie but beautiful.\nStrong readable silhouettes inspired by shadow theatre and articulated stage puppets.\nAvoid photorealism, realistic human rendering, glossy 3D CGI, toy-render aesthetics, bright pop colors, anime moe, chibi, or cute deformation.\nPrimary palette: black, deep navy, purple, blue, and antique gold. Attribute-specific magical glow colors are allowed.\nPrioritize visual consistency with the existing game world over standalone prettiness.\nDesign for readability on a small landscape game screen.\nCreate exactly ONE card illustration asset, not a card mockup.\nPortrait composition for a vertical card crop.\nNo card frame, no title, no letters, no numbers, no cost, no logo, and no UI.\nCreate only the pure illustration that appears inside the card.\nBackground is allowed and should feel like the same gothic puppet-theatre world.\nThe spell or phenomenon must be the unmistakable visual subject and remain readable at small size.\nAsset: 魔力奔流.\n大量の青紫色の魔力が巨大な一本の流れとなって一点へ集積し噴き上がる。\nOUTPUT REQUIREMENT: opaque illustrated background is allowed when appropriate for this asset type.\nDo NOT include: 文字, 数字, カード枠, UI, ロゴ, 複数案, 人物, 写実3DCG.\nCritical production rule: 1 asset = 1 image. Never make a contact sheet, comparison sheet, character lineup, asset sheet, split panel, or multiple design variants.\nDo not add explanatory text, labels, captions, logos, or decorative typography.",
       "last_error": {
         "message": "Cost guard stopped run at 12 image API calls",
-        "at": "2026-10-04T14:58:37.465Z"
+        "at": "2026-10-04T16:54:25.694Z"
       },
       "failure_history": [
         {
@@ -2816,6 +3182,12 @@
           "attempt": 3,
           "kind": "cost_guard",
           "message": "Cost guard stopped run at 12 image API calls"
+        },
+        {
+          "at": "2026-10-04T16:54:25.694Z",
+          "attempt": 4,
+          "kind": "cost_guard",
+          "message": "Cost guard stopped run at 12 image API calls"
         }
       ],
       "self_heal": {
@@ -2824,7 +3196,7 @@
         "requeued": true,
         "exhausted": false,
         "last_reason": "cost_guard",
-        "updated_at": "2026-10-04T14:58:37.465Z"
+        "updated_at": "2026-10-04T16:54:25.694Z"
       }
     },
     {
@@ -2833,7 +3205,7 @@
       "format": "png",
       "style_version": "gothic-silhouette-puppet-v0.1",
       "status": "queued",
-      "attempts": 3,
+      "attempts": 4,
       "generation_count": 0,
       "generation_id": null,
       "qa": {},
@@ -2865,11 +3237,11 @@
       "filename": "mirror-barrier.png",
       "path": "assets/cards/puppet-v1/mirror-barrier.png",
       "negative_prompt": "文字 / 数字 / カード枠 / UI / ロゴ / 複数案 / 人物 / 写実3DCG",
-      "updated_at": "2026-10-04T14:58:37.472Z",
+      "updated_at": "2026-10-04T16:54:25.699Z",
       "last_prompt": "Project: 進化ダンジョン. Style version: gothic-silhouette-puppet-v0.1.\nOfficial art direction: ゴシック・シルエット風パペット・ダークファンタジー。2D、手描き・絵画的、少し不気味だが美しい人形劇・影絵の世界。ゴシック古城・地下迷宮・魔術世界。黒・濃紺・紫・青・古金を基調とし、写実的3DCG感を避ける。キャラクターは最初から2Dパペットアニメーションで動かす前提で、細身で読みやすいシルエット、頭・胴体・腕・脚・武器の分離、関節の認識しやすさを重視する。小さいゲーム画面での視認性と既存素材との統一感を最優先する。\nOfficial style: Gothic silhouette puppet dark fantasy.\n2D dark fantasy with gothic castles, underground ruins, magical architecture, and theatrical puppet-stage atmosphere.\nHand-painted and painterly, slightly eerie but beautiful.\nStrong readable silhouettes inspired by shadow theatre and articulated stage puppets.\nAvoid photorealism, realistic human rendering, glossy 3D CGI, toy-render aesthetics, bright pop colors, anime moe, chibi, or cute deformation.\nPrimary palette: black, deep navy, purple, blue, and antique gold. Attribute-specific magical glow colors are allowed.\nPrioritize visual consistency with the existing game world over standalone prettiness.\nDesign for readability on a small landscape game screen.\nCreate exactly ONE card illustration asset, not a card mockup.\nPortrait composition for a vertical card crop.\nNo card frame, no title, no letters, no numbers, no cost, no logo, and no UI.\nCreate only the pure illustration that appears inside the card.\nBackground is allowed and should feel like the same gothic puppet-theatre world.\nThe spell or phenomenon must be the unmistakable visual subject and remain readable at small size.\nAsset: 鏡の結界.\n鏡やガラスのような複数の魔法障壁が攻撃を受け止め、相手へ反射する青白い反射光。\nOUTPUT REQUIREMENT: opaque illustrated background is allowed when appropriate for this asset type.\nDo NOT include: 文字, 数字, カード枠, UI, ロゴ, 複数案, 人物, 写実3DCG.\nCritical production rule: 1 asset = 1 image. Never make a contact sheet, comparison sheet, character lineup, asset sheet, split panel, or multiple design variants.\nDo not add explanatory text, labels, captions, logos, or decorative typography.",
       "last_error": {
         "message": "Cost guard stopped run at 12 image API calls",
-        "at": "2026-10-04T14:58:37.472Z"
+        "at": "2026-10-04T16:54:25.699Z"
       },
       "failure_history": [
         {
@@ -2889,6 +3261,12 @@
           "attempt": 3,
           "kind": "cost_guard",
           "message": "Cost guard stopped run at 12 image API calls"
+        },
+        {
+          "at": "2026-10-04T16:54:25.699Z",
+          "attempt": 4,
+          "kind": "cost_guard",
+          "message": "Cost guard stopped run at 12 image API calls"
         }
       ],
       "self_heal": {
@@ -2897,7 +3275,7 @@
         "requeued": true,
         "exhausted": false,
         "last_reason": "cost_guard",
-        "updated_at": "2026-10-04T14:58:37.472Z"
+        "updated_at": "2026-10-04T16:54:25.699Z"
       }
     },
     {
@@ -2905,8 +3283,8 @@
       "project_id": "shinka",
       "format": "png",
       "style_version": "gothic-silhouette-puppet-v0.1",
-      "status": "waiting",
-      "attempts": 0,
+      "status": "queued",
+      "attempts": 1,
       "generation_count": 0,
       "generation_id": null,
       "qa": {},
@@ -2937,7 +3315,29 @@
       "save_path": "assets/cards/puppet-v1/ice-spear.png",
       "filename": "ice-spear.png",
       "path": "assets/cards/puppet-v1/ice-spear.png",
-      "negative_prompt": "文字 / 数字 / カード枠 / UI / ロゴ / 複数案 / 人物 / 写実3DCG"
+      "negative_prompt": "文字 / 数字 / カード枠 / UI / ロゴ / 複数案 / 人物 / 写実3DCG",
+      "updated_at": "2026-10-04T16:54:25.708Z",
+      "last_prompt": "Project: 進化ダンジョン. Style version: gothic-silhouette-puppet-v0.1.\nOfficial art direction: ゴシック・シルエット風パペット・ダークファンタジー。2D、手描き・絵画的、少し不気味だが美しい人形劇・影絵の世界。ゴシック古城・地下迷宮・魔術世界。黒・濃紺・紫・青・古金を基調とし、写実的3DCG感を避ける。キャラクターは最初から2Dパペットアニメーションで動かす前提で、細身で読みやすいシルエット、頭・胴体・腕・脚・武器の分離、関節の認識しやすさを重視する。小さいゲーム画面での視認性と既存素材との統一感を最優先する。\nOfficial style: Gothic silhouette puppet dark fantasy.\n2D dark fantasy with gothic castles, underground ruins, magical architecture, and theatrical puppet-stage atmosphere.\nHand-painted and painterly, slightly eerie but beautiful.\nStrong readable silhouettes inspired by shadow theatre and articulated stage puppets.\nAvoid photorealism, realistic human rendering, glossy 3D CGI, toy-render aesthetics, bright pop colors, anime moe, chibi, or cute deformation.\nPrimary palette: black, deep navy, purple, blue, and antique gold. Attribute-specific magical glow colors are allowed.\nPrioritize visual consistency with the existing game world over standalone prettiness.\nDesign for readability on a small landscape game screen.\nCreate exactly ONE card illustration asset, not a card mockup.\nPortrait composition for a vertical card crop.\nNo card frame, no title, no letters, no numbers, no cost, no logo, and no UI.\nCreate only the pure illustration that appears inside the card.\nBackground is allowed and should feel like the same gothic puppet-theatre world.\nThe spell or phenomenon must be the unmistakable visual subject and remain readable at small size.\nAsset: 氷槍.\n氷の矢から進化した巨大で鋭利な一本の氷槍。上位魔法として明確に強そうな重量感。\nOUTPUT REQUIREMENT: opaque illustrated background is allowed when appropriate for this asset type.\nDo NOT include: 文字, 数字, カード枠, UI, ロゴ, 複数案, 人物, 写実3DCG.\nCritical production rule: 1 asset = 1 image. Never make a contact sheet, comparison sheet, character lineup, asset sheet, split panel, or multiple design variants.\nDo not add explanatory text, labels, captions, logos, or decorative typography.",
+      "last_error": {
+        "message": "Cost guard stopped run at 12 image API calls",
+        "at": "2026-10-04T16:54:25.708Z"
+      },
+      "failure_history": [
+        {
+          "at": "2026-10-04T16:54:25.708Z",
+          "attempt": 1,
+          "kind": "cost_guard",
+          "message": "Cost guard stopped run at 12 image API calls"
+        }
+      ],
+      "self_heal": {
+        "enabled": true,
+        "max_total_attempts": 8,
+        "requeued": true,
+        "exhausted": false,
+        "last_reason": "cost_guard",
+        "updated_at": "2026-10-04T16:54:25.708Z"
+      }
     },
     {
       "project": "進化ダンジョン",
