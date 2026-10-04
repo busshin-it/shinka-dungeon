@@ -140,3 +140,20 @@ OPENAI_API_KEY=... npm run asset:run
 `ASSET_FACTORY_AUTO_PAUSED=true`
 
 を設定してください。
+
+
+## 基本魔法師 puppet-v2
+
+2026-10-05から、基本魔法師は puppet-v1 を削除せず、別系統の `puppet-v2` として再設計する。
+
+- 保存先: `assets/characters/mage/puppet-v2/parts/`
+- 公式参照: `assets/characters/mage/puppet-v2/reference/`
+- 1素材 = 1画像
+- 完成立ち絵の切り抜きではなく、パペット用に各パーツを描き起こす
+- M02「頭＋顔」を最初に生成
+- QA合格後も `awaiting_human` で停止
+- M02人間承認後に M03 前髪 / M04 後ろ髪 / M01 帽子
+- 頭部セット承認後に M05〜M14
+- 画風変更中は大量生成しない
+
+puppet-v2 の重要JOBでは `human_gate: true` を使う。Human Gate対象はQA合格後も正式保存せず、debug candidateをGitHubへ残して人間承認を待つ。
