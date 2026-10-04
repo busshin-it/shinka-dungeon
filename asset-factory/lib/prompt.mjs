@@ -53,7 +53,7 @@ const TYPE_RULES = {
   ],
   part: [
     'Create exactly ONE isolated puppet part only, never a sheet of parts.',
-    'This is a production rig asset, not a beauty illustration.',
+    'This is a production rig asset, not a beauty illustration. Treat limb-related jobs as clothed puppet costume components, not detached human anatomy. Do not depict exposed flesh, injury, gore, or anatomical cut surfaces.',
     'Use flat cutout / shadow-puppet / stage-puppet 2D construction with 2–4 matte color values and a hard readable outline.',
     'Avoid realistic volume shading, glossy rendering, cinematic light, detailed anime illustration, soft gradients, and decorative complexity.',
     'Do not include any other body parts, scenery, UI, text, labels, or assembly guides.',
