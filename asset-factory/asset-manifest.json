@@ -198,30 +198,30 @@
       "generation_id": null,
       "transparent": true,
       "status": "needs_fix",
-      "prompt": "基本魔法師の胴体パーツのみ。黒〜濃紺の簡潔なゴシック上衣、古金は小さな留め具だけ。首穴、両肩、腰の接続用に十分な重ね代。フリル、長い前垂れ、腰布、マント、腕、頭、脚は描かない。 最重要：ゴシック影絵・切り絵・舞台人形の平面的2Dパーツ。色面は2〜4段階、マット塗り、硬めの輪郭。写実的3D陰影、アニメ美麗立ち絵質感、グラデーション、光沢、複雑な刺繍や宝石を使わない。OUTPUT PIPELINE REQUIREMENTの単色背景以外は描かない。",
+      "prompt": "基本魔法師の胴体コアパーツのみ。範囲は首の付け根から腰の上端まで。黒〜濃紺の非常に簡潔なゴシック上衣。形は短いベストまたは胸当てのような一枚のコンパクトな胴体。首穴、左右の肩接続穴、腰接続部だけを持つ。腰より下へ一切伸ばさない。中央のネクタイ、前垂れ、布帯、スカート、コート裾、二股の裾、腰布、マント、腕、頭、脚は描かない。古金装飾は胸元に小さな留め具1個だけ。肩と腰の接続部は丸く単純にし、他パーツを重ねやすい余白を残す。最重要：1つの短い胴体コアだけ。平面的な切り絵・影絵・舞台人形パーツ。2〜4色のマット塗り、硬い輪郭。立体的な服、長い装飾、グラデーション、宝石、刺繍を使わない。OUTPUT PIPELINE REQUIREMENTの単色背景以外は描かない。",
       "generator": {
         "model": "gpt-image-2.5-flare",
         "quality": "medium",
         "used_references": 0,
         "generation_id": null,
-        "created": 1791090788,
+        "created": 1791091141,
         "usage": {
-          "input_tokens": 982,
+          "input_tokens": 1187,
           "input_tokens_details": {
             "image_tokens": 0,
-            "text_tokens": 982
+            "text_tokens": 1187
           },
           "output_tokens": 439,
           "output_tokens_details": {
             "image_tokens": 439,
             "text_tokens": 0
           },
-          "total_tokens": 1421
+          "total_tokens": 1626
         }
       },
       "qa": {
         "pass": false,
-        "score": 35,
+        "score": 68,
         "structural": {
           "pass": true,
           "issues": [],
@@ -233,11 +233,11 @@
             "hasAlpha": true,
             "alpha_stats": {
               "pixels": 1048576,
-              "transparent": 831152,
-              "translucent": 184,
-              "opaque": 217240,
-              "transparent_ratio": 0.7926483154296875,
-              "nonopaque_ratio": 0.7928237915039062
+              "transparent": 875158,
+              "translucent": 0,
+              "opaque": 173418,
+              "transparent_ratio": 0.8346157073974609,
+              "nonopaque_ratio": 0.8346157073974609
             }
           }
         },
@@ -245,34 +245,33 @@
           "single_asset": true,
           "no_text_ui": true,
           "subject_match": false,
-          "art_direction": false,
+          "art_direction": true,
           "puppet_style": true,
           "joint_readability": true,
           "small_screen_silhouette": true,
           "composition": true,
-          "transparency_visual": false,
+          "transparency_visual": true,
           "reference_consistency": true
         },
         "issues": [
-          "胴体中央に長い前垂れ状パーツが描かれており、指定の『長い前垂れを描かない』条件に違反している",
-          "背景が鮮色の緑で不透明に見え、構造上は透明でも表示上の単色背景要件を満たしていない",
-          "陰影と縁取りがやや滑らかで、指定の2〜4段階の平面的マットな切り絵表現より立体的",
-          "古金の留め具が複数かつ装飾的で、小さな簡潔な留め具という指定から逸脱している"
+          "胴体中央に明確なネクタイ状の長い前垂れがあり、禁止条件に違反している",
+          "腰下方向へ尖った装飾形状が伸びており、短い胴体コアの範囲を逸脱している",
+          "胸元の古金装飾が留め具1個ではなく、横長の金属帯を伴っている"
         ],
-        "remediation": "中央の長い前垂れを完全に削除し、首穴・肩穴・腰の接続余白だけを持つ黒〜濃紺の平面的な胴体単体にして、古金は小さな留め具1〜2個 בלבד、背景は完全な透明PNGで出力する。",
-        "checked_at": "2026-10-04T05:13:13.357Z",
+        "remediation": "首の付け根から腰上端までの短いベスト形状だけを残し、中央のネクタイ・前垂れ・尖った縦装飾・横長金属帯を完全に削除し、胸中央には小さな古金留め具1個 בלבדを配置する",
+        "checked_at": "2026-10-04T05:19:06.220Z",
         "model": "gpt-5.6-luna",
         "usage": {
-          "input_tokens": 2152,
+          "input_tokens": 2300,
           "input_tokens_details": {
-            "cache_write_tokens": 2149,
+            "cache_write_tokens": 2297,
             "cached_tokens": 0
           },
-          "output_tokens": 304,
+          "output_tokens": 242,
           "output_tokens_details": {
             "reasoning_tokens": 0
           },
-          "total_tokens": 2456
+          "total_tokens": 2542
         }
       }
     },

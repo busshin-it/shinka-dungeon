@@ -307,11 +307,65 @@
       "project_id": "shinka",
       "format": "png",
       "style_version": "gothic-silhouette-puppet-v0.1",
-      "status": "waiting",
-      "attempts": 2,
+      "status": "needs_fix",
+      "attempts": 4,
       "generation_count": 0,
       "generation_id": null,
-      "qa": {},
+      "qa": {
+        "pass": false,
+        "score": 68,
+        "structural": {
+          "pass": true,
+          "issues": [],
+          "image": {
+            "valid": true,
+            "width": 1024,
+            "height": 1024,
+            "colorType": 6,
+            "hasAlpha": true,
+            "alpha_stats": {
+              "pixels": 1048576,
+              "transparent": 875158,
+              "translucent": 0,
+              "opaque": 173418,
+              "transparent_ratio": 0.8346157073974609,
+              "nonopaque_ratio": 0.8346157073974609
+            }
+          }
+        },
+        "checks": {
+          "single_asset": true,
+          "no_text_ui": true,
+          "subject_match": false,
+          "art_direction": true,
+          "puppet_style": true,
+          "joint_readability": true,
+          "small_screen_silhouette": true,
+          "composition": true,
+          "transparency_visual": true,
+          "reference_consistency": true
+        },
+        "issues": [
+          "胴体中央に明確なネクタイ状の長い前垂れがあり、禁止条件に違反している",
+          "腰下方向へ尖った装飾形状が伸びており、短い胴体コアの範囲を逸脱している",
+          "胸元の古金装飾が留め具1個ではなく、横長の金属帯を伴っている"
+        ],
+        "remediation": "首の付け根から腰上端までの短いベスト形状だけを残し、中央のネクタイ・前垂れ・尖った縦装飾・横長金属帯を完全に削除し、胸中央には小さな古金留め具1個 בלבדを配置する",
+        "checked_at": "2026-10-04T05:19:06.220Z",
+        "model": "gpt-5.6-luna",
+        "usage": {
+          "input_tokens": 2300,
+          "input_tokens_details": {
+            "cache_write_tokens": 2297,
+            "cached_tokens": 0
+          },
+          "output_tokens": 242,
+          "output_tokens_details": {
+            "reasoning_tokens": 0
+          },
+          "total_tokens": 2542
+        }
+      },
       "quality_result": null,
       "github_synced": false,
       "asset_id": "shinka_part_base_mage_torso_puppet_v1",
@@ -363,26 +417,26 @@
       "negative_prompt": "地面 / 文字 / UI / 頭 / 腕 / 手 / 脚 / 人体全身 / 他の身体パーツ / ネクタイ / 前垂れ / 長い前垂れ / 布帯 / 腰布 / スカート / コート裾 / 二股の裾 / マント / 宝石 / 複雑な刺繍 / 複数の金具 / 写実3DCG / 3Dレンダー / 写実的陰影 / ソフトグラデーション / 美麗アニメ立ち絵 / 光沢 / 複数パーツ / パーツシート",
       "chroma_key": true,
       "last_error": null,
-      "updated_at": "2026-10-04T05:13:00.007Z",
-      "last_prompt": "Project: 進化ダンジョン. Style version: gothic-silhouette-puppet-v0.1.\nOfficial art direction: ゴシック・シルエット風パペット・ダークファンタジー。2D、手描き・絵画的、少し不気味だが美しい人形劇・影絵の世界。ゴシック古城・地下迷宮・魔術世界。黒・濃紺・紫・青・古金を基調とし、写実的3DCG感を避ける。キャラクターは最初から2Dパペットアニメーションで動かす前提で、細身で読みやすいシルエット、頭・胴体・腕・脚・武器の分離、関節の認識しやすさを重視する。小さいゲーム画面での視認性と既存素材との統一感を最優先する。\nOfficial style: Gothic silhouette puppet dark fantasy.\n2D dark fantasy with gothic castles, underground ruins, magical architecture, and theatrical puppet-stage atmosphere.\nHand-painted and painterly, slightly eerie but beautiful.\nStrong readable silhouettes inspired by shadow theatre and articulated stage puppets.\nAvoid photorealism, realistic human rendering, glossy 3D CGI, toy-render aesthetics, bright pop colors, anime moe, chibi, or cute deformation.\nPrimary palette: black, deep navy, purple, blue, and antique gold. Attribute-specific magical glow colors are allowed.\nPrioritize visual consistency with the existing game world over standalone prettiness.\nDesign for readability on a small landscape game screen.\nCreate exactly ONE isolated puppet part only, never a sheet of parts.\nThis is a production rig asset, not a beauty illustration.\nUse flat cutout / shadow-puppet / stage-puppet 2D construction with 2–4 matte color values and a hard readable outline.\nAvoid realistic volume shading, glossy rendering, cinematic light, detailed anime illustration, soft gradients, and decorative complexity.\nDo not include any other body parts, scenery, UI, text, labels, or assembly guides.\nKeep enough overlap margin at the joint connection for rigging.\nCenter the single part with generous empty margin and keep its silhouette clean at small size.\nAsset: 基本魔法師 胴体.\n基本魔法師の胴体パーツのみ。黒〜濃紺の簡潔なゴシック上衣、古金は小さな留め具だけ。首穴、両肩、腰の接続用に十分な重ね代。フリル、長い前垂れ、腰布、マント、腕、頭、脚は描かない。 最重要：ゴシック影絵・切り絵・舞台人形の平面的2Dパーツ。色面は2〜4段階、マット塗り、硬めの輪郭。写実的3D陰影、アニメ美麗立ち絵質感、グラデーション、光沢、複雑な刺繍や宝石を使わない。OUTPUT PIPELINE REQUIREMENTの単色背景以外は描かない。\nOUTPUT PIPELINE REQUIREMENT: draw the subject on a single flat pure chroma green background (#00FF00), edge-to-edge, with NO gradient, NO vignette, NO floor, NO cast shadow, NO aura, NO glow behind the subject, and NO other background objects. Do not use green anywhere on the subject. The production pipeline will remove this green background and convert it to alpha transparency.\nDo NOT include: 地面, 文字, UI, 他の身体パーツ, パーツ一覧, 複数案, 写実3DCG, 3Dレンダー, 写実的陰影, ソフトグラデーション, 美麗アニメ立ち絵, 光沢, 宝石, 複雑な刺繍, 複数パーツ, パーツシート, 人体全身, checkerboard transparency pattern, gray checkerboard, fake transparency grid.\nCritical production rule: 1 asset = 1 image. Never make a contact sheet, comparison sheet, character lineup, asset sheet, split panel, or multiple design variants.\nDo not add explanatory text, labels, captions, logos, or decorative typography.\nPrevious QA correction to apply strictly: 背景を完全透明に維持し、黒〜濃紺の2〜4色の硬いマット面だけで、装飾を最小限にした単一の胴体上衣を再生成する。",
+      "updated_at": "2026-10-04T05:18:51.047Z",
+      "last_prompt": "Project: 進化ダンジョン. Style version: gothic-silhouette-puppet-v0.1.\nOfficial art direction: ゴシック・シルエット風パペット・ダークファンタジー。2D、手描き・絵画的、少し不気味だが美しい人形劇・影絵の世界。ゴシック古城・地下迷宮・魔術世界。黒・濃紺・紫・青・古金を基調とし、写実的3DCG感を避ける。キャラクターは最初から2Dパペットアニメーションで動かす前提で、細身で読みやすいシルエット、頭・胴体・腕・脚・武器の分離、関節の認識しやすさを重視する。小さいゲーム画面での視認性と既存素材との統一感を最優先する。\nOfficial style: Gothic silhouette puppet dark fantasy.\n2D dark fantasy with gothic castles, underground ruins, magical architecture, and theatrical puppet-stage atmosphere.\nHand-painted and painterly, slightly eerie but beautiful.\nStrong readable silhouettes inspired by shadow theatre and articulated stage puppets.\nAvoid photorealism, realistic human rendering, glossy 3D CGI, toy-render aesthetics, bright pop colors, anime moe, chibi, or cute deformation.\nPrimary palette: black, deep navy, purple, blue, and antique gold. Attribute-specific magical glow colors are allowed.\nPrioritize visual consistency with the existing game world over standalone prettiness.\nDesign for readability on a small landscape game screen.\nCreate exactly ONE isolated puppet part only, never a sheet of parts.\nThis is a production rig asset, not a beauty illustration.\nUse flat cutout / shadow-puppet / stage-puppet 2D construction with 2–4 matte color values and a hard readable outline.\nAvoid realistic volume shading, glossy rendering, cinematic light, detailed anime illustration, soft gradients, and decorative complexity.\nDo not include any other body parts, scenery, UI, text, labels, or assembly guides.\nKeep enough overlap margin at the joint connection for rigging.\nCenter the single part with generous empty margin and keep its silhouette clean at small size.\nAsset: 基本魔法師 胴体.\n基本魔法師の胴体コアパーツのみ。範囲は首の付け根から腰の上端まで。黒〜濃紺の非常に簡潔なゴシック上衣。形は短いベストまたは胸当てのような一枚のコンパクトな胴体。首穴、左右の肩接続穴、腰接続部だけを持つ。腰より下へ一切伸ばさない。中央のネクタイ、前垂れ、布帯、スカート、コート裾、二股の裾、腰布、マント、腕、頭、脚は描かない。古金装飾は胸元に小さな留め具1個だけ。肩と腰の接続部は丸く単純にし、他パーツを重ねやすい余白を残す。最重要：1つの短い胴体コアだけ。平面的な切り絵・影絵・舞台人形パーツ。2〜4色のマット塗り、硬い輪郭。立体的な服、長い装飾、グラデーション、宝石、刺繍を使わない。OUTPUT PIPELINE REQUIREMENTの単色背景以外は描かない。\nOUTPUT PIPELINE REQUIREMENT: draw the subject on a single flat pure chroma green background (#00FF00), edge-to-edge, with NO gradient, NO vignette, NO floor, NO cast shadow, NO aura, NO glow behind the subject, and NO other background objects. Do not use green anywhere on the subject. The production pipeline will remove this green background and convert it to alpha transparency.\nDo NOT include: 地面, 文字, UI, 頭, 腕, 手, 脚, 人体全身, 他の身体パーツ, ネクタイ, 前垂れ, 長い前垂れ, 布帯, 腰布, スカート, コート裾, 二股の裾, マント, 宝石, 複雑な刺繍, 複数の金具, 写実3DCG, 3Dレンダー, 写実的陰影, ソフトグラデーション, 美麗アニメ立ち絵, 光沢, 複数パーツ, パーツシート, checkerboard transparency pattern, gray checkerboard, fake transparency grid.\nCritical production rule: 1 asset = 1 image. Never make a contact sheet, comparison sheet, character lineup, asset sheet, split panel, or multiple design variants.\nDo not add explanatory text, labels, captions, logos, or decorative typography.\nPrevious QA correction to apply strictly: 首の付け根から腰上端までの短い一枚の胴体コアだけを、黒〜濃紺の2〜4色マット塗りと硬い輪郭で描き、首・左右肩・腰の接続部は小さく単純な丸穴にし、胸元の古金留め具は1個 בלבד、装飾や分割線を減らし、背景は完全なアルファ透明にする。",
       "generator": {
         "model": "gpt-image-2.5-flare",
         "quality": "medium",
         "used_references": 0,
         "generation_id": null,
-        "created": 1791090788,
+        "created": 1791091141,
         "usage": {
-          "input_tokens": 982,
+          "input_tokens": 1187,
           "input_tokens_details": {
             "image_tokens": 0,
-            "text_tokens": 982
+            "text_tokens": 1187
           },
           "output_tokens": 439,
           "output_tokens_details": {
             "image_tokens": 439,
             "text_tokens": 0
           },
-          "total_tokens": 1421
+          "total_tokens": 1626
         }
       },
       "debug_paths": {
