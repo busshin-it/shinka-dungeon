@@ -17,7 +17,7 @@
       "legacy_path": null,
       "generation_id": null,
       "transparent": true,
-      "status": "needs_fix",
+      "status": "superseded",
       "prompt": "進化ダンジョンの主人公用2Dパペット素体。若い中性的なゴシック魔術師。銀〜淡いラベンダー色の髪、青い瞳。黒・濃紺を中心に、古金は小さな留め具のみ。最重要：これは完成イラストではなくゲーム用の関節パペット素体。正面Aポーズ、両腕は胴体から20〜30度、両脚は肩幅。肩・肘・手首・股関節・膝・足首が明確。頭・胴体・左右上腕・左右前腕＋手・左右上脚・左右下脚の輪郭が互いに重なりすぎない。画風は平面的なゴシック影絵・切り絵・舞台人形。色面は2〜4段階程度のマットな塗り。硬めの手描き輪郭。グラデーション、光沢、肌の写実的陰影、3Dライティング、ソフトな立体陰影、アニメ美麗立ち絵の質感を使わない。衣装は短く簡潔。太い装飾袖、フリル、長い前垂れ、腰布、マント、帽子、杖、魔法エフェクト、宝石、大きな金円形装飾を描かない。髪は肩付近までの単純な塊で、胴体と腕に重ねない。小さなゲーム画面でも黒いシルエットだけで人物と関節構造が読めること。背景についてはOUTPUT PIPELINE REQUIREMENTだけに従う。",
       "generator": {
         "model": "gpt-image-2.5-flare",
@@ -110,10 +110,84 @@
       "legacy_path": null,
       "generation_id": null,
       "transparent": true,
-      "status": "waiting",
-      "prompt": "頭部のみ。顔、前髪、耳まわり、首の上部を含む。首接続部に重ね代を確保。帽子と後ろ髪は含めない。",
-      "generator": null,
-      "qa": {}
+      "status": "needs_fix",
+      "prompt": "基本魔法師の頭部パーツのみ。銀〜淡いラベンダー色の短めで単純な前髪、青い瞳。顔は簡略化し、影は2〜3段階の平面的なマット塗り。首の接続部を少し長めに残す。帽子、後ろ髪、胴体、肩、腕は描かない。 最重要：ゴシック影絵・切り絵・舞台人形の平面的2Dパーツ。色面は2〜4段階、マット塗り、硬めの輪郭。写実的3D陰影、アニメ美麗立ち絵質感、グラデーション、光沢、複雑な刺繍や宝石を使わない。OUTPUT PIPELINE REQUIREMENTの単色背景以外は描かない。",
+      "generator": {
+        "model": "gpt-image-2.5-flare",
+        "quality": "medium",
+        "used_references": 0,
+        "generation_id": null,
+        "created": 1791087261,
+        "usage": {
+          "input_tokens": 1038,
+          "input_tokens_details": {
+            "image_tokens": 0,
+            "text_tokens": 1038
+          },
+          "output_tokens": 439,
+          "output_tokens_details": {
+            "image_tokens": 439,
+            "text_tokens": 0
+          },
+          "total_tokens": 1477
+        }
+      },
+      "qa": {
+        "pass": false,
+        "score": 63,
+        "structural": {
+          "pass": true,
+          "issues": [],
+          "image": {
+            "valid": true,
+            "width": 1024,
+            "height": 1024,
+            "colorType": 6,
+            "hasAlpha": true,
+            "alpha_stats": {
+              "pixels": 1048576,
+              "transparent": 823781,
+              "translucent": 0,
+              "opaque": 224795,
+              "transparent_ratio": 0.785618782043457,
+              "nonopaque_ratio": 0.785618782043457
+            }
+          }
+        },
+        "checks": {
+          "single_asset": true,
+          "no_text_ui": true,
+          "subject_match": true,
+          "art_direction": false,
+          "puppet_style": true,
+          "joint_readability": true,
+          "small_screen_silhouette": true,
+          "composition": true,
+          "transparency_visual": true,
+          "reference_consistency": true
+        },
+        "issues": [
+          "顔・髪の表現が美麗アニメ立ち絵寄りで、指定のゴシック影絵・切り絵風の簡略化された頭部デザインから外れている",
+          "後ろ髪が大きく混在しており、前髪のみという指定に違反している",
+          "目・眉・鼻・口の描写が細かく、2〜3段階の平面的な簡略顔より情報量が多い",
+          "首の接続部はあるが、髪の輪郭が複雑でパペット用の単純な分離パーツとしての明瞭さを損ねている"
+        ],
+        "remediation": "帽子と後ろ髪を完全に除去し、銀〜淡いラベンダーの短い前髪だけを残した単純な頭部に再生成する。顔は青い瞳を含む2〜4色の硬いマット平面、太い切り絵輪郭、長めの単純な首接続部で、アニメ美麗表現や細部を避ける。",
+        "checked_at": "2026-10-04T04:14:26.751Z",
+        "model": "gpt-5.6-luna",
+        "usage": {
+          "input_tokens": 2159,
+          "input_tokens_details": {
+            "cache_write_tokens": 2156,
+            "cached_tokens": 0
+          },
+          "output_tokens": 329,
+          "output_tokens_details": {
+            "reasoning_tokens": 0
+          },
+          "total_tokens": 2488
+        }
+      }
     },
     {
       "asset_id": "shinka_part_base_mage_torso_puppet_v1",
@@ -129,7 +203,7 @@
       "generation_id": null,
       "transparent": true,
       "status": "waiting",
-      "prompt": "胴体のみ。首・肩・腰の接続部に十分な重ね代。頭、腕、脚、マントは含めない。",
+      "prompt": "基本魔法師の胴体パーツのみ。黒〜濃紺の簡潔なゴシック上衣、古金は小さな留め具だけ。首穴、両肩、腰の接続用に十分な重ね代。フリル、長い前垂れ、腰布、マント、腕、頭、脚は描かない。 最重要：ゴシック影絵・切り絵・舞台人形の平面的2Dパーツ。色面は2〜4段階、マット塗り、硬めの輪郭。写実的3D陰影、アニメ美麗立ち絵質感、グラデーション、光沢、複雑な刺繍や宝石を使わない。OUTPUT PIPELINE REQUIREMENTの単色背景以外は描かない。",
       "generator": null,
       "qa": {}
     },
@@ -147,7 +221,7 @@
       "generation_id": null,
       "transparent": true,
       "status": "waiting",
-      "prompt": "後ろ髪のみ。頭部後方へ自然に接続できる重ね代を確保。顔や頭部本体は含めない。",
+      "prompt": "基本魔法師の後ろ髪パーツのみ。銀〜淡いラベンダー色。肩付近までの単純な大きな塊として描き、細かい毛束や尖りを増やさない。頭部・顔・胴体は描かない。頭の後ろに重ねるため上部に接続余白を残す。 最重要：ゴシック影絵・切り絵・舞台人形の平面的2Dパーツ。色面は2〜4段階、マット塗り、硬めの輪郭。写実的3D陰影、アニメ美麗立ち絵質感、グラデーション、光沢、複雑な刺繍や宝石を使わない。OUTPUT PIPELINE REQUIREMENTの単色背景以外は描かない。",
       "generator": null,
       "qa": {}
     },
@@ -165,7 +239,7 @@
       "generation_id": null,
       "transparent": true,
       "status": "waiting",
-      "prompt": "魔術帽子のみ。頭部へ自然に重ねられる接続余白を確保。頭や髪本体は含めない。",
+      "prompt": "基本魔法師のゴシック魔術帽子パーツのみ。黒〜濃紺、古金の小さな留め具程度。シンプルな大きいシルエット。頭、髪、顔、身体は描かない。頭部に重ねるため内側に十分な余白。 最重要：ゴシック影絵・切り絵・舞台人形の平面的2Dパーツ。色面は2〜4段階、マット塗り、硬めの輪郭。写実的3D陰影、アニメ美麗立ち絵質感、グラデーション、光沢、複雑な刺繍や宝石を使わない。OUTPUT PIPELINE REQUIREMENTの単色背景以外は描かない。",
       "generator": null,
       "qa": {}
     },
@@ -183,7 +257,7 @@
       "generation_id": null,
       "transparent": true,
       "status": "waiting",
-      "prompt": "左上腕のみ。肩・肘の接続用重ね代を確保。前腕や手は含めない。",
+      "prompt": "基本魔法師の左上腕パーツのみ。黒〜濃紺の細身で簡潔な袖。肩側と肘側を丸く明確にし、両端に重ね代を残す。前腕、手、胴体は描かない。 最重要：ゴシック影絵・切り絵・舞台人形の平面的2Dパーツ。色面は2〜4段階、マット塗り、硬めの輪郭。写実的3D陰影、アニメ美麗立ち絵質感、グラデーション、光沢、複雑な刺繍や宝石を使わない。OUTPUT PIPELINE REQUIREMENTの単色背景以外は描かない。",
       "generator": null,
       "qa": {}
     },
@@ -201,7 +275,7 @@
       "generation_id": null,
       "transparent": true,
       "status": "waiting",
-      "prompt": "左前腕と左手のみ。肘接続部に重ね代。上腕は含めない。",
+      "prompt": "基本魔法師の左前腕＋左手パーツのみ。黒〜濃紺の細身の前腕、手は簡略化したパペット向け形状。肘側に重ね代。上腕、胴体、杖は描かない。 最重要：ゴシック影絵・切り絵・舞台人形の平面的2Dパーツ。色面は2〜4段階、マット塗り、硬めの輪郭。写実的3D陰影、アニメ美麗立ち絵質感、グラデーション、光沢、複雑な刺繍や宝石を使わない。OUTPUT PIPELINE REQUIREMENTの単色背景以外は描かない。",
       "generator": null,
       "qa": {}
     },
@@ -219,7 +293,7 @@
       "generation_id": null,
       "transparent": true,
       "status": "waiting",
-      "prompt": "右上腕のみ。肩・肘の接続用重ね代を確保。前腕や手は含めない。",
+      "prompt": "基本魔法師の右上腕パーツのみ。黒〜濃紺の細身で簡潔な袖。肩側と肘側を丸く明確にし、両端に重ね代を残す。前腕、手、胴体は描かない。 最重要：ゴシック影絵・切り絵・舞台人形の平面的2Dパーツ。色面は2〜4段階、マット塗り、硬めの輪郭。写実的3D陰影、アニメ美麗立ち絵質感、グラデーション、光沢、複雑な刺繍や宝石を使わない。OUTPUT PIPELINE REQUIREMENTの単色背景以外は描かない。",
       "generator": null,
       "qa": {}
     },
@@ -237,7 +311,7 @@
       "generation_id": null,
       "transparent": true,
       "status": "waiting",
-      "prompt": "右前腕と右手のみ。肘接続部に重ね代。上腕は含めない。",
+      "prompt": "基本魔法師の右前腕＋右手パーツのみ。黒〜濃紺の細身の前腕、手は簡略化したパペット向け形状。肘側に重ね代。上腕、胴体、杖は描かない。 最重要：ゴシック影絵・切り絵・舞台人形の平面的2Dパーツ。色面は2〜4段階、マット塗り、硬めの輪郭。写実的3D陰影、アニメ美麗立ち絵質感、グラデーション、光沢、複雑な刺繍や宝石を使わない。OUTPUT PIPELINE REQUIREMENTの単色背景以外は描かない。",
       "generator": null,
       "qa": {}
     },
@@ -255,7 +329,7 @@
       "generation_id": null,
       "transparent": true,
       "status": "waiting",
-      "prompt": "左上脚のみ。股関節・膝の接続用重ね代を確保。下脚は含めない。",
+      "prompt": "基本魔法師の左上脚パーツのみ。黒〜濃紺の細身の脚。股関節側と膝側を丸く明確にし、両端に重ね代。下脚、胴体、衣装布は描かない。 最重要：ゴシック影絵・切り絵・舞台人形の平面的2Dパーツ。色面は2〜4段階、マット塗り、硬めの輪郭。写実的3D陰影、アニメ美麗立ち絵質感、グラデーション、光沢、複雑な刺繍や宝石を使わない。OUTPUT PIPELINE REQUIREMENTの単色背景以外は描かない。",
       "generator": null,
       "qa": {}
     },
@@ -273,7 +347,7 @@
       "generation_id": null,
       "transparent": true,
       "status": "waiting",
-      "prompt": "左下脚のみ。膝接続用重ね代を確保。足先まで含める。",
+      "prompt": "基本魔法師の左下脚＋足先パーツのみ。黒〜濃紺の細身形状。膝側に重ね代を残し、足先まで完全に収める。上脚や他パーツは描かない。 最重要：ゴシック影絵・切り絵・舞台人形の平面的2Dパーツ。色面は2〜4段階、マット塗り、硬めの輪郭。写実的3D陰影、アニメ美麗立ち絵質感、グラデーション、光沢、複雑な刺繍や宝石を使わない。OUTPUT PIPELINE REQUIREMENTの単色背景以外は描かない。",
       "generator": null,
       "qa": {}
     },
@@ -291,7 +365,7 @@
       "generation_id": null,
       "transparent": true,
       "status": "waiting",
-      "prompt": "右上脚のみ。股関節・膝の接続用重ね代を確保。下脚は含めない。",
+      "prompt": "基本魔法師の右上脚パーツのみ。黒〜濃紺の細身の脚。股関節側と膝側を丸く明確にし、両端に重ね代。下脚、胴体、衣装布は描かない。 最重要：ゴシック影絵・切り絵・舞台人形の平面的2Dパーツ。色面は2〜4段階、マット塗り、硬めの輪郭。写実的3D陰影、アニメ美麗立ち絵質感、グラデーション、光沢、複雑な刺繍や宝石を使わない。OUTPUT PIPELINE REQUIREMENTの単色背景以外は描かない。",
       "generator": null,
       "qa": {}
     },
@@ -309,7 +383,7 @@
       "generation_id": null,
       "transparent": true,
       "status": "waiting",
-      "prompt": "右下脚のみ。膝接続用重ね代を確保。足先まで含める。",
+      "prompt": "基本魔法師の右下脚＋足先パーツのみ。黒〜濃紺の細身形状。膝側に重ね代を残し、足先まで完全に収める。上脚や他パーツは描かない。 最重要：ゴシック影絵・切り絵・舞台人形の平面的2Dパーツ。色面は2〜4段階、マット塗り、硬めの輪郭。写実的3D陰影、アニメ美麗立ち絵質感、グラデーション、光沢、複雑な刺繍や宝石を使わない。OUTPUT PIPELINE REQUIREMENTの単色背景以外は描かない。",
       "generator": null,
       "qa": {}
     },
@@ -327,7 +401,7 @@
       "generation_id": null,
       "transparent": true,
       "status": "waiting",
-      "prompt": "マントのみ。肩・背中に重ねられる接続余白を確保。本体や髪は含めない。",
+      "prompt": "基本魔法師の短めのマントパーツのみ。黒〜濃紺、裾は単純な形。肩・背中に重ねる接続余白。人物、髪、腕、胴体は描かない。 最重要：ゴシック影絵・切り絵・舞台人形の平面的2Dパーツ。色面は2〜4段階、マット塗り、硬めの輪郭。写実的3D陰影、アニメ美麗立ち絵質感、グラデーション、光沢、複雑な刺繍や宝石を使わない。OUTPUT PIPELINE REQUIREMENTの単色背景以外は描かない。",
       "generator": null,
       "qa": {}
     },
@@ -345,7 +419,7 @@
       "generation_id": null,
       "transparent": true,
       "status": "waiting",
-      "prompt": "杖のみ。先端から末端まで切らずに収める。手や人物は描かない。",
+      "prompt": "基本魔法師の杖パーツのみ。黒い細身の杖、古金の小さな装飾。先端から末端まで1本だけ完全に収める。手、人物、魔力球は描かない。 最重要：ゴシック影絵・切り絵・舞台人形の平面的2Dパーツ。色面は2〜4段階、マット塗り、硬めの輪郭。写実的3D陰影、アニメ美麗立ち絵質感、グラデーション、光沢、複雑な刺繍や宝石を使わない。OUTPUT PIPELINE REQUIREMENTの単色背景以外は描かない。",
       "generator": null,
       "qa": {}
     },
@@ -363,7 +437,7 @@
       "generation_id": null,
       "transparent": true,
       "status": "waiting",
-      "prompt": "杖先端の青白い魔力球のみ。杖本体や手は含めない。",
+      "prompt": "杖先端用の青白い魔力球パーツのみ。単純な円形〜楕円形の発光核1つだけ。杖、手、人物、背景エフェクトは描かない。 最重要：ゴシック影絵・切り絵・舞台人形の平面的2Dパーツ。色面は2〜4段階、マット塗り、硬めの輪郭。写実的3D陰影、アニメ美麗立ち絵質感、グラデーション、光沢、複雑な刺繍や宝石を使わない。OUTPUT PIPELINE REQUIREMENTの単色背景以外は描かない。",
       "generator": null,
       "qa": {}
     },
