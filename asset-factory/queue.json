@@ -20,60 +20,11 @@
       "project_id": "shinka",
       "format": "png",
       "style_version": "gothic-silhouette-puppet-v0.1",
-      "status": "needs_fix",
+      "status": "waiting",
       "attempts": 7,
       "generation_count": 0,
       "generation_id": null,
-      "qa": {
-        "pass": false,
-        "score": 42,
-        "structural": {
-          "pass": true,
-          "issues": [],
-          "image": {
-            "valid": true,
-            "width": 1024,
-            "height": 1536,
-            "colorType": 6,
-            "hasAlpha": true
-          }
-        },
-        "checks": {
-          "single_asset": true,
-          "no_text_ui": true,
-          "subject_match": true,
-          "art_direction": true,
-          "puppet_style": false,
-          "joint_readability": false,
-          "small_screen_silhouette": true,
-          "composition": false,
-          "transparency_visual": false,
-          "reference_consistency": true
-        },
-        "issues": [
-          "背景が完全透明ではなく、黒〜紫のグラデーションと背後の光彩がある",
-          "写実的で精密な美麗立ち絵寄りで、平面的な影絵・切り絵・舞台人形風ではない",
-          "大きな襟、装飾的な上着、長い前垂れや腰飾りが関節とパーツ境界を隠している",
-          "腕がやや曲がり、Aポーズの基準絵として肩・肘・手首の分離が不十分",
-          "頭部と後ろ髪、胴体、腕、脚などの個別パーツ境界が複雑な衣装装飾で曖昧",
-          "杖はないが、胸元・腰・脚に過剰な金装飾と宝石があり、簡潔な基準主人公の要件から外れる"
-        ],
-        "remediation": "完全透明アルファ背景で、黒・濃紺中心の簡潔な平面切り絵風ゴシック魔術師を正面Aポーズで再生成し、腕を胴体から20〜30度離し、脚を肩幅に開き、肩・肘・手首・股関節・膝・足首を明確に露出させ、長い布・前垂れ・大きな襟・過剰な装飾・光彩・床影を排除する",
-        "checked_at": "2026-10-04T01:04:15.026Z",
-        "model": "gpt-5.6-luna",
-        "usage": {
-          "input_tokens": 2869,
-          "input_tokens_details": {
-            "cache_write_tokens": 2866,
-            "cached_tokens": 0
-          },
-          "output_tokens": 411,
-          "output_tokens_details": {
-            "reasoning_tokens": 0
-          },
-          "total_tokens": 3280
-        }
-      },
+      "qa": {},
       "quality_result": null,
       "github_synced": false,
       "asset_id": "shinka_character_base_mage_puppet_v1",
@@ -141,7 +92,8 @@
           },
           "total_tokens": 1570
         }
-      }
+      },
+      "chroma_key": true
     },
     {
       "project": "進化ダンジョン",
@@ -182,7 +134,8 @@
       ],
       "filename": "head.png",
       "path": "assets/characters/puppet-v1/parts/head.png",
-      "negative_prompt": "背景 / 地面 / 文字 / UI / 他の身体パーツ / パーツ一覧 / 複数案 / 写実3DCG"
+      "negative_prompt": "背景 / 地面 / 文字 / UI / 他の身体パーツ / パーツ一覧 / 複数案 / 写実3DCG",
+      "chroma_key": true
     },
     {
       "project": "進化ダンジョン",
@@ -223,7 +176,8 @@
       ],
       "filename": "torso.png",
       "path": "assets/characters/puppet-v1/parts/torso.png",
-      "negative_prompt": "背景 / 地面 / 文字 / UI / 他の身体パーツ / パーツ一覧 / 複数案 / 写実3DCG"
+      "negative_prompt": "背景 / 地面 / 文字 / UI / 他の身体パーツ / パーツ一覧 / 複数案 / 写実3DCG",
+      "chroma_key": true
     },
     {
       "project": "進化ダンジョン",
@@ -264,7 +218,8 @@
       ],
       "filename": "hair-back.png",
       "path": "assets/characters/puppet-v1/parts/hair-back.png",
-      "negative_prompt": "背景 / 地面 / 文字 / UI / 他の身体パーツ / パーツ一覧 / 複数案 / 写実3DCG"
+      "negative_prompt": "背景 / 地面 / 文字 / UI / 他の身体パーツ / パーツ一覧 / 複数案 / 写実3DCG",
+      "chroma_key": true
     },
     {
       "project": "進化ダンジョン",
@@ -305,7 +260,8 @@
       ],
       "filename": "hat.png",
       "path": "assets/characters/puppet-v1/parts/hat.png",
-      "negative_prompt": "背景 / 地面 / 文字 / UI / 他の身体パーツ / パーツ一覧 / 複数案 / 写実3DCG"
+      "negative_prompt": "背景 / 地面 / 文字 / UI / 他の身体パーツ / パーツ一覧 / 複数案 / 写実3DCG",
+      "chroma_key": true
     },
     {
       "project": "進化ダンジョン",
@@ -346,7 +302,8 @@
       ],
       "filename": "upper-arm-l.png",
       "path": "assets/characters/puppet-v1/parts/upper-arm-l.png",
-      "negative_prompt": "背景 / 地面 / 文字 / UI / 他の身体パーツ / パーツ一覧 / 複数案 / 写実3DCG"
+      "negative_prompt": "背景 / 地面 / 文字 / UI / 他の身体パーツ / パーツ一覧 / 複数案 / 写実3DCG",
+      "chroma_key": true
     },
     {
       "project": "進化ダンジョン",
@@ -387,7 +344,8 @@
       ],
       "filename": "lower-arm-l-hand.png",
       "path": "assets/characters/puppet-v1/parts/lower-arm-l-hand.png",
-      "negative_prompt": "背景 / 地面 / 文字 / UI / 他の身体パーツ / パーツ一覧 / 複数案 / 写実3DCG"
+      "negative_prompt": "背景 / 地面 / 文字 / UI / 他の身体パーツ / パーツ一覧 / 複数案 / 写実3DCG",
+      "chroma_key": true
     },
     {
       "project": "進化ダンジョン",
@@ -428,7 +386,8 @@
       ],
       "filename": "upper-arm-r.png",
       "path": "assets/characters/puppet-v1/parts/upper-arm-r.png",
-      "negative_prompt": "背景 / 地面 / 文字 / UI / 他の身体パーツ / パーツ一覧 / 複数案 / 写実3DCG"
+      "negative_prompt": "背景 / 地面 / 文字 / UI / 他の身体パーツ / パーツ一覧 / 複数案 / 写実3DCG",
+      "chroma_key": true
     },
     {
       "project": "進化ダンジョン",
@@ -469,7 +428,8 @@
       ],
       "filename": "lower-arm-r-hand.png",
       "path": "assets/characters/puppet-v1/parts/lower-arm-r-hand.png",
-      "negative_prompt": "背景 / 地面 / 文字 / UI / 他の身体パーツ / パーツ一覧 / 複数案 / 写実3DCG"
+      "negative_prompt": "背景 / 地面 / 文字 / UI / 他の身体パーツ / パーツ一覧 / 複数案 / 写実3DCG",
+      "chroma_key": true
     },
     {
       "project": "進化ダンジョン",
@@ -510,7 +470,8 @@
       ],
       "filename": "upper-leg-l.png",
       "path": "assets/characters/puppet-v1/parts/upper-leg-l.png",
-      "negative_prompt": "背景 / 地面 / 文字 / UI / 他の身体パーツ / パーツ一覧 / 複数案 / 写実3DCG"
+      "negative_prompt": "背景 / 地面 / 文字 / UI / 他の身体パーツ / パーツ一覧 / 複数案 / 写実3DCG",
+      "chroma_key": true
     },
     {
       "project": "進化ダンジョン",
@@ -551,7 +512,8 @@
       ],
       "filename": "lower-leg-l.png",
       "path": "assets/characters/puppet-v1/parts/lower-leg-l.png",
-      "negative_prompt": "背景 / 地面 / 文字 / UI / 他の身体パーツ / パーツ一覧 / 複数案 / 写実3DCG"
+      "negative_prompt": "背景 / 地面 / 文字 / UI / 他の身体パーツ / パーツ一覧 / 複数案 / 写実3DCG",
+      "chroma_key": true
     },
     {
       "project": "進化ダンジョン",
@@ -592,7 +554,8 @@
       ],
       "filename": "upper-leg-r.png",
       "path": "assets/characters/puppet-v1/parts/upper-leg-r.png",
-      "negative_prompt": "背景 / 地面 / 文字 / UI / 他の身体パーツ / パーツ一覧 / 複数案 / 写実3DCG"
+      "negative_prompt": "背景 / 地面 / 文字 / UI / 他の身体パーツ / パーツ一覧 / 複数案 / 写実3DCG",
+      "chroma_key": true
     },
     {
       "project": "進化ダンジョン",
@@ -633,7 +596,8 @@
       ],
       "filename": "lower-leg-r.png",
       "path": "assets/characters/puppet-v1/parts/lower-leg-r.png",
-      "negative_prompt": "背景 / 地面 / 文字 / UI / 他の身体パーツ / パーツ一覧 / 複数案 / 写実3DCG"
+      "negative_prompt": "背景 / 地面 / 文字 / UI / 他の身体パーツ / パーツ一覧 / 複数案 / 写実3DCG",
+      "chroma_key": true
     },
     {
       "project": "進化ダンジョン",
@@ -674,7 +638,8 @@
       ],
       "filename": "cloak.png",
       "path": "assets/characters/puppet-v1/parts/cloak.png",
-      "negative_prompt": "背景 / 地面 / 文字 / UI / 他の身体パーツ / パーツ一覧 / 複数案 / 写実3DCG"
+      "negative_prompt": "背景 / 地面 / 文字 / UI / 他の身体パーツ / パーツ一覧 / 複数案 / 写実3DCG",
+      "chroma_key": true
     },
     {
       "project": "進化ダンジョン",
@@ -715,7 +680,8 @@
       ],
       "filename": "weapon-staff.png",
       "path": "assets/characters/puppet-v1/parts/weapon-staff.png",
-      "negative_prompt": "背景 / 地面 / 文字 / UI / 他の身体パーツ / パーツ一覧 / 複数案 / 写実3DCG"
+      "negative_prompt": "背景 / 地面 / 文字 / UI / 他の身体パーツ / パーツ一覧 / 複数案 / 写実3DCG",
+      "chroma_key": true
     },
     {
       "project": "進化ダンジョン",
@@ -756,7 +722,8 @@
       ],
       "filename": "weapon-orb.png",
       "path": "assets/characters/puppet-v1/parts/weapon-orb.png",
-      "negative_prompt": "背景 / 地面 / 文字 / UI / 他の身体パーツ / パーツ一覧 / 複数案 / 写実3DCG"
+      "negative_prompt": "背景 / 地面 / 文字 / UI / 他の身体パーツ / パーツ一覧 / 複数案 / 写実3DCG",
+      "chroma_key": true
     },
     {
       "project": "進化ダンジョン",
@@ -795,7 +762,8 @@
       "save_path": "assets/enemies/puppet-v1/skeleton-knight.png",
       "filename": "skeleton-knight.png",
       "path": "assets/enemies/puppet-v1/skeleton-knight.png",
-      "negative_prompt": "背景 / 地面 / 文字 / UI / 複数体 / 体切れ / 武器切れ / 写実3DCG / 極端な手足の重なり"
+      "negative_prompt": "背景 / 地面 / 文字 / UI / 複数体 / 体切れ / 武器切れ / 写実3DCG / 極端な手足の重なり",
+      "chroma_key": true
     },
     {
       "project": "進化ダンジョン",
@@ -834,7 +802,8 @@
       "save_path": "assets/enemies/puppet-v1/wraith-knight.png",
       "filename": "wraith-knight.png",
       "path": "assets/enemies/puppet-v1/wraith-knight.png",
-      "negative_prompt": "背景 / 地面 / 文字 / UI / 複数体 / 体切れ / 武器切れ / 写実3DCG / 極端な手足の重なり"
+      "negative_prompt": "背景 / 地面 / 文字 / UI / 複数体 / 体切れ / 武器切れ / 写実3DCG / 極端な手足の重なり",
+      "chroma_key": true
     },
     {
       "project": "進化ダンジョン",
@@ -873,7 +842,8 @@
       "save_path": "assets/enemies/puppet-v1/stone-magus.png",
       "filename": "stone-magus.png",
       "path": "assets/enemies/puppet-v1/stone-magus.png",
-      "negative_prompt": "背景 / 地面 / 文字 / UI / 複数体 / 体切れ / 武器切れ / 写実3DCG / 極端な手足の重なり"
+      "negative_prompt": "背景 / 地面 / 文字 / UI / 複数体 / 体切れ / 武器切れ / 写実3DCG / 極端な手足の重なり",
+      "chroma_key": true
     },
     {
       "project": "進化ダンジョン",
@@ -912,7 +882,8 @@
       "save_path": "assets/enemies/puppet-v1/castle-guardian.png",
       "filename": "castle-guardian.png",
       "path": "assets/enemies/puppet-v1/castle-guardian.png",
-      "negative_prompt": "背景 / 地面 / 文字 / UI / 複数体 / 体切れ / 武器切れ / 写実3DCG / 極端な手足の重なり"
+      "negative_prompt": "背景 / 地面 / 文字 / UI / 複数体 / 体切れ / 武器切れ / 写実3DCG / 極端な手足の重なり",
+      "chroma_key": true
     },
     {
       "project": "進化ダンジョン",
@@ -1462,7 +1433,8 @@
       ],
       "filename": "frost-mage.png",
       "path": "assets/classes/puppet-v1/frost-mage.png",
-      "negative_prompt": "背景 / 地面 / 文字 / UI / 別人 / 複数人 / 体切れ / 杖切れ / 写実3DCG / 極端な手足の重なり"
+      "negative_prompt": "背景 / 地面 / 文字 / UI / 別人 / 複数人 / 体切れ / 杖切れ / 写実3DCG / 極端な手足の重なり",
+      "chroma_key": true
     },
     {
       "project": "進化ダンジョン",
@@ -1505,7 +1477,8 @@
       ],
       "filename": "thunder-mage.png",
       "path": "assets/classes/puppet-v1/thunder-mage.png",
-      "negative_prompt": "背景 / 地面 / 文字 / UI / 別人 / 複数人 / 体切れ / 杖切れ / 写実3DCG / 極端な手足の重なり"
+      "negative_prompt": "背景 / 地面 / 文字 / UI / 別人 / 複数人 / 体切れ / 杖切れ / 写実3DCG / 極端な手足の重なり",
+      "chroma_key": true
     },
     {
       "project": "進化ダンジョン",
@@ -1548,7 +1521,8 @@
       ],
       "filename": "dark-mage.png",
       "path": "assets/classes/puppet-v1/dark-mage.png",
-      "negative_prompt": "背景 / 地面 / 文字 / UI / 別人 / 複数人 / 体切れ / 杖切れ / 写実3DCG / 極端な手足の重なり"
+      "negative_prompt": "背景 / 地面 / 文字 / UI / 別人 / 複数人 / 体切れ / 杖切れ / 写実3DCG / 極端な手足の重なり",
+      "chroma_key": true
     },
     {
       "project": "進化ダンジョン",
@@ -1591,7 +1565,8 @@
       ],
       "filename": "barrier-mage.png",
       "path": "assets/classes/puppet-v1/barrier-mage.png",
-      "negative_prompt": "背景 / 地面 / 文字 / UI / 別人 / 複数人 / 体切れ / 杖切れ / 写実3DCG / 極端な手足の重なり"
+      "negative_prompt": "背景 / 地面 / 文字 / UI / 別人 / 複数人 / 体切れ / 杖切れ / 写実3DCG / 極端な手足の重なり",
+      "chroma_key": true
     },
     {
       "project": "進化ダンジョン",
@@ -1634,7 +1609,8 @@
       ],
       "filename": "star-seer.png",
       "path": "assets/classes/puppet-v1/star-seer.png",
-      "negative_prompt": "背景 / 地面 / 文字 / UI / 別人 / 複数人 / 体切れ / 杖切れ / 写実3DCG / 極端な手足の重なり"
+      "negative_prompt": "背景 / 地面 / 文字 / UI / 別人 / 複数人 / 体切れ / 杖切れ / 写実3DCG / 極端な手足の重なり",
+      "chroma_key": true
     },
     {
       "project": "進化ダンジョン",
@@ -1677,7 +1653,8 @@
       ],
       "filename": "elementalist.png",
       "path": "assets/classes/puppet-v1/elementalist.png",
-      "negative_prompt": "背景 / 地面 / 文字 / UI / 別人 / 複数人 / 体切れ / 杖切れ / 写実3DCG / 極端な手足の重なり"
+      "negative_prompt": "背景 / 地面 / 文字 / UI / 別人 / 複数人 / 体切れ / 杖切れ / 写実3DCG / 極端な手足の重なり",
+      "chroma_key": true
     },
     {
       "asset_id": "shinka_card_ice_arrow",
@@ -2408,7 +2385,8 @@
       "display_title": "雷術師｜進化クラス",
       "generation_id": null,
       "style_version": "gothic-silhouette-puppet-v0.1",
-      "superseded_by": "puppet-v1"
+      "superseded_by": "puppet-v1",
+      "chroma_key": true
     },
     {
       "asset_id": "shinka_class_dark_mage",
@@ -2445,7 +2423,8 @@
       "display_title": "黒魔導士｜進化クラス",
       "generation_id": null,
       "style_version": "gothic-silhouette-puppet-v0.1",
-      "superseded_by": "puppet-v1"
+      "superseded_by": "puppet-v1",
+      "chroma_key": true
     },
     {
       "asset_id": "shinka_class_barrier_mage",
@@ -2482,7 +2461,8 @@
       "display_title": "結界術師｜進化クラス",
       "generation_id": null,
       "style_version": "gothic-silhouette-puppet-v0.1",
-      "superseded_by": "puppet-v1"
+      "superseded_by": "puppet-v1",
+      "chroma_key": true
     },
     {
       "asset_id": "shinka_class_star_seer",
@@ -2519,7 +2499,8 @@
       "display_title": "星詠み｜進化クラス",
       "generation_id": null,
       "style_version": "gothic-silhouette-puppet-v0.1",
-      "superseded_by": "puppet-v1"
+      "superseded_by": "puppet-v1",
+      "chroma_key": true
     },
     {
       "asset_id": "shinka_class_elementalist",
@@ -2557,7 +2538,8 @@
       "display_title": "元素術師｜進化クラス",
       "generation_id": null,
       "style_version": "gothic-silhouette-puppet-v0.1",
-      "superseded_by": "puppet-v1"
+      "superseded_by": "puppet-v1",
+      "chroma_key": true
     }
   ],
   "style_version": "gothic-silhouette-puppet-v0.1",
