@@ -1147,3 +1147,51 @@ Factoryでは、
 
 これは画像生成だけでなく、将来のcode-worker / text-worker / research-workerでも共通ルールとする。
 
+---
+
+<!-- ASSET_FACTORY_PROGRESS_START -->
+
+# 20. Asset Factory｜自動進捗スナップショット
+
+この節は Asset Factory Auto の各Run終了時に queue.json から自動更新する。
+手で進捗数を書き換えず、リアルタイム状態は queue.json を正本とする。
+
+最終自動更新: 2026/10/05 02:49:06 JST
+
+## 状態
+
+- github_synced: 17
+- adopted: 15
+- queued: 16
+- needs_fix: 7
+- superseded: 7
+
+## 未完了の内訳
+
+- part: needs_fix 2
+- enemy: needs_fix 2
+- class: needs_fix 3 / queued 3
+- card: queued 13
+
+## needs_fix（保留棚）
+
+- 基本魔法師 右上脚
+- 基本魔法師 杖の魔力球
+- 亡霊騎士
+- 古城の守護者
+- 氷結師
+- 雷術師
+- 黒魔導士
+
+## 次の自動処理候補
+
+- 結界術師
+- 星詠み
+- 元素術師
+- 氷の矢
+- 雷撃
+- 闇弾
+- 光壁
+- 集中
+
+<!-- ASSET_FACTORY_PROGRESS_END -->
