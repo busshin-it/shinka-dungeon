@@ -115,6 +115,8 @@ OPENAI_API_KEY=... npm run asset:run
 
 ## 自己修復運転
 
+変更時は `Asset Factory CI` が自動テストを実行します。
+
 通常のQA失敗は、まず同じActions実行内で `max_retries` 回まで修正プロンプト付きで再生成します。
 
 それでも通らない場合、`max_total_attempts` に達していなければ `queued` へ戻し、次回の自動運転で再挑戦します。したがって、単発の画風崩れ、構図不良、透過不良などのたびに人がキューを直す必要はありません。
