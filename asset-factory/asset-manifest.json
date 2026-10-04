@@ -117,24 +117,24 @@
         "quality": "medium",
         "used_references": 0,
         "generation_id": null,
-        "created": 1791113127,
+        "created": 1791118520,
         "usage": {
-          "input_tokens": 1026,
+          "input_tokens": 1023,
           "input_tokens_details": {
             "image_tokens": 0,
-            "text_tokens": 1026
+            "text_tokens": 1023
           },
           "output_tokens": 439,
           "output_tokens_details": {
             "image_tokens": 439,
             "text_tokens": 0
           },
-          "total_tokens": 1465
+          "total_tokens": 1462
         }
       },
       "qa": {
         "pass": false,
-        "score": 48,
+        "score": 58,
         "structural": {
           "pass": true,
           "issues": [],
@@ -146,11 +146,11 @@
             "hasAlpha": true,
             "alpha_stats": {
               "pixels": 1048576,
-              "transparent": 946759,
-              "translucent": 113,
-              "opaque": 101704,
-              "transparent_ratio": 0.9028997421264648,
-              "nonopaque_ratio": 0.9030075073242188
+              "transparent": 938474,
+              "translucent": 133,
+              "opaque": 109969,
+              "transparent_ratio": 0.8949985504150391,
+              "nonopaque_ratio": 0.8951253890991211
             }
           }
         },
@@ -158,7 +158,7 @@
           "single_asset": false,
           "no_text_ui": true,
           "subject_match": false,
-          "art_direction": false,
+          "art_direction": true,
           "puppet_style": true,
           "joint_readability": true,
           "small_screen_silhouette": true,
@@ -167,12 +167,12 @@
           "reference_consistency": true
         },
         "issues": [
-          "画像に下脚パーツが明確に含まれており、右上脚のみという指定に違反しています",
-          "光沢のある円形関節表現と強い陰影があり、マットな2〜4段階の平面切り絵表現から外れています",
-          "上端の関節周辺に不要な突起・複雑な形状があります"
+          "画像には上脚だけでなく下脚パーツも接続して描かれており、指定の『右上脚パーツのみ』に違反している。",
+          "膝関節から下の脚が明確に存在し、複数の身体パーツになっている。",
+          "股関節側と膝側の重ね代はあるが、上脚単体として切り離されていない。"
         ],
-        "remediation": "右上脚パーツだけを単独で生成し、膝側で明確に終端させて下脚を完全に除外し、両端に丸い重ね代を残す。背景は完全透明、黒〜濃紺のマットな2〜4色面と硬い輪郭のみ、光沢・グラデーション・余分な突起を排除する。",
-        "checked_at": "2026-10-04T11:25:32.830Z",
+        "remediation": "右上脚だけを単独で生成し、股関節側と膝側に丸い関節端と十分な重ね代を残す。膝より下は完全に描かず、背景は完全透明、黒〜濃紺の平面色2〜4段階・硬い輪郭のみ。",
+        "checked_at": "2026-10-04T12:55:25.934Z",
         "model": "gpt-5.6-luna",
         "usage": {
           "input_tokens": 2131,
@@ -180,11 +180,11 @@
             "cache_write_tokens": 2128,
             "cached_tokens": 0
           },
-          "output_tokens": 283,
+          "output_tokens": 306,
           "output_tokens_details": {
             "reasoning_tokens": 0
           },
-          "total_tokens": 2414
+          "total_tokens": 2437
         }
       }
     },
@@ -474,24 +474,24 @@
         "quality": "medium",
         "used_references": 0,
         "generation_id": null,
-        "created": 1791113236,
+        "created": 1791118556,
         "usage": {
-          "input_tokens": 1005,
+          "input_tokens": 985,
           "input_tokens_details": {
             "image_tokens": 0,
-            "text_tokens": 1005
+            "text_tokens": 985
           },
           "output_tokens": 439,
           "output_tokens_details": {
             "image_tokens": 439,
             "text_tokens": 0
           },
-          "total_tokens": 1444
+          "total_tokens": 1424
         }
       },
       "qa": {
         "pass": false,
-        "score": 45,
+        "score": 35,
         "structural": {
           "pass": true,
           "issues": [],
@@ -503,19 +503,19 @@
             "hasAlpha": true,
             "alpha_stats": {
               "pixels": 1048576,
-              "transparent": 931640,
-              "translucent": 90,
-              "opaque": 116846,
-              "transparent_ratio": 0.8884811401367188,
-              "nonopaque_ratio": 0.8885669708251953
+              "transparent": 992086,
+              "translucent": 68,
+              "opaque": 56422,
+              "transparent_ratio": 0.9461269378662109,
+              "nonopaque_ratio": 0.9461917877197266
             }
           }
         },
         "checks": {
           "single_asset": true,
           "no_text_ui": true,
-          "subject_match": false,
-          "art_direction": true,
+          "subject_match": true,
+          "art_direction": false,
           "puppet_style": true,
           "joint_readability": true,
           "small_screen_silhouette": true,
@@ -524,11 +524,10 @@
           "reference_consistency": true
         },
         "issues": [
-          "魔力球が単純な発光核1つではなく、濃紺の装飾的な外枠と四方向の突起を伴っており、複数の構成要素に見える",
-          "要求された2〜4段階のマットな平面表現に対し、内側に明確な明暗差があり、単一の円形〜楕円形核としては過剰な装飾がある"
+          "核内部の滑らかな明暗は、要求された2〜4段階の硬いマット塗りよりややグラデーション的に見えます。"
         ],
-        "remediation": "杖や装飾枠・突起を完全に除き、青白い単純な円形〜楕円形の発光核を1つだけ、2〜4段階の硬いマット塗りで中央に配置し、背景は完全透明にする。",
-        "checked_at": "2026-10-04T11:27:20.338Z",
+        "remediation": "背景を完全な透明アルファにし、青白い円形または楕円形の魔力核1つだけを、濃紺外縁と2〜4段階の硬いマット色面で描き、グラデーションや緑色の背景を除去してください。",
+        "checked_at": "2026-10-04T12:56:01.374Z",
         "model": "gpt-5.6-luna",
         "usage": {
           "input_tokens": 2119,
@@ -536,11 +535,11 @@
             "cache_write_tokens": 2116,
             "cached_tokens": 0
           },
-          "output_tokens": 298,
+          "output_tokens": 296,
           "output_tokens_details": {
             "reasoning_tokens": 0
           },
-          "total_tokens": 2417
+          "total_tokens": 2415
         }
       }
     },
@@ -559,8 +558,81 @@
       "transparent": true,
       "status": "queued",
       "prompt": "古びた黒鉄の鎧と長剣を持つスケルトン騎士。細身で舞台人形のような読みやすい骨格。肩・肘・手首・股関節・膝が視覚的に分かり、剣と身体が重なりすぎない。通常敵として簡潔だが印象的。",
-      "generator": null,
-      "qa": {}
+      "generator": {
+        "model": "gpt-image-2.5-flare",
+        "quality": "medium",
+        "used_references": 0,
+        "generation_id": null,
+        "created": 1791118606,
+        "usage": {
+          "input_tokens": 872,
+          "input_tokens_details": {
+            "image_tokens": 0,
+            "text_tokens": 872
+          },
+          "output_tokens": 343,
+          "output_tokens_details": {
+            "image_tokens": 343,
+            "text_tokens": 0
+          },
+          "total_tokens": 1215
+        }
+      },
+      "qa": {
+        "pass": false,
+        "score": 78,
+        "structural": {
+          "pass": true,
+          "issues": [],
+          "image": {
+            "valid": true,
+            "width": 1024,
+            "height": 1536,
+            "colorType": 6,
+            "hasAlpha": true,
+            "alpha_stats": {
+              "pixels": 1572864,
+              "transparent": 1267309,
+              "translucent": 0,
+              "opaque": 305555,
+              "transparent_ratio": 0.8057333628336588,
+              "nonopaque_ratio": 0.8057333628336588
+            }
+          }
+        },
+        "checks": {
+          "single_asset": true,
+          "no_text_ui": true,
+          "subject_match": true,
+          "art_direction": true,
+          "puppet_style": true,
+          "joint_readability": true,
+          "small_screen_silhouette": true,
+          "composition": false,
+          "transparency_visual": true,
+          "reference_consistency": true
+        },
+        "issues": [
+          "長剣の先端が画面左下で切れており、武器全体が見えない",
+          "大きな剣が画面端まで伸び、キャラクター本体との分離と収まりを損ねている",
+          "全身は概ね見えるが、武器を含む完全なフルボディ構図の要件を満たさない"
+        ],
+        "remediation": "剣を短くして身体から十分離し、剣先を含む全身と武器を上下左右すべて画面内に収めた、単体の透明背景スケルトン騎士を生成する",
+        "checked_at": "2026-10-04T12:56:52.914Z",
+        "model": "gpt-5.6-luna",
+        "usage": {
+          "input_tokens": 2634,
+          "input_tokens_details": {
+            "cache_write_tokens": 2631,
+            "cached_tokens": 0
+          },
+          "output_tokens": 219,
+          "output_tokens_details": {
+            "reasoning_tokens": 0
+          },
+          "total_tokens": 2853
+        }
+      }
     },
     {
       "asset_id": "shinka_enemy_wraith_knight_puppet_v1",
@@ -577,8 +649,83 @@
       "transparent": true,
       "status": "queued",
       "prompt": "半透明の亡霊騎士。壊れた黒銀鎧、長剣、破れたマント、青白い霊気。スケルトンより強いがボス級ではない。腕・脚・剣・マントが分離しやすいパペット構造。",
-      "generator": null,
-      "qa": {}
+      "generator": {
+        "model": "gpt-image-2.5-flare",
+        "quality": "medium",
+        "used_references": 0,
+        "generation_id": null,
+        "created": 1791118656,
+        "usage": {
+          "input_tokens": 882,
+          "input_tokens_details": {
+            "image_tokens": 0,
+            "text_tokens": 882
+          },
+          "output_tokens": 343,
+          "output_tokens_details": {
+            "image_tokens": 343,
+            "text_tokens": 0
+          },
+          "total_tokens": 1225
+        }
+      },
+      "qa": {
+        "pass": false,
+        "score": 68,
+        "structural": {
+          "pass": true,
+          "issues": [],
+          "image": {
+            "valid": true,
+            "width": 1024,
+            "height": 1536,
+            "colorType": 6,
+            "hasAlpha": true,
+            "alpha_stats": {
+              "pixels": 1572864,
+              "transparent": 1121948,
+              "translucent": 0,
+              "opaque": 450916,
+              "transparent_ratio": 0.7133153279622396,
+              "nonopaque_ratio": 0.7133153279622396
+            }
+          }
+        },
+        "checks": {
+          "single_asset": true,
+          "no_text_ui": true,
+          "subject_match": true,
+          "art_direction": true,
+          "puppet_style": false,
+          "joint_readability": false,
+          "small_screen_silhouette": true,
+          "composition": false,
+          "transparency_visual": true,
+          "reference_consistency": true
+        },
+        "issues": [
+          "頭部・胴体・両腕・両脚・剣・マントが大きく分離され、完成キャラクターではなくパーツ配置に見える",
+          "肩、肘、手首、股関節、膝の接続が途切れており、2Dパペットとして自然に動かせない",
+          "浮遊する頭部と分離した四肢により、全身の一体感と敵キャラクターとしての読み取りが弱い",
+          "剣が独立配置され、手との持ち手関係が不自然",
+          "マントが右側に過度に広がり、キャラクターのシルエットと構図の重心を崩している"
+        ],
+        "remediation": "全身が一体につながった一体の亡霊騎士として描き、頭・胴体・腕・脚・剣・マントは接続を保ちながら関節境界だけ明確にして、肩・肘・手首・股関節・膝と剣の握りを読みやすくした細身の2Dパペット用シルエットにする。",
+        "checked_at": "2026-10-04T12:57:42.353Z",
+        "model": "gpt-5.6-luna",
+        "usage": {
+          "input_tokens": 2621,
+          "input_tokens_details": {
+            "cache_write_tokens": 2618,
+            "cached_tokens": 0
+          },
+          "output_tokens": 339,
+          "output_tokens_details": {
+            "reasoning_tokens": 0
+          },
+          "total_tokens": 2960
+        }
+      }
     },
     {
       "asset_id": "shinka_enemy_stone_magus_puppet_v1",
@@ -809,7 +956,7 @@
       "legacy_path": null,
       "generation_id": null,
       "transparent": false,
-      "status": "waiting",
+      "status": "queued",
       "prompt": "青白い魔力と魔法陣が静かに一点へ収束する。攻撃ではなく次の大魔法への準備と分かる。",
       "generator": null,
       "qa": {}
@@ -827,7 +974,7 @@
       "legacy_path": null,
       "generation_id": null,
       "transparent": false,
-      "status": "waiting",
+      "status": "queued",
       "prompt": "地面の一点から円形に広がる青白い冷気と氷晶。広範囲を凍てつかせる魔法。",
       "generator": null,
       "qa": {}
@@ -845,7 +992,7 @@
       "legacy_path": null,
       "generation_id": null,
       "transparent": false,
-      "status": "waiting",
+      "status": "queued",
       "prompt": "大量の青紫色の魔力が巨大な一本の流れとなって一点へ集積し噴き上がる。",
       "generator": null,
       "qa": {}
@@ -863,7 +1010,7 @@
       "legacy_path": null,
       "generation_id": null,
       "transparent": false,
-      "status": "waiting",
+      "status": "queued",
       "prompt": "鏡やガラスのような複数の魔法障壁が攻撃を受け止め、相手へ反射する青白い反射光。",
       "generator": null,
       "qa": {}
