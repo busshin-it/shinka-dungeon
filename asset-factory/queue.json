@@ -66,8 +66,8 @@
       "transparent": true,
       "chroma_key": true,
       "aspect_ratio": "1:1",
-      "status": "queued",
-      "attempts": 0,
+      "status": "needs_fix",
+      "attempts": 1,
       "generation_id": null,
       "quality_result": null,
       "qa": {},
@@ -107,7 +107,34 @@
       "human_gate": true,
       "review_stage": "puppet_v2_m02_face_gate",
       "review_required": true,
-      "created_at": "2026-10-04T23:13:37.994Z"
+      "created_at": "2026-10-04T23:13:37.994Z",
+      "updated_at": "2026-10-04T23:14:43.531Z",
+      "last_prompt": "Project: 進化ダンジョン. Style version: base-mage-puppet-v2.\nOfficial art direction: 基本魔法師 puppet-v2 公式基準。4頭身前後の舞台人形風の軽いデフォルメ。可愛さはあるが幼すぎない。静かで幻想的なダークファンタジー、少しゴシック。白銀の髪、小さめの青灰色の瞳。少し手描き感のある柔らかな2D、水彩・紙・布のような質感。細部を増やしすぎず、大きな形・色・シルエットでキャラクター性を出す。\nUse the supplied adopted base-mage reference as the primary visual authority for identity, face, eye size, hair color, softness, and rendering.\nApproximately four-head-tall stage-puppet character proportions when imagined as a full body; for this head asset keep a gently deformed, cute but not childish face.\nSoft hand-painted 2D rendering with watercolor/paper/cloth texture; avoid glossy 3D and hard cel-shaded anime rendering.\nSilver-white hair and small blue-gray eyes; calm, quiet, slightly mysterious expression.\nKeep shapes simple and readable at small game-screen size.\nThis is a production puppet part, not a finished portrait illustration.\nCreate exactly ONE isolated M02 head-and-face puppet asset only.\nNo hat, torso, arms, legs, cape, staff, orb, scenery, floor, shadow, text, UI, labels, or assembly guides.\nDo not create M03 front hair or M04 back hair as separate extra objects inside this image.\nProvide hidden overlap margin around the crown, temples, and neck base so later hair/hat/torso layers can cover seams.\nKeep the neck connection safely inside the canvas; do not crop the connection edge.\nCenter the single head asset with generous empty margin.\nAsset: 基本魔法師 M02 頭＋顔.\n採用済み基本魔法師と同一人物の、M02『頭＋顔』1素材だけを描く。4頭身前後の舞台人形風デフォルメを前提にした顔。白銀の髪、青灰色の小さめの瞳、静かで幻想的、少しゴシック。可愛いが幼すぎない。紙・布・水彩のような柔らかな手描き2D質感。顔立ち・目の大きさ・輪郭・髪色は参照画像を最優先で一致させる。M03前髪、M04後ろ髪、M01帽子を後から重ねられるパペット構造として、頭頂・側頭部・首の付け根に十分な隠し重なり代を持たせる。完成キャラクターを切り抜いたようにせず、パペット用頭部パーツとして描き起こす。首の付け根を画像端で切らない。大きな帽子、胴体、腕、杖、魔力球、マントは描かない。発光エフェクトを焼き込まない。\nOUTPUT PIPELINE REQUIREMENT: draw the subject on a single flat pure chroma green background (#00FF00), edge-to-edge, with NO gradient, NO vignette, NO floor, NO cast shadow, NO aura, NO glow behind the subject, and NO other background objects. Do not use green anywhere on the subject. The production pipeline will remove this green background and convert it to alpha transparency.\nDo NOT include: 複数素材, パーツ一覧, コンタクトシート, スプライトシート, 比較画像, ラベル, 文字, UI, 完成キャラクター, 胴体, 腕, 脚, 帽子, 杖, 魔力球, 外マント, 床, 影, 環境光, 別キャラクター, 過度な幼児化, 過度な頭身崩し, 写実3D, 光沢CG, 濃いアニメ塗り, 過剰な装飾, チェッカーボード, checkerboard transparency pattern, gray checkerboard, fake transparency grid.\nCritical production rule: 1 asset = 1 image. Never make a contact sheet, comparison sheet, character lineup, asset sheet, split panel, or multiple design variants.\nDo not add explanatory text, labels, captions, logos, or decorative typography.",
+      "last_error": {
+        "message": "Invalid image data.",
+        "code": "invalid_image_file",
+        "status": 400,
+        "at": "2026-10-04T23:14:43.531Z"
+      },
+      "failure_history": [
+        {
+          "at": "2026-10-04T23:14:43.531Z",
+          "attempt": 1,
+          "kind": "api_error",
+          "message": "Invalid image data.",
+          "code": "invalid_image_file",
+          "status": 400,
+          "retryable": false
+        }
+      ],
+      "self_heal": {
+        "enabled": false,
+        "max_total_attempts": 3,
+        "requeued": false,
+        "exhausted": false,
+        "last_reason": "non_retryable_api_error",
+        "updated_at": "2026-10-04T23:14:43.531Z"
+      }
     },
     {
       "project": "進化ダンジョン",

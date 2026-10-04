@@ -1162,25 +1162,26 @@ Factoryでは、
 この節は Asset Factory Auto の各Run終了時に queue.json から自動更新する。
 手で進捗数を書き換えず、リアルタイム状態は queue.json を正本とする。
 
-最終自動更新: 2026/10/05 02:49:06 JST
+最終自動更新: 2026/10/05 08:14:43 JST
 
 ## 状態
 
 - github_synced: 17
 - adopted: 15
 - queued: 16
-- needs_fix: 7
+- needs_fix: 8
 - superseded: 7
 
 ## 未完了の内訳
 
-- part: needs_fix 2
+- part: needs_fix 3
 - enemy: needs_fix 2
 - class: needs_fix 3 / queued 3
 - card: queued 13
 
 ## needs_fix（保留棚）
 
+- 基本魔法師 M02 頭＋顔
 - 基本魔法師 右上脚
 - 基本魔法師 杖の魔力球
 - 亡霊騎士
