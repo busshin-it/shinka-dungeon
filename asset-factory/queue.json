@@ -434,9 +434,54 @@
       "aspect_ratio": "2:3",
       "save_path": "assets/cards/abyss.png",
       "current_path": null,
-      "status": "waiting",
-      "attempts": 0,
-      "qa": {},
+      "status": "needs_fix",
+      "attempts": 2,
+      "qa": {
+        "pass": false,
+        "score": 78,
+        "structural": {
+          "pass": true,
+          "issues": [],
+          "image": {
+            "valid": true,
+            "width": 1024,
+            "height": 1536,
+            "colorType": 2,
+            "hasAlpha": false
+          }
+        },
+        "checks": {
+          "single_asset": true,
+          "no_text_ui": true,
+          "subject_match": true,
+          "art_direction": true,
+          "puppet_style": false,
+          "joint_readability": true,
+          "small_screen_silhouette": true,
+          "composition": true,
+          "transparency_visual": false,
+          "reference_consistency": true
+        },
+        "issues": [
+          "チェッカーボードが表示されており、透明背景ではなく可視の背景として扱われるため失格。",
+          "渦状の魔力表現は美しいが、手描き影絵・人形劇の平面的なシルエット感より、発光する写実寄りのエネルギーエフェクトに見える。"
+        ],
+        "remediation": "完全なアルファ透明背景で、背景模様を一切描かず、平面的な切り絵・影絵調の紫黒い巨大な魔力球として再生成し、中央の完全な暗黒の奈落と吸い込まれる瓦礫を明快なシルエットで表現する。",
+        "checked_at": "2026-10-04T00:26:09.648Z",
+        "model": "gpt-5.6-luna",
+        "usage": {
+          "input_tokens": 2419,
+          "input_tokens_details": {
+            "cache_write_tokens": 2416,
+            "cached_tokens": 0
+          },
+          "output_tokens": 238,
+          "output_tokens_details": {
+            "reasoning_tokens": 0
+          },
+          "total_tokens": 2657
+        }
+      },
       "github_synced": false,
       "legacy_asset_id": "card-abyss",
       "project_id": "shinka",
@@ -445,7 +490,29 @@
       "path": "assets/cards/abyss.png",
       "display_title": "奈落弾｜カード",
       "generation_id": null,
-      "style_version": "gothic-silhouette-puppet-v0.1"
+      "style_version": "gothic-silhouette-puppet-v0.1",
+      "updated_at": "2026-10-04T00:25:39.947Z",
+      "last_prompt": "Project: 進化ダンジョン. Style version: gothic-silhouette-puppet-v0.1.\nOfficial art direction: ゴシック・シルエット風パペット・ダークファンタジー。2D、手描き・絵画的、少し不気味だが美しい人形劇・影絵の世界。ゴシック古城・地下迷宮・魔術世界。黒・濃紺・紫・青・古金を基調とし、写実的3DCG感を避ける。キャラクターは最初から2Dパペットアニメーションで動かす前提で、細身で読みやすいシルエット、頭・胴体・腕・脚・武器の分離、関節の認識しやすさを重視する。小さいゲーム画面での視認性と既存素材との統一感を最優先する。\nOfficial style: Gothic silhouette puppet dark fantasy.\n2D dark fantasy with gothic castles, underground ruins, magical architecture, and theatrical puppet-stage atmosphere.\nHand-painted and painterly, slightly eerie but beautiful.\nStrong readable silhouettes inspired by shadow theatre and articulated stage puppets.\nAvoid photorealism, realistic human rendering, glossy 3D CGI, toy-render aesthetics, bright pop colors, anime moe, chibi, or cute deformation.\nPrimary palette: black, deep navy, purple, blue, and antique gold. Attribute-specific magical glow colors are allowed.\nPrioritize visual consistency with the existing game world over standalone prettiness.\nDesign for readability on a small landscape game screen.\nCreate exactly ONE card illustration asset, not a card mockup.\nPortrait composition for a vertical card crop.\nNo card frame, no title, no letters, no numbers, no cost, no logo, and no UI.\nCreate only the pure illustration that appears inside the card.\nBackground is allowed and should feel like the same gothic puppet-theatre world.\nThe spell or phenomenon must be the unmistakable visual subject and remain readable at small size.\nAsset: 奈落弾.\n闇弾から進化した巨大な紫黒の圧縮魔力球。中心は底なしの奈落のような完全な暗黒で周囲の光と瓦礫を吸い込む。\nOUTPUT REQUIREMENT: opaque illustrated background is allowed when appropriate for this asset type.\nDo NOT include: 文字, 数字, カード枠, UI, 複数案, 人物.\nCritical production rule: 1 asset = 1 image. Never make a contact sheet, comparison sheet, character lineup, asset sheet, split panel, or multiple design variants.\nDo not add explanatory text, labels, captions, logos, or decorative typography.\nPrevious QA correction to apply strictly: 背景・城・鎖・足場を完全に हटし、中央に一つだけの明確な球形の巨大な紫黒の圧縮魔力球を描く。完全な暗黒の円形中心、鋭い紫の吸引渦と少数の瓦礫だけで構成し、手描きの影絵風・平面的な2Dシルエット、透明背景、カード枠や文字なしにする。",
+      "generator": {
+        "model": "gpt-image-2",
+        "quality": "medium",
+        "used_references": 0,
+        "generation_id": null,
+        "created": 1791073564,
+        "usage": {
+          "input_tokens": 705,
+          "input_tokens_details": {
+            "image_tokens": 0,
+            "text_tokens": 705
+          },
+          "output_tokens": 1372,
+          "output_tokens_details": {
+            "image_tokens": 1372,
+            "text_tokens": 0
+          },
+          "total_tokens": 2077
+        }
+      }
     },
     {
       "asset_id": "shinka_card_mana_barrier",
