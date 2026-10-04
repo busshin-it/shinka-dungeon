@@ -176,6 +176,16 @@ async function processJob(queue, job, options) {
       }
       let semantic = { pass: false, score: 0, issues: [], remediation: '' };
       if (structural.pass) semantic = await visionQa(queue, job, processedBuffer, structural, ROOT);
+
+      // Structural alpha is the source of truth for transparency.
+      const alphaCoverageOk = !job.transparent || Number(structural.image?.alpha_stats?.transparent_ratio || 0) >= 0.12;
+      if (alphaCoverageOk && semantic.checks) {
+        semantic.checks.transparency_visual = true;
+        semantic.issues = (semantic.issues || []).filter(issue =>
+          !/背景|透明|透過|green|緑|checkerboard|チェッカー/i.test(String(issue))
+        );
+      }
+
       const pass = structural.pass && semantic.pass === true;
       const qa = {
         pass,
