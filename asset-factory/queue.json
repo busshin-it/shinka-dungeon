@@ -7,6 +7,7 @@
     "queued",
     "generating",
     "qa",
+    "awaiting_human",
     "needs_fix",
     "regenerate",
     "complete",
@@ -15,6 +16,99 @@
     "superseded"
   ],
   "jobs": [
+    {
+      "asset_id": "shinka_part_base_mage_m02_head_face_puppet_v2",
+      "project": "進化ダンジョン",
+      "project_id": "shinka",
+      "type": "part",
+      "name": "基本魔法師 M02 頭＋顔",
+      "display_title": "基本魔法師 puppet-v2｜M02 頭＋顔",
+      "character": "base_mage",
+      "part": "m02_head_face",
+      "phase": "puppet_v2_head_gate",
+      "priority": 0,
+      "filename": "m02-head-face.png",
+      "path": "assets/characters/mage/puppet-v2/parts/m02-head-face.png",
+      "save_path": "assets/characters/mage/puppet-v2/parts/m02-head-face.png",
+      "current_path": null,
+      "prompt": "採用済み基本魔法師と同一人物の、M02『頭＋顔』1素材だけを描く。4頭身前後の舞台人形風デフォルメを前提にした顔。白銀の髪、青灰色の小さめの瞳、静かで幻想的、少しゴシック。可愛いが幼すぎない。紙・布・水彩のような柔らかな手描き2D質感。顔立ち・目の大きさ・輪郭・髪色は参照画像を最優先で一致させる。M03前髪、M04後ろ髪、M01帽子を後から重ねられるパペット構造として、頭頂・側頭部・首の付け根に十分な隠し重なり代を持たせる。完成キャラクターを切り抜いたようにせず、パペット用頭部パーツとして描き起こす。首の付け根を画像端で切らない。大きな帽子、胴体、腕、杖、魔力球、マントは描かない。発光エフェクトを焼き込まない。",
+      "negative": [
+        "複数素材",
+        "パーツ一覧",
+        "コンタクトシート",
+        "スプライトシート",
+        "比較画像",
+        "ラベル",
+        "文字",
+        "UI",
+        "完成キャラクター",
+        "胴体",
+        "腕",
+        "脚",
+        "帽子",
+        "杖",
+        "魔力球",
+        "外マント",
+        "背景",
+        "床",
+        "影",
+        "環境光",
+        "別キャラクター",
+        "過度な幼児化",
+        "過度な頭身崩し",
+        "写実3D",
+        "光沢CG",
+        "濃いアニメ塗り",
+        "過剰な装飾",
+        "チェッカーボード"
+      ],
+      "negative_prompt": "複数素材 / パーツ一覧 / コンタクトシート / スプライトシート / 比較画像 / ラベル / 文字 / UI / 完成キャラクター / 胴体 / 腕 / 脚 / 帽子 / 杖 / 魔力球 / 外マント / 背景 / 床 / 影 / 環境光 / 別キャラクター / 過度な幼児化 / 写実3D / 光沢CG / 過剰装飾 / チェッカーボード",
+      "transparent": true,
+      "chroma_key": true,
+      "aspect_ratio": "1:1",
+      "status": "queued",
+      "attempts": 0,
+      "generation_id": null,
+      "quality_result": null,
+      "qa": {},
+      "github_synced": false,
+      "style_version": "base-mage-puppet-v2",
+      "skip_core_style": true,
+      "art_direction_override": "基本魔法師 puppet-v2 公式基準。4頭身前後の舞台人形風の軽いデフォルメ。可愛さはあるが幼すぎない。静かで幻想的なダークファンタジー、少しゴシック。白銀の髪、小さめの青灰色の瞳。少し手描き感のある柔らかな2D、水彩・紙・布のような質感。細部を増やしすぎず、大きな形・色・シルエットでキャラクター性を出す。",
+      "style_rules": [
+        "Use the supplied adopted base-mage reference as the primary visual authority for identity, face, eye size, hair color, softness, and rendering.",
+        "Approximately four-head-tall stage-puppet character proportions when imagined as a full body; for this head asset keep a gently deformed, cute but not childish face.",
+        "Soft hand-painted 2D rendering with watercolor/paper/cloth texture; avoid glossy 3D and hard cel-shaded anime rendering.",
+        "Silver-white hair and small blue-gray eyes; calm, quiet, slightly mysterious expression.",
+        "Keep shapes simple and readable at small game-screen size.",
+        "This is a production puppet part, not a finished portrait illustration."
+      ],
+      "type_rules_override": [
+        "Create exactly ONE isolated M02 head-and-face puppet asset only.",
+        "No hat, torso, arms, legs, cape, staff, orb, scenery, floor, shadow, text, UI, labels, or assembly guides.",
+        "Do not create M03 front hair or M04 back hair as separate extra objects inside this image.",
+        "Provide hidden overlap margin around the crown, temples, and neck base so later hair/hat/torso layers can cover seams.",
+        "Keep the neck connection safely inside the canvas; do not crop the connection edge.",
+        "Center the single head asset with generous empty margin."
+      ],
+      "qa_rules": [
+        "the face must clearly look like the same adopted base mage, not a new character",
+        "silver-white hair and small blue-gray eyes match the reference",
+        "soft watercolor/paper/cloth 2D texture and restrained detail match the reference",
+        "cute but not overly childish; approximately four-head character design language",
+        "M02 is one head+face puppet asset only, with no hat, body, staff, orb, cape, labels, or extra parts",
+        "sufficient hidden overlap margin exists at crown, temples, and neck connection for M01/M03/M04/M05 assembly",
+        "no joint/connection area is cropped unnaturally",
+        "no baked glow or environmental light"
+      ],
+      "reference_paths": [
+        "assets/characters/mage/puppet-v2/reference/base-mage-m02-reference.png"
+      ],
+      "human_gate": true,
+      "review_stage": "puppet_v2_m02_face_gate",
+      "review_required": true,
+      "created_at": "2026-10-04T23:13:37.994Z"
+    },
     {
       "project": "進化ダンジョン",
       "project_id": "shinka",
@@ -6033,7 +6127,7 @@
   ],
   "style_version": "gothic-silhouette-puppet-v0.1",
   "production_plan": {
-    "version": "parts-first-v1",
+    "version": "puppet-v2-human-gated-v1",
     "created_at": "2026-10-04",
     "order": [
       "02_character_parts",
@@ -6041,6 +6135,21 @@
       "04_cards",
       "05_classes"
     ],
-    "note": "主人公は全身立ち絵を先に作らず、1パーツ1画像を先に生成してゲーム内で組み立てる。"
+    "note": "puppet-v1は保持。puppet-v2はM02のみ先行生成し人間承認。承認後M03/M04/M01、その後M05-M14。",
+    "updated_at": "2026-10-05"
+  },
+  "puppet_v2": {
+    "character": "base_mage",
+    "version": "puppet-v2",
+    "status": "m02_gate",
+    "reference_path": "assets/characters/mage/puppet-v2/reference/base-mage-m02-reference.png",
+    "parts_total": 14,
+    "current_gate": "M02 頭＋顔",
+    "next_after_approval": [
+      "M03 前髪",
+      "M04 後ろ髪",
+      "M01 帽子"
+    ],
+    "note": "画風変更のため大量生成禁止。M02人間承認後に頭部セットへ進む。"
   }
 }
