@@ -50,6 +50,12 @@ function sizeFor(job) {
   return '1024x1536';
 }
 
+async function normalizeReferenceForApi(bytes) {
+  // Reference assets are re-encoded as lossless WebP before upload.
+  // This avoids PNG decoder-specific failures while preserving alpha and visual fidelity.
+  return sharp(bytes).rotate().ensureAlpha().webp({ lossless: true, quality: 100, alphaQuality: 100 }).toBuffer();
+}
+
 async function generateFromReferences(job, prompt, root, model, quality) {
   const refs = (job.reference_paths || []).filter(Boolean);
   const form = new FormData();
@@ -59,20 +65,23 @@ async function generateFromReferences(job, prompt, root, model, quality) {
   form.append('quality', quality);
   form.append('output_format', 'png');
   form.append('background', job.chroma_key ? 'opaque' : (job.transparent ? 'transparent' : 'opaque'));
+  form.append('input_fidelity', job.input_fidelity || 'high');
+  const imageField = refs.length === 1 ? 'image' : 'image[]';
   for (const ref of refs) {
     const full = path.join(root, ref);
     const bytes = await fs.readFile(full);
-    const normalized = await sharp(bytes).ensureAlpha().png().toBuffer();
-    form.append('image[]', new Blob([normalized], { type: 'image/png' }), path.basename(ref));
+    const normalized = await normalizeReferenceForApi(bytes);
+    const uploadName = path.basename(ref).replace(/\.[^.]+$/, '') + '.webp';
+    form.append(imageField, new Blob([normalized], { type: 'image/webp' }), uploadName);
   }
   return postForm('/images/edits', form);
 }
 
 export async function generateImage(job, prompt, root = process.cwd()) {
-  const model = job.transparent
+  const model = job.image_model || (job.transparent
     ? (process.env.ASSET_FACTORY_TRANSPARENT_IMAGE_MODEL || 'gpt-image-2.5-flare')
-    : (process.env.ASSET_FACTORY_IMAGE_MODEL || 'gpt-image-2');
-  const quality = process.env.ASSET_FACTORY_IMAGE_QUALITY || 'medium';
+    : (process.env.ASSET_FACTORY_IMAGE_MODEL || 'gpt-image-2'));
+  const quality = job.image_quality || process.env.ASSET_FACTORY_IMAGE_QUALITY || 'medium';
   const refs = (job.reference_paths || []).filter(Boolean);
   const result = refs.length
     ? await generateFromReferences(job, `${prompt}\nUse the supplied reference image(s) to preserve character identity or visual lineage. Do not reproduce their background, UI, text, or framing.`, root, model, quality)
@@ -182,8 +191,8 @@ Return ONLY JSON in exactly this shape: {"pass":boolean,"score":0-100,"checks":{
   ];
   for (const ref of refs) {
     const bytes = await fs.readFile(path.join(root, ref));
-    const normalized = await sharp(bytes).ensureAlpha().png().toBuffer();
-    content.push({ type: 'input_image', image_url: `data:image/png;base64,${normalized.toString('base64')}`, detail: 'high' });
+    const normalized = await normalizeReferenceForApi(bytes);
+    content.push({ type: 'input_image', image_url: `data:image/webp;base64,${normalized.toString('base64')}`, detail: 'high' });
   }
   const result = await post('/responses', { model, reasoning: { effort: 'none' }, max_output_tokens: 800, input: [{ role: 'user', content }] });
   const qa = parseJsonLoose(responseText(result));
