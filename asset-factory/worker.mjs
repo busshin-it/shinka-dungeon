@@ -185,6 +185,7 @@ function canAutoAdoptPart(job) {
 }
 
 async function adoptExistingCandidate(queue, job) {
+  if (job.human_gate) return null;
   if (!canAutoAdoptPart(job)) return null;
   const candidate = path.join(ROOT, 'asset-factory', 'debug', job.asset_id, 'last-processed.png');
   try {
@@ -308,7 +309,7 @@ async function processJob(queue, job, options) {
 
       // For isolated puppet parts, accept a practically usable candidate immediately
       // when all production-critical checks pass and the score is at least 75.
-      const productionAccept = !pass && canAutoAdoptPart(job);
+      const productionAccept = !job.human_gate && !pass && canAutoAdoptPart(job);
       if (productionAccept) {
         qa.pass = true;
         qa.accepted_by = 'production_threshold';
@@ -317,6 +318,22 @@ async function processJob(queue, job, options) {
       }
 
       if (pass || productionAccept) {
+        if (job.human_gate) {
+          job.status = 'awaiting_human';
+          job.github_synced = false;
+          job.current_path = null;
+          job.review_candidate_path = job.debug_paths.processed;
+          job.quality_result = 'qa_passed_awaiting_human';
+          job.human_review = {
+            required: true,
+            stage: job.review_stage || 'asset_review',
+            requested_at: now(),
+            approved: false
+          };
+          await writeQueue(queue);
+          console.log(`[asset-factory] HUMAN GATE: ${job.name} passed QA and is awaiting approval at ${job.review_candidate_path}`);
+          return { pass: true, awaitingHuman: true };
+        }
         const target = path.join(ROOT, job.save_path);
         await fs.mkdir(path.dirname(target), { recursive: true });
         await fs.writeFile(target, processedBuffer);
@@ -324,8 +341,8 @@ async function processJob(queue, job, options) {
         job.status = 'github_synced';
         job.github_synced = true;
         job.completed_at = now();
-        await writeQueue(queue);
         job.quality_result = productionAccept ? 'accepted_with_minor_style_warnings' : 'passed_qa';
+        await writeQueue(queue);
         console.log(`[asset-factory] ${productionAccept ? 'ACCEPT' : 'PASS'} ${job.name} -> ${job.save_path}`);
         return { pass: true, productionAccept };
       }
