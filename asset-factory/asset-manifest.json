@@ -193,11 +193,11 @@
       "display_title": "基本魔法師｜胴体｜パーツ",
       "filename": "torso.png",
       "path": "assets/characters/puppet-v1/parts/torso.png",
-      "current_path": null,
+      "current_path": "assets/characters/puppet-v1/parts/torso.png",
       "legacy_path": null,
       "generation_id": null,
       "transparent": true,
-      "status": "needs_fix",
+      "status": "github_synced",
       "prompt": "基本魔法師の胴体コアパーツのみ。範囲は首の付け根から腰の上端まで。黒〜濃紺の非常に簡潔なゴシック上衣。形は短いベストまたは胸当てのような一枚のコンパクトな胴体。首穴、左右の肩接続穴、腰接続部だけを持つ。腰より下へ一切伸ばさない。中央のネクタイ、前垂れ、布帯、スカート、コート裾、二股の裾、腰布、マント、腕、頭、脚は描かない。古金装飾は胸元に小さな留め具1個だけ。肩と腰の接続部は丸く単純にし、他パーツを重ねやすい余白を残す。最重要：1つの短い胴体コアだけ。平面的な切り絵・影絵・舞台人形パーツ。2〜4色のマット塗り、硬い輪郭。立体的な服、長い装飾、グラデーション、宝石、刺繍を使わない。OUTPUT PIPELINE REQUIREMENTの単色背景以外は描かない。",
       "generator": {
         "model": "gpt-image-2.5-flare",
@@ -220,7 +220,7 @@
         }
       },
       "qa": {
-        "pass": false,
+        "pass": true,
         "score": 68,
         "structural": {
           "pass": true,
@@ -272,7 +272,10 @@
             "reasoning_tokens": 0
           },
           "total_tokens": 2542
-        }
+        },
+        "accepted_by": "human_review",
+        "accepted_with_minor_warnings": true,
+        "accepted_at": "2026-10-04T05:30:41.614Z"
       }
     },
     {
@@ -288,10 +291,81 @@
       "legacy_path": null,
       "generation_id": null,
       "transparent": true,
-      "status": "waiting",
+      "status": "needs_fix",
       "prompt": "基本魔法師の後ろ髪パーツのみ。銀〜淡いラベンダー色。肩付近までの単純な大きな塊として描き、細かい毛束や尖りを増やさない。頭部・顔・胴体は描かない。頭の後ろに重ねるため上部に接続余白を残す。 最重要：ゴシック影絵・切り絵・舞台人形の平面的2Dパーツ。色面は2〜4段階、マット塗り、硬めの輪郭。写実的3D陰影、アニメ美麗立ち絵質感、グラデーション、光沢、複雑な刺繍や宝石を使わない。OUTPUT PIPELINE REQUIREMENTの単色背景以外は描かない。",
-      "generator": null,
-      "qa": {}
+      "generator": {
+        "model": "gpt-image-2.5-flare",
+        "quality": "medium",
+        "used_references": 0,
+        "generation_id": null,
+        "created": 1791091965,
+        "usage": {
+          "input_tokens": 1012,
+          "input_tokens_details": {
+            "image_tokens": 0,
+            "text_tokens": 1012
+          },
+          "output_tokens": 439,
+          "output_tokens_details": {
+            "image_tokens": 439,
+            "text_tokens": 0
+          },
+          "total_tokens": 1451
+        }
+      },
+      "qa": {
+        "pass": false,
+        "score": 48,
+        "structural": {
+          "pass": true,
+          "issues": [],
+          "image": {
+            "valid": true,
+            "width": 1024,
+            "height": 1024,
+            "colorType": 6,
+            "hasAlpha": true,
+            "alpha_stats": {
+              "pixels": 1048576,
+              "transparent": 816324,
+              "translucent": 176,
+              "opaque": 232076,
+              "transparent_ratio": 0.7785072326660156,
+              "nonopaque_ratio": 0.7786750793457031
+            }
+          }
+        },
+        "checks": {
+          "single_asset": true,
+          "no_text_ui": true,
+          "subject_match": true,
+          "art_direction": true,
+          "puppet_style": true,
+          "joint_readability": true,
+          "small_screen_silhouette": true,
+          "composition": true,
+          "transparency_visual": true,
+          "reference_consistency": true
+        },
+        "issues": [
+          "Hair shape is broadly appropriate, though the internal shading is somewhat softer and more gradient-like than the requested hard 2–4 flat color areas."
+        ],
+        "remediation": "Regenerate exactly one silver–pale lavender rear-hair cutout on true fully transparent RGBA, with no green or background pixels, using a simple shoulder-length mass, hard outline, and only 2–4 flat matte color regions.",
+        "checked_at": "2026-10-04T05:32:48.382Z",
+        "model": "gpt-5.6-luna",
+        "usage": {
+          "input_tokens": 2156,
+          "input_tokens_details": {
+            "cache_write_tokens": 2153,
+            "cached_tokens": 0
+          },
+          "output_tokens": 184,
+          "output_tokens_details": {
+            "reasoning_tokens": 0
+          },
+          "total_tokens": 2340
+        }
+      }
     },
     {
       "asset_id": "shinka_part_base_mage_hat_puppet_v1",
