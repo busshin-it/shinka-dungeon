@@ -98,6 +98,21 @@ function canAutoAdoptPart(job) {
     && score >= 70
     && limbCriticalChecks.every(k => checks[k] === true);
 
+  const legPracticalAccept =
+    new Set(['upper_leg_l','upper_leg_r','lower_leg_l','lower_leg_r']).has(job.part)
+    && score >= 50
+    && qa.structural?.pass === true
+    && checks.single_asset === true
+    && checks.no_text_ui === true
+    && checks.subject_match === true
+    && checks.puppet_style === true
+    && checks.joint_readability === true
+    && checks.small_screen_silhouette === true
+    && checks.composition === true
+    && checks.transparency_visual === true
+    && checks.reference_consistency === true
+    && issues.length <= 2;
+
   const upperArmPracticalAccept =
     new Set(['upper_arm_l','upper_arm_r']).has(job.part)
     && score >= 40
@@ -128,7 +143,7 @@ function canAutoAdoptPart(job) {
     && checks.reference_consistency === true;
 
   return qa.structural?.pass === true
-    && ((allCriticalChecksPass && (score >= 75 || minorOnly)) || simpleLimbAccept || upperArmPracticalAccept || gloveForearmAccept);
+    && ((allCriticalChecksPass && (score >= 75 || minorOnly)) || simpleLimbAccept || legPracticalAccept || upperArmPracticalAccept || gloveForearmAccept);
 }
 
 async function adoptExistingCandidate(queue, job) {
