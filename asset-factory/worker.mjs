@@ -8,7 +8,7 @@ import { removeChromaKey, alphaStats } from './lib/chroma.mjs';
 const ROOT = path.resolve(process.cwd());
 const QUEUE_PATH = path.join(ROOT, 'asset-factory', 'queue.json');
 const MANIFEST_PATH = path.join(ROOT, 'asset-factory', 'asset-manifest.json');
-const ACTIVE = new Set(['waiting','queued','needs_fix','regenerate']);
+const ACTIVE = new Set(['waiting','queued','regenerate']);
 const MAX_IMAGE_CALLS = Math.max(1, Number(process.env.ASSET_FACTORY_MAX_IMAGE_CALLS || 6));
 const DEFAULT_MAX_TOTAL_ATTEMPTS = Math.max(1, Number(process.env.ASSET_FACTORY_MAX_TOTAL_ATTEMPTS || 8));
 let imageCalls = 0;
@@ -394,7 +394,7 @@ export async function main(argv = process.argv.slice(2)) {
   const passed = results.filter(r => r?.pass);
   console.log(`[asset-factory] summary: passed=${passed.length}, deferred=${deferred.length}, manual_review=${manual.length}`);
   if (manual.length) {
-    throw new Error(`Asset Factory finished with ${manual.length} asset(s) requiring manual review after self-healing was exhausted.`);
+    console.log(`[asset-factory] parked ${manual.length} asset(s) in needs_fix; future runs will skip them and continue remaining active jobs.`);
   }
 }
 
