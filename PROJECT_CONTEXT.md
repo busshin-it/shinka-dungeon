@@ -7,7 +7,7 @@
 > ChatGPTのチャットが変わっても、過去ログを大量に読み返さず、約5分で「何を作っているか / なぜそうしたか / 何に失敗したか / 次に何をするか」を復元するための入口。
 >
 > **新しいチャットでは最初にこのファイルを読む。**
-> その後、必要に応じて `GAME_LAB.md`、`asset-factory/README.md`、`asset-factory/queue.json` を確認する。
+> その後、ゲーム設計を扱う場合は `GAME_DESIGN.md` を読み、必要に応じて `GAME_LAB.md`、`asset-factory/README.md`、`asset-factory/queue.json` を確認する。
 >
 > 会話履歴よりGitHub上の状態を優先する。
 
@@ -758,6 +758,7 @@ Issue / JOB
 
 ゲーム:
 - `PROJECT_CONTEXT.md`
+- `GAME_DESIGN.md`
 - `README.md`
 - `GAME_LAB.md`
 
@@ -949,6 +950,11 @@ debug / log / QA理由 / commit履歴を残す。
 
 **最初に読む1枚。**
 プロジェクト全体 / 意思決定 / 失敗 / ルール / 現在地。
+
+## `GAME_DESIGN.md`
+
+**ゲーム設計の正本。**
+職業思想、資源ルール、カード設計原則、確定事項・保留事項を管理する。
 
 ## `README.md`
 
