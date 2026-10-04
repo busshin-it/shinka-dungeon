@@ -717,11 +717,66 @@
       "project_id": "shinka",
       "format": "png",
       "style_version": "gothic-silhouette-puppet-v0.1",
-      "status": "waiting",
-      "attempts": 0,
+      "status": "needs_fix",
+      "attempts": 2,
       "generation_count": 0,
       "generation_id": null,
-      "qa": {},
+      "qa": {
+        "pass": false,
+        "score": 48,
+        "structural": {
+          "pass": true,
+          "issues": [],
+          "image": {
+            "valid": true,
+            "width": 1024,
+            "height": 1024,
+            "colorType": 6,
+            "hasAlpha": true,
+            "alpha_stats": {
+              "pixels": 1048576,
+              "transparent": 936559,
+              "translucent": 125,
+              "opaque": 111892,
+              "transparent_ratio": 0.8931722640991211,
+              "nonopaque_ratio": 0.8932914733886719
+            }
+          }
+        },
+        "checks": {
+          "single_asset": true,
+          "no_text_ui": true,
+          "subject_match": false,
+          "art_direction": false,
+          "puppet_style": false,
+          "joint_readability": true,
+          "small_screen_silhouette": true,
+          "composition": true,
+          "transparency_visual": true,
+          "reference_consistency": true
+        },
+        "issues": [
+          "左上腕のみではなく、肩パッド状の装飾と金色の複雑な縁取りを含む過剰なデザインになっている",
+          "袖が細身で簡潔な平面2Dパーツではなく、立体的な円筒・防具のように見える",
+          "グラデーションと強い陰影、光沢感があり、指定のマットな切り絵・影絵表現から外れている",
+          "肩側と肘側の重ね代は明確だが、肩側が独立した装甲のようで基本魔法師の袖としての単純なリグ用形状から逸脱している"
+        ],
+        "remediation": "透明背景に、黒〜濃紺の単純な細身の袖だけを1本描く。肩側と肘側を丸く明確にして両端に重ね代を残し、前腕・手・胴体・装飾的肩当ては除外し、2〜4色のマットな硬い平面塗りと明瞭な切り絵輪郭にする。",
+        "checked_at": "2026-10-04T06:31:55.466Z",
+        "model": "gpt-5.6-luna",
+        "usage": {
+          "input_tokens": 2132,
+          "input_tokens_details": {
+            "cache_write_tokens": 2129,
+            "cached_tokens": 0
+          },
+          "output_tokens": 378,
+          "output_tokens_details": {
+            "reasoning_tokens": 0
+          },
+          "total_tokens": 2510
+        }
+      },
       "quality_result": null,
       "github_synced": false,
       "asset_id": "shinka_part_base_mage_upper_arm_l_puppet_v1",
@@ -761,7 +816,38 @@
       "path": "assets/characters/puppet-v1/parts/upper-arm-l.png",
       "negative_prompt": "背景 / 地面 / 文字 / UI / 他の身体パーツ / パーツ一覧 / 複数案 / 写実3DCG / 3Dレンダー / 写実的陰影 / ソフトグラデーション / 美麗アニメ立ち絵 / 光沢 / 宝石 / 複雑な刺繍 / 複数パーツ / パーツシート / 人体全身",
       "chroma_key": true,
-      "last_error": null
+      "last_error": {
+        "message": "Your request was rejected by the safety system. If you believe this is an error, contact us at help.openai.com and include the request ID req_401f9821da8c44ac9e64bf7e057a89fc. safety_violations=[sexual].",
+        "code": "moderation_blocked",
+        "status": 400,
+        "at": "2026-10-04T06:32:03.904Z"
+      },
+      "updated_at": "2026-10-04T06:31:55.673Z",
+      "last_prompt": "Project: 進化ダンジョン. Style version: gothic-silhouette-puppet-v0.1.\nOfficial art direction: ゴシック・シルエット風パペット・ダークファンタジー。2D、手描き・絵画的、少し不気味だが美しい人形劇・影絵の世界。ゴシック古城・地下迷宮・魔術世界。黒・濃紺・紫・青・古金を基調とし、写実的3DCG感を避ける。キャラクターは最初から2Dパペットアニメーションで動かす前提で、細身で読みやすいシルエット、頭・胴体・腕・脚・武器の分離、関節の認識しやすさを重視する。小さいゲーム画面での視認性と既存素材との統一感を最優先する。\nOfficial style: Gothic silhouette puppet dark fantasy.\n2D dark fantasy with gothic castles, underground ruins, magical architecture, and theatrical puppet-stage atmosphere.\nHand-painted and painterly, slightly eerie but beautiful.\nStrong readable silhouettes inspired by shadow theatre and articulated stage puppets.\nAvoid photorealism, realistic human rendering, glossy 3D CGI, toy-render aesthetics, bright pop colors, anime moe, chibi, or cute deformation.\nPrimary palette: black, deep navy, purple, blue, and antique gold. Attribute-specific magical glow colors are allowed.\nPrioritize visual consistency with the existing game world over standalone prettiness.\nDesign for readability on a small landscape game screen.\nCreate exactly ONE isolated puppet part only, never a sheet of parts.\nThis is a production rig asset, not a beauty illustration.\nUse flat cutout / shadow-puppet / stage-puppet 2D construction with 2–4 matte color values and a hard readable outline.\nAvoid realistic volume shading, glossy rendering, cinematic light, detailed anime illustration, soft gradients, and decorative complexity.\nDo not include any other body parts, scenery, UI, text, labels, or assembly guides.\nKeep enough overlap margin at the joint connection for rigging.\nCenter the single part with generous empty margin and keep its silhouette clean at small size.\nAsset: 基本魔法師 左上腕.\n基本魔法師の左上腕パーツのみ。黒〜濃紺の細身で簡潔な袖。肩側と肘側を丸く明確にし、両端に重ね代を残す。前腕、手、胴体は描かない。 最重要：ゴシック影絵・切り絵・舞台人形の平面的2Dパーツ。色面は2〜4段階、マット塗り、硬めの輪郭。写実的3D陰影、アニメ美麗立ち絵質感、グラデーション、光沢、複雑な刺繍や宝石を使わない。OUTPUT PIPELINE REQUIREMENTの単色背景以外は描かない。\nOUTPUT PIPELINE REQUIREMENT: draw the subject on a single flat pure chroma green background (#00FF00), edge-to-edge, with NO gradient, NO vignette, NO floor, NO cast shadow, NO aura, NO glow behind the subject, and NO other background objects. Do not use green anywhere on the subject. The production pipeline will remove this green background and convert it to alpha transparency.\nDo NOT include: 地面, 文字, UI, 他の身体パーツ, パーツ一覧, 複数案, 写実3DCG, 3Dレンダー, 写実的陰影, ソフトグラデーション, 美麗アニメ立ち絵, 光沢, 宝石, 複雑な刺繍, 複数パーツ, パーツシート, 人体全身, checkerboard transparency pattern, gray checkerboard, fake transparency grid.\nCritical production rule: 1 asset = 1 image. Never make a contact sheet, comparison sheet, character lineup, asset sheet, split panel, or multiple design variants.\nDo not add explanatory text, labels, captions, logos, or decorative typography.\nPrevious QA correction to apply strictly: 透明背景に、黒〜濃紺の単純な細身の袖だけを1本描く。肩側と肘側を丸く明確にして両端に重ね代を残し、前腕・手・胴体・装飾的肩当ては除外し、2〜4色のマットな硬い平面塗りと明瞭な切り絵輪郭にする。",
+      "generator": {
+        "model": "gpt-image-2.5-flare",
+        "quality": "medium",
+        "used_references": 0,
+        "generation_id": null,
+        "created": 1791095510,
+        "usage": {
+          "input_tokens": 902,
+          "input_tokens_details": {
+            "image_tokens": 0,
+            "text_tokens": 902
+          },
+          "output_tokens": 439,
+          "output_tokens_details": {
+            "image_tokens": 439,
+            "text_tokens": 0
+          },
+          "total_tokens": 1341
+        }
+      },
+      "debug_paths": {
+        "generated": "asset-factory/debug/shinka_part_base_mage_upper_arm_l_puppet_v1/last-generated.png",
+        "processed": "asset-factory/debug/shinka_part_base_mage_upper_arm_l_puppet_v1/last-processed.png"
+      }
     },
     {
       "project": "進化ダンジョン",
