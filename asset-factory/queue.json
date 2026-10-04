@@ -20,11 +20,59 @@
       "project_id": "shinka",
       "format": "png",
       "style_version": "gothic-silhouette-puppet-v0.1",
-      "status": "waiting",
-      "attempts": 1,
+      "status": "needs_fix",
+      "attempts": 3,
       "generation_count": 0,
       "generation_id": null,
-      "qa": {},
+      "qa": {
+        "pass": false,
+        "score": 54,
+        "structural": {
+          "pass": true,
+          "issues": [],
+          "image": {
+            "valid": true,
+            "width": 1024,
+            "height": 1536,
+            "colorType": 6,
+            "hasAlpha": true
+          }
+        },
+        "checks": {
+          "single_asset": true,
+          "no_text_ui": true,
+          "subject_match": true,
+          "art_direction": true,
+          "puppet_style": false,
+          "joint_readability": false,
+          "small_screen_silhouette": true,
+          "composition": true,
+          "transparency_visual": false,
+          "reference_consistency": true
+        },
+        "issues": [
+          "背景が不透明な黒〜茶色の光彩グラデーションで、要求された完全透明背景ではない",
+          "写実的なキャラクター立ち絵寄りで、2Dパペット用の分離パーツ構造が十分に明確でない",
+          "マント、髪、衣装、腕が重なり、肩・肘・手首・股関節の境界が判別しにくい",
+          "膝や関節は示唆されているが、全体として衣装の装飾と長い布が関節可動域を隠している",
+          "杖は見えているが、先端の装飾が大きく、独立パーツとしての分離がやや複雑"
+        ],
+        "remediation": "完全透明アルファ背景で、頭・髪・帽子・胴体・左右上腕・左右前腕・手・左右大腿・左右下腿・靴・マント・杖を明確に分離した、関節が露出して読める細身の2Dパペット用正面全身立ち絵として再生成する。",
+        "checked_at": "2026-10-04T00:55:19.452Z",
+        "model": "gpt-5.6-luna",
+        "usage": {
+          "input_tokens": 2595,
+          "input_tokens_details": {
+            "cache_write_tokens": 2592,
+            "cached_tokens": 0
+          },
+          "output_tokens": 335,
+          "output_tokens_details": {
+            "reasoning_tokens": 0
+          },
+          "total_tokens": 2930
+        }
+      },
       "quality_result": null,
       "github_synced": false,
       "asset_id": "shinka_character_base_mage_puppet_v1",
@@ -53,9 +101,29 @@
       "filename": "base-mage.png",
       "path": "assets/characters/puppet-v1/base-mage.png",
       "negative_prompt": "背景 / 地面 / 文字 / UI / 複数人 / 写実3DCG / 極端な手足の重なり / 体切れ / 杖切れ",
-      "updated_at": "2026-10-04T00:50:25.585Z",
-      "last_prompt": "Project: 進化ダンジョン. Style version: gothic-silhouette-puppet-v0.1.\nOfficial art direction: ゴシック・シルエット風パペット・ダークファンタジー。2D、手描き・絵画的、少し不気味だが美しい人形劇・影絵の世界。ゴシック古城・地下迷宮・魔術世界。黒・濃紺・紫・青・古金を基調とし、写実的3DCG感を避ける。キャラクターは最初から2Dパペットアニメーションで動かす前提で、細身で読みやすいシルエット、頭・胴体・腕・脚・武器の分離、関節の認識しやすさを重視する。小さいゲーム画面での視認性と既存素材との統一感を最優先する。\nOfficial style: Gothic silhouette puppet dark fantasy.\n2D dark fantasy with gothic castles, underground ruins, magical architecture, and theatrical puppet-stage atmosphere.\nHand-painted and painterly, slightly eerie but beautiful.\nStrong readable silhouettes inspired by shadow theatre and articulated stage puppets.\nAvoid photorealism, realistic human rendering, glossy 3D CGI, toy-render aesthetics, bright pop colors, anime moe, chibi, or cute deformation.\nPrimary palette: black, deep navy, purple, blue, and antique gold. Attribute-specific magical glow colors are allowed.\nPrioritize visual consistency with the existing game world over standalone prettiness.\nDesign for readability on a small landscape game screen.\nCreate exactly ONE full-body player character only.\nBase identity: silver to pale-lavender hair, blue eyes, black/deep-navy gothic mage clothing, antique gold details, calm and slightly androgynous impression.\nUse a fully transparent PNG background. No scenery, floor, UI, text, or extra characters.\nDesign from the beginning as a 2D articulated puppet that can be animated with a small number of bones/parts.\nKeep the silhouette slender, theatrical, and easy to read.\nKeep head, torso, arms, and legs visually separable.\nDo not overlap limbs excessively.\nKeep shoulders, elbows, wrists, hips, and knees visually understandable.\nSeparate weapons from the body silhouette whenever possible.\nLong hair, cloth, capes, and dangling ornaments should look separable into independent puppet parts later.\nDo not hide every joint under bulky clothing or effects.\nAsset: 基本魔法師.\n進化ダンジョンの基準主人公。銀〜淡いラベンダー色の長髪、青い瞳、黒・濃紺を中心としたゴシック魔術師衣装、古金の装飾、大きな魔術帽子、杖。中性的で静かな印象。最初から2Dパペットとして動かす前提で、細身で読みやすく、頭・胴体・腕・脚・杖の境界を明確にし、肩・肘・手首・股関節・膝の位置が認識しやすい全身デザイン。髪、帽子、マント、杖は後から独立パーツに分離しやすい構造。\nOUTPUT REQUIREMENT: fully transparent alpha background (RGBA PNG). Do not draw a checkerboard, white, black, gradient, floor, stage, or scenic backdrop.\nDo NOT include: 背景, 地面, 文字, UI, 複数人, 写実3DCG, 極端な手足の重なり, 体切れ, 杖切れ.\nCritical production rule: 1 asset = 1 image. Never make a contact sheet, comparison sheet, character lineup, asset sheet, split panel, or multiple design variants.\nDo not add explanatory text, labels, captions, logos, or decorative typography.",
-      "last_error": null
+      "updated_at": "2026-10-04T00:55:03.267Z",
+      "last_prompt": "Project: 進化ダンジョン. Style version: gothic-silhouette-puppet-v0.1.\nOfficial art direction: ゴシック・シルエット風パペット・ダークファンタジー。2D、手描き・絵画的、少し不気味だが美しい人形劇・影絵の世界。ゴシック古城・地下迷宮・魔術世界。黒・濃紺・紫・青・古金を基調とし、写実的3DCG感を避ける。キャラクターは最初から2Dパペットアニメーションで動かす前提で、細身で読みやすいシルエット、頭・胴体・腕・脚・武器の分離、関節の認識しやすさを重視する。小さいゲーム画面での視認性と既存素材との統一感を最優先する。\nOfficial style: Gothic silhouette puppet dark fantasy.\n2D dark fantasy with gothic castles, underground ruins, magical architecture, and theatrical puppet-stage atmosphere.\nHand-painted and painterly, slightly eerie but beautiful.\nStrong readable silhouettes inspired by shadow theatre and articulated stage puppets.\nAvoid photorealism, realistic human rendering, glossy 3D CGI, toy-render aesthetics, bright pop colors, anime moe, chibi, or cute deformation.\nPrimary palette: black, deep navy, purple, blue, and antique gold. Attribute-specific magical glow colors are allowed.\nPrioritize visual consistency with the existing game world over standalone prettiness.\nDesign for readability on a small landscape game screen.\nCreate exactly ONE full-body player character only.\nBase identity: silver to pale-lavender hair, blue eyes, black/deep-navy gothic mage clothing, antique gold details, calm and slightly androgynous impression.\nUse a fully transparent PNG background. No scenery, floor, UI, text, or extra characters.\nDesign from the beginning as a 2D articulated puppet that can be animated with a small number of bones/parts.\nKeep the silhouette slender, theatrical, and easy to read.\nKeep head, torso, arms, and legs visually separable.\nDo not overlap limbs excessively.\nKeep shoulders, elbows, wrists, hips, and knees visually understandable.\nSeparate weapons from the body silhouette whenever possible.\nLong hair, cloth, capes, and dangling ornaments should look separable into independent puppet parts later.\nDo not hide every joint under bulky clothing or effects.\nAsset: 基本魔法師.\n進化ダンジョンの基準主人公。銀〜淡いラベンダー色の長髪、青い瞳、黒・濃紺を中心としたゴシック魔術師衣装、古金の装飾、大きな魔術帽子、杖。中性的で静かな印象。最初から2Dパペットとして動かす前提で、細身で読みやすく、頭・胴体・腕・脚・杖の境界を明確にし、肩・肘・手首・股関節・膝の位置が認識しやすい全身デザイン。髪、帽子、マント、杖は後から独立パーツに分離しやすい構造。\nOUTPUT REQUIREMENT: fully transparent alpha background (RGBA PNG). Do not draw a checkerboard, white, black, gradient, floor, stage, or scenic backdrop.\nDo NOT include: 背景, 地面, 文字, UI, 複数人, 写実3DCG, 極端な手足の重なり, 体切れ, 杖切れ.\nCritical production rule: 1 asset = 1 image. Never make a contact sheet, comparison sheet, character lineup, asset sheet, split panel, or multiple design variants.\nDo not add explanatory text, labels, captions, logos, or decorative typography.\nPrevious QA correction to apply strictly: 完全透明背景で、正面寄りの全身2Dパペット立ち絵として再生成し、頭・髪・帽子・胴体・左右上腕/前腕/手・左右脚・マント・杖を明確に分離、関節間に隙間を設け、装飾と髪・マントの重なりを減らしてください。",
+      "last_error": null,
+      "generator": {
+        "model": "gpt-image-2.5-flare",
+        "quality": "medium",
+        "used_references": 0,
+        "generation_id": null,
+        "created": 1791075315,
+        "usage": {
+          "input_tokens": 945,
+          "input_tokens_details": {
+            "image_tokens": 0,
+            "text_tokens": 945
+          },
+          "output_tokens": 343,
+          "output_tokens_details": {
+            "image_tokens": 343,
+            "text_tokens": 0
+          },
+          "total_tokens": 1288
+        }
+      }
     },
     {
       "project": "進化ダンジョン",
