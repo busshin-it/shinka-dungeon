@@ -341,18 +341,80 @@
       "transparent": false,
       "aspect_ratio": "2:3",
       "save_path": "assets/cards/chain-lightning.png",
-      "current_path": null,
-      "status": "waiting",
-      "attempts": 0,
-      "qa": {},
-      "github_synced": false,
+      "current_path": "assets/cards/chain-lightning.png",
+      "status": "github_synced",
+      "attempts": 2,
+      "qa": {
+        "pass": true,
+        "score": 92,
+        "structural": {
+          "pass": true,
+          "issues": [],
+          "image": {
+            "valid": true,
+            "width": 1024,
+            "height": 1536,
+            "colorType": 2,
+            "hasAlpha": false
+          }
+        },
+        "checks": {
+          "single_asset": true,
+          "no_text_ui": true,
+          "subject_match": true,
+          "art_direction": true,
+          "composition": true,
+          "transparency_visual": true,
+          "reference_consistency": true
+        },
+        "issues": [],
+        "remediation": "なし。",
+        "checked_at": "2026-10-04T00:07:40.565Z",
+        "model": "gpt-5.6-luna",
+        "usage": {
+          "input_tokens": 2249,
+          "input_tokens_details": {
+            "cache_write_tokens": 2246,
+            "cached_tokens": 0
+          },
+          "output_tokens": 61,
+          "output_tokens_details": {
+            "reasoning_tokens": 0
+          },
+          "total_tokens": 2310
+        }
+      },
+      "github_synced": true,
       "legacy_asset_id": "card-chain-lightning",
       "project_id": "shinka",
       "game_key": "chainBolt",
       "filename": "chain-lightning.png",
       "path": "assets/cards/chain-lightning.png",
       "display_title": "連鎖雷｜カード",
-      "generation_id": null
+      "generation_id": null,
+      "updated_at": "2026-10-04T00:07:11.253Z",
+      "last_prompt": "Project: 進化ダンジョン. Official art direction: 2Dダークファンタジー、手描き・絵画的、重厚なゴシック古城世界。青・紫・黒・金を基調に、強いシルエットと美しい魔法光。既存画像と同一ゲームに見えること。\nCreate exactly ONE card illustration asset, not a card mockup.\nPortrait composition. No card frame, no title, no letters, no numbers, no UI.\nThe magical effect or phenomenon must be the unmistakable visual subject.\nAsset: 連鎖雷.\n雷撃から進化した一本の青白い雷が着弾後に複数方向へ次々と枝分かれする。連続攻撃と連鎖が一目で分かる。\nOUTPUT REQUIREMENT: opaque illustrated background is allowed and should support the subject.\nDo NOT include: 文字, 数字, カード枠, UI, 複数案, 人物.\nCritical production rule: 1 asset = 1 image. Never make a contact sheet, comparison sheet, asset sheet, split panel, or multiple design variants.\n2D dark fantasy, hand-painted/painterly, weighty gothic fantasy, dark ancient castle world, deep blue/purple/black/gold palette, beautiful strong magical lighting, high detail, clear game readability, no chibi or cute deformation.\nPrevious QA correction to apply strictly: 透明背景上に、中央へ着弾する一本の青白い主雷撃と着弾点から明確に分岐する数本の枝雷だけを配置し、古城・空・床・背景景観・文字・UIを除いた、縦長で強いシルエットの絵画的魔法エフェクトにする。",
+      "generator": {
+        "model": "gpt-image-2",
+        "quality": "medium",
+        "used_references": 0,
+        "generation_id": null,
+        "created": 1791072458,
+        "usage": {
+          "input_tokens": 401,
+          "input_tokens_details": {
+            "image_tokens": 0,
+            "text_tokens": 401
+          },
+          "output_tokens": 1372,
+          "output_tokens_details": {
+            "image_tokens": 1372,
+            "text_tokens": 0
+          },
+          "total_tokens": 1773
+        }
+      },
+      "completed_at": "2026-10-04T00:07:40.567Z"
     },
     {
       "asset_id": "shinka_card_abyss",
