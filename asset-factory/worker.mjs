@@ -260,12 +260,20 @@ async function processJob(queue, job, options) {
       job.generation_id = generated.generationId || job.generation_id || null;
       await writeQueue(queue);
 
-      const processedBuffer = job.chroma_key ? await removeChromaKey(generated.buffer) : generated.buffer;
-
-      // Always retain the latest generated candidate for debugging/review, even if QA fails.
+      // Persist the raw API image before any post-processing so format/pipeline failures remain inspectable.
       const debugDir = path.join(ROOT, 'asset-factory', 'debug', job.asset_id);
       await fs.mkdir(debugDir, { recursive: true });
       await fs.writeFile(path.join(debugDir, 'last-generated.png'), generated.buffer);
+      job.raw_image_debug = {
+        bytes: generated.buffer.length,
+        signature_hex: generated.buffer.subarray(0, 16).toString('hex'),
+        saved_at: now()
+      };
+      await writeQueue(queue);
+
+      const processedBuffer = job.chroma_key ? await removeChromaKey(generated.buffer) : generated.buffer;
+
+      // Always retain the latest processed candidate for debugging/review.
       await fs.writeFile(path.join(debugDir, 'last-processed.png'), processedBuffer);
 
       const structural = structuralQa(job, processedBuffer);
