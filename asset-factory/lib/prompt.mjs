@@ -31,8 +31,8 @@ const TYPE_RULES = {
   ],
   enemy: [
     'Create exactly ONE enemy character only.',
-    'Show the complete full body including feet and the complete weapon, with generous transparent padding.',
-    'Use a fully transparent PNG background. No scenery, floor, platform, shadow stage, UI, text, or extra characters.',
+    'Show the complete full body including feet and the complete weapon, with generous clear margin around the silhouette.',
+    'No scenery, floor, platform, shadow stage, UI, text, or extra characters.',
     ...PUPPET_RULES,
     'The enemy type must be recognizable from silhouette alone.',
   ],
@@ -41,19 +41,18 @@ const TYPE_RULES = {
     'Preserve the same player identity: silver to pale-lavender hair, blue eyes, same face, age impression, body type, and quiet personality.',
     'The base look is a gothic mage in black/deep navy with antique gold details and a calm, slightly androgynous impression.',
     'Express class evolution mainly through costume, ornaments, staff/weapon, magical effects, and controlled color accents.',
-    'Use a fully transparent PNG background. No scenery, floor, UI, text, or extra characters.',
+    'No scenery, floor, UI, text, or extra characters.',
     ...PUPPET_RULES,
     'Keep staff, hair, clothing, hands, and feet fully in frame.',
   ],
   character: [
     'Create exactly ONE full-body player character only.',
     'Base identity: silver to pale-lavender hair, blue eyes, black/deep-navy gothic mage clothing, antique gold details, calm and slightly androgynous impression.',
-    'Use a fully transparent PNG background. No scenery, floor, UI, text, or extra characters.',
+    'No scenery, floor, UI, text, or extra characters.',
     ...PUPPET_RULES,
   ],
   part: [
     'Create exactly ONE puppet part only, never a sheet of parts.',
-    'Use a fully transparent PNG background.',
     'Do not include any other body parts, scenery, UI, text, or labels.',
     'Keep enough overlap margin at the joint connection for rigging.',
     'The isolated part must match the source character when reassembled.',
@@ -72,8 +71,10 @@ export function buildPrompt(queue, job, remediation = '') {
         ? 'OUTPUT PIPELINE REQUIREMENT: draw the subject on a single flat pure chroma green background (#00FF00), edge-to-edge, with NO gradient, NO vignette, NO floor, NO cast shadow, NO aura, NO glow behind the subject, and NO other background objects. Do not use green anywhere on the subject. The production pipeline will remove this green background and convert it to alpha transparency.'
         : 'OUTPUT REQUIREMENT: fully transparent alpha background (RGBA PNG). Do not draw a checkerboard, white, black, gradient, floor, stage, or scenic backdrop.')
     : 'OUTPUT REQUIREMENT: opaque illustrated background is allowed when appropriate for this asset type.';
-  const negative = (job.negative || []).length
-    ? `Do NOT include: ${(job.negative || []).join(', ')}.`
+  const negativeItems = (job.negative || []).filter(x => !(job.chroma_key && String(x).trim() === '背景'));
+  if (job.chroma_key) negativeItems.push('checkerboard transparency pattern', 'gray checkerboard', 'fake transparency grid');
+  const negative = negativeItems.length
+    ? `Do NOT include: ${negativeItems.join(', ')}.`
     : '';
   const retry = remediation
     ? `Previous QA correction to apply strictly: ${remediation}`
