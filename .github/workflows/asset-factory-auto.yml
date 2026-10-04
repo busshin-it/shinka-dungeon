@@ -19,7 +19,7 @@ concurrency:
 
 jobs:
   generate:
-    if: ${{ vars.ASSET_FACTORY_AUTO_PAUSED != 'true' }}
+    if: ${{ false }}
     runs-on: ubuntu-latest
     timeout-minutes: 120
     env:
