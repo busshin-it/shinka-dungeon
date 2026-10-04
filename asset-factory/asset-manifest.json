@@ -5,6 +5,776 @@
   "naming_rule": "asset_id + type + name + filename + path + game_key; random generation IDs are metadata only",
   "assets": [
     {
+      "asset_id": "shinka_character_base_mage_puppet_v1",
+      "game_key": null,
+      "project_id": "shinka",
+      "type": "character",
+      "name": "基本魔法師",
+      "display_title": "基本魔法師｜パペットv1",
+      "filename": "base-mage.png",
+      "path": "assets/characters/puppet-v1/base-mage.png",
+      "current_path": null,
+      "legacy_path": null,
+      "generation_id": null,
+      "transparent": true,
+      "status": "needs_fix",
+      "prompt": "進化ダンジョンの基準主人公を、2Dパペット制作のためのニュートラル基準絵として描く。若い中性的なゴシック魔術師。銀〜淡いラベンダー色の長髪、青い瞳、黒・濃紺を中心とした簡潔なゴシック衣装、控えめな古金装飾。正面に近いAポーズで直立し、両腕は胴体から約20〜30度離す。両脚は肩幅程度に離し、左右の脚を重ねない。肩、肘、手首、股関節、膝、足首が一目で分かる。衣装は関節を隠さず、長い布・豪華なフリル・大きなマントを避ける。帽子、杖、魔力球、魔法エフェクト、オーラ、光輪、地面影は描かない。後から頭、後ろ髪、帽子、胴体、左右上腕、左右前腕＋手、左右上脚、左右下脚、マント、杖を個別パーツとして作れるよう、身体各部の境界を明快にする。手描きの影絵・切り絵・舞台人形のような平面的2Dダークファンタジー。完全透明アルファ背景。人物以外の可視ピクセルを置かない。",
+      "generator": {
+        "model": "gpt-image-2.5-flare",
+        "quality": "medium",
+        "used_references": 0,
+        "generation_id": null,
+        "created": 1791077253,
+        "usage": {
+          "input_tokens": 1306,
+          "input_tokens_details": {
+            "image_tokens": 0,
+            "text_tokens": 1306
+          },
+          "output_tokens": 343,
+          "output_tokens_details": {
+            "image_tokens": 343,
+            "text_tokens": 0
+          },
+          "total_tokens": 1649
+        }
+      },
+      "qa": {
+        "pass": false,
+        "score": 61,
+        "structural": {
+          "pass": true,
+          "issues": [],
+          "image": {
+            "valid": true,
+            "width": 1024,
+            "height": 1536,
+            "colorType": 6,
+            "hasAlpha": true
+          }
+        },
+        "checks": {
+          "single_asset": true,
+          "no_text_ui": true,
+          "subject_match": true,
+          "art_direction": true,
+          "puppet_style": false,
+          "joint_readability": false,
+          "small_screen_silhouette": true,
+          "composition": false,
+          "transparency_visual": false,
+          "reference_consistency": true
+        },
+        "issues": [
+          "背景が透明アルファではなく、チェッカーボードが可視ピクセルとして描画されている",
+          "通常の美麗なアニメ立ち絵寄りで、平面的な影絵・切り絵・舞台人形風の表現が弱い",
+          "肩周りの装飾、長い前垂れ、腰布、複雑な衣装が関節やパーツ境界を一部隠している",
+          "Aポーズとして腕の開きがやや大きく、指定の約20〜30度より広い",
+          "両脚は分離しているが、衣装の長い垂れ布と装飾が脚パーツの分離を妨げる",
+          "頭髪や衣装の細部が多く、小画面ではシルエットと可動パーツの視認性が低下する"
+        ],
+        "remediation": "チェッカーボードを完全に除去した真の透明アルファ背景で、装飾と垂れ布を最小化し、頭・胴体・左右上腕・左右前腕＋手・左右上脚・左右下脚を明確に分離した平面的な影絵風の正面Aポーズ魔術師を再生成する。",
+        "checked_at": "2026-10-04T01:27:39.271Z",
+        "model": "gpt-5.6-luna",
+        "usage": {
+          "input_tokens": 2869,
+          "input_tokens_details": {
+            "cache_write_tokens": 2866,
+            "cached_tokens": 0
+          },
+          "output_tokens": 366,
+          "output_tokens_details": {
+            "reasoning_tokens": 0
+          },
+          "total_tokens": 3235
+        }
+      }
+    },
+    {
+      "asset_id": "shinka_part_base_mage_head_puppet_v1",
+      "game_key": null,
+      "project_id": "shinka",
+      "type": "part",
+      "name": "基本魔法師 頭部",
+      "display_title": "基本魔法師｜頭部｜パーツ",
+      "filename": "head.png",
+      "path": "assets/characters/puppet-v1/parts/head.png",
+      "current_path": null,
+      "legacy_path": null,
+      "generation_id": null,
+      "transparent": true,
+      "status": "waiting",
+      "prompt": "頭部のみ。顔、前髪、耳まわり、首の上部を含む。首接続部に重ね代を確保。帽子と後ろ髪は含めない。",
+      "generator": null,
+      "qa": {}
+    },
+    {
+      "asset_id": "shinka_part_base_mage_torso_puppet_v1",
+      "game_key": null,
+      "project_id": "shinka",
+      "type": "part",
+      "name": "基本魔法師 胴体",
+      "display_title": "基本魔法師｜胴体｜パーツ",
+      "filename": "torso.png",
+      "path": "assets/characters/puppet-v1/parts/torso.png",
+      "current_path": null,
+      "legacy_path": null,
+      "generation_id": null,
+      "transparent": true,
+      "status": "waiting",
+      "prompt": "胴体のみ。首・肩・腰の接続部に十分な重ね代。頭、腕、脚、マントは含めない。",
+      "generator": null,
+      "qa": {}
+    },
+    {
+      "asset_id": "shinka_part_base_mage_hair_back_puppet_v1",
+      "game_key": null,
+      "project_id": "shinka",
+      "type": "part",
+      "name": "基本魔法師 後ろ髪",
+      "display_title": "基本魔法師｜後ろ髪｜パーツ",
+      "filename": "hair-back.png",
+      "path": "assets/characters/puppet-v1/parts/hair-back.png",
+      "current_path": null,
+      "legacy_path": null,
+      "generation_id": null,
+      "transparent": true,
+      "status": "waiting",
+      "prompt": "後ろ髪のみ。頭部後方へ自然に接続できる重ね代を確保。顔や頭部本体は含めない。",
+      "generator": null,
+      "qa": {}
+    },
+    {
+      "asset_id": "shinka_part_base_mage_hat_puppet_v1",
+      "game_key": null,
+      "project_id": "shinka",
+      "type": "part",
+      "name": "基本魔法師 帽子",
+      "display_title": "基本魔法師｜帽子｜パーツ",
+      "filename": "hat.png",
+      "path": "assets/characters/puppet-v1/parts/hat.png",
+      "current_path": null,
+      "legacy_path": null,
+      "generation_id": null,
+      "transparent": true,
+      "status": "waiting",
+      "prompt": "魔術帽子のみ。頭部へ自然に重ねられる接続余白を確保。頭や髪本体は含めない。",
+      "generator": null,
+      "qa": {}
+    },
+    {
+      "asset_id": "shinka_part_base_mage_upper_arm_l_puppet_v1",
+      "game_key": null,
+      "project_id": "shinka",
+      "type": "part",
+      "name": "基本魔法師 左上腕",
+      "display_title": "基本魔法師｜左上腕｜パーツ",
+      "filename": "upper-arm-l.png",
+      "path": "assets/characters/puppet-v1/parts/upper-arm-l.png",
+      "current_path": null,
+      "legacy_path": null,
+      "generation_id": null,
+      "transparent": true,
+      "status": "waiting",
+      "prompt": "左上腕のみ。肩・肘の接続用重ね代を確保。前腕や手は含めない。",
+      "generator": null,
+      "qa": {}
+    },
+    {
+      "asset_id": "shinka_part_base_mage_lower_arm_l_hand_puppet_v1",
+      "game_key": null,
+      "project_id": "shinka",
+      "type": "part",
+      "name": "基本魔法師 左前腕＋手",
+      "display_title": "基本魔法師｜左前腕＋手｜パーツ",
+      "filename": "lower-arm-l-hand.png",
+      "path": "assets/characters/puppet-v1/parts/lower-arm-l-hand.png",
+      "current_path": null,
+      "legacy_path": null,
+      "generation_id": null,
+      "transparent": true,
+      "status": "waiting",
+      "prompt": "左前腕と左手のみ。肘接続部に重ね代。上腕は含めない。",
+      "generator": null,
+      "qa": {}
+    },
+    {
+      "asset_id": "shinka_part_base_mage_upper_arm_r_puppet_v1",
+      "game_key": null,
+      "project_id": "shinka",
+      "type": "part",
+      "name": "基本魔法師 右上腕",
+      "display_title": "基本魔法師｜右上腕｜パーツ",
+      "filename": "upper-arm-r.png",
+      "path": "assets/characters/puppet-v1/parts/upper-arm-r.png",
+      "current_path": null,
+      "legacy_path": null,
+      "generation_id": null,
+      "transparent": true,
+      "status": "waiting",
+      "prompt": "右上腕のみ。肩・肘の接続用重ね代を確保。前腕や手は含めない。",
+      "generator": null,
+      "qa": {}
+    },
+    {
+      "asset_id": "shinka_part_base_mage_lower_arm_r_hand_puppet_v1",
+      "game_key": null,
+      "project_id": "shinka",
+      "type": "part",
+      "name": "基本魔法師 右前腕＋手",
+      "display_title": "基本魔法師｜右前腕＋手｜パーツ",
+      "filename": "lower-arm-r-hand.png",
+      "path": "assets/characters/puppet-v1/parts/lower-arm-r-hand.png",
+      "current_path": null,
+      "legacy_path": null,
+      "generation_id": null,
+      "transparent": true,
+      "status": "waiting",
+      "prompt": "右前腕と右手のみ。肘接続部に重ね代。上腕は含めない。",
+      "generator": null,
+      "qa": {}
+    },
+    {
+      "asset_id": "shinka_part_base_mage_upper_leg_l_puppet_v1",
+      "game_key": null,
+      "project_id": "shinka",
+      "type": "part",
+      "name": "基本魔法師 左上脚",
+      "display_title": "基本魔法師｜左上脚｜パーツ",
+      "filename": "upper-leg-l.png",
+      "path": "assets/characters/puppet-v1/parts/upper-leg-l.png",
+      "current_path": null,
+      "legacy_path": null,
+      "generation_id": null,
+      "transparent": true,
+      "status": "waiting",
+      "prompt": "左上脚のみ。股関節・膝の接続用重ね代を確保。下脚は含めない。",
+      "generator": null,
+      "qa": {}
+    },
+    {
+      "asset_id": "shinka_part_base_mage_lower_leg_l_puppet_v1",
+      "game_key": null,
+      "project_id": "shinka",
+      "type": "part",
+      "name": "基本魔法師 左下脚",
+      "display_title": "基本魔法師｜左下脚｜パーツ",
+      "filename": "lower-leg-l.png",
+      "path": "assets/characters/puppet-v1/parts/lower-leg-l.png",
+      "current_path": null,
+      "legacy_path": null,
+      "generation_id": null,
+      "transparent": true,
+      "status": "waiting",
+      "prompt": "左下脚のみ。膝接続用重ね代を確保。足先まで含める。",
+      "generator": null,
+      "qa": {}
+    },
+    {
+      "asset_id": "shinka_part_base_mage_upper_leg_r_puppet_v1",
+      "game_key": null,
+      "project_id": "shinka",
+      "type": "part",
+      "name": "基本魔法師 右上脚",
+      "display_title": "基本魔法師｜右上脚｜パーツ",
+      "filename": "upper-leg-r.png",
+      "path": "assets/characters/puppet-v1/parts/upper-leg-r.png",
+      "current_path": null,
+      "legacy_path": null,
+      "generation_id": null,
+      "transparent": true,
+      "status": "waiting",
+      "prompt": "右上脚のみ。股関節・膝の接続用重ね代を確保。下脚は含めない。",
+      "generator": null,
+      "qa": {}
+    },
+    {
+      "asset_id": "shinka_part_base_mage_lower_leg_r_puppet_v1",
+      "game_key": null,
+      "project_id": "shinka",
+      "type": "part",
+      "name": "基本魔法師 右下脚",
+      "display_title": "基本魔法師｜右下脚｜パーツ",
+      "filename": "lower-leg-r.png",
+      "path": "assets/characters/puppet-v1/parts/lower-leg-r.png",
+      "current_path": null,
+      "legacy_path": null,
+      "generation_id": null,
+      "transparent": true,
+      "status": "waiting",
+      "prompt": "右下脚のみ。膝接続用重ね代を確保。足先まで含める。",
+      "generator": null,
+      "qa": {}
+    },
+    {
+      "asset_id": "shinka_part_base_mage_cloak_puppet_v1",
+      "game_key": null,
+      "project_id": "shinka",
+      "type": "part",
+      "name": "基本魔法師 マント",
+      "display_title": "基本魔法師｜マント｜パーツ",
+      "filename": "cloak.png",
+      "path": "assets/characters/puppet-v1/parts/cloak.png",
+      "current_path": null,
+      "legacy_path": null,
+      "generation_id": null,
+      "transparent": true,
+      "status": "waiting",
+      "prompt": "マントのみ。肩・背中に重ねられる接続余白を確保。本体や髪は含めない。",
+      "generator": null,
+      "qa": {}
+    },
+    {
+      "asset_id": "shinka_part_base_mage_weapon_staff_puppet_v1",
+      "game_key": null,
+      "project_id": "shinka",
+      "type": "part",
+      "name": "基本魔法師 杖",
+      "display_title": "基本魔法師｜杖｜パーツ",
+      "filename": "weapon-staff.png",
+      "path": "assets/characters/puppet-v1/parts/weapon-staff.png",
+      "current_path": null,
+      "legacy_path": null,
+      "generation_id": null,
+      "transparent": true,
+      "status": "waiting",
+      "prompt": "杖のみ。先端から末端まで切らずに収める。手や人物は描かない。",
+      "generator": null,
+      "qa": {}
+    },
+    {
+      "asset_id": "shinka_part_base_mage_weapon_orb_puppet_v1",
+      "game_key": null,
+      "project_id": "shinka",
+      "type": "part",
+      "name": "基本魔法師 杖の魔力球",
+      "display_title": "基本魔法師｜杖の魔力球｜パーツ",
+      "filename": "weapon-orb.png",
+      "path": "assets/characters/puppet-v1/parts/weapon-orb.png",
+      "current_path": null,
+      "legacy_path": null,
+      "generation_id": null,
+      "transparent": true,
+      "status": "waiting",
+      "prompt": "杖先端の青白い魔力球のみ。杖本体や手は含めない。",
+      "generator": null,
+      "qa": {}
+    },
+    {
+      "asset_id": "shinka_enemy_skeleton_knight_puppet_v1",
+      "game_key": null,
+      "project_id": "shinka",
+      "type": "enemy",
+      "name": "スケルトンナイト",
+      "display_title": "スケルトンナイト｜敵｜パペットv1",
+      "filename": "skeleton-knight.png",
+      "path": "assets/enemies/puppet-v1/skeleton-knight.png",
+      "current_path": null,
+      "legacy_path": null,
+      "generation_id": null,
+      "transparent": true,
+      "status": "waiting",
+      "prompt": "古びた黒鉄の鎧と長剣を持つスケルトン騎士。細身で舞台人形のような読みやすい骨格。肩・肘・手首・股関節・膝が視覚的に分かり、剣と身体が重なりすぎない。通常敵として簡潔だが印象的。",
+      "generator": null,
+      "qa": {}
+    },
+    {
+      "asset_id": "shinka_enemy_wraith_knight_puppet_v1",
+      "game_key": null,
+      "project_id": "shinka",
+      "type": "enemy",
+      "name": "亡霊騎士",
+      "display_title": "亡霊騎士｜敵｜パペットv1",
+      "filename": "wraith-knight.png",
+      "path": "assets/enemies/puppet-v1/wraith-knight.png",
+      "current_path": null,
+      "legacy_path": null,
+      "generation_id": null,
+      "transparent": true,
+      "status": "waiting",
+      "prompt": "半透明の亡霊騎士。壊れた黒銀鎧、長剣、破れたマント、青白い霊気。スケルトンより強いがボス級ではない。腕・脚・剣・マントが分離しやすいパペット構造。",
+      "generator": null,
+      "qa": {}
+    },
+    {
+      "asset_id": "shinka_enemy_stone_magus_puppet_v1",
+      "game_key": null,
+      "project_id": "shinka",
+      "type": "enemy",
+      "name": "石像魔導兵",
+      "display_title": "石像魔導兵｜敵｜パペットv1",
+      "filename": "stone-magus.png",
+      "path": "assets/enemies/puppet-v1/stone-magus.png",
+      "current_path": null,
+      "legacy_path": null,
+      "generation_id": null,
+      "transparent": true,
+      "status": "waiting",
+      "prompt": "古代魔法文明の石造魔導兵。ゴーレムと騎士の中間。石の身体に青い魔力亀裂、胸部の魔力核。重厚だが関節位置が読みやすく、腕・脚が動かせる石人形の構造。",
+      "generator": null,
+      "qa": {}
+    },
+    {
+      "asset_id": "shinka_enemy_castle_guardian_puppet_v1",
+      "game_key": null,
+      "project_id": "shinka",
+      "type": "enemy",
+      "name": "古城の守護者",
+      "display_title": "古城の守護者｜敵｜パペットv1",
+      "filename": "castle-guardian.png",
+      "path": "assets/enemies/puppet-v1/castle-guardian.png",
+      "current_path": null,
+      "legacy_path": null,
+      "generation_id": null,
+      "transparent": true,
+      "status": "waiting",
+      "prompt": "最終ボスの巨大な古代守護騎士。黒鉄・古金・石の重装甲、守護王の意匠、巨大武器、内部から強い青白い魔力光。神聖さと恐ろしさ。大型でも肩・肘・股関節・膝と武器の境界が明瞭なパペット設計。",
+      "generator": null,
+      "qa": {}
+    },
+    {
+      "asset_id": "shinka_card_ice_arrow_puppet_v1",
+      "game_key": "ice",
+      "project_id": "shinka",
+      "type": "card",
+      "name": "氷の矢",
+      "display_title": "氷の矢｜カード｜パペットv1",
+      "filename": "ice-arrow.png",
+      "path": "assets/cards/puppet-v1/ice-arrow.png",
+      "current_path": null,
+      "legacy_path": null,
+      "generation_id": null,
+      "transparent": false,
+      "status": "waiting",
+      "prompt": "鋭い青白い氷の魔法矢がゴシック古城の暗い空間を高速で飛ぶ瞬間。一本の強いシルエットで小さくても氷の矢と分かる。",
+      "generator": null,
+      "qa": {}
+    },
+    {
+      "asset_id": "shinka_card_lightning_puppet_v1",
+      "game_key": "bolt",
+      "project_id": "shinka",
+      "type": "card",
+      "name": "雷撃",
+      "display_title": "雷撃｜カード｜パペットv1",
+      "filename": "lightning.png",
+      "path": "assets/cards/puppet-v1/lightning.png",
+      "current_path": null,
+      "legacy_path": null,
+      "generation_id": null,
+      "transparent": false,
+      "status": "waiting",
+      "prompt": "上空から一直線に落ちる強烈な青白い雷。舞台照明のような強い明暗と一瞬の高火力。",
+      "generator": null,
+      "qa": {}
+    },
+    {
+      "asset_id": "shinka_card_dark_bolt_puppet_v1",
+      "game_key": "dark",
+      "project_id": "shinka",
+      "type": "card",
+      "name": "闇弾",
+      "display_title": "闇弾｜カード｜パペットv1",
+      "filename": "dark-bolt.png",
+      "path": "assets/cards/puppet-v1/dark-bolt.png",
+      "current_path": null,
+      "legacy_path": null,
+      "generation_id": null,
+      "transparent": false,
+      "status": "waiting",
+      "prompt": "紫黒色の魔力が凝縮された単一の闇弾。周囲の光を吸い込む不穏な暗黒球。",
+      "generator": null,
+      "qa": {}
+    },
+    {
+      "asset_id": "shinka_card_light_wall_puppet_v1",
+      "game_key": "guard",
+      "project_id": "shinka",
+      "type": "card",
+      "name": "光壁",
+      "display_title": "光壁｜カード｜パペットv1",
+      "filename": "light-wall.png",
+      "path": "assets/cards/puppet-v1/light-wall.png",
+      "current_path": null,
+      "legacy_path": null,
+      "generation_id": null,
+      "transparent": false,
+      "status": "waiting",
+      "prompt": "金白色に輝く半透明の魔法障壁。ゴシック舞台のような背景で、攻撃を強固に受け止める。",
+      "generator": null,
+      "qa": {}
+    },
+    {
+      "asset_id": "shinka_card_focus_puppet_v1",
+      "game_key": "focus",
+      "project_id": "shinka",
+      "type": "card",
+      "name": "集中",
+      "display_title": "集中｜カード｜パペットv1",
+      "filename": "focus.png",
+      "path": "assets/cards/puppet-v1/focus.png",
+      "current_path": null,
+      "legacy_path": null,
+      "generation_id": null,
+      "transparent": false,
+      "status": "waiting",
+      "prompt": "青白い魔力と魔法陣が静かに一点へ収束する。攻撃ではなく次の大魔法への準備と分かる。",
+      "generator": null,
+      "qa": {}
+    },
+    {
+      "asset_id": "shinka_card_frost_nova_puppet_v1",
+      "game_key": "frostNova",
+      "project_id": "shinka",
+      "type": "card",
+      "name": "霜の輪",
+      "display_title": "霜の輪｜カード｜パペットv1",
+      "filename": "frost-nova.png",
+      "path": "assets/cards/puppet-v1/frost-nova.png",
+      "current_path": null,
+      "legacy_path": null,
+      "generation_id": null,
+      "transparent": false,
+      "status": "waiting",
+      "prompt": "地面の一点から円形に広がる青白い冷気と氷晶。広範囲を凍てつかせる魔法。",
+      "generator": null,
+      "qa": {}
+    },
+    {
+      "asset_id": "shinka_card_mana_surge_puppet_v1",
+      "game_key": "manaBurst",
+      "project_id": "shinka",
+      "type": "card",
+      "name": "魔力奔流",
+      "display_title": "魔力奔流｜カード｜パペットv1",
+      "filename": "mana-surge.png",
+      "path": "assets/cards/puppet-v1/mana-surge.png",
+      "current_path": null,
+      "legacy_path": null,
+      "generation_id": null,
+      "transparent": false,
+      "status": "waiting",
+      "prompt": "大量の青紫色の魔力が巨大な一本の流れとなって一点へ集積し噴き上がる。",
+      "generator": null,
+      "qa": {}
+    },
+    {
+      "asset_id": "shinka_card_mirror_barrier_puppet_v1",
+      "game_key": "mirror",
+      "project_id": "shinka",
+      "type": "card",
+      "name": "鏡の結界",
+      "display_title": "鏡の結界｜カード｜パペットv1",
+      "filename": "mirror-barrier.png",
+      "path": "assets/cards/puppet-v1/mirror-barrier.png",
+      "current_path": null,
+      "legacy_path": null,
+      "generation_id": null,
+      "transparent": false,
+      "status": "waiting",
+      "prompt": "鏡やガラスのような複数の魔法障壁が攻撃を受け止め、相手へ反射する青白い反射光。",
+      "generator": null,
+      "qa": {}
+    },
+    {
+      "asset_id": "shinka_card_ice_spear_puppet_v1",
+      "game_key": "iceSpear",
+      "project_id": "shinka",
+      "type": "card",
+      "name": "氷槍",
+      "display_title": "氷槍｜カード｜パペットv1",
+      "filename": "ice-spear.png",
+      "path": "assets/cards/puppet-v1/ice-spear.png",
+      "current_path": null,
+      "legacy_path": null,
+      "generation_id": null,
+      "transparent": false,
+      "status": "waiting",
+      "prompt": "氷の矢から進化した巨大で鋭利な一本の氷槍。上位魔法として明確に強そうな重量感。",
+      "generator": null,
+      "qa": {}
+    },
+    {
+      "asset_id": "shinka_card_blizzard_puppet_v1",
+      "game_key": "blizzard",
+      "project_id": "shinka",
+      "type": "card",
+      "name": "吹雪",
+      "display_title": "吹雪｜カード｜パペットv1",
+      "filename": "blizzard.png",
+      "path": "assets/cards/puppet-v1/blizzard.png",
+      "current_path": null,
+      "legacy_path": null,
+      "generation_id": null,
+      "transparent": false,
+      "status": "waiting",
+      "prompt": "猛烈な冷気と無数の氷片が広範囲を飲み込む。画面全体を覆う氷雪。",
+      "generator": null,
+      "qa": {}
+    },
+    {
+      "asset_id": "shinka_card_chain_lightning_puppet_v1",
+      "game_key": "chainBolt",
+      "project_id": "shinka",
+      "type": "card",
+      "name": "連鎖雷",
+      "display_title": "連鎖雷｜カード｜パペットv1",
+      "filename": "chain-lightning.png",
+      "path": "assets/cards/puppet-v1/chain-lightning.png",
+      "current_path": null,
+      "legacy_path": null,
+      "generation_id": null,
+      "transparent": false,
+      "status": "waiting",
+      "prompt": "一本の青白い雷が着弾後に複数方向へ明確に枝分かれする。連続攻撃と連鎖が一目で分かる。",
+      "generator": null,
+      "qa": {}
+    },
+    {
+      "asset_id": "shinka_card_abyss_puppet_v1",
+      "game_key": "abyss",
+      "project_id": "shinka",
+      "type": "card",
+      "name": "奈落弾",
+      "display_title": "奈落弾｜カード｜パペットv1",
+      "filename": "abyss.png",
+      "path": "assets/cards/puppet-v1/abyss.png",
+      "current_path": null,
+      "legacy_path": null,
+      "generation_id": null,
+      "transparent": false,
+      "status": "waiting",
+      "prompt": "巨大な紫黒の圧縮魔力球。中心は底なしの完全な暗黒で、周囲の光と瓦礫を吸い込む。",
+      "generator": null,
+      "qa": {}
+    },
+    {
+      "asset_id": "shinka_card_mana_barrier_puppet_v1",
+      "game_key": "manaBarrier",
+      "project_id": "shinka",
+      "type": "card",
+      "name": "魔力障壁",
+      "display_title": "魔力障壁｜カード｜パペットv1",
+      "filename": "mana-barrier.png",
+      "path": "assets/cards/puppet-v1/mana-barrier.png",
+      "current_path": null,
+      "legacy_path": null,
+      "generation_id": null,
+      "transparent": false,
+      "status": "waiting",
+      "prompt": "巨大で高密度な青白〜金色の魔法障壁。内部に魔力が蓄積され、通常の光壁より明確に強固。",
+      "generator": null,
+      "qa": {}
+    },
+    {
+      "asset_id": "shinka_class_frost_mage_puppet_v1",
+      "game_key": null,
+      "project_id": "shinka",
+      "type": "class",
+      "name": "氷結師",
+      "display_title": "氷結師｜進化クラス｜パペットv1",
+      "filename": "frost-mage.png",
+      "path": "assets/classes/puppet-v1/frost-mage.png",
+      "current_path": null,
+      "legacy_path": null,
+      "generation_id": null,
+      "transparent": true,
+      "status": "waiting",
+      "prompt": "氷魔法中心の進化。青白い氷晶、冷気、氷装飾、氷結した杖。基本魔法師と同一人物。",
+      "generator": null,
+      "qa": {}
+    },
+    {
+      "asset_id": "shinka_class_thunder_mage_puppet_v1",
+      "game_key": null,
+      "project_id": "shinka",
+      "type": "class",
+      "name": "雷術師",
+      "display_title": "雷術師｜進化クラス｜パペットv1",
+      "filename": "thunder-mage.png",
+      "path": "assets/classes/puppet-v1/thunder-mage.png",
+      "current_path": null,
+      "legacy_path": null,
+      "generation_id": null,
+      "transparent": true,
+      "status": "waiting",
+      "prompt": "雷魔法中心の進化。青白〜金の雷が身体と杖を走る。高速・高火力。基本魔法師と同一人物。",
+      "generator": null,
+      "qa": {}
+    },
+    {
+      "asset_id": "shinka_class_dark_mage_puppet_v1",
+      "game_key": null,
+      "project_id": "shinka",
+      "type": "class",
+      "name": "黒魔導士",
+      "display_title": "黒魔導士｜進化クラス｜パペットv1",
+      "filename": "dark-mage.png",
+      "path": "assets/classes/puppet-v1/dark-mage.png",
+      "current_path": null,
+      "legacy_path": null,
+      "generation_id": null,
+      "transparent": true,
+      "status": "waiting",
+      "prompt": "闇魔法中心の進化。紫黒の魔力、影、呪術的装飾。危険だが悪役そのものにはしない。基本魔法師と同一人物。",
+      "generator": null,
+      "qa": {}
+    },
+    {
+      "asset_id": "shinka_class_barrier_mage_puppet_v1",
+      "game_key": null,
+      "project_id": "shinka",
+      "type": "class",
+      "name": "結界術師",
+      "display_title": "結界術師｜進化クラス｜パペットv1",
+      "filename": "barrier-mage.png",
+      "path": "assets/classes/puppet-v1/barrier-mage.png",
+      "current_path": null,
+      "legacy_path": null,
+      "generation_id": null,
+      "transparent": true,
+      "status": "waiting",
+      "prompt": "防御・結界中心。白・金・淡い青、透明障壁、魔法陣、守護と反射。基本魔法師と同一人物。",
+      "generator": null,
+      "qa": {}
+    },
+    {
+      "asset_id": "shinka_class_star_seer_puppet_v1",
+      "game_key": null,
+      "project_id": "shinka",
+      "type": "class",
+      "name": "星詠み",
+      "display_title": "星詠み｜進化クラス｜パペットv1",
+      "filename": "star-seer.png",
+      "path": "assets/classes/puppet-v1/star-seer.png",
+      "current_path": null,
+      "legacy_path": null,
+      "generation_id": null,
+      "transparent": true,
+      "status": "waiting",
+      "prompt": "集中・強化中心。星、天球儀、時計を思わせる魔法陣。紺・青・金。基本魔法師と同一人物。",
+      "generator": null,
+      "qa": {}
+    },
+    {
+      "asset_id": "shinka_class_elementalist_puppet_v1",
+      "game_key": null,
+      "project_id": "shinka",
+      "type": "class",
+      "name": "元素術師",
+      "display_title": "元素術師｜進化クラス｜パペットv1",
+      "filename": "elementalist.png",
+      "path": "assets/classes/puppet-v1/elementalist.png",
+      "current_path": null,
+      "legacy_path": null,
+      "generation_id": null,
+      "transparent": true,
+      "status": "waiting",
+      "prompt": "氷・雷・闇など複数属性の魔力を統合する万能進化。色を無秩序に混ぜず美しく統一。基本魔法師と同一人物。",
+      "generator": null,
+      "qa": {}
+    },
+    {
       "asset_id": "shinka_card_ice_arrow",
       "game_key": "ice",
       "project_id": "shinka",
@@ -18,7 +788,9 @@
       "generation_id": null,
       "transparent": false,
       "status": "adopted",
-      "prompt": "鋭い青白い氷の魔法矢が古城空間を高速で飛翔する瞬間。小さく表示しても氷の矢と判別できる一本の強いシルエット。"
+      "prompt": "鋭い青白い氷の魔法矢が古城空間を高速で飛翔する瞬間。小さく表示しても氷の矢と判別できる一本の強いシルエット。",
+      "generator": null,
+      "qa": {}
     },
     {
       "asset_id": "shinka_card_lightning",
@@ -34,7 +806,9 @@
       "generation_id": null,
       "transparent": false,
       "status": "adopted",
-      "prompt": "上空から古城遺跡へ一直線に落ちる強烈な青白い雷。瞬間的な高火力と破壊力が一目で分かる。"
+      "prompt": "上空から古城遺跡へ一直線に落ちる強烈な青白い雷。瞬間的な高火力と破壊力が一目で分かる。",
+      "generator": null,
+      "qa": {}
     },
     {
       "asset_id": "shinka_card_dark_bolt",
@@ -50,7 +824,9 @@
       "generation_id": null,
       "transparent": false,
       "status": "adopted",
-      "prompt": "紫黒色の魔力が凝縮された単一の闇弾。中心は光を吸い込むように暗く、古城空間を歪ませる不穏な魔法。"
+      "prompt": "紫黒色の魔力が凝縮された単一の闇弾。中心は光を吸い込むように暗く、古城空間を歪ませる不穏な魔法。",
+      "generator": null,
+      "qa": {}
     },
     {
       "asset_id": "shinka_card_light_wall",
@@ -66,7 +842,9 @@
       "generation_id": null,
       "transparent": false,
       "status": "adopted",
-      "prompt": "金白色に輝く半透明の魔法障壁が古城で攻撃を受け止める。強固な防御魔法として一目で分かる大きな壁面。"
+      "prompt": "金白色に輝く半透明の魔法障壁が古城で攻撃を受け止める。強固な防御魔法として一目で分かる大きな壁面。",
+      "generator": null,
+      "qa": {}
     },
     {
       "asset_id": "shinka_card_focus",
@@ -82,7 +860,9 @@
       "generation_id": null,
       "transparent": false,
       "status": "adopted",
-      "prompt": "青白い魔力と細密な魔法陣が静かに一点へ収束する古城空間。攻撃ではなく次の大魔法への準備と分かる蓄積感。"
+      "prompt": "青白い魔力と細密な魔法陣が静かに一点へ収束する古城空間。攻撃ではなく次の大魔法への準備と分かる蓄積感。",
+      "generator": null,
+      "qa": {}
     },
     {
       "asset_id": "shinka_card_frost_nova",
@@ -98,7 +878,9 @@
       "generation_id": null,
       "transparent": false,
       "status": "adopted",
-      "prompt": "石床の一点から円形に広がる青白い冷気と氷晶の輪。広範囲を凍てつかせ敵を弱める魔法だと分かる。"
+      "prompt": "石床の一点から円形に広がる青白い冷気と氷晶の輪。広範囲を凍てつかせ敵を弱める魔法だと分かる。",
+      "generator": null,
+      "qa": {}
     },
     {
       "asset_id": "shinka_card_mana_surge",
@@ -114,7 +896,9 @@
       "generation_id": null,
       "transparent": false,
       "status": "adopted",
-      "prompt": "大量の青紫色の魔力が巨大な一本の流れとなり一点へ集積して噴き上がる。次の魔法を大幅強化するエネルギー蓄積感。"
+      "prompt": "大量の青紫色の魔力が巨大な一本の流れとなり一点へ集積して噴き上がる。次の魔法を大幅強化するエネルギー蓄積感。",
+      "generator": null,
+      "qa": {}
     },
     {
       "asset_id": "shinka_card_mirror_barrier",
@@ -130,7 +914,9 @@
       "generation_id": null,
       "transparent": false,
       "status": "adopted",
-      "prompt": "鏡やガラスのような複数の魔法障壁が攻撃を受け止め、光を相手へ反射する。青白い反射光と鏡面の層。"
+      "prompt": "鏡やガラスのような複数の魔法障壁が攻撃を受け止め、光を相手へ反射する。青白い反射光と鏡面の層。",
+      "generator": null,
+      "qa": {}
     },
     {
       "asset_id": "shinka_card_ice_spear",
@@ -146,7 +932,9 @@
       "generation_id": null,
       "transparent": false,
       "status": "adopted",
-      "prompt": "氷の矢から進化した、巨大で鋭利な一本の青白い氷槍が古城を貫く。基本魔法より明確に上位の威力と重量感。"
+      "prompt": "氷の矢から進化した、巨大で鋭利な一本の青白い氷槍が古城を貫く。基本魔法より明確に上位の威力と重量感。",
+      "generator": null,
+      "qa": {}
     },
     {
       "asset_id": "shinka_card_blizzard",
@@ -162,7 +950,9 @@
       "generation_id": null,
       "transparent": false,
       "status": "adopted",
-      "prompt": "猛烈な冷気と無数の氷片が古城全体を飲み込む広範囲魔法。単体の槍ではなく画面全体を覆う氷雪。"
+      "prompt": "猛烈な冷気と無数の氷片が古城全体を飲み込む広範囲魔法。単体の槍ではなく画面全体を覆う氷雪。",
+      "generator": null,
+      "qa": {}
     },
     {
       "asset_id": "shinka_card_chain_lightning",
@@ -173,12 +963,72 @@
       "display_title": "連鎖雷｜カード",
       "filename": "chain-lightning.png",
       "path": "assets/cards/chain-lightning.png",
-      "current_path": null,
+      "current_path": "assets/cards/chain-lightning.png",
       "legacy_path": null,
       "generation_id": null,
       "transparent": false,
-      "status": "waiting",
-      "prompt": "雷撃から進化した一本の青白い雷が着弾後に複数方向へ次々と枝分かれする。連続攻撃と連鎖が一目で分かる。"
+      "status": "github_synced",
+      "prompt": "雷撃から進化した一本の青白い雷が着弾後に複数方向へ次々と枝分かれする。連続攻撃と連鎖が一目で分かる。",
+      "generator": {
+        "model": "gpt-image-2",
+        "quality": "medium",
+        "used_references": 0,
+        "generation_id": null,
+        "created": 1791072458,
+        "usage": {
+          "input_tokens": 401,
+          "input_tokens_details": {
+            "image_tokens": 0,
+            "text_tokens": 401
+          },
+          "output_tokens": 1372,
+          "output_tokens_details": {
+            "image_tokens": 1372,
+            "text_tokens": 0
+          },
+          "total_tokens": 1773
+        }
+      },
+      "qa": {
+        "pass": true,
+        "score": 92,
+        "structural": {
+          "pass": true,
+          "issues": [],
+          "image": {
+            "valid": true,
+            "width": 1024,
+            "height": 1536,
+            "colorType": 2,
+            "hasAlpha": false
+          }
+        },
+        "checks": {
+          "single_asset": true,
+          "no_text_ui": true,
+          "subject_match": true,
+          "art_direction": true,
+          "composition": true,
+          "transparency_visual": true,
+          "reference_consistency": true
+        },
+        "issues": [],
+        "remediation": "なし。",
+        "checked_at": "2026-10-04T00:07:40.565Z",
+        "model": "gpt-5.6-luna",
+        "usage": {
+          "input_tokens": 2249,
+          "input_tokens_details": {
+            "cache_write_tokens": 2246,
+            "cached_tokens": 0
+          },
+          "output_tokens": 61,
+          "output_tokens_details": {
+            "reasoning_tokens": 0
+          },
+          "total_tokens": 2310
+        }
+      }
     },
     {
       "asset_id": "shinka_card_abyss",
@@ -189,12 +1039,75 @@
       "display_title": "奈落弾｜カード",
       "filename": "abyss.png",
       "path": "assets/cards/abyss.png",
-      "current_path": null,
+      "current_path": "assets/cards/abyss.png",
       "legacy_path": null,
       "generation_id": null,
       "transparent": false,
-      "status": "waiting",
-      "prompt": "闇弾から進化した巨大な紫黒の圧縮魔力球。中心は底なしの奈落のような完全な暗黒で周囲の光と瓦礫を吸い込む。"
+      "status": "github_synced",
+      "prompt": "闇弾から進化した巨大な紫黒の圧縮魔力球。中心は底なしの奈落のような完全な暗黒で周囲の光と瓦礫を吸い込む。",
+      "generator": {
+        "model": "gpt-image-2",
+        "quality": "medium",
+        "used_references": 0,
+        "generation_id": null,
+        "created": 1791074040,
+        "usage": {
+          "input_tokens": 695,
+          "input_tokens_details": {
+            "image_tokens": 0,
+            "text_tokens": 695
+          },
+          "output_tokens": 1372,
+          "output_tokens_details": {
+            "image_tokens": 1372,
+            "text_tokens": 0
+          },
+          "total_tokens": 2067
+        }
+      },
+      "qa": {
+        "pass": true,
+        "score": 94,
+        "structural": {
+          "pass": true,
+          "issues": [],
+          "image": {
+            "valid": true,
+            "width": 1024,
+            "height": 1536,
+            "colorType": 2,
+            "hasAlpha": false
+          }
+        },
+        "checks": {
+          "single_asset": true,
+          "no_text_ui": true,
+          "subject_match": true,
+          "art_direction": true,
+          "puppet_style": true,
+          "joint_readability": true,
+          "small_screen_silhouette": true,
+          "composition": true,
+          "transparency_visual": true,
+          "reference_consistency": true
+        },
+        "issues": [],
+        "remediation": "現状の構図と紫黒の奈落弾を維持し、中心球の輪郭をさらに明確化して小画面でも完全な暗黒の核と吸引する瓦礫を読みやすくする。",
+        "checked_at": "2026-10-04T00:34:03.251Z",
+        "model": "gpt-5.6-luna",
+        "usage": {
+          "input_tokens": 2494,
+          "input_tokens_details": {
+            "cache_write_tokens": 2491,
+            "cached_tokens": 0
+          },
+          "output_tokens": 132,
+          "output_tokens_details": {
+            "reasoning_tokens": 0
+          },
+          "total_tokens": 2626
+        }
+      }
     },
     {
       "asset_id": "shinka_card_mana_barrier",
@@ -209,8 +1122,10 @@
       "legacy_path": null,
       "generation_id": null,
       "transparent": false,
-      "status": "waiting",
-      "prompt": "光壁から進化した巨大で高密度な青白から金色の魔法障壁。内部に魔力が蓄積され、通常の光壁より明確に強固。"
+      "status": "superseded",
+      "prompt": "光壁から進化した巨大で高密度な青白から金色の魔法障壁。内部に魔力が蓄積され、通常の光壁より明確に強固。",
+      "generator": null,
+      "qa": {}
     },
     {
       "asset_id": "shinka_enemy_skeleton_knight",
@@ -226,7 +1141,9 @@
       "generation_id": null,
       "transparent": true,
       "status": "adopted",
-      "prompt": "全身のスケルトン騎士1体。古びた鎧と剣、破れた赤い布。同一ゲーム世界の通常敵。左方向の主人公と対峙する向き。"
+      "prompt": "全身のスケルトン騎士1体。古びた鎧と剣、破れた赤い布。同一ゲーム世界の通常敵。左方向の主人公と対峙する向き。",
+      "generator": null,
+      "qa": {}
     },
     {
       "asset_id": "shinka_enemy_wraith_knight",
@@ -242,7 +1159,9 @@
       "generation_id": null,
       "transparent": true,
       "status": "adopted",
-      "prompt": "半透明の亡霊騎士1体。壊れた黒銀鎧、長剣、破れたマント、青白い霊気。スケルトンより強いがボス級ではない。"
+      "prompt": "半透明の亡霊騎士1体。壊れた黒銀鎧、長剣、破れたマント、青白い霊気。スケルトンより強いがボス級ではない。",
+      "generator": null,
+      "qa": {}
     },
     {
       "asset_id": "shinka_enemy_stone_magus",
@@ -258,7 +1177,9 @@
       "generation_id": null,
       "transparent": true,
       "status": "adopted",
-      "prompt": "巨大な石造りの魔導兵1体。ゴーレムと騎士の中間、身体に青い魔力亀裂、胸部に魔力核。重厚で魔力を溜めて強打する敵。"
+      "prompt": "巨大な石造りの魔導兵1体。ゴーレムと騎士の中間、身体に青い魔力亀裂、胸部に魔力核。重厚で魔力を溜めて強打する敵。",
+      "generator": null,
+      "qa": {}
     },
     {
       "asset_id": "shinka_enemy_castle_guardian",
@@ -274,7 +1195,9 @@
       "generation_id": null,
       "transparent": true,
       "status": "adopted",
-      "prompt": "最終ボスの巨大な古代守護騎士1体。黒鉄・古金・石の超重装甲、王冠意匠、巨大武器、内部から強い青白い魔力光。長い年月で一部が崩れ、神聖さと恐ろしさを併せ持つ。"
+      "prompt": "最終ボスの巨大な古代守護騎士1体。黒鉄・古金・石の超重装甲、王冠意匠、巨大武器、内部から強い青白い魔力光。長い年月で一部が崩れ、神聖さと恐ろしさを併せ持つ。",
+      "generator": null,
+      "qa": {}
     },
     {
       "asset_id": "shinka_class_frost_mage",
@@ -290,7 +1213,9 @@
       "generation_id": null,
       "transparent": true,
       "status": "adopted",
-      "prompt": "基本魔法師と同一人物。若い女性、銀から淡いラベンダーの長髪、青い瞳。氷特化へ進化し、青白い氷晶装飾、冷気、氷結した杖、濃紺から白銀の衣装。全身。"
+      "prompt": "基本魔法師と同一人物。若い女性、銀から淡いラベンダーの長髪、青い瞳。氷特化へ進化し、青白い氷晶装飾、冷気、氷結した杖、濃紺から白銀の衣装。全身。",
+      "generator": null,
+      "qa": {}
     },
     {
       "asset_id": "shinka_class_thunder_mage",
@@ -305,8 +1230,10 @@
       "legacy_path": null,
       "generation_id": null,
       "transparent": true,
-      "status": "waiting",
-      "prompt": "基本魔法師と同一人物。銀から淡いラベンダーの長髪、青い瞳。青白から金の雷が身体と杖を走り、高速・高火力を感じる進化衣装。全身。"
+      "status": "superseded",
+      "prompt": "基本魔法師と同一人物。銀から淡いラベンダーの長髪、青い瞳。青白から金の雷が身体と杖を走り、高速・高火力を感じる進化衣装。全身。",
+      "generator": null,
+      "qa": {}
     },
     {
       "asset_id": "shinka_class_dark_mage",
@@ -321,8 +1248,10 @@
       "legacy_path": null,
       "generation_id": null,
       "transparent": true,
-      "status": "waiting",
-      "prompt": "基本魔法師と同一人物。銀から淡いラベンダーの長髪、青い瞳。紫黒の魔力、影、呪術的装飾へ進化。危険だが悪役そのものにはしない。全身。"
+      "status": "superseded",
+      "prompt": "基本魔法師と同一人物。銀から淡いラベンダーの長髪、青い瞳。紫黒の魔力、影、呪術的装飾へ進化。危険だが悪役そのものにはしない。全身。",
+      "generator": null,
+      "qa": {}
     },
     {
       "asset_id": "shinka_class_barrier_mage",
@@ -337,8 +1266,10 @@
       "legacy_path": null,
       "generation_id": null,
       "transparent": true,
-      "status": "waiting",
-      "prompt": "基本魔法師と同一人物。銀から淡いラベンダーの長髪、青い瞳。白・金・淡い青の衣装、複数の魔法陣と透明障壁、守護と反射を感じる進化。全身。"
+      "status": "superseded",
+      "prompt": "基本魔法師と同一人物。銀から淡いラベンダーの長髪、青い瞳。白・金・淡い青の衣装、複数の魔法陣と透明障壁、守護と反射を感じる進化。全身。",
+      "generator": null,
+      "qa": {}
     },
     {
       "asset_id": "shinka_class_star_seer",
@@ -353,8 +1284,10 @@
       "legacy_path": null,
       "generation_id": null,
       "transparent": true,
-      "status": "waiting",
-      "prompt": "基本魔法師と同一人物。銀から淡いラベンダーの長髪、青い瞳。紺・青・金、星・天球儀・時計を思わせる魔法陣。大魔法を準備する賢者的進化。全身。"
+      "status": "superseded",
+      "prompt": "基本魔法師と同一人物。銀から淡いラベンダーの長髪、青い瞳。紺・青・金、星・天球儀・時計を思わせる魔法陣。大魔法を準備する賢者的進化。全身。",
+      "generator": null,
+      "qa": {}
     },
     {
       "asset_id": "shinka_class_elementalist",
@@ -369,8 +1302,10 @@
       "legacy_path": null,
       "generation_id": null,
       "transparent": true,
-      "status": "waiting",
-      "prompt": "基本魔法師と同一人物。銀から淡いラベンダーの長髪、青い瞳。氷・雷・闇など複数属性の魔力を主人公中心に美しく統合し、万能な最終進化と分かる。全身。"
+      "status": "superseded",
+      "prompt": "基本魔法師と同一人物。銀から淡いラベンダーの長髪、青い瞳。氷・雷・闇など複数属性の魔力を主人公中心に美しく統合し、万能な最終進化と分かる。全身。",
+      "generator": null,
+      "qa": {}
     }
   ]
 }
