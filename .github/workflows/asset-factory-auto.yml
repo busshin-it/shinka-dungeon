@@ -1,6 +1,11 @@
 name: Asset Factory Auto
 
 on:
+  push:
+    branches:
+      - main
+    paths:
+      - '.asset-factory-trigger'
   schedule:
     - cron: '17 */6 * * *'
   workflow_dispatch:
