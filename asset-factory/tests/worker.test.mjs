@@ -10,7 +10,7 @@ test('parseArgs reads batch controls', () => {
 
 test('selectJobs only returns pending work', () => {
   const q={jobs:[{asset_id:'a',status:'adopted'},{asset_id:'b',status:'waiting'},{asset_id:'c',status:'needs_fix'}]};
-  assert.deepEqual(selectJobs(q,{count:2,asset:''}).map(x=>x.asset_id),['b','c']);
+  assert.deepEqual(selectJobs(q,{count:2,asset:''}).map(x=>x.asset_id),['b']);
 });
 
 test('prompt forbids sheets and requests transparency', () => {
@@ -69,4 +69,14 @@ test('non-retryable API failures go to manual review', () => {
   );
   assert.equal(action.manual, true);
   assert.equal(action.requeue, false);
+});
+
+
+test('needs_fix jobs stay parked and are not selected for automatic runs', () => {
+  const q={jobs:[
+    {asset_id:'manual',status:'needs_fix'},
+    {asset_id:'queued',status:'queued'},
+    {asset_id:'waiting',status:'waiting'}
+  ]};
+  assert.deepEqual(selectJobs(q,{count:5,asset:''}).map(x=>x.asset_id),['queued','waiting']);
 });
