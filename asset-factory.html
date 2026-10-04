@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#0d1020" />
+  <title>Asset Factory | 進化ダンジョン</title>
+  <link rel="stylesheet" href="./asset-factory.css" />
+</head>
+<body>
+  <main class="app-shell">
+    <header class="topbar">
+      <div>
+        <p class="eyebrow">AI事業工場 / GAME LAB</p>
+        <h1>Asset Factory</h1>
+        <p class="sub">進化ダンジョン画像制作キュー</p>
+      </div>
+      <div class="top-actions">
+        <button id="resetBtn" class="ghost">初期状態に戻す</button>
+        <button id="exportBtn" class="ghost">JSONを書き出す</button>
+        <button id="nextBtn" class="primary">次のジョブを開始</button>
+      </div>
+    </header>
+    <section id="summary" class="summary-grid" aria-label="制作状況"></section>
+    <section class="toolbar">
+      <div class="filters" id="filters"></div>
+      <div class="legend">
+        <span><i class="dot complete"></i>完成</span>
+        <span><i class="dot active"></i>進行中</span>
+        <span><i class="dot fix"></i>要修正</span>
+        <span><i class="dot waiting"></i>待機</span>
+      </div>
+    </section>
+    <section class="workspace">
+      <aside class="queue-panel">
+        <div class="panel-head">
+          <div><p class="eyebrow">QUEUE</p><h2>制作キュー</h2></div>
+          <span id="queueCount" class="count-pill"></span>
+        </div>
+        <div id="queueList" class="queue-list"></div>
+      </aside>
+      <section class="detail-panel" id="detailPanel">
+        <div class="empty-state"><div class="empty-icon">✦</div><h2>素材を選択</h2><p>ジョブを選ぶと、プロンプト・QA・保存先を確認できます。</p></div>
+      </section>
+    </section>
+  </main>
+  <script src="./src/asset-factory.js" type="module"></script>
+</body>
+</html>
