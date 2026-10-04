@@ -466,11 +466,11 @@
       "display_title": "基本魔法師｜左上腕｜パーツ",
       "filename": "upper-arm-l.png",
       "path": "assets/characters/puppet-v1/parts/upper-arm-l.png",
-      "current_path": null,
+      "current_path": "assets/characters/puppet-v1/parts/upper-arm-l.png",
       "legacy_path": null,
       "generation_id": null,
       "transparent": true,
-      "status": "needs_fix",
+      "status": "github_synced",
       "prompt": "基本魔法師の左側・上腕位置に使う衣装付きパペット袖パーツ1個のみ。人体の切断表現ではなく、舞台人形用の独立した衣装部品として描く。濃紺〜黒の細長い袖セグメント。形はほぼまっすぐな細いテーパー筒／長い台形で、肩側と肘側は単純な丸い接続端。肩当て、防具、金色の縁取り、宝石、肘の曲がり、前腕、手、胴体は描かない。古金装飾は無し。2〜3色の完全にマットな平面塗り、硬い輪郭、グラデーション無し。小さなゲーム画面でも単純な袖部品と分かる。OUTPUT PIPELINE REQUIREMENTの単色背景以外は描かない。",
       "generator": {
         "model": "gpt-image-2.5-flare",
@@ -493,7 +493,7 @@
         }
       },
       "qa": {
-        "pass": false,
+        "pass": true,
         "score": 72,
         "structural": {
           "pass": true,
@@ -544,7 +544,10 @@
             "reasoning_tokens": 0
           },
           "total_tokens": 2418
-        }
+        },
+        "accepted_by": "production_threshold",
+        "accepted_with_minor_warnings": true,
+        "accepted_at": "2026-10-04T07:22:26.866Z"
       }
     },
     {
@@ -560,10 +563,83 @@
       "legacy_path": null,
       "generation_id": null,
       "transparent": true,
-      "status": "waiting",
+      "status": "needs_fix",
       "prompt": "基本魔法師の左側・前腕位置に使う衣装付きパペット部品1個のみ。人体の切断表現ではなく、長手袋と袖を一体化した舞台人形用衣装部品として描く。濃紺〜黒の細い前腕セグメントの先に、単純化した手袋形状を付ける。肘側は丸い接続端。肩当て、防具、宝石、金縁、上腕、胴体、露出した肌は描かない。2〜3色のマットな平面塗り、硬い輪郭、グラデーション無し。",
-      "generator": null,
-      "qa": {}
+      "generator": {
+        "model": "gpt-image-2.5-flare",
+        "quality": "medium",
+        "used_references": 0,
+        "generation_id": null,
+        "created": 1791098642,
+        "usage": {
+          "input_tokens": 977,
+          "input_tokens_details": {
+            "image_tokens": 0,
+            "text_tokens": 977
+          },
+          "output_tokens": 439,
+          "output_tokens_details": {
+            "image_tokens": 439,
+            "text_tokens": 0
+          },
+          "total_tokens": 1416
+        }
+      },
+      "qa": {
+        "pass": false,
+        "score": 35,
+        "structural": {
+          "pass": true,
+          "issues": [],
+          "image": {
+            "valid": true,
+            "width": 1024,
+            "height": 1024,
+            "colorType": 6,
+            "hasAlpha": true,
+            "alpha_stats": {
+              "pixels": 1048576,
+              "transparent": 974895,
+              "translucent": 113,
+              "opaque": 73568,
+              "transparent_ratio": 0.9297323226928711,
+              "nonopaque_ratio": 0.929840087890625
+            }
+          }
+        },
+        "checks": {
+          "single_asset": true,
+          "no_text_ui": true,
+          "subject_match": false,
+          "art_direction": false,
+          "puppet_style": true,
+          "joint_readability": true,
+          "small_screen_silhouette": true,
+          "composition": true,
+          "transparency_visual": true,
+          "reference_consistency": true
+        },
+        "issues": [
+          "手袋形状が大きく単純化されすぎ、前腕に対して不自然な手のシルエットになっている。",
+          "袖と手袋の境界に明るい紫の帯があり、要求された2〜3色のマットな平面塗りと簡素な衣装部品から逸脱している。",
+          "丸い肘側接続端はあるが、全体が腕というより長い棒状パーツに見え、基本魔法師の衣装付き前腕としての読みが弱い。"
+        ],
+        "remediation": "完全透明背景で、濃紺〜黒の細い長手袋付き前腕を1個だけ描き、肘側を丸い接続端にし、手先は控えめな簡略手袋形状、帯や装飾を減らした硬い輪郭の2〜3色平面塗りにする。",
+        "checked_at": "2026-10-04T07:24:07.732Z",
+        "model": "gpt-5.6-luna",
+        "usage": {
+          "input_tokens": 2090,
+          "input_tokens_details": {
+            "cache_write_tokens": 2087,
+            "cached_tokens": 0
+          },
+          "output_tokens": 366,
+          "output_tokens_details": {
+            "reasoning_tokens": 0
+          },
+          "total_tokens": 2456
+        }
+      }
     },
     {
       "asset_id": "shinka_part_base_mage_upper_arm_r_puppet_v1",
