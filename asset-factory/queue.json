@@ -20,11 +20,58 @@
       "project_id": "shinka",
       "format": "png",
       "style_version": "gothic-silhouette-puppet-v0.1",
-      "status": "waiting",
-      "attempts": 3,
+      "status": "needs_fix",
+      "attempts": 5,
       "generation_count": 0,
       "generation_id": null,
-      "qa": {},
+      "qa": {
+        "pass": false,
+        "score": 43,
+        "structural": {
+          "pass": true,
+          "issues": [],
+          "image": {
+            "valid": true,
+            "width": 1024,
+            "height": 1536,
+            "colorType": 6,
+            "hasAlpha": true
+          }
+        },
+        "checks": {
+          "single_asset": true,
+          "no_text_ui": true,
+          "subject_match": true,
+          "art_direction": true,
+          "puppet_style": true,
+          "joint_readability": true,
+          "small_screen_silhouette": true,
+          "composition": true,
+          "transparency_visual": false,
+          "reference_consistency": true
+        },
+        "issues": [
+          "透明背景ではなく、暗い背景グラデーションと背後の強い光彩・ハローがある",
+          "杖が独立した別オブジェクトとして配置され、キャラクター本体との統一されたパーツ構成から外れている",
+          "衣装と髪の装飾・布の重なりが多く、基準パペットとしてはやや複雑",
+          "大きなマント状パーツが脚周辺にあり、脚のシルエットと可動部の分離を弱めている"
+        ],
+        "remediation": "完全透明アルファ背景で、光彩・ハロー・グラデーション・床影をすべて除去し、人物と杖だけを独立パーツとして配置する。装飾と布を簡略化し、頭・胴体・肩・肘・手首・股関節・膝・足を明確に分離した正面立ちの2D切り絵パペットにする。",
+        "checked_at": "2026-10-04T01:00:07.476Z",
+        "model": "gpt-5.6-luna",
+        "usage": {
+          "input_tokens": 2821,
+          "input_tokens_details": {
+            "cache_write_tokens": 2818,
+            "cached_tokens": 0
+          },
+          "output_tokens": 303,
+          "output_tokens_details": {
+            "reasoning_tokens": 0
+          },
+          "total_tokens": 3124
+        }
+      },
       "quality_result": null,
       "github_synced": false,
       "asset_id": "shinka_character_base_mage_puppet_v1",
@@ -62,27 +109,27 @@
       "filename": "base-mage.png",
       "path": "assets/characters/puppet-v1/base-mage.png",
       "negative_prompt": "背景 / 地面 / 背景グラデーション / 背後の光彩 / 円形オーラ / 色面背景 / 煙幕 / 文字 / UI / 複数人 / 写実3DCG / 通常の美麗立ち絵 / 極端な手足の重なり / 体切れ / 杖切れ / 腕が胴体に密着 / 脚同士の完全な重なり / 関節が隠れる長布",
-      "updated_at": "2026-10-04T00:55:03.267Z",
-      "last_prompt": "Project: 進化ダンジョン. Style version: gothic-silhouette-puppet-v0.1.\nOfficial art direction: ゴシック・シルエット風パペット・ダークファンタジー。2D、手描き・絵画的、少し不気味だが美しい人形劇・影絵の世界。ゴシック古城・地下迷宮・魔術世界。黒・濃紺・紫・青・古金を基調とし、写実的3DCG感を避ける。キャラクターは最初から2Dパペットアニメーションで動かす前提で、細身で読みやすいシルエット、頭・胴体・腕・脚・武器の分離、関節の認識しやすさを重視する。小さいゲーム画面での視認性と既存素材との統一感を最優先する。\nOfficial style: Gothic silhouette puppet dark fantasy.\n2D dark fantasy with gothic castles, underground ruins, magical architecture, and theatrical puppet-stage atmosphere.\nHand-painted and painterly, slightly eerie but beautiful.\nStrong readable silhouettes inspired by shadow theatre and articulated stage puppets.\nAvoid photorealism, realistic human rendering, glossy 3D CGI, toy-render aesthetics, bright pop colors, anime moe, chibi, or cute deformation.\nPrimary palette: black, deep navy, purple, blue, and antique gold. Attribute-specific magical glow colors are allowed.\nPrioritize visual consistency with the existing game world over standalone prettiness.\nDesign for readability on a small landscape game screen.\nCreate exactly ONE full-body player character only.\nBase identity: silver to pale-lavender hair, blue eyes, black/deep-navy gothic mage clothing, antique gold details, calm and slightly androgynous impression.\nUse a fully transparent PNG background. No scenery, floor, UI, text, or extra characters.\nDesign from the beginning as a 2D articulated puppet that can be animated with a small number of bones/parts.\nKeep the silhouette slender, theatrical, and easy to read.\nKeep head, torso, arms, and legs visually separable.\nDo not overlap limbs excessively.\nKeep shoulders, elbows, wrists, hips, and knees visually understandable.\nSeparate weapons from the body silhouette whenever possible.\nLong hair, cloth, capes, and dangling ornaments should look separable into independent puppet parts later.\nDo not hide every joint under bulky clothing or effects.\nAsset: 基本魔法師.\n進化ダンジョンの基準主人公。銀〜淡いラベンダー色の長髪、青い瞳、黒・濃紺を中心としたゴシック魔術師衣装、古金の装飾、大きな魔術帽子、杖。中性的で静かな印象。最初から2Dパペットとして動かす前提で、細身で読みやすく、頭・胴体・腕・脚・杖の境界を明確にし、肩・肘・手首・股関節・膝の位置が認識しやすい全身デザイン。髪、帽子、マント、杖は後から独立パーツに分離しやすい構造。\nOUTPUT REQUIREMENT: fully transparent alpha background (RGBA PNG). Do not draw a checkerboard, white, black, gradient, floor, stage, or scenic backdrop.\nDo NOT include: 背景, 地面, 文字, UI, 複数人, 写実3DCG, 極端な手足の重なり, 体切れ, 杖切れ.\nCritical production rule: 1 asset = 1 image. Never make a contact sheet, comparison sheet, character lineup, asset sheet, split panel, or multiple design variants.\nDo not add explanatory text, labels, captions, logos, or decorative typography.\nPrevious QA correction to apply strictly: 完全透明背景で、正面寄りの全身2Dパペット立ち絵として再生成し、頭・髪・帽子・胴体・左右上腕/前腕/手・左右脚・マント・杖を明確に分離、関節間に隙間を設け、装飾と髪・マントの重なりを減らしてください。",
+      "updated_at": "2026-10-04T00:59:49.520Z",
+      "last_prompt": "Project: 進化ダンジョン. Style version: gothic-silhouette-puppet-v0.1.\nOfficial art direction: ゴシック・シルエット風パペット・ダークファンタジー。2D、手描き・絵画的、少し不気味だが美しい人形劇・影絵の世界。ゴシック古城・地下迷宮・魔術世界。黒・濃紺・紫・青・古金を基調とし、写実的3DCG感を避ける。キャラクターは最初から2Dパペットアニメーションで動かす前提で、細身で読みやすいシルエット、頭・胴体・腕・脚・武器の分離、関節の認識しやすさを重視する。小さいゲーム画面での視認性と既存素材との統一感を最優先する。\nOfficial style: Gothic silhouette puppet dark fantasy.\n2D dark fantasy with gothic castles, underground ruins, magical architecture, and theatrical puppet-stage atmosphere.\nHand-painted and painterly, slightly eerie but beautiful.\nStrong readable silhouettes inspired by shadow theatre and articulated stage puppets.\nAvoid photorealism, realistic human rendering, glossy 3D CGI, toy-render aesthetics, bright pop colors, anime moe, chibi, or cute deformation.\nPrimary palette: black, deep navy, purple, blue, and antique gold. Attribute-specific magical glow colors are allowed.\nPrioritize visual consistency with the existing game world over standalone prettiness.\nDesign for readability on a small landscape game screen.\nCreate exactly ONE full-body player character only.\nBase identity: silver to pale-lavender hair, blue eyes, black/deep-navy gothic mage clothing, antique gold details, calm and slightly androgynous impression.\nUse a fully transparent PNG background. No scenery, floor, UI, text, or extra characters.\nDesign from the beginning as a 2D articulated puppet that can be animated with a small number of bones/parts.\nKeep the silhouette slender, theatrical, and easy to read.\nKeep head, torso, arms, and legs visually separable.\nDo not overlap limbs excessively.\nKeep shoulders, elbows, wrists, hips, and knees visually understandable.\nSeparate weapons from the body silhouette whenever possible.\nLong hair, cloth, capes, and dangling ornaments should look separable into independent puppet parts later.\nDo not hide every joint under bulky clothing or effects.\nAsset: 基本魔法師.\n進化ダンジョンの基準主人公。銀〜淡いラベンダー色の長髪、青い瞳、黒・濃紺を中心としたゴシック魔術師衣装、古金の装飾、大きな魔術帽子、杖。中性的で静かな印象。最重要：これは通常の美麗立ち絵ではなく、2D関節パペット用の基準キャラクター。正面〜ごく軽い3/4向きで直立し、左右の腕は胴体から少し離し、左右の脚も互いに重ねない。肩・肘・手首・股関節・膝が一目で分かるように衣装を整理する。髪・帽子・マント・杖は身体シルエットと重ねすぎず、後から別パーツに切り分けやすい形にする。細身で影絵・切り絵・舞台人形のような平面的シルエットを優先し、写実的な人物立ち絵、3Dレンダー、豪華すぎる布の重なりは避ける。全身が必ず収まり、透明領域の中に人物だけが存在する。人物の背後に光彩、円形オーラ、色面、煙幕、背景グラデーション、地面影を作らない。\nOUTPUT REQUIREMENT: fully transparent alpha background (RGBA PNG). Do not draw a checkerboard, white, black, gradient, floor, stage, or scenic backdrop.\nDo NOT include: 背景, 地面, 背景グラデーション, 背後の光彩, 円形オーラ, 色面背景, 煙幕, 文字, UI, 複数人, 写実3DCG, 通常の美麗立ち絵, 極端な手足の重なり, 体切れ, 杖切れ, 腕が胴体に密着, 脚同士の完全な重なり, 関節が隠れる長布.\nCritical production rule: 1 asset = 1 image. Never make a contact sheet, comparison sheet, character lineup, asset sheet, split panel, or multiple design variants.\nDo not add explanatory text, labels, captions, logos, or decorative typography.\nPrevious QA correction to apply strictly: 完全透明背景で、正面直立の細身2Dパペット用キャラクターを再生成し、頭・胴体・左右腕・左右脚・杖・帽子・髪・マントを明確に分離、腕と脚を離して関節を露出させ、布と装飾を大幅に簡略化し、光彩・オーラ・背景・地面影を一切入れない。",
       "last_error": null,
       "generator": {
         "model": "gpt-image-2.5-flare",
         "quality": "medium",
         "used_references": 0,
         "generation_id": null,
-        "created": 1791075315,
+        "created": 1791075602,
         "usage": {
-          "input_tokens": 945,
+          "input_tokens": 1183,
           "input_tokens_details": {
             "image_tokens": 0,
-            "text_tokens": 945
+            "text_tokens": 1183
           },
           "output_tokens": 343,
           "output_tokens_details": {
             "image_tokens": 343,
             "text_tokens": 0
           },
-          "total_tokens": 1288
+          "total_tokens": 1526
         }
       }
     },
