@@ -57,7 +57,7 @@ async function generateFromReferences(job, prompt, root, model, quality) {
   form.append('size', sizeFor(job));
   form.append('quality', quality);
   form.append('output_format', 'png');
-  form.append('background', job.transparent ? 'transparent' : 'opaque');
+  form.append('background', job.chroma_key ? 'opaque' : (job.transparent ? 'transparent' : 'opaque'));
   for (const ref of refs) {
     const full = path.join(root, ref);
     const bytes = await fs.readFile(full);
@@ -81,7 +81,7 @@ export async function generateImage(job, prompt, root = process.cwd()) {
         size: sizeFor(job),
         quality,
         output_format: 'png',
-        background: job.transparent ? 'transparent' : 'opaque',
+        background: job.chroma_key ? 'opaque' : (job.transparent ? 'transparent' : 'opaque'),
       });
   const b64 = result?.data?.[0]?.b64_json;
   if (!b64) throw new Error('Image API returned no b64_json');
