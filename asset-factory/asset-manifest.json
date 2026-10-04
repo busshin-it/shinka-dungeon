@@ -110,31 +110,31 @@
       "legacy_path": null,
       "generation_id": null,
       "transparent": true,
-      "status": "queued",
+      "status": "needs_fix",
       "prompt": "基本魔法師の右上脚パーツのみ。黒〜濃紺の細身の脚。股関節側と膝側を丸く明確にし、両端に重ね代。下脚、胴体、衣装布は描かない。 最重要：ゴシック影絵・切り絵・舞台人形の平面的2Dパーツ。色面は2〜4段階、マット塗り、硬めの輪郭。写実的3D陰影、アニメ美麗立ち絵質感、グラデーション、光沢、複雑な刺繍や宝石を使わない。OUTPUT PIPELINE REQUIREMENTの単色背景以外は描かない。",
       "generator": {
         "model": "gpt-image-2.5-flare",
         "quality": "medium",
         "used_references": 0,
         "generation_id": null,
-        "created": 1791118520,
+        "created": 1791122068,
         "usage": {
-          "input_tokens": 1023,
+          "input_tokens": 1040,
           "input_tokens_details": {
             "image_tokens": 0,
-            "text_tokens": 1023
+            "text_tokens": 1040
           },
           "output_tokens": 439,
           "output_tokens_details": {
             "image_tokens": 439,
             "text_tokens": 0
           },
-          "total_tokens": 1462
+          "total_tokens": 1479
         }
       },
       "qa": {
         "pass": false,
-        "score": 58,
+        "score": 62,
         "structural": {
           "pass": true,
           "issues": [],
@@ -146,11 +146,11 @@
             "hasAlpha": true,
             "alpha_stats": {
               "pixels": 1048576,
-              "transparent": 938474,
-              "translucent": 133,
-              "opaque": 109969,
-              "transparent_ratio": 0.8949985504150391,
-              "nonopaque_ratio": 0.8951253890991211
+              "transparent": 977260,
+              "translucent": 120,
+              "opaque": 71196,
+              "transparent_ratio": 0.9319877624511719,
+              "nonopaque_ratio": 0.9321022033691406
             }
           }
         },
@@ -162,17 +162,16 @@
           "puppet_style": true,
           "joint_readability": true,
           "small_screen_silhouette": true,
-          "composition": true,
+          "composition": false,
           "transparency_visual": true,
           "reference_consistency": true
         },
         "issues": [
-          "画像には上脚だけでなく下脚パーツも接続して描かれており、指定の『右上脚パーツのみ』に違反している。",
-          "膝関節から下の脚が明確に存在し、複数の身体パーツになっている。",
-          "股関節側と膝側の重ね代はあるが、上脚単体として切り離されていない。"
+          "右上脚パーツのみの指定に対し、膝関節から下の下脚まで含む一体化した脚になっている",
+          "股関節側・膝側の重ね代は見えるが、上脚と下脚を分離した単一パーツ要件を満たしていない"
         ],
-        "remediation": "右上脚だけを単独で生成し、股関節側と膝側に丸い関節端と十分な重ね代を残す。膝より下は完全に描かず、背景は完全透明、黒〜濃紺の平面色2〜4段階・硬い輪郭のみ。",
-        "checked_at": "2026-10-04T12:55:25.934Z",
+        "remediation": "基本魔法師の右上脚だけを生成し、股関節側と膝側の丸い重ね代を付けた細身の濃紺パーツ1個に限定する。膝から下、足先、胴体、衣装、背景は完全に除外し、構造的に完全透明な背景にする。",
+        "checked_at": "2026-10-04T13:54:34.266Z",
         "model": "gpt-5.6-luna",
         "usage": {
           "input_tokens": 2131,
@@ -180,11 +179,11 @@
             "cache_write_tokens": 2128,
             "cached_tokens": 0
           },
-          "output_tokens": 306,
+          "output_tokens": 264,
           "output_tokens_details": {
             "reasoning_tokens": 0
           },
-          "total_tokens": 2437
+          "total_tokens": 2395
         }
       }
     },
@@ -467,31 +466,31 @@
       "legacy_path": null,
       "generation_id": null,
       "transparent": true,
-      "status": "queued",
+      "status": "needs_fix",
       "prompt": "杖先端用の青白い魔力球パーツのみ。単純な円形〜楕円形の発光核1つだけ。杖、手、人物、背景エフェクトは描かない。 最重要：ゴシック影絵・切り絵・舞台人形の平面的2Dパーツ。色面は2〜4段階、マット塗り、硬めの輪郭。写実的3D陰影、アニメ美麗立ち絵質感、グラデーション、光沢、複雑な刺繍や宝石を使わない。OUTPUT PIPELINE REQUIREMENTの単色背景以外は描かない。",
       "generator": {
         "model": "gpt-image-2.5-flare",
         "quality": "medium",
         "used_references": 0,
         "generation_id": null,
-        "created": 1791118556,
+        "created": 1791122106,
         "usage": {
-          "input_tokens": 985,
+          "input_tokens": 989,
           "input_tokens_details": {
             "image_tokens": 0,
-            "text_tokens": 985
+            "text_tokens": 989
           },
           "output_tokens": 439,
           "output_tokens_details": {
             "image_tokens": 439,
             "text_tokens": 0
           },
-          "total_tokens": 1424
+          "total_tokens": 1428
         }
       },
       "qa": {
         "pass": false,
-        "score": 35,
+        "score": 38,
         "structural": {
           "pass": true,
           "issues": [],
@@ -503,11 +502,11 @@
             "hasAlpha": true,
             "alpha_stats": {
               "pixels": 1048576,
-              "transparent": 992086,
-              "translucent": 68,
-              "opaque": 56422,
-              "transparent_ratio": 0.9461269378662109,
-              "nonopaque_ratio": 0.9461917877197266
+              "transparent": 935915,
+              "translucent": 80,
+              "opaque": 112581,
+              "transparent_ratio": 0.8925580978393555,
+              "nonopaque_ratio": 0.892634391784668
             }
           }
         },
@@ -524,22 +523,24 @@
           "reference_consistency": true
         },
         "issues": [
-          "核内部の滑らかな明暗は、要求された2〜4段階の硬いマット塗りよりややグラデーション的に見えます。"
+          "魔力球は単一パーツだが、内部の白いハイライトと複数の青い面が宝石・光沢質感に寄り、要求された2〜4段階のマットな平面表現から外れている。",
+          "ゴシック影絵・切り絵の簡素な発光核というより、ファセット加工された宝石／3Dアイコン風に見える。",
+          "発光核1つとしては輪郭が太く、内部ディテールが複雑で、基本魔法師の杖先端用の小サイズ素材として視認性はあるが、指定の平面的2Dパーツ感が弱い。"
         ],
-        "remediation": "背景を完全な透明アルファにし、青白い円形または楕円形の魔力核1つだけを、濃紺外縁と2〜4段階の硬いマット色面で描き、グラデーションや緑色の背景を除去してください。",
-        "checked_at": "2026-10-04T12:56:01.374Z",
+        "remediation": "完全透明背景の上に、青白い単純な円形または楕円形の発光核を1つだけ、硬い輪郭と2〜4色のマットな平面色で描き、白い光沢ハイライト・宝石状ファセット・複雑な内部面を除去してください。",
+        "checked_at": "2026-10-04T13:55:11.170Z",
         "model": "gpt-5.6-luna",
         "usage": {
-          "input_tokens": 2119,
+          "input_tokens": 2118,
           "input_tokens_details": {
-            "cache_write_tokens": 2116,
+            "cache_write_tokens": 2115,
             "cached_tokens": 0
           },
-          "output_tokens": 296,
+          "output_tokens": 365,
           "output_tokens_details": {
             "reasoning_tokens": 0
           },
-          "total_tokens": 2415
+          "total_tokens": 2483
         }
       }
     },
@@ -563,24 +564,24 @@
         "quality": "medium",
         "used_references": 0,
         "generation_id": null,
-        "created": 1791118606,
+        "created": 1791122151,
         "usage": {
-          "input_tokens": 872,
+          "input_tokens": 876,
           "input_tokens_details": {
             "image_tokens": 0,
-            "text_tokens": 872
+            "text_tokens": 876
           },
           "output_tokens": 343,
           "output_tokens_details": {
             "image_tokens": 343,
             "text_tokens": 0
           },
-          "total_tokens": 1215
+          "total_tokens": 1219
         }
       },
       "qa": {
         "pass": false,
-        "score": 78,
+        "score": 34,
         "structural": {
           "pass": true,
           "issues": [],
@@ -592,11 +593,11 @@
             "hasAlpha": true,
             "alpha_stats": {
               "pixels": 1572864,
-              "transparent": 1267309,
-              "translucent": 0,
-              "opaque": 305555,
-              "transparent_ratio": 0.8057333628336588,
-              "nonopaque_ratio": 0.8057333628336588
+              "transparent": 1322182,
+              "translucent": 1062,
+              "opaque": 249620,
+              "transparent_ratio": 0.8406206766764323,
+              "nonopaque_ratio": 0.8412958780924479
             }
           }
         },
@@ -604,33 +605,33 @@
           "single_asset": true,
           "no_text_ui": true,
           "subject_match": true,
-          "art_direction": true,
-          "puppet_style": true,
+          "art_direction": false,
+          "puppet_style": false,
           "joint_readability": true,
           "small_screen_silhouette": true,
-          "composition": false,
+          "composition": true,
           "transparency_visual": true,
           "reference_consistency": true
         },
         "issues": [
-          "長剣の先端が画面左下で切れており、武器全体が見えない",
-          "大きな剣が画面端まで伸び、キャラクター本体との分離と収まりを損ねている",
-          "全身は概ね見えるが、武器を含む完全なフルボディ構図の要件を満たさない"
+          "写実的で高精細なゲームコンセプトアート寄りで、指定の手描き・舞台人形・影絵風の2Dパペット表現から外れている。",
+          "鎧、布、装飾、マントの情報量が過剰で、通常敵としての簡潔なシルエットと小画面での読みやすさを損なっている。",
+          "長剣は身体から離れているが、左腕・剣・脚の配置がやや複雑で、パペット分離用の明確な部品構造が弱い。"
         ],
-        "remediation": "剣を短くして身体から十分離し、剣先を含む全身と武器を上下左右すべて画面内に収めた、単体の透明背景スケルトン騎士を生成する",
-        "checked_at": "2026-10-04T12:56:52.914Z",
+        "remediation": "緑背景を完全に除去したRGBA透明PNGとして、黒鉄鎧と長剣だけの細身で簡潔なスケルトン騎士を、手描きのゴシック影絵・舞台人形風2Dデザインで再生成し、頭・胴・肩・肘・手首・股関節・膝・脚・剣を明確に分離して配置する。",
+        "checked_at": "2026-10-04T13:55:58.048Z",
         "model": "gpt-5.6-luna",
         "usage": {
-          "input_tokens": 2634,
+          "input_tokens": 2635,
           "input_tokens_details": {
-            "cache_write_tokens": 2631,
+            "cache_write_tokens": 2632,
             "cached_tokens": 0
           },
-          "output_tokens": 219,
+          "output_tokens": 379,
           "output_tokens_details": {
             "reasoning_tokens": 0
           },
-          "total_tokens": 2853
+          "total_tokens": 3014
         }
       }
     },
@@ -654,24 +655,24 @@
         "quality": "medium",
         "used_references": 0,
         "generation_id": null,
-        "created": 1791118656,
+        "created": 1791122203,
         "usage": {
-          "input_tokens": 882,
+          "input_tokens": 903,
           "input_tokens_details": {
             "image_tokens": 0,
-            "text_tokens": 882
+            "text_tokens": 903
           },
           "output_tokens": 343,
           "output_tokens_details": {
             "image_tokens": 343,
             "text_tokens": 0
           },
-          "total_tokens": 1225
+          "total_tokens": 1246
         }
       },
       "qa": {
         "pass": false,
-        "score": 68,
+        "score": 47,
         "structural": {
           "pass": true,
           "issues": [],
@@ -683,11 +684,11 @@
             "hasAlpha": true,
             "alpha_stats": {
               "pixels": 1572864,
-              "transparent": 1121948,
-              "translucent": 0,
-              "opaque": 450916,
-              "transparent_ratio": 0.7133153279622396,
-              "nonopaque_ratio": 0.7133153279622396
+              "transparent": 1199702,
+              "translucent": 4118,
+              "opaque": 369044,
+              "transparent_ratio": 0.762749989827474,
+              "nonopaque_ratio": 0.7653681437174479
             }
           }
         },
@@ -699,19 +700,18 @@
           "puppet_style": false,
           "joint_readability": false,
           "small_screen_silhouette": true,
-          "composition": false,
+          "composition": true,
           "transparency_visual": true,
           "reference_consistency": true
         },
         "issues": [
-          "頭部・胴体・両腕・両脚・剣・マントが大きく分離され、完成キャラクターではなくパーツ配置に見える",
-          "肩、肘、手首、股関節、膝の接続が途切れており、2Dパペットとして自然に動かせない",
-          "浮遊する頭部と分離した四肢により、全身の一体感と敵キャラクターとしての読み取りが弱い",
-          "剣が独立配置され、手との持ち手関係が不自然",
-          "マントが右側に過度に広がり、キャラクターのシルエットと構図の重心を崩している"
+          "マント、胴体、脚部、剣の装飾が大きく重なり、2Dパペット用の分離パーツとして扱いにくい。",
+          "肩・肘・手首・股関節・膝の境界が鎧やマントに埋もれており、関節構造が不明瞭。",
+          "剣は全体表示されているが左腕やマントに近く、独立した武器パーツとしての分離性が弱い。",
+          "全体の装飾密度が高く、細部が小画面で潰れてパペットシルエットの明快さを損なう。"
         ],
-        "remediation": "全身が一体につながった一体の亡霊騎士として描き、頭・胴体・腕・脚・剣・マントは接続を保ちながら関節境界だけ明確にして、肩・肘・手首・股関節・膝と剣の握りを読みやすくした細身の2Dパペット用シルエットにする。",
-        "checked_at": "2026-10-04T12:57:42.353Z",
+        "remediation": "蛍光グリーンを完全に除去した透明PNGで、亡霊騎士を頭・胴体・左右腕・左右脚・剣・マントに明確に分離し、関節間に隙間を設けたシンプルなゴシック影絵風の全身立ち絵として生成する。",
+        "checked_at": "2026-10-04T13:56:48.816Z",
         "model": "gpt-5.6-luna",
         "usage": {
           "input_tokens": 2621,
@@ -719,11 +719,11 @@
             "cache_write_tokens": 2618,
             "cached_tokens": 0
           },
-          "output_tokens": 339,
+          "output_tokens": 384,
           "output_tokens_details": {
             "reasoning_tokens": 0
           },
-          "total_tokens": 2960
+          "total_tokens": 3005
         }
       }
     },
