@@ -839,35 +839,35 @@
       "display_title": "基本魔法師｜左上脚｜パーツ",
       "filename": "upper-leg-l.png",
       "path": "assets/characters/puppet-v1/parts/upper-leg-l.png",
-      "current_path": null,
+      "current_path": "assets/characters/puppet-v1/parts/upper-leg-l.png",
       "legacy_path": null,
       "generation_id": null,
       "transparent": true,
-      "status": "needs_fix",
+      "status": "github_synced",
       "prompt": "基本魔法師の左上脚パーツのみ。黒〜濃紺の細身の脚。股関節側と膝側を丸く明確にし、両端に重ね代。下脚、胴体、衣装布は描かない。 最重要：ゴシック影絵・切り絵・舞台人形の平面的2Dパーツ。色面は2〜4段階、マット塗り、硬めの輪郭。写実的3D陰影、アニメ美麗立ち絵質感、グラデーション、光沢、複雑な刺繍や宝石を使わない。OUTPUT PIPELINE REQUIREMENTの単色背景以外は描かない。",
       "generator": {
         "model": "gpt-image-2.5-flare",
         "quality": "medium",
         "used_references": 0,
         "generation_id": null,
-        "created": 1791108821,
+        "created": 1791109232,
         "usage": {
-          "input_tokens": 1016,
+          "input_tokens": 993,
           "input_tokens_details": {
             "image_tokens": 0,
-            "text_tokens": 1016
+            "text_tokens": 993
           },
           "output_tokens": 439,
           "output_tokens_details": {
             "image_tokens": 439,
             "text_tokens": 0
           },
-          "total_tokens": 1455
+          "total_tokens": 1432
         }
       },
       "qa": {
-        "pass": false,
-        "score": 45,
+        "pass": true,
+        "score": 58,
         "structural": {
           "pass": true,
           "issues": [],
@@ -879,11 +879,11 @@
             "hasAlpha": true,
             "alpha_stats": {
               "pixels": 1048576,
-              "transparent": 958224,
-              "translucent": 128,
-              "opaque": 90224,
-              "transparent_ratio": 0.9138336181640625,
-              "nonopaque_ratio": 0.9139556884765625
+              "transparent": 933011,
+              "translucent": 107,
+              "opaque": 115458,
+              "transparent_ratio": 0.8897886276245117,
+              "nonopaque_ratio": 0.8898906707763672
             }
           }
         },
@@ -891,7 +891,7 @@
           "single_asset": true,
           "no_text_ui": true,
           "subject_match": true,
-          "art_direction": false,
+          "art_direction": true,
           "puppet_style": true,
           "joint_readability": true,
           "small_screen_silhouette": true,
@@ -900,11 +900,10 @@
           "reference_consistency": true
         },
         "issues": [
-          "陰影がやや滑らかなグラデーション状で、指定の2〜4段階の硬いマット塗りから外れる",
-          "上端の股関節側に余分な突起状形状があり、単純な左上脚パーツとして輪郭がやや不明瞭"
+          "左上脚パーツ自体は概ね単一で明瞭だが、下端に尖った余分な突起があり、脚パーツの輪郭としてやや不自然。"
         ],
-        "remediation": "緑背景を完全な透明アルファにし、黒〜濃紺の2〜4色の硬い平面塗りだけで、股関節側と膝側の丸い重ね代を持つ左上脚単体を再生成してください。",
-        "checked_at": "2026-10-04T10:13:45.616Z",
+        "remediation": "緑色の背景を完全に透明化し、黒〜濃紺の細身の左上脚パーツ1個だけを残し、股関節側と膝側の丸い関節および両端の重ね代を維持して再生成する。",
+        "checked_at": "2026-10-04T10:20:36.214Z",
         "model": "gpt-5.6-luna",
         "usage": {
           "input_tokens": 2130,
@@ -912,12 +911,15 @@
             "cache_write_tokens": 2127,
             "cached_tokens": 0
           },
-          "output_tokens": 256,
+          "output_tokens": 233,
           "output_tokens_details": {
             "reasoning_tokens": 0
           },
-          "total_tokens": 2386
-        }
+          "total_tokens": 2363
+        },
+        "accepted_by": "production_threshold",
+        "accepted_with_minor_warnings": true,
+        "accepted_at": "2026-10-04T10:20:36.214Z"
       }
     },
     {
