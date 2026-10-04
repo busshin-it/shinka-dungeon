@@ -67,7 +67,9 @@ async function generateFromReferences(job, prompt, root, model, quality) {
 }
 
 export async function generateImage(job, prompt, root = process.cwd()) {
-  const model = process.env.ASSET_FACTORY_IMAGE_MODEL || 'gpt-image-2';
+  const model = job.transparent
+    ? (process.env.ASSET_FACTORY_TRANSPARENT_IMAGE_MODEL || 'gpt-image-2.5-flare')
+    : (process.env.ASSET_FACTORY_IMAGE_MODEL || 'gpt-image-2');
   const quality = process.env.ASSET_FACTORY_IMAGE_QUALITY || 'medium';
   const refs = (job.reference_paths || []).filter(Boolean);
   const result = refs.length
