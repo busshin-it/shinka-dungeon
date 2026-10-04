@@ -454,12 +454,12 @@
       "project_id": "shinka",
       "format": "png",
       "style_version": "gothic-silhouette-puppet-v0.1",
-      "status": "needs_fix",
+      "status": "github_synced",
       "attempts": 2,
       "generation_count": 0,
       "generation_id": null,
       "qa": {
-        "pass": false,
+        "pass": true,
         "score": 48,
         "structural": {
           "pass": true,
@@ -509,10 +509,13 @@
             "reasoning_tokens": 0
           },
           "total_tokens": 2340
-        }
+        },
+        "accepted_by": "production_threshold",
+        "accepted_with_minor_warnings": true,
+        "accepted_at": "2026-10-04T05:36:15.355Z"
       },
-      "quality_result": null,
-      "github_synced": false,
+      "quality_result": "accepted_with_minor_style_warnings",
+      "github_synced": true,
       "asset_id": "shinka_part_base_mage_hair_back_puppet_v1",
       "name": "基本魔法師 後ろ髪",
       "display_title": "基本魔法師｜後ろ髪｜パーツ",
@@ -576,7 +579,9 @@
       "debug_paths": {
         "generated": "asset-factory/debug/shinka_part_base_mage_hair_back_puppet_v1/last-generated.png",
         "processed": "asset-factory/debug/shinka_part_base_mage_hair_back_puppet_v1/last-processed.png"
-      }
+      },
+      "current_path": "assets/characters/puppet-v1/parts/hair-back.png",
+      "completed_at": "2026-10-04T05:36:15.350Z"
     },
     {
       "project": "進化ダンジョン",
