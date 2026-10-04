@@ -6,5 +6,8 @@
     "asset:dry": "node asset-factory/worker.mjs --dry-run --count 1",
     "asset:run": "node asset-factory/worker.mjs --count 1",
     "test:asset-factory": "node --test asset-factory/tests/*.test.mjs"
+  },
+  "dependencies": {
+    "sharp": "^0.34.3"
   }
 }
