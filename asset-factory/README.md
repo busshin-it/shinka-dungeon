@@ -21,9 +21,13 @@ Asset Factory は、進化ダンジョンで発生した「大量の画像素材
   - 指定内容と世界観に合っているか
   - 進化クラスが基本魔法師と同一人物に見えるか
 - QA NG時の修正プロンプト生成と自動再生成
+- ローカル再試行を使い切っても、総試行上限までは次回実行へ自動再キュー
+- 失敗履歴・修正理由を `failure_history` / `self_heal` として保持
+- API一時障害・コストガード停止後も、次回のGitHub Actionsで自動継続
 - 成功画像を指定の `assets/**` へ保存
 - queue.json の自動更新
 - GitHub Actions から複数ジョブを1枚ずつ順番に連続生成
+- 6時間ごとの自動運転で未完了キューを継続処理（`ASSET_FACTORY_AUTO_PAUSED=true` で一時停止可能）
 - 429 / 5xx の一時エラー再試行
 - ローカルテスト
 
@@ -59,7 +63,8 @@ Actions → **Asset Factory** → Run workflow
 
 - `count`: 今回連続生成する素材数
 - `asset_id`: 特定素材だけ作る場合に指定
-- `max_retries`: QA NG時の自動再生成回数
+- `max_retries`: 1回のActions実行内でのQA NG自動再生成回数
+- `max_total_attempts`: 複数回のActions実行をまたいだ総生成回数の上限。上限までは人手を挟まず自動再キュー
 - `quality`: low / medium / high
 
 例:
@@ -106,3 +111,30 @@ OPENAI_API_KEY=... npm run asset:run
 2. Asset Factory管理画面からGitHub Actionsを起動する安全なサーバーAPI
 3. コスト / 生成回数 / QA失敗理由の集計
 4. キャラクターパーツ・背景・広告素材などへ共通化
+
+
+## 自己修復運転
+
+通常のQA失敗は、まず同じActions実行内で `max_retries` 回まで修正プロンプト付きで再生成します。
+
+それでも通らない場合、`max_total_attempts` に達していなければ `queued` へ戻し、次回の自動運転で再挑戦します。したがって、単発の画風崩れ、構図不良、透過不良などのたびに人がキューを直す必要はありません。
+
+以下の場合のみ `needs_fix` として人へ上げます。
+
+- 総生成回数が `max_total_attempts` に到達した
+- 401 / 403 / 明確な400系など、自動再試行しても改善しないAPIエラー
+- 自動再キューを明示的に無効化した
+
+各失敗は `failure_history` に残し、直近QAの `remediation` を次の生成プロンプトへ自動的に引き継ぎます。
+
+## 自動運転
+
+`.github/workflows/asset-factory-auto.yml` が6時間ごとに未完了キューを処理します。
+
+1回あたりの画像API呼び出しはコストガードで制限し、上限へ達した素材は失敗扱いにせず次回へ繰り越します。
+
+一時停止したい場合だけ、Repository Variable:
+
+`ASSET_FACTORY_AUTO_PAUSED=true`
+
+を設定してください。
