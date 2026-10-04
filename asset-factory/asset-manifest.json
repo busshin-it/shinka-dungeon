@@ -471,30 +471,30 @@
       "generation_id": null,
       "transparent": true,
       "status": "needs_fix",
-      "prompt": "基本魔法師の左上腕パーツのみ。黒〜濃紺の細身で簡潔な袖。肩側と肘側を丸く明確にし、両端に重ね代を残す。前腕、手、胴体は描かない。 最重要：ゴシック影絵・切り絵・舞台人形の平面的2Dパーツ。色面は2〜4段階、マット塗り、硬めの輪郭。写実的3D陰影、アニメ美麗立ち絵質感、グラデーション、光沢、複雑な刺繍や宝石を使わない。OUTPUT PIPELINE REQUIREMENTの単色背景以外は描かない。",
+      "prompt": "基本魔法師の左側・上腕位置に使う衣装付きパペット袖パーツ1個のみ。人体の切断表現ではなく、舞台人形用の独立した衣装部品として描く。濃紺〜黒の細長い袖セグメント。形はほぼまっすぐな細いテーパー筒／長い台形で、肩側と肘側は単純な丸い接続端。肩当て、防具、金色の縁取り、宝石、肘の曲がり、前腕、手、胴体は描かない。古金装飾は無し。2〜3色の完全にマットな平面塗り、硬い輪郭、グラデーション無し。小さなゲーム画面でも単純な袖部品と分かる。OUTPUT PIPELINE REQUIREMENTの単色背景以外は描かない。",
       "generator": {
         "model": "gpt-image-2.5-flare",
         "quality": "medium",
         "used_references": 0,
         "generation_id": null,
-        "created": 1791095510,
+        "created": 1791097320,
         "usage": {
-          "input_tokens": 902,
+          "input_tokens": 1064,
           "input_tokens_details": {
             "image_tokens": 0,
-            "text_tokens": 902
+            "text_tokens": 1064
           },
           "output_tokens": 439,
           "output_tokens_details": {
             "image_tokens": 439,
             "text_tokens": 0
           },
-          "total_tokens": 1341
+          "total_tokens": 1503
         }
       },
       "qa": {
         "pass": false,
-        "score": 48,
+        "score": 72,
         "structural": {
           "pass": true,
           "issues": [],
@@ -506,20 +506,20 @@
             "hasAlpha": true,
             "alpha_stats": {
               "pixels": 1048576,
-              "transparent": 936559,
-              "translucent": 125,
-              "opaque": 111892,
-              "transparent_ratio": 0.8931722640991211,
-              "nonopaque_ratio": 0.8932914733886719
+              "transparent": 989215,
+              "translucent": 102,
+              "opaque": 59259,
+              "transparent_ratio": 0.9433889389038086,
+              "nonopaque_ratio": 0.943486213684082
             }
           }
         },
         "checks": {
           "single_asset": true,
           "no_text_ui": true,
-          "subject_match": false,
+          "subject_match": true,
           "art_direction": false,
-          "puppet_style": false,
+          "puppet_style": true,
           "joint_readability": true,
           "small_screen_silhouette": true,
           "composition": true,
@@ -527,25 +527,23 @@
           "reference_consistency": true
         },
         "issues": [
-          "左上腕のみではなく、肩パッド状の装飾と金色の複雑な縁取りを含む過剰なデザインになっている",
-          "袖が細身で簡潔な平面2Dパーツではなく、立体的な円筒・防具のように見える",
-          "グラデーションと強い陰影、光沢感があり、指定のマットな切り絵・影絵表現から外れている",
-          "肩側と肘側の重ね代は明確だが、肩側が独立した装甲のようで基本魔法師の袖としての単純なリグ用形状から逸脱している"
+          "Sleeve uses apparent shading/gradient and glossy dimensional rendering rather than strictly matte flat fills.",
+          "The circular connection ends read somewhat like separate discs, weakening the requirement for one simple sleeve segment."
         ],
-        "remediation": "透明背景に、黒〜濃紺の単純な細身の袖だけを1本描く。肩側と肘側を丸く明確にして両端に重ね代を残し、前腕・手・胴体・装飾的肩当ては除外し、2〜4色のマットな硬い平面塗りと明瞭な切り絵輪郭にする。",
-        "checked_at": "2026-10-04T06:31:55.466Z",
+        "remediation": "再生成: 完全透明背景にし、濃紺〜黒の細長い単一テーパー袖筒を硬い輪郭と2〜3色の完全マット平面塗りだけで描く。肩端・肘端は袖本体に一体化した単純な丸い接続端とし、緑背景、陰影、光沢、分離した円盤、他の身体部位を禁止する。",
+        "checked_at": "2026-10-04T07:02:06.134Z",
         "model": "gpt-5.6-luna",
         "usage": {
-          "input_tokens": 2132,
+          "input_tokens": 2172,
           "input_tokens_details": {
-            "cache_write_tokens": 2129,
+            "cache_write_tokens": 2169,
             "cached_tokens": 0
           },
-          "output_tokens": 378,
+          "output_tokens": 246,
           "output_tokens_details": {
             "reasoning_tokens": 0
           },
-          "total_tokens": 2510
+          "total_tokens": 2418
         }
       }
     },
@@ -563,7 +561,7 @@
       "generation_id": null,
       "transparent": true,
       "status": "waiting",
-      "prompt": "基本魔法師の左前腕＋左手パーツのみ。黒〜濃紺の細身の前腕、手は簡略化したパペット向け形状。肘側に重ね代。上腕、胴体、杖は描かない。 最重要：ゴシック影絵・切り絵・舞台人形の平面的2Dパーツ。色面は2〜4段階、マット塗り、硬めの輪郭。写実的3D陰影、アニメ美麗立ち絵質感、グラデーション、光沢、複雑な刺繍や宝石を使わない。OUTPUT PIPELINE REQUIREMENTの単色背景以外は描かない。",
+      "prompt": "基本魔法師の左側・前腕位置に使う衣装付きパペット部品1個のみ。人体の切断表現ではなく、長手袋と袖を一体化した舞台人形用衣装部品として描く。濃紺〜黒の細い前腕セグメントの先に、単純化した手袋形状を付ける。肘側は丸い接続端。肩当て、防具、宝石、金縁、上腕、胴体、露出した肌は描かない。2〜3色のマットな平面塗り、硬い輪郭、グラデーション無し。",
       "generator": null,
       "qa": {}
     },
@@ -581,7 +579,7 @@
       "generation_id": null,
       "transparent": true,
       "status": "waiting",
-      "prompt": "基本魔法師の右上腕パーツのみ。黒〜濃紺の細身で簡潔な袖。肩側と肘側を丸く明確にし、両端に重ね代を残す。前腕、手、胴体は描かない。 最重要：ゴシック影絵・切り絵・舞台人形の平面的2Dパーツ。色面は2〜4段階、マット塗り、硬めの輪郭。写実的3D陰影、アニメ美麗立ち絵質感、グラデーション、光沢、複雑な刺繍や宝石を使わない。OUTPUT PIPELINE REQUIREMENTの単色背景以外は描かない。",
+      "prompt": "基本魔法師の右側・上腕位置に使う衣装付きパペット袖パーツ1個のみ。人体の切断表現ではなく、舞台人形用の独立した衣装部品。濃紺〜黒の細長い袖セグメント。ほぼまっすぐな細いテーパー筒／長い台形で、肩側と肘側は単純な丸い接続端。肩当て、防具、金色の縁取り、宝石、肘の曲がり、前腕、手、胴体は描かない。古金装飾は無し。2〜3色のマットな平面塗り、硬い輪郭、グラデーション無し。",
       "generator": null,
       "qa": {}
     },
@@ -599,7 +597,7 @@
       "generation_id": null,
       "transparent": true,
       "status": "waiting",
-      "prompt": "基本魔法師の右前腕＋右手パーツのみ。黒〜濃紺の細身の前腕、手は簡略化したパペット向け形状。肘側に重ね代。上腕、胴体、杖は描かない。 最重要：ゴシック影絵・切り絵・舞台人形の平面的2Dパーツ。色面は2〜4段階、マット塗り、硬めの輪郭。写実的3D陰影、アニメ美麗立ち絵質感、グラデーション、光沢、複雑な刺繍や宝石を使わない。OUTPUT PIPELINE REQUIREMENTの単色背景以外は描かない。",
+      "prompt": "基本魔法師の右側・前腕位置に使う衣装付きパペット部品1個のみ。人体の切断表現ではなく、長手袋と袖を一体化した舞台人形用衣装部品として描く。濃紺〜黒の細い前腕セグメントの先に、単純化した手袋形状を付ける。肘側は丸い接続端。肩当て、防具、宝石、金縁、上腕、胴体、露出した肌は描かない。2〜3色のマットな平面塗り、硬い輪郭、グラデーション無し。",
       "generator": null,
       "qa": {}
     },
