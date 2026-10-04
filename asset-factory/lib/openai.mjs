@@ -118,11 +118,12 @@ function parseJsonLoose(text) {
 
 export async function visionQa(queue, job, buffer, structural, root = process.cwd()) {
   const model = process.env.ASSET_FACTORY_QA_MODEL || 'gpt-5.6-luna';
+  const artDirection = job.art_direction_override || queue.art_direction;
   const rules = [
     'exactly one asset; no contact sheet, split panel, or multiple variants',
     'no text, numbers, card title, cost, logo, or UI',
     'matches the requested subject and its gameplay meaning',
-    'matches the project gothic silhouette puppet dark-fantasy art direction',
+    'matches the supplied official art direction',
     'reads clearly at small game-screen size',
     ...(job.type === 'card' ? [
       'not a rendered card object; artwork only',
@@ -160,11 +161,12 @@ export async function visionQa(queue, job, buffer, structural, root = process.cw
       'no characters or enemies',
       'clear foreground/midground/background separation suitable for parallax'
     ] : []),
+    ...(Array.isArray(job.qa_rules) ? job.qa_rules : []),
   ];
   const refs = (job.reference_paths || []).filter(Boolean);
   const prompt = `You are the QA gate for an automated game asset factory.
 The FIRST image is the generated candidate. Any later images are references only.
-Project art direction: ${queue.art_direction}
+Project art direction: ${artDirection}
 Asset: ${job.name} (${job.type})
 Requested prompt: ${job.prompt}
 Negative conditions: ${(job.negative || []).join(', ')}
