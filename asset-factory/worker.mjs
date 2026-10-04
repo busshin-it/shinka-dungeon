@@ -83,9 +83,23 @@ function canAutoAdoptPart(job) {
   const score = Number(qa.score || 0);
   const issues = Array.isArray(qa.issues) ? qa.issues : [];
   const minorOnly = score >= 45 && issues.length <= 1;
+
+  const simpleLimbParts = new Set([
+    'upper_arm_l','upper_arm_r','lower_arm_l_hand','lower_arm_r_hand',
+    'upper_leg_l','upper_leg_r','lower_leg_l','lower_leg_r'
+  ]);
+  const limbCriticalChecks = [
+    'single_asset','no_text_ui','subject_match','puppet_style',
+    'joint_readability','small_screen_silhouette','composition',
+    'transparency_visual','reference_consistency'
+  ];
+  const simpleLimbAccept =
+    simpleLimbParts.has(job.part)
+    && score >= 70
+    && limbCriticalChecks.every(k => checks[k] === true);
+
   return qa.structural?.pass === true
-    && allCriticalChecksPass
-    && (score >= 75 || minorOnly);
+    && ((allCriticalChecksPass && (score >= 75 || minorOnly)) || simpleLimbAccept);
 }
 
 async function adoptExistingCandidate(queue, job) {
