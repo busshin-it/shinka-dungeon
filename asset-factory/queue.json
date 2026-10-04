@@ -20,8 +20,8 @@
       "project_id": "shinka",
       "format": "png",
       "style_version": "gothic-silhouette-puppet-v0.1",
-      "status": "waiting",
-      "attempts": 0,
+      "status": "needs_fix",
+      "attempts": 1,
       "generation_count": 0,
       "generation_id": null,
       "qa": {},
@@ -52,7 +52,15 @@
       "save_path": "assets/characters/puppet-v1/base-mage.png",
       "filename": "base-mage.png",
       "path": "assets/characters/puppet-v1/base-mage.png",
-      "negative_prompt": "背景 / 地面 / 文字 / UI / 複数人 / 写実3DCG / 極端な手足の重なり / 体切れ / 杖切れ"
+      "negative_prompt": "背景 / 地面 / 文字 / UI / 複数人 / 写実3DCG / 極端な手足の重なり / 体切れ / 杖切れ",
+      "updated_at": "2026-10-04T00:50:25.585Z",
+      "last_prompt": "Project: 進化ダンジョン. Style version: gothic-silhouette-puppet-v0.1.\nOfficial art direction: ゴシック・シルエット風パペット・ダークファンタジー。2D、手描き・絵画的、少し不気味だが美しい人形劇・影絵の世界。ゴシック古城・地下迷宮・魔術世界。黒・濃紺・紫・青・古金を基調とし、写実的3DCG感を避ける。キャラクターは最初から2Dパペットアニメーションで動かす前提で、細身で読みやすいシルエット、頭・胴体・腕・脚・武器の分離、関節の認識しやすさを重視する。小さいゲーム画面での視認性と既存素材との統一感を最優先する。\nOfficial style: Gothic silhouette puppet dark fantasy.\n2D dark fantasy with gothic castles, underground ruins, magical architecture, and theatrical puppet-stage atmosphere.\nHand-painted and painterly, slightly eerie but beautiful.\nStrong readable silhouettes inspired by shadow theatre and articulated stage puppets.\nAvoid photorealism, realistic human rendering, glossy 3D CGI, toy-render aesthetics, bright pop colors, anime moe, chibi, or cute deformation.\nPrimary palette: black, deep navy, purple, blue, and antique gold. Attribute-specific magical glow colors are allowed.\nPrioritize visual consistency with the existing game world over standalone prettiness.\nDesign for readability on a small landscape game screen.\nCreate exactly ONE full-body player character only.\nBase identity: silver to pale-lavender hair, blue eyes, black/deep-navy gothic mage clothing, antique gold details, calm and slightly androgynous impression.\nUse a fully transparent PNG background. No scenery, floor, UI, text, or extra characters.\nDesign from the beginning as a 2D articulated puppet that can be animated with a small number of bones/parts.\nKeep the silhouette slender, theatrical, and easy to read.\nKeep head, torso, arms, and legs visually separable.\nDo not overlap limbs excessively.\nKeep shoulders, elbows, wrists, hips, and knees visually understandable.\nSeparate weapons from the body silhouette whenever possible.\nLong hair, cloth, capes, and dangling ornaments should look separable into independent puppet parts later.\nDo not hide every joint under bulky clothing or effects.\nAsset: 基本魔法師.\n進化ダンジョンの基準主人公。銀〜淡いラベンダー色の長髪、青い瞳、黒・濃紺を中心としたゴシック魔術師衣装、古金の装飾、大きな魔術帽子、杖。中性的で静かな印象。最初から2Dパペットとして動かす前提で、細身で読みやすく、頭・胴体・腕・脚・杖の境界を明確にし、肩・肘・手首・股関節・膝の位置が認識しやすい全身デザイン。髪、帽子、マント、杖は後から独立パーツに分離しやすい構造。\nOUTPUT REQUIREMENT: fully transparent alpha background (RGBA PNG). Do not draw a checkerboard, white, black, gradient, floor, stage, or scenic backdrop.\nDo NOT include: 背景, 地面, 文字, UI, 複数人, 写実3DCG, 極端な手足の重なり, 体切れ, 杖切れ.\nCritical production rule: 1 asset = 1 image. Never make a contact sheet, comparison sheet, character lineup, asset sheet, split panel, or multiple design variants.\nDo not add explanatory text, labels, captions, logos, or decorative typography.",
+      "last_error": {
+        "message": "Transparent background is not supported for this model.",
+        "code": "invalid_value",
+        "status": 400,
+        "at": "2026-10-04T00:50:26.043Z"
+      }
     },
     {
       "project": "進化ダンジョン",
