@@ -3,6 +3,7 @@ import path from 'node:path';
 import { buildPrompt } from './lib/prompt.mjs';
 import { generateImage, visionQa } from './lib/openai.mjs';
 import { structuralQa } from './lib/png.mjs';
+import { removeChromaKey } from './lib/chroma.mjs';
 
 const ROOT = path.resolve(process.cwd());
 const QUEUE_PATH = path.join(ROOT, 'asset-factory', 'queue.json');
@@ -103,9 +104,10 @@ async function processJob(queue, job, options) {
       job.generation_id = generated.generationId || job.generation_id || null;
       await writeQueue(queue);
 
-      const structural = structuralQa(job, generated.buffer);
+      const processedBuffer = job.chroma_key ? await removeChromaKey(generated.buffer) : generated.buffer;
+      const structural = structuralQa(job, processedBuffer);
       let semantic = { pass: false, score: 0, issues: [], remediation: '' };
-      if (structural.pass) semantic = await visionQa(queue, job, generated.buffer, structural, ROOT);
+      if (structural.pass) semantic = await visionQa(queue, job, processedBuffer, structural, ROOT);
       const pass = structural.pass && semantic.pass === true;
       const qa = {
         pass,
@@ -123,7 +125,7 @@ async function processJob(queue, job, options) {
       if (pass) {
         const target = path.join(ROOT, job.save_path);
         await fs.mkdir(path.dirname(target), { recursive: true });
-        await fs.writeFile(target, generated.buffer);
+        await fs.writeFile(target, processedBuffer);
         job.current_path = job.save_path;
         job.status = 'github_synced';
         job.github_synced = true;
