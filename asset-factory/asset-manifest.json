@@ -106,35 +106,35 @@
       "display_title": "基本魔法師｜頭部｜パーツ",
       "filename": "head.png",
       "path": "assets/characters/puppet-v1/parts/head.png",
-      "current_path": null,
+      "current_path": "assets/characters/puppet-v1/parts/head.png",
       "legacy_path": null,
       "generation_id": null,
       "transparent": true,
-      "status": "needs_fix",
+      "status": "github_synced",
       "prompt": "基本魔法師の頭部パーツのみ。最重要：顔＋短い前髪＋首接続部だけ。後頭部の髪、後ろ髪、横に広がる髪、帽子、耳飾り、肩、胴体、腕は一切描かない。髪は額にかかる短い銀〜淡いラベンダー色の前髪を3〜5個の大きな単純形状で表現する。顔は人形劇の仮面のように簡略化し、青い瞳2つ、鼻は最小限、口は短い一本線程度。肌は1〜2色、髪は1〜2色、輪郭色を含めても合計4色程度。細いまつ毛、細かい眉、鼻筋の陰影、唇の立体感、頬のグラデーションを描かない。首は円筒状の単純な接続タブとして少し長めに残す。平面的なゴシック切り絵・影絵・舞台人形パーツ。硬い輪郭、完全なマット塗り。美麗アニメ顔ではなく、ゲーム用パペット部品として単純化する。OUTPUT PIPELINE REQUIREMENTの背景以外は描かない。",
       "generator": {
         "model": "gpt-image-2.5-flare",
         "quality": "medium",
         "used_references": 0,
         "generation_id": null,
-        "created": 1791089910,
+        "created": 1791090528,
         "usage": {
-          "input_tokens": 1175,
+          "input_tokens": 1190,
           "input_tokens_details": {
             "image_tokens": 0,
-            "text_tokens": 1175
+            "text_tokens": 1190
           },
           "output_tokens": 439,
           "output_tokens_details": {
             "image_tokens": 439,
             "text_tokens": 0
           },
-          "total_tokens": 1614
+          "total_tokens": 1629
         }
       },
       "qa": {
-        "pass": false,
-        "score": 60,
+        "pass": true,
+        "score": 94,
         "structural": {
           "pass": true,
           "issues": [],
@@ -146,19 +146,19 @@
             "hasAlpha": true,
             "alpha_stats": {
               "pixels": 1048576,
-              "transparent": 822327,
+              "transparent": 846661,
               "translucent": 0,
-              "opaque": 226249,
-              "transparent_ratio": 0.7842321395874023,
-              "nonopaque_ratio": 0.7842321395874023
+              "opaque": 201915,
+              "transparent_ratio": 0.807438850402832,
+              "nonopaque_ratio": 0.807438850402832
             }
           }
         },
         "checks": {
           "single_asset": true,
           "no_text_ui": true,
-          "subject_match": false,
-          "art_direction": false,
+          "subject_match": true,
+          "art_direction": true,
           "puppet_style": true,
           "joint_readability": true,
           "small_screen_silhouette": true,
@@ -166,27 +166,21 @@
           "transparency_visual": true,
           "reference_consistency": true
         },
-        "issues": [
-          "短い前髪のみの指定に対し、後頭部・側面まで覆う大きな髪が描かれている",
-          "耳が明確に描かれており、顔＋前髪＋首接続部だけという要件に反する",
-          "美麗アニメ風の大きな瞳、まつ毛状の目の輪郭、光彩ハイライトがあり、簡略化された仮面表現から逸脱している",
-          "髪と肌に目立つ陰影・グラデーションがあり、完全なマット塗りの指定に反する",
-          "首接続タブは存在するが、頭部の髪シルエットが過剰でパーツ分離の要件を損なっている"
-        ],
-        "remediation": "後頭部・側面の髪と耳を完全に削除し、顔面に額へ垂れる3〜5個の短い銀〜淡ラベンダー前髪だけを配置し、瞳・鼻・口を極端に単純化した4色以内の完全マット塗り頭部＋長めの円筒首タブを透明背景で生成する",
-        "checked_at": "2026-10-04T04:58:35.579Z",
+        "issues": [],
+        "remediation": "現状のまま使用可能。必要なら顔と前髪をさらにマットな少数色に統一する。",
+        "checked_at": "2026-10-04T05:08:52.792Z",
         "model": "gpt-5.6-luna",
         "usage": {
-          "input_tokens": 2318,
+          "input_tokens": 2316,
           "input_tokens_details": {
-            "cache_write_tokens": 2315,
+            "cache_write_tokens": 2313,
             "cached_tokens": 0
           },
-          "output_tokens": 344,
+          "output_tokens": 107,
           "output_tokens_details": {
             "reasoning_tokens": 0
           },
-          "total_tokens": 2662
+          "total_tokens": 2423
         }
       }
     },
