@@ -3,7 +3,7 @@ import path from 'node:path';
 import { buildPrompt } from './lib/prompt.mjs';
 import { generateImage, visionQa } from './lib/openai.mjs';
 import { structuralQa } from './lib/png.mjs';
-import { removeChromaKey } from './lib/chroma.mjs';
+import { removeChromaKey, alphaStats } from './lib/chroma.mjs';
 
 const ROOT = path.resolve(process.cwd());
 const QUEUE_PATH = path.join(ROOT, 'asset-factory', 'queue.json');
@@ -113,6 +113,14 @@ async function processJob(queue, job, options) {
       await fs.writeFile(path.join(debugDir, 'last-processed.png'), processedBuffer);
 
       const structural = structuralQa(job, processedBuffer);
+      if (job.transparent) {
+        const alpha = await alphaStats(processedBuffer);
+        structural.image.alpha_stats = alpha;
+        if (alpha.transparent_ratio < 0.12) {
+          structural.pass = false;
+          structural.issues.push(`透過必須だが透明領域が少なすぎる (${(alpha.transparent_ratio * 100).toFixed(1)}%)`);
+        }
+      }
       let semantic = { pass: false, score: 0, issues: [], remediation: '' };
       if (structural.pass) semantic = await visionQa(queue, job, processedBuffer, structural, ROOT);
       const pass = structural.pass && semantic.pass === true;
