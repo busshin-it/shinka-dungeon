@@ -105,3 +105,26 @@ export async function removeChromaKey(buffer) {
 
   return sharp(data, { raw: info }).png().toBuffer();
 }
+
+
+export async function alphaStats(buffer) {
+  const { data, info } = await sharp(buffer).ensureAlpha().raw().toBuffer({ resolveWithObject: true });
+  let transparent = 0;
+  let translucent = 0;
+  let opaque = 0;
+  const pixels = info.width * info.height;
+  for (let i = 3; i < data.length; i += info.channels) {
+    const a = data[i];
+    if (a <= 8) transparent++;
+    else if (a < 247) translucent++;
+    else opaque++;
+  }
+  return {
+    pixels,
+    transparent,
+    translucent,
+    opaque,
+    transparent_ratio: pixels ? transparent / pixels : 0,
+    nonopaque_ratio: pixels ? (transparent + translucent) / pixels : 0,
+  };
+}
