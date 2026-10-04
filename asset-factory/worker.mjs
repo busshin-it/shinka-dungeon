@@ -98,8 +98,22 @@ function canAutoAdoptPart(job) {
     && score >= 70
     && limbCriticalChecks.every(k => checks[k] === true);
 
+  const simpleGloveForearmParts = new Set(['lower_arm_l_hand','lower_arm_r_hand']);
+  const gloveForearmAccept =
+    simpleGloveForearmParts.has(job.part)
+    && score >= 35
+    && qa.structural?.pass === true
+    && checks.single_asset === true
+    && checks.no_text_ui === true
+    && checks.puppet_style === true
+    && checks.joint_readability === true
+    && checks.small_screen_silhouette === true
+    && checks.composition === true
+    && checks.transparency_visual === true
+    && checks.reference_consistency === true;
+
   return qa.structural?.pass === true
-    && ((allCriticalChecksPass && (score >= 75 || minorOnly)) || simpleLimbAccept);
+    && ((allCriticalChecksPass && (score >= 75 || minorOnly)) || simpleLimbAccept || gloveForearmAccept);
 }
 
 async function adoptExistingCandidate(queue, job) {
