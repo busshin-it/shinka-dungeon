@@ -18,30 +18,30 @@
       "generation_id": null,
       "transparent": true,
       "status": "needs_fix",
-      "prompt": "進化ダンジョンの基準主人公を、2Dパペット制作のためのニュートラル基準絵として描く。若い中性的なゴシック魔術師。銀〜淡いラベンダー色の長髪、青い瞳、黒・濃紺を中心とした簡潔なゴシック衣装、控えめな古金装飾。正面に近いAポーズで直立し、両腕は胴体から約20〜30度離す。両脚は肩幅程度に離し、左右の脚を重ねない。肩、肘、手首、股関節、膝、足首が一目で分かる。衣装は関節を隠さず、長い布・豪華なフリル・大きなマントを避ける。帽子、杖、魔力球、魔法エフェクト、オーラ、光輪、地面影は描かない。後から頭、後ろ髪、帽子、胴体、左右上腕、左右前腕＋手、左右上脚、左右下脚、マント、杖を個別パーツとして作れるよう、身体各部の境界を明快にする。手描きの影絵・切り絵・舞台人形のような平面的2Dダークファンタジー。完全透明アルファ背景。人物以外の可視ピクセルを置かない。",
+      "prompt": "進化ダンジョンの主人公用2Dパペット素体。若い中性的なゴシック魔術師。銀〜淡いラベンダー色の髪、青い瞳。黒・濃紺の非常に簡潔な衣装、古金装飾は小さな留め具程度。最重要：完成イラストではなくゲーム用の関節パペット素体。正面Aポーズ。両腕は胴体から20〜30度、両脚は肩幅。肩・肘・手首・股関節・膝・足首の位置がはっきり見える。太い装飾袖、フリル、長い前垂れ、腰布、マント、帽子、杖、魔法エフェクトは描かない。髪は肩より少し下までのシンプルな形で胴体や腕に重ねない。平面的な手描き影絵・舞台人形・切り絵を思わせるマットな2D形状。輪郭と大きな色面を優先し、布の細かな皺、宝石、複雑な刺繍、写実的な陰影、アニメ立ち絵的な精密描写を避ける。背景についてはOUTPUT PIPELINE REQUIREMENTだけに従う。",
       "generator": {
         "model": "gpt-image-2.5-flare",
         "quality": "medium",
         "used_references": 0,
         "generation_id": null,
-        "created": 1791077253,
+        "created": 1791079022,
         "usage": {
-          "input_tokens": 1306,
+          "input_tokens": 1221,
           "input_tokens_details": {
             "image_tokens": 0,
-            "text_tokens": 1306
+            "text_tokens": 1221
           },
           "output_tokens": 343,
           "output_tokens_details": {
             "image_tokens": 343,
             "text_tokens": 0
           },
-          "total_tokens": 1649
+          "total_tokens": 1564
         }
       },
       "qa": {
         "pass": false,
-        "score": 61,
+        "score": 34,
         "structural": {
           "pass": true,
           "issues": [],
@@ -50,43 +50,51 @@
             "width": 1024,
             "height": 1536,
             "colorType": 6,
-            "hasAlpha": true
+            "hasAlpha": true,
+            "alpha_stats": {
+              "pixels": 1572864,
+              "transparent": 1365443,
+              "translucent": 500,
+              "opaque": 206921,
+              "transparent_ratio": 0.8681252797444662,
+              "nonopaque_ratio": 0.8684431711832682
+            }
           }
         },
         "checks": {
           "single_asset": true,
           "no_text_ui": true,
           "subject_match": true,
-          "art_direction": true,
-          "puppet_style": false,
-          "joint_readability": false,
+          "art_direction": false,
+          "puppet_style": true,
+          "joint_readability": true,
           "small_screen_silhouette": true,
-          "composition": false,
+          "composition": true,
           "transparency_visual": false,
           "reference_consistency": true
         },
         "issues": [
-          "背景が透明アルファではなく、チェッカーボードが可視ピクセルとして描画されている",
-          "通常の美麗なアニメ立ち絵寄りで、平面的な影絵・切り絵・舞台人形風の表現が弱い",
-          "肩周りの装飾、長い前垂れ、腰布、複雑な衣装が関節やパーツ境界を一部隠している",
-          "Aポーズとして腕の開きがやや大きく、指定の約20〜30度より広い",
-          "両脚は分離しているが、衣装の長い垂れ布と装飾が脚パーツの分離を妨げる",
-          "頭髪や衣装の細部が多く、小画面ではシルエットと可動パーツの視認性が低下する"
+          "背景が鮮やかな緑のクロマキーで、完全な透明アルファ背景として見えない",
+          "写実的3DCG寄りの滑らかな陰影と美麗アニメ立ち絵表現で、指定の平面的な手描き影絵・切り絵風から外れている",
+          "衣装が指定より複雑で、肩・肘・膝などに大きな金色の円形装飾がある",
+          "長い前垂れ状の中央パネルがあり、禁止された長い前垂れに該当する",
+          "髪が肩より下まで広がり、胴体・肩周辺に重なっている",
+          "腕が指定の20〜30度より大きく下がったポーズで、Aポーズ要件が弱い"
         ],
-        "remediation": "チェッカーボードを完全に除去した真の透明アルファ背景で、装飾と垂れ布を最小化し、頭・胴体・左右上腕・左右前腕＋手・左右上脚・左右下脚を明確に分離した平面的な影絵風の正面Aポーズ魔術師を再生成する。",
-        "checked_at": "2026-10-04T01:27:39.271Z",
+        "remediation": "完全透明アルファ背景で、緑色や背景要素を一切描かず、正面Aポーズの細身2D切り絵パペットとして再生成する。衣装は黒・濃紺の単純な分離パーツにし、金装飾は小さな留め具のみ、長い前垂れ・大きな円形装飾・複雑な陰影・アニメ立ち絵表現を削除し、髪は肩下程度で胴体や腕に重ねない。",
+        "checked_at": "2026-10-04T01:57:08.500Z",
         "model": "gpt-5.6-luna",
         "usage": {
-          "input_tokens": 2869,
+          "input_tokens": 2897,
           "input_tokens_details": {
-            "cache_write_tokens": 2866,
+            "cache_write_tokens": 2894,
             "cached_tokens": 0
           },
-          "output_tokens": 366,
+          "output_tokens": 395,
           "output_tokens_details": {
             "reasoning_tokens": 0
           },
-          "total_tokens": 3235
+          "total_tokens": 3292
         }
       }
     },
