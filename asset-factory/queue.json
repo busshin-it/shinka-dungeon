@@ -307,66 +307,11 @@
       "project_id": "shinka",
       "format": "png",
       "style_version": "gothic-silhouette-puppet-v0.1",
-      "status": "needs_fix",
+      "status": "waiting",
       "attempts": 2,
       "generation_count": 0,
       "generation_id": null,
-      "qa": {
-        "pass": false,
-        "score": 35,
-        "structural": {
-          "pass": true,
-          "issues": [],
-          "image": {
-            "valid": true,
-            "width": 1024,
-            "height": 1024,
-            "colorType": 6,
-            "hasAlpha": true,
-            "alpha_stats": {
-              "pixels": 1048576,
-              "transparent": 831152,
-              "translucent": 184,
-              "opaque": 217240,
-              "transparent_ratio": 0.7926483154296875,
-              "nonopaque_ratio": 0.7928237915039062
-            }
-          }
-        },
-        "checks": {
-          "single_asset": true,
-          "no_text_ui": true,
-          "subject_match": false,
-          "art_direction": false,
-          "puppet_style": true,
-          "joint_readability": true,
-          "small_screen_silhouette": true,
-          "composition": true,
-          "transparency_visual": false,
-          "reference_consistency": true
-        },
-        "issues": [
-          "胴体中央に長い前垂れ状パーツが描かれており、指定の『長い前垂れを描かない』条件に違反している",
-          "背景が鮮色の緑で不透明に見え、構造上は透明でも表示上の単色背景要件を満たしていない",
-          "陰影と縁取りがやや滑らかで、指定の2〜4段階の平面的マットな切り絵表現より立体的",
-          "古金の留め具が複数かつ装飾的で、小さな簡潔な留め具という指定から逸脱している"
-        ],
-        "remediation": "中央の長い前垂れを完全に削除し、首穴・肩穴・腰の接続余白だけを持つ黒〜濃紺の平面的な胴体単体にして、古金は小さな留め具1〜2個 בלבד、背景は完全な透明PNGで出力する。",
-        "checked_at": "2026-10-04T05:13:13.357Z",
-        "model": "gpt-5.6-luna",
-        "usage": {
-          "input_tokens": 2152,
-          "input_tokens_details": {
-            "cache_write_tokens": 2149,
-            "cached_tokens": 0
-          },
-          "output_tokens": 304,
-          "output_tokens_details": {
-            "reasoning_tokens": 0
-          },
-          "total_tokens": 2456
-        }
-      },
+      "qa": {},
       "quality_result": null,
       "github_synced": false,
       "asset_id": "shinka_part_base_mage_torso_puppet_v1",
@@ -377,26 +322,37 @@
       "part": "torso",
       "phase": "02_character_parts",
       "priority": 21,
-      "prompt": "基本魔法師の胴体パーツのみ。黒〜濃紺の簡潔なゴシック上衣、古金は小さな留め具だけ。首穴、両肩、腰の接続用に十分な重ね代。フリル、長い前垂れ、腰布、マント、腕、頭、脚は描かない。 最重要：ゴシック影絵・切り絵・舞台人形の平面的2Dパーツ。色面は2〜4段階、マット塗り、硬めの輪郭。写実的3D陰影、アニメ美麗立ち絵質感、グラデーション、光沢、複雑な刺繍や宝石を使わない。OUTPUT PIPELINE REQUIREMENTの単色背景以外は描かない。",
+      "prompt": "基本魔法師の胴体コアパーツのみ。範囲は首の付け根から腰の上端まで。黒〜濃紺の非常に簡潔なゴシック上衣。形は短いベストまたは胸当てのような一枚のコンパクトな胴体。首穴、左右の肩接続穴、腰接続部だけを持つ。腰より下へ一切伸ばさない。中央のネクタイ、前垂れ、布帯、スカート、コート裾、二股の裾、腰布、マント、腕、頭、脚は描かない。古金装飾は胸元に小さな留め具1個だけ。肩と腰の接続部は丸く単純にし、他パーツを重ねやすい余白を残す。最重要：1つの短い胴体コアだけ。平面的な切り絵・影絵・舞台人形パーツ。2〜4色のマット塗り、硬い輪郭。立体的な服、長い装飾、グラデーション、宝石、刺繍を使わない。OUTPUT PIPELINE REQUIREMENTの単色背景以外は描かない。",
       "negative": [
-        "背景",
         "地面",
         "文字",
         "UI",
+        "頭",
+        "腕",
+        "手",
+        "脚",
+        "人体全身",
         "他の身体パーツ",
-        "パーツ一覧",
-        "複数案",
+        "ネクタイ",
+        "前垂れ",
+        "長い前垂れ",
+        "布帯",
+        "腰布",
+        "スカート",
+        "コート裾",
+        "二股の裾",
+        "マント",
+        "宝石",
+        "複雑な刺繍",
+        "複数の金具",
         "写実3DCG",
         "3Dレンダー",
         "写実的陰影",
         "ソフトグラデーション",
         "美麗アニメ立ち絵",
         "光沢",
-        "宝石",
-        "複雑な刺繍",
         "複数パーツ",
-        "パーツシート",
-        "人体全身"
+        "パーツシート"
       ],
       "transparent": true,
       "aspect_ratio": "1:1",
@@ -404,7 +360,7 @@
       "reference_paths": [],
       "filename": "torso.png",
       "path": "assets/characters/puppet-v1/parts/torso.png",
-      "negative_prompt": "背景 / 地面 / 文字 / UI / 他の身体パーツ / パーツ一覧 / 複数案 / 写実3DCG / 3Dレンダー / 写実的陰影 / ソフトグラデーション / 美麗アニメ立ち絵 / 光沢 / 宝石 / 複雑な刺繍 / 複数パーツ / パーツシート / 人体全身",
+      "negative_prompt": "地面 / 文字 / UI / 頭 / 腕 / 手 / 脚 / 人体全身 / 他の身体パーツ / ネクタイ / 前垂れ / 長い前垂れ / 布帯 / 腰布 / スカート / コート裾 / 二股の裾 / マント / 宝石 / 複雑な刺繍 / 複数の金具 / 写実3DCG / 3Dレンダー / 写実的陰影 / ソフトグラデーション / 美麗アニメ立ち絵 / 光沢 / 複数パーツ / パーツシート",
       "chroma_key": true,
       "last_error": null,
       "updated_at": "2026-10-04T05:13:00.007Z",
