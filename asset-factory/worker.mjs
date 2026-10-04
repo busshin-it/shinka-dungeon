@@ -79,9 +79,13 @@ function canAutoAdoptPart(job) {
     'composition',
     'transparency_visual'
   ];
+  const allCriticalChecksPass = hardChecks.every(k => checks[k] === true);
+  const score = Number(qa.score || 0);
+  const issues = Array.isArray(qa.issues) ? qa.issues : [];
+  const minorOnly = score >= 45 && issues.length <= 1;
   return qa.structural?.pass === true
-    && Number(qa.score || 0) >= 75
-    && hardChecks.every(k => checks[k] === true);
+    && allCriticalChecksPass
+    && (score >= 75 || minorOnly);
 }
 
 async function adoptExistingCandidate(queue, job) {
