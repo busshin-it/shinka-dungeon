@@ -170,7 +170,7 @@ Requested prompt: ${job.prompt}
 Negative conditions: ${(job.negative || []).join(', ')}
 Structural PNG checks: ${JSON.stringify(structural)}
 Evaluate these rules: ${rules.join('; ')}.
-Be strict. Transparency is required ONLY when job.transparent is true. When job.transparent is false (especially cards/backgrounds), do not fail the asset for being opaque; instead reject fake transparency checkerboards or empty studio backdrops. For cards, a gothic illustrated background is valid and preferred. If references are supplied, compare identity or visual lineage as appropriate.
+Be strict. For transparent jobs, TRUST the Structural PNG checks and alpha_stats as the source of truth for transparency. If alpha_stats.transparent_ratio is at least 0.12, do NOT fail the asset merely because the viewer shows a checkerboard, green preview, or compositing artifact behind transparent pixels. Only fail transparency when structural alpha coverage is insufficient or when obvious non-transparent scenery/background shapes remain. For opaque cards/backgrounds, reject fake transparency checkerboards or empty studio backdrops. For cards, a gothic illustrated background is valid and preferred. If references are supplied, compare identity or visual lineage as appropriate.
 Return ONLY JSON in exactly this shape: {"pass":boolean,"score":0-100,"checks":{"single_asset":boolean,"no_text_ui":boolean,"subject_match":boolean,"art_direction":boolean,"puppet_style":boolean,"joint_readability":boolean,"small_screen_silhouette":boolean,"composition":boolean,"transparency_visual":boolean,"reference_consistency":boolean},"issues":["..."],"remediation":"one concise corrected-generation instruction"}`;
   const content = [
     { type: 'input_text', text: prompt },
