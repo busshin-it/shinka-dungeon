@@ -87,11 +87,20 @@ export async function removeChromaKey(buffer) {
     }
   }
 
-  // De-spill green/gray edge contamination without touching interior subject colors much.
+  // Aggressive global removal for chroma green. The subject prompt forbids green,
+  // so green-dominant pixels are safe to treat as background/spill.
   for (let i=0;i<data.length;i+=channels) {
     if (data[i+3] === 0) continue;
     const r=data[i], g=data[i+1], b=data[i+2];
-    if (g > r + 22 && g > b + 22) data[i+1] = Math.max(r,b);
+    const dominance = g - Math.max(r,b);
+    if (g >= 85 && dominance >= 18) {
+      const strength = Math.max(0, Math.min(1, (dominance - 18) / 95));
+      data[i+3] = Math.round(data[i+3] * (1 - strength));
+      if (data[i+3] < 28) data[i+3] = 0;
+    }
+    if (data[i+3] > 0 && g > r + 12 && g > b + 12) {
+      data[i+1] = Math.max(r,b);
+    }
   }
 
   return sharp(data, { raw: info }).png().toBuffer();
