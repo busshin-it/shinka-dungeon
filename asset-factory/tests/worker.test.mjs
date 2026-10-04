@@ -1,11 +1,11 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { parseArgs, selectJobs } from '../worker.mjs';
+import { parseArgs, selectJobs, decideFailureAction } from '../worker.mjs';
 import { buildPrompt } from '../lib/prompt.mjs';
 import { inspectPng, structuralQa } from '../lib/png.mjs';
 
 test('parseArgs reads batch controls', () => {
-  assert.deepEqual(parseArgs(['--count','5','--asset','x','--max-retries','3','--dry-run']), { count:5, asset:'x', maxRetries:3, dryRun:true });
+  assert.deepEqual(parseArgs(['--count','5','--asset','x','--max-retries','3','--max-total-attempts','9','--dry-run']), { count:5, asset:'x', maxRetries:3, maxTotalAttempts:9, autoRequeue:true, dryRun:true });
 });
 
 test('selectJobs only returns pending work', () => {
@@ -40,4 +40,33 @@ test('inspectPng reads dimensions and alpha color type', () => {
   assert.equal(info.hasAlpha,true);
   const qa=structuralQa({transparent:true,aspect_ratio:'2:3'},b);
   assert.equal(qa.pass,true);
+});
+
+
+test('self-healing requeues retryable failures before total attempt cap', () => {
+  const action = decideFailureAction(
+    { attempts: 3 },
+    { autoRequeue: true, maxTotalAttempts: 8 },
+    { retryable: true }
+  );
+  assert.deepEqual(action, { status:'queued', requeue:true, exhausted:false, manual:false });
+});
+
+test('self-healing escalates only after total attempt cap', () => {
+  const action = decideFailureAction(
+    { attempts: 8 },
+    { autoRequeue: true, maxTotalAttempts: 8 },
+    { retryable: true }
+  );
+  assert.deepEqual(action, { status:'needs_fix', requeue:false, exhausted:true, manual:true });
+});
+
+test('non-retryable API failures go to manual review', () => {
+  const action = decideFailureAction(
+    { attempts: 1 },
+    { autoRequeue: true, maxTotalAttempts: 8 },
+    { retryable: false }
+  );
+  assert.equal(action.manual, true);
+  assert.equal(action.requeue, false);
 });
