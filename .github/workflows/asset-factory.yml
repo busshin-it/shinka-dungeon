@@ -15,6 +15,10 @@ on:
         description: 'Automatic QA regeneration attempts per asset'
         required: true
         default: '2'
+      max_total_attempts:
+        description: 'Maximum total generation attempts across future runs before manual review'
+        required: true
+        default: '8'
       quality:
         description: 'Image quality'
         required: true
@@ -67,7 +71,7 @@ jobs:
       - name: Run Asset Factory
         shell: bash
         run: |
-          args=(--count "${{ inputs.count }}" --max-retries "${{ inputs.max_retries }}")
+          args=(--count "${{ inputs.count }}" --max-retries "${{ inputs.max_retries }}" --max-total-attempts "${{ inputs.max_total_attempts }}")
           if [ -n "${{ inputs.asset_id }}" ]; then
             args+=(--asset "${{ inputs.asset_id }}")
           fi
