@@ -169,11 +169,65 @@
       "project_id": "shinka",
       "format": "png",
       "style_version": "gothic-silhouette-puppet-v0.1",
-      "status": "waiting",
-      "attempts": 2,
+      "status": "needs_fix",
+      "attempts": 4,
       "generation_count": 0,
       "generation_id": null,
-      "qa": {},
+      "qa": {
+        "pass": false,
+        "score": 78,
+        "structural": {
+          "pass": true,
+          "issues": [],
+          "image": {
+            "valid": true,
+            "width": 1024,
+            "height": 1024,
+            "colorType": 6,
+            "hasAlpha": true,
+            "alpha_stats": {
+              "pixels": 1048576,
+              "transparent": 879864,
+              "translucent": 0,
+              "opaque": 168712,
+              "transparent_ratio": 0.8391036987304688,
+              "nonopaque_ratio": 0.8391036987304688
+            }
+          }
+        },
+        "checks": {
+          "single_asset": true,
+          "no_text_ui": true,
+          "subject_match": true,
+          "art_direction": true,
+          "puppet_style": true,
+          "joint_readability": true,
+          "small_screen_silhouette": true,
+          "composition": true,
+          "transparency_visual": true,
+          "reference_consistency": true
+        },
+        "issues": [
+          "前髪が頭部上面全体を覆う帽子状・ヘルメット状のシルエットに見え、短い前髪のみという指定から逸脱している",
+          "顔が美麗アニメ寄りで、目・眉・鼻・口の表現が要求された簡略化より細かい",
+          "首接続タブが長く、下端に濃い帯状の意匠があり、単純な円筒タブとしての統一感を損なう"
+        ],
+        "remediation": "後頭部を完全に透明にし、額にかかる3〜5個の短い銀〜淡紫の前髪形状だけを残した簡略仮面顔に再生成し、首は装飾や帯のない単色の円筒接続タブにする",
+        "checked_at": "2026-10-04T04:32:35.261Z",
+        "model": "gpt-5.6-luna",
+        "usage": {
+          "input_tokens": 2318,
+          "input_tokens_details": {
+            "cache_write_tokens": 2315,
+            "cached_tokens": 0
+          },
+          "output_tokens": 266,
+          "output_tokens_details": {
+            "reasoning_tokens": 0
+          },
+          "total_tokens": 2584
+        }
+      },
       "quality_result": null,
       "github_synced": false,
       "asset_id": "shinka_part_base_mage_head_puppet_v1",
@@ -223,26 +277,26 @@
       "negative_prompt": "後ろ髪 / 後頭部の髪 / ロングヘア / 横に広がる髪 / 帽子 / 耳飾り / 肩 / 胴体 / 腕 / 身体 / 美麗アニメ顔 / 細いまつ毛 / 細かい眉 / 唇の立体感 / 鼻筋の陰影 / 頬のグラデーション / 写実3DCG / 3Dレンダー / ソフトグラデーション / 光沢 / 宝石 / 複雑な装飾 / 複数パーツ / パーツシート / 文字 / UI / 地面",
       "chroma_key": true,
       "last_error": null,
-      "updated_at": "2026-10-04T04:14:11.874Z",
-      "last_prompt": "Project: 進化ダンジョン. Style version: gothic-silhouette-puppet-v0.1.\nOfficial art direction: ゴシック・シルエット風パペット・ダークファンタジー。2D、手描き・絵画的、少し不気味だが美しい人形劇・影絵の世界。ゴシック古城・地下迷宮・魔術世界。黒・濃紺・紫・青・古金を基調とし、写実的3DCG感を避ける。キャラクターは最初から2Dパペットアニメーションで動かす前提で、細身で読みやすいシルエット、頭・胴体・腕・脚・武器の分離、関節の認識しやすさを重視する。小さいゲーム画面での視認性と既存素材との統一感を最優先する。\nOfficial style: Gothic silhouette puppet dark fantasy.\n2D dark fantasy with gothic castles, underground ruins, magical architecture, and theatrical puppet-stage atmosphere.\nHand-painted and painterly, slightly eerie but beautiful.\nStrong readable silhouettes inspired by shadow theatre and articulated stage puppets.\nAvoid photorealism, realistic human rendering, glossy 3D CGI, toy-render aesthetics, bright pop colors, anime moe, chibi, or cute deformation.\nPrimary palette: black, deep navy, purple, blue, and antique gold. Attribute-specific magical glow colors are allowed.\nPrioritize visual consistency with the existing game world over standalone prettiness.\nDesign for readability on a small landscape game screen.\nCreate exactly ONE isolated puppet part only, never a sheet of parts.\nThis is a production rig asset, not a beauty illustration.\nUse flat cutout / shadow-puppet / stage-puppet 2D construction with 2–4 matte color values and a hard readable outline.\nAvoid realistic volume shading, glossy rendering, cinematic light, detailed anime illustration, soft gradients, and decorative complexity.\nDo not include any other body parts, scenery, UI, text, labels, or assembly guides.\nKeep enough overlap margin at the joint connection for rigging.\nCenter the single part with generous empty margin and keep its silhouette clean at small size.\nAsset: 基本魔法師 頭部.\n基本魔法師の頭部パーツのみ。銀〜淡いラベンダー色の短めで単純な前髪、青い瞳。顔は簡略化し、影は2〜3段階の平面的なマット塗り。首の接続部を少し長めに残す。帽子、後ろ髪、胴体、肩、腕は描かない。 最重要：ゴシック影絵・切り絵・舞台人形の平面的2Dパーツ。色面は2〜4段階、マット塗り、硬めの輪郭。写実的3D陰影、アニメ美麗立ち絵質感、グラデーション、光沢、複雑な刺繍や宝石を使わない。OUTPUT PIPELINE REQUIREMENTの単色背景以外は描かない。\nOUTPUT PIPELINE REQUIREMENT: draw the subject on a single flat pure chroma green background (#00FF00), edge-to-edge, with NO gradient, NO vignette, NO floor, NO cast shadow, NO aura, NO glow behind the subject, and NO other background objects. Do not use green anywhere on the subject. The production pipeline will remove this green background and convert it to alpha transparency.\nDo NOT include: 地面, 文字, UI, 他の身体パーツ, パーツ一覧, 複数案, 写実3DCG, 3Dレンダー, 写実的陰影, ソフトグラデーション, 美麗アニメ立ち絵, 光沢, 宝石, 複雑な刺繍, 複数パーツ, パーツシート, 人体全身, checkerboard transparency pattern, gray checkerboard, fake transparency grid.\nCritical production rule: 1 asset = 1 image. Never make a contact sheet, comparison sheet, character lineup, asset sheet, split panel, or multiple design variants.\nDo not add explanatory text, labels, captions, logos, or decorative typography.\nPrevious QA correction to apply strictly: 蛍光グリーンを完全な透明アルファに置換し、帽子・胴体・肩・腕を描かず、短い銀〜淡ラベンダーの前髪だけを残した簡略顔と青い瞳、2〜3段階の硬いマット色面、長めの首接続部による単一のゴシック切り絵風頭部パーツを生成する。",
+      "updated_at": "2026-10-04T04:32:21.755Z",
+      "last_prompt": "Project: 進化ダンジョン. Style version: gothic-silhouette-puppet-v0.1.\nOfficial art direction: ゴシック・シルエット風パペット・ダークファンタジー。2D、手描き・絵画的、少し不気味だが美しい人形劇・影絵の世界。ゴシック古城・地下迷宮・魔術世界。黒・濃紺・紫・青・古金を基調とし、写実的3DCG感を避ける。キャラクターは最初から2Dパペットアニメーションで動かす前提で、細身で読みやすいシルエット、頭・胴体・腕・脚・武器の分離、関節の認識しやすさを重視する。小さいゲーム画面での視認性と既存素材との統一感を最優先する。\nOfficial style: Gothic silhouette puppet dark fantasy.\n2D dark fantasy with gothic castles, underground ruins, magical architecture, and theatrical puppet-stage atmosphere.\nHand-painted and painterly, slightly eerie but beautiful.\nStrong readable silhouettes inspired by shadow theatre and articulated stage puppets.\nAvoid photorealism, realistic human rendering, glossy 3D CGI, toy-render aesthetics, bright pop colors, anime moe, chibi, or cute deformation.\nPrimary palette: black, deep navy, purple, blue, and antique gold. Attribute-specific magical glow colors are allowed.\nPrioritize visual consistency with the existing game world over standalone prettiness.\nDesign for readability on a small landscape game screen.\nCreate exactly ONE isolated puppet part only, never a sheet of parts.\nThis is a production rig asset, not a beauty illustration.\nUse flat cutout / shadow-puppet / stage-puppet 2D construction with 2–4 matte color values and a hard readable outline.\nAvoid realistic volume shading, glossy rendering, cinematic light, detailed anime illustration, soft gradients, and decorative complexity.\nDo not include any other body parts, scenery, UI, text, labels, or assembly guides.\nKeep enough overlap margin at the joint connection for rigging.\nCenter the single part with generous empty margin and keep its silhouette clean at small size.\nAsset: 基本魔法師 頭部.\n基本魔法師の頭部パーツのみ。最重要：顔＋短い前髪＋首接続部だけ。後頭部の髪、後ろ髪、横に広がる髪、帽子、耳飾り、肩、胴体、腕は一切描かない。髪は額にかかる短い銀〜淡いラベンダー色の前髪を3〜5個の大きな単純形状で表現する。顔は人形劇の仮面のように簡略化し、青い瞳2つ、鼻は最小限、口は短い一本線程度。肌は1〜2色、髪は1〜2色、輪郭色を含めても合計4色程度。細いまつ毛、細かい眉、鼻筋の陰影、唇の立体感、頬のグラデーションを描かない。首は円筒状の単純な接続タブとして少し長めに残す。平面的なゴシック切り絵・影絵・舞台人形パーツ。硬い輪郭、完全なマット塗り。美麗アニメ顔ではなく、ゲーム用パペット部品として単純化する。OUTPUT PIPELINE REQUIREMENTの背景以外は描かない。\nOUTPUT PIPELINE REQUIREMENT: draw the subject on a single flat pure chroma green background (#00FF00), edge-to-edge, with NO gradient, NO vignette, NO floor, NO cast shadow, NO aura, NO glow behind the subject, and NO other background objects. Do not use green anywhere on the subject. The production pipeline will remove this green background and convert it to alpha transparency.\nDo NOT include: 後ろ髪, 後頭部の髪, ロングヘア, 横に広がる髪, 帽子, 耳飾り, 肩, 胴体, 腕, 身体, 美麗アニメ顔, 細いまつ毛, 細かい眉, 唇の立体感, 鼻筋の陰影, 頬のグラデーション, 写実3DCG, 3Dレンダー, ソフトグラデーション, 光沢, 宝石, 複雑な装飾, 複数パーツ, パーツシート, 文字, UI, 地面, checkerboard transparency pattern, gray checkerboard, fake transparency grid.\nCritical production rule: 1 asset = 1 image. Never make a contact sheet, comparison sheet, character lineup, asset sheet, split panel, or multiple design variants.\nDo not add explanatory text, labels, captions, logos, or decorative typography.\nPrevious QA correction to apply strictly: 背景を完全透明にし、耳・側面髪・後ろ髪を削除して、顔、額にかかる3〜5個の短い前髪、少し長い円筒状の首接続タブだけを、簡略化した4色以内の平面パペット部品として再生成する。",
       "generator": {
         "model": "gpt-image-2.5-flare",
         "quality": "medium",
         "used_references": 0,
         "generation_id": null,
-        "created": 1791087261,
+        "created": 1791088351,
         "usage": {
-          "input_tokens": 1038,
+          "input_tokens": 1179,
           "input_tokens_details": {
             "image_tokens": 0,
-            "text_tokens": 1038
+            "text_tokens": 1179
           },
           "output_tokens": 439,
           "output_tokens_details": {
             "image_tokens": 439,
             "text_tokens": 0
           },
-          "total_tokens": 1477
+          "total_tokens": 1618
         }
       },
       "debug_paths": {
