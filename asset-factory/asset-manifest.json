@@ -287,11 +287,11 @@
       "display_title": "基本魔法師｜後ろ髪｜パーツ",
       "filename": "hair-back.png",
       "path": "assets/characters/puppet-v1/parts/hair-back.png",
-      "current_path": null,
+      "current_path": "assets/characters/puppet-v1/parts/hair-back.png",
       "legacy_path": null,
       "generation_id": null,
       "transparent": true,
-      "status": "needs_fix",
+      "status": "github_synced",
       "prompt": "基本魔法師の後ろ髪パーツのみ。銀〜淡いラベンダー色。肩付近までの単純な大きな塊として描き、細かい毛束や尖りを増やさない。頭部・顔・胴体は描かない。頭の後ろに重ねるため上部に接続余白を残す。 最重要：ゴシック影絵・切り絵・舞台人形の平面的2Dパーツ。色面は2〜4段階、マット塗り、硬めの輪郭。写実的3D陰影、アニメ美麗立ち絵質感、グラデーション、光沢、複雑な刺繍や宝石を使わない。OUTPUT PIPELINE REQUIREMENTの単色背景以外は描かない。",
       "generator": {
         "model": "gpt-image-2.5-flare",
@@ -314,7 +314,7 @@
         }
       },
       "qa": {
-        "pass": false,
+        "pass": true,
         "score": 48,
         "structural": {
           "pass": true,
@@ -364,7 +364,10 @@
             "reasoning_tokens": 0
           },
           "total_tokens": 2340
-        }
+        },
+        "accepted_by": "production_threshold",
+        "accepted_with_minor_warnings": true,
+        "accepted_at": "2026-10-04T05:36:15.355Z"
       }
     },
     {
@@ -376,14 +379,83 @@
       "display_title": "基本魔法師｜帽子｜パーツ",
       "filename": "hat.png",
       "path": "assets/characters/puppet-v1/parts/hat.png",
-      "current_path": null,
+      "current_path": "assets/characters/puppet-v1/parts/hat.png",
       "legacy_path": null,
       "generation_id": null,
       "transparent": true,
-      "status": "waiting",
+      "status": "github_synced",
       "prompt": "基本魔法師のゴシック魔術帽子パーツのみ。黒〜濃紺、古金の小さな留め具程度。シンプルな大きいシルエット。頭、髪、顔、身体は描かない。頭部に重ねるため内側に十分な余白。 最重要：ゴシック影絵・切り絵・舞台人形の平面的2Dパーツ。色面は2〜4段階、マット塗り、硬めの輪郭。写実的3D陰影、アニメ美麗立ち絵質感、グラデーション、光沢、複雑な刺繍や宝石を使わない。OUTPUT PIPELINE REQUIREMENTの単色背景以外は描かない。",
-      "generator": null,
-      "qa": {}
+      "generator": {
+        "model": "gpt-image-2.5-flare",
+        "quality": "medium",
+        "used_references": 0,
+        "generation_id": null,
+        "created": 1791092263,
+        "usage": {
+          "input_tokens": 972,
+          "input_tokens_details": {
+            "image_tokens": 0,
+            "text_tokens": 972
+          },
+          "output_tokens": 439,
+          "output_tokens_details": {
+            "image_tokens": 439,
+            "text_tokens": 0
+          },
+          "total_tokens": 1411
+        }
+      },
+      "qa": {
+        "pass": true,
+        "score": 94,
+        "structural": {
+          "pass": true,
+          "issues": [],
+          "image": {
+            "valid": true,
+            "width": 1024,
+            "height": 1024,
+            "colorType": 6,
+            "hasAlpha": true,
+            "alpha_stats": {
+              "pixels": 1048576,
+              "transparent": 842310,
+              "translucent": 0,
+              "opaque": 206266,
+              "transparent_ratio": 0.8032894134521484,
+              "nonopaque_ratio": 0.8032894134521484
+            }
+          }
+        },
+        "checks": {
+          "single_asset": true,
+          "no_text_ui": true,
+          "subject_match": true,
+          "art_direction": true,
+          "puppet_style": true,
+          "joint_readability": true,
+          "small_screen_silhouette": true,
+          "composition": true,
+          "transparency_visual": true,
+          "reference_consistency": true
+        },
+        "issues": [],
+        "remediation": "現状の帽子単体シルエット、平面配色、透明背景、余白を維持する。",
+        "checked_at": "2026-10-04T05:37:46.558Z",
+        "model": "gpt-5.6-luna",
+        "usage": {
+          "input_tokens": 2141,
+          "input_tokens_details": {
+            "cache_write_tokens": 2138,
+            "cached_tokens": 0
+          },
+          "output_tokens": 106,
+          "output_tokens_details": {
+            "reasoning_tokens": 0
+          },
+          "total_tokens": 2247
+        }
+      }
     },
     {
       "asset_id": "shinka_part_base_mage_upper_arm_l_puppet_v1",
