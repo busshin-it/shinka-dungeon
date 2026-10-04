@@ -120,10 +120,11 @@ export async function visionQa(queue, job, buffer, structural, root = process.cw
     'exactly one asset; no contact sheet, split panel, or multiple variants',
     'no text, numbers, card title, cost, or UI',
     'matches the requested subject and its gameplay meaning',
-    'matches the project dark gothic painterly art direction',
+    'matches the project gothic silhouette puppet dark-fantasy art direction',
+    'reads clearly as a theatrical 2D puppet/shadow-theatre design rather than photorealistic or glossy 3D CGI',
     ...(job.type === 'card' ? ['not a rendered card object; artwork only', 'portrait-friendly composition and clear small-size silhouette'] : []),
-    ...(job.type === 'enemy' ? ['one enemy only', 'full body and full weapon visible', 'no scenery or floor'] : []),
-    ...(job.type === 'class' ? ['same female mage identity as the reference if supplied', 'full body, staff/hair/clothing fully visible', 'no scenery or floor'] : []),
+    ...(job.type === 'enemy' ? ['one enemy only', 'full body and full weapon visible', 'no scenery or floor', 'limbs and weapon are visually separated enough for 2D puppet animation', 'shoulders, elbows, wrists, hips, and knees remain visually understandable'] : []),
+    ...(job.type === 'class' ? ['same player identity as the reference if supplied', 'full body, staff/hair/clothing fully visible', 'no scenery or floor', 'limbs are not excessively overlapped and puppet joints remain visually understandable', 'long hair, cloth, cape, and ornaments look separable into puppet parts'] : []),
   ];
   const refs = (job.reference_paths || []).filter(Boolean);
   const prompt = `You are the QA gate for an automated game asset factory.
@@ -135,7 +136,7 @@ Negative conditions: ${(job.negative || []).join(', ')}
 Structural PNG checks: ${JSON.stringify(structural)}
 Evaluate these rules: ${rules.join('; ')}.
 Be strict. If transparency is required, visible checkerboard, solid studio backdrop, scenery, or floor is a failure. If references are supplied, compare identity or visual lineage as appropriate.
-Return ONLY JSON in exactly this shape: {"pass":boolean,"score":0-100,"checks":{"single_asset":boolean,"no_text_ui":boolean,"subject_match":boolean,"art_direction":boolean,"composition":boolean,"transparency_visual":boolean,"reference_consistency":boolean},"issues":["..."],"remediation":"one concise corrected-generation instruction"}`;
+Return ONLY JSON in exactly this shape: {"pass":boolean,"score":0-100,"checks":{"single_asset":boolean,"no_text_ui":boolean,"subject_match":boolean,"art_direction":boolean,"puppet_style":boolean,"joint_readability":boolean,"small_screen_silhouette":boolean,"composition":boolean,"transparency_visual":boolean,"reference_consistency":boolean},"issues":["..."],"remediation":"one concise corrected-generation instruction"}`;
   const content = [
     { type: 'input_text', text: prompt },
     { type: 'input_image', image_url: `data:image/png;base64,${buffer.toString('base64')}`, detail: 'high' },
