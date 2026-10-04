@@ -822,31 +822,31 @@
       "legacy_path": null,
       "generation_id": null,
       "transparent": true,
-      "status": "queued",
+      "status": "needs_fix",
       "prompt": "最終ボスの巨大な古代守護騎士。黒鉄・古金・石の重装甲、守護王の意匠、巨大武器、内部から強い青白い魔力光。神聖さと恐ろしさ。大型でも肩・肘・股関節・膝と武器の境界が明瞭なパペット設計。",
       "generator": {
         "model": "gpt-image-2.5-flare",
         "quality": "medium",
         "used_references": 0,
         "generation_id": null,
-        "created": 1791132859,
+        "created": 1791135985,
         "usage": {
-          "input_tokens": 808,
+          "input_tokens": 932,
           "input_tokens_details": {
             "image_tokens": 0,
-            "text_tokens": 808
+            "text_tokens": 932
           },
           "output_tokens": 343,
           "output_tokens_details": {
             "image_tokens": 343,
             "text_tokens": 0
           },
-          "total_tokens": 1151
+          "total_tokens": 1275
         }
       },
       "qa": {
         "pass": false,
-        "score": 62,
+        "score": 48,
         "structural": {
           "pass": true,
           "issues": [],
@@ -858,11 +858,11 @@
             "hasAlpha": true,
             "alpha_stats": {
               "pixels": 1572864,
-              "transparent": 1116638,
-              "translucent": 3735,
-              "opaque": 452491,
-              "transparent_ratio": 0.7099393208821615,
-              "nonopaque_ratio": 0.7123139699300131
+              "transparent": 1099379,
+              "translucent": 5384,
+              "opaque": 468101,
+              "transparent_ratio": 0.6989663441975912,
+              "nonopaque_ratio": 0.7023893992106119
             }
           }
         },
@@ -874,17 +874,17 @@
           "puppet_style": false,
           "joint_readability": false,
           "small_screen_silhouette": true,
-          "composition": false,
+          "composition": true,
           "transparency_visual": true,
           "reference_consistency": true
         },
         "issues": [
-          "巨大武器は全体表示されているが、守護騎士本体と装飾・マント・武器が複雑に重なり、2Dパペット用の分離設計として肩・肘・手首・股関節・膝の境界が不十分。",
-          "装飾的な尖塔、翼状マント、垂れ布が多く、関節の読みやすさと人形劇的なパーツ分離を損なっている。",
-          "構図が横方向に大きく広がり、武器とマントが本体から離れすぎて小画面での一体感と敵シルエットの明瞭さを弱めている。"
+          "肩・肘・手首・股関節・膝の関節部が発光リングや装甲・布に埋もれ、2Dパペット用の分離境界が不十分",
+          "武器は全体が見えるが、巨大な装飾武器と本体の境界が一部近く、ゲーム画面でのパーツ分離が弱い",
+          "写実的ではないが、装飾と発光エフェクトが過密で、手描きシルエットの簡潔さと可動パーツの明瞭さを損なっている"
         ],
-        "remediation": "背景を完全なアルファ透明にし、緑色の背景ピクセルを全除去したうえで、装飾とマントを整理し、頭・胴体・左右上腕・前腕・手・左右腿・脛・足・武器を明確な隙間付きの独立パーツとして描いた正面全身の古代守護騎士を生成する。",
-        "checked_at": "2026-10-04T16:54:25.608Z",
+        "remediation": "背景を完全透明アルファで再生成し、頭・胴・肩・上腕・前腕・手・骨盤・太腿・脛・足・武器を明確に分離、関節に暗い隙間を設けて発光部を控えめにし、全身と武器を切れずに収める。",
+        "checked_at": "2026-10-04T17:46:31.819Z",
         "model": "gpt-5.6-luna",
         "usage": {
           "input_tokens": 2639,
@@ -892,11 +892,11 @@
             "cache_write_tokens": 2636,
             "cached_tokens": 0
           },
-          "output_tokens": 398,
+          "output_tokens": 336,
           "output_tokens_details": {
             "reasoning_tokens": 0
           },
-          "total_tokens": 3037
+          "total_tokens": 2975
         }
       }
     },
@@ -913,7 +913,7 @@
       "legacy_path": null,
       "generation_id": null,
       "transparent": true,
-      "status": "queued",
+      "status": "needs_fix",
       "prompt": "氷魔法中心の進化。青白い氷晶、冷気、氷装飾、氷結した杖。基本魔法師と同一人物。",
       "generator": null,
       "qa": {}
@@ -931,7 +931,7 @@
       "legacy_path": null,
       "generation_id": null,
       "transparent": true,
-      "status": "queued",
+      "status": "needs_fix",
       "prompt": "雷魔法中心の進化。青白〜金の雷が身体と杖を走る。高速・高火力。基本魔法師と同一人物。",
       "generator": null,
       "qa": {}
@@ -949,7 +949,7 @@
       "legacy_path": null,
       "generation_id": null,
       "transparent": true,
-      "status": "queued",
+      "status": "needs_fix",
       "prompt": "闇魔法中心の進化。紫黒の魔力、影、呪術的装飾。危険だが悪役そのものにはしない。基本魔法師と同一人物。",
       "generator": null,
       "qa": {}
@@ -1183,7 +1183,7 @@
       "legacy_path": null,
       "generation_id": null,
       "transparent": false,
-      "status": "waiting",
+      "status": "queued",
       "prompt": "猛烈な冷気と無数の氷片が広範囲を飲み込む。画面全体を覆う氷雪。",
       "generator": null,
       "qa": {}
@@ -1201,7 +1201,7 @@
       "legacy_path": null,
       "generation_id": null,
       "transparent": false,
-      "status": "waiting",
+      "status": "queued",
       "prompt": "一本の青白い雷が着弾後に複数方向へ明確に枝分かれする。連続攻撃と連鎖が一目で分かる。",
       "generator": null,
       "qa": {}
@@ -1219,7 +1219,7 @@
       "legacy_path": null,
       "generation_id": null,
       "transparent": false,
-      "status": "waiting",
+      "status": "queued",
       "prompt": "巨大な紫黒の圧縮魔力球。中心は底なしの完全な暗黒で、周囲の光と瓦礫を吸い込む。",
       "generator": null,
       "qa": {}
@@ -1237,7 +1237,7 @@
       "legacy_path": null,
       "generation_id": null,
       "transparent": false,
-      "status": "waiting",
+      "status": "queued",
       "prompt": "巨大で高密度な青白〜金色の魔法障壁。内部に魔力が蓄積され、通常の光壁より明確に強固。",
       "generator": null,
       "qa": {}
