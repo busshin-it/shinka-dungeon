@@ -20,7 +20,7 @@
       "project_id": "shinka",
       "format": "png",
       "style_version": "gothic-silhouette-puppet-v0.1",
-      "status": "needs_fix",
+      "status": "superseded",
       "attempts": 15,
       "generation_count": 0,
       "generation_id": null,
@@ -160,7 +160,9 @@
       "debug_paths": {
         "generated": "asset-factory/debug/shinka_character_base_mage_puppet_v1/last-generated.png",
         "processed": "asset-factory/debug/shinka_character_base_mage_puppet_v1/last-processed.png"
-      }
+      },
+      "superseded_by": "parts-first-v1",
+      "note": "全身立ち絵先行方式を停止。パーツ先行で組み立てる方式へ変更。"
     },
     {
       "project": "進化ダンジョン",
@@ -182,7 +184,7 @@
       "part": "head",
       "phase": "02_character_parts",
       "priority": 20,
-      "prompt": "頭部のみ。顔、前髪、耳まわり、首の上部を含む。首接続部に重ね代を確保。帽子と後ろ髪は含めない。",
+      "prompt": "基本魔法師の頭部パーツのみ。銀〜淡いラベンダー色の短めで単純な前髪、青い瞳。顔は簡略化し、影は2〜3段階の平面的なマット塗り。首の接続部を少し長めに残す。帽子、後ろ髪、胴体、肩、腕は描かない。 最重要：ゴシック影絵・切り絵・舞台人形の平面的2Dパーツ。色面は2〜4段階、マット塗り、硬めの輪郭。写実的3D陰影、アニメ美麗立ち絵質感、グラデーション、光沢、複雑な刺繍や宝石を使わない。OUTPUT PIPELINE REQUIREMENTの単色背景以外は描かない。",
       "negative": [
         "背景",
         "地面",
@@ -191,18 +193,27 @@
         "他の身体パーツ",
         "パーツ一覧",
         "複数案",
-        "写実3DCG"
+        "写実3DCG",
+        "3Dレンダー",
+        "写実的陰影",
+        "ソフトグラデーション",
+        "美麗アニメ立ち絵",
+        "光沢",
+        "宝石",
+        "複雑な刺繍",
+        "複数パーツ",
+        "パーツシート",
+        "人体全身"
       ],
       "transparent": true,
       "aspect_ratio": "1:1",
       "save_path": "assets/characters/puppet-v1/parts/head.png",
-      "reference_paths": [
-        "assets/characters/puppet-v1/base-mage.png"
-      ],
+      "reference_paths": [],
       "filename": "head.png",
       "path": "assets/characters/puppet-v1/parts/head.png",
-      "negative_prompt": "背景 / 地面 / 文字 / UI / 他の身体パーツ / パーツ一覧 / 複数案 / 写実3DCG",
-      "chroma_key": true
+      "negative_prompt": "背景 / 地面 / 文字 / UI / 他の身体パーツ / パーツ一覧 / 複数案 / 写実3DCG / 3Dレンダー / 写実的陰影 / ソフトグラデーション / 美麗アニメ立ち絵 / 光沢 / 宝石 / 複雑な刺繍 / 複数パーツ / パーツシート / 人体全身",
+      "chroma_key": true,
+      "last_error": null
     },
     {
       "project": "進化ダンジョン",
@@ -224,7 +235,7 @@
       "part": "torso",
       "phase": "02_character_parts",
       "priority": 21,
-      "prompt": "胴体のみ。首・肩・腰の接続部に十分な重ね代。頭、腕、脚、マントは含めない。",
+      "prompt": "基本魔法師の胴体パーツのみ。黒〜濃紺の簡潔なゴシック上衣、古金は小さな留め具だけ。首穴、両肩、腰の接続用に十分な重ね代。フリル、長い前垂れ、腰布、マント、腕、頭、脚は描かない。 最重要：ゴシック影絵・切り絵・舞台人形の平面的2Dパーツ。色面は2〜4段階、マット塗り、硬めの輪郭。写実的3D陰影、アニメ美麗立ち絵質感、グラデーション、光沢、複雑な刺繍や宝石を使わない。OUTPUT PIPELINE REQUIREMENTの単色背景以外は描かない。",
       "negative": [
         "背景",
         "地面",
@@ -233,18 +244,27 @@
         "他の身体パーツ",
         "パーツ一覧",
         "複数案",
-        "写実3DCG"
+        "写実3DCG",
+        "3Dレンダー",
+        "写実的陰影",
+        "ソフトグラデーション",
+        "美麗アニメ立ち絵",
+        "光沢",
+        "宝石",
+        "複雑な刺繍",
+        "複数パーツ",
+        "パーツシート",
+        "人体全身"
       ],
       "transparent": true,
       "aspect_ratio": "1:1",
       "save_path": "assets/characters/puppet-v1/parts/torso.png",
-      "reference_paths": [
-        "assets/characters/puppet-v1/base-mage.png"
-      ],
+      "reference_paths": [],
       "filename": "torso.png",
       "path": "assets/characters/puppet-v1/parts/torso.png",
-      "negative_prompt": "背景 / 地面 / 文字 / UI / 他の身体パーツ / パーツ一覧 / 複数案 / 写実3DCG",
-      "chroma_key": true
+      "negative_prompt": "背景 / 地面 / 文字 / UI / 他の身体パーツ / パーツ一覧 / 複数案 / 写実3DCG / 3Dレンダー / 写実的陰影 / ソフトグラデーション / 美麗アニメ立ち絵 / 光沢 / 宝石 / 複雑な刺繍 / 複数パーツ / パーツシート / 人体全身",
+      "chroma_key": true,
+      "last_error": null
     },
     {
       "project": "進化ダンジョン",
@@ -266,7 +286,7 @@
       "part": "hair_back",
       "phase": "02_character_parts",
       "priority": 22,
-      "prompt": "後ろ髪のみ。頭部後方へ自然に接続できる重ね代を確保。顔や頭部本体は含めない。",
+      "prompt": "基本魔法師の後ろ髪パーツのみ。銀〜淡いラベンダー色。肩付近までの単純な大きな塊として描き、細かい毛束や尖りを増やさない。頭部・顔・胴体は描かない。頭の後ろに重ねるため上部に接続余白を残す。 最重要：ゴシック影絵・切り絵・舞台人形の平面的2Dパーツ。色面は2〜4段階、マット塗り、硬めの輪郭。写実的3D陰影、アニメ美麗立ち絵質感、グラデーション、光沢、複雑な刺繍や宝石を使わない。OUTPUT PIPELINE REQUIREMENTの単色背景以外は描かない。",
       "negative": [
         "背景",
         "地面",
@@ -275,18 +295,27 @@
         "他の身体パーツ",
         "パーツ一覧",
         "複数案",
-        "写実3DCG"
+        "写実3DCG",
+        "3Dレンダー",
+        "写実的陰影",
+        "ソフトグラデーション",
+        "美麗アニメ立ち絵",
+        "光沢",
+        "宝石",
+        "複雑な刺繍",
+        "複数パーツ",
+        "パーツシート",
+        "人体全身"
       ],
       "transparent": true,
       "aspect_ratio": "1:1",
       "save_path": "assets/characters/puppet-v1/parts/hair-back.png",
-      "reference_paths": [
-        "assets/characters/puppet-v1/base-mage.png"
-      ],
+      "reference_paths": [],
       "filename": "hair-back.png",
       "path": "assets/characters/puppet-v1/parts/hair-back.png",
-      "negative_prompt": "背景 / 地面 / 文字 / UI / 他の身体パーツ / パーツ一覧 / 複数案 / 写実3DCG",
-      "chroma_key": true
+      "negative_prompt": "背景 / 地面 / 文字 / UI / 他の身体パーツ / パーツ一覧 / 複数案 / 写実3DCG / 3Dレンダー / 写実的陰影 / ソフトグラデーション / 美麗アニメ立ち絵 / 光沢 / 宝石 / 複雑な刺繍 / 複数パーツ / パーツシート / 人体全身",
+      "chroma_key": true,
+      "last_error": null
     },
     {
       "project": "進化ダンジョン",
@@ -308,7 +337,7 @@
       "part": "hat",
       "phase": "02_character_parts",
       "priority": 23,
-      "prompt": "魔術帽子のみ。頭部へ自然に重ねられる接続余白を確保。頭や髪本体は含めない。",
+      "prompt": "基本魔法師のゴシック魔術帽子パーツのみ。黒〜濃紺、古金の小さな留め具程度。シンプルな大きいシルエット。頭、髪、顔、身体は描かない。頭部に重ねるため内側に十分な余白。 最重要：ゴシック影絵・切り絵・舞台人形の平面的2Dパーツ。色面は2〜4段階、マット塗り、硬めの輪郭。写実的3D陰影、アニメ美麗立ち絵質感、グラデーション、光沢、複雑な刺繍や宝石を使わない。OUTPUT PIPELINE REQUIREMENTの単色背景以外は描かない。",
       "negative": [
         "背景",
         "地面",
@@ -317,18 +346,27 @@
         "他の身体パーツ",
         "パーツ一覧",
         "複数案",
-        "写実3DCG"
+        "写実3DCG",
+        "3Dレンダー",
+        "写実的陰影",
+        "ソフトグラデーション",
+        "美麗アニメ立ち絵",
+        "光沢",
+        "宝石",
+        "複雑な刺繍",
+        "複数パーツ",
+        "パーツシート",
+        "人体全身"
       ],
       "transparent": true,
       "aspect_ratio": "1:1",
       "save_path": "assets/characters/puppet-v1/parts/hat.png",
-      "reference_paths": [
-        "assets/characters/puppet-v1/base-mage.png"
-      ],
+      "reference_paths": [],
       "filename": "hat.png",
       "path": "assets/characters/puppet-v1/parts/hat.png",
-      "negative_prompt": "背景 / 地面 / 文字 / UI / 他の身体パーツ / パーツ一覧 / 複数案 / 写実3DCG",
-      "chroma_key": true
+      "negative_prompt": "背景 / 地面 / 文字 / UI / 他の身体パーツ / パーツ一覧 / 複数案 / 写実3DCG / 3Dレンダー / 写実的陰影 / ソフトグラデーション / 美麗アニメ立ち絵 / 光沢 / 宝石 / 複雑な刺繍 / 複数パーツ / パーツシート / 人体全身",
+      "chroma_key": true,
+      "last_error": null
     },
     {
       "project": "進化ダンジョン",
@@ -350,7 +388,7 @@
       "part": "upper_arm_l",
       "phase": "02_character_parts",
       "priority": 24,
-      "prompt": "左上腕のみ。肩・肘の接続用重ね代を確保。前腕や手は含めない。",
+      "prompt": "基本魔法師の左上腕パーツのみ。黒〜濃紺の細身で簡潔な袖。肩側と肘側を丸く明確にし、両端に重ね代を残す。前腕、手、胴体は描かない。 最重要：ゴシック影絵・切り絵・舞台人形の平面的2Dパーツ。色面は2〜4段階、マット塗り、硬めの輪郭。写実的3D陰影、アニメ美麗立ち絵質感、グラデーション、光沢、複雑な刺繍や宝石を使わない。OUTPUT PIPELINE REQUIREMENTの単色背景以外は描かない。",
       "negative": [
         "背景",
         "地面",
@@ -359,18 +397,27 @@
         "他の身体パーツ",
         "パーツ一覧",
         "複数案",
-        "写実3DCG"
+        "写実3DCG",
+        "3Dレンダー",
+        "写実的陰影",
+        "ソフトグラデーション",
+        "美麗アニメ立ち絵",
+        "光沢",
+        "宝石",
+        "複雑な刺繍",
+        "複数パーツ",
+        "パーツシート",
+        "人体全身"
       ],
       "transparent": true,
       "aspect_ratio": "1:1",
       "save_path": "assets/characters/puppet-v1/parts/upper-arm-l.png",
-      "reference_paths": [
-        "assets/characters/puppet-v1/base-mage.png"
-      ],
+      "reference_paths": [],
       "filename": "upper-arm-l.png",
       "path": "assets/characters/puppet-v1/parts/upper-arm-l.png",
-      "negative_prompt": "背景 / 地面 / 文字 / UI / 他の身体パーツ / パーツ一覧 / 複数案 / 写実3DCG",
-      "chroma_key": true
+      "negative_prompt": "背景 / 地面 / 文字 / UI / 他の身体パーツ / パーツ一覧 / 複数案 / 写実3DCG / 3Dレンダー / 写実的陰影 / ソフトグラデーション / 美麗アニメ立ち絵 / 光沢 / 宝石 / 複雑な刺繍 / 複数パーツ / パーツシート / 人体全身",
+      "chroma_key": true,
+      "last_error": null
     },
     {
       "project": "進化ダンジョン",
@@ -392,7 +439,7 @@
       "part": "lower_arm_l_hand",
       "phase": "02_character_parts",
       "priority": 25,
-      "prompt": "左前腕と左手のみ。肘接続部に重ね代。上腕は含めない。",
+      "prompt": "基本魔法師の左前腕＋左手パーツのみ。黒〜濃紺の細身の前腕、手は簡略化したパペット向け形状。肘側に重ね代。上腕、胴体、杖は描かない。 最重要：ゴシック影絵・切り絵・舞台人形の平面的2Dパーツ。色面は2〜4段階、マット塗り、硬めの輪郭。写実的3D陰影、アニメ美麗立ち絵質感、グラデーション、光沢、複雑な刺繍や宝石を使わない。OUTPUT PIPELINE REQUIREMENTの単色背景以外は描かない。",
       "negative": [
         "背景",
         "地面",
@@ -401,18 +448,27 @@
         "他の身体パーツ",
         "パーツ一覧",
         "複数案",
-        "写実3DCG"
+        "写実3DCG",
+        "3Dレンダー",
+        "写実的陰影",
+        "ソフトグラデーション",
+        "美麗アニメ立ち絵",
+        "光沢",
+        "宝石",
+        "複雑な刺繍",
+        "複数パーツ",
+        "パーツシート",
+        "人体全身"
       ],
       "transparent": true,
       "aspect_ratio": "1:1",
       "save_path": "assets/characters/puppet-v1/parts/lower-arm-l-hand.png",
-      "reference_paths": [
-        "assets/characters/puppet-v1/base-mage.png"
-      ],
+      "reference_paths": [],
       "filename": "lower-arm-l-hand.png",
       "path": "assets/characters/puppet-v1/parts/lower-arm-l-hand.png",
-      "negative_prompt": "背景 / 地面 / 文字 / UI / 他の身体パーツ / パーツ一覧 / 複数案 / 写実3DCG",
-      "chroma_key": true
+      "negative_prompt": "背景 / 地面 / 文字 / UI / 他の身体パーツ / パーツ一覧 / 複数案 / 写実3DCG / 3Dレンダー / 写実的陰影 / ソフトグラデーション / 美麗アニメ立ち絵 / 光沢 / 宝石 / 複雑な刺繍 / 複数パーツ / パーツシート / 人体全身",
+      "chroma_key": true,
+      "last_error": null
     },
     {
       "project": "進化ダンジョン",
@@ -434,7 +490,7 @@
       "part": "upper_arm_r",
       "phase": "02_character_parts",
       "priority": 26,
-      "prompt": "右上腕のみ。肩・肘の接続用重ね代を確保。前腕や手は含めない。",
+      "prompt": "基本魔法師の右上腕パーツのみ。黒〜濃紺の細身で簡潔な袖。肩側と肘側を丸く明確にし、両端に重ね代を残す。前腕、手、胴体は描かない。 最重要：ゴシック影絵・切り絵・舞台人形の平面的2Dパーツ。色面は2〜4段階、マット塗り、硬めの輪郭。写実的3D陰影、アニメ美麗立ち絵質感、グラデーション、光沢、複雑な刺繍や宝石を使わない。OUTPUT PIPELINE REQUIREMENTの単色背景以外は描かない。",
       "negative": [
         "背景",
         "地面",
@@ -443,18 +499,27 @@
         "他の身体パーツ",
         "パーツ一覧",
         "複数案",
-        "写実3DCG"
+        "写実3DCG",
+        "3Dレンダー",
+        "写実的陰影",
+        "ソフトグラデーション",
+        "美麗アニメ立ち絵",
+        "光沢",
+        "宝石",
+        "複雑な刺繍",
+        "複数パーツ",
+        "パーツシート",
+        "人体全身"
       ],
       "transparent": true,
       "aspect_ratio": "1:1",
       "save_path": "assets/characters/puppet-v1/parts/upper-arm-r.png",
-      "reference_paths": [
-        "assets/characters/puppet-v1/base-mage.png"
-      ],
+      "reference_paths": [],
       "filename": "upper-arm-r.png",
       "path": "assets/characters/puppet-v1/parts/upper-arm-r.png",
-      "negative_prompt": "背景 / 地面 / 文字 / UI / 他の身体パーツ / パーツ一覧 / 複数案 / 写実3DCG",
-      "chroma_key": true
+      "negative_prompt": "背景 / 地面 / 文字 / UI / 他の身体パーツ / パーツ一覧 / 複数案 / 写実3DCG / 3Dレンダー / 写実的陰影 / ソフトグラデーション / 美麗アニメ立ち絵 / 光沢 / 宝石 / 複雑な刺繍 / 複数パーツ / パーツシート / 人体全身",
+      "chroma_key": true,
+      "last_error": null
     },
     {
       "project": "進化ダンジョン",
@@ -476,7 +541,7 @@
       "part": "lower_arm_r_hand",
       "phase": "02_character_parts",
       "priority": 27,
-      "prompt": "右前腕と右手のみ。肘接続部に重ね代。上腕は含めない。",
+      "prompt": "基本魔法師の右前腕＋右手パーツのみ。黒〜濃紺の細身の前腕、手は簡略化したパペット向け形状。肘側に重ね代。上腕、胴体、杖は描かない。 最重要：ゴシック影絵・切り絵・舞台人形の平面的2Dパーツ。色面は2〜4段階、マット塗り、硬めの輪郭。写実的3D陰影、アニメ美麗立ち絵質感、グラデーション、光沢、複雑な刺繍や宝石を使わない。OUTPUT PIPELINE REQUIREMENTの単色背景以外は描かない。",
       "negative": [
         "背景",
         "地面",
@@ -485,18 +550,27 @@
         "他の身体パーツ",
         "パーツ一覧",
         "複数案",
-        "写実3DCG"
+        "写実3DCG",
+        "3Dレンダー",
+        "写実的陰影",
+        "ソフトグラデーション",
+        "美麗アニメ立ち絵",
+        "光沢",
+        "宝石",
+        "複雑な刺繍",
+        "複数パーツ",
+        "パーツシート",
+        "人体全身"
       ],
       "transparent": true,
       "aspect_ratio": "1:1",
       "save_path": "assets/characters/puppet-v1/parts/lower-arm-r-hand.png",
-      "reference_paths": [
-        "assets/characters/puppet-v1/base-mage.png"
-      ],
+      "reference_paths": [],
       "filename": "lower-arm-r-hand.png",
       "path": "assets/characters/puppet-v1/parts/lower-arm-r-hand.png",
-      "negative_prompt": "背景 / 地面 / 文字 / UI / 他の身体パーツ / パーツ一覧 / 複数案 / 写実3DCG",
-      "chroma_key": true
+      "negative_prompt": "背景 / 地面 / 文字 / UI / 他の身体パーツ / パーツ一覧 / 複数案 / 写実3DCG / 3Dレンダー / 写実的陰影 / ソフトグラデーション / 美麗アニメ立ち絵 / 光沢 / 宝石 / 複雑な刺繍 / 複数パーツ / パーツシート / 人体全身",
+      "chroma_key": true,
+      "last_error": null
     },
     {
       "project": "進化ダンジョン",
@@ -518,7 +592,7 @@
       "part": "upper_leg_l",
       "phase": "02_character_parts",
       "priority": 28,
-      "prompt": "左上脚のみ。股関節・膝の接続用重ね代を確保。下脚は含めない。",
+      "prompt": "基本魔法師の左上脚パーツのみ。黒〜濃紺の細身の脚。股関節側と膝側を丸く明確にし、両端に重ね代。下脚、胴体、衣装布は描かない。 最重要：ゴシック影絵・切り絵・舞台人形の平面的2Dパーツ。色面は2〜4段階、マット塗り、硬めの輪郭。写実的3D陰影、アニメ美麗立ち絵質感、グラデーション、光沢、複雑な刺繍や宝石を使わない。OUTPUT PIPELINE REQUIREMENTの単色背景以外は描かない。",
       "negative": [
         "背景",
         "地面",
@@ -527,18 +601,27 @@
         "他の身体パーツ",
         "パーツ一覧",
         "複数案",
-        "写実3DCG"
+        "写実3DCG",
+        "3Dレンダー",
+        "写実的陰影",
+        "ソフトグラデーション",
+        "美麗アニメ立ち絵",
+        "光沢",
+        "宝石",
+        "複雑な刺繍",
+        "複数パーツ",
+        "パーツシート",
+        "人体全身"
       ],
       "transparent": true,
       "aspect_ratio": "1:1",
       "save_path": "assets/characters/puppet-v1/parts/upper-leg-l.png",
-      "reference_paths": [
-        "assets/characters/puppet-v1/base-mage.png"
-      ],
+      "reference_paths": [],
       "filename": "upper-leg-l.png",
       "path": "assets/characters/puppet-v1/parts/upper-leg-l.png",
-      "negative_prompt": "背景 / 地面 / 文字 / UI / 他の身体パーツ / パーツ一覧 / 複数案 / 写実3DCG",
-      "chroma_key": true
+      "negative_prompt": "背景 / 地面 / 文字 / UI / 他の身体パーツ / パーツ一覧 / 複数案 / 写実3DCG / 3Dレンダー / 写実的陰影 / ソフトグラデーション / 美麗アニメ立ち絵 / 光沢 / 宝石 / 複雑な刺繍 / 複数パーツ / パーツシート / 人体全身",
+      "chroma_key": true,
+      "last_error": null
     },
     {
       "project": "進化ダンジョン",
@@ -560,7 +643,7 @@
       "part": "lower_leg_l",
       "phase": "02_character_parts",
       "priority": 29,
-      "prompt": "左下脚のみ。膝接続用重ね代を確保。足先まで含める。",
+      "prompt": "基本魔法師の左下脚＋足先パーツのみ。黒〜濃紺の細身形状。膝側に重ね代を残し、足先まで完全に収める。上脚や他パーツは描かない。 最重要：ゴシック影絵・切り絵・舞台人形の平面的2Dパーツ。色面は2〜4段階、マット塗り、硬めの輪郭。写実的3D陰影、アニメ美麗立ち絵質感、グラデーション、光沢、複雑な刺繍や宝石を使わない。OUTPUT PIPELINE REQUIREMENTの単色背景以外は描かない。",
       "negative": [
         "背景",
         "地面",
@@ -569,18 +652,27 @@
         "他の身体パーツ",
         "パーツ一覧",
         "複数案",
-        "写実3DCG"
+        "写実3DCG",
+        "3Dレンダー",
+        "写実的陰影",
+        "ソフトグラデーション",
+        "美麗アニメ立ち絵",
+        "光沢",
+        "宝石",
+        "複雑な刺繍",
+        "複数パーツ",
+        "パーツシート",
+        "人体全身"
       ],
       "transparent": true,
       "aspect_ratio": "1:1",
       "save_path": "assets/characters/puppet-v1/parts/lower-leg-l.png",
-      "reference_paths": [
-        "assets/characters/puppet-v1/base-mage.png"
-      ],
+      "reference_paths": [],
       "filename": "lower-leg-l.png",
       "path": "assets/characters/puppet-v1/parts/lower-leg-l.png",
-      "negative_prompt": "背景 / 地面 / 文字 / UI / 他の身体パーツ / パーツ一覧 / 複数案 / 写実3DCG",
-      "chroma_key": true
+      "negative_prompt": "背景 / 地面 / 文字 / UI / 他の身体パーツ / パーツ一覧 / 複数案 / 写実3DCG / 3Dレンダー / 写実的陰影 / ソフトグラデーション / 美麗アニメ立ち絵 / 光沢 / 宝石 / 複雑な刺繍 / 複数パーツ / パーツシート / 人体全身",
+      "chroma_key": true,
+      "last_error": null
     },
     {
       "project": "進化ダンジョン",
@@ -602,7 +694,7 @@
       "part": "upper_leg_r",
       "phase": "02_character_parts",
       "priority": 30,
-      "prompt": "右上脚のみ。股関節・膝の接続用重ね代を確保。下脚は含めない。",
+      "prompt": "基本魔法師の右上脚パーツのみ。黒〜濃紺の細身の脚。股関節側と膝側を丸く明確にし、両端に重ね代。下脚、胴体、衣装布は描かない。 最重要：ゴシック影絵・切り絵・舞台人形の平面的2Dパーツ。色面は2〜4段階、マット塗り、硬めの輪郭。写実的3D陰影、アニメ美麗立ち絵質感、グラデーション、光沢、複雑な刺繍や宝石を使わない。OUTPUT PIPELINE REQUIREMENTの単色背景以外は描かない。",
       "negative": [
         "背景",
         "地面",
@@ -611,18 +703,27 @@
         "他の身体パーツ",
         "パーツ一覧",
         "複数案",
-        "写実3DCG"
+        "写実3DCG",
+        "3Dレンダー",
+        "写実的陰影",
+        "ソフトグラデーション",
+        "美麗アニメ立ち絵",
+        "光沢",
+        "宝石",
+        "複雑な刺繍",
+        "複数パーツ",
+        "パーツシート",
+        "人体全身"
       ],
       "transparent": true,
       "aspect_ratio": "1:1",
       "save_path": "assets/characters/puppet-v1/parts/upper-leg-r.png",
-      "reference_paths": [
-        "assets/characters/puppet-v1/base-mage.png"
-      ],
+      "reference_paths": [],
       "filename": "upper-leg-r.png",
       "path": "assets/characters/puppet-v1/parts/upper-leg-r.png",
-      "negative_prompt": "背景 / 地面 / 文字 / UI / 他の身体パーツ / パーツ一覧 / 複数案 / 写実3DCG",
-      "chroma_key": true
+      "negative_prompt": "背景 / 地面 / 文字 / UI / 他の身体パーツ / パーツ一覧 / 複数案 / 写実3DCG / 3Dレンダー / 写実的陰影 / ソフトグラデーション / 美麗アニメ立ち絵 / 光沢 / 宝石 / 複雑な刺繍 / 複数パーツ / パーツシート / 人体全身",
+      "chroma_key": true,
+      "last_error": null
     },
     {
       "project": "進化ダンジョン",
@@ -644,7 +745,7 @@
       "part": "lower_leg_r",
       "phase": "02_character_parts",
       "priority": 31,
-      "prompt": "右下脚のみ。膝接続用重ね代を確保。足先まで含める。",
+      "prompt": "基本魔法師の右下脚＋足先パーツのみ。黒〜濃紺の細身形状。膝側に重ね代を残し、足先まで完全に収める。上脚や他パーツは描かない。 最重要：ゴシック影絵・切り絵・舞台人形の平面的2Dパーツ。色面は2〜4段階、マット塗り、硬めの輪郭。写実的3D陰影、アニメ美麗立ち絵質感、グラデーション、光沢、複雑な刺繍や宝石を使わない。OUTPUT PIPELINE REQUIREMENTの単色背景以外は描かない。",
       "negative": [
         "背景",
         "地面",
@@ -653,18 +754,27 @@
         "他の身体パーツ",
         "パーツ一覧",
         "複数案",
-        "写実3DCG"
+        "写実3DCG",
+        "3Dレンダー",
+        "写実的陰影",
+        "ソフトグラデーション",
+        "美麗アニメ立ち絵",
+        "光沢",
+        "宝石",
+        "複雑な刺繍",
+        "複数パーツ",
+        "パーツシート",
+        "人体全身"
       ],
       "transparent": true,
       "aspect_ratio": "1:1",
       "save_path": "assets/characters/puppet-v1/parts/lower-leg-r.png",
-      "reference_paths": [
-        "assets/characters/puppet-v1/base-mage.png"
-      ],
+      "reference_paths": [],
       "filename": "lower-leg-r.png",
       "path": "assets/characters/puppet-v1/parts/lower-leg-r.png",
-      "negative_prompt": "背景 / 地面 / 文字 / UI / 他の身体パーツ / パーツ一覧 / 複数案 / 写実3DCG",
-      "chroma_key": true
+      "negative_prompt": "背景 / 地面 / 文字 / UI / 他の身体パーツ / パーツ一覧 / 複数案 / 写実3DCG / 3Dレンダー / 写実的陰影 / ソフトグラデーション / 美麗アニメ立ち絵 / 光沢 / 宝石 / 複雑な刺繍 / 複数パーツ / パーツシート / 人体全身",
+      "chroma_key": true,
+      "last_error": null
     },
     {
       "project": "進化ダンジョン",
@@ -686,7 +796,7 @@
       "part": "cloak",
       "phase": "02_character_parts",
       "priority": 32,
-      "prompt": "マントのみ。肩・背中に重ねられる接続余白を確保。本体や髪は含めない。",
+      "prompt": "基本魔法師の短めのマントパーツのみ。黒〜濃紺、裾は単純な形。肩・背中に重ねる接続余白。人物、髪、腕、胴体は描かない。 最重要：ゴシック影絵・切り絵・舞台人形の平面的2Dパーツ。色面は2〜4段階、マット塗り、硬めの輪郭。写実的3D陰影、アニメ美麗立ち絵質感、グラデーション、光沢、複雑な刺繍や宝石を使わない。OUTPUT PIPELINE REQUIREMENTの単色背景以外は描かない。",
       "negative": [
         "背景",
         "地面",
@@ -695,18 +805,27 @@
         "他の身体パーツ",
         "パーツ一覧",
         "複数案",
-        "写実3DCG"
+        "写実3DCG",
+        "3Dレンダー",
+        "写実的陰影",
+        "ソフトグラデーション",
+        "美麗アニメ立ち絵",
+        "光沢",
+        "宝石",
+        "複雑な刺繍",
+        "複数パーツ",
+        "パーツシート",
+        "人体全身"
       ],
       "transparent": true,
       "aspect_ratio": "1:1",
       "save_path": "assets/characters/puppet-v1/parts/cloak.png",
-      "reference_paths": [
-        "assets/characters/puppet-v1/base-mage.png"
-      ],
+      "reference_paths": [],
       "filename": "cloak.png",
       "path": "assets/characters/puppet-v1/parts/cloak.png",
-      "negative_prompt": "背景 / 地面 / 文字 / UI / 他の身体パーツ / パーツ一覧 / 複数案 / 写実3DCG",
-      "chroma_key": true
+      "negative_prompt": "背景 / 地面 / 文字 / UI / 他の身体パーツ / パーツ一覧 / 複数案 / 写実3DCG / 3Dレンダー / 写実的陰影 / ソフトグラデーション / 美麗アニメ立ち絵 / 光沢 / 宝石 / 複雑な刺繍 / 複数パーツ / パーツシート / 人体全身",
+      "chroma_key": true,
+      "last_error": null
     },
     {
       "project": "進化ダンジョン",
@@ -728,7 +847,7 @@
       "part": "weapon_staff",
       "phase": "02_character_parts",
       "priority": 33,
-      "prompt": "杖のみ。先端から末端まで切らずに収める。手や人物は描かない。",
+      "prompt": "基本魔法師の杖パーツのみ。黒い細身の杖、古金の小さな装飾。先端から末端まで1本だけ完全に収める。手、人物、魔力球は描かない。 最重要：ゴシック影絵・切り絵・舞台人形の平面的2Dパーツ。色面は2〜4段階、マット塗り、硬めの輪郭。写実的3D陰影、アニメ美麗立ち絵質感、グラデーション、光沢、複雑な刺繍や宝石を使わない。OUTPUT PIPELINE REQUIREMENTの単色背景以外は描かない。",
       "negative": [
         "背景",
         "地面",
@@ -737,18 +856,27 @@
         "他の身体パーツ",
         "パーツ一覧",
         "複数案",
-        "写実3DCG"
+        "写実3DCG",
+        "3Dレンダー",
+        "写実的陰影",
+        "ソフトグラデーション",
+        "美麗アニメ立ち絵",
+        "光沢",
+        "宝石",
+        "複雑な刺繍",
+        "複数パーツ",
+        "パーツシート",
+        "人体全身"
       ],
       "transparent": true,
       "aspect_ratio": "1:1",
       "save_path": "assets/characters/puppet-v1/parts/weapon-staff.png",
-      "reference_paths": [
-        "assets/characters/puppet-v1/base-mage.png"
-      ],
+      "reference_paths": [],
       "filename": "weapon-staff.png",
       "path": "assets/characters/puppet-v1/parts/weapon-staff.png",
-      "negative_prompt": "背景 / 地面 / 文字 / UI / 他の身体パーツ / パーツ一覧 / 複数案 / 写実3DCG",
-      "chroma_key": true
+      "negative_prompt": "背景 / 地面 / 文字 / UI / 他の身体パーツ / パーツ一覧 / 複数案 / 写実3DCG / 3Dレンダー / 写実的陰影 / ソフトグラデーション / 美麗アニメ立ち絵 / 光沢 / 宝石 / 複雑な刺繍 / 複数パーツ / パーツシート / 人体全身",
+      "chroma_key": true,
+      "last_error": null
     },
     {
       "project": "進化ダンジョン",
@@ -770,7 +898,7 @@
       "part": "weapon_orb",
       "phase": "02_character_parts",
       "priority": 34,
-      "prompt": "杖先端の青白い魔力球のみ。杖本体や手は含めない。",
+      "prompt": "杖先端用の青白い魔力球パーツのみ。単純な円形〜楕円形の発光核1つだけ。杖、手、人物、背景エフェクトは描かない。 最重要：ゴシック影絵・切り絵・舞台人形の平面的2Dパーツ。色面は2〜4段階、マット塗り、硬めの輪郭。写実的3D陰影、アニメ美麗立ち絵質感、グラデーション、光沢、複雑な刺繍や宝石を使わない。OUTPUT PIPELINE REQUIREMENTの単色背景以外は描かない。",
       "negative": [
         "背景",
         "地面",
@@ -779,18 +907,27 @@
         "他の身体パーツ",
         "パーツ一覧",
         "複数案",
-        "写実3DCG"
+        "写実3DCG",
+        "3Dレンダー",
+        "写実的陰影",
+        "ソフトグラデーション",
+        "美麗アニメ立ち絵",
+        "光沢",
+        "宝石",
+        "複雑な刺繍",
+        "複数パーツ",
+        "パーツシート",
+        "人体全身"
       ],
       "transparent": true,
       "aspect_ratio": "1:1",
       "save_path": "assets/characters/puppet-v1/parts/weapon-orb.png",
-      "reference_paths": [
-        "assets/characters/puppet-v1/base-mage.png"
-      ],
+      "reference_paths": [],
       "filename": "weapon-orb.png",
       "path": "assets/characters/puppet-v1/parts/weapon-orb.png",
-      "negative_prompt": "背景 / 地面 / 文字 / UI / 他の身体パーツ / パーツ一覧 / 複数案 / 写実3DCG",
-      "chroma_key": true
+      "negative_prompt": "背景 / 地面 / 文字 / UI / 他の身体パーツ / パーツ一覧 / 複数案 / 写実3DCG / 3Dレンダー / 写実的陰影 / ソフトグラデーション / 美麗アニメ立ち絵 / 光沢 / 宝石 / 複雑な刺繍 / 複数パーツ / パーツシート / 人体全身",
+      "chroma_key": true,
+      "last_error": null
     },
     {
       "project": "進化ダンジョン",
@@ -2611,15 +2748,14 @@
   ],
   "style_version": "gothic-silhouette-puppet-v0.1",
   "production_plan": {
-    "version": "puppet-v1",
+    "version": "parts-first-v1",
     "created_at": "2026-10-04",
     "order": [
-      "01_character_base",
       "02_character_parts",
       "03_enemies",
       "04_cards",
       "05_classes"
     ],
-    "note": "新画風をゼロから制作。既存採用素材は履歴として保持し、puppet-v1配下へ新規生成する。Actionsでasset_idを空欄にするとこの順番で処理する。"
+    "note": "主人公は全身立ち絵を先に作らず、1パーツ1画像を先に生成してゲーム内で組み立てる。"
   }
 }
