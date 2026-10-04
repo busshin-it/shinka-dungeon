@@ -19,7 +19,7 @@ concurrency:
 
 jobs:
   generate:
-    if: ${{ false }}
+    if: ${{ github.event_name == 'push' }}
     runs-on: ubuntu-latest
     timeout-minutes: 120
     env:
@@ -27,7 +27,7 @@ jobs:
       ASSET_FACTORY_IMAGE_MODEL: ${{ vars.ASSET_FACTORY_IMAGE_MODEL || 'gpt-image-2' }}
       ASSET_FACTORY_TRANSPARENT_IMAGE_MODEL: ${{ vars.ASSET_FACTORY_TRANSPARENT_IMAGE_MODEL || 'gpt-image-2.5-flare' }}
       ASSET_FACTORY_QA_MODEL: ${{ vars.ASSET_FACTORY_QA_MODEL || 'gpt-5.6-luna' }}
-      ASSET_FACTORY_IMAGE_QUALITY: medium
+      ASSET_FACTORY_IMAGE_QUALITY: high
       ASSET_FACTORY_MAX_IMAGE_CALLS: '12'
       ASSET_FACTORY_MAX_TOTAL_ATTEMPTS: '8'
     steps:
@@ -54,7 +54,7 @@ jobs:
       - name: Run self-healing Asset Factory queue
         shell: bash
         run: |
-          node asset-factory/worker.mjs             --count 20             --max-retries 2             --max-total-attempts 8
+          node asset-factory/worker.mjs --count 1 --asset shinka_part_base_mage_m02_head_face_puppet_v2 --max-retries 2 --max-total-attempts 3 --no-auto-requeue
 
       - name: Test queue tooling
         if: always()
