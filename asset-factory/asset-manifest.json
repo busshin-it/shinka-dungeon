@@ -197,10 +197,84 @@
       "legacy_path": null,
       "generation_id": null,
       "transparent": true,
-      "status": "waiting",
+      "status": "needs_fix",
       "prompt": "基本魔法師の胴体パーツのみ。黒〜濃紺の簡潔なゴシック上衣、古金は小さな留め具だけ。首穴、両肩、腰の接続用に十分な重ね代。フリル、長い前垂れ、腰布、マント、腕、頭、脚は描かない。 最重要：ゴシック影絵・切り絵・舞台人形の平面的2Dパーツ。色面は2〜4段階、マット塗り、硬めの輪郭。写実的3D陰影、アニメ美麗立ち絵質感、グラデーション、光沢、複雑な刺繍や宝石を使わない。OUTPUT PIPELINE REQUIREMENTの単色背景以外は描かない。",
-      "generator": null,
-      "qa": {}
+      "generator": {
+        "model": "gpt-image-2.5-flare",
+        "quality": "medium",
+        "used_references": 0,
+        "generation_id": null,
+        "created": 1791090788,
+        "usage": {
+          "input_tokens": 982,
+          "input_tokens_details": {
+            "image_tokens": 0,
+            "text_tokens": 982
+          },
+          "output_tokens": 439,
+          "output_tokens_details": {
+            "image_tokens": 439,
+            "text_tokens": 0
+          },
+          "total_tokens": 1421
+        }
+      },
+      "qa": {
+        "pass": false,
+        "score": 35,
+        "structural": {
+          "pass": true,
+          "issues": [],
+          "image": {
+            "valid": true,
+            "width": 1024,
+            "height": 1024,
+            "colorType": 6,
+            "hasAlpha": true,
+            "alpha_stats": {
+              "pixels": 1048576,
+              "transparent": 831152,
+              "translucent": 184,
+              "opaque": 217240,
+              "transparent_ratio": 0.7926483154296875,
+              "nonopaque_ratio": 0.7928237915039062
+            }
+          }
+        },
+        "checks": {
+          "single_asset": true,
+          "no_text_ui": true,
+          "subject_match": false,
+          "art_direction": false,
+          "puppet_style": true,
+          "joint_readability": true,
+          "small_screen_silhouette": true,
+          "composition": true,
+          "transparency_visual": false,
+          "reference_consistency": true
+        },
+        "issues": [
+          "胴体中央に長い前垂れ状パーツが描かれており、指定の『長い前垂れを描かない』条件に違反している",
+          "背景が鮮色の緑で不透明に見え、構造上は透明でも表示上の単色背景要件を満たしていない",
+          "陰影と縁取りがやや滑らかで、指定の2〜4段階の平面的マットな切り絵表現より立体的",
+          "古金の留め具が複数かつ装飾的で、小さな簡潔な留め具という指定から逸脱している"
+        ],
+        "remediation": "中央の長い前垂れを完全に削除し、首穴・肩穴・腰の接続余白だけを持つ黒〜濃紺の平面的な胴体単体にして、古金は小さな留め具1〜2個 בלבד、背景は完全な透明PNGで出力する。",
+        "checked_at": "2026-10-04T05:13:13.357Z",
+        "model": "gpt-5.6-luna",
+        "usage": {
+          "input_tokens": 2152,
+          "input_tokens_details": {
+            "cache_write_tokens": 2149,
+            "cached_tokens": 0
+          },
+          "output_tokens": 304,
+          "output_tokens_details": {
+            "reasoning_tokens": 0
+          },
+          "total_tokens": 2456
+        }
+      }
     },
     {
       "asset_id": "shinka_part_base_mage_hair_back_puppet_v1",
