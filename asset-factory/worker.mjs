@@ -105,6 +105,13 @@ async function processJob(queue, job, options) {
       await writeQueue(queue);
 
       const processedBuffer = job.chroma_key ? await removeChromaKey(generated.buffer) : generated.buffer;
+
+      // Always retain the latest generated candidate for debugging/review, even if QA fails.
+      const debugDir = path.join(ROOT, 'asset-factory', 'debug', job.asset_id);
+      await fs.mkdir(debugDir, { recursive: true });
+      await fs.writeFile(path.join(debugDir, 'last-generated.png'), generated.buffer);
+      await fs.writeFile(path.join(debugDir, 'last-processed.png'), processedBuffer);
+
       const structural = structuralQa(job, processedBuffer);
       let semantic = { pass: false, score: 0, issues: [], remediation: '' };
       if (structural.pass) semantic = await visionQa(queue, job, processedBuffer, structural, ROOT);
@@ -121,6 +128,10 @@ async function processJob(queue, job, options) {
         usage: semantic.usage || null,
       };
       job.qa = qa;
+      job.debug_paths = {
+        generated: `asset-factory/debug/${job.asset_id}/last-generated.png`,
+        processed: `asset-factory/debug/${job.asset_id}/last-processed.png`
+      };
 
       if (pass) {
         const target = path.join(ROOT, job.save_path);
