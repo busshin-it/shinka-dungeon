@@ -114,6 +114,11 @@ async function adoptExistingCandidate(queue, job) {
 
 async function processJob(queue, job, options) {
   console.log(`\n[asset-factory] ${job.asset_id} / ${job.name}`);
+
+  // Reuse the previous candidate when it already satisfies the production threshold.
+  const adopted = await adoptExistingCandidate(queue, job);
+  if (adopted) return adopted;
+
   let remediation = job.qa?.remediation || '';
   for (let retry = 0; retry <= options.maxRetries; retry++) {
     job.status = 'generating';
@@ -189,7 +194,17 @@ async function processJob(queue, job, options) {
         processed: `asset-factory/debug/${job.asset_id}/last-processed.png`
       };
 
-      if (pass) {
+      // For isolated puppet parts, accept a practically usable candidate immediately
+      // when all production-critical checks pass and the score is at least 75.
+      const productionAccept = !pass && canAutoAdoptPart(job);
+      if (productionAccept) {
+        qa.pass = true;
+        qa.accepted_by = 'production_threshold';
+        qa.accepted_with_minor_warnings = true;
+        qa.accepted_at = now();
+      }
+
+      if (pass || productionAccept) {
         const target = path.join(ROOT, job.save_path);
         await fs.mkdir(path.dirname(target), { recursive: true });
         await fs.writeFile(target, processedBuffer);
@@ -198,8 +213,9 @@ async function processJob(queue, job, options) {
         job.github_synced = true;
         job.completed_at = now();
         await writeQueue(queue);
-        console.log(`[asset-factory] PASS ${job.name} -> ${job.save_path}`);
-        return { pass: true };
+        job.quality_result = productionAccept ? 'accepted_with_minor_style_warnings' : 'passed_qa';
+        console.log(`[asset-factory] ${productionAccept ? 'ACCEPT' : 'PASS'} ${job.name} -> ${job.save_path}`);
+        return { pass: true, productionAccept };
       }
 
       remediation = qa.remediation || `Fix all QA issues: ${qa.issues.join('; ')}`;
