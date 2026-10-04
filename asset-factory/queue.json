@@ -20,57 +20,11 @@
       "project_id": "shinka",
       "format": "png",
       "style_version": "gothic-silhouette-puppet-v0.1",
-      "status": "needs_fix",
+      "status": "waiting",
       "attempts": 9,
       "generation_count": 0,
       "generation_id": null,
-      "qa": {
-        "pass": false,
-        "score": 62,
-        "structural": {
-          "pass": true,
-          "issues": [],
-          "image": {
-            "valid": true,
-            "width": 1024,
-            "height": 1536,
-            "colorType": 6,
-            "hasAlpha": true
-          }
-        },
-        "checks": {
-          "single_asset": true,
-          "no_text_ui": true,
-          "subject_match": true,
-          "art_direction": true,
-          "puppet_style": false,
-          "joint_readability": true,
-          "small_screen_silhouette": true,
-          "composition": true,
-          "transparency_visual": false,
-          "reference_consistency": true
-        },
-        "issues": [
-          "背景が完全透明ではなく、チェッカーボードが可視ピクセルとして描画されている",
-          "写実的で通常の美麗立ち絵・アニメキャラクター寄りで、手描きの影絵・切り絵・舞台人形風の平面的2D表現から外れる",
-          "袖と衣装の情報量がやや多く、基準用パーツ分離を妨げる可能性がある"
-        ],
-        "remediation": "完全透明アルファ背景のみで再生成し、チェッカーボードを描かず、平面的な手描き影絵・切り絵調に簡略化した細身の2Dパペットとして、頭・髪・胴体・左右腕・左右脚を明確に分離する。",
-        "checked_at": "2026-10-04T01:10:06.498Z",
-        "model": "gpt-5.6-luna",
-        "usage": {
-          "input_tokens": 2869,
-          "input_tokens_details": {
-            "cache_write_tokens": 2866,
-            "cached_tokens": 0
-          },
-          "output_tokens": 260,
-          "output_tokens_details": {
-            "reasoning_tokens": 0
-          },
-          "total_tokens": 3129
-        }
-      },
+      "qa": {},
       "quality_result": null,
       "github_synced": false,
       "asset_id": "shinka_character_base_mage_puppet_v1",
