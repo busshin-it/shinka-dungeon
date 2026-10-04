@@ -1201,3 +1201,11 @@ Factoryでは、
 - 集中
 
 <!-- ASSET_FACTORY_PROGRESS_END -->
+
+
+---
+
+## 一時停止状態
+
+2026-10-05: ユーザー指示により Asset Factory Auto を一旦停止。
+新しい自動Runは開始しない。再開時は workflow の停止条件を解除してから再開する。
