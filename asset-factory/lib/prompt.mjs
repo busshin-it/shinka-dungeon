@@ -82,11 +82,14 @@ export function buildPrompt(queue, job, remediation = '') {
   const retry = remediation
     ? `Previous QA correction to apply strictly: ${remediation}`
     : '';
+  const artDirection = job.art_direction_override || queue.art_direction;
+  const coreStyle = job.skip_core_style ? (job.style_rules || []) : [...CORE_STYLE, ...(job.style_rules || [])];
+  const typeRules = Array.isArray(job.type_rules_override) ? job.type_rules_override : (TYPE_RULES[job.type] || []);
   return [
     `Project: ${queue.project}. Style version: ${job.style_version || queue.style_version || 'gothic-silhouette-puppet-v0.1'}.`,
-    `Official art direction: ${queue.art_direction}`,
-    ...CORE_STYLE,
-    ...(TYPE_RULES[job.type] || []),
+    `Official art direction: ${artDirection}`,
+    ...coreStyle,
+    ...typeRules,
     `Asset: ${job.name}.`,
     job.prompt,
     transparency,
