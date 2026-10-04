@@ -52,10 +52,13 @@ const TYPE_RULES = {
     ...PUPPET_RULES,
   ],
   part: [
-    'Create exactly ONE puppet part only, never a sheet of parts.',
-    'Do not include any other body parts, scenery, UI, text, or labels.',
+    'Create exactly ONE isolated puppet part only, never a sheet of parts.',
+    'This is a production rig asset, not a beauty illustration.',
+    'Use flat cutout / shadow-puppet / stage-puppet 2D construction with 2–4 matte color values and a hard readable outline.',
+    'Avoid realistic volume shading, glossy rendering, cinematic light, detailed anime illustration, soft gradients, and decorative complexity.',
+    'Do not include any other body parts, scenery, UI, text, labels, or assembly guides.',
     'Keep enough overlap margin at the joint connection for rigging.',
-    'The isolated part must match the source character when reassembled.',
+    'Center the single part with generous empty margin and keep its silhouette clean at small size.',
   ],
   background: [
     'Create a background environment only. Do not include characters, enemies, text, logos, or UI.',
