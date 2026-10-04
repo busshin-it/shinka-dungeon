@@ -1288,3 +1288,19 @@ Human Gate対象はQAを通っても自動で `github_synced` にせず、`await
 
 M02 `shinka_part_base_mage_m02_head_face_puppet_v2` を最初のJOBとして登録。
 Asset Factory Autoの通常量産は停止状態を維持し、M02だけを単独実行する。
+
+
+## puppet-v2 M02 初回生成の形式エラーと再発防止
+
+M02初回Runは生成前に `invalid_image_file / Invalid image data` で停止した。
+
+原因:
+GitHubへ保存した参照画像がパレット / indexed PNGで、画像編集APIへの参照画像入力として拒否された。
+
+対策:
+`asset-factory/lib/openai.mjs` で、すべての `reference_paths` をAPI送信直前に `sharp(...).ensureAlpha().png()` でRGBA PNGへ正規化する。
+
+新ルール:
+**参照画像のファイル形式を生成元に依存させず、Factory側でAPI互換PNGへ正規化してから送る。**
+
+これにより、同じ形式エラーを各JOBごとに手修正しない。
