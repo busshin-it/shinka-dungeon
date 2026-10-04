@@ -80,3 +80,12 @@ test('needs_fix jobs stay parked and are not selected for automatic runs', () =>
   ]};
   assert.deepEqual(selectJobs(q,{count:5,asset:''}).map(x=>x.asset_id),['queued','waiting']);
 });
+
+
+test('awaiting_human jobs are not selected for automatic generation', () => {
+  const q={jobs:[
+    {asset_id:'review',status:'awaiting_human'},
+    {asset_id:'queued',status:'queued'}
+  ]};
+  assert.deepEqual(selectJobs(q,{count:5,asset:''}).map(x=>x.asset_id),['queued']);
+});
