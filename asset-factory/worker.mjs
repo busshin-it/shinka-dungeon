@@ -161,7 +161,12 @@ export async function main(argv = process.argv.slice(2)) {
     return;
   }
   console.log(`[asset-factory] processing ${jobs.length} job(s), one image per asset`);
-  for (const job of jobs) await processJob(queue, job, options);
+  const results = [];
+  for (const job of jobs) results.push(await processJob(queue, job, options));
+  const failed = results.filter(r => !r?.pass && !r?.dryRun);
+  if (failed.length) {
+    throw new Error(`Asset Factory finished with ${failed.length} asset(s) not passing QA.`);
+  }
 }
 
 if (import.meta.url === `file://${process.argv[1]}`) {
