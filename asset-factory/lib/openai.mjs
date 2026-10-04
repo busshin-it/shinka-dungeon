@@ -1,5 +1,6 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
+import sharp from 'sharp';
 
 const API_BASE = process.env.OPENAI_API_BASE || 'https://api.openai.com/v1';
 
@@ -61,7 +62,8 @@ async function generateFromReferences(job, prompt, root, model, quality) {
   for (const ref of refs) {
     const full = path.join(root, ref);
     const bytes = await fs.readFile(full);
-    form.append('image[]', new Blob([bytes], { type: 'image/png' }), path.basename(ref));
+    const normalized = await sharp(bytes).ensureAlpha().png().toBuffer();
+    form.append('image[]', new Blob([normalized], { type: 'image/png' }), path.basename(ref));
   }
   return postForm('/images/edits', form);
 }
@@ -180,7 +182,8 @@ Return ONLY JSON in exactly this shape: {"pass":boolean,"score":0-100,"checks":{
   ];
   for (const ref of refs) {
     const bytes = await fs.readFile(path.join(root, ref));
-    content.push({ type: 'input_image', image_url: `data:image/png;base64,${bytes.toString('base64')}`, detail: 'high' });
+    const normalized = await sharp(bytes).ensureAlpha().png().toBuffer();
+    content.push({ type: 'input_image', image_url: `data:image/png;base64,${normalized.toString('base64')}`, detail: 'high' });
   }
   const result = await post('/responses', { model, reasoning: { effort: 'none' }, max_output_tokens: 800, input: [{ role: 'user', content }] });
   const qa = parseJsonLoose(responseText(result));
