@@ -68,7 +68,9 @@ const TYPE_RULES = {
 
 export function buildPrompt(queue, job, remediation = '') {
   const transparency = job.transparent
-    ? 'OUTPUT REQUIREMENT: fully transparent alpha background (RGBA PNG). Do not draw a checkerboard, white, black, gradient, floor, stage, or scenic backdrop.'
+    ? (job.chroma_key
+        ? 'OUTPUT PIPELINE REQUIREMENT: draw the subject on a single flat pure chroma green background (#00FF00), edge-to-edge, with NO gradient, NO vignette, NO floor, NO cast shadow, NO aura, NO glow behind the subject, and NO other background objects. Do not use green anywhere on the subject. The production pipeline will remove this green background and convert it to alpha transparency.'
+        : 'OUTPUT REQUIREMENT: fully transparent alpha background (RGBA PNG). Do not draw a checkerboard, white, black, gradient, floor, stage, or scenic backdrop.')
     : 'OUTPUT REQUIREMENT: opaque illustrated background is allowed when appropriate for this asset type.';
   const negative = (job.negative || []).length
     ? `Do NOT include: ${(job.negative || []).join(', ')}.`
