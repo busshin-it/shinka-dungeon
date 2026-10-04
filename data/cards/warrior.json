@@ -1,0 +1,458 @@
+{
+  "version": 1,
+  "project": "進化ダンジョン",
+  "class_id": "warrior",
+  "class_name": "戦士",
+  "design_source": "GAME_DESIGN.md",
+  "status": "design_v0.1",
+  "notes": [
+    "W001-W008 are the first generic reward-card batch.",
+    "Numbers are provisional for playtesting.",
+    "Image jobs are defined but intentionally NOT enqueued into Asset Factory yet."
+  ],
+  "cards": [
+    {
+      "card_id": "warrior_w001",
+      "sequence": "W001",
+      "name": "薙ぎ払い",
+      "slug": "sweeping-slash",
+      "rarity": "common",
+      "cost": 1,
+      "category": "attack",
+      "primary_engine": "general",
+      "secondary_engine": "greatsword",
+      "rules_text_ja": "敵全体に6ダメージ。",
+      "effect": [
+        {
+          "op": "damage_all_enemies",
+          "amount": 6
+        }
+      ],
+      "upgrade": {
+        "name": "薙ぎ払い+",
+        "rules_text_ja": "敵全体に9ダメージ。",
+        "effect": [
+          {
+            "op": "damage_all_enemies",
+            "amount": 9
+          }
+        ]
+      },
+      "strong_when": [
+        "敵が複数いる",
+        "小型敵をまとめて処理したい"
+      ],
+      "weak_when": [
+        "単体ボス",
+        "単体への瞬間火力が必要"
+      ],
+      "design_intent": "戦士にも最低限の範囲回答を与えるが、範囲攻撃を得意分野にはしない。",
+      "asset": {
+        "asset_id": "shinka_card_warrior_sweeping_slash_v1",
+        "type": "card",
+        "style_version": "gothic-silhouette-puppet-v0.1",
+        "filename": "warrior-w001-sweeping-slash.png",
+        "path": "assets/cards/warrior/warrior-w001-sweeping-slash.png",
+        "aspect_ratio": "3:4",
+        "transparent": false,
+        "queue_status": "not_enqueued",
+        "prompt": "戦士が重い剣を低い姿勢から大きく横薙ぎし、複数の魔物を一閃で押し返す瞬間。大きな横方向の剣軌跡、重量感、強いシルエット。ゴシック古城の戦場、影絵・舞台人形のような2Dダークファンタジー。縦長カード内イラストとして中央の動作が一目で読める。文字、数字、UI、カード枠は描かない。"
+      }
+    },
+    {
+      "card_id": "warrior_w002",
+      "sequence": "W002",
+      "name": "兜割り",
+      "slug": "helm-breaker",
+      "rarity": "common",
+      "cost": 2,
+      "category": "attack",
+      "primary_engine": "general",
+      "secondary_engine": "greatsword",
+      "rules_text_ja": "14ダメージ。敵が防御状態なら追加で6ダメージ。",
+      "effect": [
+        {
+          "op": "damage",
+          "amount": 14
+        },
+        {
+          "op": "conditional_bonus_damage",
+          "condition": "target_has_block_or_guard",
+          "amount": 6
+        }
+      ],
+      "upgrade": {
+        "name": "兜割り+",
+        "rules_text_ja": "18ダメージ。敵が防御状態なら追加で7ダメージ。",
+        "effect": [
+          {
+            "op": "damage",
+            "amount": 18
+          },
+          {
+            "op": "conditional_bonus_damage",
+            "condition": "target_has_block_or_guard",
+            "amount": 7
+          }
+        ]
+      },
+      "strong_when": [
+        "防御する敵",
+        "高防御の敵",
+        "重い1撃が欲しい"
+      ],
+      "weak_when": [
+        "防御を持たない小型敵",
+        "低コスト行動を複数したい"
+      ],
+      "design_intent": "高防御敵への回答。大剣寄りだが大剣専用カードにはしない。",
+      "asset": {
+        "asset_id": "shinka_card_warrior_helm_breaker_v1",
+        "type": "card",
+        "style_version": "gothic-silhouette-puppet-v0.1",
+        "filename": "warrior-w002-helm-breaker.png",
+        "path": "assets/cards/warrior/warrior-w002-helm-breaker.png",
+        "aspect_ratio": "3:4",
+        "transparent": false,
+        "queue_status": "not_enqueued",
+        "prompt": "戦士が両手で大剣を頭上から振り下ろし、重装の敵の兜や盾を叩き割ろうとする決定的瞬間。縦方向の強烈な構図、火花と破片、重量感。ゴシック・シルエット風パペット・ダークファンタジー。文字、数字、UI、カード枠は描かない。"
+      }
+    },
+    {
+      "card_id": "warrior_w003",
+      "sequence": "W003",
+      "name": "踏み込み",
+      "slug": "advancing-strike",
+      "rarity": "common",
+      "cost": 1,
+      "category": "attack_skill",
+      "primary_engine": "general",
+      "secondary_engine": "defense_counter",
+      "rules_text_ja": "7ダメージ。4ブロックを得る。",
+      "effect": [
+        {
+          "op": "damage",
+          "amount": 7
+        },
+        {
+          "op": "gain_block",
+          "amount": 4
+        }
+      ],
+      "upgrade": {
+        "name": "踏み込み+",
+        "rules_text_ja": "9ダメージ。6ブロックを得る。",
+        "effect": [
+          {
+            "op": "damage",
+            "amount": 9
+          },
+          {
+            "op": "gain_block",
+            "amount": 6
+          }
+        ]
+      },
+      "strong_when": [
+        "攻撃と防御を同時に少しずつ必要とする",
+        "Intentを見て損失を抑えながら攻めたい"
+      ],
+      "weak_when": [
+        "最大火力だけが必要",
+        "最大防御だけが必要"
+      ],
+      "design_intent": "戦士の基本的な攻防交換を教える橋渡し寄り汎用カード。",
+      "asset": {
+        "asset_id": "shinka_card_warrior_advancing_strike_v1",
+        "type": "card",
+        "style_version": "gothic-silhouette-puppet-v0.1",
+        "filename": "warrior-w003-advancing-strike.png",
+        "path": "assets/cards/warrior/warrior-w003-advancing-strike.png",
+        "aspect_ratio": "3:4",
+        "transparent": false,
+        "queue_status": "not_enqueued",
+        "prompt": "戦士が盾や腕で身を守りながら一歩深く踏み込み、短く鋭い剣撃を放つ瞬間。攻撃と防御が同時に読める姿勢。ゴシック古城、影絵・舞台人形風の2Dダークファンタジー。文字、数字、UI、カード枠なし。"
+      }
+    },
+    {
+      "card_id": "warrior_w004",
+      "sequence": "W004",
+      "name": "受け流し",
+      "slug": "parry",
+      "rarity": "common",
+      "cost": 1,
+      "category": "skill",
+      "primary_engine": "general",
+      "secondary_engine": "defense_counter",
+      "rules_text_ja": "7ブロック。敵が攻撃Intentなら追加で3ブロック。",
+      "effect": [
+        {
+          "op": "gain_block",
+          "amount": 7
+        },
+        {
+          "op": "conditional_gain_block",
+          "condition": "enemy_intent_is_attack",
+          "amount": 3
+        }
+      ],
+      "upgrade": {
+        "name": "受け流し+",
+        "rules_text_ja": "9ブロック。敵が攻撃Intentなら追加で4ブロック。",
+        "effect": [
+          {
+            "op": "gain_block",
+            "amount": 9
+          },
+          {
+            "op": "conditional_gain_block",
+            "condition": "enemy_intent_is_attack",
+            "amount": 4
+          }
+        ]
+      },
+      "strong_when": [
+        "敵が攻撃Intent",
+        "大きな一撃を正面から受ける"
+      ],
+      "weak_when": [
+        "敵が強化・デバフ・待機をするターン"
+      ],
+      "design_intent": "Intentを見る価値を直接教える戦士用防御カード。",
+      "asset": {
+        "asset_id": "shinka_card_warrior_parry_v1",
+        "type": "card",
+        "style_version": "gothic-silhouette-puppet-v0.1",
+        "filename": "warrior-w004-parry.png",
+        "path": "assets/cards/warrior/warrior-w004-parry.png",
+        "aspect_ratio": "3:4",
+        "transparent": false,
+        "queue_status": "not_enqueued",
+        "prompt": "敵の重い斬撃を戦士が剣の腹で斜めに受け流し、火花を散らしながら攻撃の軌道を逸らす瞬間。敵の攻撃圧と戦士の巧い防御が同時に読める。ゴシック影絵・パペット風2Dダークファンタジー。文字、数字、UI、カード枠なし。"
+      }
+    },
+    {
+      "card_id": "warrior_w005",
+      "sequence": "W005",
+      "name": "追い討ち",
+      "slug": "finishing-strike",
+      "rarity": "common",
+      "cost": 1,
+      "category": "attack",
+      "primary_engine": "general",
+      "secondary_engine": "greatsword",
+      "rules_text_ja": "7ダメージ。敵HPが50%以下なら13ダメージ。",
+      "effect": [
+        {
+          "op": "damage",
+          "amount": 7
+        },
+        {
+          "op": "replace_damage_if",
+          "condition": "target_hp_percent_lte_50",
+          "amount": 13
+        }
+      ],
+      "upgrade": {
+        "name": "追い討ち+",
+        "rules_text_ja": "9ダメージ。敵HPが50%以下なら16ダメージ。",
+        "effect": [
+          {
+            "op": "damage",
+            "amount": 9
+          },
+          {
+            "op": "replace_damage_if",
+            "condition": "target_hp_percent_lte_50",
+            "amount": 16
+          }
+        ]
+      },
+      "strong_when": [
+        "敵が瀕死",
+        "戦闘を早く終わらせて被ダメージを減らしたい"
+      ],
+      "weak_when": [
+        "戦闘序盤",
+        "敵HPが高い"
+      ],
+      "design_intent": "カード価値が敵HPによって変わる、分かりやすい状況依存カード。",
+      "asset": {
+        "asset_id": "shinka_card_warrior_finishing_strike_v1",
+        "type": "card",
+        "style_version": "gothic-silhouette-puppet-v0.1",
+        "filename": "warrior-w005-finishing-strike.png",
+        "path": "assets/cards/warrior/warrior-w005-finishing-strike.png",
+        "aspect_ratio": "3:4",
+        "transparent": false,
+        "queue_status": "not_enqueued",
+        "prompt": "傷ついて膝をつく魔物へ、戦士が一気に間合いを詰めて決着の一撃を放つ瞬間。残酷さよりも速度と決断を強調。強いシルエット、ゴシック舞台人形風の2Dダークファンタジー。文字、数字、UI、カード枠なし。"
+      }
+    },
+    {
+      "card_id": "warrior_w006",
+      "sequence": "W006",
+      "name": "構え直し",
+      "slug": "reset-stance",
+      "rarity": "common",
+      "cost": 1,
+      "category": "skill",
+      "primary_engine": "general",
+      "secondary_engine": "defense_counter",
+      "rules_text_ja": "8ブロック。このターン攻撃カードを使っていなければ追加で4ブロック。",
+      "effect": [
+        {
+          "op": "gain_block",
+          "amount": 8
+        },
+        {
+          "op": "conditional_gain_block",
+          "condition": "no_attack_played_this_turn",
+          "amount": 4
+        }
+      ],
+      "upgrade": {
+        "name": "構え直し+",
+        "rules_text_ja": "10ブロック。このターン攻撃カードを使っていなければ追加で5ブロック。",
+        "effect": [
+          {
+            "op": "gain_block",
+            "amount": 10
+          },
+          {
+            "op": "conditional_gain_block",
+            "condition": "no_attack_played_this_turn",
+            "amount": 5
+          }
+        ]
+      },
+      "strong_when": [
+        "完全に守るターン",
+        "次ターンへ攻撃を回したい",
+        "敵の大技を耐える"
+      ],
+      "weak_when": [
+        "攻撃しながら守りたいターン",
+        "短期決戦"
+      ],
+      "design_intent": "毎ターン攻撃するのが正解ではない状況を作り、重撃系の『溜め』とも将来接続できる。",
+      "asset": {
+        "asset_id": "shinka_card_warrior_reset_stance_v1",
+        "type": "card",
+        "style_version": "gothic-silhouette-puppet-v0.1",
+        "filename": "warrior-w006-reset-stance.png",
+        "path": "assets/cards/warrior/warrior-w006-reset-stance.png",
+        "aspect_ratio": "3:4",
+        "transparent": false,
+        "queue_status": "not_enqueued",
+        "prompt": "戦士が一度攻撃を止め、剣を低く構えて足場を整え、敵の大技に備える静かな緊張の瞬間。守勢への切り替えが明確に伝わる。ゴシック古城、影絵・パペット風2Dダークファンタジー。文字、数字、UI、カード枠なし。"
+      }
+    },
+    {
+      "card_id": "warrior_w007",
+      "sequence": "W007",
+      "name": "気合直し",
+      "slug": "rally",
+      "rarity": "common",
+      "cost": 1,
+      "category": "skill",
+      "primary_engine": "general",
+      "secondary_engine": "self_damage",
+      "rules_text_ja": "解除可能なデバフを1つ解除する。4ブロック。",
+      "effect": [
+        {
+          "op": "remove_one_removable_debuff"
+        },
+        {
+          "op": "gain_block",
+          "amount": 4
+        }
+      ],
+      "upgrade": {
+        "name": "気合直し+",
+        "rules_text_ja": "解除可能なデバフを1つ解除する。7ブロック。",
+        "effect": [
+          {
+            "op": "remove_one_removable_debuff"
+          },
+          {
+            "op": "gain_block",
+            "amount": 7
+          }
+        ]
+      },
+      "strong_when": [
+        "弱体・脆弱など解除可能な状態異常を受けた",
+        "状態異常を使う敵"
+      ],
+      "weak_when": [
+        "デバフがない戦闘",
+        "純粋な火力勝負"
+      ],
+      "design_intent": "戦士にも最低限の状態異常回答を与えるが、万能解除にはしない。",
+      "asset": {
+        "asset_id": "shinka_card_warrior_rally_v1",
+        "type": "card",
+        "style_version": "gothic-silhouette-puppet-v0.1",
+        "filename": "warrior-w007-rally.png",
+        "path": "assets/cards/warrior/warrior-w007-rally.png",
+        "aspect_ratio": "3:4",
+        "transparent": false,
+        "queue_status": "not_enqueued",
+        "prompt": "呪いの霧や魔力の鎖に包まれた戦士が、剣を地面へ突き立てて気迫でそれを振り払う瞬間。防御姿勢と精神的な立て直しを表現。ゴシック影絵・舞台人形風2Dダークファンタジー。文字、数字、UI、カード枠なし。"
+      }
+    },
+    {
+      "card_id": "warrior_w008",
+      "sequence": "W008",
+      "name": "一騎打ち",
+      "slug": "single-combat",
+      "rarity": "uncommon",
+      "cost": 1,
+      "category": "attack",
+      "primary_engine": "general",
+      "secondary_engine": "greatsword",
+      "rules_text_ja": "敵が1体だけなら15ダメージ。そうでなければ7ダメージ。",
+      "effect": [
+        {
+          "op": "damage_if",
+          "condition": "enemy_count_eq_1",
+          "amount": 15,
+          "else_amount": 7
+        }
+      ],
+      "upgrade": {
+        "name": "一騎打ち+",
+        "rules_text_ja": "敵が1体だけなら19ダメージ。そうでなければ9ダメージ。",
+        "effect": [
+          {
+            "op": "damage_if",
+            "condition": "enemy_count_eq_1",
+            "amount": 19,
+            "else_amount": 9
+          }
+        ]
+      },
+      "strong_when": [
+        "ボス",
+        "エリート",
+        "単体敵"
+      ],
+      "weak_when": [
+        "複数敵"
+      ],
+      "design_intent": "単体戦では高効率だが、雑魚群では明確に価値が下がる。敵構成によって評価が変わるカード。",
+      "asset": {
+        "asset_id": "shinka_card_warrior_single_combat_v1",
+        "type": "card",
+        "style_version": "gothic-silhouette-puppet-v0.1",
+        "filename": "warrior-w008-single-combat.png",
+        "path": "assets/cards/warrior/warrior-w008-single-combat.png",
+        "aspect_ratio": "3:4",
+        "transparent": false,
+        "queue_status": "not_enqueued",
+        "prompt": "広い古城の決闘場で、人間の戦士と大型の敵が一対一で向かい合う瞬間。周囲に他の敵はいない。戦士は剣を正面に構え、緊張感ある決闘のシルエット。ゴシック・パペット風2Dダークファンタジー。文字、数字、UI、カード枠なし。"
+      }
+    }
+  ]
+}
