@@ -117,24 +117,24 @@
         "quality": "medium",
         "used_references": 0,
         "generation_id": null,
-        "created": 1791088351,
+        "created": 1791089910,
         "usage": {
-          "input_tokens": 1179,
+          "input_tokens": 1175,
           "input_tokens_details": {
             "image_tokens": 0,
-            "text_tokens": 1179
+            "text_tokens": 1175
           },
           "output_tokens": 439,
           "output_tokens_details": {
             "image_tokens": 439,
             "text_tokens": 0
           },
-          "total_tokens": 1618
+          "total_tokens": 1614
         }
       },
       "qa": {
         "pass": false,
-        "score": 78,
+        "score": 60,
         "structural": {
           "pass": true,
           "issues": [],
@@ -146,19 +146,19 @@
             "hasAlpha": true,
             "alpha_stats": {
               "pixels": 1048576,
-              "transparent": 879864,
+              "transparent": 822327,
               "translucent": 0,
-              "opaque": 168712,
-              "transparent_ratio": 0.8391036987304688,
-              "nonopaque_ratio": 0.8391036987304688
+              "opaque": 226249,
+              "transparent_ratio": 0.7842321395874023,
+              "nonopaque_ratio": 0.7842321395874023
             }
           }
         },
         "checks": {
           "single_asset": true,
           "no_text_ui": true,
-          "subject_match": true,
-          "art_direction": true,
+          "subject_match": false,
+          "art_direction": false,
           "puppet_style": true,
           "joint_readability": true,
           "small_screen_silhouette": true,
@@ -167,12 +167,14 @@
           "reference_consistency": true
         },
         "issues": [
-          "前髪が頭部上面全体を覆う帽子状・ヘルメット状のシルエットに見え、短い前髪のみという指定から逸脱している",
-          "顔が美麗アニメ寄りで、目・眉・鼻・口の表現が要求された簡略化より細かい",
-          "首接続タブが長く、下端に濃い帯状の意匠があり、単純な円筒タブとしての統一感を損なう"
+          "短い前髪のみの指定に対し、後頭部・側面まで覆う大きな髪が描かれている",
+          "耳が明確に描かれており、顔＋前髪＋首接続部だけという要件に反する",
+          "美麗アニメ風の大きな瞳、まつ毛状の目の輪郭、光彩ハイライトがあり、簡略化された仮面表現から逸脱している",
+          "髪と肌に目立つ陰影・グラデーションがあり、完全なマット塗りの指定に反する",
+          "首接続タブは存在するが、頭部の髪シルエットが過剰でパーツ分離の要件を損なっている"
         ],
-        "remediation": "後頭部を完全に透明にし、額にかかる3〜5個の短い銀〜淡紫の前髪形状だけを残した簡略仮面顔に再生成し、首は装飾や帯のない単色の円筒接続タブにする",
-        "checked_at": "2026-10-04T04:32:35.261Z",
+        "remediation": "後頭部・側面の髪と耳を完全に削除し、顔面に額へ垂れる3〜5個の短い銀〜淡ラベンダー前髪だけを配置し、瞳・鼻・口を極端に単純化した4色以内の完全マット塗り頭部＋長めの円筒首タブを透明背景で生成する",
+        "checked_at": "2026-10-04T04:58:35.579Z",
         "model": "gpt-5.6-luna",
         "usage": {
           "input_tokens": 2318,
@@ -180,11 +182,11 @@
             "cache_write_tokens": 2315,
             "cached_tokens": 0
           },
-          "output_tokens": 266,
+          "output_tokens": 344,
           "output_tokens_details": {
             "reasoning_tokens": 0
           },
-          "total_tokens": 2584
+          "total_tokens": 2662
         }
       }
     },
