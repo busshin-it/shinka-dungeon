@@ -20,26 +20,81 @@
       "status": "needs_fix",
       "prompt": "採用済み基本魔法師と同一人物の、M02『頭＋顔』1素材だけを描く。4頭身前後の舞台人形風デフォルメを前提にした顔。白銀の髪、青灰色の小さめの瞳、静かで幻想的、少しゴシック。可愛いが幼すぎない。紙・布・水彩のような柔らかな手描き2D質感。顔立ち・目の大きさ・輪郭・髪色は参照画像を最優先で一致させる。M03前髪、M04後ろ髪、M01帽子を後から重ねられるパペット構造として、頭頂・側頭部・首の付け根に十分な隠し重なり代を持たせる。完成キャラクターを切り抜いたようにせず、パペット用頭部パーツとして描き起こす。首の付け根を画像端で切らない。大きな帽子、胴体、腕、杖、魔力球、マントは描かない。発光エフェクトを焼き込まない。 再生成修正指示：M02は頭＋顔のみ。襟・衣装・布・胴体要素を首元に絶対に描かない。首の付け根は皮膚だけで自然につなぎ、M05胴体で隠せる十分な重なり代を確保する。頭頂の大きな跳ね毛や尖った髪房を抑え、帽子を後から重ねやすい滑らかな頭頂形状にする。瞳は参照より大きくしない。青灰色の小さめの瞳で、幼すぎない落ち着いた顔立ちにする。 専用参照画像はM02の顔・髪型・瞳サイズ・輪郭の最優先基準。参照より目を大きくしない。参照の丸く滑らかな頭頂形状を維持し、大きな跳ね毛を追加しない。首元には襟・布・服を描かず、皮膚の首だけを十分長めに残してM05で隠せる重なり代を作る。",
       "generator": {
-        "model": "gpt-image-2.5-flare",
+        "model": "gpt-image-2",
         "quality": "high",
         "used_references": 1,
         "generation_id": null,
-        "created": 1791166537,
+        "created": 1791170496,
         "usage": {
-          "input_tokens": 1611,
+          "input_tokens": 2337,
           "input_tokens_details": {
-            "image_tokens": 288,
-            "text_tokens": 1323
+            "image_tokens": 1024,
+            "text_tokens": 1313
           },
-          "output_tokens": 1756,
+          "output_tokens": 7024,
           "output_tokens_details": {
-            "image_tokens": 1756,
+            "image_tokens": 7024,
             "text_tokens": 0
           },
-          "total_tokens": 3367
+          "total_tokens": 9361
         }
       },
-      "qa": {}
+      "qa": {
+        "pass": false,
+        "score": 45,
+        "structural": {
+          "pass": true,
+          "issues": [],
+          "image": {
+            "valid": true,
+            "width": 1024,
+            "height": 1024,
+            "colorType": 6,
+            "hasAlpha": true,
+            "alpha_stats": {
+              "pixels": 1048576,
+              "transparent": 1042802,
+              "translucent": 30,
+              "opaque": 5744,
+              "transparent_ratio": 0.9944934844970703,
+              "nonopaque_ratio": 0.9945220947265625
+            }
+          }
+        },
+        "checks": {
+          "single_asset": true,
+          "no_text_ui": true,
+          "subject_match": true,
+          "art_direction": false,
+          "puppet_style": true,
+          "joint_readability": false,
+          "small_screen_silhouette": true,
+          "composition": true,
+          "transparency_visual": true,
+          "reference_consistency": true
+        },
+        "issues": [
+          "首元が襟のように大きく広がる形状で、単なる皮膚の首ではなく衣装・接続部のように読める。",
+          "首の付け根が短く、M05胴体へ隠すための十分な重なり代が不足している。",
+          "髪の側面と毛先に複数の尖った跳ね毛があり、滑らかな帽子重ね用の頭頂・側頭シルエットという指示に十分従っていない。",
+          "顔が参照より大きく幼いアニメ調に寄り、公式基準の静かで少しゴシックな落ち着きと柔らかな水彩質感が弱い。"
+        ],
+        "remediation": "背景を完全な透明アルファにし、襟や衣装のような首元の広がりを除去して皮膚だけの長い首を残し、M05で隠せる重なり代を確保する。尖った跳ね毛を抑え、参照と同じ小さな青灰色の瞳・落ち着いた顔立ち・丸く滑らかな頭部形状で再生成する。",
+        "checked_at": "2026-10-05T03:21:43.773Z",
+        "model": "gpt-5.6-luna",
+        "usage": {
+          "input_tokens": 2966,
+          "input_tokens_details": {
+            "cache_write_tokens": 2963,
+            "cached_tokens": 0
+          },
+          "output_tokens": 391,
+          "output_tokens_details": {
+            "reasoning_tokens": 0
+          },
+          "total_tokens": 3357
+        }
+      }
     },
     {
       "asset_id": "shinka_part_base_mage_lower_leg_l_puppet_v1",
