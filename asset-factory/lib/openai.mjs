@@ -58,26 +58,57 @@ async function normalizeReferenceForApi(bytes) {
 
 async function generateFromReferences(job, prompt, root, model, quality) {
   const refs = (job.reference_paths || []).filter(Boolean);
-  const form = new FormData();
-  form.append('model', model);
-  form.append('prompt', prompt);
-  form.append('size', sizeFor(job));
-  form.append('quality', quality);
-  form.append('output_format', 'png');
-  form.append('background', job.chroma_key ? 'opaque' : (job.transparent ? 'transparent' : 'opaque'));
-  // Flare rejects input_fidelity; supported image-edit models can opt into high reference fidelity.
-  if (job.input_fidelity && model !== 'gpt-image-2.5-flare') {
-    form.append('input_fidelity', job.input_fidelity);
-  }
-  const imageField = refs.length === 1 ? 'image' : 'image[]';
+  const uploads = [];
   for (const ref of refs) {
     const full = path.join(root, ref);
-    const bytes = await fs.readFile(full);
-    const normalized = await normalizeReferenceForApi(bytes);
-    const uploadName = path.basename(ref).replace(/\.[^.]+$/, '') + '.webp';
-    form.append(imageField, new Blob([normalized], { type: 'image/webp' }), uploadName);
+    try {
+      const bytes = await fs.readFile(full);
+      const normalized = await normalizeReferenceForApi(bytes);
+      uploads.push({
+        name: path.basename(ref).replace(/\.[^.]+$/, '') + '.webp',
+        bytes: normalized,
+      });
+    } catch (error) {
+      const wrapped = new Error(`Reference image could not be normalized: ${ref}: ${error.message}`);
+      wrapped.code = 'invalid_reference_image';
+      wrapped.status = 400;
+      throw wrapped;
+    }
   }
-  return postForm('/images/edits', form);
+
+  const buildForm = (includeInputFidelity) => {
+    const form = new FormData();
+    form.append('model', model);
+    form.append('prompt', prompt);
+    form.append('size', sizeFor(job));
+    form.append('quality', quality);
+    form.append('output_format', 'png');
+    form.append('background', job.chroma_key ? 'opaque' : (job.transparent ? 'transparent' : 'opaque'));
+    if (includeInputFidelity && job.input_fidelity) {
+      form.append('input_fidelity', job.input_fidelity);
+    }
+    const imageField = refs.length === 1 ? 'image' : 'image[]';
+    for (const upload of uploads) {
+      form.append(imageField, new Blob([upload.bytes], { type: 'image/webp' }), upload.name);
+    }
+    return form;
+  };
+
+  const wantsInputFidelity = Boolean(job.input_fidelity);
+  try {
+    return await postForm('/images/edits', buildForm(wantsInputFidelity));
+  } catch (error) {
+    const unsupportedInputFidelity =
+      wantsInputFidelity
+      && (
+        error.code === 'invalid_input_fidelity_model'
+        || /does not support the ['"]input_fidelity['"] parameter/i.test(String(error.message || ''))
+      );
+    if (!unsupportedInputFidelity) throw error;
+
+    console.warn(`[asset-factory] ${model} rejected input_fidelity; retrying the same edit request without it.`);
+    return postForm('/images/edits', buildForm(false));
+  }
 }
 
 export async function generateImage(job, prompt, root = process.cwd()) {
