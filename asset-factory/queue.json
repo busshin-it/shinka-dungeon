@@ -66,13 +66,13 @@
       "transparent": true,
       "chroma_key": true,
       "aspect_ratio": "1:1",
-      "status": "queued",
-      "attempts": 1,
+      "status": "needs_fix",
+      "attempts": 2,
       "generation_id": null,
       "quality_result": null,
       "qa": {
         "pass": false,
-        "score": 58,
+        "score": 68,
         "structural": {
           "pass": true,
           "issues": [],
@@ -84,11 +84,11 @@
             "hasAlpha": true,
             "alpha_stats": {
               "pixels": 1048576,
-              "transparent": 1023337,
-              "translucent": 243,
-              "opaque": 24996,
-              "transparent_ratio": 0.9759302139282227,
-              "nonopaque_ratio": 0.9761619567871094
+              "transparent": 1022848,
+              "translucent": 0,
+              "opaque": 25728,
+              "transparent_ratio": 0.9754638671875,
+              "nonopaque_ratio": 0.9754638671875
             }
           }
         },
@@ -105,24 +105,25 @@
           "reference_consistency": true
         },
         "issues": [
-          "首の付け根が短い円柱状に露出しており、自然な隠し重なり代やM05との接続余白が不足している。",
-          "頭頂部の髪が大きく尖って跳ね上がり、参照の控えめな髪型より装飾的で、帽子重ね用の頭頂マージンも不十分。",
-          "顔がやや大きな瞳と幼い印象に寄り、要求の『可愛いが幼すぎない』基準から少し外れる。"
+          "首の付け根に襟状の衣装・胴体パーツが付いており、M02頭部のみの仕様に違反している",
+          "首の接続部が暗い布パーツとして描かれ、M05や胴体との組み立て境界を不明瞭にしている",
+          "頭頂の髪房が大きく上方へ突出しており、後から帽子を重ねるための隠し重なり代として扱いにくい",
+          "顔がやや大きく、参照より幼い印象が強い"
         ],
-        "remediation": "緑背景を完全に除去したアルファ透明PNGとして、参照に忠実な白銀の短髪と小さめの青灰色の瞳を描き、頭頂・側頭部・首の付け根に十分な隠し重なり代を残したM02頭部のみを再生成する。",
-        "checked_at": "2026-10-05T00:30:14.232Z",
+        "remediation": "首の付け根までを自然な皮膚・頭部形状として描き、襟や衣装を完全に削除する。頭頂・側頭部・首元に十分な隠し重なり代を残し、参照と同じ白銀髪・小さな青灰色の瞳・控えめな4頭身風の顔立ちで、頭＋顔だけの透明PNGとして再生成する。",
+        "checked_at": "2026-10-05T00:48:59.621Z",
         "model": "gpt-5.6-luna",
         "usage": {
-          "input_tokens": 2447,
+          "input_tokens": 2445,
           "input_tokens_details": {
-            "cache_write_tokens": 2444,
+            "cache_write_tokens": 2442,
             "cached_tokens": 0
           },
-          "output_tokens": 328,
+          "output_tokens": 317,
           "output_tokens_details": {
             "reasoning_tokens": 0
           },
-          "total_tokens": 2775
+          "total_tokens": 2762
         }
       },
       "github_synced": false,
@@ -162,8 +163,8 @@
       "review_stage": "puppet_v2_m02_face_gate",
       "review_required": true,
       "created_at": "2026-10-04T23:13:37.994Z",
-      "updated_at": "2026-10-05T00:48:02.613Z",
-      "last_prompt": "Project: 進化ダンジョン. Style version: base-mage-puppet-v2.\nOfficial art direction: 基本魔法師 puppet-v2 公式基準。4頭身前後の舞台人形風の軽いデフォルメ。可愛さはあるが幼すぎない。静かで幻想的なダークファンタジー、少しゴシック。白銀の髪、小さめの青灰色の瞳。少し手描き感のある柔らかな2D、水彩・紙・布のような質感。細部を増やしすぎず、大きな形・色・シルエットでキャラクター性を出す。\nUse the supplied adopted base-mage reference as the primary visual authority for identity, face, eye size, hair color, softness, and rendering.\nApproximately four-head-tall stage-puppet character proportions when imagined as a full body; for this head asset keep a gently deformed, cute but not childish face.\nSoft hand-painted 2D rendering with watercolor/paper/cloth texture; avoid glossy 3D and hard cel-shaded anime rendering.\nSilver-white hair and small blue-gray eyes; calm, quiet, slightly mysterious expression.\nKeep shapes simple and readable at small game-screen size.\nThis is a production puppet part, not a finished portrait illustration.\nCreate exactly ONE isolated M02 head-and-face puppet asset only.\nNo hat, torso, arms, legs, cape, staff, orb, scenery, floor, shadow, text, UI, labels, or assembly guides.\nDo not create M03 front hair or M04 back hair as separate extra objects inside this image.\nProvide hidden overlap margin around the crown, temples, and neck base so later hair/hat/torso layers can cover seams.\nKeep the neck connection safely inside the canvas; do not crop the connection edge.\nCenter the single head asset with generous empty margin.\nAsset: 基本魔法師 M02 頭＋顔.\n採用済み基本魔法師と同一人物の、M02『頭＋顔』1素材だけを描く。4頭身前後の舞台人形風デフォルメを前提にした顔。白銀の髪、青灰色の小さめの瞳、静かで幻想的、少しゴシック。可愛いが幼すぎない。紙・布・水彩のような柔らかな手描き2D質感。顔立ち・目の大きさ・輪郭・髪色は参照画像を最優先で一致させる。M03前髪、M04後ろ髪、M01帽子を後から重ねられるパペット構造として、頭頂・側頭部・首の付け根に十分な隠し重なり代を持たせる。完成キャラクターを切り抜いたようにせず、パペット用頭部パーツとして描き起こす。首の付け根を画像端で切らない。大きな帽子、胴体、腕、杖、魔力球、マントは描かない。発光エフェクトを焼き込まない。\nOUTPUT PIPELINE REQUIREMENT: draw the subject on a single flat pure chroma green background (#00FF00), edge-to-edge, with NO gradient, NO vignette, NO floor, NO cast shadow, NO aura, NO glow behind the subject, and NO other background objects. Do not use green anywhere on the subject. The production pipeline will remove this green background and convert it to alpha transparency.\nDo NOT include: 複数素材, パーツ一覧, コンタクトシート, スプライトシート, 比較画像, ラベル, 文字, UI, 完成キャラクター, 胴体, 腕, 脚, 帽子, 杖, 魔力球, 外マント, 床, 影, 環境光, 別キャラクター, 過度な幼児化, 過度な頭身崩し, 写実3D, 光沢CG, 濃いアニメ塗り, 過剰な装飾, チェッカーボード, checkerboard transparency pattern, gray checkerboard, fake transparency grid.\nCritical production rule: 1 asset = 1 image. Never make a contact sheet, comparison sheet, character lineup, asset sheet, split panel, or multiple design variants.\nDo not add explanatory text, labels, captions, logos, or decorative typography.",
+      "updated_at": "2026-10-05T00:48:59.621Z",
+      "last_prompt": "Project: 進化ダンジョン. Style version: base-mage-puppet-v2.\nOfficial art direction: 基本魔法師 puppet-v2 公式基準。4頭身前後の舞台人形風の軽いデフォルメ。可愛さはあるが幼すぎない。静かで幻想的なダークファンタジー、少しゴシック。白銀の髪、小さめの青灰色の瞳。少し手描き感のある柔らかな2D、水彩・紙・布のような質感。細部を増やしすぎず、大きな形・色・シルエットでキャラクター性を出す。\nUse the supplied adopted base-mage reference as the primary visual authority for identity, face, eye size, hair color, softness, and rendering.\nApproximately four-head-tall stage-puppet character proportions when imagined as a full body; for this head asset keep a gently deformed, cute but not childish face.\nSoft hand-painted 2D rendering with watercolor/paper/cloth texture; avoid glossy 3D and hard cel-shaded anime rendering.\nSilver-white hair and small blue-gray eyes; calm, quiet, slightly mysterious expression.\nKeep shapes simple and readable at small game-screen size.\nThis is a production puppet part, not a finished portrait illustration.\nCreate exactly ONE isolated M02 head-and-face puppet asset only.\nNo hat, torso, arms, legs, cape, staff, orb, scenery, floor, shadow, text, UI, labels, or assembly guides.\nDo not create M03 front hair or M04 back hair as separate extra objects inside this image.\nProvide hidden overlap margin around the crown, temples, and neck base so later hair/hat/torso layers can cover seams.\nKeep the neck connection safely inside the canvas; do not crop the connection edge.\nCenter the single head asset with generous empty margin.\nAsset: 基本魔法師 M02 頭＋顔.\n採用済み基本魔法師と同一人物の、M02『頭＋顔』1素材だけを描く。4頭身前後の舞台人形風デフォルメを前提にした顔。白銀の髪、青灰色の小さめの瞳、静かで幻想的、少しゴシック。可愛いが幼すぎない。紙・布・水彩のような柔らかな手描き2D質感。顔立ち・目の大きさ・輪郭・髪色は参照画像を最優先で一致させる。M03前髪、M04後ろ髪、M01帽子を後から重ねられるパペット構造として、頭頂・側頭部・首の付け根に十分な隠し重なり代を持たせる。完成キャラクターを切り抜いたようにせず、パペット用頭部パーツとして描き起こす。首の付け根を画像端で切らない。大きな帽子、胴体、腕、杖、魔力球、マントは描かない。発光エフェクトを焼き込まない。\nOUTPUT PIPELINE REQUIREMENT: draw the subject on a single flat pure chroma green background (#00FF00), edge-to-edge, with NO gradient, NO vignette, NO floor, NO cast shadow, NO aura, NO glow behind the subject, and NO other background objects. Do not use green anywhere on the subject. The production pipeline will remove this green background and convert it to alpha transparency.\nDo NOT include: 複数素材, パーツ一覧, コンタクトシート, スプライトシート, 比較画像, ラベル, 文字, UI, 完成キャラクター, 胴体, 腕, 脚, 帽子, 杖, 魔力球, 外マント, 床, 影, 環境光, 別キャラクター, 過度な幼児化, 過度な頭身崩し, 写実3D, 光沢CG, 濃いアニメ塗り, 過剰な装飾, チェッカーボード, checkerboard transparency pattern, gray checkerboard, fake transparency grid.\nCritical production rule: 1 asset = 1 image. Never make a contact sheet, comparison sheet, character lineup, asset sheet, split panel, or multiple design variants.\nDo not add explanatory text, labels, captions, logos, or decorative typography.\nPrevious QA correction to apply strictly: 緑背景を完全に除去したアルファ透明PNGとして、参照に忠実な白銀の短髪と小さめの青灰色の瞳を描き、頭頂・側頭部・首の付け根に十分な隠し重なり代を残したM02頭部のみを再生成する。",
       "last_error": null,
       "failure_history": [
         {
@@ -279,15 +280,28 @@
             "顔がやや大きな瞳と幼い印象に寄り、要求の『可愛いが幼すぎない』基準から少し外れる。"
           ],
           "remediation": "緑背景を完全に除去したアルファ透明PNGとして、参照に忠実な白銀の短髪と小さめの青灰色の瞳を描き、頭頂・側頭部・首の付け根に十分な隠し重なり代を残したM02頭部のみを再生成する。"
+        },
+        {
+          "at": "2026-10-05T00:48:59.621Z",
+          "attempt": 2,
+          "kind": "qa",
+          "score": 68,
+          "issues": [
+            "首の付け根に襟状の衣装・胴体パーツが付いており、M02頭部のみの仕様に違反している",
+            "首の接続部が暗い布パーツとして描かれ、M05や胴体との組み立て境界を不明瞭にしている",
+            "頭頂の髪房が大きく上方へ突出しており、後から帽子を重ねるための隠し重なり代として扱いにくい",
+            "顔がやや大きく、参照より幼い印象が強い"
+          ],
+          "remediation": "首の付け根までを自然な皮膚・頭部形状として描き、襟や衣装を完全に削除する。頭頂・側頭部・首元に十分な隠し重なり代を残し、参照と同じ白銀髪・小さな青灰色の瞳・控えめな4頭身風の顔立ちで、頭＋顔だけの透明PNGとして再生成する。"
         }
       ],
       "self_heal": {
         "enabled": false,
-        "max_total_attempts": 2,
+        "max_total_attempts": 1,
         "requeued": false,
-        "exhausted": false,
-        "last_reason": "manual_quality_retry_from_m02_qa_remediation",
-        "updated_at": "2026-10-05T00:48:02.613Z"
+        "exhausted": true,
+        "last_reason": "qa_failed_after_local_retries",
+        "updated_at": "2026-10-05T00:48:59.621Z"
       },
       "reference_normalization": "official_face_crop_webp",
       "generator": {
@@ -295,25 +309,25 @@
         "quality": "high",
         "used_references": 1,
         "generation_id": null,
-        "created": 1791160208,
+        "created": 1791161331,
         "usage": {
-          "input_tokens": 1313,
+          "input_tokens": 1397,
           "input_tokens_details": {
             "image_tokens": 288,
-            "text_tokens": 1025
+            "text_tokens": 1109
           },
           "output_tokens": 1756,
           "output_tokens_details": {
             "image_tokens": 1756,
             "text_tokens": 0
           },
-          "total_tokens": 3069
+          "total_tokens": 3153
         }
       },
       "raw_image_debug": {
-        "bytes": 1240009,
+        "bytes": 1393971,
         "signature_hex": "89504e470d0a1a0a0000000d49484452",
-        "saved_at": "2026-10-05T00:30:09.146Z"
+        "saved_at": "2026-10-05T00:48:52.082Z"
       },
       "debug_paths": {
         "generated": "asset-factory/debug/shinka_part_base_mage_m02_head_face_puppet_v2/last-generated.png",

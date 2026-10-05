@@ -24,24 +24,24 @@
         "quality": "high",
         "used_references": 1,
         "generation_id": null,
-        "created": 1791160208,
+        "created": 1791161331,
         "usage": {
-          "input_tokens": 1313,
+          "input_tokens": 1397,
           "input_tokens_details": {
             "image_tokens": 288,
-            "text_tokens": 1025
+            "text_tokens": 1109
           },
           "output_tokens": 1756,
           "output_tokens_details": {
             "image_tokens": 1756,
             "text_tokens": 0
           },
-          "total_tokens": 3069
+          "total_tokens": 3153
         }
       },
       "qa": {
         "pass": false,
-        "score": 58,
+        "score": 68,
         "structural": {
           "pass": true,
           "issues": [],
@@ -53,11 +53,11 @@
             "hasAlpha": true,
             "alpha_stats": {
               "pixels": 1048576,
-              "transparent": 1023337,
-              "translucent": 243,
-              "opaque": 24996,
-              "transparent_ratio": 0.9759302139282227,
-              "nonopaque_ratio": 0.9761619567871094
+              "transparent": 1022848,
+              "translucent": 0,
+              "opaque": 25728,
+              "transparent_ratio": 0.9754638671875,
+              "nonopaque_ratio": 0.9754638671875
             }
           }
         },
@@ -74,24 +74,25 @@
           "reference_consistency": true
         },
         "issues": [
-          "首の付け根が短い円柱状に露出しており、自然な隠し重なり代やM05との接続余白が不足している。",
-          "頭頂部の髪が大きく尖って跳ね上がり、参照の控えめな髪型より装飾的で、帽子重ね用の頭頂マージンも不十分。",
-          "顔がやや大きな瞳と幼い印象に寄り、要求の『可愛いが幼すぎない』基準から少し外れる。"
+          "首の付け根に襟状の衣装・胴体パーツが付いており、M02頭部のみの仕様に違反している",
+          "首の接続部が暗い布パーツとして描かれ、M05や胴体との組み立て境界を不明瞭にしている",
+          "頭頂の髪房が大きく上方へ突出しており、後から帽子を重ねるための隠し重なり代として扱いにくい",
+          "顔がやや大きく、参照より幼い印象が強い"
         ],
-        "remediation": "緑背景を完全に除去したアルファ透明PNGとして、参照に忠実な白銀の短髪と小さめの青灰色の瞳を描き、頭頂・側頭部・首の付け根に十分な隠し重なり代を残したM02頭部のみを再生成する。",
-        "checked_at": "2026-10-05T00:30:14.232Z",
+        "remediation": "首の付け根までを自然な皮膚・頭部形状として描き、襟や衣装を完全に削除する。頭頂・側頭部・首元に十分な隠し重なり代を残し、参照と同じ白銀髪・小さな青灰色の瞳・控えめな4頭身風の顔立ちで、頭＋顔だけの透明PNGとして再生成する。",
+        "checked_at": "2026-10-05T00:48:59.621Z",
         "model": "gpt-5.6-luna",
         "usage": {
-          "input_tokens": 2447,
+          "input_tokens": 2445,
           "input_tokens_details": {
-            "cache_write_tokens": 2444,
+            "cache_write_tokens": 2442,
             "cached_tokens": 0
           },
-          "output_tokens": 328,
+          "output_tokens": 317,
           "output_tokens_details": {
             "reasoning_tokens": 0
           },
-          "total_tokens": 2775
+          "total_tokens": 2762
         }
       }
     },
