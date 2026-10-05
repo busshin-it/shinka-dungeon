@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { parseArgs, selectJobs, decideFailureAction, hasAttemptBudget } from '../worker.mjs';
+import { parseArgs, selectJobs, decideFailureAction, hasAttemptBudget, alphaCoverageIssues } from '../worker.mjs';
 import { buildPrompt } from '../lib/prompt.mjs';
 import { inspectPng, structuralQa } from '../lib/png.mjs';
 
@@ -105,4 +105,22 @@ test('hard total attempt cap prevents extra image calls', () => {
   assert.equal(hasAttemptBudget({attempts:7},{maxTotalAttempts:8}), true);
   assert.equal(hasAttemptBudget({attempts:8},{maxTotalAttempts:8}), false);
   assert.equal(hasAttemptBudget({attempts:10},{maxTotalAttempts:8}), false);
+});
+
+
+test('alpha coverage guard rejects nearly erased transparent candidates', () => {
+  const issues = alphaCoverageIssues(
+    { transparent:true, min_visible_coverage:0.08 },
+    { transparent_ratio:0.996 }
+  );
+  assert.equal(issues.length, 1);
+  assert.match(issues[0], /可視領域/);
+
+  assert.deepEqual(
+    alphaCoverageIssues(
+      { transparent:true, min_visible_coverage:0.08 },
+      { transparent_ratio:0.80 }
+    ),
+    []
+  );
 });
