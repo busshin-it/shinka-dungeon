@@ -98,6 +98,10 @@ export function decideFailureAction(job, options, { retryable = true } = {}) {
   return { status: 'queued', requeue: true, exhausted: false, manual: false };
 }
 
+export function hasAttemptBudget(job, options) {
+  return Number(job.attempts || 0) < Number(options.maxTotalAttempts || DEFAULT_MAX_TOTAL_ATTEMPTS);
+}
+
 function markDeferred(job, reason, options, detail = {}) {
   const action = decideFailureAction(job, options, detail);
   job.status = action.status;
@@ -233,6 +237,13 @@ async function processJob(queue, job, options) {
 
   let remediation = job.qa?.remediation || '';
   for (let retry = 0; retry <= options.maxRetries; retry++) {
+    if (!hasAttemptBudget(job, options)) {
+      const action = markDeferred(job, 'max_total_attempts_reached_before_generation', options, { retryable: true });
+      await writeQueue(queue);
+      console.log(`[asset-factory] MANUAL REVIEW: ${job.name} reached total attempt cap before another image call`);
+      return { pass: false, manualReview: true, exhausted: action.exhausted };
+    }
+
     job.status = 'generating';
     job.attempts = (job.attempts || 0) + 1;
     job.updated_at = now();
