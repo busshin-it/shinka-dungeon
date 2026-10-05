@@ -533,7 +533,7 @@ JOBには最低限:
 - 1素材総試行上限
 - QA再試行上限
 - 401 / 403等は無限再試行しない
-- 一時停止用 `ASSET_FACTORY_AUTO_PAUSED`
+- 一時停止は `queue.json` の `auto_paused` で管理
 - 高額 / 大量生成は人間判断を残す
 
 ---
@@ -1206,10 +1206,11 @@ Factoryでは、
 
 ---
 
-## 一時停止状態
+## 自動運転状態
 
-2026-10-05: ユーザー指示により Asset Factory Auto を一旦停止。
-新しい自動Runは開始しない。再開時は workflow の停止条件を解除してから再開する。
+2026-10-05: ユーザー指示により Asset Factory Auto を再開。
+現在は queue.json の `auto_paused: false` を正本として1時間ごとに自己修復Runを行う。
+ただし puppet-v2 が `m02_gate` の間は M02 だけを処理し、画風承認前の大量生成はしない。
 
 
 ---
@@ -1287,7 +1288,8 @@ Human Gate対象はQAを通っても自動で `github_synced` にせず、`await
 ## 現在地
 
 M02 `shinka_part_base_mage_m02_head_face_puppet_v2` を最初のJOBとして登録。
-Asset Factory Autoの通常量産は停止状態を維持し、M02だけを単独実行する。
+Asset Factory Autoは再開済みだが、`puppet_v2.status = m02_gate` の間はM02だけを1時間ごとに自己修復実行する。
+M02がQAを通ったら `awaiting_human` で止まり、人間承認後に次の頭部セットへ進む。
 
 
 ## puppet-v2 M02 初回生成の形式エラーと再発防止
@@ -1312,3 +1314,93 @@ GitHubへ保存した参照画像がパレット / indexed PNGで、画像編集
 
 対策として、公式参照の頭部画像を **RGB PNGとして再書き出し、GitHub上の参照ファイルを置換**した。
 この2回の失敗は画像デザインの失敗ではなくパイプライン形式エラーのため、M02の生成試行回数は0へ戻して再開する。
+
+
+---
+
+# 22. 2026-10-05｜Asset Factoryが勝手に止まった原因の総整理
+
+M02制作中に「Actionsはsuccessなのに実作業が止まる」「毎回人間が再実行する」状態が続いたため、停止原因をFactory設計へ昇格した。
+
+## 起きていた停止
+
+### A. scheduleがあるのに自動処理されない
+
+`.github/workflows/asset-factory-auto.yml` に1時間ごとのscheduleはあったが、
+job側が `github.event_name == 'push'` のときだけ実行する条件になっていた。
+
+結果:
+schedule / workflow_dispatch は起動してもgenerate jobが実質動かなかった。
+
+### B. Auto workflowがM02専用の診断設定のままだった
+
+worker実行がM02 asset_idへ固定され、
+さらに
+
+- max_retries = 0
+- max_total_attempts = 1
+- no-auto-requeue
+
+となっていた。
+
+これは診断には安全だが、本番の自己修復運転としては
+**workerに実装済みのretry / requeueを全部無効化する設定**だった。
+
+### C. needs_fixを「Factory停止」と混同した
+
+難しい素材がneeds_fixになるたび、人が同じJOBを手動でqueuedへ戻していた。
+
+新ルール:
+needs_fixは保留棚。
+一般量産では他JOBを進める。
+ただし現在のpuppet-v2 M02は画風決定用Human Gateなので、M02 Gate中だけは意図的に他の大量生成を止める。
+
+### D. モデル固有パラメータで400停止
+
+`input_fidelity` を
+gpt-image-2.5-flare / gpt-image-2 へ送った際、
+モデル非対応で400停止した。
+
+対策:
+Factory側で非対応エラーを検知した場合、同じ画像編集リクエストを `input_fidelity` なしで自動再試行する。
+
+### E. 参照画像バイナリ不良
+
+PNG / WebP参照が壊れており、
+
+- invalid image data
+- libspng read error
+- webp unable to parse image
+
+が発生した。
+
+対策:
+API送信前にSharpで参照画像を再エンコードする。
+再エンコード不能な参照は `invalid_reference_image` として原因を明示する。
+
+## 現在の自動運転
+
+- schedule: 1時間ごと
+- trigger push: 即時実行
+- workflow_dispatch: 手動即時実行
+- 1Run最大3JOB
+- 1JOB内QA再生成: 2回
+- 1素材総試行: 8回
+- 1Run画像API上限: 12
+- needs_fix: 保留棚
+- Human Gate: 自動採用しない
+- queue.json の `auto_paused` が停止/再開の正本
+- puppet-v2 M02 Gate中: M02だけを自動処理
+
+## 人間が介入する条件
+
+人間確認は以下だけに絞る。
+
+1. Human Gateへ到達した
+2. 総試行8回を使い切った
+3. 参照ファイル自体が壊れている
+4. 認証 / 権限 / 明確な非再試行APIエラー
+5. 世界観・主人公・画風など根本判断が必要
+
+それ以外のQA失敗・一時API障害・通常の再生成はFactory自身が進める。
+
