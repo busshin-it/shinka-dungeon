@@ -27,7 +27,7 @@ Asset Factory は、進化ダンジョンで発生した「大量の画像素材
 - 成功画像を指定の `assets/**` へ保存
 - queue.json の自動更新
 - GitHub Actions から複数ジョブを1枚ずつ順番に連続生成
-- 6時間ごとの自動運転で未完了キューを継続処理（`ASSET_FACTORY_AUTO_PAUSED=true` で一時停止可能）
+- 1時間ごとの自動運転で未完了キューを継続処理（`queue.json` の `auto_paused: true` で一時停止可能）
 - 429 / 5xx の一時エラー再試行
 - ローカルテスト
 
@@ -137,7 +137,7 @@ OPENAI_API_KEY=... npm run asset:run
 
 一時停止したい場合だけ、Repository Variable:
 
-`ASSET_FACTORY_AUTO_PAUSED=true`
+`asset-factory/queue.json` の `auto_paused: true`
 
 を設定してください。
 
@@ -157,3 +157,32 @@ OPENAI_API_KEY=... npm run asset:run
 - 画風変更中は大量生成しない
 
 puppet-v2 の重要JOBでは `human_gate: true` を使う。Human Gate対象はQA合格後も正式保存せず、debug candidateをGitHubへ残して人間承認を待つ。
+
+
+## Gate-aware 自動運転
+
+2026-10-05以降、Asset Factory Auto は「止まらないこと」と「方針変更時に勝手に量産しないこと」を両立する。
+
+- GitHub Actions は1時間ごとに実行する。
+- 通常は1Run最大3JOB、1JOB内QA再試行2回、総試行8回まで自己修復する。
+- `needs_fix` は保留棚として通常キューから除外し、他JOBを止めない。
+- API一時障害やQA失敗は上限まで自動requeueする。
+- `puppet_v2.status = m02_gate` の間は M02 だけを自動処理し、他素材の量産はしない。
+- M02がQAを通ったら `awaiting_human` で停止し、人間承認を待つ。
+- 自動運転の停止・再開は `queue.json` の `auto_paused` を正本とする。
+
+### これまで手動停止を招いた原因
+
+1. Auto workflow が push イベント専用条件になっており、schedule / workflow_dispatch では実処理が走らなかった。
+2. Auto workflow が M02 の asset_id をハードコードしており、全体キュー処理になっていなかった。
+3. `--max-retries 0 --max-total-attempts 1 --no-auto-requeue` により、worker が持つ自己修復機能を無効化していた。
+4. モデル非対応の `input_fidelity` が400エラーを起こし、人手で再実行していた。
+5. 壊れた参照画像が Sharp / WebP / PNG デコードで停止した。
+6. `needs_fix` を難物置き場にせず、全体進行と混同していた。
+
+### 再発防止
+
+- schedule / workflow_dispatch / trigger push のどれでも同じ自己修復workerを使う。
+- model固有の任意パラメータは、非対応エラー時にFactory側で安全にフォールバックする。
+- 参照画像はAPI送信前にFactory側で再エンコードし、読めない参照は明確な `invalid_reference_image` として記録する。
+- 画風変更中は Human Gate を優先し、承認前の大量生成を禁止する。
