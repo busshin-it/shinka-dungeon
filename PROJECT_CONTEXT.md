@@ -1162,26 +1162,45 @@ Factoryでは、
 この節は Asset Factory Auto の各Run終了時に queue.json から自動更新する。
 手で進捗数を書き換えず、リアルタイム状態は queue.json を正本とする。
 
-最終自動更新: 2026/10/05 12:21:44 JST
+最終自動更新: 2026/10/05 12:48:07 JST
+
+## ひと目でわかる現在地
+
+- 現行JOB総数（superseded除外）: 56
+- 利用可能 / 完了相当: 32（57%）
+- 自動運転: 稼働
+- puppet-v2 gate: M02 頭＋顔
+- 今あなたがやること: なし。自動運転に任せる。
+
+## 自動運転設定
+
+- モード: hourly_self_healing
+- 1Run最大JOB数: 3
+- 1JOB内QA再試行: 2
+- 総試行上限: 8
+- Gate考慮: あり
 
 ## 状態
 
 - github_synced: 17
 - adopted: 15
-- queued: 16
-- needs_fix: 8
+- queued: 17
+- needs_fix: 7
 - superseded: 7
 
 ## 未完了の内訳
 
-- part: needs_fix 3
+- part: queued 1 / needs_fix 2
 - enemy: needs_fix 2
 - class: needs_fix 3 / queued 3
 - card: queued 13
 
+## awaiting_human（人間確認待ち）
+
+- なし
+
 ## needs_fix（保留棚）
 
-- 基本魔法師 M02 頭＋顔
 - 基本魔法師 右上脚
 - 基本魔法師 杖の魔力球
 - 亡霊騎士
@@ -1192,14 +1211,7 @@ Factoryでは、
 
 ## 次の自動処理候補
 
-- 結界術師
-- 星詠み
-- 元素術師
-- 氷の矢
-- 雷撃
-- 闇弾
-- 光壁
-- 集中
+- 基本魔法師 M02 頭＋顔
 
 <!-- ASSET_FACTORY_PROGRESS_END -->
 
