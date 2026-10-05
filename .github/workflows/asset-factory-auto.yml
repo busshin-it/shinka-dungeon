@@ -19,7 +19,6 @@ concurrency:
 
 jobs:
   generate:
-    if: ${{ vars.ASSET_FACTORY_AUTO_PAUSED != 'true' }}
     runs-on: ubuntu-latest
     timeout-minutes: 120
     env:
@@ -54,7 +53,20 @@ jobs:
       - name: Run self-healing Asset Factory queue
         shell: bash
         run: |
-          node asset-factory/worker.mjs --count 3 --max-retries 2 --max-total-attempts 8
+          AUTO_PAUSED="$(node -e "const q=require('./asset-factory/queue.json'); process.stdout.write(q.auto_paused === true ? 'true' : 'false')")"
+          if [ "$AUTO_PAUSED" = "true" ]; then
+            echo "[asset-factory] Auto mode is paused by queue.json."
+            exit 0
+          fi
+
+          PUPPET_V2_STATUS="$(node -e "const q=require('./asset-factory/queue.json'); process.stdout.write(String(q.puppet_v2?.status || ''))")"
+          if [ "$PUPPET_V2_STATUS" = "m02_gate" ]; then
+            echo "[asset-factory] puppet-v2 M02 gate active: only M02 may run."
+            node asset-factory/worker.mjs --count 1 --asset shinka_part_base_mage_m02_head_face_puppet_v2 --max-retries 2 --max-total-attempts 8
+          else
+            echo "[asset-factory] General queue mode: process up to 3 assets."
+            node asset-factory/worker.mjs --count 3 --max-retries 2 --max-total-attempts 8
+          fi
 
       - name: Test queue tooling
         if: always()
