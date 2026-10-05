@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { parseArgs, selectJobs, decideFailureAction } from '../worker.mjs';
+import { parseArgs, selectJobs, decideFailureAction, hasAttemptBudget } from '../worker.mjs';
 import { buildPrompt } from '../lib/prompt.mjs';
 import { inspectPng, structuralQa } from '../lib/png.mjs';
 
@@ -98,4 +98,11 @@ test('selectJobs respects numeric priority for automatic runs', () => {
     {asset_id:'middle',status:'waiting',priority:30}
   ]};
   assert.deepEqual(selectJobs(q,{count:3,asset:''}).map(x=>x.asset_id),['first','middle','later']);
+});
+
+
+test('hard total attempt cap prevents extra image calls', () => {
+  assert.equal(hasAttemptBudget({attempts:7},{maxTotalAttempts:8}), true);
+  assert.equal(hasAttemptBudget({attempts:8},{maxTotalAttempts:8}), false);
+  assert.equal(hasAttemptBudget({attempts:10},{maxTotalAttempts:8}), false);
 });
