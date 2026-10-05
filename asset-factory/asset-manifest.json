@@ -18,30 +18,30 @@
       "generation_id": null,
       "transparent": true,
       "status": "needs_fix",
-      "prompt": "採用済み基本魔法師と同一人物の、M02『頭＋顔』1素材だけを描く。4頭身前後の舞台人形風デフォルメを前提にした顔。白銀の髪、青灰色の小さめの瞳、静かで幻想的、少しゴシック。可愛いが幼すぎない。紙・布・水彩のような柔らかな手描き2D質感。顔立ち・目の大きさ・輪郭・髪色は参照画像を最優先で一致させる。M03前髪、M04後ろ髪、M01帽子を後から重ねられるパペット構造として、頭頂・側頭部・首の付け根に十分な隠し重なり代を持たせる。完成キャラクターを切り抜いたようにせず、パペット用頭部パーツとして描き起こす。首の付け根を画像端で切らない。大きな帽子、胴体、腕、杖、魔力球、マントは描かない。発光エフェクトを焼き込まない。",
+      "prompt": "採用済み基本魔法師と同一人物の、M02『頭＋顔』1素材だけを描く。4頭身前後の舞台人形風デフォルメを前提にした顔。白銀の髪、青灰色の小さめの瞳、静かで幻想的、少しゴシック。可愛いが幼すぎない。紙・布・水彩のような柔らかな手描き2D質感。顔立ち・目の大きさ・輪郭・髪色は参照画像を最優先で一致させる。M03前髪、M04後ろ髪、M01帽子を後から重ねられるパペット構造として、頭頂・側頭部・首の付け根に十分な隠し重なり代を持たせる。完成キャラクターを切り抜いたようにせず、パペット用頭部パーツとして描き起こす。首の付け根を画像端で切らない。大きな帽子、胴体、腕、杖、魔力球、マントは描かない。発光エフェクトを焼き込まない。 再生成修正指示：M02は頭＋顔のみ。襟・衣装・布・胴体要素を首元に絶対に描かない。首の付け根は皮膚だけで自然につなぎ、M05胴体で隠せる十分な重なり代を確保する。頭頂の大きな跳ね毛や尖った髪房を抑え、帽子を後から重ねやすい滑らかな頭頂形状にする。瞳は参照より大きくしない。青灰色の小さめの瞳で、幼すぎない落ち着いた顔立ちにする。",
       "generator": {
         "model": "gpt-image-2.5-flare",
         "quality": "high",
         "used_references": 1,
         "generation_id": null,
-        "created": 1791161331,
+        "created": 1791166537,
         "usage": {
-          "input_tokens": 1397,
+          "input_tokens": 1611,
           "input_tokens_details": {
             "image_tokens": 288,
-            "text_tokens": 1109
+            "text_tokens": 1323
           },
           "output_tokens": 1756,
           "output_tokens_details": {
             "image_tokens": 1756,
             "text_tokens": 0
           },
-          "total_tokens": 3153
+          "total_tokens": 3367
         }
       },
       "qa": {
         "pass": false,
-        "score": 68,
+        "score": 48,
         "structural": {
           "pass": true,
           "issues": [],
@@ -53,11 +53,11 @@
             "hasAlpha": true,
             "alpha_stats": {
               "pixels": 1048576,
-              "transparent": 1022848,
-              "translucent": 0,
-              "opaque": 25728,
-              "transparent_ratio": 0.9754638671875,
-              "nonopaque_ratio": 0.9754638671875
+              "transparent": 1025004,
+              "translucent": 443,
+              "opaque": 23129,
+              "transparent_ratio": 0.9775199890136719,
+              "nonopaque_ratio": 0.9779424667358398
             }
           }
         },
@@ -65,34 +65,35 @@
           "single_asset": true,
           "no_text_ui": true,
           "subject_match": true,
-          "art_direction": true,
+          "art_direction": false,
           "puppet_style": true,
           "joint_readability": false,
           "small_screen_silhouette": true,
           "composition": true,
           "transparency_visual": true,
-          "reference_consistency": true
+          "reference_consistency": false
         },
         "issues": [
-          "首の付け根に襟状の衣装・胴体パーツが付いており、M02頭部のみの仕様に違反している",
-          "首の接続部が暗い布パーツとして描かれ、M05や胴体との組み立て境界を不明瞭にしている",
-          "頭頂の髪房が大きく上方へ突出しており、後から帽子を重ねるための隠し重なり代として扱いにくい",
-          "顔がやや大きく、参照より幼い印象が強い"
+          "顔が参照より大きく、瞳も明らかに大きいため、幼くアニメ寄りに見える。",
+          "頭頂に大きな跳ね毛・尖った髪房があり、帽子を重ねるための滑らかなクラウン形状になっていない。",
+          "側頭部と首元の隠し重なり代が不十分で、髪先が外周に細かく突出している。",
+          "参照の静かな小さめの青灰色の瞳と落ち着いた顔立ちより、濃いアイラインと大きな瞳で別キャラクター寄りになっている。",
+          "首元は皮膚のみだが、首の付け根の重なり代が浅く、M05胴体で隠す前提のパペット接続として弱い。"
         ],
-        "remediation": "首の付け根までを自然な皮膚・頭部形状として描き、襟や衣装を完全に削除する。頭頂・側頭部・首元に十分な隠し重なり代を残し、参照と同じ白銀髪・小さな青灰色の瞳・控えめな4頭身風の顔立ちで、頭＋顔だけの透明PNGとして再生成する。",
-        "checked_at": "2026-10-05T00:48:59.621Z",
+        "remediation": "緑背景を完全な透明アルファにし、参照に合わせて瞳を小さく落ち着いた青灰色に調整し、濃いアイラインと幼い表情を抑える。頭頂の跳ね毛と尖った房をなくして滑らかな丸いクラウンにし、側頭部・頭頂・首元に十分な隠し重なり代を持つ皮膚のみのM02頭部として再生成する。",
+        "checked_at": "2026-10-05T02:15:43.759Z",
         "model": "gpt-5.6-luna",
         "usage": {
-          "input_tokens": 2445,
+          "input_tokens": 2636,
           "input_tokens_details": {
-            "cache_write_tokens": 2442,
+            "cache_write_tokens": 2633,
             "cached_tokens": 0
           },
-          "output_tokens": 317,
+          "output_tokens": 426,
           "output_tokens_details": {
             "reasoning_tokens": 0
           },
-          "total_tokens": 2762
+          "total_tokens": 3062
         }
       }
     },
