@@ -17,31 +17,31 @@
       "legacy_path": null,
       "generation_id": null,
       "transparent": true,
-      "status": "queued",
+      "status": "needs_fix",
       "prompt": "採用済み基本魔法師と同一人物の、M02『頭＋顔』1素材だけを描く。4頭身前後の舞台人形風デフォルメを前提にした顔。白銀の髪、青灰色の小さめの瞳、静かで幻想的、少しゴシック。可愛いが幼すぎない。紙・布・水彩のような柔らかな手描き2D質感。顔立ち・目の大きさ・輪郭・髪色は参照画像を最優先で一致させる。M03前髪、M04後ろ髪、M01帽子を後から重ねられるパペット構造として、頭頂・側頭部・首の付け根に十分な隠し重なり代を持たせる。完成キャラクターを切り抜いたようにせず、パペット用頭部パーツとして描き起こす。首の付け根を画像端で切らない。大きな帽子、胴体、腕、杖、魔力球、マントは描かない。発光エフェクトを焼き込まない。 再生成修正指示：M02は頭＋顔のみ。襟・衣装・布・胴体要素を首元に絶対に描かない。首の付け根は皮膚だけで自然につなぎ、M05胴体で隠せる十分な重なり代を確保する。頭頂の大きな跳ね毛や尖った髪房を抑え、帽子を後から重ねやすい滑らかな頭頂形状にする。瞳は参照より大きくしない。青灰色の小さめの瞳で、幼すぎない落ち着いた顔立ちにする。 専用参照画像はM02の顔・髪型・瞳サイズ・輪郭の最優先基準。参照より目を大きくしない。参照の丸く滑らかな頭頂形状を維持し、大きな跳ね毛を追加しない。首元には襟・布・服を描かず、皮膚の首だけを十分長めに残してM05で隠せる重なり代を作る。",
       "generator": {
         "model": "gpt-image-2",
         "quality": "high",
         "used_references": 1,
         "generation_id": null,
-        "created": 1791180033,
+        "created": 1791183064,
         "usage": {
-          "input_tokens": 2448,
+          "input_tokens": 2416,
           "input_tokens_details": {
             "image_tokens": 1024,
-            "text_tokens": 1424
+            "text_tokens": 1392
           },
           "output_tokens": 7024,
           "output_tokens_details": {
             "image_tokens": 7024,
             "text_tokens": 0
           },
-          "total_tokens": 9472
+          "total_tokens": 9440
         }
       },
       "qa": {
         "pass": false,
-        "score": 61,
+        "score": 68,
         "structural": {
           "pass": true,
           "issues": [],
@@ -53,11 +53,11 @@
             "hasAlpha": true,
             "alpha_stats": {
               "pixels": 1048576,
-              "transparent": 834147,
+              "transparent": 749507,
               "translucent": 0,
-              "opaque": 214429,
-              "transparent_ratio": 0.7955045700073242,
-              "nonopaque_ratio": 0.7955045700073242
+              "opaque": 299069,
+              "transparent_ratio": 0.7147855758666992,
+              "nonopaque_ratio": 0.7147855758666992
             }
           }
         },
@@ -67,19 +67,18 @@
           "subject_match": true,
           "art_direction": true,
           "puppet_style": true,
-          "joint_readability": false,
+          "joint_readability": true,
           "small_screen_silhouette": true,
-          "composition": true,
+          "composition": false,
           "transparency_visual": true,
           "reference_consistency": true
         },
         "issues": [
-          "首が長く露出しており、M02の頭＋顔素材としては首の付け根の重なり設計が不十分で、M05胴体との接続が不自然になりやすい",
-          "首元は皮膚のみで衣装要素はないが、頭部と首の境界が完成キャラクターのように見え、パペット用の隠し重なり代が明確でない",
-          "瞳が参照よりやや大きく見え、幼さが少し強い"
+          "頭部がキャンバス中央に対して小さく、1024px素材として可視領域の占有率が低いため、ゲーム画面での判読性と実用的な構図を損なう",
+          "頭頂・側頭部・首元の重なり代は概ね確保されているが、頭部をもう少し大きく配置するとパペット組み立て用の余白設計が安定する"
         ],
-        "remediation": "頭部形状と髪型は維持し、瞳を参照同等の小ささに調整し、首は皮膚のみで短く自然に続けつつ画像端まで十分な隠し重なり代を残したM02頭＋顔パーツとして再生成する。",
-        "checked_at": "2026-10-05T06:00:39.058Z",
+        "remediation": "同じ顔・髪・小さな青灰色の瞳を厳密に維持し、頭＋皮膚の首だけを透明背景に描くこと。帽子・襟・衣装・胴体・跳ね毛を追加せず、頭部をキャンバス内で実用的な大きさまで拡大し、頭頂・側頭部・首元に十分な隠し重なり代を残す。",
+        "checked_at": "2026-10-05T06:51:09.206Z",
         "model": "gpt-5.6-luna",
         "usage": {
           "input_tokens": 2985,
@@ -87,11 +86,11 @@
             "cache_write_tokens": 2982,
             "cached_tokens": 0
           },
-          "output_tokens": 276,
+          "output_tokens": 291,
           "output_tokens_details": {
             "reasoning_tokens": 0
           },
-          "total_tokens": 3261
+          "total_tokens": 3276
         }
       }
     },
