@@ -89,3 +89,13 @@ test('awaiting_human jobs are not selected for automatic generation', () => {
   ]};
   assert.deepEqual(selectJobs(q,{count:5,asset:''}).map(x=>x.asset_id),['queued']);
 });
+
+
+test('selectJobs respects numeric priority for automatic runs', () => {
+  const q={jobs:[
+    {asset_id:'later',status:'queued',priority:50},
+    {asset_id:'first',status:'queued',priority:10},
+    {asset_id:'middle',status:'waiting',priority:30}
+  ]};
+  assert.deepEqual(selectJobs(q,{count:3,asset:''}).map(x=>x.asset_id),['first','middle','later']);
+});
