@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { parseArgs, selectJobs, decideFailureAction, hasAttemptBudget, alphaCoverageIssues } from '../worker.mjs';
+import { parseArgs, selectJobs, decideFailureAction, hasAttemptBudget, alphaCoverageIssues, autoFitTransparentSubject } from '../worker.mjs';
 import { buildPrompt } from '../lib/prompt.mjs';
 import { inspectPng, structuralQa } from '../lib/png.mjs';
 import { removeChromaKey, alphaStats } from '../lib/chroma.mjs';
@@ -147,4 +147,27 @@ test('green-only chroma removal preserves dark subject pixels', async () => {
   const visible = 1 - stats.transparent_ratio;
   assert.ok(visible > 0.15, 'dark subject should remain visible');
   assert.ok(visible < 0.30, 'green background should be removed');
+});
+
+
+test('auto-fit enlarges a small transparent subject without changing canvas size', async () => {
+  const width = 100, height = 100, channels = 4;
+  const raw = Buffer.alloc(width * height * channels);
+  for (let y = 40; y < 60; y++) {
+    for (let x = 42; x < 58; x++) {
+      const i = (y * width + x) * channels;
+      raw[i] = 20;
+      raw[i+1] = 30;
+      raw[i+2] = 40;
+      raw[i+3] = 255;
+    }
+  }
+  const png = await sharp(raw, { raw: { width, height, channels } }).png().toBuffer();
+  const fitted = await autoFitTransparentSubject(png, { target_width_ratio:0.60, target_height_ratio:0.70 });
+  const meta = await sharp(fitted.buffer).metadata();
+  const stats = await alphaStats(fitted.buffer);
+  assert.equal(meta.width, 100);
+  assert.equal(meta.height, 100);
+  assert.ok(fitted.output_subject.width >= 50);
+  assert.ok((1 - stats.transparent_ratio) > 0.20);
 });
