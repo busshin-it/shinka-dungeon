@@ -65,7 +65,10 @@ async function generateFromReferences(job, prompt, root, model, quality) {
   form.append('quality', quality);
   form.append('output_format', 'png');
   form.append('background', job.chroma_key ? 'opaque' : (job.transparent ? 'transparent' : 'opaque'));
-  // gpt-image-2.5-flare rejects input_fidelity; omit it for broad model compatibility.
+  // Flare rejects input_fidelity; supported image-edit models can opt into high reference fidelity.
+  if (job.input_fidelity && model !== 'gpt-image-2.5-flare') {
+    form.append('input_fidelity', job.input_fidelity);
+  }
   const imageField = refs.length === 1 ? 'image' : 'image[]';
   for (const ref of refs) {
     const full = path.join(root, ref);
