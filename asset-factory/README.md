@@ -179,6 +179,7 @@ puppet-v2 の重要JOBでは `human_gate: true` を使う。Human Gate対象はQ
 4. モデル非対応の `input_fidelity` が400エラーを起こし、人手で再実行していた。
 5. 壊れた参照画像が Sharp / WebP / PNG デコードで停止した。
 6. `needs_fix` を難物置き場にせず、全体進行と混同していた。
+7. 実行中に main が更新されると、生成結果の `git push` が non-fast-forward で拒否され、生成自体は成功してもqueue/debugが保存されないことがあった。
 
 ### 再発防止
 
@@ -186,3 +187,4 @@ puppet-v2 の重要JOBでは `human_gate: true` を使う。Human Gate対象はQ
 - model固有の任意パラメータは、非対応エラー時にFactory側で安全にフォールバックする。
 - 参照画像はAPI送信前にFactory側で再エンコードし、読めない参照は明確な `invalid_reference_image` として記録する。
 - 画風変更中は Human Gate を優先し、承認前の大量生成を禁止する。
+- Actionsの生成結果commitは `git pull --rebase origin main` 後にpushし、実行中の通常コード更新で結果保存が落ちにくいようにする。
