@@ -65,7 +65,7 @@ async function generateFromReferences(job, prompt, root, model, quality) {
   form.append('quality', quality);
   form.append('output_format', 'png');
   form.append('background', job.chroma_key ? 'opaque' : (job.transparent ? 'transparent' : 'opaque'));
-  form.append('input_fidelity', job.input_fidelity || 'high');
+  // gpt-image-2.5-flare rejects input_fidelity; omit it for broad model compatibility.
   const imageField = refs.length === 1 ? 'image' : 'image[]';
   for (const ref of refs) {
     const full = path.join(root, ref);
