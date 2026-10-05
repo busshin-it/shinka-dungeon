@@ -1,0 +1,18 @@
+{
+  "id": "./",
+  "name": "蒼星の回廊",
+  "short_name": "蒼星の回廊",
+  "lang": "ja",
+  "description": "魔力を貯め、カードを組み合わせる2章6戦のデッキビルダー。",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "landscape",
+  "background_color": "#151729",
+  "theme_color": "#0d1821",
+  "prefer_related_applications": false,
+  "icons": [
+    { "src": "./icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "./icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ]
+}
