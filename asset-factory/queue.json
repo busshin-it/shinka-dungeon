@@ -72,7 +72,7 @@
       "transparent": true,
       "chroma_key": true,
       "aspect_ratio": "1:1",
-      "status": "needs_fix",
+      "status": "queued",
       "attempts": 8,
       "generation_id": null,
       "quality_result": null,
@@ -167,7 +167,7 @@
       "review_stage": "puppet_v2_m02_face_gate",
       "review_required": true,
       "created_at": "2026-10-04T23:13:37.994Z",
-      "updated_at": "2026-10-05T06:51:09.218Z",
+      "updated_at": "2026-10-05T08:39:42.764Z",
       "last_prompt": "Project: 進化ダンジョン. Style version: base-mage-puppet-v2.\nOfficial art direction: 基本魔法師 puppet-v2 公式基準。4頭身前後の舞台人形風の軽いデフォルメ。可愛さはあるが幼すぎない。静かで幻想的なダークファンタジー、少しゴシック。白銀の髪、小さめの青灰色の瞳。少し手描き感のある柔らかな2D、水彩・紙・布のような質感。細部を増やしすぎず、大きな形・色・シルエットでキャラクター性を出す。\nUse the supplied adopted base-mage reference as the primary visual authority for identity, face, eye size, hair color, softness, and rendering.\nApproximately four-head-tall stage-puppet character proportions when imagined as a full body; for this head asset keep a gently deformed, cute but not childish face.\nSoft hand-painted 2D rendering with watercolor/paper/cloth texture; avoid glossy 3D and hard cel-shaded anime rendering.\nSilver-white hair and small blue-gray eyes; calm, quiet, slightly mysterious expression.\nKeep shapes simple and readable at small game-screen size.\nThis is a production puppet part, not a finished portrait illustration.\nCreate exactly ONE isolated M02 head-and-face puppet asset only.\nNo hat, torso, arms, legs, cape, staff, orb, scenery, floor, shadow, text, UI, labels, or assembly guides.\nDo not create M03 front hair or M04 back hair as separate extra objects inside this image.\nProvide hidden overlap margin around the crown, temples, and neck base so later hair/hat/torso layers can cover seams.\nKeep the neck connection safely inside the canvas; do not crop the connection edge.\nCenter the single head asset with generous empty margin.\nAsset: 基本魔法師 M02 頭＋顔.\n採用済み基本魔法師と同一人物の、M02『頭＋顔』1素材だけを描く。4頭身前後の舞台人形風デフォルメを前提にした顔。白銀の髪、青灰色の小さめの瞳、静かで幻想的、少しゴシック。可愛いが幼すぎない。紙・布・水彩のような柔らかな手描き2D質感。顔立ち・目の大きさ・輪郭・髪色は参照画像を最優先で一致させる。M03前髪、M04後ろ髪、M01帽子を後から重ねられるパペット構造として、頭頂・側頭部・首の付け根に十分な隠し重なり代を持たせる。完成キャラクターを切り抜いたようにせず、パペット用頭部パーツとして描き起こす。首の付け根を画像端で切らない。大きな帽子、胴体、腕、杖、魔力球、マントは描かない。発光エフェクトを焼き込まない。 再生成修正指示：M02は頭＋顔のみ。襟・衣装・布・胴体要素を首元に絶対に描かない。首の付け根は皮膚だけで自然につなぎ、M05胴体で隠せる十分な重なり代を確保する。頭頂の大きな跳ね毛や尖った髪房を抑え、帽子を後から重ねやすい滑らかな頭頂形状にする。瞳は参照より大きくしない。青灰色の小さめの瞳で、幼すぎない落ち着いた顔立ちにする。 専用参照画像はM02の顔・髪型・瞳サイズ・輪郭の最優先基準。参照より目を大きくしない。参照の丸く滑らかな頭頂形状を維持し、大きな跳ね毛を追加しない。首元には襟・布・服を描かず、皮膚の首だけを十分長めに残してM05で隠せる重なり代を作る。\nOUTPUT PIPELINE REQUIREMENT: draw the subject on a single flat pure chroma green background (#00FF00), edge-to-edge, with NO gradient, NO vignette, NO floor, NO cast shadow, NO aura, NO glow behind the subject, and NO other background objects. Do not use green anywhere on the subject. The production pipeline will remove this green background and convert it to alpha transparency.\nDo NOT include: 複数素材, パーツ一覧, コンタクトシート, スプライトシート, 比較画像, ラベル, 文字, UI, 完成キャラクター, 胴体, 腕, 脚, 帽子, 杖, 魔力球, 外マント, 床, 影, 環境光, 別キャラクター, 過度な幼児化, 過度な頭身崩し, 写実3D, 光沢CG, 濃いアニメ塗り, 過剰な装飾, チェッカーボード, 襟, 衣装, 首元の布, 胴体パーツ, 大きな跳ね毛, 大きすぎる瞳, checkerboard transparency pattern, gray checkerboard, fake transparency grid.\nCritical production rule: 1 asset = 1 image. Never make a contact sheet, comparison sheet, character lineup, asset sheet, split panel, or multiple design variants.\nDo not add explanatory text, labels, captions, logos, or decorative typography.\nPrevious QA correction to apply strictly: 頭部形状と髪型は維持し、瞳を参照同等の小ささに調整し、首は皮膚のみで短く自然に続けつつ画像端まで十分な隠し重なり代を残したM02頭＋顔パーツとして再生成する。",
       "last_error": null,
       "failure_history": [
@@ -400,10 +400,10 @@
       "self_heal": {
         "enabled": true,
         "max_total_attempts": 8,
-        "requeued": false,
+        "requeued": true,
         "exhausted": true,
-        "last_reason": "max_total_attempts_reached_before_generation",
-        "updated_at": "2026-10-05T06:51:09.218Z"
+        "last_reason": "no_cost_postprocess_existing_candidate_after_generation_cap",
+        "updated_at": "2026-10-05T08:39:42.764Z"
       },
       "reference_normalization": "validated_dedicated_m02_webp_v2",
       "generator": {
@@ -439,7 +439,14 @@
       "image_quality": "high",
       "review_candidate_path": null,
       "human_review": null,
-      "min_visible_coverage": 0.08
+      "min_visible_coverage": 0.08,
+      "reprocess_existing_candidate": {
+        "enabled": true,
+        "target_width_ratio": 0.68,
+        "target_height_ratio": 0.76,
+        "reason": "QA68 candidate is structurally valid; only canvas occupancy/composition remains. Reuse existing art and auto-fit without a new image API call.",
+        "requested_at": "2026-10-05T08:39:42.764Z"
+      }
     },
     {
       "project": "進化ダンジョン",
