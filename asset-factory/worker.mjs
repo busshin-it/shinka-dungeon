@@ -78,6 +78,27 @@ async function writeQueue(queue) {
 
 function now() { return new Date().toISOString(); }
 
+export function alphaCoverageIssues(job, alpha) {
+  const issues = [];
+  if (!job.transparent) return issues;
+
+  const transparentRatio = Number(alpha?.transparent_ratio || 0);
+  if (transparentRatio < 0.12) {
+    issues.push(`透過必須だが透明領域が少なすぎる (${(transparentRatio * 100).toFixed(1)}%)`);
+  }
+
+  const minVisibleCoverage = Math.max(0, Number(job.min_visible_coverage || 0));
+  if (minVisibleCoverage > 0) {
+    const visibleCoverage = Math.max(0, 1 - transparentRatio);
+    if (visibleCoverage < minVisibleCoverage) {
+      issues.push(
+        `被写体の可視領域が少なすぎる (${(visibleCoverage * 100).toFixed(1)}% < ${(minVisibleCoverage * 100).toFixed(1)}%)`
+      );
+    }
+  }
+  return issues;
+}
+
 function recordFailure(job, kind, detail = {}) {
   job.failure_history = Array.isArray(job.failure_history) ? job.failure_history : [];
   job.failure_history.push({
@@ -302,9 +323,10 @@ async function processJob(queue, job, options) {
       if (job.transparent) {
         const alpha = await alphaStats(processedBuffer);
         structural.image.alpha_stats = alpha;
-        if (alpha.transparent_ratio < 0.12) {
+        const alphaIssues = alphaCoverageIssues(job, alpha);
+        if (alphaIssues.length) {
           structural.pass = false;
-          structural.issues.push(`透過必須だが透明領域が少なすぎる (${(alpha.transparent_ratio * 100).toFixed(1)}%)`);
+          structural.issues.push(...alphaIssues);
         }
       }
       let semantic = { pass: false, score: 0, issues: [], remediation: '' };
