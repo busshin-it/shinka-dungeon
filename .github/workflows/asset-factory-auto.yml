@@ -19,7 +19,7 @@ concurrency:
 
 jobs:
   generate:
-    if: ${{ github.event_name == 'push' }}
+    if: ${{ vars.ASSET_FACTORY_AUTO_PAUSED != 'true' }}
     runs-on: ubuntu-latest
     timeout-minutes: 120
     env:
@@ -54,7 +54,7 @@ jobs:
       - name: Run self-healing Asset Factory queue
         shell: bash
         run: |
-          node asset-factory/worker.mjs --count 1 --asset shinka_part_base_mage_m02_head_face_puppet_v2 --max-retries 0 --max-total-attempts 1 --no-auto-requeue
+          node asset-factory/worker.mjs --count 3 --max-retries 2 --max-total-attempts 8
 
       - name: Test queue tooling
         if: always()
