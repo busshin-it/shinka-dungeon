@@ -1,4 +1,4 @@
-trigger: 2026-10-05T05:55:35.177Z
-mode: m02-safer-chroma-neutral-qa
+trigger: 2026-10-05T06:49:16.838Z
+mode: m02-final-autopilot-attempt
 asset_id: shinka_part_base_mage_m02_head_face_puppet_v2
-note: green-only chroma key + minimum visible coverage + neutral-gray vision QA preview
+note: final automatic M02 attempt under 8-attempt cap
