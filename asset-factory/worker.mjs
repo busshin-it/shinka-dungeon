@@ -1,5 +1,6 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
+import sharp from 'sharp';
 import { buildPrompt } from './lib/prompt.mjs';
 import { generateImage, visionQa } from './lib/openai.mjs';
 import { structuralQa } from './lib/png.mjs';
@@ -97,6 +98,62 @@ export function alphaCoverageIssues(job, alpha) {
     }
   }
   return issues;
+}
+
+
+export async function autoFitTransparentSubject(buffer, options = {}) {
+  const meta = await sharp(buffer).metadata();
+  const canvasWidth = Number(meta.width || 0);
+  const canvasHeight = Number(meta.height || 0);
+  if (!canvasWidth || !canvasHeight) throw new Error('Cannot auto-fit candidate without image dimensions');
+
+  const targetWidthRatio = Math.min(0.9, Math.max(0.2, Number(options.target_width_ratio || 0.68)));
+  const targetHeightRatio = Math.min(0.9, Math.max(0.2, Number(options.target_height_ratio || 0.76)));
+
+  const trimmed = await sharp(buffer)
+    .ensureAlpha()
+    .trim({ background: { r: 0, g: 0, b: 0, alpha: 0 }, threshold: 1 })
+    .png()
+    .toBuffer({ resolveWithObject: true });
+
+  const sourceWidth = trimmed.info.width;
+  const sourceHeight = trimmed.info.height;
+  if (!sourceWidth || !sourceHeight) throw new Error('Auto-fit found no visible subject');
+
+  const maxWidth = Math.max(1, Math.round(canvasWidth * targetWidthRatio));
+  const maxHeight = Math.max(1, Math.round(canvasHeight * targetHeightRatio));
+  const scale = Math.min(maxWidth / sourceWidth, maxHeight / sourceHeight);
+  const width = Math.max(1, Math.round(sourceWidth * scale));
+  const height = Math.max(1, Math.round(sourceHeight * scale));
+
+  const resized = await sharp(trimmed.data)
+    .resize(width, height, { fit: 'fill' })
+    .png()
+    .toBuffer();
+
+  const left = Math.floor((canvasWidth - width) / 2);
+  const right = canvasWidth - width - left;
+  const top = Math.floor((canvasHeight - height) / 2);
+  const bottom = canvasHeight - height - top;
+
+  const output = await sharp(resized)
+    .extend({
+      top,
+      bottom,
+      left,
+      right,
+      background: { r: 0, g: 0, b: 0, alpha: 0 }
+    })
+    .png()
+    .toBuffer();
+
+  return {
+    buffer: output,
+    source_bounds: { width: sourceWidth, height: sourceHeight },
+    output_subject: { width, height },
+    canvas: { width: canvasWidth, height: canvasHeight },
+    target: { width_ratio: targetWidthRatio, height_ratio: targetHeightRatio }
+  };
 }
 
 function recordFailure(job, kind, detail = {}) {
@@ -255,6 +312,103 @@ async function processJob(queue, job, options) {
   // Reuse the previous candidate when it already satisfies the production threshold.
   const adopted = await adoptExistingCandidate(queue, job);
   if (adopted) return adopted;
+
+  if (job.reprocess_existing_candidate?.enabled) {
+    const debugDir = path.join(ROOT, 'asset-factory', 'debug', job.asset_id);
+    const candidatePath = path.join(debugDir, 'last-processed.png');
+    try {
+      const existing = await fs.readFile(candidatePath);
+      const fitted = await autoFitTransparentSubject(existing, job.reprocess_existing_candidate);
+      const processedBuffer = fitted.buffer;
+      await fs.writeFile(candidatePath, processedBuffer);
+
+      const structural = structuralQa(job, processedBuffer);
+      if (job.transparent) {
+        const alpha = await alphaStats(processedBuffer);
+        structural.image.alpha_stats = alpha;
+        const alphaIssues = alphaCoverageIssues(job, alpha);
+        if (alphaIssues.length) {
+          structural.pass = false;
+          structural.issues.push(...alphaIssues);
+        }
+      }
+
+      let semantic = { pass: false, score: 0, issues: [], remediation: '' };
+      if (structural.pass) semantic = await visionQa(queue, job, processedBuffer, structural, ROOT);
+
+      const alphaCoverageOk = !job.transparent || Number(structural.image?.alpha_stats?.transparent_ratio || 0) >= 0.12;
+      if (alphaCoverageOk && semantic.checks) {
+        semantic.checks.transparency_visual = true;
+        semantic.issues = (semantic.issues || []).filter(issue =>
+          !/背景|透明|透過|green|緑|checkerboard|チェッカー/i.test(String(issue))
+        );
+      }
+
+      const pass = structural.pass && semantic.pass === true;
+      job.qa = {
+        pass,
+        score: Number(semantic.score || 0),
+        structural,
+        checks: semantic.checks || {},
+        issues: [...(structural.issues || []), ...(semantic.issues || [])],
+        remediation: semantic.remediation || (structural.issues || []).join('; '),
+        checked_at: now(),
+        model: semantic.model || null,
+        usage: semantic.usage || null,
+      };
+      job.postprocess = {
+        type: 'auto_fit_transparent_subject',
+        applied_at: now(),
+        ...fitted
+      };
+      job.debug_paths = {
+        generated: `asset-factory/debug/${job.asset_id}/last-generated.png`,
+        processed: `asset-factory/debug/${job.asset_id}/last-processed.png`
+      };
+      job.reprocess_existing_candidate.enabled = false;
+
+      if (pass) {
+        if (job.human_gate) {
+          job.status = 'awaiting_human';
+          job.github_synced = false;
+          job.current_path = null;
+          job.review_candidate_path = job.debug_paths.processed;
+          job.quality_result = 'qa_passed_awaiting_human';
+          job.human_review = {
+            required: true,
+            stage: job.review_stage || 'asset_review',
+            requested_at: now(),
+            approved: false
+          };
+          await writeQueue(queue);
+          console.log(`[asset-factory] HUMAN GATE after postprocess: ${job.name} -> ${job.review_candidate_path}`);
+          return { pass: true, awaitingHuman: true, postprocessedExisting: true };
+        }
+      }
+
+      job.status = 'needs_fix';
+      job.quality_result = null;
+      job.review_candidate_path = null;
+      job.human_review = null;
+      job.updated_at = now();
+      recordFailure(job, 'postprocess_qa', {
+        score: job.qa.score,
+        issues: job.qa.issues,
+        remediation: job.qa.remediation,
+      });
+      await writeQueue(queue);
+      console.log(`[asset-factory] REPROCESS existing candidate did not pass QA: ${job.name} score=${job.qa.score}`);
+      return { pass: false, manualReview: true, postprocessedExisting: true, qa: job.qa };
+    } catch (error) {
+      job.status = 'needs_fix';
+      job.last_error = { message: error.message, code: error.code || null, status: error.status || null, at: now() };
+      job.reprocess_existing_candidate.enabled = false;
+      recordFailure(job, 'postprocess_error', { message: error.message });
+      await writeQueue(queue);
+      console.error(`[asset-factory] REPROCESS ERROR ${job.name}: ${error.message}`);
+      return { pass: false, manualReview: true, error: error.message };
+    }
+  }
 
   let remediation = job.qa?.remediation || '';
   for (let retry = 0; retry <= options.maxRetries; retry++) {
