@@ -3,6 +3,7 @@ name: Asset Factory CI
 on:
   push:
     branches:
+      - main
       - asset-factory/self-healing-retry
     paths:
       - 'asset-factory/**'
