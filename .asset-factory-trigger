@@ -1,4 +1,4 @@
-trigger: 2026-10-05T03:41:58.144Z
-mode: gate-aware-autopilot-validation-v2
+trigger: 2026-10-05T05:01:21.608Z
+mode: puppet-v2-m02-autopilot-continue
 asset_id: shinka_part_base_mage_m02_head_face_puppet_v2
-note: validate hourly self-healing after workflow and queue fixes
+note: continue self-healing immediately while hourly schedule remains enabled
