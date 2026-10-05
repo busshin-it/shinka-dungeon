@@ -1162,7 +1162,7 @@ Factoryでは、
 この節は Asset Factory Auto の各Run終了時に queue.json から自動更新する。
 手で進捗数を書き換えず、リアルタイム状態は queue.json を正本とする。
 
-最終自動更新: 2026/10/05 12:48:07 JST
+最終自動更新: 2026/10/05 14:06:11 JST
 
 ## ひと目でわかる現在地
 
@@ -1170,7 +1170,7 @@ Factoryでは、
 - 利用可能 / 完了相当: 32（57%）
 - 自動運転: 稼働
 - puppet-v2 gate: M02 頭＋顔
-- 今あなたがやること: なし。自動運転に任せる。
+- 今あなたがやること: M02の候補画像を確認し、「採用」または「修正」を判断する。
 
 ## 自動運転設定
 
@@ -1184,20 +1184,21 @@ Factoryでは、
 
 - github_synced: 17
 - adopted: 15
-- queued: 17
+- awaiting_human: 1
+- queued: 16
 - needs_fix: 7
 - superseded: 7
 
 ## 未完了の内訳
 
-- part: queued 1 / needs_fix 2
+- part: awaiting_human 1 / needs_fix 2
 - enemy: needs_fix 2
 - class: needs_fix 3 / queued 3
 - card: queued 13
 
 ## awaiting_human（人間確認待ち）
 
-- なし
+- 基本魔法師 M02 頭＋顔
 
 ## needs_fix（保留棚）
 
@@ -1211,7 +1212,7 @@ Factoryでは、
 
 ## 次の自動処理候補
 
-- 基本魔法師 M02 頭＋顔
+- Human Gate待ちのため自動生成は停止
 
 <!-- ASSET_FACTORY_PROGRESS_END -->
 
