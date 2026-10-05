@@ -29,7 +29,18 @@ export function parseArgs(argv) {
 
 export function selectJobs(queue, { count, asset }) {
   let jobs = queue.jobs.filter(j => ACTIVE.has(j.status));
-  if (asset) jobs = jobs.filter(j => j.asset_id === asset);
+  if (asset) {
+    jobs = jobs.filter(j => j.asset_id === asset);
+  } else {
+    jobs = jobs
+      .map((job, index) => ({ job, index }))
+      .sort((a, b) => {
+        const ap = Number.isFinite(Number(a.job.priority)) ? Number(a.job.priority) : Number.MAX_SAFE_INTEGER;
+        const bp = Number.isFinite(Number(b.job.priority)) ? Number(b.job.priority) : Number.MAX_SAFE_INTEGER;
+        return ap - bp || a.index - b.index;
+      })
+      .map(({ job }) => job);
+  }
   return jobs.slice(0, count);
 }
 
