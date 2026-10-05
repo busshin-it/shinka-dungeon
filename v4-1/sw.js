@@ -1,10 +1,11 @@
 /* Isolated app worker: only this app's cache prefix and scope are managed. */
-const BUILD = '4.2-76b982fc4fb3';
+const BUILD = '4.3-4a3f0740dbf8';
 const SCOPE = new URL(self.registration.scope);
 const PREFIX = 'astral-v4-1:' + SCOPE.pathname + ':';
 const CACHE = PREFIX + BUILD;
-const FILES = ["./app.css","./assets/background.webp","./assets/boss.webp","./assets/charge.webp","./assets/gatekeeper.webp","./assets/hero.webp","./assets/moon-mirror.webp","./assets/shatter.webp","./assets/shield-strike.webp","./assets/wraith.webp","./card-art-data.js","./engine.js","./game.js","./icons/apple-touch-icon.png","./icons/icon-192.png","./icons/icon-512.png","./index.html","./manifest.webmanifest","./pwa.js"];
+const FILES = ["./app.css","./assets/background.webp","./assets/boss.webp","./assets/charge.webp","./assets/gatekeeper.webp","./assets/hero.webp","./assets/moon-mirror.webp","./assets/shatter.webp","./assets/shield-strike.webp","./assets/wraith.webp","./card-art-data.js","./engine.js","./game.js","./icons/apple-touch-icon.png","./icons/icon-192.png","./icons/icon-512.png","./index.html","./manifest.webmanifest","./planning-engine.js","./planning-game.js","./planning.css","./planning.html","./pwa.js"];
 const INDEX = new URL('./index.html', SCOPE).href;
+const PLANNING = new URL('./planning.html', SCOPE).href;
 self.addEventListener('install', event => {
   event.waitUntil((async () => {
     const cache = await caches.open(CACHE);
@@ -26,7 +27,10 @@ self.addEventListener('fetch', event => {
   if (url.origin !== SCOPE.origin || !url.pathname.startsWith(SCOPE.pathname)) return;
   event.respondWith((async () => {
     const cache = await caches.open(CACHE);
-    if (request.mode === 'navigate') return (await cache.match(INDEX)) || fetch(request);
+    if (request.mode === 'navigate') {
+      const page = url.pathname === new URL(PLANNING).pathname ? PLANNING : INDEX;
+      return (await cache.match(page)) || fetch(request);
+    }
     return (await cache.match(request)) || fetch(request);
   })());
 });
