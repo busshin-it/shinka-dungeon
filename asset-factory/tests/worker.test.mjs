@@ -3,6 +3,8 @@ import assert from 'node:assert/strict';
 import { parseArgs, selectJobs, decideFailureAction, hasAttemptBudget, alphaCoverageIssues } from '../worker.mjs';
 import { buildPrompt } from '../lib/prompt.mjs';
 import { inspectPng, structuralQa } from '../lib/png.mjs';
+import { removeChromaKey, alphaStats } from '../lib/chroma.mjs';
+import sharp from 'sharp';
 
 test('parseArgs reads batch controls', () => {
   assert.deepEqual(parseArgs(['--count','5','--asset','x','--max-retries','3','--max-total-attempts','9','--dry-run']), { count:5, asset:'x', maxRetries:3, maxTotalAttempts:9, autoRequeue:true, dryRun:true });
@@ -123,4 +125,26 @@ test('alpha coverage guard rejects nearly erased transparent candidates', () => 
     ),
     []
   );
+});
+
+
+test('green-only chroma removal preserves dark subject pixels', async () => {
+  const width = 64, height = 64, channels = 4;
+  const raw = Buffer.alloc(width * height * channels);
+  for (let y = 0; y < height; y++) {
+    for (let x = 0; x < width; x++) {
+      const i = (y * width + x) * channels;
+      const subject = x >= 20 && x < 44 && y >= 16 && y < 48;
+      raw[i] = subject ? 10 : 0;
+      raw[i+1] = subject ? 12 : 255;
+      raw[i+2] = subject ? 18 : 0;
+      raw[i+3] = 255;
+    }
+  }
+  const png = await sharp(raw, { raw: { width, height, channels } }).png().toBuffer();
+  const out = await removeChromaKey(png);
+  const stats = await alphaStats(out);
+  const visible = 1 - stats.transparent_ratio;
+  assert.ok(visible > 0.15, 'dark subject should remain visible');
+  assert.ok(visible < 0.30, 'green background should be removed');
 });
