@@ -1,4 +1,4 @@
-/* Astral Planning mode. Independent engine/save format; stable V4 is unchanged. */
+/* Frozen V4.3 engine used only to validate and preserve version-1 saves. */
 (() => {
   const CARDS = Object.freeze({
     ice: { name: '氷の矢', cost: 1, damage: 6, weaken: 2, family: 'ice', art: 'ice' },
@@ -28,8 +28,6 @@
     zenithBolt: { name: '天頂の雷', cost: 3, damage: 20, bankBonus: 6, family: 'thunder', art: 'bolt' },
     emberVeil: { name: '残火の帳', cost: 0, block: 2, prevEmptyBlock: 5, family: 'guard', art: 'manaBarrier' },
     fadingStar: { name: '燃え残る星', cost: 1, damage: 5, emptyNextBlock: 5, family: 'dark', art: 'manaBurst' },
-    memoryArrow: { name: '追憶の矢', cost: 1, damage: 4, memoryCap: 6, family: 'dark', art: 'dark' },
-    ashWard: { name: '灰の守り', cost: 1, block: 4, exhaustBlock: 4, exhaustReflect: 2, family: 'guard', art: 'manaBarrier' },
     echo: { name: '返照', cost: 0, reflect: 2, exhaust: true, family: 'guard', art: 'manaBarrier' }
   });
   function card(id) {
@@ -55,8 +53,6 @@
       c.weakBonus && `敵に弱体があれば＋${c.weakBonus}。その弱体をすべて消費`,
       c.emptyBonus && `魔力0で使うと＋${c.emptyBonus}`,
       c.bankBonus && `使用前の魔力4以上なら＋${c.bankBonus}`,
-      c.memoryCap && `前ターン最後の手札攻撃の実ダメージ半分を追加（切捨て、最大${c.memoryCap}）`,
-      c.exhaustBlock && `このターン先に消滅カードを使っていれば追加${c.exhaustBlock}ブロック・反射${c.exhaustReflect}`,
       c.prevEmptyBlock && `前ターンを魔力0で終えていれば追加${c.prevEmptyBlock}ブロック`,
       c.nextFocus && `次の自分のターンだけ、最初の攻撃＋${c.nextFocus}`,
       c.emptyNextBlock && `支払い直後に魔力0なら、次の自分のターンに${c.emptyNextBlock}ブロック`,
@@ -91,10 +87,6 @@
     moth: { name: '星環の守護者', hp: 112, art: 'moth', lesson: '最終戦。三連撃と詠唱強打。14ダメージで強打21→9。', moves: [
       { type: 'attack', label: '星刃の三連撃', power: 5, hits: 3 }, { type: 'attack', label: '星環の詠唱', power: 21, hits: 1, threshold: 14, reduction: 12 }, { type: 'recover', label: '星を集める', heal: 6 }] }
   });
-  const RELICS = Object.freeze({
-    emberCore: { name: '残火の芯', symbol: '✦', effect: '各戦闘1回。魔力0でターンを終えると、次ターンに4ブロック。' },
-    starBottle: { name: '星砂の小瓶', symbol: '✧', effect: '各戦闘1回。自然回復後の魔力が4以上なら、そのターン最初の攻撃＋5。' }
-  });
   const MAX_HP = 60;
   const MAX_ENERGY = 5;
   const RUN_LENGTH = 6;
@@ -119,7 +111,7 @@
     function draw(n) { while (n-- > 0) { if (!s.draw.length) s.draw = shuffle(s.discard.splice(0)); if (!s.draw.length) break; s.hand.push(s.draw.shift()); } }
     function reset() {
       s = { phase: 'intro', origin: 'frost', battle: 1, turn: 1, hp: MAX_HP, maxHp: MAX_HP, enemyId: 'skeleton', enemyHp: 48, enemyMaxHp: 48,
-        energy: 2, maxEnergy: MAX_ENERGY, pendingFocus: 0, pendingBlock: 0, prevEndEmpty: false, turnLastAttack: 0, prevLastAttack: 0, usedExhaustThisTurn: false, relics: [], relicUsed: {emberCore:false,starBottle:false}, removalSource: null, block: 0, focus: 0, weaken: 0, reflect: 0, turnDamage: 0, spellCount: 0, interrupted: false, flags: {},
+        energy: 2, maxEnergy: MAX_ENERGY, pendingFocus: 0, pendingBlock: 0, prevEndEmpty: false, block: 0, focus: 0, weaken: 0, reflect: 0, turnDamage: 0, spellCount: 0, interrupted: false, flags: {},
         deck: [...ORIGINS.frost.deck], hand: [], draw: [], discard: [], exhaust: [], route: null, route2: null, forge: false, insight: false, sanctuary: null, camp: null,
         lastReward: null, lastUpgrade: null, pendingUpgrade: null, upgrades: [], removed: [], rewards: [], rewardOffers: [], history: [], wins: 0,
         stats: { played: {}, dealt: 0, taken: 0, healed: 0, energyGained: 0, blocked: 0, reflected: 0, interrupts: 0, relics: 0 },
@@ -128,7 +120,7 @@
     }
     function selectOrigin(id) { if (s.phase !== 'intro' || !Object.hasOwn(ORIGINS, id)) return false; s.origin = id; s.deck = [...ORIGINS[id].deck]; return true; }
     function prepare() {
-      s.phase = 'battle'; s.turn = 1; s.energy = 2; s.block = s.focus = s.weaken = s.reflect = s.turnDamage = s.spellCount = 0; s.flags = {}; s.interrupted = false; s.pendingFocus = s.pendingBlock = 0; s.prevEndEmpty = false; s.turnLastAttack = s.prevLastAttack = 0; s.usedExhaustThisTurn = false; s.relicUsed = {emberCore:false,starBottle:false}; s.removalSource = null;
+      s.phase = 'battle'; s.turn = 1; s.energy = 2; s.block = s.focus = s.weaken = s.reflect = s.turnDamage = s.spellCount = 0; s.flags = {}; s.interrupted = false; s.pendingFocus = s.pendingBlock = 0; s.prevEndEmpty = false;
       s.enemyId = s.battle === 1 ? 'skeleton' : s.battle === 2 ? (s.route === 'moon' ? 'wraith' : 'stone') : s.battle === 3 ? 'trial' : s.battle === 4 ? (s.route2 === 'library' ? 'archive' : 'wind') : s.battle === 5 ? 'elite' : 'moth';
       s.enemyMaxHp = s.enemyHp = enemy().hp;
       s.rewardOffers = [];
@@ -166,19 +158,18 @@
       const c = card(s.hand[index] || ''); if (!c) return null;
       const charm = c.damage && s.origin === 'storm' && c.cost === 2 && !s.flags.storm ? 3 : 0;
       const forge = c.damage && s.forge && !s.flags.forge ? 2 : 0;
-      return { ...c, actualDamage: c.damage ? c.damage + s.focus + (c.combo && s.spellCount > 0 ? c.combo : 0) + (c.weakBonus && s.weaken > 0 ? c.weakBonus : 0) + (c.emptyBonus && s.energy === 0 ? c.emptyBonus : 0) + (c.bankBonus && s.energy >= 4 ? c.bankBonus : 0) + (c.memoryCap ? Math.min(c.memoryCap,Math.floor(s.prevLastAttack/2)) : 0) + Math.min(c.blockDamage || 0, s.block) + charm + forge : 0,
-        actualBlock: (c.block || 0) + (c.prevEmptyBlock && s.prevEndEmpty ? c.prevEmptyBlock : 0) + (c.exhaustBlock && s.usedExhaustThisTurn ? c.exhaustBlock : 0),
-        actualMemory: c.memoryCap ? Math.min(c.memoryCap,Math.floor(s.prevLastAttack/2)) : 0, exhaustCondition: Boolean(c.exhaustBlock && s.usedExhaustThisTurn),
+      return { ...c, actualDamage: c.damage ? c.damage + s.focus + (c.combo && s.spellCount > 0 ? c.combo : 0) + (c.weakBonus && s.weaken > 0 ? c.weakBonus : 0) + (c.emptyBonus && s.energy === 0 ? c.emptyBonus : 0) + (c.bankBonus && s.energy >= 4 ? c.bankBonus : 0) + Math.min(c.blockDamage || 0, s.block) + charm + forge : 0,
+        actualBlock: (c.block || 0) + (c.prevEmptyBlock && s.prevEndEmpty ? c.prevEmptyBlock : 0),
         actualNextFocus: c.nextFocus || 0, actualNextBlock: c.emptyNextBlock && s.energy === c.cost ? c.emptyNextBlock : 0,
         actualWeak: c.weaken ? c.weaken + (s.origin === 'frost' && c.family === 'ice' && !s.flags.frost ? 1 : 0) : 0,
-        actualReflect: (c.reflect || 0) + (c.exhaustReflect && s.usedExhaustThisTurn ? c.exhaustReflect : 0) + (c.block && s.origin === 'mirror' && !s.flags.mirror ? 2 : 0),
+        actualReflect: (c.reflect || 0) + (c.block && s.origin === 'mirror' && !s.flags.mirror ? 2 : 0),
         actualHeal: Math.min(c.heal || 0, s.maxHp - s.hp), actualEnergy: Math.min(c.energy || 0, MAX_ENERGY - s.energy + c.cost) };
     }
     function finish() {
       if (s.phase !== 'battle') return;
       if (s.hp <= 0) { s.phase = 'defeat'; note('灯りが消えた。同じ山札で別の選択を試そう。'); }
       else if (s.enemyHp <= 0) { s.phase = 'victory'; s.wins++; note(`${enemy().name}を越えた。`); }
-      if (s.phase !== 'battle') { s.pendingFocus = s.pendingBlock = 0; s.prevEndEmpty = false; s.turnLastAttack = s.prevLastAttack = 0; s.usedExhaustThisTurn = false; s.history.push({ enemy: enemy().name, battle: s.battle, turns: s.turn, hp: s.hp, result: s.phase }); }
+      if (s.phase !== 'battle') { s.pendingFocus = s.pendingBlock = 0; s.prevEndEmpty = false; s.history.push({ enemy: enemy().name, battle: s.battle, turns: s.turn, hp: s.hp, result: s.phase }); }
     }
     function play(index) {
       if (s.phase !== 'battle' || !Number.isInteger(index)) return false;
@@ -186,7 +177,7 @@
       s.energy -= c.cost; s.hand.splice(index, 1); s.stats.played[c.base] = (s.stats.played[c.base] || 0) + 1;
       let damage = 0;
       if (c.damage) {
-        damage = Math.min(s.enemyHp, c.actualDamage); s.turnLastAttack = damage; s.enemyHp -= damage; s.turnDamage += damage; s.stats.dealt += damage; s.focus = 0; s.spellCount++;
+        damage = Math.min(s.enemyHp, c.actualDamage); s.enemyHp -= damage; s.turnDamage += damage; s.stats.dealt += damage; s.focus = 0; s.spellCount++;
         if (s.origin === 'storm' && c.cost === 2 && !s.flags.storm) { s.flags.storm = true; s.stats.relics++; }
         if (s.forge && !s.flags.forge) s.flags.forge = true;
       }
@@ -198,7 +189,7 @@
       s.hp += c.actualHeal; s.stats.healed += c.actualHeal;
       s.energy = Math.min(MAX_ENERGY, s.energy + (c.energy || 0)); s.stats.energyGained += c.actualEnergy;
       if (c.draw && s.enemyHp > 0) draw(c.draw);
-      (c.exhaust ? s.exhaust : s.discard).push(c.id); if (c.exhaust) s.usedExhaustThisTurn = true;
+      (c.exhaust ? s.exhaust : s.discard).push(c.id);
       note(`${c.name}：${damage ? `${damage}ダメージ。` : ''}${c.actualBlock ? `${c.actualBlock}ブロック。` : ''}${c.actualNextFocus ? `次ターン攻撃＋${c.actualNextFocus}を予約。` : ''}${c.actualNextBlock ? `次ターン防御${c.actualNextBlock}を予約。` : ''}${c.actualWeak ? `各打撃−${c.actualWeak}。` : ''}${c.focus ? `次の攻撃＋${c.focus}。` : ''}${c.actualReflect ? `反射＋${c.actualReflect}。` : ''}${c.heal ? `HP＋${c.actualHeal}。` : ''}${c.energy ? `魔力＋${c.actualEnergy}。` : ''}${c.consumeWeak ? '弱体を消費。' : ''}${c.consumeBlock ? 'ブロックを消費。' : ''}${c.draw && s.enemyHp > 0 ? `${c.draw}枚引く。` : ''}${c.exhaust ? '消滅。' : ''}`);
       if (move().threshold && !s.interrupted && s.turnDamage >= move().threshold && s.enemyHp > 0) { s.interrupted = true; s.stats.interrupts++; note(`詠唱を崩した！ 残る攻撃にも備えよう。`); }
       finish(); return true;
@@ -213,13 +204,9 @@
       } else { s.enemyHp += a.heal; note(a.detail); }
       s.discard.push(...s.hand.splice(0)); s.block = s.focus = s.reflect = 0; finish();
       if (s.phase === 'battle') {
-        s.prevEndEmpty = endedEmpty; s.prevLastAttack = s.turnLastAttack; s.turnLastAttack = 0; s.usedExhaustThisTurn = false;
-        if (s.relics.includes('emberCore') && !s.relicUsed.emberCore && endedEmpty) { s.pendingBlock += 4; s.relicUsed.emberCore = true; s.stats.relics++; }
-        s.turn++; s.energy = Math.min(MAX_ENERGY, s.energy + 1);
+        s.prevEndEmpty = endedEmpty; s.turn++; s.energy = Math.min(MAX_ENERGY, s.energy + 1);
         s.turnDamage = s.spellCount = 0; s.flags = {}; s.interrupted = false;
-        s.block = s.pendingBlock; s.focus = s.pendingFocus; s.pendingBlock = s.pendingFocus = 0;
-        if (s.relics.includes('starBottle') && !s.relicUsed.starBottle && s.energy >= 4) { s.focus += 5; s.relicUsed.starBottle = true; s.stats.relics++; }
-        draw(5);
+        s.block = s.pendingBlock; s.focus = s.pendingFocus; s.pendingBlock = s.pendingFocus = 0; draw(5);
       }
       return true;
     }
@@ -258,31 +245,23 @@
     function chooseCamp(id) {
       if (s.phase !== 'camp' || !['rest','remove'].includes(id)) return false;
       if (id === 'rest') { s.hp = Math.min(s.maxHp,s.hp+16); s.camp = 'rest'; s.phase = 'ready'; }
-      else { s.removalSource = 'camp'; s.phase = 'remove'; }
+      else s.phase = 'remove';
       return true;
     }
     function removeOptions() { return [...new Set(s.deck)]; }
     function removeCard(id) {
-      if (s.phase !== 'remove' || !removeOptions().includes(id) || s.deck.length <= 5 || s.removed.length >= 2) return false;
+      if (s.phase !== 'remove' || !removeOptions().includes(id) || s.deck.length <= 5) return false;
       s.deck.splice(s.deck.indexOf(id),1); s.removed.push(id);
       if (s.lastReward === id && !s.deck.includes(id)) s.lastReward = null;
-      if (s.removalSource === 'sanctuary') s.sanctuary = 'remove'; else s.camp = 'remove';
-      s.removalSource = null; s.phase = 'ready'; return true;
+      s.camp = 'remove'; s.phase = 'ready'; return true;
     }
-    function cancelRemoval() { if (s.phase !== 'remove') return false; s.phase = s.removalSource === 'sanctuary' ? 'sanctuary' : 'camp'; s.removalSource = null; return true; }
+    function cancelRemoval() { if (s.phase !== 'remove') return false; s.phase = 'camp'; return true; }
     function chooseSanctuary(id) {
-      if (s.phase !== 'sanctuary' || !['rest', 'evolve', 'relic', 'remove'].includes(id)) return false;
-      if (id === 'relic') { if (s.battle !== 2 || s.hp <= 6 || s.relics.length) return false; s.phase = 'astrolabe'; return true; }
-      if (id === 'remove') { if (s.battle !== 4 || s.deck.length <= 5) return false; s.removalSource = 'sanctuary'; s.phase = 'remove'; return true; }
+      if (s.phase !== 'sanctuary' || !['rest', 'evolve'].includes(id)) return false;
       if (id === 'rest') { s.hp = Math.min(s.maxHp, s.hp + 14); s.sanctuary = 'rest'; s.phase = 'ready'; note('灯りの間でHPを14回復した。'); }
       else s.phase = 'evolve';
       return true;
     }
-    function chooseRelic(id) {
-      if (s.phase !== 'astrolabe' || s.battle !== 2 || s.hp <= 6 || s.relics.length || !Object.hasOwn(RELICS,id)) return false;
-      s.hp -= 6; s.relics.push(id); s.relicUsed[id] = false; s.sanctuary = 'relic'; s.phase = 'ready'; note(`HPを6払い、${RELICS[id].name}を得た。各戦闘1回の灯り。`); return true;
-    }
-    function cancelRelic() { if (s.phase !== 'astrolabe') return false; s.phase = 'sanctuary'; return true; }
     function evolve(id) {
       if (s.phase !== 'evolve' || !upgradeOptions().includes(id)) return false;
       const upgraded = id + '+'; s.deck[s.deck.indexOf(id)] = upgraded; s.lastUpgrade = upgraded; s.pendingUpgrade = upgraded; s.upgrades.push(upgraded); s.sanctuary = 'evolve'; s.phase = 'ready'; note(`${card(upgraded).name}へ進化。次の初手で試せる。`); return true;
@@ -291,27 +270,21 @@
     function nextBattle() { if (s.phase !== 'ready' || s.battle >= RUN_LENGTH) return false; s.battle++; prepare(); return true; }
     function exportSave() {
       if (typeof rng.state !== 'function') return null;
-      return { format: 'astral-planning', version: 2, rngState: rng.state(), state: snapshot() };
+      return { format: 'astral-planning', version: 1, rngState: rng.state(), state: snapshot() };
     }
     function restoreSave(save) {
       // Local saves are data, never executable state. Validate before changing the live game.
       try {
-        if (save?.format === 'astral-planning' && save.version === 1) {
-          const legacy = globalThis.ShinkaPlanningV1?.createGame();
-          if (!legacy || !legacy.restoreSave(save)) return false;
-          save = legacy.exportSave();
-          save = {...save,version:2,state:{...save.state,turnLastAttack:0,prevLastAttack:0,usedExhaustThisTurn:false,relics:[],relicUsed:{emberCore:false,starBottle:false},removalSource:save.state.phase==='remove'?'camp':null}};
-        }
-        if (!save || save.format !== 'astral-planning' || save.version !== 2 || !Number.isInteger(save.rngState) || save.rngState < 0 || save.rngState > 4294967295) return false;
+        if (!save || save.format !== 'astral-planning' || save.version !== 1 || !Number.isInteger(save.rngState) || save.rngState < 0 || save.rngState > 4294967295) return false;
         const x = save.state, integer = (v, min, max) => Number.isInteger(v) && v >= min && v <= max;
         const record = v => v !== null && typeof v === 'object' && Object.prototype.toString.call(v) === '[object Object]';
-        const phases = ['intro','battle','victory','defeat','complete','reward','route','chapter','sanctuary','evolve','camp','remove','ready','astrolabe'];
+        const phases = ['intro','battle','victory','defeat','complete','reward','route','chapter','sanctuary','evolve','camp','remove','ready'];
         if (!record(x) || !phases.includes(x.phase) || !Object.hasOwn(ORIGINS,x.origin) || !Object.hasOwn(ENEMIES,x.enemyId)) return false;
         if (!integer(x.battle,1,6) || !integer(x.turn,1,10000) || ![60,66].includes(x.maxHp) || !integer(x.hp,0,x.maxHp) || x.enemyMaxHp !== ENEMIES[x.enemyId].hp || !integer(x.enemyHp,0,x.enemyMaxHp)) return false;
         if (x.maxEnergy !== 5 || !integer(x.energy,0,5) || !integer(x.wins,0,6)) return false;
-        for (const k of ['block','focus','weaken','reflect','turnDamage','spellCount','pendingFocus','pendingBlock','turnLastAttack','prevLastAttack']) if (!integer(x[k],0,100000)) return false;
-        for (const k of ['interrupted','forge','insight','prevEndEmpty','usedExhaustThisTurn']) if (typeof x[k] !== 'boolean') return false;
-        for (const [k,allowed] of [['route',[null,'moon','forge']],['route2',[null,'library','wind']],['sanctuary',[null,'rest','evolve','relic','remove']],['camp',[null,'rest','remove']]]) if (!allowed.includes(x[k])) return false;
+        for (const k of ['block','focus','weaken','reflect','turnDamage','spellCount','pendingFocus','pendingBlock']) if (!integer(x[k],0,100000)) return false;
+        for (const k of ['interrupted','forge','insight','prevEndEmpty']) if (typeof x[k] !== 'boolean') return false;
+        for (const [k,allowed] of [['route',[null,'moon','forge']],['route2',[null,'library','wind']],['sanctuary',[null,'rest','evolve']],['camp',[null,'rest','remove']]]) if (!allowed.includes(x[k])) return false;
         for (const k of ['deck','hand','draw','discard','exhaust','upgrades','removed','rewards','rewardOffers']) if (!Array.isArray(x[k]) || x[k].length > 30 || x[k].some(id => typeof id !== 'string' || !card(id))) return false;
         if (x.deck.length < 5 || x.deck.length > 20 || x.rewardOffers.length > 4 || new Set(x.rewardOffers).size !== x.rewardOffers.length) return false;
         for (const k of ['lastReward','lastUpgrade','pendingUpgrade']) if (x[k] !== null && (typeof x[k] !== 'string' || !card(x[k]))) return false;
@@ -320,16 +293,8 @@
         for (const k of ['dealt','taken','healed','energyGained','blocked','reflected','interrupts','relics']) if (!integer(x.stats[k],0,1000000)) return false;
         if (!Array.isArray(x.history) || x.history.length > 6 || x.history.some(h => !Object.values(ENEMIES).some(e => e.name === h.enemy) || !integer(h.battle,1,6) || !integer(h.turns,1,10000) || !integer(h.hp,0,66) || !['victory','defeat'].includes(h.result))) return false;
         if (x.history.filter(h=>h.result==='victory').length !== x.wins) return false;
-        if (!Array.isArray(x.relics) || x.relics.length>1 || new Set(x.relics).size!==x.relics.length || x.relics.some(id=>!Object.hasOwn(RELICS,id))) return false;
-        if (!record(x.relicUsed) || Object.keys(x.relicUsed).sort().join('|')!=='emberCore|starBottle' || Object.values(x.relicUsed).some(v=>typeof v!=='boolean') || Object.keys(RELICS).some(id=>!x.relics.includes(id)&&x.relicUsed[id])) return false;
-        if (![null,'sanctuary','camp'].includes(x.removalSource) || (x.phase==='remove' ? x.removalSource!==(x.battle===4?'sanctuary':'camp') : x.removalSource!==null)) return false;
-        if (x.relics.length && (x.battle<2 || (x.battle===2&&(x.phase!=='ready'||x.sanctuary!=='relic')))) return false;
-        if (x.sanctuary==='relic' && !x.relics.length) return false;
-        if (x.sanctuary==='remove' && (x.battle<4 || (x.battle===4&&x.phase!=='ready'))) return false;
-        if (x.camp!==null && (x.battle<5 || (x.battle===5&&x.phase!=='ready'))) return false;
-        if (x.removed.length !== Number(x.sanctuary==='remove')+Number(x.camp==='remove')) return false;
         if (!Array.isArray(x.log) || x.log.length > 5 || x.log.some(t => typeof t !== 'string' || t.length > 500)) return false;
-        if ((x.phase !== 'battle' && (x.pendingFocus || x.pendingBlock || x.prevEndEmpty || x.turnLastAttack || x.prevLastAttack || x.usedExhaustThisTurn)) || (x.turn === 1 && (x.prevEndEmpty || x.prevLastAttack))) return false;
+        if ((x.phase !== 'battle' && (x.pendingFocus || x.pendingBlock || x.prevEndEmpty)) || (x.turn === 1 && x.prevEndEmpty)) return false;
         const afterBattle = !['intro','battle'].includes(x.phase), victoryPhase = afterBattle && x.phase !== 'defeat';
         if (x.phase === 'intro') {
           if (x.battle !== 1 || x.turn !== 1 || x.wins !== 0 || x.hp !== MAX_HP || x.energy !== 2 || x.history.length || x.route || x.route2 || x.lastReward || x.lastUpgrade || x.pendingUpgrade || x.rewards.length || x.upgrades.length || x.removed.length) return false;
@@ -339,13 +304,11 @@
           if (victoryPhase && (x.hp <= 0 || x.enemyHp !== 0)) return false;
           if (x.phase === 'defeat' && x.hp !== 0) return false;
         }
-        if (['reward','route','chapter','sanctuary','evolve','camp','remove','ready','astrolabe'].includes(x.phase) && x.battle >= RUN_LENGTH) return false;
+        if (['reward','route','chapter','sanctuary','evolve','camp','remove','ready'].includes(x.phase) && x.battle >= RUN_LENGTH) return false;
         if (x.phase === 'route' && x.battle !== 1) return false;
         if (x.phase === 'chapter' && x.battle !== 3) return false;
         if (['sanctuary','evolve'].includes(x.phase) && ![2,4].includes(x.battle)) return false;
-        if (x.phase === 'camp' && x.battle !== 5) return false;
-        if (x.phase === 'remove' && ![4,5].includes(x.battle)) return false;
-        if (x.phase === 'astrolabe' && (x.battle!==2 || x.hp<=6 || x.relics.length)) return false;
+        if (['camp','remove'].includes(x.phase) && x.battle !== 5) return false;
         const hasRoute = x.battle >= 2 || (x.battle === 1 && x.phase === 'ready');
         const hasChapterRoute = x.battle >= 4 || (x.battle === 3 && x.phase === 'ready');
         if (hasRoute ? !['moon','forge'].includes(x.route) : x.route !== null) return false;
@@ -355,7 +318,7 @@
         if (x.enemyId !== encounter(x.battle)) return false;
         if (x.history.some((h,i)=>h.battle!==i+1 || h.enemy!==ENEMIES[encounter(i+1)].name || (i<x.history.length-1&&h.result!=='victory') || (h.result==='defeat'?h.hp!==0:h.hp<=0))) return false;
         if (afterBattle && (x.history.at(-1).turns !== x.turn || x.history.at(-1).result !== (x.phase==='defeat'?'defeat':'victory'))) return false;
-        if (x.rewards.length>5 || x.upgrades.length>2 || x.removed.length>2 || x.deck.length !== 10+x.rewards.length-x.removed.length) return false;
+        if (x.rewards.length>5 || x.upgrades.length>2 || x.removed.length>1 || x.deck.length !== 10+x.rewards.length-x.removed.length) return false;
         if (x.pendingUpgrade && !x.deck.includes(x.pendingUpgrade)) return false;
         if (['battle','victory','defeat','complete'].includes(x.phase) && [...x.hand,...x.draw,...x.discard,...x.exhaust].sort().join('|') !== [...x.deck].sort().join('|')) return false;
         if (x.phase === 'battle' && (!x.hp || !x.enemyHp)) return false;
@@ -365,7 +328,7 @@
       } catch { return false; }
     }
     reset();
-    return { snapshot, selectOrigin, start, intent, futureIntents, previewCard, play, endTurn, rewardOptions, openReward, chooseReward, chooseRoute, chooseSanctuary, chooseRelic, cancelRelic, upgradeOptions, evolve, cancelEvolution, chooseChapter, chooseCamp, removeOptions, removeCard, cancelRemoval, nextBattle, exportSave, restoreSave, reset };
+    return { snapshot, selectOrigin, start, intent, futureIntents, previewCard, play, endTurn, rewardOptions, openReward, chooseReward, chooseRoute, chooseSanctuary, upgradeOptions, evolve, cancelEvolution, chooseChapter, chooseCamp, removeOptions, removeCard, cancelRemoval, nextBattle, exportSave, restoreSave, reset };
   }
-  globalThis.ShinkaV43 = Object.freeze({ CARDS, ORIGINS, ENEMIES, RELICS, MAX_HP, MAX_ENERGY, RUN_LENGTH, card, seededRandom, resolveAttack, createGame });
+  globalThis.ShinkaPlanningV1 = Object.freeze({ CARDS, ORIGINS, ENEMIES, MAX_HP, MAX_ENERGY, RUN_LENGTH, card, seededRandom, resolveAttack, createGame });
 })();
