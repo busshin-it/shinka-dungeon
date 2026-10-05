@@ -41,7 +41,7 @@
       },
       "qa": {
         "pass": false,
-        "score": 68,
+        "score": 72,
         "structural": {
           "pass": true,
           "issues": [],
@@ -53,11 +53,11 @@
             "hasAlpha": true,
             "alpha_stats": {
               "pixels": 1048576,
-              "transparent": 749507,
-              "translucent": 0,
-              "opaque": 299069,
-              "transparent_ratio": 0.7147855758666992,
-              "nonopaque_ratio": 0.7147855758666992
+              "transparent": 701185,
+              "translucent": 2995,
+              "opaque": 344396,
+              "transparent_ratio": 0.6687021255493164,
+              "nonopaque_ratio": 0.6715583801269531
             }
           }
         },
@@ -69,28 +69,30 @@
           "puppet_style": true,
           "joint_readability": true,
           "small_screen_silhouette": true,
-          "composition": false,
+          "composition": true,
           "transparency_visual": true,
-          "reference_consistency": true
+          "reference_consistency": false
         },
         "issues": [
-          "頭部がキャンバス中央に対して小さく、1024px素材として可視領域の占有率が低いため、ゲーム画面での判読性と実用的な構図を損なう",
-          "頭頂・側頭部・首元の重なり代は概ね確保されているが、頭部をもう少し大きく配置するとパペット組み立て用の余白設計が安定する"
+          "首元に襟や衣装はないが、首が短く、M05胴体で隠すための十分な重なり代が不足している。",
+          "髪の側面と裾に尖った房が複数あり、参照の丸く滑らかな頭頂・髪型より跳ね毛が強い。",
+          "瞳が参照よりやや大きく、幼い印象が強い。",
+          "頭部がキャンバス中央で実用的なサイズに収まっているが、比較参照では頭部のみで首がなく、首接続仕様の一致確認が難しい。"
         ],
-        "remediation": "同じ顔・髪・小さな青灰色の瞳を厳密に維持し、頭＋皮膚の首だけを透明背景に描くこと。帽子・襟・衣装・胴体・跳ね毛を追加せず、頭部をキャンバス内で実用的な大きさまで拡大し、頭頂・側頭部・首元に十分な隠し重なり代を残す。",
-        "checked_at": "2026-10-05T06:51:09.206Z",
+        "remediation": "参照の丸く滑らかな頭頂と小さめの青灰色の瞳を厳密に維持し、尖った跳ね毛を抑え、首元は皮膚だけの長い首を十分に残してM05で隠せる重なり代を確保したM02頭部のみを生成する。",
+        "checked_at": "2026-10-05T08:40:26.570Z",
         "model": "gpt-5.6-luna",
         "usage": {
-          "input_tokens": 2985,
+          "input_tokens": 2986,
           "input_tokens_details": {
-            "cache_write_tokens": 2982,
+            "cache_write_tokens": 2983,
             "cached_tokens": 0
           },
-          "output_tokens": 291,
+          "output_tokens": 305,
           "output_tokens_details": {
             "reasoning_tokens": 0
           },
-          "total_tokens": 3276
+          "total_tokens": 3291
         }
       }
     },
