@@ -163,6 +163,12 @@ function parseJsonLoose(text) {
 
 export async function visionQa(queue, job, buffer, structural, root = process.cwd()) {
   const model = process.env.ASSET_FACTORY_QA_MODEL || 'gpt-5.6-luna';
+  // Vision models can render transparent PNGs against a dark viewer background,
+  // making dark subjects appear missing. Use a neutral QA preview while keeping
+  // structural alpha_stats as the source of truth for transparency.
+  const qaPreviewBuffer = job.transparent
+    ? await sharp(buffer).flatten({ background: { r: 196, g: 196, b: 196 } }).png().toBuffer()
+    : buffer;
   const artDirection = job.art_direction_override || queue.art_direction;
   const rules = [
     'exactly one asset; no contact sheet, split panel, or multiple variants',
@@ -217,11 +223,11 @@ Requested prompt: ${job.prompt}
 Negative conditions: ${(job.negative || []).join(', ')}
 Structural PNG checks: ${JSON.stringify(structural)}
 Evaluate these rules: ${rules.join('; ')}.
-Be strict. For transparent jobs, TRUST the Structural PNG checks and alpha_stats as the source of truth for transparency. If alpha_stats.transparent_ratio is at least 0.12, do NOT fail the asset merely because the viewer shows a checkerboard, green preview, or compositing artifact behind transparent pixels. Only fail transparency when structural alpha coverage is insufficient or when obvious non-transparent scenery/background shapes remain. For opaque cards/backgrounds, reject fake transparency checkerboards or empty studio backdrops. For cards, a gothic illustrated background is valid and preferred. If references are supplied, compare identity or visual lineage as appropriate.
+Be strict. For transparent jobs, the candidate preview is intentionally composited on neutral gray for visibility; do not treat that gray as artwork. TRUST the Structural PNG checks and alpha_stats as the source of truth for transparency. Also inspect whether the visible subject occupies a practical amount of the canvas; if alpha_stats shows an implausibly tiny visible subject, fail composition/readability rather than hallucinating a valid asset. Only fail transparency when structural alpha coverage is insufficient or obvious non-transparent scenery/background shapes remain. For opaque cards/backgrounds, reject fake transparency checkerboards or empty studio backdrops. For cards, a gothic illustrated background is valid and preferred. If references are supplied, compare identity or visual lineage as appropriate.
 Return ONLY JSON in exactly this shape: {"pass":boolean,"score":0-100,"checks":{"single_asset":boolean,"no_text_ui":boolean,"subject_match":boolean,"art_direction":boolean,"puppet_style":boolean,"joint_readability":boolean,"small_screen_silhouette":boolean,"composition":boolean,"transparency_visual":boolean,"reference_consistency":boolean},"issues":["..."],"remediation":"one concise corrected-generation instruction"}`;
   const content = [
     { type: 'input_text', text: prompt },
-    { type: 'input_image', image_url: `data:image/png;base64,${buffer.toString('base64')}`, detail: 'high' },
+    { type: 'input_image', image_url: `data:image/png;base64,${qaPreviewBuffer.toString('base64')}`, detail: 'high' },
   ];
   for (const ref of refs) {
     const bytes = await fs.readFile(path.join(root, ref));
