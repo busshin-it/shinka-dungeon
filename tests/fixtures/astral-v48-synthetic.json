@@ -1,0 +1,447 @@
+{
+  "provenance": "Synthetic seed-generated states from public v4-1/planning-engine.js at c4aaba0e5004e4725fe0d8722f7810f9e110e1b6. No user save data.",
+  "fixtures": [
+    {
+      "name": "frost first battle",
+      "save": {
+        "format": "astral-planning",
+        "version": 3,
+        "rngState": 3753001289,
+        "state": {
+          "phase": "battle",
+          "origin": "frost",
+          "battle": 1,
+          "turn": 1,
+          "hp": 60,
+          "maxHp": 60,
+          "enemyId": "skeleton",
+          "enemyHp": 48,
+          "enemyMaxHp": 48,
+          "energy": 2,
+          "maxEnergy": 5,
+          "pendingFocus": 0,
+          "pendingBlock": 0,
+          "prevEndEmpty": false,
+          "turnLastAttack": 0,
+          "prevLastAttack": 0,
+          "usedExhaustThisTurn": false,
+          "relics": [],
+          "relicUsed": {
+            "emberCore": false,
+            "starBottle": false
+          },
+          "removalSource": null,
+          "block": 0,
+          "focus": 0,
+          "weaken": 0,
+          "reflect": 0,
+          "turnDamage": 0,
+          "spellCount": 0,
+          "interrupted": false,
+          "flags": {},
+          "deck": [
+            "ice",
+            "guard",
+            "focus",
+            "spark",
+            "shatter",
+            "fadingStar",
+            "starWait",
+            "charge",
+            "meditate",
+            "frostWard"
+          ],
+          "hand": [
+            "ice",
+            "guard",
+            "focus",
+            "spark",
+            "shatter"
+          ],
+          "draw": [
+            "fadingStar",
+            "charge",
+            "starWait",
+            "meditate",
+            "frostWard"
+          ],
+          "discard": [],
+          "exhaust": [],
+          "route": null,
+          "route2": null,
+          "chapter2Options": {
+            "library": "bowWatcher",
+            "wind": "bellSpirit"
+          },
+          "chapter2Encounter": null,
+          "forge": false,
+          "insight": false,
+          "sanctuary": null,
+          "camp": null,
+          "lastReward": null,
+          "lastUpgrade": null,
+          "pendingUpgrade": null,
+          "upgrades": [],
+          "removed": [],
+          "rewards": [],
+          "rewardOffers": [],
+          "history": [],
+          "wins": 0,
+          "stats": {
+            "played": {},
+            "dealt": 0,
+            "taken": 0,
+            "healed": 0,
+            "energyGained": 0,
+            "blocked": 0,
+            "reflected": 0,
+            "interrupts": 0,
+            "relics": 0
+          },
+          "log": [
+            "溜めの間に攻め、次の強打に備えよう。",
+            "護符を選んで、蒼星の回廊へ。"
+          ]
+        }
+      }
+    },
+    {
+      "name": "storm first battle",
+      "save": {
+        "format": "astral-planning",
+        "version": 3,
+        "rngState": 3753001289,
+        "state": {
+          "phase": "battle",
+          "origin": "storm",
+          "battle": 1,
+          "turn": 1,
+          "hp": 60,
+          "maxHp": 60,
+          "enemyId": "skeleton",
+          "enemyHp": 48,
+          "enemyMaxHp": 48,
+          "energy": 2,
+          "maxEnergy": 5,
+          "pendingFocus": 0,
+          "pendingBlock": 0,
+          "prevEndEmpty": false,
+          "turnLastAttack": 0,
+          "prevLastAttack": 0,
+          "usedExhaustThisTurn": false,
+          "relics": [],
+          "relicUsed": {
+            "emberCore": false,
+            "starBottle": false
+          },
+          "removalSource": null,
+          "block": 0,
+          "focus": 0,
+          "weaken": 0,
+          "reflect": 0,
+          "turnDamage": 0,
+          "spellCount": 0,
+          "interrupted": false,
+          "flags": {},
+          "deck": [
+            "ice",
+            "guard",
+            "focus",
+            "spark",
+            "bolt",
+            "fadingStar",
+            "starWait",
+            "charge",
+            "meditate",
+            "chain"
+          ],
+          "hand": [
+            "ice",
+            "guard",
+            "focus",
+            "spark",
+            "bolt"
+          ],
+          "draw": [
+            "fadingStar",
+            "charge",
+            "starWait",
+            "meditate",
+            "chain"
+          ],
+          "discard": [],
+          "exhaust": [],
+          "route": null,
+          "route2": null,
+          "chapter2Options": {
+            "library": "bowWatcher",
+            "wind": "bellSpirit"
+          },
+          "chapter2Encounter": null,
+          "forge": false,
+          "insight": false,
+          "sanctuary": null,
+          "camp": null,
+          "lastReward": null,
+          "lastUpgrade": null,
+          "pendingUpgrade": null,
+          "upgrades": [],
+          "removed": [],
+          "rewards": [],
+          "rewardOffers": [],
+          "history": [],
+          "wins": 0,
+          "stats": {
+            "played": {},
+            "dealt": 0,
+            "taken": 0,
+            "healed": 0,
+            "energyGained": 0,
+            "blocked": 0,
+            "reflected": 0,
+            "interrupts": 0,
+            "relics": 0
+          },
+          "log": [
+            "溜めの間に攻め、次の強打に備えよう。",
+            "護符を選んで、蒼星の回廊へ。"
+          ]
+        }
+      }
+    },
+    {
+      "name": "mirror first battle",
+      "save": {
+        "format": "astral-planning",
+        "version": 3,
+        "rngState": 3753001289,
+        "state": {
+          "phase": "battle",
+          "origin": "mirror",
+          "battle": 1,
+          "turn": 1,
+          "hp": 60,
+          "maxHp": 60,
+          "enemyId": "skeleton",
+          "enemyHp": 48,
+          "enemyMaxHp": 48,
+          "energy": 2,
+          "maxEnergy": 5,
+          "pendingFocus": 0,
+          "pendingBlock": 0,
+          "prevEndEmpty": false,
+          "turnLastAttack": 0,
+          "prevLastAttack": 0,
+          "usedExhaustThisTurn": false,
+          "relics": [],
+          "relicUsed": {
+            "emberCore": false,
+            "starBottle": false
+          },
+          "removalSource": null,
+          "block": 0,
+          "focus": 0,
+          "weaken": 0,
+          "reflect": 0,
+          "turnDamage": 0,
+          "spellCount": 0,
+          "interrupted": false,
+          "flags": {},
+          "deck": [
+            "ice",
+            "guard",
+            "focus",
+            "spark",
+            "mirror",
+            "fadingStar",
+            "starWait",
+            "charge",
+            "meditate",
+            "shieldStrike"
+          ],
+          "hand": [
+            "ice",
+            "guard",
+            "focus",
+            "spark",
+            "mirror"
+          ],
+          "draw": [
+            "fadingStar",
+            "charge",
+            "starWait",
+            "meditate",
+            "shieldStrike"
+          ],
+          "discard": [],
+          "exhaust": [],
+          "route": null,
+          "route2": null,
+          "chapter2Options": {
+            "library": "bowWatcher",
+            "wind": "bellSpirit"
+          },
+          "chapter2Encounter": null,
+          "forge": false,
+          "insight": false,
+          "sanctuary": null,
+          "camp": null,
+          "lastReward": null,
+          "lastUpgrade": null,
+          "pendingUpgrade": null,
+          "upgrades": [],
+          "removed": [],
+          "rewards": [],
+          "rewardOffers": [],
+          "history": [],
+          "wins": 0,
+          "stats": {
+            "played": {},
+            "dealt": 0,
+            "taken": 0,
+            "healed": 0,
+            "energyGained": 0,
+            "blocked": 0,
+            "reflected": 0,
+            "interrupts": 0,
+            "relics": 0
+          },
+          "log": [
+            "溜めの間に攻め、次の強打に備えよう。",
+            "護符を選んで、蒼星の回廊へ。"
+          ]
+        }
+      }
+    },
+    {
+      "name": "existing reward",
+      "save": {
+        "format": "astral-planning",
+        "version": 3,
+        "rngState": 627173639,
+        "state": {
+          "phase": "reward",
+          "origin": "storm",
+          "battle": 1,
+          "turn": 3,
+          "hp": 54,
+          "maxHp": 60,
+          "enemyId": "skeleton",
+          "enemyHp": 0,
+          "enemyMaxHp": 48,
+          "energy": 0,
+          "maxEnergy": 5,
+          "pendingFocus": 0,
+          "pendingBlock": 0,
+          "prevEndEmpty": false,
+          "turnLastAttack": 0,
+          "prevLastAttack": 0,
+          "usedExhaustThisTurn": false,
+          "relics": [],
+          "relicUsed": {
+            "emberCore": false,
+            "starBottle": false
+          },
+          "removalSource": null,
+          "block": 5,
+          "focus": 0,
+          "weaken": 0,
+          "reflect": 0,
+          "turnDamage": 0,
+          "spellCount": 0,
+          "interrupted": false,
+          "flags": {},
+          "deck": [
+            "ice",
+            "guard",
+            "focus",
+            "spark",
+            "bolt",
+            "fadingStar",
+            "starWait",
+            "charge",
+            "meditate",
+            "chain"
+          ],
+          "hand": [
+            "guard",
+            "ice",
+            "bolt"
+          ],
+          "draw": [
+            "focus",
+            "starWait",
+            "fadingStar"
+          ],
+          "discard": [
+            "chain",
+            "spark"
+          ],
+          "exhaust": [
+            "meditate",
+            "charge"
+          ],
+          "route": null,
+          "route2": null,
+          "chapter2Options": {
+            "library": "bowWatcher",
+            "wind": "bellSpirit"
+          },
+          "chapter2Encounter": null,
+          "forge": false,
+          "insight": false,
+          "sanctuary": null,
+          "camp": null,
+          "lastReward": null,
+          "lastUpgrade": null,
+          "pendingUpgrade": null,
+          "upgrades": [],
+          "removed": [],
+          "rewards": [],
+          "rewardOffers": [
+            "surge",
+            "stillness",
+            "frostNova",
+            "reflectShield"
+          ],
+          "history": [
+            {
+              "enemy": "蒼鎧の門番",
+              "battle": 1,
+              "turns": 3,
+              "hp": 54,
+              "result": "victory"
+            }
+          ],
+          "wins": 1,
+          "stats": {
+            "played": {
+              "bolt": 1,
+              "spark": 2,
+              "focus": 2,
+              "chain": 2,
+              "meditate": 1,
+              "charge": 1,
+              "fadingStar": 1
+            },
+            "dealt": 48,
+            "taken": 6,
+            "healed": 0,
+            "energyGained": 1,
+            "blocked": 0,
+            "reflected": 0,
+            "interrupts": 0,
+            "relics": 1
+          },
+          "log": [
+            "蒼鎧の門番を越えた。",
+            "火花：6ダメージ。",
+            "連鎖雷：7ダメージ。",
+            "攻撃しない。",
+            "集中：次の攻撃＋4。"
+          ]
+        }
+      }
+    }
+  ]
+}

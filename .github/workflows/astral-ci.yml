@@ -1,0 +1,35 @@
+name: Astral game verification
+
+on:
+  pull_request:
+    paths:
+      - 'v4-1/**'
+      - 'tools/astral*'
+      - 'tests/astral*'
+      - 'tests/test_astral_release.py'
+      - 'tests/fixtures/astral*'
+      - '.github/workflows/astral-ci.yml'
+      - '.github/workflows/pages.yml'
+  workflow_call:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Check release metadata and cache contents
+        run: python3 tools/astral_release.py verify
+      - name: Check cards, saves, RNG, and reward boundaries
+        run: node --test tests/astral-smoke.test.mjs
+      - name: Check reproducible packaging and failure guards
+        run: python3 -m unittest discover -s tests -p 'test_astral_release.py'
