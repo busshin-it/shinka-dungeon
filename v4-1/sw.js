@@ -1,9 +1,9 @@
 /* Isolated app worker: only this app's cache prefix and scope are managed. */
-const BUILD = '4.4-78c46690811a';
+const BUILD = '4.5-4e7f1aecc5e5';
 const SCOPE = new URL(self.registration.scope);
 const PREFIX = 'astral-v4-1:' + SCOPE.pathname + ':';
 const CACHE = PREFIX + BUILD;
-const FILES = ["./app.css","./assets/background.webp","./assets/boss.webp","./assets/charge.webp","./assets/gatekeeper.webp","./assets/hero.webp","./assets/moon-mirror.webp","./assets/shatter.webp","./assets/shield-strike.webp","./assets/wraith.webp","./card-art-data.js","./engine.js","./game.js","./icons/apple-touch-icon.png","./icons/icon-192.png","./icons/icon-512.png","./index.html","./manifest.webmanifest","./planning-engine.js","./planning-game.js","./planning-v1-engine.js","./planning.css","./planning.html","./pwa.js"];
+const FILES = ["./app.css","./assets/background.webp","./assets/bell-spirit.webp","./assets/boss.webp","./assets/bow-watcher.webp","./assets/charge.webp","./assets/gatekeeper.webp","./assets/hero.webp","./assets/moon-mirror.webp","./assets/shatter.webp","./assets/shield-strike.webp","./assets/wraith.webp","./card-art-data.js","./engine.js","./game.js","./icons/apple-touch-icon.png","./icons/icon-192.png","./icons/icon-512.png","./index.html","./manifest.webmanifest","./planning-engine.js","./planning-game.js","./planning-v1-engine.js","./planning-v2-engine.js","./planning.css","./planning.html","./pwa.js"];
 const INDEX = new URL('./index.html', SCOPE).href;
 const PLANNING = new URL('./planning.html', SCOPE).href;
 self.addEventListener('install', event => {

@@ -1,4 +1,4 @@
-/* Astral Planning mode. Independent engine/save format; stable V4 is unchanged. */
+/* Frozen V4.4 engine used only to validate and migrate version-2 saves. */
 (() => {
   const CARDS = Object.freeze({
     ice: { name: '氷の矢', cost: 1, damage: 6, weaken: 2, family: 'ice', art: 'ice' },
@@ -36,10 +36,10 @@
     if (typeof id !== 'string') return null;
     const base = id.endsWith('+') ? id.slice(0, -1) : id;
     if (!Object.hasOwn(CARDS, base)) return null;
-    const c = { ...CARDS[base], id, base, isAttack: Object.hasOwn(CARDS[base],'damage'), upgraded: id.endsWith('+') };
+    const c = { ...CARDS[base], id, base, upgraded: id.endsWith('+') };
     if (c.upgraded) {
       c.name += '＋';
-      if (c.isAttack) c.damage += c.cost === 0 ? 1 : 3;
+      if (c.damage) c.damage += c.cost === 0 ? 1 : 3;
       if (c.block) c.block += c.base === 'emberVeil' ? 2 : 3;
       if (c.nextFocus) c.nextFocus += 2;
       if (c.weaken) c.weaken++;
@@ -49,7 +49,7 @@
       if (c.energy) c.energy++;
       if (c.exhaust && c.draw) c.draw++;
     }
-    c.text = [c.isAttack && `${c.damage}ダメージ`, c.combo && `このターン2枚目以降の攻撃なら＋${c.combo}`,
+    c.text = [c.damage && `${c.damage}ダメージ`, c.combo && `このターン2枚目以降の攻撃なら＋${c.combo}`,
       c.block && `${c.block}ブロック`, c.weaken && `次の敵の攻撃行動の各打撃 −${c.weaken}`,
       c.focus && `このターン、次の攻撃＋${c.focus}`, c.reflect && `打撃ごとに${c.reflect}反射`,
       c.weakBonus && `敵に弱体があれば＋${c.weakBonus}。その弱体をすべて消費`,
@@ -82,10 +82,6 @@
       { type: 'attack', label: '炉の強打', power: 16, hits: 1, threshold: 10, reduction: 8 }, { type: 'attack', label: '石の拳', power: 9, hits: 1 }, { type: 'recover', label: '炉を冷やす' }] },
     trial: { name: '守護者の幻影', hp: 70, art: 'moth', lesson: '第1章の試練。溜めの間に魔力を残し、強打を崩そう。', moves: [
       { type: 'attack', label: '星の双刃', power: 4, hits: 2 }, { type: 'attack', label: '試練の詠唱', power: 16, hits: 1, threshold: 12, reduction: 8 }, { type: 'recover', label: '幻影が揺らぐ' }] },
-    bowWatcher: { name: '星弓の番人', hp: 76, art: 'bowWatcher', lesson: '一撃12以上で詠唱18→8。小さな攻撃の合計では崩れない。防御や弱体も通る。', moves: [
-      { type: 'recover', label: '弓を引き絞る' }, { type: 'attack', label: '星を射る詠唱', power: 18, hits: 1, singleThreshold: 12, reduction: 10 }, { type: 'attack', label: '弦の返し', power: 9, hits: 1 }] },
-    bellSpirit: { name: '鈴鏡の精', hp: 76, art: 'bellSpirit', lesson: '詠唱中は手札の攻撃1枚ごとに威力−2。3枚で12→6。反射は枚数に数えない。', moves: [
-      { type: 'attack', label: '三つ鈴の詠唱', power: 12, hits: 1, attackCountThreshold: 3, stepReduction: 2, reduction: 6 }, { type: 'recover', label: '鈴を整える', heal: 4 }, { type: 'attack', label: '鏡の振り子', power: 10, hits: 1 }] },
     archive: { name: '書庫の観測者', hp: 68, art: 'wraith', lesson: '三連撃と一撃が交互。手札を増やしても使い切る必要はない。', moves: [
       { type: 'attack', label: '星屑の三連撃', power: 4, hits: 3 }, { type: 'attack', label: '頁の刃', power: 14, hits: 1 }, { type: 'recover', label: '頁をめくる' }] },
     wind: { name: '嵐をまとう甲冑', hp: 76, art: 'skeleton', lesson: '重い連撃と詠唱。魔力を残すか、使い切って火花につなぐか。', moves: [
@@ -99,13 +95,6 @@
     emberCore: { name: '残火の芯', symbol: '✦', effect: '各戦闘1回。魔力0でターンを終えると、次ターンに4ブロック。' },
     starBottle: { name: '星砂の小瓶', symbol: '✧', effect: '各戦闘1回。自然回復後の魔力が4以上なら、そのターン最初の攻撃＋5。' }
   });
-  function breakRule(m) { return m.singleThreshold ? {kind:'single',threshold:m.singleThreshold} : m.attackCountThreshold ? {kind:'count',threshold:m.attackCountThreshold} : m.threshold ? {kind:'total',threshold:m.threshold} : {kind:null,threshold:0}; }
-  function describeMove(m) {
-    if(m.type==='recover')return `${m.label}${m.heal?`（最大${m.heal}回復）`:'（攻撃なし）'}`;
-    const r=breakRule(m),condition=r.kind==='single'?`一撃${r.threshold}で${m.power-m.reduction}`:r.kind==='count'?`攻撃札${r.threshold}枚で${m.power-m.reduction}`:r.kind==='total'?`合計${r.threshold}で${m.power-m.reduction}`:'';
-    return `${m.label} ${m.power}${m.hits>1?`×${m.hits}`:''}${condition?`〔${condition}〕`:''}`;
-  }
-  function enemyPattern(id) { return ENEMIES[id]?.moves.map(describeMove).join(' → ') || ''; }
   const MAX_HP = 60;
   const MAX_ENERGY = 5;
   const RUN_LENGTH = 6;
@@ -131,7 +120,7 @@
     function reset() {
       s = { phase: 'intro', origin: 'frost', battle: 1, turn: 1, hp: MAX_HP, maxHp: MAX_HP, enemyId: 'skeleton', enemyHp: 48, enemyMaxHp: 48,
         energy: 2, maxEnergy: MAX_ENERGY, pendingFocus: 0, pendingBlock: 0, prevEndEmpty: false, turnLastAttack: 0, prevLastAttack: 0, usedExhaustThisTurn: false, relics: [], relicUsed: {emberCore:false,starBottle:false}, removalSource: null, block: 0, focus: 0, weaken: 0, reflect: 0, turnDamage: 0, spellCount: 0, interrupted: false, flags: {},
-        deck: [...ORIGINS.frost.deck], hand: [], draw: [], discard: [], exhaust: [], route: null, route2: null, chapter2Options: {library:'bowWatcher',wind:'bellSpirit'}, chapter2Encounter: null, forge: false, insight: false, sanctuary: null, camp: null,
+        deck: [...ORIGINS.frost.deck], hand: [], draw: [], discard: [], exhaust: [], route: null, route2: null, forge: false, insight: false, sanctuary: null, camp: null,
         lastReward: null, lastUpgrade: null, pendingUpgrade: null, upgrades: [], removed: [], rewards: [], rewardOffers: [], history: [], wins: 0,
         stats: { played: {}, dealt: 0, taken: 0, healed: 0, energyGained: 0, blocked: 0, reflected: 0, interrupts: 0, relics: 0 },
         log: ['護符を選んで、蒼星の回廊へ。'] };
@@ -140,7 +129,7 @@
     function selectOrigin(id) { if (s.phase !== 'intro' || !Object.hasOwn(ORIGINS, id)) return false; s.origin = id; s.deck = [...ORIGINS[id].deck]; return true; }
     function prepare() {
       s.phase = 'battle'; s.turn = 1; s.energy = 2; s.block = s.focus = s.weaken = s.reflect = s.turnDamage = s.spellCount = 0; s.flags = {}; s.interrupted = false; s.pendingFocus = s.pendingBlock = 0; s.prevEndEmpty = false; s.turnLastAttack = s.prevLastAttack = 0; s.usedExhaustThisTurn = false; s.relicUsed = {emberCore:false,starBottle:false}; s.removalSource = null;
-      s.enemyId = s.battle === 1 ? 'skeleton' : s.battle === 2 ? (s.route === 'moon' ? 'wraith' : 'stone') : s.battle === 3 ? 'trial' : s.battle === 4 ? s.chapter2Encounter : s.battle === 5 ? 'elite' : 'moth';
+      s.enemyId = s.battle === 1 ? 'skeleton' : s.battle === 2 ? (s.route === 'moon' ? 'wraith' : 'stone') : s.battle === 3 ? 'trial' : s.battle === 4 ? (s.route2 === 'library' ? 'archive' : 'wind') : s.battle === 5 ? 'elite' : 'moth';
       s.enemyMaxHp = s.enemyHp = enemy().hp;
       s.rewardOffers = [];
       s.hand = []; s.discard = []; s.exhaust = []; s.draw = shuffle([...s.deck]);
@@ -155,14 +144,11 @@
         const healing = Math.min(m.heal || 0, s.enemyMaxHp - s.enemyHp);
         return { type: 'recover', label: m.label, damage: 0, hpLoss: 0, heal: healing, detail: `攻撃しない。${healing ? `敵HPが${healing}回復。` : ''}` };
       }
-      const rule = breakRule(m);
-      const reduction = rule.kind === 'count' ? Math.min(rule.threshold,s.spellCount)*m.stepReduction : s.interrupted ? m.reduction || 0 : 0;
-      const perHit = Math.max(0, m.power - reduction - s.weaken);
+      const perHit = Math.max(0, m.power - (s.interrupted ? m.reduction || 0 : 0) - s.weaken);
       const a = { type: 'attack', label: m.label, perHit, hits: m.hits, damage: perHit * m.hits };
       const result = resolveAttack(s, a);
-      const progress = rule.kind === 'count' ? Math.min(rule.threshold,s.spellCount) : rule.kind === 'single' ? (s.interrupted?rule.threshold:0) : Math.min(rule.threshold,s.turnDamage);
-      const extra = rule.threshold ? { threshold:rule.threshold,progress,remaining:Math.max(0,rule.threshold-progress),broken:s.interrupted,breakKind:rule.kind } : {};
-      const tip = !rule.threshold ? '' : rule.kind==='count' ? `攻撃札${progress}/${rule.threshold}。基本威力${m.power}→${m.power-reduction}。${s.interrupted?'最大軽減。':`あと${rule.threshold-progress}枚で最大軽減。`}` : s.interrupted ? `詠唱崩し成功。基本威力${m.power}→${m.power-m.reduction}。` : rule.kind==='single' ? `一撃${rule.threshold}以上で威力−${m.reduction}。合計では不可。` : `あと${extra.remaining}ダメージで威力−${m.reduction}。`;
+      const extra = m.threshold ? { threshold: m.threshold, progress: Math.min(m.threshold, s.turnDamage), remaining: Math.max(0, m.threshold - s.turnDamage), broken: s.interrupted } : {};
+      const tip = m.threshold ? s.interrupted ? `詠唱崩し成功。基本威力${m.power}→${m.power - m.reduction}。` : `あと${extra.remaining}ダメージで威力−${m.reduction}。` : '';
       return { ...a, ...extra, hpLoss: result.taken, reflected: result.reflected, resolvedHits: result.resolvedHits,
         detail: `今の守りで HP −${result.taken}。${result.reflected ? `反射${result.reflected}。` : ''}${tip}${result.resolvedHits < m.hits && result.enemyHp === 0 && result.hp > 0 ? '反射で残りの打撃を止める。' : ''}` };
     }
@@ -170,17 +156,17 @@
     function futureIntents(count = 2) {
       if (s.phase !== 'battle') return [];
       return Array.from({length: Math.max(0,Math.min(2,Number.isInteger(count)?count:2))},(_,i)=>{
-        const turn=s.turn+i+1,m=moveAt(turn),rule=breakRule(m);
+        const turn=s.turn+i+1,m=moveAt(turn);
         return {turn,type:m.type,label:m.label,power:m.power||0,hits:m.hits||0,heal:m.heal||0,
-          threshold:rule.threshold,breakKind:rule.kind,reduction:m.reduction||0,stepReduction:m.stepReduction||0,conditional:true,
-          detail:`${describeMove(m)}。基本値で、弱体や詠唱条件により変化。`};
+          threshold:m.threshold||0,reduction:m.reduction||0,conditional:true,
+          detail:m.type==='attack'?`基本${m.power}${m.hits>1?`×${m.hits}`:''}。弱体${m.threshold?`・そのターンに${m.threshold}ダメージで詠唱崩し`:''}で変化。`:`攻撃なし${m.heal?`、最大${m.heal}回復`:''}。`};
       });
     }
     function previewCard(index) {
       const c = card(s.hand[index] || ''); if (!c) return null;
-      const charm = c.isAttack && s.origin === 'storm' && c.cost === 2 && !s.flags.storm ? 3 : 0;
-      const forge = c.isAttack && s.forge && !s.flags.forge ? 2 : 0;
-      return { ...c, actualDamage: c.isAttack ? c.damage + s.focus + (c.combo && s.spellCount > 0 ? c.combo : 0) + (c.weakBonus && s.weaken > 0 ? c.weakBonus : 0) + (c.emptyBonus && s.energy === 0 ? c.emptyBonus : 0) + (c.bankBonus && s.energy >= 4 ? c.bankBonus : 0) + (c.memoryCap ? Math.min(c.memoryCap,Math.floor(s.prevLastAttack/2)) : 0) + Math.min(c.blockDamage || 0, s.block) + charm + forge : 0,
+      const charm = c.damage && s.origin === 'storm' && c.cost === 2 && !s.flags.storm ? 3 : 0;
+      const forge = c.damage && s.forge && !s.flags.forge ? 2 : 0;
+      return { ...c, actualDamage: c.damage ? c.damage + s.focus + (c.combo && s.spellCount > 0 ? c.combo : 0) + (c.weakBonus && s.weaken > 0 ? c.weakBonus : 0) + (c.emptyBonus && s.energy === 0 ? c.emptyBonus : 0) + (c.bankBonus && s.energy >= 4 ? c.bankBonus : 0) + (c.memoryCap ? Math.min(c.memoryCap,Math.floor(s.prevLastAttack/2)) : 0) + Math.min(c.blockDamage || 0, s.block) + charm + forge : 0,
         actualBlock: (c.block || 0) + (c.prevEmptyBlock && s.prevEndEmpty ? c.prevEmptyBlock : 0) + (c.exhaustBlock && s.usedExhaustThisTurn ? c.exhaustBlock : 0),
         actualMemory: c.memoryCap ? Math.min(c.memoryCap,Math.floor(s.prevLastAttack/2)) : 0, exhaustCondition: Boolean(c.exhaustBlock && s.usedExhaustThisTurn),
         actualNextFocus: c.nextFocus || 0, actualNextBlock: c.emptyNextBlock && s.energy === c.cost ? c.emptyNextBlock : 0,
@@ -192,14 +178,14 @@
       if (s.phase !== 'battle') return;
       if (s.hp <= 0) { s.phase = 'defeat'; note('灯りが消えた。同じ山札で別の選択を試そう。'); }
       else if (s.enemyHp <= 0) { s.phase = 'victory'; s.wins++; note(`${enemy().name}を越えた。`); }
-      if (s.phase !== 'battle') { s.pendingFocus = s.pendingBlock = 0; s.prevEndEmpty = false; s.turnLastAttack = s.prevLastAttack = 0; s.usedExhaustThisTurn = false; s.turnDamage = s.spellCount = 0; s.interrupted = false; s.history.push({ enemy: enemy().name, battle: s.battle, turns: s.turn, hp: s.hp, result: s.phase }); }
+      if (s.phase !== 'battle') { s.pendingFocus = s.pendingBlock = 0; s.prevEndEmpty = false; s.turnLastAttack = s.prevLastAttack = 0; s.usedExhaustThisTurn = false; s.history.push({ enemy: enemy().name, battle: s.battle, turns: s.turn, hp: s.hp, result: s.phase }); }
     }
     function play(index) {
       if (s.phase !== 'battle' || !Number.isInteger(index)) return false;
       const c = previewCard(index); if (!c || c.cost > s.energy) return false;
       s.energy -= c.cost; s.hand.splice(index, 1); s.stats.played[c.base] = (s.stats.played[c.base] || 0) + 1;
       let damage = 0;
-      if (c.isAttack) {
+      if (c.damage) {
         damage = Math.min(s.enemyHp, c.actualDamage); s.turnLastAttack = damage; s.enemyHp -= damage; s.turnDamage += damage; s.stats.dealt += damage; s.focus = 0; s.spellCount++;
         if (s.origin === 'storm' && c.cost === 2 && !s.flags.storm) { s.flags.storm = true; s.stats.relics++; }
         if (s.forge && !s.flags.forge) s.flags.forge = true;
@@ -214,7 +200,7 @@
       if (c.draw && s.enemyHp > 0) draw(c.draw);
       (c.exhaust ? s.exhaust : s.discard).push(c.id); if (c.exhaust) s.usedExhaustThisTurn = true;
       note(`${c.name}：${damage ? `${damage}ダメージ。` : ''}${c.actualBlock ? `${c.actualBlock}ブロック。` : ''}${c.actualNextFocus ? `次ターン攻撃＋${c.actualNextFocus}を予約。` : ''}${c.actualNextBlock ? `次ターン防御${c.actualNextBlock}を予約。` : ''}${c.actualWeak ? `各打撃−${c.actualWeak}。` : ''}${c.focus ? `次の攻撃＋${c.focus}。` : ''}${c.actualReflect ? `反射＋${c.actualReflect}。` : ''}${c.heal ? `HP＋${c.actualHeal}。` : ''}${c.energy ? `魔力＋${c.actualEnergy}。` : ''}${c.consumeWeak ? '弱体を消費。' : ''}${c.consumeBlock ? 'ブロックを消費。' : ''}${c.draw && s.enemyHp > 0 ? `${c.draw}枚引く。` : ''}${c.exhaust ? '消滅。' : ''}`);
-      if (!s.interrupted && s.enemyHp > 0 && ((move().threshold && s.turnDamage >= move().threshold) || (move().singleThreshold && damage >= move().singleThreshold) || (move().attackCountThreshold && s.spellCount >= move().attackCountThreshold))) { s.interrupted = true; s.stats.interrupts++; note(`詠唱を崩した！ 残る攻撃にも備えよう。`); }
+      if (move().threshold && !s.interrupted && s.turnDamage >= move().threshold && s.enemyHp > 0) { s.interrupted = true; s.stats.interrupts++; note(`詠唱を崩した！ 残る攻撃にも備えよう。`); }
       finish(); return true;
     }
     function endTurn() {
@@ -264,7 +250,7 @@
     function upgradeOptions() { return [...new Set(s.deck)].filter(id => !id.endsWith('+')).sort((a, b) => s.deck.filter(x => x === b).length - s.deck.filter(x => x === a).length); }
     function chooseChapter(id) {
       if (s.phase !== 'chapter' || !['library','wind'].includes(id)) return false;
-      s.route2 = id; s.chapter2Encounter = s.chapter2Options[id];
+      s.route2 = id;
       if (id === 'library') { s.insight = true; note('星図を得た。以後、各戦闘の初手が6枚になる。'); }
       else { s.maxHp += 6; s.hp = Math.min(s.maxHp, s.hp + 6); note('風の加護。最大HP＋6、HPを6回復。'); }
       s.phase = 'ready'; return true;
@@ -305,19 +291,18 @@
     function nextBattle() { if (s.phase !== 'ready' || s.battle >= RUN_LENGTH) return false; s.battle++; prepare(); return true; }
     function exportSave() {
       if (typeof rng.state !== 'function') return null;
-      return { format: 'astral-planning', version: 3, rngState: rng.state(), state: snapshot() };
+      return { format: 'astral-planning', version: 2, rngState: rng.state(), state: snapshot() };
     }
     function restoreSave(save) {
       // Local saves are data, never executable state. Validate before changing the live game.
       try {
-        if (save?.format === 'astral-planning' && [1,2].includes(save.version)) {
-          const legacy = globalThis.ShinkaPlanningV2?.createGame();
+        if (save?.format === 'astral-planning' && save.version === 1) {
+          const legacy = globalThis.ShinkaPlanningV1?.createGame();
           if (!legacy || !legacy.restoreSave(save)) return false;
           save = legacy.exportSave();
-          const options = save.state.route2 ? {library:'archive',wind:'wind'} : {library:'bowWatcher',wind:'bellSpirit'};
-          save = {...save,version:3,state:{...save.state,chapter2Options:options,chapter2Encounter:save.state.route2?options[save.state.route2]:null}};
+          save = {...save,version:2,state:{...save.state,turnLastAttack:0,prevLastAttack:0,usedExhaustThisTurn:false,relics:[],relicUsed:{emberCore:false,starBottle:false},removalSource:save.state.phase==='remove'?'camp':null}};
         }
-        if (!save || save.format !== 'astral-planning' || save.version !== 3 || !Number.isInteger(save.rngState) || save.rngState < 0 || save.rngState > 4294967295) return false;
+        if (!save || save.format !== 'astral-planning' || save.version !== 2 || !Number.isInteger(save.rngState) || save.rngState < 0 || save.rngState > 4294967295) return false;
         const x = save.state, integer = (v, min, max) => Number.isInteger(v) && v >= min && v <= max;
         const record = v => v !== null && typeof v === 'object' && Object.prototype.toString.call(v) === '[object Object]';
         const phases = ['intro','battle','victory','defeat','complete','reward','route','chapter','sanctuary','evolve','camp','remove','ready','astrolabe'];
@@ -366,10 +351,7 @@
         if (hasRoute ? !['moon','forge'].includes(x.route) : x.route !== null) return false;
         if (hasChapterRoute ? !['library','wind'].includes(x.route2) : x.route2 !== null) return false;
         if (x.forge !== (x.route === 'forge') || x.insight !== (x.route2 === 'library') || x.maxHp !== (x.route2 === 'wind' ? 66 : 60)) return false;
-        if (!record(x.chapter2Options) || Object.keys(x.chapter2Options).sort().join('|')!=='library|wind' || !['bowWatcher|bellSpirit','archive|wind'].includes(`${x.chapter2Options.library}|${x.chapter2Options.wind}`)) return false;
-        if (!x.route2 && x.chapter2Options.library !== 'bowWatcher') return false;
-        if (x.chapter2Encounter !== (x.route2?x.chapter2Options[x.route2]:null)) return false;
-        const encounter = b => b === 1 ? 'skeleton' : b === 2 ? (x.route==='moon'?'wraith':'stone') : b === 3 ? 'trial' : b === 4 ? x.chapter2Encounter : b === 5 ? 'elite' : 'moth';
+        const encounter = b => b === 1 ? 'skeleton' : b === 2 ? (x.route==='moon'?'wraith':'stone') : b === 3 ? 'trial' : b === 4 ? (x.route2==='library'?'archive':'wind') : b === 5 ? 'elite' : 'moth';
         if (x.enemyId !== encounter(x.battle)) return false;
         if (x.history.some((h,i)=>h.battle!==i+1 || h.enemy!==ENEMIES[encounter(i+1)].name || (i<x.history.length-1&&h.result!=='victory') || (h.result==='defeat'?h.hp!==0:h.hp<=0))) return false;
         if (afterBattle && (x.history.at(-1).turns !== x.turn || x.history.at(-1).result !== (x.phase==='defeat'?'defeat':'victory'))) return false;
@@ -377,12 +359,6 @@
         if (x.pendingUpgrade && !x.deck.includes(x.pendingUpgrade)) return false;
         if (['battle','victory','defeat','complete'].includes(x.phase) && [...x.hand,...x.draw,...x.discard,...x.exhaust].sort().join('|') !== [...x.deck].sort().join('|')) return false;
         if (x.phase === 'battle' && (!x.hp || !x.enemyHp)) return false;
-        if (x.phase === 'battle') {
-          const m=ENEMIES[x.enemyId].moves[(x.turn-1)%ENEMIES[x.enemyId].moves.length], r=breakRule(m);
-          if (!r.kind && x.interrupted) return false;
-          if (r.kind==='count' && x.interrupted !== (x.spellCount>=r.threshold)) return false;
-          if (r.kind==='single' && x.interrupted && (!x.spellCount || x.turnDamage<r.threshold)) return false;
-        }
         if (x.phase === 'reward' && x.rewardOffers.length !== 4) return false;
         if (x.phase === 'complete' && (x.wins !== 6 || x.battle !== 6)) return false;
         s = JSON.parse(JSON.stringify(x)); rng = seededRandom(save.rngState); return true;
@@ -391,5 +367,5 @@
     reset();
     return { snapshot, selectOrigin, start, intent, futureIntents, previewCard, play, endTurn, rewardOptions, openReward, chooseReward, chooseRoute, chooseSanctuary, chooseRelic, cancelRelic, upgradeOptions, evolve, cancelEvolution, chooseChapter, chooseCamp, removeOptions, removeCard, cancelRemoval, nextBattle, exportSave, restoreSave, reset };
   }
-  globalThis.ShinkaV43 = Object.freeze({ CARDS, ORIGINS, ENEMIES, RELICS, enemyPattern, MAX_HP, MAX_ENERGY, RUN_LENGTH, card, seededRandom, resolveAttack, createGame });
+  globalThis.ShinkaPlanningV2 = Object.freeze({ CARDS, ORIGINS, ENEMIES, RELICS, MAX_HP, MAX_ENERGY, RUN_LENGTH, card, seededRandom, resolveAttack, createGame });
 })();
