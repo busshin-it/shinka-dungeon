@@ -32,6 +32,8 @@
     ashWard: { name: '灰の守り', cost: 1, block: 4, exhaustBlock: 4, exhaustReflect: 2, family: 'guard', art: 'manaBarrier' },
     frostPierce: { name: '霜穿ち', cost: 2, damage: 10, weakThreshold: 3, thresholdBonus: 7, family: 'ice', art: 'frostPierce' },
     chantWard: { name: '詠止の結界', cost: 1, block: 4, breakBlock: 6, breakDraw: 1, family: 'guard', art: 'chantWard' },
+    starFerryWard: { name: '星舟の結界', cost: 1, block: 4, bankBlock: 6, family: 'guard', art: 'starFerryWard' },
+    ebbArrow: { name: '潮引きの矢', cost: 1, damage: 5, emptyWeak: 3, family: 'dark', art: 'ebbArrow' },
     echo: { name: '返照', cost: 0, reflect: 2, exhaust: true, family: 'guard', art: 'manaBarrier' }
   });
   function card(id) {
@@ -45,6 +47,7 @@
       if (c.block) c.block += c.base === 'emberVeil' ? 2 : 3;
       if (c.nextFocus) c.nextFocus += 2;
       if (c.weaken) c.weaken++;
+      if (c.emptyWeak) c.emptyWeak++;
       if (c.reflect) c.reflect++;
       if (c.focus) c.focus += 2;
       if (c.heal) c.heal += 2;
@@ -57,6 +60,8 @@
       c.weakBonus && `敵に弱体があれば＋${c.weakBonus}。その弱体をすべて消費`,
       c.weakThreshold && `敵の弱体が${c.weakThreshold}以上なら＋${c.thresholdBonus}。弱体は消費しない`,
       c.breakBlock && `このターン、すでに詠唱を崩していれば追加${c.breakBlock}ブロック${c.breakDraw?`、さらに${c.breakDraw}枚引く`:""}`,
+      c.bankBlock && `支払い直後に魔力2以上なら追加${c.bankBlock}ブロック`,
+      c.emptyWeak && `支払い直後に魔力0なら弱体${c.emptyWeak}（次の敵の各打撃を軽減）`,
       c.emptyBonus && `魔力0で使うと＋${c.emptyBonus}`,
       c.bankBonus && `使用前の魔力4以上なら＋${c.bankBonus}`,
       c.memoryCap && `前ターン最後の手札攻撃の実ダメージ半分を追加（切捨て、最大${c.memoryCap}）`,
@@ -94,6 +99,8 @@
       { type: 'attack', label: '星屑の三連撃', power: 4, hits: 3 }, { type: 'attack', label: '頁の刃', power: 14, hits: 1 }, { type: 'recover', label: '頁をめくる' }] },
     wind: { name: '嵐をまとう甲冑', hp: 76, art: 'skeleton', lesson: '重い連撃と詠唱。魔力を残すか、使い切って火花につなぐか。', moves: [
       { type: 'attack', label: '嵐の双刃', power: 7, hits: 2 }, { type: 'attack', label: '雷雲の詠唱', power: 20, hits: 1, threshold: 14, reduction: 12 }, { type: 'recover', label: '風が止む' }] },
+    tideStarSentinel: { name: '潮星の番人', hp: 72, art: 'tideStarSentinel', lesson: '引き潮は魔力2以上、満ち潮は魔力0で軽減。敵が動く直前の魔力で決まる。', moves: [
+      { type: 'recover', label: '星の潮を読む' }, { type: 'attack', label: '引き潮', power: 14, hits: 1, manaCondition: 'bank', manaReduction: 8 }, { type: 'attack', label: '満ち潮', power: 16, hits: 1, manaCondition: 'empty', manaReduction: 8 }] },
     elite: { name: '鏡像の双衛', hp: 82, art: 'wraith', lesson: '連撃を守り、回復の前に押し切る。魔力を貯めた一撃も有効。', moves: [
       { type: 'attack', label: '鏡の三連撃', power: 4, hits: 3 }, { type: 'attack', label: '鏡像の一閃', power: 16, hits: 1, threshold: 13, reduction: 10 }, { type: 'recover', label: '鏡を繕う', heal: 4 }] },
     moth: { name: '星環の守護者', hp: 112, art: 'moth', lesson: '最終戦。三連撃と詠唱強打。14ダメージで強打21→9。', moves: [
@@ -104,9 +111,10 @@
     starBottle: { name: '星砂の小瓶', symbol: '✧', effect: '各戦闘1回。自然回復後の魔力が4以上なら、そのターン最初の攻撃＋5。' }
   });
   function breakRule(m) { return m.singleThreshold ? {kind:'single',threshold:m.singleThreshold} : m.attackCountThreshold ? {kind:'count',threshold:m.attackCountThreshold} : m.threshold ? {kind:'total',threshold:m.threshold} : {kind:null,threshold:0}; }
+  function manaRuleText(m) { return m.manaCondition === 'bank' ? '魔力2以上で14→6' : m.manaCondition === 'empty' ? '魔力0で16→8' : ''; }
   function describeMove(m) {
     if(m.type==='recover')return `${m.label}${m.heal?`（最大${m.heal}回復）`:'（攻撃なし）'}`;
-    const r=breakRule(m),condition=r.kind==='single'?`一撃${r.threshold}で${m.power-m.reduction}`:r.kind==='count'?`攻撃札${r.threshold}枚で${m.power-m.reduction}`:r.kind==='total'?`合計${r.threshold}で${m.power-m.reduction}`:'';
+    const r=breakRule(m),condition=m.manaCondition?manaRuleText(m):r.kind==='single'?`一撃${r.threshold}で${m.power-m.reduction}`:r.kind==='count'?`攻撃札${r.threshold}枚で${m.power-m.reduction}`:r.kind==='total'?`合計${r.threshold}で${m.power-m.reduction}`:'';
     return `${m.label} ${m.power}${m.hits>1?`×${m.hits}`:''}${condition?`〔${condition}〕`:''}`;
   }
   function enemyPattern(id) { return ENEMIES[id]?.moves.map(describeMove).join(' → ') || ''; }
@@ -143,7 +151,7 @@
     }
     function selectOrigin(id) { if (s.phase !== 'intro' || !Object.hasOwn(ORIGINS, id)) return false; s.origin = id; s.deck = [...ORIGINS[id].deck]; return true; }
     function prepare() {
-      s.phase = 'battle'; s.turn = 1; s.energy = 2; s.block = s.focus = s.weaken = s.reflect = s.turnDamage = s.spellCount = 0; s.flags = {}; s.interrupted = false; s.pendingFocus = s.pendingBlock = 0; s.prevEndEmpty = false; s.turnLastAttack = s.prevLastAttack = 0; s.usedExhaustThisTurn = false; s.relicUsed = {emberCore:false,starBottle:false}; s.removalSource = null;
+      s.phase = 'battle'; s.turn = 1; s.energy = s.route2 === 'causeway' && s.battle >= 4 ? 3 : 2; s.block = s.focus = s.weaken = s.reflect = s.turnDamage = s.spellCount = 0; s.flags = {}; s.interrupted = false; s.pendingFocus = s.pendingBlock = 0; s.prevEndEmpty = false; s.turnLastAttack = s.prevLastAttack = 0; s.usedExhaustThisTurn = false; s.relicUsed = {emberCore:false,starBottle:false}; s.removalSource = null;
       s.enemyId = s.battle === 1 ? 'skeleton' : s.battle === 2 ? (s.route === 'moon' ? 'wraith' : 'stone') : s.battle === 3 ? 'trial' : s.battle === 4 ? s.chapter2Encounter : s.battle === 5 ? 'elite' : 'moth';
       s.enemyMaxHp = s.enemyHp = enemy().hp;
       s.rewardOffers = [];
@@ -160,14 +168,15 @@
         return { type: 'recover', label: m.label, damage: 0, hpLoss: 0, heal: healing, detail: `攻撃しない。${healing ? `敵HPが${healing}回復。` : ''}` };
       }
       const rule = breakRule(m);
-      const reduction = rule.kind === 'count' ? Math.min(rule.threshold,s.spellCount)*m.stepReduction : s.interrupted ? m.reduction || 0 : 0;
+      const manaConditionMet = m.manaCondition === 'bank' ? s.energy >= 2 : m.manaCondition === 'empty' ? s.energy === 0 : false;
+      const reduction = m.manaCondition ? (manaConditionMet ? m.manaReduction : 0) : rule.kind === 'count' ? Math.min(rule.threshold,s.spellCount)*m.stepReduction : s.interrupted ? m.reduction || 0 : 0;
       const perHit = Math.max(0, m.power - reduction - s.weaken);
       const a = { type: 'attack', label: m.label, perHit, hits: m.hits, damage: perHit * m.hits };
       const result = resolveAttack(s, a);
       const progress = rule.kind === 'count' ? Math.min(rule.threshold,s.spellCount) : rule.kind === 'single' ? (s.interrupted?rule.threshold:0) : Math.min(rule.threshold,s.turnDamage);
       const extra = rule.threshold ? { threshold:rule.threshold,progress,remaining:Math.max(0,rule.threshold-progress),broken:s.interrupted,breakKind:rule.kind } : {};
-      const tip = !rule.threshold ? '' : rule.kind==='count' ? `攻撃札${progress}/${rule.threshold}。基本威力${m.power}→${m.power-reduction}。${s.interrupted?'最大軽減。':`あと${rule.threshold-progress}枚で最大軽減。`}` : s.interrupted ? `詠唱崩し成功。基本威力${m.power}→${m.power-m.reduction}。` : rule.kind==='single' ? `一撃${rule.threshold}以上で威力−${m.reduction}。合計では不可。` : `あと${extra.remaining}ダメージで威力−${m.reduction}。`;
-      return { ...a, ...extra, hpLoss: result.taken, reflected: result.reflected, resolvedHits: result.resolvedHits,
+      const tip = m.manaCondition ? `${manaRuleText(m)}。敵行動直前に判定。${manaConditionMet ? '現在は条件成立。' : ''}` : !rule.threshold ? '' : rule.kind==='count' ? `攻撃札${progress}/${rule.threshold}。基本威力${m.power}→${m.power-reduction}。${s.interrupted?'最大軽減。':`あと${rule.threshold-progress}枚で最大軽減。`}` : s.interrupted ? `詠唱崩し成功。基本威力${m.power}→${m.power-m.reduction}。` : rule.kind==='single' ? `一撃${rule.threshold}以上で威力−${m.reduction}。合計では不可。` : `あと${extra.remaining}ダメージで威力−${m.reduction}。`;
+      return { ...a, ...extra, ...(m.manaCondition ? {manaCondition:m.manaCondition,manaConditionMet} : {}), hpLoss: result.taken, reflected: result.reflected, resolvedHits: result.resolvedHits,
         detail: `今の守りで HP −${result.taken}。${result.reflected ? `反射${result.reflected}。` : ''}${tip}${result.resolvedHits < m.hits && result.enemyHp === 0 && result.hp > 0 ? '反射で残りの打撃を止める。' : ''}` };
     }
     // Future entries are base actions, not predicted HP loss. No current guard/weakness is projected.
@@ -176,8 +185,8 @@
       return Array.from({length: Math.max(0,Math.min(2,Number.isInteger(count)?count:2))},(_,i)=>{
         const turn=s.turn+i+1,m=moveAt(turn),rule=breakRule(m);
         return {turn,type:m.type,label:m.label,power:m.power||0,hits:m.hits||0,heal:m.heal||0,
-          threshold:rule.threshold,breakKind:rule.kind,reduction:m.reduction||0,stepReduction:m.stepReduction||0,conditional:true,
-          detail:`${describeMove(m)}。基本値で、弱体や詠唱条件により変化。`};
+          threshold:rule.threshold,breakKind:rule.kind,reduction:m.reduction||0,stepReduction:m.stepReduction||0,conditional:true, ...(m.manaCondition ? {manaCondition:m.manaCondition,manaReduction:m.manaReduction} : {}),
+          detail:`${describeMove(m)}。基本値で、弱体や各条件により変化。`};
       });
     }
     function previewCard(index) {
@@ -185,12 +194,13 @@
       const charm = c.isAttack && s.origin === 'storm' && c.cost === 2 && !s.flags.storm ? 3 : 0;
       const forge = c.isAttack && s.forge && !s.flags.forge ? 2 : 0;
       return { ...c, actualDamage: c.isAttack ? c.damage + s.focus + (c.combo && s.spellCount > 0 ? c.combo : 0) + (c.weakBonus && s.weaken > 0 ? c.weakBonus : 0) + (c.emptyBonus && s.energy === 0 ? c.emptyBonus : 0) + (c.bankBonus && s.energy >= 4 ? c.bankBonus : 0) + (c.memoryCap ? Math.min(c.memoryCap,Math.floor(s.prevLastAttack/2)) : 0) + (c.weakThreshold && s.weaken >= c.weakThreshold ? c.thresholdBonus : 0) + Math.min(c.blockDamage || 0, s.block) + charm + forge : 0,
-        actualBlock: (c.block || 0) + (c.prevEmptyBlock && s.prevEndEmpty ? c.prevEmptyBlock : 0) + (c.exhaustBlock && s.usedExhaustThisTurn ? c.exhaustBlock : 0) + (c.breakBlock && s.interrupted ? c.breakBlock : 0),
+        actualBlock: (c.block || 0) + (c.prevEmptyBlock && s.prevEndEmpty ? c.prevEmptyBlock : 0) + (c.exhaustBlock && s.usedExhaustThisTurn ? c.exhaustBlock : 0) + (c.breakBlock && s.interrupted ? c.breakBlock : 0) + (c.bankBlock && s.energy - c.cost >= 2 ? c.bankBlock : 0),
+        bankBlockCondition: Boolean(c.bankBlock && s.energy - c.cost >= 2), emptyWeakCondition: Boolean(c.emptyWeak && s.energy === c.cost),
         weakThresholdCondition: Boolean(c.weakThreshold && s.weaken >= c.weakThreshold), breakCondition: Boolean(c.breakBlock && s.interrupted),
         actualDraw: (c.draw || 0) + (c.breakDraw && s.interrupted ? c.breakDraw : 0),
         actualMemory: c.memoryCap ? Math.min(c.memoryCap,Math.floor(s.prevLastAttack/2)) : 0, exhaustCondition: Boolean(c.exhaustBlock && s.usedExhaustThisTurn),
         actualNextFocus: c.nextFocus || 0, actualNextBlock: c.emptyNextBlock && s.energy === c.cost ? c.emptyNextBlock : 0,
-        actualWeak: c.weaken ? c.weaken + (s.origin === 'frost' && c.family === 'ice' && !s.flags.frost ? 1 : 0) : 0,
+        actualWeak: c.emptyWeak ? (s.energy === c.cost ? c.emptyWeak : 0) : c.weaken ? c.weaken + (s.origin === 'frost' && c.family === 'ice' && !s.flags.frost ? 1 : 0) : 0,
         actualReflect: (c.reflect || 0) + (c.exhaustReflect && s.usedExhaustThisTurn ? c.exhaustReflect : 0) + (c.block && s.origin === 'mirror' && !s.flags.mirror ? 2 : 0),
         actualHeal: Math.min(c.heal || 0, s.maxHp - s.hp), actualEnergy: Math.min(c.energy || 0, MAX_ENERGY - s.energy + c.cost) };
     }
@@ -250,7 +260,7 @@
       if (s.phase === 'reward') {
         const offers = shuffle([...REWARD_POOLS[s.origin]]).slice(0,1);
         offers.push(shuffle(['light','stillness','renew','meditate','focus'].filter(id => !offers.includes(id)))[0]);
-        while (offers.length < 4) offers.push(shuffle(Object.keys(CARDS).filter(id => !offers.includes(id) && (id !== 'chantWard' || s.battle >= 2)))[0]); s.rewardOffers = offers;
+        while (offers.length < 4) offers.push(shuffle(Object.keys(CARDS).filter(id => !offers.includes(id) && (!['chantWard','starFerryWard','ebbArrow'].includes(id) || s.battle >= 2)))[0]); s.rewardOffers = offers;
       }
       return true;
     }
@@ -269,9 +279,10 @@
     }
     function upgradeOptions() { return [...new Set(s.deck)].filter(id => !id.endsWith('+')).sort((a, b) => s.deck.filter(x => x === b).length - s.deck.filter(x => x === a).length); }
     function chooseChapter(id) {
-      if (s.phase !== 'chapter' || !['library','wind'].includes(id)) return false;
-      s.route2 = id; s.chapter2Encounter = s.chapter2Options[id];
+      if (s.phase !== 'chapter' || !['library','wind','causeway'].includes(id) || (id === 'causeway' && s.hp <= 4)) return false;
+      s.route2 = id; s.chapter2Encounter = id === 'causeway' ? 'tideStarSentinel' : s.chapter2Options[id];
       if (id === 'library') { s.insight = true; note('星図を得た。以後、各戦闘の初手が6枚になる。'); }
+      else if (id === 'causeway') { s.hp -= 4; note('HPを4払い、星渡りの回廊へ。以後、各戦闘の開始魔力が3になる。'); }
       else { s.maxHp += 6; s.hp = Math.min(s.maxHp, s.hp + 6); note('風の加護。最大HP＋6、HPを6回復。'); }
       s.phase = 'ready'; return true;
     }
@@ -332,7 +343,7 @@
         if (x.maxEnergy !== 5 || !integer(x.energy,0,5) || !integer(x.wins,0,6)) return false;
         for (const k of ['block','focus','weaken','reflect','turnDamage','spellCount','pendingFocus','pendingBlock','turnLastAttack','prevLastAttack']) if (!integer(x[k],0,100000)) return false;
         for (const k of ['interrupted','forge','insight','prevEndEmpty','usedExhaustThisTurn']) if (typeof x[k] !== 'boolean') return false;
-        for (const [k,allowed] of [['route',[null,'moon','forge']],['route2',[null,'library','wind']],['sanctuary',[null,'rest','evolve','relic','remove']],['camp',[null,'rest','remove']]]) if (!allowed.includes(x[k])) return false;
+        for (const [k,allowed] of [['route',[null,'moon','forge']],['route2',[null,'library','wind','causeway']],['sanctuary',[null,'rest','evolve','relic','remove']],['camp',[null,'rest','remove']]]) if (!allowed.includes(x[k])) return false;
         for (const k of ['deck','hand','draw','discard','exhaust','upgrades','removed','rewards','rewardOffers']) if (!Array.isArray(x[k]) || x[k].length > 30 || x[k].some(id => typeof id !== 'string' || !card(id))) return false;
         if (x.deck.length < 5 || x.deck.length > 20 || x.rewardOffers.length > 4 || new Set(x.rewardOffers).size !== x.rewardOffers.length) return false;
         for (const k of ['lastReward','lastUpgrade','pendingUpgrade']) if (x[k] !== null && (typeof x[k] !== 'string' || !card(x[k]))) return false;
@@ -370,11 +381,11 @@
         const hasRoute = x.battle >= 2 || (x.battle === 1 && x.phase === 'ready');
         const hasChapterRoute = x.battle >= 4 || (x.battle === 3 && x.phase === 'ready');
         if (hasRoute ? !['moon','forge'].includes(x.route) : x.route !== null) return false;
-        if (hasChapterRoute ? !['library','wind'].includes(x.route2) : x.route2 !== null) return false;
+        if (hasChapterRoute ? !['library','wind','causeway'].includes(x.route2) : x.route2 !== null) return false;
         if (x.forge !== (x.route === 'forge') || x.insight !== (x.route2 === 'library') || x.maxHp !== (x.route2 === 'wind' ? 66 : 60)) return false;
         if (!record(x.chapter2Options) || Object.keys(x.chapter2Options).sort().join('|')!=='library|wind' || !['bowWatcher|bellSpirit','archive|wind'].includes(`${x.chapter2Options.library}|${x.chapter2Options.wind}`)) return false;
         if (!x.route2 && x.chapter2Options.library !== 'bowWatcher') return false;
-        if (x.chapter2Encounter !== (x.route2?x.chapter2Options[x.route2]:null)) return false;
+        if (x.chapter2Encounter !== (x.route2 === 'causeway' ? 'tideStarSentinel' : x.route2?x.chapter2Options[x.route2]:null)) return false;
         const encounter = b => b === 1 ? 'skeleton' : b === 2 ? (x.route==='moon'?'wraith':'stone') : b === 3 ? 'trial' : b === 4 ? x.chapter2Encounter : b === 5 ? 'elite' : 'moth';
         if (x.enemyId !== encounter(x.battle)) return false;
         if (x.history.some((h,i)=>h.battle!==i+1 || h.enemy!==ENEMIES[encounter(i+1)].name || (i<x.history.length-1&&h.result!=='victory') || (h.result==='defeat'?h.hp!==0:h.hp<=0))) return false;
