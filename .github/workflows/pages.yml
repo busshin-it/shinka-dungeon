@@ -15,7 +15,13 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  verify-game:
+    uses: ./.github/workflows/astral-ci.yml
+    permissions:
+      contents: read
+
   deploy:
+    needs: verify-game
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
