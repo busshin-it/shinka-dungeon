@@ -30,6 +30,8 @@
     fadingStar: { name: '燃え残る星', cost: 1, damage: 5, emptyNextBlock: 5, family: 'dark', art: 'manaBurst' },
     memoryArrow: { name: '追憶の矢', cost: 1, damage: 4, memoryCap: 6, family: 'dark', art: 'dark' },
     ashWard: { name: '灰の守り', cost: 1, block: 4, exhaustBlock: 4, exhaustReflect: 2, family: 'guard', art: 'manaBarrier' },
+    frostPierce: { name: '霜穿ち', cost: 2, damage: 10, weakThreshold: 3, thresholdBonus: 7, family: 'ice', art: 'frostPierce' },
+    chantWard: { name: '詠止の結界', cost: 1, block: 4, breakBlock: 6, breakDraw: 1, family: 'guard', art: 'chantWard' },
     echo: { name: '返照', cost: 0, reflect: 2, exhaust: true, family: 'guard', art: 'manaBarrier' }
   });
   function card(id) {
@@ -53,6 +55,8 @@
       c.block && `${c.block}ブロック`, c.weaken && `次の敵の攻撃行動の各打撃 −${c.weaken}`,
       c.focus && `このターン、次の攻撃＋${c.focus}`, c.reflect && `打撃ごとに${c.reflect}反射`,
       c.weakBonus && `敵に弱体があれば＋${c.weakBonus}。その弱体をすべて消費`,
+      c.weakThreshold && `敵の弱体が${c.weakThreshold}以上なら＋${c.thresholdBonus}。弱体は消費しない`,
+      c.breakBlock && `このターン、すでに詠唱を崩していれば追加${c.breakBlock}ブロック${c.breakDraw?`、さらに${c.breakDraw}枚引く`:""}`,
       c.emptyBonus && `魔力0で使うと＋${c.emptyBonus}`,
       c.bankBonus && `使用前の魔力4以上なら＋${c.bankBonus}`,
       c.memoryCap && `前ターン最後の手札攻撃の実ダメージ半分を追加（切捨て、最大${c.memoryCap}）`,
@@ -109,7 +113,7 @@
   const MAX_HP = 60;
   const MAX_ENERGY = 5;
   const RUN_LENGTH = 6;
-  const REWARD_POOLS = Object.freeze({ frost: ['iceSpear','frostWard','shatter','winter','frostNova'], storm: ['spark','charge','thunderCrash','surge','chain'], mirror: ['reflectShield','shieldStrike','drain','echo','mirror'] });
+  const REWARD_POOLS = Object.freeze({ frost: ['iceSpear','frostWard','shatter','winter','frostNova','frostPierce'], storm: ['spark','charge','thunderCrash','surge','chain'], mirror: ['reflectShield','shieldStrike','drain','echo','mirror'] });
   const seededRandom = seed => { let x = seed >>> 0; const next = () => ((x = Math.imul(x, 1664525) + 1013904223 >>> 0) / 4294967296); next.state = () => x; return next; };
   function resolveAttack(s, action) {
     let hp = s.hp, enemyHp = s.enemyHp, block = s.block, taken = 0, blocked = 0, reflected = 0, resolvedHits = 0;
@@ -180,8 +184,10 @@
       const c = card(s.hand[index] || ''); if (!c) return null;
       const charm = c.isAttack && s.origin === 'storm' && c.cost === 2 && !s.flags.storm ? 3 : 0;
       const forge = c.isAttack && s.forge && !s.flags.forge ? 2 : 0;
-      return { ...c, actualDamage: c.isAttack ? c.damage + s.focus + (c.combo && s.spellCount > 0 ? c.combo : 0) + (c.weakBonus && s.weaken > 0 ? c.weakBonus : 0) + (c.emptyBonus && s.energy === 0 ? c.emptyBonus : 0) + (c.bankBonus && s.energy >= 4 ? c.bankBonus : 0) + (c.memoryCap ? Math.min(c.memoryCap,Math.floor(s.prevLastAttack/2)) : 0) + Math.min(c.blockDamage || 0, s.block) + charm + forge : 0,
-        actualBlock: (c.block || 0) + (c.prevEmptyBlock && s.prevEndEmpty ? c.prevEmptyBlock : 0) + (c.exhaustBlock && s.usedExhaustThisTurn ? c.exhaustBlock : 0),
+      return { ...c, actualDamage: c.isAttack ? c.damage + s.focus + (c.combo && s.spellCount > 0 ? c.combo : 0) + (c.weakBonus && s.weaken > 0 ? c.weakBonus : 0) + (c.emptyBonus && s.energy === 0 ? c.emptyBonus : 0) + (c.bankBonus && s.energy >= 4 ? c.bankBonus : 0) + (c.memoryCap ? Math.min(c.memoryCap,Math.floor(s.prevLastAttack/2)) : 0) + (c.weakThreshold && s.weaken >= c.weakThreshold ? c.thresholdBonus : 0) + Math.min(c.blockDamage || 0, s.block) + charm + forge : 0,
+        actualBlock: (c.block || 0) + (c.prevEmptyBlock && s.prevEndEmpty ? c.prevEmptyBlock : 0) + (c.exhaustBlock && s.usedExhaustThisTurn ? c.exhaustBlock : 0) + (c.breakBlock && s.interrupted ? c.breakBlock : 0),
+        weakThresholdCondition: Boolean(c.weakThreshold && s.weaken >= c.weakThreshold), breakCondition: Boolean(c.breakBlock && s.interrupted),
+        actualDraw: (c.draw || 0) + (c.breakDraw && s.interrupted ? c.breakDraw : 0),
         actualMemory: c.memoryCap ? Math.min(c.memoryCap,Math.floor(s.prevLastAttack/2)) : 0, exhaustCondition: Boolean(c.exhaustBlock && s.usedExhaustThisTurn),
         actualNextFocus: c.nextFocus || 0, actualNextBlock: c.emptyNextBlock && s.energy === c.cost ? c.emptyNextBlock : 0,
         actualWeak: c.weaken ? c.weaken + (s.origin === 'frost' && c.family === 'ice' && !s.flags.frost ? 1 : 0) : 0,
@@ -211,9 +217,9 @@
       s.block += c.actualBlock; s.focus += c.focus || 0; s.pendingFocus += c.actualNextFocus; s.pendingBlock += c.actualNextBlock; s.weaken = Math.max(s.weaken, c.actualWeak); s.reflect += c.actualReflect;
       s.hp += c.actualHeal; s.stats.healed += c.actualHeal;
       s.energy = Math.min(MAX_ENERGY, s.energy + (c.energy || 0)); s.stats.energyGained += c.actualEnergy;
-      if (c.draw && s.enemyHp > 0) draw(c.draw);
+      if (c.actualDraw && s.enemyHp > 0) draw(c.actualDraw);
       (c.exhaust ? s.exhaust : s.discard).push(c.id); if (c.exhaust) s.usedExhaustThisTurn = true;
-      note(`${c.name}：${damage ? `${damage}ダメージ。` : ''}${c.actualBlock ? `${c.actualBlock}ブロック。` : ''}${c.actualNextFocus ? `次ターン攻撃＋${c.actualNextFocus}を予約。` : ''}${c.actualNextBlock ? `次ターン防御${c.actualNextBlock}を予約。` : ''}${c.actualWeak ? `各打撃−${c.actualWeak}。` : ''}${c.focus ? `次の攻撃＋${c.focus}。` : ''}${c.actualReflect ? `反射＋${c.actualReflect}。` : ''}${c.heal ? `HP＋${c.actualHeal}。` : ''}${c.energy ? `魔力＋${c.actualEnergy}。` : ''}${c.consumeWeak ? '弱体を消費。' : ''}${c.consumeBlock ? 'ブロックを消費。' : ''}${c.draw && s.enemyHp > 0 ? `${c.draw}枚引く。` : ''}${c.exhaust ? '消滅。' : ''}`);
+      note(`${c.name}：${damage ? `${damage}ダメージ。` : ''}${c.actualBlock ? `${c.actualBlock}ブロック。` : ''}${c.actualNextFocus ? `次ターン攻撃＋${c.actualNextFocus}を予約。` : ''}${c.actualNextBlock ? `次ターン防御${c.actualNextBlock}を予約。` : ''}${c.actualWeak ? `各打撃−${c.actualWeak}。` : ''}${c.focus ? `次の攻撃＋${c.focus}。` : ''}${c.actualReflect ? `反射＋${c.actualReflect}。` : ''}${c.heal ? `HP＋${c.actualHeal}。` : ''}${c.energy ? `魔力＋${c.actualEnergy}。` : ''}${c.consumeWeak ? '弱体を消費。' : ''}${c.consumeBlock ? 'ブロックを消費。' : ''}${c.actualDraw && s.enemyHp > 0 ? `${c.actualDraw}枚引く。` : ''}${c.exhaust ? '消滅。' : ''}`);
       if (!s.interrupted && s.enemyHp > 0 && ((move().threshold && s.turnDamage >= move().threshold) || (move().singleThreshold && damage >= move().singleThreshold) || (move().attackCountThreshold && s.spellCount >= move().attackCountThreshold))) { s.interrupted = true; s.stats.interrupts++; note(`詠唱を崩した！ 残る攻撃にも備えよう。`); }
       finish(); return true;
     }
@@ -244,7 +250,7 @@
       if (s.phase === 'reward') {
         const offers = shuffle([...REWARD_POOLS[s.origin]]).slice(0,1);
         offers.push(shuffle(['light','stillness','renew','meditate','focus'].filter(id => !offers.includes(id)))[0]);
-        while (offers.length < 4) offers.push(shuffle(Object.keys(CARDS).filter(id => !offers.includes(id)))[0]); s.rewardOffers = offers;
+        while (offers.length < 4) offers.push(shuffle(Object.keys(CARDS).filter(id => !offers.includes(id) && (id !== 'chantWard' || s.battle >= 2)))[0]); s.rewardOffers = offers;
       }
       return true;
     }
