@@ -5,6 +5,7 @@
   let game = createGame(seededRandom(seed)), modalKey = '', lockedUntil = 0;
   const story = $('#storyDialog'), restart = $('#restartDialog'), deck = $('#deckDialog');
   const panel = $('#cardPanel'), SAVE_KEY = 'shinka-astral-v4-save';
+  let uiRevision=0;
   let inspectedIndex = null, inspectedId = null, pendingSave = null, hadStoredSave = false, saveMessage = '未保存';
   try {
     const raw = localStorage.getItem(SAVE_KEY);
@@ -51,8 +52,9 @@
       $('#cardReview').innerHTML = '';
       $('#playCard').disabled = true; $('#playCard').textContent = 'カードを選んでください'; window.ShinkaLayout?.refreshHand(); return;
     }
-    $('#cardReview').innerHTML = `<div class="panel-card-header"><div><span class="eyebrow">魔力 ${c.cost} / 現在 ${s.energy}</span><h3 id="cardTitle">${c.name}</h3>${c.upgraded?'<span class="upgrade-tag">進化済み</span>':''}</div></div><p class="panel-description">${c.text}</p><p class="current-effect">${c.actualDamage ? `今は${c.actualDamage}ダメージ。` : ''}${c.actualWeak ? `弱体${c.actualWeak}。` : ''}${c.actualReflect ? `反射＋${c.actualReflect}。` : ''}${c.heal ? `HP＋${c.actualHeal}。` : ''}${c.energy ? `魔力＋${c.actualEnergy}。` : ''}</p>${c.cost>s.energy?'<p class="panel-warning">魔力が足りません。次のターンへ持ち越して貯められます。</p>':''}`;
-    $('#playCard').disabled = c.cost>s.energy; $('#playCard').textContent=`使う · 魔力${c.cost}`; window.ShinkaLayout?.refreshHand(inspectedIndex);
+    const text=ShinkaFanText.format(c);
+    $('#cardReview').innerHTML=`<div class="panel-card-header"><h3 id="cardTitle">${c.name}</h3>${c.upgraded?'<span>進化済み</span>':''}</div><p class="current-effect">${text.summary}</p><p class="panel-description">${text.rules}</p>${c.cost>s.energy?'<p class="panel-warning">魔力不足</p>':''}`;
+    $('#playCard').disabled = c.cost>s.energy; $('#playCard').textContent=c.cost>s.energy?'魔力不足':`使う ${c.cost}`; $('#playCard').setAttribute('aria-label',`${c.name}を使う、魔力${c.cost}`); window.ShinkaLayout?.refreshHand(inspectedIndex);
   }
   function dismissSelection(returnFocus = false) {
     const i=inspectedIndex; inspectedIndex=null; inspectedId=null; renderSelection();
@@ -61,7 +63,7 @@
   function storyContent(s) {
     const inJourney = !['intro', 'complete', 'defeat'].includes(s.phase);
     const wrap = (label, title, body, actions = '') => `<div class="dialog-inner"><span class="eyebrow">${label}</span><h2 id="storyTitle">${title}</h2>${body}<div class="actions">${inJourney ? button('askRestart', '最初から', 'quiet') : ''}${actions}</div></div>`;
-    if (s.phase === 'intro') return wrap('CHOOSE YOUR CHARM · 04.6', '蒼い星の、その先へ。', `<p class="lead">2章・全6戦。24種類のカードを混ぜて、小さな組合せを育てる。</p><p>共通の核に、少しだけ得意技を足して出発。護符で使えるカードが制限されることはありません。</p><div class="origin-grid">${Object.entries(ORIGINS).map(([id, o]) => `<button class="origin ${s.origin === id ? 'selected' : ''}" type="button" data-origin="${id}" aria-pressed="${s.origin === id}"><span class="symbol" aria-hidden="true">${o.symbol}</span><strong>${o.name} / ${o.short}</strong><small>${o.effect}</small><em>${s.origin === id ? '選択中' : '選ぶ'}</em></button>`).join('')}</div><p class="muted">魔力は開始2、2ターン目から＋1、上限5。戦闘中は持ち越し、戦闘が変わると2に戻ります。カードをタップで確認→「使う」。横向きがおすすめです。</p>${pendingSave ? `<p class="journey-note">前回は第${pendingSave.engine.state.battle}戦。新しい旅を始めると保存を上書きします。</p>` : ''}${hadStoredSave && !pendingSave ? '<p class="journey-note">保存を読み込めません。新しい旅を始めると、その保存を置き換えます。</p>' : ''}`, (pendingSave ? button('resume','続きから') : '') + button('start', pendingSave ? '新しい旅を始める' : 'この護符で出発 →') + '<a class="quiet" href="./planning.html">新しい先読み30枚 →（別保存）</a>');
+    if (s.phase === 'intro') return wrap('CHOOSE YOUR CHARM · 04.7', '蒼い星の、その先へ。', `<p class="lead">2章・全6戦。24種類のカードを混ぜて、小さな組合せを育てる。</p><p>共通の核に、少しだけ得意技を足して出発。護符で使えるカードが制限されることはありません。</p><div class="origin-grid">${Object.entries(ORIGINS).map(([id, o]) => `<button class="origin ${s.origin === id ? 'selected' : ''}" type="button" data-origin="${id}" aria-pressed="${s.origin === id}"><span class="symbol" aria-hidden="true">${o.symbol}</span><strong>${o.name} / ${o.short}</strong><small>${o.effect}</small><em>${s.origin === id ? '選択中' : '選ぶ'}</em></button>`).join('')}</div><p class="muted">魔力は開始2、2ターン目から＋1、上限5。戦闘中は持ち越し、戦闘が変わると2に戻ります。カードをタップで確認→「使う」。横向きがおすすめです。</p>${pendingSave ? `<p class="journey-note">前回は第${pendingSave.engine.state.battle}戦。新しい旅を始めると保存を上書きします。</p>` : ''}${hadStoredSave && !pendingSave ? '<p class="journey-note">保存を読み込めません。新しい旅を始めると、その保存を置き換えます。</p>' : ''}`, (pendingSave ? button('resume','続きから') : '') + button('start', pendingSave ? '新しい旅を始める' : 'この護符で出発 →') + '<a class="quiet" href="./planning.html">新しい先読み30枚 →（別保存）</a>');
     if (s.phase === 'victory') return wrap('A LIGHT AHEAD', `${ENEMIES[s.enemyId].name}を越えた。`, `<p>${s.battle === 3 ? '第1章を踏破。星の回廊は、さらに奥へ続いている。' : '足元の灯りが、次の道を照らしている。'}</p><div class="result-stat"><span>${s.turn}ターン</span><span>残りHP ${s.hp}/${s.maxHp}</span><span>デッキ ${s.deck.length}枚</span></div>`, button('reward', s.battle === RUN_LENGTH ? '旅の記録を見る →' : '報酬を選ぶ →'));
     if (s.phase === 'reward') return wrap('TAKE A PAGE · OR PASS', '足すことも、足さないことも。', `<p>1枚選ぶか、今回は見送る。どちらでもHPを最大8回復。取ったカードは次の初手に入ります。</p><p class="journey-note">${s.battle < 3 ? '第1章ボスは連撃と詠唱強打。魔力を残す準備も役に立つ。' : '最終ボスは三連撃・詠唱21・回復。14ダメージで詠唱を崩せる。'}</p><div class="reward-grid four">${game.rewardOptions().map(id => choiceCard(id, `data-reward="${id}"`)).join('')}</div>`,button('skipReward','今回は取らない','quiet'));
     if (s.phase === 'route') return wrap('CHOOSE YOUR PATH', '月へ向かうか、雷を借りるか。', `${relic()}<p>${s.lastReward ? card(s.lastReward).name+'を獲得。' : '今回はデッキを増やさず進む。'}今のHPは ${s.hp}/${s.maxHp}。</p><div class="choices two"><button class="choice" type="button" data-route="moon"><span class="symbol">☾</span><strong>静かな月の泉</strong><span>HPを最大12回復する。</span><small>次の敵：鏡の亡霊<br>連撃に弱体・反射が効く。</small></button><button class="choice" type="button" data-route="forge" ${s.hp <= 6 ? 'disabled' : ''}><span class="symbol">ϟ</span><strong>雷の工房</strong><span>HPを6払い「雷の針」を得る。以後、毎ターン最初の攻撃＋2。</span><small>${s.hp <= 6 ? 'HPが7以上必要です。' : '次の敵：星塔の番兵<br>詠唱を攻撃で崩せる。'}</small></button></div>`);
@@ -80,6 +82,7 @@
     return wrap('THE TALE IS NOT OVER', '灯りが、ひと休み。', `<p>${ENEMIES[s.enemyId].lesson}</p>${recap}<p>同じ山札なら、選ぶ順番を変えて試せます。</p>`, replay);
   }
   function render() {
+    uiRevision++;
     $('#handPanelHome').append(panel);
     const s = game.snapshot(), e = ENEMIES[s.enemyId], a = game.intent(); story.dataset.phase=s.phase;
     $('#heroHp').textContent = `${s.hp} / ${s.maxHp}`; $('#enemyHp').textContent = `${s.enemyHp} / ${s.enemyMaxHp}`;
@@ -97,7 +100,7 @@
     $('#breakTrack').hidden = !a.threshold; $('#breakFill').style.width = `${a.threshold ? a.progress / a.threshold * 100 : 0}%`;
     $('#energy').textContent = s.energy; $('#drawCount').textContent = s.draw.length; $('#discardCount').textContent = s.discard.length; $('#exhaustCount').textContent = s.exhaust.length;
     $('#deckButton').textContent = `デッキ ${s.deck.length}枚`; $('#endTurn').disabled = s.phase !== 'battle'; $('#restart').disabled = s.phase === 'intro';
-    $('#battleLog').textContent = s.log[0]; $('#runCode').textContent = `04.6 · ${runCode()}`; $('#saveStatus').textContent = saveMessage;
+    $('#battleLog').textContent = s.log[0]; $('#runCode').textContent = `04.7 · ${runCode()}`; $('#saveStatus').textContent = saveMessage;
     const usable = s.hand.some(id => card(id).cost <= s.energy);
     $('#handHint').textContent = !usable && s.phase === 'battle' ? '魔力を持ち越してターン終了 →' : `手札${s.hand.length}枚 · 横に動かせます / タップで選択`;
     $('#hand').innerHTML = s.hand.map((id, i) => `<div class="hand-item ${card(id).upgraded ? 'upgraded' : ''}"><button type="button" class="card ${card(id).upgraded ? 'upgraded' : ''} ${card(id).cost>s.energy?'unaffordable':''}" data-card="${i}" ${s.phase !== 'battle' ? 'disabled' : ''} aria-label="${accessibleCard(id, game.previewCard(i))}">${cardFace(id, game.previewCard(i))}</button></div>`).join('');
@@ -172,5 +175,11 @@
   $('#cancelForget').addEventListener('click',()=>$('#forgetDialog').close());
   $('#confirmForget').addEventListener('click',()=>{try{localStorage.removeItem(SAVE_KEY);pendingSave=null;hadStoredSave=false;saveMessage='保存を削除しました';}catch{saveMessage='保存を削除できません';}$('#saveStatus').textContent=saveMessage;$('#forgetDialog').close();});
   $('#continuePortrait').addEventListener('click',()=>document.body.classList.add('portrait-accepted'));
+  window.ShinkaFan?.bind({
+    capture(index){const s=game.snapshot(),c=game.previewCard(index);if(s.phase!=='battle'||!Number.isInteger(index)||!s.hand[index]||!c)return null;return {phase:s.phase,index,id:s.hand[index],revision:uiRevision,affordable:c.cost<=s.energy&&performance.now()>=lockedUntil};},
+    select(index){const s=game.snapshot();if(s.phase!=='battle'||!Number.isInteger(index)||!s.hand[index])return false;inspectedIndex=index;inspectedId=s.hand[index];renderSelection();return true;},
+    dismiss(){dismissSelection(false);},
+    commit(c){const s=game.snapshot();if(document.querySelector('dialog[open]')||s.phase!=='battle'||uiRevision!==c.revision||s.hand[c.index]!==c.id)return false;return act(()=>game.play(c.index),'card');}
+  });
   render();
 })();
