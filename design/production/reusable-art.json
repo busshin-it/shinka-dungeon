@@ -1,0 +1,2166 @@
+{
+  "schema_version": 1,
+  "title": "Reuse-first artwork shortlist",
+  "audited_date": "2026-10-06",
+  "repository": "busshin-it/shinka-dungeon",
+  "source_commit": "739cdb63f938048977dcb2f998770d4df4ef5ab3",
+  "scope": "Read-only inspection; only this catalog and its Markdown companion were written. No art generation, mutation, queue change or runtime remapping.",
+  "summary": {
+    "planning_cards": 38,
+    "active_art_keys": 21,
+    "active_v4_card_files": 11,
+    "active_embedded_art_keys": 10,
+    "conditional_factory_candidates": 2,
+    "supporting_assets": 4,
+    "pixel_inspected_entries": 27,
+    "unreviewed_legacy_pngs": 18
+  },
+  "priority_order": [
+    "Reuse a current v4 art key when its motif and set identity fit.",
+    "Reuse the verified existing legacy art key and embedded bytes for lower-risk prototypes.",
+    "Review the two existing Factory PNGs before commissioning new art.",
+    "Generate only when a named unmet visual need remains after the reuse check."
+  ],
+  "rights_boundary": "No LICENSE, COPYING, NOTICE or image-rights grant was found among tracked repository files. Generator/prompts and git history document provenance, not legal ownership or redistribution permission. Do not label these public domain or cleared for unrelated projects.",
+  "validation": {
+    "v4_and_src_embedded_data_identical": true,
+    "embedded_runtime_byte_matches": 10,
+    "metadata_method": "Pillow decoded dimensions/modes, file byte count, SHA-256, git history",
+    "pixel_method": "Original selected files opened individually with view_image; no contact-sheet-only judgments.",
+    "browser_crop_qa_performed": false
+  },
+  "known_issues": {
+    "missing_manifest_current_paths": [
+      {
+        "asset_id": "shinka_card_light_wall",
+        "path": "assets/cards/file_00000000e8f88209badd4e6ee4c65332.png"
+      },
+      {
+        "asset_id": "shinka_card_ice_spear",
+        "path": "assets/cards/file_000000005f30820995176d66b39af9d9.png"
+      }
+    ],
+    "semantic_mismatches": [
+      "manaBurst pixels show literal electric chains.",
+      "frostNova pixels show a tall ice wall.",
+      "chainBolt pixels show a broad energy surge."
+    ],
+    "notes": [
+      "Preserve current game mappings; this audit does not authorize silent replacements.",
+      "The two semantic Factory filenames are different assets from similarly named embedded keys.",
+      "Most non-Noa assets have repository history only; do not infer a generator or rights owner.",
+      "Noa has a detailed generation report; Factory chain-lightning/abyss have generator and QA records."
+    ]
+  },
+  "selection_gate": [
+    "Confirm the exact existing path and SHA-256; do not select by display name or stale manifest alone.",
+    "Match the visible subject, style group and mechanic; do not use shared art to blur distinct tactical choices.",
+    "Prefer an existing art key for prototypes. v4 is packaged independently, so do not add a ../assets dependency without deliberate packaging changes.",
+    "For future direct files, use a deterministic WebP optimization from the inspected PNG and retain the original; inspect final bytes before adoption.",
+    "Check the actual hand, reward gallery and detailed card at mobile and desktop sizes. Crop notes here are static-image review, not browser QA.",
+    "Record reuse as an explicit decision and why generation is unnecessary; only request new art for a remaining named gap."
+  ],
+  "current_cards": [
+    {
+      "card_id": "ice",
+      "name": "氷の矢",
+      "family": "ice",
+      "art_key": "ice"
+    },
+    {
+      "card_id": "guard",
+      "name": "光壁",
+      "family": "guard",
+      "art_key": "guard"
+    },
+    {
+      "card_id": "bolt",
+      "name": "雷撃",
+      "family": "thunder",
+      "art_key": "bolt"
+    },
+    {
+      "card_id": "dark",
+      "name": "闇弾",
+      "family": "dark",
+      "art_key": "dark"
+    },
+    {
+      "card_id": "focus",
+      "name": "集中",
+      "family": "focus",
+      "art_key": "focus"
+    },
+    {
+      "card_id": "frostNova",
+      "name": "霜の輪",
+      "family": "ice",
+      "art_key": "frostNova"
+    },
+    {
+      "card_id": "mirror",
+      "name": "鏡の結界",
+      "family": "guard",
+      "art_key": "manaBarrier"
+    },
+    {
+      "card_id": "chain",
+      "name": "連鎖雷",
+      "family": "thunder",
+      "art_key": "chainBolt"
+    },
+    {
+      "card_id": "renew",
+      "name": "星の護り",
+      "family": "guard",
+      "art_key": "manaBarrier"
+    },
+    {
+      "card_id": "meditate",
+      "name": "ひらめき",
+      "family": "focus",
+      "art_key": "manaBurst"
+    },
+    {
+      "card_id": "iceSpear",
+      "name": "氷晶槍",
+      "family": "ice",
+      "art_key": "ice"
+    },
+    {
+      "card_id": "frostWard",
+      "name": "霜の盾",
+      "family": "ice",
+      "art_key": "frostNova"
+    },
+    {
+      "card_id": "shatter",
+      "name": "砕氷",
+      "family": "ice",
+      "art_key": "shatter"
+    },
+    {
+      "card_id": "winter",
+      "name": "冬の結界",
+      "family": "ice",
+      "art_key": "manaBarrier"
+    },
+    {
+      "card_id": "spark",
+      "name": "火花",
+      "family": "thunder",
+      "art_key": "bolt"
+    },
+    {
+      "card_id": "charge",
+      "name": "蓄電",
+      "family": "thunder",
+      "art_key": "charge"
+    },
+    {
+      "card_id": "thunderCrash",
+      "name": "轟雷",
+      "family": "thunder",
+      "art_key": "chainBolt"
+    },
+    {
+      "card_id": "surge",
+      "name": "雷の奔流",
+      "family": "thunder",
+      "art_key": "chainBolt"
+    },
+    {
+      "card_id": "reflectShield",
+      "name": "反照の盾",
+      "family": "guard",
+      "art_key": "manaBarrier"
+    },
+    {
+      "card_id": "shieldStrike",
+      "name": "鏡撃",
+      "family": "guard",
+      "art_key": "shieldStrike"
+    },
+    {
+      "card_id": "drain",
+      "name": "吸光",
+      "family": "dark",
+      "art_key": "abyss"
+    },
+    {
+      "card_id": "light",
+      "name": "小さな灯火",
+      "family": "focus",
+      "art_key": "focus"
+    },
+    {
+      "card_id": "stillness",
+      "name": "静心",
+      "family": "focus",
+      "art_key": "manaBurst"
+    },
+    {
+      "card_id": "starWait",
+      "name": "星待ち",
+      "family": "focus",
+      "art_key": "focus"
+    },
+    {
+      "card_id": "zenithBolt",
+      "name": "天頂の雷",
+      "family": "thunder",
+      "art_key": "bolt"
+    },
+    {
+      "card_id": "emberVeil",
+      "name": "残火の帳",
+      "family": "guard",
+      "art_key": "manaBarrier"
+    },
+    {
+      "card_id": "fadingStar",
+      "name": "燃え残る星",
+      "family": "dark",
+      "art_key": "manaBurst"
+    },
+    {
+      "card_id": "memoryArrow",
+      "name": "追憶の矢",
+      "family": "dark",
+      "art_key": "dark"
+    },
+    {
+      "card_id": "ashWard",
+      "name": "灰の守り",
+      "family": "guard",
+      "art_key": "manaBarrier"
+    },
+    {
+      "card_id": "frostPierce",
+      "name": "霜穿ち",
+      "family": "ice",
+      "art_key": "frostPierce"
+    },
+    {
+      "card_id": "chantWard",
+      "name": "詠止の結界",
+      "family": "guard",
+      "art_key": "chantWard"
+    },
+    {
+      "card_id": "starFerryWard",
+      "name": "星舟の結界",
+      "family": "guard",
+      "art_key": "starFerryWard"
+    },
+    {
+      "card_id": "ebbArrow",
+      "name": "潮引きの矢",
+      "family": "dark",
+      "art_key": "ebbArrow"
+    },
+    {
+      "card_id": "starRelay",
+      "name": "星継ぎ",
+      "family": "focus",
+      "art_key": "starRelay"
+    },
+    {
+      "card_id": "quietComet",
+      "name": "凪の彗星",
+      "family": "dark",
+      "art_key": "quietComet"
+    },
+    {
+      "card_id": "mirrorLance",
+      "name": "鏡頁の槍",
+      "family": "guard",
+      "art_key": "mirrorLance"
+    },
+    {
+      "card_id": "starBookmark",
+      "name": "星の栞",
+      "family": "guard",
+      "art_key": "starBookmark"
+    },
+    {
+      "card_id": "echo",
+      "name": "返照",
+      "family": "guard",
+      "art_key": "manaBarrier"
+    }
+  ],
+  "entries": [
+    {
+      "id": "v4-shatter",
+      "label": "砕氷",
+      "role": "card",
+      "asset": {
+        "path": "v4-1/assets/shatter.webp",
+        "width": 1254,
+        "height": 1254,
+        "mode": "RGB",
+        "bytes": 510404,
+        "sha256": "6a3c0cfe278fcf41f8f2d693d6f42817ebb2aae25707ded2cc79fbb594c642b2"
+      },
+      "art_key": "shatter",
+      "current_cards": [
+        "shatter"
+      ],
+      "style_group": "astral-watercolor",
+      "visual_motif": "Bright exploding ice crystal, white central impact, navy watercolor and gold stars",
+      "recommended_uses": [
+        "ice",
+        "shatter",
+        "crystal burst"
+      ],
+      "reuse_decision": "reuse_in_matching_context",
+      "cautions": [
+        "High-detail white center; avoid text over the artwork."
+      ],
+      "provenance": {
+        "status": "repository_history_only",
+        "last_asset_commit": "d30668a0d936b014f90401a2fa873f6c8cef4976",
+        "license_status": "not_found_in_repository_audit",
+        "rights_note": "Repository presence and generation records are not a license or proof of exclusive rights. Catalog covers reuse in this existing project; external redistribution needs a separate rights check."
+      },
+      "pixel_check": {
+        "method": "view_image",
+        "inspected_source_path": "v4-1/assets/shatter.webp",
+        "inspected_date": "2026-10-06",
+        "result": "visually_usable_with_listed_cautions"
+      },
+      "references": [
+        {
+          "path": "v4-1/assets/shatter.webp",
+          "url": "https://github.com/busshin-it/shinka-dungeon/blob/739cdb63f938048977dcb2f998770d4df4ef5ab3/v4-1/assets/shatter.webp"
+        },
+        {
+          "path": "v4-1/planning-engine.js",
+          "url": "https://github.com/busshin-it/shinka-dungeon/blob/739cdb63f938048977dcb2f998770d4df4ef5ab3/v4-1/planning-engine.js"
+        },
+        {
+          "path": "v4-1/planning.html",
+          "url": "https://github.com/busshin-it/shinka-dungeon/blob/739cdb63f938048977dcb2f998770d4df4ef5ab3/v4-1/planning.html"
+        },
+        {
+          "path": "v4-1/planning-game.js",
+          "url": "https://github.com/busshin-it/shinka-dungeon/blob/739cdb63f938048977dcb2f998770d4df4ef5ab3/v4-1/planning-game.js"
+        }
+      ],
+      "priority": 1
+    },
+    {
+      "id": "v4-charge",
+      "label": "蓄電",
+      "role": "card",
+      "asset": {
+        "path": "v4-1/assets/charge.webp",
+        "width": 1254,
+        "height": 1254,
+        "mode": "RGB",
+        "bytes": 336456,
+        "sha256": "1bf6efdcbb09dbb6dad11b395a0a3630440ff571456322ea79bbaf535f0ab9f9"
+      },
+      "art_key": "charge",
+      "current_cards": [
+        "charge"
+      ],
+      "style_group": "astral-watercolor",
+      "visual_motif": "Centered blue crystal inside gold rings with yellow lightning",
+      "recommended_uses": [
+        "thunder",
+        "energy",
+        "stored magic"
+      ],
+      "reuse_decision": "reuse_in_matching_context",
+      "cautions": [
+        "Gold lightning distinguishes it from icy cards; keep crystal and both ring ends visible."
+      ],
+      "provenance": {
+        "status": "repository_history_only",
+        "last_asset_commit": "d30668a0d936b014f90401a2fa873f6c8cef4976",
+        "license_status": "not_found_in_repository_audit",
+        "rights_note": "Repository presence and generation records are not a license or proof of exclusive rights. Catalog covers reuse in this existing project; external redistribution needs a separate rights check."
+      },
+      "pixel_check": {
+        "method": "view_image",
+        "inspected_source_path": "v4-1/assets/charge.webp",
+        "inspected_date": "2026-10-06",
+        "result": "visually_usable_with_listed_cautions"
+      },
+      "references": [
+        {
+          "path": "v4-1/assets/charge.webp",
+          "url": "https://github.com/busshin-it/shinka-dungeon/blob/739cdb63f938048977dcb2f998770d4df4ef5ab3/v4-1/assets/charge.webp"
+        },
+        {
+          "path": "v4-1/planning-engine.js",
+          "url": "https://github.com/busshin-it/shinka-dungeon/blob/739cdb63f938048977dcb2f998770d4df4ef5ab3/v4-1/planning-engine.js"
+        },
+        {
+          "path": "v4-1/planning.html",
+          "url": "https://github.com/busshin-it/shinka-dungeon/blob/739cdb63f938048977dcb2f998770d4df4ef5ab3/v4-1/planning.html"
+        },
+        {
+          "path": "v4-1/planning-game.js",
+          "url": "https://github.com/busshin-it/shinka-dungeon/blob/739cdb63f938048977dcb2f998770d4df4ef5ab3/v4-1/planning-game.js"
+        }
+      ],
+      "priority": 1
+    },
+    {
+      "id": "v4-shield-strike",
+      "label": "鏡撃",
+      "role": "card",
+      "asset": {
+        "path": "v4-1/assets/shield-strike.webp",
+        "width": 1254,
+        "height": 1254,
+        "mode": "RGB",
+        "bytes": 376586,
+        "sha256": "5badf9969a9b716841a4b989e477f45f64d81da8f48ea7f73a4457a6747d63ab"
+      },
+      "art_key": "shieldStrike",
+      "current_cards": [
+        "shieldStrike"
+      ],
+      "style_group": "astral-watercolor",
+      "visual_motif": "Broken gold mirror launching a blue crystal blade",
+      "recommended_uses": [
+        "guard",
+        "reflection consumed",
+        "defense to attack"
+      ],
+      "reuse_decision": "reuse_in_matching_context",
+      "cautions": [
+        "Broken mirror at lower left and blade at upper right must both survive crop."
+      ],
+      "provenance": {
+        "status": "repository_history_only",
+        "last_asset_commit": "d30668a0d936b014f90401a2fa873f6c8cef4976",
+        "license_status": "not_found_in_repository_audit",
+        "rights_note": "Repository presence and generation records are not a license or proof of exclusive rights. Catalog covers reuse in this existing project; external redistribution needs a separate rights check."
+      },
+      "pixel_check": {
+        "method": "view_image",
+        "inspected_source_path": "v4-1/assets/shield-strike.webp",
+        "inspected_date": "2026-10-06",
+        "result": "visually_usable_with_listed_cautions"
+      },
+      "references": [
+        {
+          "path": "v4-1/assets/shield-strike.webp",
+          "url": "https://github.com/busshin-it/shinka-dungeon/blob/739cdb63f938048977dcb2f998770d4df4ef5ab3/v4-1/assets/shield-strike.webp"
+        },
+        {
+          "path": "v4-1/planning-engine.js",
+          "url": "https://github.com/busshin-it/shinka-dungeon/blob/739cdb63f938048977dcb2f998770d4df4ef5ab3/v4-1/planning-engine.js"
+        },
+        {
+          "path": "v4-1/planning.html",
+          "url": "https://github.com/busshin-it/shinka-dungeon/blob/739cdb63f938048977dcb2f998770d4df4ef5ab3/v4-1/planning.html"
+        },
+        {
+          "path": "v4-1/planning-game.js",
+          "url": "https://github.com/busshin-it/shinka-dungeon/blob/739cdb63f938048977dcb2f998770d4df4ef5ab3/v4-1/planning-game.js"
+        }
+      ],
+      "priority": 1
+    },
+    {
+      "id": "v4-frost-pierce",
+      "label": "霜穿ち",
+      "role": "card",
+      "asset": {
+        "path": "v4-1/assets/frost-pierce.webp",
+        "width": 512,
+        "height": 512,
+        "mode": "RGB",
+        "bytes": 97784,
+        "sha256": "03130bd24e99c017b293be7420fe41ad8551d77ca8f8a9bb8d242e46bb8084b7"
+      },
+      "art_key": "frostPierce",
+      "current_cards": [
+        "frostPierce"
+      ],
+      "style_group": "astral-ruins-detailed",
+      "visual_motif": "Gold diagonal beam piercing blue ice in starlit ruined arches",
+      "recommended_uses": [
+        "ice",
+        "piercing",
+        "weakness payoff"
+      ],
+      "reuse_decision": "reuse_in_matching_context",
+      "cautions": [
+        "512-square source is adequate for existing cards; avoid large upscales. Keep center impact visible."
+      ],
+      "provenance": {
+        "status": "repository_history_only",
+        "last_asset_commit": "b4d8a3c1adb8eebe161e4c43a3207acdfd924cba",
+        "license_status": "not_found_in_repository_audit",
+        "rights_note": "Repository presence and generation records are not a license or proof of exclusive rights. Catalog covers reuse in this existing project; external redistribution needs a separate rights check."
+      },
+      "pixel_check": {
+        "method": "view_image",
+        "inspected_source_path": "v4-1/assets/frost-pierce.webp",
+        "inspected_date": "2026-10-06",
+        "result": "visually_usable_with_listed_cautions"
+      },
+      "references": [
+        {
+          "path": "v4-1/assets/frost-pierce.webp",
+          "url": "https://github.com/busshin-it/shinka-dungeon/blob/739cdb63f938048977dcb2f998770d4df4ef5ab3/v4-1/assets/frost-pierce.webp"
+        },
+        {
+          "path": "v4-1/planning-engine.js",
+          "url": "https://github.com/busshin-it/shinka-dungeon/blob/739cdb63f938048977dcb2f998770d4df4ef5ab3/v4-1/planning-engine.js"
+        },
+        {
+          "path": "v4-1/planning.html",
+          "url": "https://github.com/busshin-it/shinka-dungeon/blob/739cdb63f938048977dcb2f998770d4df4ef5ab3/v4-1/planning.html"
+        },
+        {
+          "path": "v4-1/planning-game.js",
+          "url": "https://github.com/busshin-it/shinka-dungeon/blob/739cdb63f938048977dcb2f998770d4df4ef5ab3/v4-1/planning-game.js"
+        }
+      ],
+      "priority": 1
+    },
+    {
+      "id": "v4-chant-ward",
+      "label": "詠止の結界",
+      "role": "card",
+      "asset": {
+        "path": "v4-1/assets/chant-ward.webp",
+        "width": 512,
+        "height": 512,
+        "mode": "RGB",
+        "bytes": 96796,
+        "sha256": "b73cfce0f161bd44399b3af56b0d697ee9e9dfa2aab94a296832ef7278a9879a"
+      },
+      "art_key": "chantWard",
+      "current_cards": [
+        "chantWard"
+      ],
+      "style_group": "astral-ruins-detailed",
+      "visual_motif": "Large four-point blue and gold star ward surrounded by a broken ring",
+      "recommended_uses": [
+        "guard",
+        "spell interruption",
+        "ward"
+      ],
+      "reuse_decision": "reuse_in_matching_context",
+      "cautions": [
+        "512-square source; central star is crop-safe but ring edges may trim."
+      ],
+      "provenance": {
+        "status": "repository_history_only",
+        "last_asset_commit": "b4d8a3c1adb8eebe161e4c43a3207acdfd924cba",
+        "license_status": "not_found_in_repository_audit",
+        "rights_note": "Repository presence and generation records are not a license or proof of exclusive rights. Catalog covers reuse in this existing project; external redistribution needs a separate rights check."
+      },
+      "pixel_check": {
+        "method": "view_image",
+        "inspected_source_path": "v4-1/assets/chant-ward.webp",
+        "inspected_date": "2026-10-06",
+        "result": "visually_usable_with_listed_cautions"
+      },
+      "references": [
+        {
+          "path": "v4-1/assets/chant-ward.webp",
+          "url": "https://github.com/busshin-it/shinka-dungeon/blob/739cdb63f938048977dcb2f998770d4df4ef5ab3/v4-1/assets/chant-ward.webp"
+        },
+        {
+          "path": "v4-1/planning-engine.js",
+          "url": "https://github.com/busshin-it/shinka-dungeon/blob/739cdb63f938048977dcb2f998770d4df4ef5ab3/v4-1/planning-engine.js"
+        },
+        {
+          "path": "v4-1/planning.html",
+          "url": "https://github.com/busshin-it/shinka-dungeon/blob/739cdb63f938048977dcb2f998770d4df4ef5ab3/v4-1/planning.html"
+        },
+        {
+          "path": "v4-1/planning-game.js",
+          "url": "https://github.com/busshin-it/shinka-dungeon/blob/739cdb63f938048977dcb2f998770d4df4ef5ab3/v4-1/planning-game.js"
+        }
+      ],
+      "priority": 1
+    },
+    {
+      "id": "v4-star-ferry-ward",
+      "label": "星舟の結界",
+      "role": "card",
+      "asset": {
+        "path": "v4-1/assets/star-ferry-ward.webp",
+        "width": 768,
+        "height": 768,
+        "mode": "RGB",
+        "bytes": 202948,
+        "sha256": "c72f959ea23e9714f0329bcd50b729456986321bef20da4144a334c89ed5fa79"
+      },
+      "art_key": "starFerryWard",
+      "current_cards": [
+        "starFerryWard"
+      ],
+      "style_group": "star-causeway-detailed",
+      "visual_motif": "Ferryman and celestial boat inside a luminous blue dome on flooded ruins",
+      "recommended_uses": [
+        "guard",
+        "banked energy",
+        "Rune/causeway set"
+      ],
+      "reuse_decision": "reuse_in_matching_context",
+      "cautions": [
+        "This depicts the ferryman and boat specifically; reserve for the Rune setting. Narrow crops lose boat ends."
+      ],
+      "provenance": {
+        "status": "repository_history_only",
+        "last_asset_commit": "1fb1a4b63d467959c39589feee96b148c56eb6ef",
+        "license_status": "not_found_in_repository_audit",
+        "rights_note": "Repository presence and generation records are not a license or proof of exclusive rights. Catalog covers reuse in this existing project; external redistribution needs a separate rights check."
+      },
+      "pixel_check": {
+        "method": "view_image",
+        "inspected_source_path": "v4-1/assets/star-ferry-ward.webp",
+        "inspected_date": "2026-10-06",
+        "result": "visually_usable_with_listed_cautions"
+      },
+      "references": [
+        {
+          "path": "v4-1/assets/star-ferry-ward.webp",
+          "url": "https://github.com/busshin-it/shinka-dungeon/blob/739cdb63f938048977dcb2f998770d4df4ef5ab3/v4-1/assets/star-ferry-ward.webp"
+        },
+        {
+          "path": "v4-1/planning-engine.js",
+          "url": "https://github.com/busshin-it/shinka-dungeon/blob/739cdb63f938048977dcb2f998770d4df4ef5ab3/v4-1/planning-engine.js"
+        },
+        {
+          "path": "v4-1/planning.html",
+          "url": "https://github.com/busshin-it/shinka-dungeon/blob/739cdb63f938048977dcb2f998770d4df4ef5ab3/v4-1/planning.html"
+        },
+        {
+          "path": "v4-1/planning-game.js",
+          "url": "https://github.com/busshin-it/shinka-dungeon/blob/739cdb63f938048977dcb2f998770d4df4ef5ab3/v4-1/planning-game.js"
+        }
+      ],
+      "priority": 1
+    },
+    {
+      "id": "v4-ebb-arrow",
+      "label": "潮引きの矢",
+      "role": "card",
+      "asset": {
+        "path": "v4-1/assets/ebb-arrow.webp",
+        "width": 768,
+        "height": 768,
+        "mode": "RGB",
+        "bytes": 208896,
+        "sha256": "7f683991fc427be5f351b1b442f9083b8c9c1858cbb5dbc7f55f1214408af116"
+      },
+      "art_key": "ebbArrow",
+      "current_cards": [
+        "ebbArrow"
+      ],
+      "style_group": "star-causeway-detailed",
+      "visual_motif": "Single blue magic arrow skimming a flooded star causeway diagonally",
+      "recommended_uses": [
+        "dark",
+        "ebb/tide",
+        "energy-empty payoff",
+        "Rune/causeway set"
+      ],
+      "reuse_decision": "reuse_in_matching_context",
+      "cautions": [
+        "Current mechanical family is dark despite blue artwork. Arrowhead approaches lower-right edge; crop deliberately."
+      ],
+      "provenance": {
+        "status": "repository_history_only",
+        "last_asset_commit": "1fb1a4b63d467959c39589feee96b148c56eb6ef",
+        "license_status": "not_found_in_repository_audit",
+        "rights_note": "Repository presence and generation records are not a license or proof of exclusive rights. Catalog covers reuse in this existing project; external redistribution needs a separate rights check."
+      },
+      "pixel_check": {
+        "method": "view_image",
+        "inspected_source_path": "v4-1/assets/ebb-arrow.webp",
+        "inspected_date": "2026-10-06",
+        "result": "visually_usable_with_listed_cautions"
+      },
+      "references": [
+        {
+          "path": "v4-1/assets/ebb-arrow.webp",
+          "url": "https://github.com/busshin-it/shinka-dungeon/blob/739cdb63f938048977dcb2f998770d4df4ef5ab3/v4-1/assets/ebb-arrow.webp"
+        },
+        {
+          "path": "v4-1/planning-engine.js",
+          "url": "https://github.com/busshin-it/shinka-dungeon/blob/739cdb63f938048977dcb2f998770d4df4ef5ab3/v4-1/planning-engine.js"
+        },
+        {
+          "path": "v4-1/planning.html",
+          "url": "https://github.com/busshin-it/shinka-dungeon/blob/739cdb63f938048977dcb2f998770d4df4ef5ab3/v4-1/planning.html"
+        },
+        {
+          "path": "v4-1/planning-game.js",
+          "url": "https://github.com/busshin-it/shinka-dungeon/blob/739cdb63f938048977dcb2f998770d4df4ef5ab3/v4-1/planning-game.js"
+        }
+      ],
+      "priority": 1
+    },
+    {
+      "id": "v4-star-relay",
+      "label": "星継ぎ",
+      "role": "card",
+      "asset": {
+        "path": "v4-1/assets/star-relay.webp",
+        "width": 768,
+        "height": 768,
+        "mode": "RGB",
+        "bytes": 244654,
+        "sha256": "ab57e7fed839a208808a30a2b13abcbfce1b4c6bcaa4990c5fdbb3ab5cd5094c"
+      },
+      "art_key": "starRelay",
+      "current_cards": [
+        "starRelay"
+      ],
+      "style_group": "noa-library-detailed",
+      "visual_motif": "Glowing curved star-atlas page folds into the next page like a shield",
+      "recommended_uses": [
+        "focus",
+        "block carryover",
+        "page transition",
+        "Noa/library set"
+      ],
+      "reuse_decision": "reuse_in_matching_context",
+      "cautions": [
+        "Excellent book/page motif; reserve Noa identity. Do not interpret generic book art as automatic mechanic correctness."
+      ],
+      "provenance": {
+        "status": "generation_record_present",
+        "last_asset_commit": "00565a2847f74146846e04691a65e8f6f6e02f3a",
+        "license_status": "not_found_in_repository_audit",
+        "rights_note": "Repository presence and generation records are not a license or proof of exclusive rights. Catalog covers reuse in this existing project; external redistribution needs a separate rights check."
+      },
+      "pixel_check": {
+        "method": "view_image",
+        "inspected_source_path": "v4-1/assets/star-relay.webp",
+        "inspected_date": "2026-10-06",
+        "result": "visually_usable_with_listed_cautions"
+      },
+      "references": [
+        {
+          "path": "v4-1/assets/star-relay.webp",
+          "url": "https://github.com/busshin-it/shinka-dungeon/blob/739cdb63f938048977dcb2f998770d4df4ef5ab3/v4-1/assets/star-relay.webp"
+        },
+        {
+          "path": "v4-1/planning-engine.js",
+          "url": "https://github.com/busshin-it/shinka-dungeon/blob/739cdb63f938048977dcb2f998770d4df4ef5ab3/v4-1/planning-engine.js"
+        },
+        {
+          "path": "v4-1/planning.html",
+          "url": "https://github.com/busshin-it/shinka-dungeon/blob/739cdb63f938048977dcb2f998770d4df4ef5ab3/v4-1/planning.html"
+        },
+        {
+          "path": "v4-1/planning-game.js",
+          "url": "https://github.com/busshin-it/shinka-dungeon/blob/739cdb63f938048977dcb2f998770d4df4ef5ab3/v4-1/planning-game.js"
+        },
+        {
+          "path": "design/noa-set-art-report.md",
+          "url": "https://github.com/busshin-it/shinka-dungeon/blob/739cdb63f938048977dcb2f998770d4df4ef5ab3/design/noa-set-art-report.md"
+        }
+      ],
+      "priority": 1
+    },
+    {
+      "id": "v4-quiet-comet",
+      "label": "凪の彗星",
+      "role": "card",
+      "asset": {
+        "path": "v4-1/assets/quiet-comet.webp",
+        "width": 768,
+        "height": 768,
+        "mode": "RGB",
+        "bytes": 210286,
+        "sha256": "036721a68c2e830d40ef0d9810a1cdb7a57085879f466302e2124955c0984680"
+      },
+      "art_key": "quietComet",
+      "current_cards": [
+        "quietComet"
+      ],
+      "style_group": "noa-library-detailed",
+      "visual_motif": "One violet-blue comet over an open star atlas",
+      "recommended_uses": [
+        "dark",
+        "recovery payoff",
+        "comet",
+        "Noa/library set"
+      ],
+      "reuse_decision": "reuse_in_matching_context",
+      "cautions": [
+        "Comet head lies upper right; confirm it survives a narrow crop."
+      ],
+      "provenance": {
+        "status": "generation_record_present",
+        "last_asset_commit": "00565a2847f74146846e04691a65e8f6f6e02f3a",
+        "license_status": "not_found_in_repository_audit",
+        "rights_note": "Repository presence and generation records are not a license or proof of exclusive rights. Catalog covers reuse in this existing project; external redistribution needs a separate rights check."
+      },
+      "pixel_check": {
+        "method": "view_image",
+        "inspected_source_path": "v4-1/assets/quiet-comet.webp",
+        "inspected_date": "2026-10-06",
+        "result": "visually_usable_with_listed_cautions"
+      },
+      "references": [
+        {
+          "path": "v4-1/assets/quiet-comet.webp",
+          "url": "https://github.com/busshin-it/shinka-dungeon/blob/739cdb63f938048977dcb2f998770d4df4ef5ab3/v4-1/assets/quiet-comet.webp"
+        },
+        {
+          "path": "v4-1/planning-engine.js",
+          "url": "https://github.com/busshin-it/shinka-dungeon/blob/739cdb63f938048977dcb2f998770d4df4ef5ab3/v4-1/planning-engine.js"
+        },
+        {
+          "path": "v4-1/planning.html",
+          "url": "https://github.com/busshin-it/shinka-dungeon/blob/739cdb63f938048977dcb2f998770d4df4ef5ab3/v4-1/planning.html"
+        },
+        {
+          "path": "v4-1/planning-game.js",
+          "url": "https://github.com/busshin-it/shinka-dungeon/blob/739cdb63f938048977dcb2f998770d4df4ef5ab3/v4-1/planning-game.js"
+        },
+        {
+          "path": "design/noa-set-art-report.md",
+          "url": "https://github.com/busshin-it/shinka-dungeon/blob/739cdb63f938048977dcb2f998770d4df4ef5ab3/design/noa-set-art-report.md"
+        }
+      ],
+      "priority": 1
+    },
+    {
+      "id": "v4-mirror-lance",
+      "label": "鏡頁の槍",
+      "role": "card",
+      "asset": {
+        "path": "v4-1/assets/mirror-lance.webp",
+        "width": 768,
+        "height": 768,
+        "mode": "RGB",
+        "bytes": 162474,
+        "sha256": "93a900269fe66e3fdb0fd068da361fc1a51752ae499821afa93ba7fd9ddb42a4"
+      },
+      "art_key": "mirrorLance",
+      "current_cards": [
+        "mirrorLance"
+      ],
+      "style_group": "noa-library-detailed",
+      "visual_motif": "Complete long blue mirror lance with a curled atlas page at its base",
+      "recommended_uses": [
+        "guard",
+        "reflection to attack",
+        "spear",
+        "Noa/library set"
+      ],
+      "reuse_decision": "reuse_in_matching_context",
+      "cautions": [
+        "Strongest crop risk: lance runs corner to corner. Prefer square/contain; verify spearhead in hand and gallery crops."
+      ],
+      "provenance": {
+        "status": "generation_record_present",
+        "last_asset_commit": "00565a2847f74146846e04691a65e8f6f6e02f3a",
+        "license_status": "not_found_in_repository_audit",
+        "rights_note": "Repository presence and generation records are not a license or proof of exclusive rights. Catalog covers reuse in this existing project; external redistribution needs a separate rights check."
+      },
+      "pixel_check": {
+        "method": "view_image",
+        "inspected_source_path": "v4-1/assets/mirror-lance.webp",
+        "inspected_date": "2026-10-06",
+        "result": "visually_usable_with_listed_cautions"
+      },
+      "references": [
+        {
+          "path": "v4-1/assets/mirror-lance.webp",
+          "url": "https://github.com/busshin-it/shinka-dungeon/blob/739cdb63f938048977dcb2f998770d4df4ef5ab3/v4-1/assets/mirror-lance.webp"
+        },
+        {
+          "path": "v4-1/planning-engine.js",
+          "url": "https://github.com/busshin-it/shinka-dungeon/blob/739cdb63f938048977dcb2f998770d4df4ef5ab3/v4-1/planning-engine.js"
+        },
+        {
+          "path": "v4-1/planning.html",
+          "url": "https://github.com/busshin-it/shinka-dungeon/blob/739cdb63f938048977dcb2f998770d4df4ef5ab3/v4-1/planning.html"
+        },
+        {
+          "path": "v4-1/planning-game.js",
+          "url": "https://github.com/busshin-it/shinka-dungeon/blob/739cdb63f938048977dcb2f998770d4df4ef5ab3/v4-1/planning-game.js"
+        },
+        {
+          "path": "design/noa-set-art-report.md",
+          "url": "https://github.com/busshin-it/shinka-dungeon/blob/739cdb63f938048977dcb2f998770d4df4ef5ab3/design/noa-set-art-report.md"
+        }
+      ],
+      "priority": 1
+    },
+    {
+      "id": "v4-star-bookmark",
+      "label": "星の栞",
+      "role": "card",
+      "asset": {
+        "path": "v4-1/assets/star-bookmark.webp",
+        "width": 768,
+        "height": 768,
+        "mode": "RGB",
+        "bytes": 149294,
+        "sha256": "5eb5e60418525f3b5b54998054bc6a525cfd654f7c84b231a9db5e80fffc028c"
+      },
+      "art_key": "starBookmark",
+      "current_cards": [
+        "starBookmark"
+      ],
+      "style_group": "noa-library-detailed",
+      "visual_motif": "Silver star bookmark lifts one page of an atlas",
+      "recommended_uses": [
+        "guard",
+        "retrieval",
+        "recycle",
+        "Noa/library set"
+      ],
+      "reuse_decision": "reuse_in_matching_context",
+      "cautions": [
+        "Bookmark is above center; keep the lifted page visible so the reuse still conveys retrieval."
+      ],
+      "provenance": {
+        "status": "generation_record_present",
+        "last_asset_commit": "00565a2847f74146846e04691a65e8f6f6e02f3a",
+        "license_status": "not_found_in_repository_audit",
+        "rights_note": "Repository presence and generation records are not a license or proof of exclusive rights. Catalog covers reuse in this existing project; external redistribution needs a separate rights check."
+      },
+      "pixel_check": {
+        "method": "view_image",
+        "inspected_source_path": "v4-1/assets/star-bookmark.webp",
+        "inspected_date": "2026-10-06",
+        "result": "visually_usable_with_listed_cautions"
+      },
+      "references": [
+        {
+          "path": "v4-1/assets/star-bookmark.webp",
+          "url": "https://github.com/busshin-it/shinka-dungeon/blob/739cdb63f938048977dcb2f998770d4df4ef5ab3/v4-1/assets/star-bookmark.webp"
+        },
+        {
+          "path": "v4-1/planning-engine.js",
+          "url": "https://github.com/busshin-it/shinka-dungeon/blob/739cdb63f938048977dcb2f998770d4df4ef5ab3/v4-1/planning-engine.js"
+        },
+        {
+          "path": "v4-1/planning.html",
+          "url": "https://github.com/busshin-it/shinka-dungeon/blob/739cdb63f938048977dcb2f998770d4df4ef5ab3/v4-1/planning.html"
+        },
+        {
+          "path": "v4-1/planning-game.js",
+          "url": "https://github.com/busshin-it/shinka-dungeon/blob/739cdb63f938048977dcb2f998770d4df4ef5ab3/v4-1/planning-game.js"
+        },
+        {
+          "path": "design/noa-set-art-report.md",
+          "url": "https://github.com/busshin-it/shinka-dungeon/blob/739cdb63f938048977dcb2f998770d4df4ef5ab3/design/noa-set-art-report.md"
+        }
+      ],
+      "priority": 1
+    },
+    {
+      "id": "legacy-ice",
+      "label": "氷の矢 / 氷晶槍",
+      "role": "card",
+      "asset": {
+        "path": "assets/cards/file_0000000026948209a5bf61548ca87c69.png",
+        "width": 1024,
+        "height": 1536,
+        "mode": "RGB",
+        "bytes": 3248652,
+        "sha256": "ea84f91ee089464d1973a165876f90b6fd865e8d28d87b0f2588f7feaf976b3a"
+      },
+      "art_key": "ice",
+      "current_cards": [
+        "ice",
+        "iceSpear"
+      ],
+      "style_group": "gothic-ruins-detailed",
+      "visual_motif": "Bright single diagonal ice projectile in dark ruined cathedral",
+      "recommended_uses": [
+        "ice",
+        "ice arrow",
+        "ice spear"
+      ],
+      "reuse_decision": "reuse_in_matching_context",
+      "cautions": [
+        "Keep upper-right ice point visible."
+      ],
+      "provenance": {
+        "status": "repository_history_only",
+        "last_asset_commit": "612e63b15b13438eec690c94c016345fc1699044",
+        "license_status": "not_found_in_repository_audit",
+        "rights_note": "Repository presence and generation records are not a license or proof of exclusive rights. Catalog covers reuse in this existing project; external redistribution needs a separate rights check."
+      },
+      "pixel_check": {
+        "method": "view_image",
+        "inspected_source_path": "assets/cards/file_0000000026948209a5bf61548ca87c69.png",
+        "inspected_date": "2026-10-06",
+        "result": "visually_usable_with_listed_cautions",
+        "inspected_runtime_path": "assets/runtime/cards/file_0000000026948209a5bf61548ca87c69.webp",
+        "runtime_result": "Opened runtime separately with view_image; same composition and usable reduced detail confirmed."
+      },
+      "references": [
+        {
+          "path": "assets/cards/file_0000000026948209a5bf61548ca87c69.png",
+          "url": "https://github.com/busshin-it/shinka-dungeon/blob/739cdb63f938048977dcb2f998770d4df4ef5ab3/assets/cards/file_0000000026948209a5bf61548ca87c69.png"
+        },
+        {
+          "path": "v4-1/planning-engine.js",
+          "url": "https://github.com/busshin-it/shinka-dungeon/blob/739cdb63f938048977dcb2f998770d4df4ef5ab3/v4-1/planning-engine.js"
+        },
+        {
+          "path": "v4-1/planning.html",
+          "url": "https://github.com/busshin-it/shinka-dungeon/blob/739cdb63f938048977dcb2f998770d4df4ef5ab3/v4-1/planning.html"
+        },
+        {
+          "path": "v4-1/planning-game.js",
+          "url": "https://github.com/busshin-it/shinka-dungeon/blob/739cdb63f938048977dcb2f998770d4df4ef5ab3/v4-1/planning-game.js"
+        },
+        {
+          "path": "v4-1/card-art-data.js",
+          "url": "https://github.com/busshin-it/shinka-dungeon/blob/739cdb63f938048977dcb2f998770d4df4ef5ab3/v4-1/card-art-data.js"
+        },
+        {
+          "path": "assets/runtime/cards/file_0000000026948209a5bf61548ca87c69.webp",
+          "url": "https://github.com/busshin-it/shinka-dungeon/blob/739cdb63f938048977dcb2f998770d4df4ef5ab3/assets/runtime/cards/file_0000000026948209a5bf61548ca87c69.webp"
+        }
+      ],
+      "priority": 2,
+      "runtime_asset": {
+        "path": "assets/runtime/cards/file_0000000026948209a5bf61548ca87c69.webp",
+        "width": 420,
+        "height": 630,
+        "mode": "RGB",
+        "bytes": 81696,
+        "sha256": "296f29fb4f9306762acb34ecdd2c5c1f9ba90bcf9fb07f5265f25de285a3b175"
+      },
+      "embedded_reference": {
+        "path": "v4-1/card-art-data.js",
+        "key": "ice",
+        "bytes_equal_to_runtime": true,
+        "decoded_bytes": 81696,
+        "sha256": "296f29fb4f9306762acb34ecdd2c5c1f9ba90bcf9fb07f5265f25de285a3b175"
+      }
+    },
+    {
+      "id": "legacy-guard",
+      "label": "光壁",
+      "role": "card",
+      "asset": {
+        "path": "assets/cards/file_000000000d54820992e6206621eb8767.png",
+        "width": 1086,
+        "height": 1448,
+        "mode": "RGB",
+        "bytes": 3141648,
+        "sha256": "a1748bf8eb901636bc5f0fdeb066f3809586d3ef98e128e9e86b9b275abb0f10"
+      },
+      "art_key": "guard",
+      "current_cards": [
+        "guard"
+      ],
+      "style_group": "gothic-ruins-detailed",
+      "visual_motif": "Large translucent blue/gold dome around a central shaft of light",
+      "recommended_uses": [
+        "guard",
+        "dome",
+        "protection"
+      ],
+      "reuse_decision": "reuse_in_matching_context",
+      "cautions": [
+        "Use actual embedded mapping; historical light-wall current_path is missing."
+      ],
+      "provenance": {
+        "status": "repository_history_only",
+        "last_asset_commit": "8061cc90601ec4865f66dc341560f5d1f6ad8f40",
+        "license_status": "not_found_in_repository_audit",
+        "rights_note": "Repository presence and generation records are not a license or proof of exclusive rights. Catalog covers reuse in this existing project; external redistribution needs a separate rights check."
+      },
+      "pixel_check": {
+        "method": "view_image",
+        "inspected_source_path": "assets/cards/file_000000000d54820992e6206621eb8767.png",
+        "inspected_date": "2026-10-06",
+        "result": "visually_usable_with_listed_cautions",
+        "inspected_runtime_path": "assets/runtime/cards/file_000000000d54820992e6206621eb8767.webp",
+        "runtime_result": "Opened runtime separately with view_image; same composition and usable reduced detail confirmed."
+      },
+      "references": [
+        {
+          "path": "assets/cards/file_000000000d54820992e6206621eb8767.png",
+          "url": "https://github.com/busshin-it/shinka-dungeon/blob/739cdb63f938048977dcb2f998770d4df4ef5ab3/assets/cards/file_000000000d54820992e6206621eb8767.png"
+        },
+        {
+          "path": "v4-1/planning-engine.js",
+          "url": "https://github.com/busshin-it/shinka-dungeon/blob/739cdb63f938048977dcb2f998770d4df4ef5ab3/v4-1/planning-engine.js"
+        },
+        {
+          "path": "v4-1/planning.html",
+          "url": "https://github.com/busshin-it/shinka-dungeon/blob/739cdb63f938048977dcb2f998770d4df4ef5ab3/v4-1/planning.html"
+        },
+        {
+          "path": "v4-1/planning-game.js",
+          "url": "https://github.com/busshin-it/shinka-dungeon/blob/739cdb63f938048977dcb2f998770d4df4ef5ab3/v4-1/planning-game.js"
+        },
+        {
+          "path": "v4-1/card-art-data.js",
+          "url": "https://github.com/busshin-it/shinka-dungeon/blob/739cdb63f938048977dcb2f998770d4df4ef5ab3/v4-1/card-art-data.js"
+        },
+        {
+          "path": "assets/runtime/cards/file_000000000d54820992e6206621eb8767.webp",
+          "url": "https://github.com/busshin-it/shinka-dungeon/blob/739cdb63f938048977dcb2f998770d4df4ef5ab3/assets/runtime/cards/file_000000000d54820992e6206621eb8767.webp"
+        }
+      ],
+      "priority": 2,
+      "runtime_asset": {
+        "path": "assets/runtime/cards/file_000000000d54820992e6206621eb8767.webp",
+        "width": 420,
+        "height": 560,
+        "mode": "RGB",
+        "bytes": 72838,
+        "sha256": "fed5f06b519d9788a6382e172b2e54e17fe9951278c397acbbfa8deb75ad25c1"
+      },
+      "embedded_reference": {
+        "path": "v4-1/card-art-data.js",
+        "key": "guard",
+        "bytes_equal_to_runtime": true,
+        "decoded_bytes": 72838,
+        "sha256": "fed5f06b519d9788a6382e172b2e54e17fe9951278c397acbbfa8deb75ad25c1"
+      }
+    },
+    {
+      "id": "legacy-dark",
+      "label": "闇弾 / 追憶の矢",
+      "role": "card",
+      "asset": {
+        "path": "assets/cards/file_000000001be0820991c3c7673ba4e4c0.png",
+        "width": 1086,
+        "height": 1448,
+        "mode": "RGB",
+        "bytes": 2862937,
+        "sha256": "0a3d1c2af1a853058d81159f66c02fa93ce858e7e185a5fb1b380931c6e2879e"
+      },
+      "art_key": "dark",
+      "current_cards": [
+        "dark",
+        "memoryArrow"
+      ],
+      "style_group": "gothic-ruins-detailed",
+      "visual_motif": "Purple-black projectile with a dark core and long wake in ruins",
+      "recommended_uses": [
+        "dark",
+        "projectile",
+        "memory arrow"
+      ],
+      "reuse_decision": "reuse_in_matching_context",
+      "cautions": [
+        "Dark core needs contrast; do not confuse it with the larger circular abyss."
+      ],
+      "provenance": {
+        "status": "repository_history_only",
+        "last_asset_commit": "931d5a227e1cead51666960564ddd3c920cbb892",
+        "license_status": "not_found_in_repository_audit",
+        "rights_note": "Repository presence and generation records are not a license or proof of exclusive rights. Catalog covers reuse in this existing project; external redistribution needs a separate rights check."
+      },
+      "pixel_check": {
+        "method": "view_image",
+        "inspected_source_path": "assets/cards/file_000000001be0820991c3c7673ba4e4c0.png",
+        "inspected_date": "2026-10-06",
+        "result": "visually_usable_with_listed_cautions",
+        "inspected_runtime_path": "assets/runtime/cards/file_000000001be0820991c3c7673ba4e4c0.webp",
+        "runtime_result": "Opened runtime separately with view_image; same composition and usable reduced detail confirmed."
+      },
+      "references": [
+        {
+          "path": "assets/cards/file_000000001be0820991c3c7673ba4e4c0.png",
+          "url": "https://github.com/busshin-it/shinka-dungeon/blob/739cdb63f938048977dcb2f998770d4df4ef5ab3/assets/cards/file_000000001be0820991c3c7673ba4e4c0.png"
+        },
+        {
+          "path": "v4-1/planning-engine.js",
+          "url": "https://github.com/busshin-it/shinka-dungeon/blob/739cdb63f938048977dcb2f998770d4df4ef5ab3/v4-1/planning-engine.js"
+        },
+        {
+          "path": "v4-1/planning.html",
+          "url": "https://github.com/busshin-it/shinka-dungeon/blob/739cdb63f938048977dcb2f998770d4df4ef5ab3/v4-1/planning.html"
+        },
+        {
+          "path": "v4-1/planning-game.js",
+          "url": "https://github.com/busshin-it/shinka-dungeon/blob/739cdb63f938048977dcb2f998770d4df4ef5ab3/v4-1/planning-game.js"
+        },
+        {
+          "path": "v4-1/card-art-data.js",
+          "url": "https://github.com/busshin-it/shinka-dungeon/blob/739cdb63f938048977dcb2f998770d4df4ef5ab3/v4-1/card-art-data.js"
+        },
+        {
+          "path": "assets/runtime/cards/file_000000001be0820991c3c7673ba4e4c0.webp",
+          "url": "https://github.com/busshin-it/shinka-dungeon/blob/739cdb63f938048977dcb2f998770d4df4ef5ab3/assets/runtime/cards/file_000000001be0820991c3c7673ba4e4c0.webp"
+        }
+      ],
+      "priority": 2,
+      "runtime_asset": {
+        "path": "assets/runtime/cards/file_000000001be0820991c3c7673ba4e4c0.webp",
+        "width": 420,
+        "height": 560,
+        "mode": "RGB",
+        "bytes": 51704,
+        "sha256": "2ebc5321938035809fbe50002f973144cde273f55bfa20f2ffa3e7a237d2e855"
+      },
+      "embedded_reference": {
+        "path": "v4-1/card-art-data.js",
+        "key": "dark",
+        "bytes_equal_to_runtime": true,
+        "decoded_bytes": 51704,
+        "sha256": "2ebc5321938035809fbe50002f973144cde273f55bfa20f2ffa3e7a237d2e855"
+      }
+    },
+    {
+      "id": "legacy-manaBurst",
+      "label": "ひらめき / 静心 / 燃え残る星",
+      "role": "card",
+      "asset": {
+        "path": "assets/cards/file_000000002dcc820997d6257f7bb5c181.png",
+        "width": 1086,
+        "height": 1448,
+        "mode": "RGB",
+        "bytes": 3051334,
+        "sha256": "f803a38140b4fc55b1c122525ec3f6705982e5bbbb964f6d250be713ab884cc3"
+      },
+      "art_key": "manaBurst",
+      "current_cards": [
+        "meditate",
+        "stillness",
+        "fadingStar"
+      ],
+      "style_group": "gothic-ruins-detailed",
+      "visual_motif": "Visible luminous CHAINS connecting ruined pillars, with electric arcs",
+      "recommended_uses": [
+        "thunder",
+        "chain",
+        "binding"
+      ],
+      "reuse_decision": "reuse_existing_key_with_semantic_review",
+      "cautions": [
+        "Active key manaBurst is historical and visually misleading: these are chains, not quiet focus. Preserve current mappings; select by pixels for new cards."
+      ],
+      "provenance": {
+        "status": "repository_history_only",
+        "last_asset_commit": "c4263b9ee8c97823c779ff1e12ef4073b29c93f8",
+        "license_status": "not_found_in_repository_audit",
+        "rights_note": "Repository presence and generation records are not a license or proof of exclusive rights. Catalog covers reuse in this existing project; external redistribution needs a separate rights check."
+      },
+      "pixel_check": {
+        "method": "view_image",
+        "inspected_source_path": "assets/cards/file_000000002dcc820997d6257f7bb5c181.png",
+        "inspected_date": "2026-10-06",
+        "result": "visually_usable_with_listed_cautions",
+        "inspected_runtime_path": "assets/runtime/cards/file_000000002dcc820997d6257f7bb5c181.webp",
+        "runtime_result": "Opened runtime separately with view_image; same composition and usable reduced detail confirmed."
+      },
+      "references": [
+        {
+          "path": "assets/cards/file_000000002dcc820997d6257f7bb5c181.png",
+          "url": "https://github.com/busshin-it/shinka-dungeon/blob/739cdb63f938048977dcb2f998770d4df4ef5ab3/assets/cards/file_000000002dcc820997d6257f7bb5c181.png"
+        },
+        {
+          "path": "v4-1/planning-engine.js",
+          "url": "https://github.com/busshin-it/shinka-dungeon/blob/739cdb63f938048977dcb2f998770d4df4ef5ab3/v4-1/planning-engine.js"
+        },
+        {
+          "path": "v4-1/planning.html",
+          "url": "https://github.com/busshin-it/shinka-dungeon/blob/739cdb63f938048977dcb2f998770d4df4ef5ab3/v4-1/planning.html"
+        },
+        {
+          "path": "v4-1/planning-game.js",
+          "url": "https://github.com/busshin-it/shinka-dungeon/blob/739cdb63f938048977dcb2f998770d4df4ef5ab3/v4-1/planning-game.js"
+        },
+        {
+          "path": "v4-1/card-art-data.js",
+          "url": "https://github.com/busshin-it/shinka-dungeon/blob/739cdb63f938048977dcb2f998770d4df4ef5ab3/v4-1/card-art-data.js"
+        },
+        {
+          "path": "assets/runtime/cards/file_000000002dcc820997d6257f7bb5c181.webp",
+          "url": "https://github.com/busshin-it/shinka-dungeon/blob/739cdb63f938048977dcb2f998770d4df4ef5ab3/assets/runtime/cards/file_000000002dcc820997d6257f7bb5c181.webp"
+        }
+      ],
+      "priority": 2,
+      "runtime_asset": {
+        "path": "assets/runtime/cards/file_000000002dcc820997d6257f7bb5c181.webp",
+        "width": 420,
+        "height": 560,
+        "mode": "RGB",
+        "bytes": 65034,
+        "sha256": "3a52e3f3dfc1c001cb264fe47ccdc936415008ea4c82bc1b73f403a5e05bde76"
+      },
+      "embedded_reference": {
+        "path": "v4-1/card-art-data.js",
+        "key": "manaBurst",
+        "bytes_equal_to_runtime": true,
+        "decoded_bytes": 65034,
+        "sha256": "3a52e3f3dfc1c001cb264fe47ccdc936415008ea4c82bc1b73f403a5e05bde76"
+      }
+    },
+    {
+      "id": "legacy-bolt",
+      "label": "雷撃 / 火花 / 天頂の雷",
+      "role": "card",
+      "asset": {
+        "path": "assets/cards/file_0000000045dc8209a4abc4b50484d629.png",
+        "width": 1086,
+        "height": 1448,
+        "mode": "RGB",
+        "bytes": 2891444,
+        "sha256": "b280d27f44ba5b18ca79f5189c4c262fa5209abc9ce0cee2d97b650bb2d625c9"
+      },
+      "art_key": "bolt",
+      "current_cards": [
+        "bolt",
+        "spark",
+        "zenithBolt"
+      ],
+      "style_group": "gothic-ruins-detailed",
+      "visual_motif": "Tall single lightning strike through gothic ruins",
+      "recommended_uses": [
+        "thunder",
+        "bolt",
+        "direct strike"
+      ],
+      "reuse_decision": "reuse_in_matching_context",
+      "cautions": [
+        "Good vertical subject; maintain the impact point when cropping."
+      ],
+      "provenance": {
+        "status": "repository_history_only",
+        "last_asset_commit": "931d5a227e1cead51666960564ddd3c920cbb892",
+        "license_status": "not_found_in_repository_audit",
+        "rights_note": "Repository presence and generation records are not a license or proof of exclusive rights. Catalog covers reuse in this existing project; external redistribution needs a separate rights check."
+      },
+      "pixel_check": {
+        "method": "view_image",
+        "inspected_source_path": "assets/cards/file_0000000045dc8209a4abc4b50484d629.png",
+        "inspected_date": "2026-10-06",
+        "result": "visually_usable_with_listed_cautions",
+        "inspected_runtime_path": "assets/runtime/cards/file_0000000045dc8209a4abc4b50484d629.webp",
+        "runtime_result": "Opened runtime separately with view_image; same composition and usable reduced detail confirmed."
+      },
+      "references": [
+        {
+          "path": "assets/cards/file_0000000045dc8209a4abc4b50484d629.png",
+          "url": "https://github.com/busshin-it/shinka-dungeon/blob/739cdb63f938048977dcb2f998770d4df4ef5ab3/assets/cards/file_0000000045dc8209a4abc4b50484d629.png"
+        },
+        {
+          "path": "v4-1/planning-engine.js",
+          "url": "https://github.com/busshin-it/shinka-dungeon/blob/739cdb63f938048977dcb2f998770d4df4ef5ab3/v4-1/planning-engine.js"
+        },
+        {
+          "path": "v4-1/planning.html",
+          "url": "https://github.com/busshin-it/shinka-dungeon/blob/739cdb63f938048977dcb2f998770d4df4ef5ab3/v4-1/planning.html"
+        },
+        {
+          "path": "v4-1/planning-game.js",
+          "url": "https://github.com/busshin-it/shinka-dungeon/blob/739cdb63f938048977dcb2f998770d4df4ef5ab3/v4-1/planning-game.js"
+        },
+        {
+          "path": "v4-1/card-art-data.js",
+          "url": "https://github.com/busshin-it/shinka-dungeon/blob/739cdb63f938048977dcb2f998770d4df4ef5ab3/v4-1/card-art-data.js"
+        },
+        {
+          "path": "assets/runtime/cards/file_0000000045dc8209a4abc4b50484d629.webp",
+          "url": "https://github.com/busshin-it/shinka-dungeon/blob/739cdb63f938048977dcb2f998770d4df4ef5ab3/assets/runtime/cards/file_0000000045dc8209a4abc4b50484d629.webp"
+        }
+      ],
+      "priority": 2,
+      "runtime_asset": {
+        "path": "assets/runtime/cards/file_0000000045dc8209a4abc4b50484d629.webp",
+        "width": 420,
+        "height": 560,
+        "mode": "RGB",
+        "bytes": 50284,
+        "sha256": "64a1a2e88ad9a2a95c2c7021df978b70758ff84a38ac39a392b08ed6b06fbbce"
+      },
+      "embedded_reference": {
+        "path": "v4-1/card-art-data.js",
+        "key": "bolt",
+        "bytes_equal_to_runtime": true,
+        "decoded_bytes": 50284,
+        "sha256": "64a1a2e88ad9a2a95c2c7021df978b70758ff84a38ac39a392b08ed6b06fbbce"
+      }
+    },
+    {
+      "id": "legacy-frostNova",
+      "label": "霜の輪 / 霜の盾",
+      "role": "card",
+      "asset": {
+        "path": "assets/cards/file_000000007bb48209bf90b9e4be3fa4b5.png",
+        "width": 1086,
+        "height": 1448,
+        "mode": "RGB",
+        "bytes": 3072448,
+        "sha256": "4202b298bd4bbc8f7a522e51c1b9f97ac319d77dac77f07a729a6ca636dbc2de"
+      },
+      "art_key": "frostNova",
+      "current_cards": [
+        "frostNova",
+        "frostWard"
+      ],
+      "style_group": "gothic-ruins-detailed",
+      "visual_motif": "Broad wall/ridge of tall blue ice crystals across ruined stone floor",
+      "recommended_uses": [
+        "ice",
+        "wall",
+        "ice defense"
+      ],
+      "reuse_decision": "reuse_existing_key_with_semantic_review",
+      "cautions": [
+        "Active name frostNova implies a ring, but the pixels are an ice wall. New use should follow the wall motif."
+      ],
+      "provenance": {
+        "status": "repository_history_only",
+        "last_asset_commit": "c4263b9ee8c97823c779ff1e12ef4073b29c93f8",
+        "license_status": "not_found_in_repository_audit",
+        "rights_note": "Repository presence and generation records are not a license or proof of exclusive rights. Catalog covers reuse in this existing project; external redistribution needs a separate rights check."
+      },
+      "pixel_check": {
+        "method": "view_image",
+        "inspected_source_path": "assets/cards/file_000000007bb48209bf90b9e4be3fa4b5.png",
+        "inspected_date": "2026-10-06",
+        "result": "visually_usable_with_listed_cautions",
+        "inspected_runtime_path": "assets/runtime/cards/file_000000007bb48209bf90b9e4be3fa4b5.webp",
+        "runtime_result": "Opened runtime separately with view_image; same composition and usable reduced detail confirmed."
+      },
+      "references": [
+        {
+          "path": "assets/cards/file_000000007bb48209bf90b9e4be3fa4b5.png",
+          "url": "https://github.com/busshin-it/shinka-dungeon/blob/739cdb63f938048977dcb2f998770d4df4ef5ab3/assets/cards/file_000000007bb48209bf90b9e4be3fa4b5.png"
+        },
+        {
+          "path": "v4-1/planning-engine.js",
+          "url": "https://github.com/busshin-it/shinka-dungeon/blob/739cdb63f938048977dcb2f998770d4df4ef5ab3/v4-1/planning-engine.js"
+        },
+        {
+          "path": "v4-1/planning.html",
+          "url": "https://github.com/busshin-it/shinka-dungeon/blob/739cdb63f938048977dcb2f998770d4df4ef5ab3/v4-1/planning.html"
+        },
+        {
+          "path": "v4-1/planning-game.js",
+          "url": "https://github.com/busshin-it/shinka-dungeon/blob/739cdb63f938048977dcb2f998770d4df4ef5ab3/v4-1/planning-game.js"
+        },
+        {
+          "path": "v4-1/card-art-data.js",
+          "url": "https://github.com/busshin-it/shinka-dungeon/blob/739cdb63f938048977dcb2f998770d4df4ef5ab3/v4-1/card-art-data.js"
+        },
+        {
+          "path": "assets/runtime/cards/file_000000007bb48209bf90b9e4be3fa4b5.webp",
+          "url": "https://github.com/busshin-it/shinka-dungeon/blob/739cdb63f938048977dcb2f998770d4df4ef5ab3/assets/runtime/cards/file_000000007bb48209bf90b9e4be3fa4b5.webp"
+        }
+      ],
+      "priority": 2,
+      "runtime_asset": {
+        "path": "assets/runtime/cards/file_000000007bb48209bf90b9e4be3fa4b5.webp",
+        "width": 420,
+        "height": 560,
+        "mode": "RGB",
+        "bytes": 69258,
+        "sha256": "dab53af27312a38a4183a453bbdbc20a7a1b98f4db69ac34df58deb2478aa833"
+      },
+      "embedded_reference": {
+        "path": "v4-1/card-art-data.js",
+        "key": "frostNova",
+        "bytes_equal_to_runtime": true,
+        "decoded_bytes": 69258,
+        "sha256": "dab53af27312a38a4183a453bbdbc20a7a1b98f4db69ac34df58deb2478aa833"
+      }
+    },
+    {
+      "id": "legacy-focus",
+      "label": "集中 / 小さな灯火 / 星待ち",
+      "role": "card",
+      "asset": {
+        "path": "assets/cards/file_00000000afe08209badd4e6ee4c65332.png",
+        "width": 1086,
+        "height": 1448,
+        "mode": "RGB",
+        "bytes": 2975549,
+        "sha256": "bb98586b780dabf32faae4b965e1a30677f1cdaf7debcc74ff05477e5a5fcc88"
+      },
+      "art_key": "focus",
+      "current_cards": [
+        "focus",
+        "light",
+        "starWait"
+      ],
+      "style_group": "gothic-ruins-detailed",
+      "visual_motif": "Small cloaked mage with a tall spiral of glowing magic above",
+      "recommended_uses": [
+        "focus",
+        "channeling",
+        "preparation"
+      ],
+      "reuse_decision": "reuse_in_matching_context",
+      "cautions": [
+        "Character is tiny at the bottom; tall central spiral remains readable at thumbnail size."
+      ],
+      "provenance": {
+        "status": "repository_history_only",
+        "last_asset_commit": "931d5a227e1cead51666960564ddd3c920cbb892",
+        "license_status": "not_found_in_repository_audit",
+        "rights_note": "Repository presence and generation records are not a license or proof of exclusive rights. Catalog covers reuse in this existing project; external redistribution needs a separate rights check."
+      },
+      "pixel_check": {
+        "method": "view_image",
+        "inspected_source_path": "assets/cards/file_00000000afe08209badd4e6ee4c65332.png",
+        "inspected_date": "2026-10-06",
+        "result": "visually_usable_with_listed_cautions",
+        "inspected_runtime_path": "assets/runtime/cards/file_00000000afe08209badd4e6ee4c65332.webp",
+        "runtime_result": "Opened runtime separately with view_image; same composition and usable reduced detail confirmed."
+      },
+      "references": [
+        {
+          "path": "assets/cards/file_00000000afe08209badd4e6ee4c65332.png",
+          "url": "https://github.com/busshin-it/shinka-dungeon/blob/739cdb63f938048977dcb2f998770d4df4ef5ab3/assets/cards/file_00000000afe08209badd4e6ee4c65332.png"
+        },
+        {
+          "path": "v4-1/planning-engine.js",
+          "url": "https://github.com/busshin-it/shinka-dungeon/blob/739cdb63f938048977dcb2f998770d4df4ef5ab3/v4-1/planning-engine.js"
+        },
+        {
+          "path": "v4-1/planning.html",
+          "url": "https://github.com/busshin-it/shinka-dungeon/blob/739cdb63f938048977dcb2f998770d4df4ef5ab3/v4-1/planning.html"
+        },
+        {
+          "path": "v4-1/planning-game.js",
+          "url": "https://github.com/busshin-it/shinka-dungeon/blob/739cdb63f938048977dcb2f998770d4df4ef5ab3/v4-1/planning-game.js"
+        },
+        {
+          "path": "v4-1/card-art-data.js",
+          "url": "https://github.com/busshin-it/shinka-dungeon/blob/739cdb63f938048977dcb2f998770d4df4ef5ab3/v4-1/card-art-data.js"
+        },
+        {
+          "path": "assets/runtime/cards/file_00000000afe08209badd4e6ee4c65332.webp",
+          "url": "https://github.com/busshin-it/shinka-dungeon/blob/739cdb63f938048977dcb2f998770d4df4ef5ab3/assets/runtime/cards/file_00000000afe08209badd4e6ee4c65332.webp"
+        }
+      ],
+      "priority": 2,
+      "runtime_asset": {
+        "path": "assets/runtime/cards/file_00000000afe08209badd4e6ee4c65332.webp",
+        "width": 420,
+        "height": 560,
+        "mode": "RGB",
+        "bytes": 61620,
+        "sha256": "cde8462e916d44518efc41d18182aa477749ec5089a225738dcda05d2c118b8a"
+      },
+      "embedded_reference": {
+        "path": "v4-1/card-art-data.js",
+        "key": "focus",
+        "bytes_equal_to_runtime": true,
+        "decoded_bytes": 61620,
+        "sha256": "cde8462e916d44518efc41d18182aa477749ec5089a225738dcda05d2c118b8a"
+      }
+    },
+    {
+      "id": "legacy-chainBolt",
+      "label": "連鎖雷 / 轟雷 / 雷の奔流",
+      "role": "card",
+      "asset": {
+        "path": "assets/cards/file_00000000b984820980078cb0cf6e8fe5.png",
+        "width": 1086,
+        "height": 1448,
+        "mode": "RGB",
+        "bytes": 3165845,
+        "sha256": "d7de23201f53839c1547ea221e12d68d56982326f48878ada85f5db14a8f1472"
+      },
+      "art_key": "chainBolt",
+      "current_cards": [
+        "chain",
+        "thunderCrash",
+        "surge"
+      ],
+      "style_group": "gothic-ruins-detailed",
+      "visual_motif": "Broad blue-violet magical flood/surge through shattered gothic ruins",
+      "recommended_uses": [
+        "thunder",
+        "surge",
+        "large magic"
+      ],
+      "reuse_decision": "reuse_existing_key_with_semantic_review",
+      "cautions": [
+        "Current key chainBolt does not depict literal links. Historically manifest labels this source mana surge."
+      ],
+      "provenance": {
+        "status": "repository_history_only",
+        "last_asset_commit": "931d5a227e1cead51666960564ddd3c920cbb892",
+        "license_status": "not_found_in_repository_audit",
+        "rights_note": "Repository presence and generation records are not a license or proof of exclusive rights. Catalog covers reuse in this existing project; external redistribution needs a separate rights check."
+      },
+      "pixel_check": {
+        "method": "view_image",
+        "inspected_source_path": "assets/cards/file_00000000b984820980078cb0cf6e8fe5.png",
+        "inspected_date": "2026-10-06",
+        "result": "visually_usable_with_listed_cautions",
+        "inspected_runtime_path": "assets/runtime/cards/file_00000000b984820980078cb0cf6e8fe5.webp",
+        "runtime_result": "Opened runtime separately with view_image; same composition and usable reduced detail confirmed."
+      },
+      "references": [
+        {
+          "path": "assets/cards/file_00000000b984820980078cb0cf6e8fe5.png",
+          "url": "https://github.com/busshin-it/shinka-dungeon/blob/739cdb63f938048977dcb2f998770d4df4ef5ab3/assets/cards/file_00000000b984820980078cb0cf6e8fe5.png"
+        },
+        {
+          "path": "v4-1/planning-engine.js",
+          "url": "https://github.com/busshin-it/shinka-dungeon/blob/739cdb63f938048977dcb2f998770d4df4ef5ab3/v4-1/planning-engine.js"
+        },
+        {
+          "path": "v4-1/planning.html",
+          "url": "https://github.com/busshin-it/shinka-dungeon/blob/739cdb63f938048977dcb2f998770d4df4ef5ab3/v4-1/planning.html"
+        },
+        {
+          "path": "v4-1/planning-game.js",
+          "url": "https://github.com/busshin-it/shinka-dungeon/blob/739cdb63f938048977dcb2f998770d4df4ef5ab3/v4-1/planning-game.js"
+        },
+        {
+          "path": "v4-1/card-art-data.js",
+          "url": "https://github.com/busshin-it/shinka-dungeon/blob/739cdb63f938048977dcb2f998770d4df4ef5ab3/v4-1/card-art-data.js"
+        },
+        {
+          "path": "assets/runtime/cards/file_00000000b984820980078cb0cf6e8fe5.webp",
+          "url": "https://github.com/busshin-it/shinka-dungeon/blob/739cdb63f938048977dcb2f998770d4df4ef5ab3/assets/runtime/cards/file_00000000b984820980078cb0cf6e8fe5.webp"
+        }
+      ],
+      "priority": 2,
+      "runtime_asset": {
+        "path": "assets/runtime/cards/file_00000000b984820980078cb0cf6e8fe5.webp",
+        "width": 420,
+        "height": 560,
+        "mode": "RGB",
+        "bytes": 72030,
+        "sha256": "957315edfbf45751d1c23d9e7747edf83c87e5eabc83e6f5c96664c343304b8f"
+      },
+      "embedded_reference": {
+        "path": "v4-1/card-art-data.js",
+        "key": "chainBolt",
+        "bytes_equal_to_runtime": true,
+        "decoded_bytes": 72030,
+        "sha256": "957315edfbf45751d1c23d9e7747edf83c87e5eabc83e6f5c96664c343304b8f"
+      }
+    },
+    {
+      "id": "legacy-abyss",
+      "label": "吸光",
+      "role": "card",
+      "asset": {
+        "path": "assets/cards/file_00000000c7988209a6b66b21978b5891.png",
+        "width": 1086,
+        "height": 1448,
+        "mode": "RGB",
+        "bytes": 3020288,
+        "sha256": "8dc8b27d9eb07e7b42fd525d8eb83519dd4a05e96d77dd15c249572ac09340fb"
+      },
+      "art_key": "abyss",
+      "current_cards": [
+        "drain"
+      ],
+      "style_group": "gothic-ruins-detailed",
+      "visual_motif": "Large centered purple-black vortex with orbiting rubble",
+      "recommended_uses": [
+        "dark",
+        "drain",
+        "vortex"
+      ],
+      "reuse_decision": "reuse_in_matching_context",
+      "cautions": [
+        "Similar palette to dark, but circular centered core provides distinction."
+      ],
+      "provenance": {
+        "status": "repository_history_only",
+        "last_asset_commit": "8061cc90601ec4865f66dc341560f5d1f6ad8f40",
+        "license_status": "not_found_in_repository_audit",
+        "rights_note": "Repository presence and generation records are not a license or proof of exclusive rights. Catalog covers reuse in this existing project; external redistribution needs a separate rights check."
+      },
+      "pixel_check": {
+        "method": "view_image",
+        "inspected_source_path": "assets/cards/file_00000000c7988209a6b66b21978b5891.png",
+        "inspected_date": "2026-10-06",
+        "result": "visually_usable_with_listed_cautions",
+        "inspected_runtime_path": "assets/runtime/cards/file_00000000c7988209a6b66b21978b5891.webp",
+        "runtime_result": "Opened runtime separately with view_image; same composition and usable reduced detail confirmed."
+      },
+      "references": [
+        {
+          "path": "assets/cards/file_00000000c7988209a6b66b21978b5891.png",
+          "url": "https://github.com/busshin-it/shinka-dungeon/blob/739cdb63f938048977dcb2f998770d4df4ef5ab3/assets/cards/file_00000000c7988209a6b66b21978b5891.png"
+        },
+        {
+          "path": "v4-1/planning-engine.js",
+          "url": "https://github.com/busshin-it/shinka-dungeon/blob/739cdb63f938048977dcb2f998770d4df4ef5ab3/v4-1/planning-engine.js"
+        },
+        {
+          "path": "v4-1/planning.html",
+          "url": "https://github.com/busshin-it/shinka-dungeon/blob/739cdb63f938048977dcb2f998770d4df4ef5ab3/v4-1/planning.html"
+        },
+        {
+          "path": "v4-1/planning-game.js",
+          "url": "https://github.com/busshin-it/shinka-dungeon/blob/739cdb63f938048977dcb2f998770d4df4ef5ab3/v4-1/planning-game.js"
+        },
+        {
+          "path": "v4-1/card-art-data.js",
+          "url": "https://github.com/busshin-it/shinka-dungeon/blob/739cdb63f938048977dcb2f998770d4df4ef5ab3/v4-1/card-art-data.js"
+        },
+        {
+          "path": "assets/runtime/cards/file_00000000c7988209a6b66b21978b5891.webp",
+          "url": "https://github.com/busshin-it/shinka-dungeon/blob/739cdb63f938048977dcb2f998770d4df4ef5ab3/assets/runtime/cards/file_00000000c7988209a6b66b21978b5891.webp"
+        }
+      ],
+      "priority": 2,
+      "runtime_asset": {
+        "path": "assets/runtime/cards/file_00000000c7988209a6b66b21978b5891.webp",
+        "width": 420,
+        "height": 560,
+        "mode": "RGB",
+        "bytes": 61740,
+        "sha256": "7534aa829c40a81844dc27ab1113aad7aa064a23b425db880343ab0cdaec1f07"
+      },
+      "embedded_reference": {
+        "path": "v4-1/card-art-data.js",
+        "key": "abyss",
+        "bytes_equal_to_runtime": true,
+        "decoded_bytes": 61740,
+        "sha256": "7534aa829c40a81844dc27ab1113aad7aa064a23b425db880343ab0cdaec1f07"
+      }
+    },
+    {
+      "id": "legacy-manaBarrier",
+      "label": "鏡の結界ほか7枚",
+      "role": "card",
+      "asset": {
+        "path": "assets/cards/file_00000000cae082099bd9fb794f9208d6.png",
+        "width": 1086,
+        "height": 1448,
+        "mode": "RGB",
+        "bytes": 3188611,
+        "sha256": "b1af2f9fed7c977a54349b4131aafe4f2ae1f6b674034a4532f1f72681425d90"
+      },
+      "art_key": "manaBarrier",
+      "current_cards": [
+        "mirror",
+        "renew",
+        "winter",
+        "reflectShield",
+        "emberVeil",
+        "ashWard",
+        "echo"
+      ],
+      "style_group": "gothic-ruins-detailed",
+      "visual_motif": "Several ornate mirrors orbiting in a blue reflective dome",
+      "recommended_uses": [
+        "guard",
+        "reflection",
+        "mirror barrier"
+      ],
+      "reuse_decision": "reuse_in_matching_context",
+      "cautions": [
+        "Already shared by 7 current cards. For a new mechanically distinct card, check visual confusion before adding another shared use."
+      ],
+      "provenance": {
+        "status": "repository_history_only",
+        "last_asset_commit": "931d5a227e1cead51666960564ddd3c920cbb892",
+        "license_status": "not_found_in_repository_audit",
+        "rights_note": "Repository presence and generation records are not a license or proof of exclusive rights. Catalog covers reuse in this existing project; external redistribution needs a separate rights check."
+      },
+      "pixel_check": {
+        "method": "view_image",
+        "inspected_source_path": "assets/cards/file_00000000cae082099bd9fb794f9208d6.png",
+        "inspected_date": "2026-10-06",
+        "result": "visually_usable_with_listed_cautions",
+        "inspected_runtime_path": "assets/runtime/cards/file_00000000cae082099bd9fb794f9208d6.webp",
+        "runtime_result": "Opened runtime separately with view_image; same composition and usable reduced detail confirmed."
+      },
+      "references": [
+        {
+          "path": "assets/cards/file_00000000cae082099bd9fb794f9208d6.png",
+          "url": "https://github.com/busshin-it/shinka-dungeon/blob/739cdb63f938048977dcb2f998770d4df4ef5ab3/assets/cards/file_00000000cae082099bd9fb794f9208d6.png"
+        },
+        {
+          "path": "v4-1/planning-engine.js",
+          "url": "https://github.com/busshin-it/shinka-dungeon/blob/739cdb63f938048977dcb2f998770d4df4ef5ab3/v4-1/planning-engine.js"
+        },
+        {
+          "path": "v4-1/planning.html",
+          "url": "https://github.com/busshin-it/shinka-dungeon/blob/739cdb63f938048977dcb2f998770d4df4ef5ab3/v4-1/planning.html"
+        },
+        {
+          "path": "v4-1/planning-game.js",
+          "url": "https://github.com/busshin-it/shinka-dungeon/blob/739cdb63f938048977dcb2f998770d4df4ef5ab3/v4-1/planning-game.js"
+        },
+        {
+          "path": "v4-1/card-art-data.js",
+          "url": "https://github.com/busshin-it/shinka-dungeon/blob/739cdb63f938048977dcb2f998770d4df4ef5ab3/v4-1/card-art-data.js"
+        },
+        {
+          "path": "assets/runtime/cards/file_00000000cae082099bd9fb794f9208d6.webp",
+          "url": "https://github.com/busshin-it/shinka-dungeon/blob/739cdb63f938048977dcb2f998770d4df4ef5ab3/assets/runtime/cards/file_00000000cae082099bd9fb794f9208d6.webp"
+        }
+      ],
+      "priority": 2,
+      "runtime_asset": {
+        "path": "assets/runtime/cards/file_00000000cae082099bd9fb794f9208d6.webp",
+        "width": 420,
+        "height": 560,
+        "mode": "RGB",
+        "bytes": 67842,
+        "sha256": "81c71051f32f0e466beeec2e0b165d1cd807f2f201fce45917ff62430c129f14"
+      },
+      "embedded_reference": {
+        "path": "v4-1/card-art-data.js",
+        "key": "manaBarrier",
+        "bytes_equal_to_runtime": true,
+        "decoded_bytes": 67842,
+        "sha256": "81c71051f32f0e466beeec2e0b165d1cd807f2f201fce45917ff62430c129f14"
+      }
+    },
+    {
+      "id": "factory-chain-lightning",
+      "label": "連鎖雷・Factory版",
+      "role": "card",
+      "asset": {
+        "path": "assets/cards/chain-lightning.png",
+        "width": 1024,
+        "height": 1536,
+        "mode": "RGB",
+        "bytes": 2277598,
+        "sha256": "0c38e48eb8ca781f585b10883a1c088704506550ac2d358848f9d425f1971fe7"
+      },
+      "art_key": null,
+      "current_cards": [],
+      "style_group": "dark-electric-minimal",
+      "visual_motif": "Clean blue-white branching lightning on nearly black background",
+      "recommended_uses": [
+        "thunder",
+        "chain lightning",
+        "readable prototype"
+      ],
+      "reuse_decision": "conditional_candidate_not_currently_wired",
+      "cautions": [
+        "Not currently referenced by v4 planning artwork. Strong silhouette but much plainer background than the celestial set. Create/verify optimized runtime copy before adoption."
+      ],
+      "provenance": {
+        "status": "generation_record_present",
+        "last_asset_commit": "e2016cc7ce37a93afef6ed73c9115829931802aa",
+        "license_status": "not_found_in_repository_audit",
+        "rights_note": "Repository presence and generation records are not a license or proof of exclusive rights. Catalog covers reuse in this existing project; external redistribution needs a separate rights check.",
+        "manifest_asset_id": "shinka_card_chain_lightning",
+        "recorded_generator": "gpt-image-2",
+        "recorded_used_references": 0,
+        "recorded_qa_pass": true,
+        "recorded_qa_date": "2026-10-04T00:07:40.565Z"
+      },
+      "pixel_check": {
+        "method": "view_image",
+        "inspected_source_path": "assets/cards/chain-lightning.png",
+        "inspected_date": "2026-10-06",
+        "result": "visually_usable_with_listed_cautions"
+      },
+      "references": [
+        {
+          "path": "assets/cards/chain-lightning.png",
+          "url": "https://github.com/busshin-it/shinka-dungeon/blob/739cdb63f938048977dcb2f998770d4df4ef5ab3/assets/cards/chain-lightning.png"
+        },
+        {
+          "path": "v4-1/planning-engine.js",
+          "url": "https://github.com/busshin-it/shinka-dungeon/blob/739cdb63f938048977dcb2f998770d4df4ef5ab3/v4-1/planning-engine.js"
+        },
+        {
+          "path": "v4-1/planning.html",
+          "url": "https://github.com/busshin-it/shinka-dungeon/blob/739cdb63f938048977dcb2f998770d4df4ef5ab3/v4-1/planning.html"
+        },
+        {
+          "path": "v4-1/planning-game.js",
+          "url": "https://github.com/busshin-it/shinka-dungeon/blob/739cdb63f938048977dcb2f998770d4df4ef5ab3/v4-1/planning-game.js"
+        },
+        {
+          "path": "asset-factory/asset-manifest.json",
+          "url": "https://github.com/busshin-it/shinka-dungeon/blob/739cdb63f938048977dcb2f998770d4df4ef5ab3/asset-factory/asset-manifest.json"
+        }
+      ],
+      "priority": 3
+    },
+    {
+      "id": "factory-abyss",
+      "label": "奈落弾・Factory版",
+      "role": "card",
+      "asset": {
+        "path": "assets/cards/abyss.png",
+        "width": 1024,
+        "height": 1536,
+        "mode": "RGB",
+        "bytes": 3144729,
+        "sha256": "5b63c4e1908892e881aaef083b2f1c03a3384200658a3c17305c0e9bc5d1a481"
+      },
+      "art_key": null,
+      "current_cards": [],
+      "style_group": "gothic-watercolor",
+      "visual_motif": "Large dark orb in a painted purple gothic interior",
+      "recommended_uses": [
+        "dark",
+        "abyss",
+        "large orb"
+      ],
+      "reuse_decision": "conditional_candidate_not_currently_wired",
+      "cautions": [
+        "Not the current v4 abyss image. Beautiful painted texture; darker than the detailed legacy set. Verify small-screen core clarity and optimize before adoption."
+      ],
+      "provenance": {
+        "status": "generation_record_present",
+        "last_asset_commit": "e83d1daea2575e2de64a4812527d8db6f9aa2d37",
+        "license_status": "not_found_in_repository_audit",
+        "rights_note": "Repository presence and generation records are not a license or proof of exclusive rights. Catalog covers reuse in this existing project; external redistribution needs a separate rights check.",
+        "manifest_asset_id": "shinka_card_abyss",
+        "recorded_generator": "gpt-image-2",
+        "recorded_used_references": 0,
+        "recorded_qa_pass": true,
+        "recorded_qa_date": "2026-10-04T00:34:03.251Z"
+      },
+      "pixel_check": {
+        "method": "view_image",
+        "inspected_source_path": "assets/cards/abyss.png",
+        "inspected_date": "2026-10-06",
+        "result": "visually_usable_with_listed_cautions"
+      },
+      "references": [
+        {
+          "path": "assets/cards/abyss.png",
+          "url": "https://github.com/busshin-it/shinka-dungeon/blob/739cdb63f938048977dcb2f998770d4df4ef5ab3/assets/cards/abyss.png"
+        },
+        {
+          "path": "v4-1/planning-engine.js",
+          "url": "https://github.com/busshin-it/shinka-dungeon/blob/739cdb63f938048977dcb2f998770d4df4ef5ab3/v4-1/planning-engine.js"
+        },
+        {
+          "path": "v4-1/planning.html",
+          "url": "https://github.com/busshin-it/shinka-dungeon/blob/739cdb63f938048977dcb2f998770d4df4ef5ab3/v4-1/planning.html"
+        },
+        {
+          "path": "v4-1/planning-game.js",
+          "url": "https://github.com/busshin-it/shinka-dungeon/blob/739cdb63f938048977dcb2f998770d4df4ef5ab3/v4-1/planning-game.js"
+        },
+        {
+          "path": "asset-factory/asset-manifest.json",
+          "url": "https://github.com/busshin-it/shinka-dungeon/blob/739cdb63f938048977dcb2f998770d4df4ef5ab3/asset-factory/asset-manifest.json"
+        }
+      ],
+      "priority": 3
+    },
+    {
+      "id": "support-librarian-noa",
+      "label": "星綴りの司書・ノア",
+      "role": "npc",
+      "asset": {
+        "path": "v4-1/assets/librarian-noa.webp",
+        "width": 1024,
+        "height": 1536,
+        "mode": "RGBA",
+        "bytes": 424908,
+        "sha256": "f88e237806bba2cead68c5e8a0dbf723b8eca1186eeb7719e8a564397a05ec76"
+      },
+      "art_key": null,
+      "current_cards": [],
+      "style_group": "noa-library-detailed",
+      "visual_motif": "Teal-haired silver-spectacled librarian with star atlas and bookmark",
+      "recommended_uses": [
+        "existing Noa dialogue",
+        "set identity",
+        "library guide"
+      ],
+      "reuse_decision": "reuse_only_in_original_role",
+      "cautions": [
+        "Keep as Noa. Portrait framing includes atmospheric semi-transparent glow; this is not a generic card illustration."
+      ],
+      "provenance": {
+        "status": "generation_record_present",
+        "last_asset_commit": "00565a2847f74146846e04691a65e8f6f6e02f3a",
+        "license_status": "not_found_in_repository_audit",
+        "rights_note": "Repository presence and generation records are not a license or proof of exclusive rights. Catalog covers reuse in this existing project; external redistribution needs a separate rights check."
+      },
+      "pixel_check": {
+        "method": "view_image",
+        "inspected_source_path": "v4-1/assets/librarian-noa.webp",
+        "inspected_date": "2026-10-06",
+        "result": "visually_usable_with_listed_cautions"
+      },
+      "references": [
+        {
+          "path": "v4-1/assets/librarian-noa.webp",
+          "url": "https://github.com/busshin-it/shinka-dungeon/blob/739cdb63f938048977dcb2f998770d4df4ef5ab3/v4-1/assets/librarian-noa.webp"
+        },
+        {
+          "path": "design/noa-set-art-report.md",
+          "url": "https://github.com/busshin-it/shinka-dungeon/blob/739cdb63f938048977dcb2f998770d4df4ef5ab3/design/noa-set-art-report.md"
+        }
+      ],
+      "priority": 4,
+      "alpha_check": {
+        "min": 0,
+        "max": 254,
+        "corner_values": [
+          0,
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "id": "support-ferryman-rune",
+      "label": "渡し守・ルーン",
+      "role": "npc",
+      "asset": {
+        "path": "v4-1/assets/ferryman-rune.webp",
+        "width": 1024,
+        "height": 1536,
+        "mode": "RGBA",
+        "bytes": 367662,
+        "sha256": "4abc9848bd0f7f27cb9029bd73d7cee6382175d01201a660664e07df359eb934"
+      },
+      "art_key": null,
+      "current_cards": [],
+      "style_group": "star-causeway-detailed",
+      "visual_motif": "Silver-haired ferryman with blue and gold robe and long oar",
+      "recommended_uses": [
+        "existing Rune dialogue",
+        "causeway guide"
+      ],
+      "reuse_decision": "reuse_only_in_original_role",
+      "cautions": [
+        "Keep as Rune. Oar and hands are part of identity; do not replace with another character label."
+      ],
+      "provenance": {
+        "status": "repository_history_only",
+        "last_asset_commit": "1fb1a4b63d467959c39589feee96b148c56eb6ef",
+        "license_status": "not_found_in_repository_audit",
+        "rights_note": "Repository presence and generation records are not a license or proof of exclusive rights. Catalog covers reuse in this existing project; external redistribution needs a separate rights check."
+      },
+      "pixel_check": {
+        "method": "view_image",
+        "inspected_source_path": "v4-1/assets/ferryman-rune.webp",
+        "inspected_date": "2026-10-06",
+        "result": "visually_usable_with_listed_cautions"
+      },
+      "references": [
+        {
+          "path": "v4-1/assets/ferryman-rune.webp",
+          "url": "https://github.com/busshin-it/shinka-dungeon/blob/739cdb63f938048977dcb2f998770d4df4ef5ab3/v4-1/assets/ferryman-rune.webp"
+        }
+      ],
+      "priority": 4,
+      "alpha_check": {
+        "min": 0,
+        "max": 254,
+        "corner_values": [
+          0,
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "id": "support-star-crossing-causeway",
+      "label": "星渡りの回廊",
+      "role": "background",
+      "asset": {
+        "path": "v4-1/assets/star-crossing-causeway.webp",
+        "width": 1672,
+        "height": 941,
+        "mode": "RGB",
+        "bytes": 478382,
+        "sha256": "adfc9a334478b74131db1dfd0f232d75e5f3af8955f5517b469cca2de8086885"
+      },
+      "art_key": null,
+      "current_cards": [],
+      "style_group": "star-causeway-detailed",
+      "visual_motif": "Wide luminous flooded ruins with a golden path traced across water",
+      "recommended_uses": [
+        "route background",
+        "set preview",
+        "stage"
+      ],
+      "reuse_decision": "reuse_only_in_original_role",
+      "cautions": [
+        "Wide 1672×941 scene, not a spell subject; avoid arbitrary card crop."
+      ],
+      "provenance": {
+        "status": "repository_history_only",
+        "last_asset_commit": "1fb1a4b63d467959c39589feee96b148c56eb6ef",
+        "license_status": "not_found_in_repository_audit",
+        "rights_note": "Repository presence and generation records are not a license or proof of exclusive rights. Catalog covers reuse in this existing project; external redistribution needs a separate rights check."
+      },
+      "pixel_check": {
+        "method": "view_image",
+        "inspected_source_path": "v4-1/assets/star-crossing-causeway.webp",
+        "inspected_date": "2026-10-06",
+        "result": "visually_usable_with_listed_cautions"
+      },
+      "references": [
+        {
+          "path": "v4-1/assets/star-crossing-causeway.webp",
+          "url": "https://github.com/busshin-it/shinka-dungeon/blob/739cdb63f938048977dcb2f998770d4df4ef5ab3/v4-1/assets/star-crossing-causeway.webp"
+        }
+      ],
+      "priority": 4
+    },
+    {
+      "id": "support-moon-mirror",
+      "label": "月鏡",
+      "role": "relic",
+      "asset": {
+        "path": "v4-1/assets/moon-mirror.webp",
+        "width": 1254,
+        "height": 1254,
+        "mode": "RGBA",
+        "bytes": 216468,
+        "sha256": "c9ed9b04fdac564d17677427d68951dd3836ffac414f70aa95f0a22d374c649e"
+      },
+      "art_key": null,
+      "current_cards": [],
+      "style_group": "astral-watercolor",
+      "visual_motif": "Isolated ornate crescent mirror with blue center and hanging ornaments",
+      "recommended_uses": [
+        "existing relic",
+        "mirror item preview"
+      ],
+      "reuse_decision": "reuse_only_in_original_role",
+      "cautions": [
+        "Keep relic role; use contain to preserve handle and ornaments."
+      ],
+      "provenance": {
+        "status": "repository_history_only",
+        "last_asset_commit": "d30668a0d936b014f90401a2fa873f6c8cef4976",
+        "license_status": "not_found_in_repository_audit",
+        "rights_note": "Repository presence and generation records are not a license or proof of exclusive rights. Catalog covers reuse in this existing project; external redistribution needs a separate rights check."
+      },
+      "pixel_check": {
+        "method": "view_image",
+        "inspected_source_path": "v4-1/assets/moon-mirror.webp",
+        "inspected_date": "2026-10-06",
+        "result": "visually_usable_with_listed_cautions"
+      },
+      "references": [
+        {
+          "path": "v4-1/assets/moon-mirror.webp",
+          "url": "https://github.com/busshin-it/shinka-dungeon/blob/739cdb63f938048977dcb2f998770d4df4ef5ab3/v4-1/assets/moon-mirror.webp"
+        }
+      ],
+      "priority": 4,
+      "alpha_check": {
+        "min": 0,
+        "max": 255,
+        "corner_values": [
+          0,
+          0,
+          0,
+          0
+        ]
+      }
+    }
+  ]
+}

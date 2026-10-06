@@ -1,0 +1,8 @@
+{
+  "schemaVersion": 1,
+  "setId": "replace-with-set-id",
+  "notes": [
+    "Copy an interval only when its actual start/end are known. Keep all timestamps timezone-qualified. Independent intervals may overlap."
+  ],
+  "intervals": []
+}

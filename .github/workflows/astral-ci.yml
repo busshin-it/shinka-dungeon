@@ -8,6 +8,9 @@ on:
       - 'tests/astral*'
       - 'tests/test_astral_release.py'
       - 'tests/fixtures/astral*'
+      - 'design/production/**'
+      - 'assets/cards/**'
+      - 'assets/runtime/cards/**'
       - '.github/workflows/astral-ci.yml'
       - '.github/workflows/pages.yml'
   workflow_call:
