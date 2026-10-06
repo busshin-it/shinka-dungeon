@@ -1,0 +1,447 @@
+{
+  "schemaVersion": 1,
+  "id": "noa-example",
+  "title": "星綴りの書庫・制作テンプレート実例",
+  "theme": "今の資源を、次の頁へ。既存v4.11実装を使った検証可能な見本。",
+  "style": {
+    "world": "A quiet ancient celestial library with dim stone arches and abstract star maps.",
+    "palette": "Silver and star-blue highlights, deep teal and amethyst shadows, restrained parchment amber.",
+    "medium": "Detailed painterly Japanese fantasy RPG card art with readable material detail.",
+    "composition": "Square illustration; one clear central subject, preserve its entire silhouette, readable at small card size.",
+    "avoid": "Readable letters, numbers, logos, borders, UI, extra subjects, contact sheets or collage."
+  },
+  "cards": [
+    {
+      "id": "starRelay",
+      "asset": "star-relay",
+      "base": {
+        "name": "星継ぎ",
+        "cost": 0,
+        "transferBlockCap": 10,
+        "family": "focus",
+        "art": "starRelay"
+      },
+      "upgrade": {
+        "transferBlockCap": 14
+      },
+      "textIncludes": [
+        "最大{transferBlockCap}",
+        "今のブロックをすべて失う"
+      ],
+      "cases": [
+        {
+          "name": "no-current-block",
+          "variant": "base",
+          "state": {
+            "block": 0
+          },
+          "preview": {
+            "actualNextBlock": 0,
+            "actualConsumedBlock": 0
+          },
+          "after": {
+            "block": 0,
+            "pendingBlock": 0
+          },
+          "text": {
+            "summary": [
+              "次ターン防御{actualNextBlock}"
+            ],
+            "rules": [
+              "今の防御{actualConsumedBlock}をすべて消費",
+              "予約上限{transferBlockCap}"
+            ]
+          }
+        },
+        {
+          "name": "base-cap-and-existing-reservation",
+          "variant": "base",
+          "state": {
+            "block": 11,
+            "pendingBlock": 5
+          },
+          "preview": {
+            "actualNextBlock": 10,
+            "actualConsumedBlock": 11
+          },
+          "after": {
+            "block": 0,
+            "pendingBlock": 15
+          },
+          "text": {
+            "summary": [
+              "次ターン防御{actualNextBlock}"
+            ]
+          }
+        },
+        {
+          "name": "upgrade-cap-and-existing-reservation",
+          "variant": "upgrade",
+          "state": {
+            "block": 15,
+            "pendingBlock": 5
+          },
+          "preview": {
+            "actualNextBlock": 14,
+            "actualConsumedBlock": 15
+          },
+          "after": {
+            "block": 0,
+            "pendingBlock": 19
+          },
+          "text": {
+            "summary": [
+              "次ターン防御{actualNextBlock}"
+            ],
+            "rules": [
+              "予約上限{transferBlockCap}",
+              "次ターンの終わりまで"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "quietComet",
+      "asset": "quiet-comet",
+      "base": {
+        "name": "凪の彗星",
+        "cost": 2,
+        "damage": 10,
+        "recoverBonus": 10,
+        "family": "dark",
+        "art": "quietComet"
+      },
+      "upgrade": {
+        "damage": 13
+      },
+      "textIncludes": [
+        "{damage}ダメージ",
+        "攻撃なしなら追加{recoverBonus}"
+      ],
+      "cases": [
+        {
+          "name": "attacking-enemy",
+          "variant": "base",
+          "state": {
+            "turn": 1
+          },
+          "preview": {
+            "actualDamage": 10,
+            "recoverCondition": false
+          },
+          "after": {
+            "enemyHp": 38,
+            "energy": 3
+          },
+          "text": {
+            "summary": [
+              "攻撃{actualDamage}"
+            ],
+            "rules": [
+              "＋{recoverBonus}（未成立）"
+            ]
+          }
+        },
+        {
+          "name": "recovering-enemy-upgrade",
+          "variant": "upgrade",
+          "state": {
+            "turn": 2
+          },
+          "preview": {
+            "actualDamage": 23,
+            "recoverCondition": true
+          },
+          "after": {
+            "enemyHp": 25,
+            "energy": 3
+          },
+          "text": {
+            "summary": [
+              "攻撃{actualDamage}"
+            ],
+            "rules": [
+              "＋{recoverBonus}（成立）"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "mirrorLance",
+      "asset": "mirror-lance",
+      "base": {
+        "name": "鏡頁の槍",
+        "cost": 1,
+        "damage": 4,
+        "reflectDamageMultiplier": 2,
+        "reflectDamageCap": 10,
+        "consumeReflect": true,
+        "family": "guard",
+        "art": "mirrorLance"
+      },
+      "upgrade": {
+        "damage": 7
+      },
+      "textIncludes": [
+        "{damage}ダメージ",
+        "反射の{reflectDamageMultiplier}倍",
+        "最大{reflectDamageCap}",
+        "反射をすべて消費"
+      ],
+      "cases": [
+        {
+          "name": "no-reflection",
+          "variant": "base",
+          "state": {
+            "reflect": 0
+          },
+          "preview": {
+            "actualDamage": 4,
+            "actualConsumedReflect": 0,
+            "actualReflectDamage": 0
+          },
+          "after": {
+            "enemyHp": 44,
+            "reflect": 0,
+            "energy": 4
+          },
+          "text": {
+            "summary": [
+              "攻撃{actualDamage}"
+            ],
+            "rules": [
+              "反射{actualConsumedReflect}をすべて消費",
+              "反射の{reflectDamageMultiplier}倍"
+            ]
+          }
+        },
+        {
+          "name": "above-cap-preserve-block-upgrade",
+          "variant": "upgrade",
+          "state": {
+            "reflect": 20,
+            "block": 6
+          },
+          "preview": {
+            "actualDamage": 17,
+            "actualConsumedReflect": 20,
+            "actualReflectDamage": 10
+          },
+          "after": {
+            "enemyHp": 31,
+            "reflect": 0,
+            "block": 6,
+            "energy": 4
+          },
+          "text": {
+            "summary": [
+              "攻撃{actualDamage}"
+            ],
+            "rules": [
+              "反射{actualConsumedReflect}をすべて消費",
+              "追加上限{reflectDamageCap}"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "starBookmark",
+      "asset": "star-bookmark",
+      "base": {
+        "name": "星の栞",
+        "cost": 0,
+        "block": 2,
+        "recycleAttack": true,
+        "exhaust": true,
+        "family": "guard",
+        "art": "starBookmark"
+      },
+      "upgrade": {
+        "block": 5
+      },
+      "textIncludes": [
+        "{block}ブロック",
+        "攻撃札1枚を山札の一番上へ戻す",
+        "消滅"
+      ],
+      "cases": [
+        {
+          "name": "no-attack-in-discard",
+          "variant": "base",
+          "preview": {
+            "actualBlock": 2,
+            "recycleTargetName": ""
+          },
+          "after": {
+            "block": 2,
+            "exhaust": [
+              "starBookmark"
+            ],
+            "discard": []
+          },
+          "text": {
+            "summary": [
+              "防御{actualBlock}",
+              "戻せる攻撃札なし"
+            ],
+            "rules": [
+              "今は引かない",
+              "消滅"
+            ]
+          }
+        },
+        {
+          "name": "newest-upgraded-attack",
+          "variant": "upgrade",
+          "discard": [
+            "bolt+",
+            "guard"
+          ],
+          "preview": {
+            "actualBlock": 5,
+            "recycleTargetName": "雷撃＋"
+          },
+          "after": {
+            "block": 5,
+            "exhaust": [
+              "starBookmark+"
+            ],
+            "discard": [
+              "guard"
+            ],
+            "draw": [
+              "bolt+",
+              "guard",
+              "guard",
+              "guard",
+              "guard",
+              "guard",
+              "guard",
+              "guard"
+            ]
+          },
+          "text": {
+            "summary": [
+              "防御{actualBlock}",
+              "山札の上へ：{recycleTargetName}"
+            ],
+            "rules": [
+              "今は引かない",
+              "消滅"
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "assets": [
+    {
+      "key": "star-relay",
+      "kind": "card",
+      "subject": "A translucent blue stellar shield folds into a silver page and moves to the next page of an open star atlas. One clear magical transformation.",
+      "alt": {
+        "mode": "decorative",
+        "text": ""
+      },
+      "path": "./assets/star-relay.webp",
+      "status": "reuse",
+      "reuseFrom": "v4-1/assets/star-relay.webp",
+      "sha256": "ab57e7fed839a208808a30a2b13abcbfce1b4c6bcaa4990c5fdbb3ab5cd5094c",
+      "provenance": {
+        "kind": "project-generated",
+        "evidence": "design/noa-set-art-report.md — star-relay; repository generation prompt and original QA report."
+      },
+      "visualQa": {
+        "status": "passed",
+        "note": "Existing art report records direct visual review of the current SHA-256. Recheck any new use/crop; this example does not reapprove unrelated art."
+      }
+    },
+    {
+      "key": "quiet-comet",
+      "kind": "card",
+      "subject": "One violet-blue comet with one clear diagonal trail crosses a calm open celestial atlas. No extra beams or intersecting trails.",
+      "alt": {
+        "mode": "decorative",
+        "text": ""
+      },
+      "path": "./assets/quiet-comet.webp",
+      "status": "reuse",
+      "reuseFrom": "v4-1/assets/quiet-comet.webp",
+      "sha256": "036721a68c2e830d40ef0d9810a1cdb7a57085879f466302e2124955c0984680",
+      "provenance": {
+        "kind": "project-generated",
+        "evidence": "design/noa-set-art-report.md — quiet-comet; repository generation prompt and original QA report."
+      },
+      "visualQa": {
+        "status": "passed",
+        "note": "Existing art report records direct visual review of the current SHA-256. Recheck any new use/crop; this example does not reapprove unrelated art."
+      }
+    },
+    {
+      "key": "mirror-lance",
+      "kind": "card",
+      "subject": "One complete long silver spear with a star-blue pointed head forms from a folded mirror page. Preserve the full spear silhouette.",
+      "alt": {
+        "mode": "decorative",
+        "text": ""
+      },
+      "path": "./assets/mirror-lance.webp",
+      "status": "reuse",
+      "reuseFrom": "v4-1/assets/mirror-lance.webp",
+      "sha256": "93a900269fe66e3fdb0fd068da361fc1a51752ae499821afa93ba7fd9ddb42a4",
+      "provenance": {
+        "kind": "project-generated",
+        "evidence": "design/noa-set-art-report.md — mirror-lance; repository generation prompt and original QA report."
+      },
+      "visualQa": {
+        "status": "passed",
+        "note": "Existing art report records direct visual review of the current SHA-256. Recheck any new use/crop; this example does not reapprove unrelated art."
+      }
+    },
+    {
+      "key": "star-bookmark",
+      "kind": "card",
+      "subject": "One silver eight-point star bookmark gently lifts exactly one page of an ancient celestial atlas. Intimate close view.",
+      "alt": {
+        "mode": "decorative",
+        "text": ""
+      },
+      "path": "./assets/star-bookmark.webp",
+      "status": "reuse",
+      "reuseFrom": "v4-1/assets/star-bookmark.webp",
+      "sha256": "5eb5e60418525f3b5b54998054bc6a525cfd654f7c84b231a9db5e80fffc028c",
+      "provenance": {
+        "kind": "project-generated",
+        "evidence": "design/noa-set-art-report.md — star-bookmark; repository generation prompt and original QA report."
+      },
+      "visualQa": {
+        "status": "passed",
+        "note": "Existing art report records direct visual review of the current SHA-256. Recheck any new use/crop; this example does not reapprove unrelated art."
+      }
+    },
+    {
+      "key": "librarian-noa",
+      "kind": "npc",
+      "subject": "Noa, the quiet librarian of the stars, with teal and deep violet garments, silver clasp, floating atlas and star bookmark. Distinct from the mage and ferryman.",
+      "alt": {
+        "mode": "text",
+        "text": "星綴りの司書ノア"
+      },
+      "path": "./assets/librarian-noa.webp",
+      "status": "reuse",
+      "reuseFrom": "v4-1/assets/librarian-noa.webp",
+      "sha256": "f88e237806bba2cead68c5e8a0dbf723b8eca1186eeb7719e8a564397a05ec76",
+      "provenance": {
+        "kind": "project-generated",
+        "evidence": "design/noa-set-art-report.md — librarian-noa; repository generation prompt and original QA report."
+      },
+      "visualQa": {
+        "status": "passed",
+        "note": "Existing art report records direct visual review of the current SHA-256. Recheck any new use/crop; this example does not reapprove unrelated art."
+      }
+    }
+  ]
+}

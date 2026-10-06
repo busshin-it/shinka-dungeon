@@ -5,6 +5,11 @@
 今回のツールはそれらを復元したものではなく、現在の配布を安全に検証・梱包する最小手順です。
 ゲームのコードや絵は自動で生成し直しません。
 
+カード追加の制作手順・再利用画像・共通プロンプト・仕様/説明/保存の自動チェックは
+[`design/production/README.md`](design/production/README.md) を参照してください。
+`node tools/astral-card-production.mjs validate design/production/noa-example.json release` で
+実装済み4枚を検証できます。画像生成/API呼出し/公開を自動で起動するツールではありません。
+
 ## 最初の確認
 
 Node.js 22以上、Python 3.12以上。今回の検証には `npm install` は不要です。
