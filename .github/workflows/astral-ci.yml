@@ -30,6 +30,6 @@ jobs:
       - name: Check release metadata and cache contents
         run: python3 tools/astral_release.py verify
       - name: Check cards, saves, RNG, and reward boundaries
-        run: node --test tests/astral-smoke.test.mjs
+        run: node --test tests/astral-*.test.mjs
       - name: Check reproducible packaging and failure guards
         run: python3 -m unittest discover -s tests -p 'test_astral_release.py'

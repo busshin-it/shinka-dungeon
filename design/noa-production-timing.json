@@ -1,0 +1,101 @@
+{
+  "task": "v4.11 Noa and four cards",
+  "clock": "UTC",
+  "startedAt": "2026-10-06T10:56:34Z",
+  "notes": [
+    "Intervals overlap when independent work runs in parallel; do not add durations to estimate wall time.",
+    "No per-card completion estimate is valid until generation, integration and validation finish.",
+    "Phase intervals are observed wall-clock times; exact per-image timestamps are in noa-set-art-report.md. Browser waiting time is not image-generation time."
+  ],
+  "phases": [
+    {
+      "name": "Research and first design including independent critique",
+      "start": "2026-10-06T10:56:34Z",
+      "end": "2026-10-06T11:02:19Z",
+      "seconds": 345
+    },
+    {
+      "name": "Unchanged baseline verification (13 Node and 4 Python tests)",
+      "start": "2026-10-06T11:02:59Z",
+      "end": "2026-10-06T11:03:03Z",
+      "seconds": 4
+    },
+    {
+      "name": "Design approved; implementation and art start",
+      "at": "2026-10-06T11:03:05Z"
+    },
+    {
+      "name": "Engine implementation and syntax validation",
+      "start": "2026-10-06T11:03:57Z",
+      "end": "2026-10-06T11:04:45Z",
+      "seconds": 48
+    },
+    {
+      "name": "Art generation and QA",
+      "start": "2026-10-06T11:03:36Z",
+      "status": "completed",
+      "end": "2026-10-06T11:11:49Z",
+      "seconds": 493
+    },
+    {
+      "name": "Independent boundary tests",
+      "start": "2026-10-06T11:03:57Z",
+      "status": "completed",
+      "end": "2026-10-06T11:10:58Z",
+      "seconds": 421
+    },
+    {
+      "name": "VM-only balance comparisons",
+      "start": "2026-10-06T11:05:12Z",
+      "status": "completed",
+      "end": "2026-10-06T11:15:10Z",
+      "seconds": 598
+    },
+    {
+      "name": "Independent engine review",
+      "start": "2026-10-06T11:06:01Z",
+      "status": "completed",
+      "end": "2026-10-06T11:11:09Z",
+      "seconds": 308
+    },
+    {
+      "name": "Shared UI dependency: wait for v4.10.1 before UI edits",
+      "start": "2026-10-06T11:03:05Z",
+      "status": "completed",
+      "end": "2026-10-06T11:07:58Z",
+      "seconds": 293
+    },
+    {
+      "name": "Shared UI integration after v4.10.1 merge",
+      "start": "2026-10-06T11:08:34Z",
+      "end": "2026-10-06T11:09:30Z",
+      "seconds": 56
+    },
+    {
+      "name": "Final image integration, manifest and text clarity",
+      "start": "2026-10-06T11:11:20Z",
+      "end": "2026-10-06T11:11:42Z",
+      "seconds": 22
+    },
+    {
+      "name": "Rendered browser QA",
+      "start": "2026-10-06T11:12:51Z",
+      "status": "blocked",
+      "note": "Rendered QA is pending; no successful rendered validation result yet."
+    },
+    {
+      "name": "Non-browser DOM selection, cancellation and resize checks",
+      "start": "2026-10-06T11:14:25Z",
+      "end": "2026-10-06T11:14:44Z",
+      "seconds": 19
+    }
+  ],
+  "artGenerationCallsSeconds": [
+    62.001,
+    52.148,
+    39.461,
+    45.712,
+    47.43
+  ],
+  "artGenerationWaitTotalSeconds": 246.752
+}
