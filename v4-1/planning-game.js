@@ -60,13 +60,13 @@
   }
   function dismissSelection(returnFocus = false) {
     const i=inspectedIndex; inspectedIndex=null; inspectedId=null; renderSelection();
-    if(returnFocus && i!==null) $('#hand').querySelector(`[data-card="${i}"]`)?.focus({preventScroll:true});
+    if(returnFocus && i!==null){const b=$('#hand').querySelector(`[data-card="${i}"]`);if(window.ShinkaFan)window.ShinkaFan.focusBack(b);else b?.focus({preventScroll:true});}
   }
   function storyContent(s) {
     const inJourney = !['intro', 'complete', 'defeat'].includes(s.phase);
     const relicOption=s.battle===2?`<button class="choice" type="button" data-sanctuary="relic" ${s.hp<=6?'disabled':''}><span class="symbol">✧</span><strong>折れた天球儀</strong><span>HP6を投資して、各戦闘1回のレリックを1つ選ぶ。</span><small>${s.hp<=6?'HP7以上で選べます。':'選ぶ画面で取消できます。'} 次は連撃・詠唱16の守護者。</small></button>`:s.battle===4?`<button class="choice" type="button" data-sanctuary="remove" ${s.deck.length<=5?'disabled':''}><span class="symbol">◇</span><strong>白紙の書庫</strong><span>カードを1枚除く。回復・進化はしない。</span><small>残り2戦へ、役割が重なる札を整理する。</small></button>`:'';
     const wrap = (label, title, body, actions = '') => `<div class="dialog-inner"><span class="eyebrow">${label}</span><h2 id="storyTitle">${title}</h2>${body}<div class="actions">${inJourney ? button('askRestart', '最初から', 'quiet') : ''}${actions}</div></div>`;
-    if (s.phase === 'intro') return wrap('CHOOSE YOUR CHARM · 04.7', '蒼い星の、その先へ。', `<p class="lead">2章・全6戦。30種類のカードを混ぜて、小さな組合せを育てる。</p><p>先読みモード・30枚。星待ちと燃え残る星が初期デッキに入ります。護符に関係なく全カードを取れます。24枚版とは別保存で、元の冒険はそのままです。</p><div class="origin-grid">${Object.entries(ORIGINS).map(([id, o]) => `<button class="origin ${s.origin === id ? 'selected' : ''}" type="button" data-origin="${id}" aria-pressed="${s.origin === id}"><span class="symbol" aria-hidden="true">${o.symbol}</span><strong>${o.name} / ${o.short}</strong><small>${o.effect}</small><em>${s.origin === id ? '選択中' : '選ぶ'}</em></button>`).join('')}</div><p class="muted">魔力は開始2、2ターン目から＋1、上限5。戦闘中は持ち越し、戦闘が変わると2に戻ります。カードをタップで確認→「使う」。横向きがおすすめです。</p>${migrationRaw ? '<p class="journey-note">以前の先読み版を引き継げます。続ける時に保存形式を更新し、直前の保存1件を端末内に控えます。選択済みの相手は変えません。V4.3の控えがある場合は別に残します。古い形式にない記録は引継ぎ後から始まります。</p>' : ''}${pendingSave ? `<p class="journey-note">この先読み版の前回は第${pendingSave.engine.state.battle}戦。新しい旅を始めると保存を上書きします。</p>` : ''}${hadStoredSave && !pendingSave ? '<p class="journey-note">保存を読み込めません。新しい旅を始めると、その保存を置き換えます。</p>' : ''}`, (pendingSave ? button('resume','続きから') : '') + button('start', pendingSave ? '新しい旅を始める' : 'この護符で出発 →'));
+    if (s.phase === 'intro') return wrap('CHOOSE YOUR CHARM · 04.7.1', '蒼い星の、その先へ。', `<p class="lead">2章・全6戦。30種類のカードを混ぜて、小さな組合せを育てる。</p><p>先読みモード・30枚。星待ちと燃え残る星が初期デッキに入ります。護符に関係なく全カードを取れます。24枚版とは別保存で、元の冒険はそのままです。</p><div class="origin-grid">${Object.entries(ORIGINS).map(([id, o]) => `<button class="origin ${s.origin === id ? 'selected' : ''}" type="button" data-origin="${id}" aria-pressed="${s.origin === id}"><span class="symbol" aria-hidden="true">${o.symbol}</span><strong>${o.name} / ${o.short}</strong><small>${o.effect}</small><em>${s.origin === id ? '選択中' : '選ぶ'}</em></button>`).join('')}</div><p class="muted">魔力は開始2、2ターン目から＋1、上限5。戦闘中は持ち越し、戦闘が変わると2に戻ります。カードをタップで確認→「使う」。横向きがおすすめです。</p>${migrationRaw ? '<p class="journey-note">以前の先読み版を引き継げます。続ける時に保存形式を更新し、直前の保存1件を端末内に控えます。選択済みの相手は変えません。V4.3の控えがある場合は別に残します。古い形式にない記録は引継ぎ後から始まります。</p>' : ''}${pendingSave ? `<p class="journey-note">この先読み版の前回は第${pendingSave.engine.state.battle}戦。新しい旅を始めると保存を上書きします。</p>` : ''}${hadStoredSave && !pendingSave ? '<p class="journey-note">保存を読み込めません。新しい旅を始めると、その保存を置き換えます。</p>' : ''}`, (pendingSave ? button('resume','続きから') : '') + button('start', pendingSave ? '新しい旅を始める' : 'この護符で出発 →'));
     if (s.phase === 'victory') return wrap('A LIGHT AHEAD', `${ENEMIES[s.enemyId].name}を越えた。`, `<p>${s.battle === 3 ? '第1章を踏破。星の回廊は、さらに奥へ続いている。' : '足元の灯りが、次の道を照らしている。'}</p><div class="result-stat"><span>${s.turn}ターン</span><span>残りHP ${s.hp}/${s.maxHp}</span><span>デッキ ${s.deck.length}枚</span></div>`, button('reward', s.battle === RUN_LENGTH ? '旅の記録を見る →' : '報酬を選ぶ →'));
     if (s.phase === 'reward') return wrap('TAKE A PAGE · OR PASS', '足すことも、足さないことも。', `<p>1枚選ぶか、今回は見送る。どちらでもHPを最大8回復。取ったカードは次の初手に入ります。</p><p class="journey-note">${s.battle < 3 ? '第1章ボスは連撃と詠唱強打。魔力を残す準備も役に立つ。' : '最終ボスは三連撃・詠唱21・回復。14ダメージで詠唱を崩せる。'}</p><div class="reward-grid four">${game.rewardOptions().map(id => choiceCard(id, `data-reward="${id}"`)).join('')}</div>`,button('skipReward','今回は取らない','quiet'));
     if (s.phase === 'route') return wrap('CHOOSE YOUR PATH', '月へ向かうか、雷を借りるか。', `${relic()}<p>${s.lastReward ? card(s.lastReward).name+'を獲得。' : '今回はデッキを増やさず進む。'}今のHPは ${s.hp}/${s.maxHp}。</p><div class="choices two"><button class="choice" type="button" data-route="moon"><span class="symbol">☾</span><strong>静かな月の泉</strong><span>HPを最大12回復する。</span><small>次の敵：鏡の亡霊<br>連撃に弱体・反射が効く。</small></button><button class="choice" type="button" data-route="forge" ${s.hp <= 6 ? 'disabled' : ''}><span class="symbol">ϟ</span><strong>雷の工房</strong><span>HPを6払い「雷の針」を得る。以後、毎ターン最初の攻撃＋2。</span><small>${s.hp <= 6 ? 'HPが7以上必要です。' : '次の敵：星塔の番兵<br>詠唱を攻撃で崩せる。'}</small></button></div>`);
@@ -108,7 +108,7 @@
     $('#breakTrack').hidden = !a.threshold; $('#breakFill').style.width = `${a.threshold ? a.progress / a.threshold * 100 : 0}%`;
     $('#energy').textContent = s.energy; $('#drawCount').textContent = s.draw.length; $('#discardCount').textContent = s.discard.length; $('#exhaustCount').textContent = s.exhaust.length;
     $('#deckButton').textContent = `デッキ ${s.deck.length}枚`; $('#endTurn').disabled = s.phase !== 'battle'; $('#restart').disabled = s.phase === 'intro';
-    $('#battleLog').textContent = s.log[0]; $('#runCode').textContent = `04.7 · ${runCode()}`; $('#saveStatus').textContent = saveMessage;
+    $('#battleLog').textContent = s.log[0]; $('#runCode').textContent = `04.7.1 · ${runCode()}`; $('#saveStatus').textContent = saveMessage;
     const usable = s.hand.some(id => card(id).cost <= s.energy);
     $('#handHint').textContent = !usable && s.phase === 'battle' ? '魔力を持ち越してターン終了 →' : `手札${s.hand.length}枚 · 横に動かせます / タップで選択`;
     $('#handHint').textContent += ` / 前攻撃${s.prevLastAttack}${s.usedExhaustThisTurn?' / 消滅済':''}`;
@@ -148,7 +148,7 @@
   $('#hand').addEventListener('click', ev => {
     const b = ev.target.closest('[data-card]'); if (!b || game.snapshot().phase !== 'battle') return;
     const index=Number(b.dataset.card);
-    if(inspectedIndex===index){dismissSelection(true);return;}
+    if(inspectedIndex===index){if(!window.ShinkaFan?.isKeyboard())dismissSelection(true);return;}
     inspectedIndex=index; inspectedId=game.snapshot().hand[index]; renderSelection(); b.focus({preventScroll:true});
 
   });
