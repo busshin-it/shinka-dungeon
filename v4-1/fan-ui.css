@@ -26,3 +26,16 @@ html,body{margin:0;min-width:0}.hand .card{touch-action:none;user-select:none}.h
 @media(orientation:portrait){.card-gallery-dialog .story-main>.reward-grid{grid-template-columns:repeat(2,minmax(130px,1fr))}.settings-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.journey-map{grid-template-columns:repeat(3,minmax(0,1fr))}}
 @media(orientation:landscape){.card-gallery-dialog[data-phase=reward] .dialog-title{padding-right:145px}.card-gallery-dialog[data-phase=reward] .story-main>.travel-hp{right:16px;top:10px}.card-gallery-dialog .reward-grid .card small{color:#263f49}.card-gallery-dialog .reward-grid .card.upgraded .card-copy>.category{color:#925a17}.card-gallery-dialog .reward-grid .card:focus-visible{outline:3px solid #fff;outline-offset:3px}.settings-grid .mode-link{background:#263947;border:1px solid #617887;border-radius:6px}}
 @media(orientation:landscape){.dialog-title.ready-title{display:flex;align-items:center;justify-content:space-between;gap:12px}.ready-title .travel-summary{margin:0;flex:none}.ready-title .travel-summary>span:last-child{display:none}.ready-title .travel-hp{min-width:110px}.ready-scene>div{min-width:0}.ready-scene p{margin-bottom:0}.ready-preparation:empty{display:none}}
+
+/* Compact reward/evolution galleries: compare more cards without shrinking effect text. */
+#storyDialog.card-gallery-dialog:is([data-phase="reward"],[data-phase="evolve"]) .story-main>.reward-grid{gap:10px}
+#storyDialog.card-gallery-dialog:is([data-phase="reward"],[data-phase="evolve"]) .reward-grid .card{min-height:240px;max-width:220px;border-radius:10px}
+#storyDialog.card-gallery-dialog:is([data-phase="reward"],[data-phase="evolve"]) .reward-grid .card-art{height:90px;min-height:90px}
+#storyDialog.card-gallery-dialog:is([data-phase="reward"],[data-phase="evolve"]) .reward-grid .card-copy{padding:9px}
+#storyDialog.card-gallery-dialog:is([data-phase="reward"],[data-phase="evolve"]) .reward-grid .card strong{font-size:16px;line-height:1.3;margin-bottom:6px}
+#storyDialog.card-gallery-dialog:is([data-phase="reward"],[data-phase="evolve"]) .reward-grid .card small{font-size:13px;line-height:1.5}
+#storyDialog.card-gallery-dialog:is([data-phase="reward"],[data-phase="evolve"]) .reward-grid .card .cost{top:6px;left:6px;width:28px;height:28px;font-size:16px}
+#storyDialog.card-gallery-dialog[data-phase="evolve"] .evolution-before{margin:0 9px 9px;padding-top:6px}
+@media(orientation:landscape){
+ #storyDialog.card-gallery-dialog:is([data-phase="reward"],[data-phase="evolve"]) .story-main>.reward-grid{grid-template-columns:repeat(auto-fit,minmax(150px,1fr))}
+}

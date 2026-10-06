@@ -44,3 +44,46 @@ dialog{overflow-y:auto;overscroll-behavior:contain}
 /* Flip only the archer artwork; outer cast/hit/idle animations keep their original direction. */
 .enemy-puppet.watcher #enemyArt,.route-enemy.watcher{transform:scaleX(-1)}.enemy-puppet.bell #enemyArt{transform:scale(.88);transform-origin:50% 60%}.route-enemy{align-self:center;width:90px;height:100px;object-fit:contain;pointer-events:none}.route-enemy.bell{transform:scale(.9)}.choice b{font-size:13px;color:#d9e4ff}.enemy-puppet.bell{animation:float 4s ease-in-out infinite}.enemy-puppet.bell.cast{animation:enemyCast .36s ease-out}.enemy-puppet.bell.hit{animation:hit .32s ease-out}.enemy-puppet.bell.guard{animation:guard .42s ease-out}
 @media(orientation:landscape) and (max-height:560px){.route-enemy{width:66px;height:76px}.choice b{font-size:12px}}
+
+/* V4.10: planning-only third route. Existing card galleries and battle controls retain their layout. */
+.planning-mode .stage.causeway-stage{background-image:url('./assets/star-crossing-causeway.webp')}
+.planning-mode .enemy-puppet.tide-sentinel{aspect-ratio:1/1.07;width:29%;max-width:340px;animation:float 4.5s ease-in-out infinite}
+.planning-mode .enemy-puppet.tide-sentinel.cast{animation:enemyCast .36s ease-out}
+.planning-mode .enemy-puppet.tide-sentinel.hit{animation:hit .32s ease-out}
+.planning-mode .enemy-puppet.tide-sentinel.guard{animation:guard .42s ease-out}
+.planning-mode #storyDialog[data-phase="chapter"] .story-main{overflow:auto;overscroll-behavior:contain;touch-action:pan-y;justify-content:flex-start;scrollbar-gutter:stable;padding:3px}
+.planning-mode #storyDialog .chapter-routes{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;flex:none;min-height:0;margin:0}
+.planning-mode #storyDialog .chapter-routes .illustrated-route{display:flex;flex-direction:column;align-items:stretch;justify-content:flex-start;gap:7px;min-height:320px;padding:12px;overflow:hidden}
+.planning-mode #storyDialog .chapter-routes .route-enemy{position:static;align-self:center;inset:auto;width:100%;height:90px;min-height:90px;max-height:90px;object-fit:contain}
+.planning-mode #storyDialog .chapter-routes .route-copy{gap:6px;flex:1}
+.planning-mode #storyDialog .chapter-routes .route-copy>strong{font-size:16px;line-height:1.4}
+.planning-mode #storyDialog .chapter-routes .route-copy>span,.planning-mode #storyDialog .chapter-routes .route-copy>small{font-size:12px;line-height:1.5}
+.planning-mode #storyDialog .chapter-routes .route-cycle{display:block;font-size:11px;line-height:1.5;margin-top:5px;color:#bfcedb}
+.planning-mode #storyDialog .chapter-routes .causeway-choice{background:linear-gradient(#16243de6,#172037f5),url('./assets/star-crossing-causeway.webp') center/cover;border-color:#a39ecb}
+.planning-mode #storyDialog .chapter-routes .causeway-choice:disabled{opacity:.5}
+.planning-mode .route-guide{display:flex;align-items:center;gap:8px;margin-top:auto;padding:7px 0 0;border-top:1px solid #8792b355;text-align:left}
+.planning-mode .route-guide>.guide-portrait{display:block;position:relative;width:45px;height:48px;flex:none;overflow:hidden;border:1px solid #aaa1be;border-radius:7px;background:#494154}
+.planning-mode .guide-portrait>img{position:absolute;width:100px;max-width:none;height:150px;left:-28px;top:-3px;object-fit:contain}
+.planning-mode .route-guide>span{display:block;min-width:0}
+.planning-mode .route-guide b{display:block;color:#ded3b4;font-size:11px}
+.planning-mode .route-guide small{display:block;font-size:10px;line-height:1.4}
+.planning-mode .causeway-boon{display:block;font-size:12px;color:#c8d6ff;margin-top:6px}
+.planning-mode #storyDialog[data-phase="chapter"] .dialog-title{padding-right:145px}
+.planning-mode #storyDialog[data-phase="chapter"] .story-main>.travel-hp{position:absolute;top:10px;right:16px;width:125px}
+.planning-mode .map-enemies:has(img[src$="tide-star-sentinel.webp"]){min-width:0}
+.planning-mode .map-enemies:has(img[src$="tide-star-sentinel.webp"]) .journey-enemy{min-width:0;max-width:33.333%}
+@media(orientation:landscape) and (max-height:560px){
+ .planning-mode #storyDialog .chapter-routes{gap:8px}
+ .planning-mode #storyDialog .chapter-routes .illustrated-route{min-height:280px;padding:9px}
+ .planning-mode #storyDialog .chapter-routes .route-enemy{height:66px;min-height:66px;max-height:66px}
+ .planning-mode #storyDialog .chapter-routes .route-copy>strong{font-size:14px}
+ .planning-mode #storyDialog .chapter-routes .route-copy>span,.planning-mode #storyDialog .chapter-routes .route-copy>small{font-size:11px}
+ .planning-mode .enemy-puppet.tide-sentinel{width:29%;max-height:calc(100% - 74px)}
+}
+@media(orientation:portrait){
+ .planning-mode #storyDialog .chapter-routes{grid-template-columns:1fr}
+ .planning-mode #storyDialog .chapter-routes .illustrated-route{display:grid;grid-template-columns:28% minmax(0,1fr);min-height:200px}
+ .planning-mode #storyDialog .chapter-routes .route-enemy{height:130px;max-height:130px}
+ .planning-mode #storyDialog[data-phase="chapter"] .dialog-title{padding-right:0}
+ .planning-mode #storyDialog[data-phase="chapter"] .story-main>.travel-hp{position:static}
+}
