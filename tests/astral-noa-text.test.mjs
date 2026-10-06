@@ -27,3 +27,6 @@ test('Noa assets are in the release manifest and every mode entry names the curr
  for(const file of ['v4-1/index.html','v4-1/game.js','v4-1/planning.html','v4-1/planning-game.js']){const text=read(file);assert(text.includes('38枚'));assert(!text.includes('34枚'));}
  assert(planning.includes('38種類'));assert(read('v4-1/planning-game.js').includes('星綴りの司書ノア'));
 });
+test('Mirror Lance art keeps its upper-right spearhead in responsive crops',()=>{
+ assert.match(read('v4-1/planning.css'),/\.planning-mode\s+\.card-art\[src\$="mirror-lance\.webp"\]\s*\{\s*object-position:\s*right\s+top\s*\}/);
+});

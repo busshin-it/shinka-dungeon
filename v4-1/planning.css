@@ -90,3 +90,5 @@ dialog{overflow-y:auto;overscroll-behavior:contain}
 
 /* Noa shares the existing route-guide slot; portrait crop is independent of Rune. */
 .planning-mode .noa-guide .guide-portrait>img{width:80px;height:120px;left:-18px;top:-3px}
+/* Keep the lance's blue spearhead visible in wide and narrow art crops. */
+.planning-mode .card-art[src$="mirror-lance.webp"]{object-position:right top}
