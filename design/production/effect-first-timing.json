@@ -1,0 +1,46 @@
+{
+  "schemaVersion": 1,
+  "note": "Observed stage wall time, not CPU or uninterrupted typing time. Implementation includes declarative specs and iterative checks. No generation/install/config phase ran; publication recorded separately.",
+  "intervals": [
+    {
+      "id": "inspect-design",
+      "owner": "implementation",
+      "phase": "design",
+      "start": "2026-10-07T11:18:27Z",
+      "end": "2026-10-07T11:21:38Z",
+      "note": "Read latest main and repository rules, choose four existing-effect combinations, inspect reused images."
+    },
+    {
+      "id": "implement-cases-fixtures",
+      "owner": "implementation",
+      "phase": "implementation",
+      "start": "2026-10-07T11:21:38Z",
+      "end": "2026-10-07T11:29:24Z",
+      "note": "Code, declarative cases, pinned old-save baselines, UI fixtures and iterative test corrections."
+    },
+    {
+      "id": "aggregate-tests",
+      "owner": "implementation",
+      "phase": "tests",
+      "start": "2026-10-07T11:29:32Z",
+      "end": "2026-10-07T11:31:00Z",
+      "note": "148 Node and4 Python passed; Factory first failed module lookup, then reused installed dependencies."
+    },
+    {
+      "id": "independent-review",
+      "owner": "review",
+      "phase": "tests",
+      "start": "2026-10-07T11:27:17Z",
+      "end": "2026-10-07T11:31:00Z",
+      "note": "Independent final148 Node,4 Python, release verify,600 fresh starts and pinned baseline replay."
+    },
+    {
+      "id": "document-and-review",
+      "owner": "implementation",
+      "phase": "integration",
+      "start": "2026-10-07T11:31:00Z",
+      "end": "2026-10-07T11:33:25Z",
+      "note": "Record scope, checks, known failures, limits and observed timing; request final documentation review."
+    }
+  ]
+}

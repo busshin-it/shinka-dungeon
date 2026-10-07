@@ -166,3 +166,11 @@ node tools/astral-star-dial-balance.mjs --seeds=64 --reward-seeds=512
 2026-10-07公開。build `4.14-15de5d91590f`、両Pages成功、配信46ファイルのbyte一致を確認。
 [公開記録](design/production/deck-growth-release.md)にPR・CI・配信確認と未検証範囲を記録する。
 初報酬は早まった一方、簡易方策の全体操作数は約9.9%増。楽しさ・固定行動の解消は未確認。V4.13の公開履歴は上記に残す。
+
+## V4.15 効果先行4枚
+
+- 図鑑52種（基本2＋報酬50）。氷写しの頁、蓄光の残響、灰読み、渡り鏡を既存効果の組合せで追加。新画像なし。
+- 新4枚はgrowth-v1の第2戦後以降だけ。旧v3の報酬/RNG、成長試遊の初回報酬、開いていた全報酬はそのまま。途中v4の将来の一般報酬は新プールになる。
+- 保存schema/validator・効果処理・旧48定義・敵・ルートは不変。詳細な条件と進化値は[制作仕様](design/production/effect-first.json)。
+- `node --test tests/astral-*.test.mjs` で148テスト。新15テストには12宣言ケース、旧4.14の13保存/次操作、1,152抽選比較を含む。
+- 既存検証・画像・依存を再利用し、設定と生成待ちを増やさない。[報告と未確認範囲](design/production/effect-first-report.md)、[任意の保存隔離6場面](ui-qa/effect-first.html)。

@@ -161,7 +161,7 @@ function classicTrace(E, digest) {
     }
     naturals.push([origin, seed, digest(rows)]);
   }
-  const cards = Object.fromEntries(Object.entries(E.CARDS).filter(([, c]) => !c.starterOnly));
+  const cards = Object.fromEntries(Object.entries(E.CARDS).filter(([id, c]) => !c.starterOnly && !['frostRecall','bankedEcho','ashStudy','mirrorRelay'].includes(id)));
   return {
     definitions: digest([cards, E.ORIGINS, E.ENEMIES, E.RELICS, Object.keys(cards).flatMap(id => [E.card(id), E.card(id+'+')])]),
     transitions: digest(traces), naturalReplays: digest(naturals), scenarioCount:traces.length, naturalCount:naturals.length
@@ -176,7 +176,7 @@ test('classic definitions, 432 complete phase traces and 24 natural runs exactly
 });
 
 test('fresh starts use v4 growth, exactly five basic attacks and five wards for all charms', () => {
-  assert.equal(Object.keys(engine.CARDS).length, 48);
+  assert.equal(Object.keys(engine.CARDS).length, 52);
   for (const origin of Object.keys(engine.ORIGINS)) {
     const game = engine.createGame(engine.seededRandom(37));
     assert.equal(game.exportSave().version, 4);
@@ -265,7 +265,7 @@ test('512 first rewards per charm have four distinct curated choices, never a ba
   }
 });
 
-test('later rewards sample all 46 existing cards, stay unique, and never offer starters/upgrades', () => {
+test('later growth rewards sample all 50 reward cards, stay unique, and never offer starters/upgrades', () => {
   const game=restore(battleBase(2)); win(game); const base=plain(game.exportSave());
   const seen=new Set();
   for (let seed=1;seed<=1024;seed++) {

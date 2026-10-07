@@ -1,0 +1,638 @@
+{
+  "schemaVersion": 1,
+  "style": {
+    "world": "A quiet ancient celestial library with dim stone arches and abstract star maps.",
+    "palette": "Silver and star-blue highlights, deep teal and amethyst shadows, restrained parchment amber.",
+    "medium": "Detailed painterly Japanese fantasy RPG card art with readable material detail.",
+    "composition": "Square illustration; one clear central subject, preserve its entire silhouette, readable at small card size.",
+    "avoid": "Readable letters, numbers, logos, borders, UI, extra subjects, contact sheets or collage."
+  },
+  "designSource": "GAME_DESIGN.md §§2, 6, 7, 11–14; ASTRAL_DEVELOPMENT.md; design/production/README.md",
+  "roadmapScope": "Existing Astral mage-mode four-card request only. Does not complete, replace, or reorder GAME_DESIGN §16 warrior W009–W036 roadmap.",
+  "id": "effect-first",
+  "title": "ノアの実践頁：効果先行4枚",
+  "theme": "過去の攻撃、今の魔力と防御、次ターンの備えを小さくつなぐ。",
+  "implementationStatus": "local-unpublished-candidate",
+  "rewardScope": "growth-v1 only, battle 2 onward; classic pools and first growth rewards remain exact",
+  "cards": [
+    {
+      "id": "frostRecall",
+      "asset": "frost-recall",
+      "base": {
+        "name": "氷写しの頁",
+        "cost": 1,
+        "weaken": 2,
+        "recycleAttack": true,
+        "family": "ice",
+        "art": "frostRecall"
+      },
+      "upgrade": {
+        "weaken": 3
+      },
+      "textIncludes": [
+        "−{weaken}",
+        "いちばん新しい攻撃札"
+      ],
+      "cases": [
+        {
+          "name": "base-no-attack",
+          "variant": "base",
+          "state": {},
+          "preview": {
+            "actualWeak": 3,
+            "recycleTargetId": null
+          },
+          "after": {
+            "weaken": 3,
+            "energy": 4
+          },
+          "text": {
+            "summary": [
+              "弱体3/打撃",
+              "戻せる攻撃札なし"
+            ]
+          },
+          "discard": []
+        },
+        {
+          "name": "base-latest-upgraded",
+          "variant": "base",
+          "state": {},
+          "preview": {
+            "actualWeak": 3,
+            "recycleTargetId": "bolt+"
+          },
+          "after": {
+            "discard": [
+              "ice",
+              "guard",
+              "frostRecall"
+            ],
+            "weaken": 3
+          },
+          "text": {
+            "summary": [
+              "山札の上へ：雷撃＋"
+            ],
+            "rules": [
+              "今は引かない"
+            ]
+          },
+          "discard": [
+            "ice",
+            "bolt+",
+            "guard"
+          ]
+        },
+        {
+          "name": "upgrade-preserves-stronger-weakness",
+          "variant": "upgrade",
+          "state": {
+            "weaken": 5
+          },
+          "preview": {
+            "actualWeak": 4,
+            "recycleTargetId": "ice"
+          },
+          "after": {
+            "weaken": 5
+          },
+          "text": {
+            "summary": [
+              "弱体4/打撃"
+            ]
+          },
+          "discard": [
+            "ice"
+          ]
+        }
+      ],
+      "design": {
+        "rarity": "unassigned",
+        "rarity_status": "仮仕様。レアリティ抽選・最終分布は追加しない。",
+        "primary_engine": "weakness",
+        "secondary_engine": "echo_draw_order",
+        "strong_when": [
+          "連撃を軽減し、捨てた強い攻撃を次のドローへ戻したい"
+        ],
+        "weak_when": [
+          "攻撃をまだ捨てていない",
+          "即時ブロックや今すぐの詠唱崩しが必要"
+        ],
+        "related_cards": [
+          "frostPierce",
+          "shatter",
+          "dark",
+          "returnPage"
+        ],
+        "design_intent": "氷と反響の橋渡し。自分では攻撃せず、回収だけでは今の手札は増えない。",
+        "asset_id": "frost-recall"
+      }
+    },
+    {
+      "id": "bankedEcho",
+      "asset": "banked-echo",
+      "base": {
+        "name": "蓄光の残響",
+        "cost": 1,
+        "damage": 4,
+        "bankBonus": 6,
+        "nextFocus": 3,
+        "family": "thunder",
+        "art": "bankedEcho"
+      },
+      "upgrade": {
+        "damage": 7,
+        "nextFocus": 5
+      },
+      "textIncludes": [
+        "{damage}ダメージ",
+        "使用前の魔力4以上",
+        "＋{nextFocus}"
+      ],
+      "cases": [
+        {
+          "name": "base-below-threshold",
+          "variant": "base",
+          "state": {
+            "energy": 3
+          },
+          "preview": {
+            "actualDamage": 4,
+            "actualNextFocus": 3
+          },
+          "after": {
+            "energy": 2,
+            "enemyHp": 44,
+            "pendingFocus": 3
+          },
+          "text": {
+            "summary": [
+              "攻撃4",
+              "次ターン攻撃＋3"
+            ],
+            "rules": [
+              "使用前の魔力4以上"
+            ]
+          },
+          "discard": []
+        },
+        {
+          "name": "base-at-threshold",
+          "variant": "base",
+          "state": {
+            "energy": 4
+          },
+          "preview": {
+            "actualDamage": 10
+          },
+          "after": {
+            "energy": 3,
+            "enemyHp": 38,
+            "pendingFocus": 3
+          },
+          "text": {
+            "summary": [
+              "攻撃10"
+            ]
+          },
+          "discard": []
+        },
+        {
+          "name": "upgrade-above-threshold-stacks",
+          "variant": "upgrade",
+          "state": {
+            "energy": 5,
+            "pendingFocus": 2
+          },
+          "preview": {
+            "actualDamage": 13,
+            "actualNextFocus": 5
+          },
+          "after": {
+            "energy": 4,
+            "enemyHp": 35,
+            "pendingFocus": 7
+          },
+          "text": {
+            "summary": [
+              "攻撃13",
+              "次ターン攻撃＋5"
+            ]
+          },
+          "discard": []
+        }
+      ],
+      "design": {
+        "rarity": "unassigned",
+        "rarity_status": "仮仕様。レアリティ抽選・最終分布は追加しない。",
+        "primary_engine": "mana_bank",
+        "secondary_engine": "future_attack",
+        "strong_when": [
+          "魔力4以上を蓄え、今と次ターンの攻撃を分けて育てたい"
+        ],
+        "weak_when": [
+          "魔力を使い切っている",
+          "この攻撃で戦闘が終わり予約を使えない"
+        ],
+        "related_cards": [
+          "zenithBolt",
+          "starWait",
+          "chain",
+          "memoryArrow"
+        ],
+        "design_intent": "低コストでも蓄積が必要。魔力を温存する判断と次の攻撃の順番をつなぐ。",
+        "asset_id": "banked-echo"
+      }
+    },
+    {
+      "id": "ashStudy",
+      "asset": "ash-study",
+      "base": {
+        "name": "灰読み",
+        "cost": 0,
+        "draw": 1,
+        "exhaustBlock": 4,
+        "exhaustReflect": 2,
+        "exhaust": true,
+        "family": "focus",
+        "art": "ashStudy"
+      },
+      "upgrade": {
+        "draw": 2
+      },
+      "textIncludes": [
+        "{draw}枚引く",
+        "先に消滅カード",
+        "{exhaustBlock}ブロック"
+      ],
+      "cases": [
+        {
+          "name": "base-cannot-trigger-itself",
+          "variant": "base",
+          "state": {
+            "energy": 0
+          },
+          "preview": {
+            "actualBlock": 0,
+            "actualReflect": 0,
+            "actualDraw": 1,
+            "exhaustCondition": false
+          },
+          "after": {
+            "block": 0,
+            "reflect": 0,
+            "hand": [
+              "guard"
+            ],
+            "exhaust": [
+              "ashStudy"
+            ],
+            "usedExhaustThisTurn": true
+          },
+          "text": {
+            "summary": [
+              "1枚引く"
+            ],
+            "rules": [
+              "未成立",
+              "消滅"
+            ]
+          },
+          "discard": []
+        },
+        {
+          "name": "base-after-an-exhaust",
+          "variant": "base",
+          "state": {
+            "usedExhaustThisTurn": true
+          },
+          "preview": {
+            "actualBlock": 4,
+            "actualReflect": 2,
+            "actualDraw": 1
+          },
+          "after": {
+            "block": 4,
+            "reflect": 2,
+            "exhaust": [
+              "ashStudy"
+            ]
+          },
+          "text": {
+            "summary": [
+              "防御4",
+              "反射2/打撃"
+            ]
+          },
+          "discard": []
+        },
+        {
+          "name": "upgrade-after-an-exhaust",
+          "variant": "upgrade",
+          "state": {
+            "usedExhaustThisTurn": true
+          },
+          "preview": {
+            "actualBlock": 4,
+            "actualReflect": 2,
+            "actualDraw": 2
+          },
+          "after": {
+            "block": 4,
+            "reflect": 2,
+            "hand": [
+              "guard",
+              "guard"
+            ],
+            "exhaust": [
+              "ashStudy+"
+            ]
+          },
+          "text": {
+            "summary": [
+              "2枚引く"
+            ]
+          },
+          "discard": []
+        }
+      ],
+      "design": {
+        "rarity": "unassigned",
+        "rarity_status": "仮仕様。レアリティ抽選・最終分布は追加しない。",
+        "primary_engine": "exhaust_sequence",
+        "secondary_engine": "defense_draw",
+        "strong_when": [
+          "蓄電やひらめきを先に使い、防御と次の選択肢を得たい"
+        ],
+        "weak_when": [
+          "最初の消滅札として使う",
+          "敵が休むターンで防御と反射が余る"
+        ],
+        "related_cards": [
+          "charge",
+          "meditate",
+          "ashWard",
+          "mirrorLance"
+        ],
+        "design_intent": "ひらめきより引く枚数が少ない代わりに、先行する消滅札があれば守りへつながる。自分の消滅では条件を満たさない。",
+        "asset_id": "ash-study"
+      }
+    },
+    {
+      "id": "mirrorRelay",
+      "asset": "mirror-relay",
+      "base": {
+        "name": "渡り鏡",
+        "cost": 0,
+        "transferBlockCap": 6,
+        "reflect": 2,
+        "exhaust": true,
+        "family": "guard",
+        "art": "mirrorRelay"
+      },
+      "upgrade": {
+        "transferBlockCap": 10,
+        "reflect": 3
+      },
+      "textIncludes": [
+        "最大{transferBlockCap}",
+        "{reflect}反射",
+        "ブロックをすべて失う"
+      ],
+      "cases": [
+        {
+          "name": "base-no-block",
+          "variant": "base",
+          "state": {
+            "block": 0,
+            "energy": 0
+          },
+          "preview": {
+            "actualConsumedBlock": 0,
+            "actualNextBlock": 0,
+            "actualReflect": 2
+          },
+          "after": {
+            "block": 0,
+            "pendingBlock": 0,
+            "reflect": 2,
+            "exhaust": [
+              "mirrorRelay"
+            ]
+          },
+          "text": {
+            "summary": [
+              "次ターン防御0",
+              "反射2/打撃"
+            ]
+          },
+          "discard": []
+        },
+        {
+          "name": "base-over-cap",
+          "variant": "base",
+          "state": {
+            "block": 9,
+            "pendingBlock": 2
+          },
+          "preview": {
+            "actualConsumedBlock": 9,
+            "actualNextBlock": 6
+          },
+          "after": {
+            "block": 0,
+            "pendingBlock": 8,
+            "reflect": 2
+          },
+          "text": {
+            "summary": [
+              "次ターン防御6"
+            ],
+            "rules": [
+              "防御9をすべて消費"
+            ]
+          },
+          "discard": []
+        },
+        {
+          "name": "upgrade-over-cap-stacks-reflection",
+          "variant": "upgrade",
+          "state": {
+            "block": 12,
+            "reflect": 3
+          },
+          "preview": {
+            "actualConsumedBlock": 12,
+            "actualNextBlock": 10,
+            "actualReflect": 3
+          },
+          "after": {
+            "block": 0,
+            "pendingBlock": 10,
+            "reflect": 6,
+            "exhaust": [
+              "mirrorRelay+"
+            ]
+          },
+          "text": {
+            "summary": [
+              "次ターン防御10",
+              "反射3/打撃"
+            ]
+          },
+          "discard": []
+        }
+      ],
+      "design": {
+        "rarity": "unassigned",
+        "rarity_status": "仮仕様。レアリティ抽選・最終分布は追加しない。",
+        "primary_engine": "future_defense",
+        "secondary_engine": "reflection_exhaust",
+        "strong_when": [
+          "余分な防御を次ターンへ回し、今は反射で返せる",
+          "残った別の防御や弱体で今の被害を抑えられる"
+        ],
+        "weak_when": [
+          "今すぐ防御を失うと倒れる",
+          "次ターン前に戦闘が終わる"
+        ],
+        "related_cards": [
+          "basicWard",
+          "starRelay",
+          "mirrorLance",
+          "ashStudy"
+        ],
+        "design_intent": "星継ぎより予約上限が低く消滅する代わりに反射を得る。反射はダメージを防がず、守りを移す危険を残す。",
+        "asset_id": "mirror-relay"
+      }
+    }
+  ],
+  "assets": [
+    {
+      "key": "frost-recall",
+      "kind": "card",
+      "subject": "Existing project art reused for 氷写しの頁; unique illustration deferred.",
+      "alt": {
+        "mode": "decorative",
+        "text": ""
+      },
+      "path": "./assets/frost-pierce.webp",
+      "status": "reuse",
+      "reuseFrom": "v4.14 frostPierce, main 2638834c9d666282eee7f6c59ffd1ea4e36c9fbb",
+      "sha256": "03130bd24e99c017b293be7420fe41ad8551d77ca8f8a9bb8d242e46bb8084b7",
+      "provenance": {
+        "kind": "existing-project",
+        "evidence": "Same project art, recorded in design/production/reusable-art.json; no broader rights claim."
+      },
+      "visualQa": {
+        "status": "passed",
+        "note": "Source pixels inspected individually on 2026-10-07. Existing bytes/path/crop reused. This is source-image inspection only; new text/layout and physical-device QA belong to the user and are not declared passed."
+      },
+      "asset_id": "frost-recall",
+      "asset_id_scope": "Production alias only, no Asset Factory job.",
+      "filename": "frost-pierce.webp",
+      "image_prompt": "再生成しない。既存ファイルを同一バイトで再利用。"
+    },
+    {
+      "key": "banked-echo",
+      "kind": "card",
+      "subject": "Existing project art reused for 蓄光の残響; unique illustration deferred.",
+      "alt": {
+        "mode": "decorative",
+        "text": ""
+      },
+      "path": "./assets/quiet-comet.webp",
+      "status": "reuse",
+      "reuseFrom": "v4.14 quietComet, main 2638834c9d666282eee7f6c59ffd1ea4e36c9fbb",
+      "sha256": "036721a68c2e830d40ef0d9810a1cdb7a57085879f466302e2124955c0984680",
+      "provenance": {
+        "kind": "project-generated",
+        "evidence": "design/noa-set-art-report.md — quiet-comet; repository generation prompt and original QA report."
+      },
+      "visualQa": {
+        "status": "passed",
+        "note": "Source pixels inspected individually on 2026-10-07. Existing bytes/path/crop reused. This is source-image inspection only; new text/layout and physical-device QA belong to the user and are not declared passed."
+      },
+      "asset_id": "banked-echo",
+      "asset_id_scope": "Production manifest alias only; not an Asset Factory queue/job registration.",
+      "filename": "quiet-comet.webp",
+      "image_prompt": "再生成しない。./assets/quiet-comet.webp の既存Noa素材を同一バイトで再利用。元の生成プロンプトの復元を意味せず、新しい画像JOBは発行しない。"
+    },
+    {
+      "key": "ash-study",
+      "kind": "card",
+      "subject": "Existing project art reused for 灰読み; unique illustration deferred.",
+      "alt": {
+        "mode": "decorative",
+        "text": ""
+      },
+      "path": "./assets/star-bookmark.webp",
+      "status": "reuse",
+      "reuseFrom": "v4.14 starBookmark, main 2638834c9d666282eee7f6c59ffd1ea4e36c9fbb",
+      "sha256": "5eb5e60418525f3b5b54998054bc6a525cfd654f7c84b231a9db5e80fffc028c",
+      "provenance": {
+        "kind": "project-generated",
+        "evidence": "design/noa-set-art-report.md — star-bookmark; repository generation prompt and original QA report."
+      },
+      "visualQa": {
+        "status": "passed",
+        "note": "Source pixels inspected individually on 2026-10-07. Existing bytes/path/crop reused. This is source-image inspection only; new text/layout and physical-device QA belong to the user and are not declared passed."
+      },
+      "asset_id": "ash-study",
+      "asset_id_scope": "Production manifest alias only; not an Asset Factory queue/job registration.",
+      "filename": "star-bookmark.webp",
+      "image_prompt": "再生成しない。./assets/star-bookmark.webp の既存Noa素材を同一バイトで再利用。元の生成プロンプトの復元を意味せず、新しい画像JOBは発行しない。"
+    },
+    {
+      "key": "mirror-relay",
+      "kind": "card",
+      "subject": "Existing project art reused for 渡り鏡; unique illustration deferred.",
+      "alt": {
+        "mode": "decorative",
+        "text": ""
+      },
+      "path": "./assets/star-relay.webp",
+      "status": "reuse",
+      "reuseFrom": "v4.14 starRelay, main 2638834c9d666282eee7f6c59ffd1ea4e36c9fbb",
+      "sha256": "ab57e7fed839a208808a30a2b13abcbfce1b4c6bcaa4990c5fdbb3ab5cd5094c",
+      "provenance": {
+        "kind": "project-generated",
+        "evidence": "design/noa-set-art-report.md — star-relay; repository generation prompt and original QA report."
+      },
+      "visualQa": {
+        "status": "passed",
+        "note": "Source pixels inspected individually on 2026-10-07. Existing bytes/path/crop reused. This is source-image inspection only; new text/layout and physical-device QA belong to the user and are not declared passed."
+      },
+      "asset_id": "mirror-relay",
+      "asset_id_scope": "Production manifest alias only; not an Asset Factory queue/job registration.",
+      "filename": "star-relay.webp",
+      "image_prompt": "再生成しない。./assets/star-relay.webp の既存Noa素材を同一バイトで再利用。元の生成プロンプトの復元を意味せず、新しい画像JOBは発行しない。"
+    },
+    {
+      "key": "librarian-noa",
+      "kind": "npc",
+      "subject": "Noa, the quiet librarian of the stars, with teal and deep violet garments, silver clasp, floating atlas and star bookmark. Distinct from the mage and ferryman.",
+      "alt": {
+        "mode": "text",
+        "text": "星綴りの司書ノア"
+      },
+      "path": "./assets/librarian-noa.webp",
+      "status": "reuse",
+      "reuseFrom": "Published Noa library guide, main 477a03a745dad2e70cd05085d2c96e7c5375df73",
+      "sha256": "f88e237806bba2cead68c5e8a0dbf723b8eca1186eeb7719e8a564397a05ec76",
+      "provenance": {
+        "kind": "project-generated",
+        "evidence": "design/noa-set-art-report.md — librarian-noa; repository generation prompt and original QA report."
+      },
+      "visualQa": {
+        "status": "passed",
+        "note": "Existing Noa portrait pixels inspected individually on 2026-10-07. No change to bytes/path/renderer; no new NPC."
+      },
+      "asset_id": "librarian-noa",
+      "asset_id_scope": "Production manifest alias only; not an Asset Factory queue/job registration.",
+      "filename": "librarian-noa.webp",
+      "image_prompt": "再生成しない。./assets/librarian-noa.webp の既存Noa素材を同一バイトで再利用。元の生成プロンプトの復元を意味せず、新しい画像JOBは発行しない。"
+    }
+  ]
+}
