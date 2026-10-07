@@ -186,3 +186,11 @@ node tools/astral-star-dial-balance.mjs --seeds=64 --reward-seeds=512
 
 2026-10-07 UTC公開。build `4.16-ee39a402df7e`、PR #18、両Pages成功、46配布ファイルのbyte一致を確認。
 [公開証拠・待機/再試行・未確認範囲](design/production/starter-cost-release.md)。
+
+## V4.17 霜の相乗2枚（公開候補）
+
+PR #14の先行案だけを実装。霜鏡と霜刻の予告をgrowth-v2の第2戦後以降へ個別追加。
+図鑑54種、保存version5のまま。classic・旧growth・初回報酬・開いていた報酬とRNGを維持する。
+既存効果/画像を再利用し、後続4案・PR #15〜17・Factory設定には触れない。
+[制作仕様](design/production/frost-synergy.json)、[互換境界・検証と未確認範囲](design/production/frost-synergy-report.md)、
+[保存隔離の合成表示8場面](ui-qa/frost-synergy.html)。

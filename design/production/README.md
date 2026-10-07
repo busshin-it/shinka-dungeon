@@ -169,3 +169,10 @@ python3 tools/astral_release.py verify
 release検証はAPI/本番公開を行わない。CIで現在のNoa見本を検査し、次の採用セットを追加したら
 `tests/astral-production.test.mjs` にその仕様のrelease検証を追加する。
 配布ファイル以外のこのツールだけの更新では、ゲームのバージョンやrelease/SWを変更する必要はない。
+
+## V4.17の先行2枚
+
+`frost-synergy.json` は `scope: "two-card-pilot"` を明示する例外。
+カードちょうど2枚、カード画像ちょうど2点、NPCなしを検証する。
+通常セットの4〜6枚＋NPC1点という既存制約は維持する。
+[実装範囲・検証報告](frost-synergy-report.md)を参照。新効果や生成ジョブは追加しない。

@@ -1,0 +1,275 @@
+{
+  "schemaVersion": 1,
+  "scope": "two-card-pilot",
+  "id": "frost-synergy",
+  "title": "霜鏡と霜刻の予告",
+  "theme": "弱体を残す判断と反射・未来の攻撃をつなぐ先行2枚。",
+  "style": {
+    "world": "A quiet ancient celestial library with dim stone arches and abstract star maps.",
+    "palette": "Silver and star-blue highlights, deep teal and amethyst shadows, restrained parchment amber.",
+    "medium": "Detailed painterly Japanese fantasy RPG card art with readable material detail.",
+    "composition": "Square illustration; one clear central subject, preserve its entire silhouette, readable at small card size.",
+    "avoid": "Readable letters, numbers, logos, borders, UI, extra subjects, contact sheets or collage."
+  },
+  "designSource": "PR #14 at 2f74109738e13b7ff63665cd06f940a373390571; GAME_DESIGN §§2,6,7,11–14",
+  "implementationStatus": "candidate",
+  "rewardScope": "growth-v2 battle 2 onward only; growth-v1/classic and first rewards unchanged",
+  "cards": [
+    {
+      "id": "rimeMirror",
+      "asset": "rime-mirror",
+      "base": {
+        "name": "霜鏡",
+        "cost": 1,
+        "weaken": 2,
+        "reflect": 2,
+        "family": "ice",
+        "art": "rimeMirror"
+      },
+      "upgrade": {
+        "weaken": 3,
+        "reflect": 3
+      },
+      "textIncludes": [
+        "−{weaken}",
+        "{reflect}反射"
+      ],
+      "cases": [
+        {
+          "name": "base-frost-charm",
+          "variant": "base",
+          "state": {},
+          "preview": {
+            "actualWeak": 3,
+            "actualReflect": 2,
+            "isAttack": false
+          },
+          "after": {
+            "weaken": 3,
+            "reflect": 2,
+            "spellCount": 0
+          },
+          "text": {
+            "summary": [
+              "弱体3/打撃",
+              "反射2/打撃"
+            ]
+          }
+        },
+        {
+          "name": "upgrade-max-and-stack",
+          "variant": "upgrade",
+          "state": {
+            "weaken": 5,
+            "reflect": 2
+          },
+          "preview": {
+            "actualWeak": 4,
+            "actualReflect": 3
+          },
+          "after": {
+            "weaken": 5,
+            "reflect": 5
+          },
+          "text": {
+            "summary": [
+              "弱体4/打撃",
+              "反射3/打撃"
+            ]
+          }
+        }
+      ],
+      "design": {
+        "rarity": "unassigned",
+        "primary_engine": "weakness",
+        "secondary_engine": "reflection",
+        "strong_when": [
+          "連撃を軽減しながら各打撃へ反射する"
+        ],
+        "weak_when": [
+          "敵が休みで反射が失われる",
+          "一撃に対する直接防御が必要"
+        ],
+        "related_cards": [
+          "frostPierce",
+          "mirrorLance",
+          "guard",
+          "shatter"
+        ],
+        "design_intent": "弱体を残すか反射を槍へ換えるかを問う。",
+        "asset_id": "rime-mirror"
+      }
+    },
+    {
+      "id": "frostOmen",
+      "asset": "frost-omen",
+      "base": {
+        "name": "霜刻の予告",
+        "cost": 1,
+        "damage": 3,
+        "weakThreshold": 3,
+        "thresholdBonus": 5,
+        "nextFocus": 3,
+        "family": "ice",
+        "art": "frostOmen"
+      },
+      "upgrade": {
+        "damage": 6,
+        "nextFocus": 5
+      },
+      "textIncludes": [
+        "{damage}ダメージ",
+        "弱体が{weakThreshold}以上",
+        "弱体は消費しない",
+        "＋{nextFocus}"
+      ],
+      "cases": [
+        {
+          "name": "base-below-threshold",
+          "variant": "base",
+          "state": {
+            "weaken": 2
+          },
+          "preview": {
+            "actualDamage": 3,
+            "weakThresholdCondition": false,
+            "actualNextFocus": 3
+          },
+          "after": {
+            "enemyHp": 45,
+            "weaken": 2,
+            "pendingFocus": 3
+          },
+          "text": {
+            "summary": [
+              "攻撃3",
+              "次ターン攻撃＋3"
+            ],
+            "rules": [
+              "未成立",
+              "弱体は残る"
+            ]
+          }
+        },
+        {
+          "name": "base-at-threshold",
+          "variant": "base",
+          "state": {
+            "weaken": 3
+          },
+          "preview": {
+            "actualDamage": 8,
+            "weakThresholdCondition": true
+          },
+          "after": {
+            "enemyHp": 40,
+            "weaken": 3,
+            "pendingFocus": 3
+          },
+          "text": {
+            "summary": [
+              "攻撃8"
+            ],
+            "rules": [
+              "成立"
+            ]
+          }
+        },
+        {
+          "name": "upgrade-above-threshold-stacks",
+          "variant": "upgrade",
+          "state": {
+            "weaken": 4,
+            "pendingFocus": 3
+          },
+          "preview": {
+            "actualDamage": 11,
+            "actualNextFocus": 5
+          },
+          "after": {
+            "enemyHp": 37,
+            "weaken": 4,
+            "pendingFocus": 8
+          },
+          "text": {
+            "summary": [
+              "攻撃11",
+              "次ターン攻撃＋5"
+            ]
+          }
+        }
+      ],
+      "design": {
+        "rarity": "unassigned",
+        "primary_engine": "weakness_threshold",
+        "secondary_engine": "future_attack",
+        "strong_when": [
+          "弱体があり次ターンの大技を準備できる"
+        ],
+        "weak_when": [
+          "弱体なしで今すぐ倒したい",
+          "次ターンに攻撃札がない"
+        ],
+        "related_cards": [
+          "frostNova",
+          "frostRecall",
+          "rimeMirror",
+          "bolt",
+          "shatter"
+        ],
+        "design_intent": "砕氷との順序と次ターン最初の攻撃を選ぶ。",
+        "asset_id": "frost-omen"
+      }
+    }
+  ],
+  "assets": [
+    {
+      "key": "rime-mirror",
+      "kind": "card",
+      "subject": "Existing project chant-ward artwork reused as interim illustration; unique art deferred.",
+      "alt": {
+        "mode": "decorative",
+        "text": ""
+      },
+      "path": "./assets/chant-ward.webp",
+      "status": "reuse",
+      "reuseFrom": "v4.16 chant-ward; main f65d4dc545e590f9c28029b3bb3cd84cd6a2f27a",
+      "sha256": "b73cfce0f161bd44399b3af56b0d697ee9e9dfa2aab94a296832ef7278a9879a",
+      "provenance": {
+        "kind": "existing-project",
+        "evidence": "design/production/reusable-art.json; same project use only, no broader rights claim."
+      },
+      "visualQa": {
+        "status": "passed",
+        "note": "Source pixels inspected individually on 2026-10-07 UTC. Existing bytes/path/crop retained. This is source-art inspection, not new card browser/device QA."
+      },
+      "asset_id": "rime-mirror",
+      "filename": "chant-ward.webp",
+      "image_prompt": "再生成しない。既存画像を仮絵として同一byteで再利用。専用画像・Factory JOBは未作成。"
+    },
+    {
+      "key": "frost-omen",
+      "kind": "card",
+      "subject": "Existing project frost-pierce artwork reused as interim illustration; unique art deferred.",
+      "alt": {
+        "mode": "decorative",
+        "text": ""
+      },
+      "path": "./assets/frost-pierce.webp",
+      "status": "reuse",
+      "reuseFrom": "v4.16 frost-pierce; main f65d4dc545e590f9c28029b3bb3cd84cd6a2f27a",
+      "sha256": "03130bd24e99c017b293be7420fe41ad8551d77ca8f8a9bb8d242e46bb8084b7",
+      "provenance": {
+        "kind": "existing-project",
+        "evidence": "design/production/reusable-art.json; same project use only, no broader rights claim."
+      },
+      "visualQa": {
+        "status": "passed",
+        "note": "Source pixels inspected individually on 2026-10-07 UTC. Existing bytes/path/crop retained. This is source-art inspection, not new card browser/device QA."
+      },
+      "asset_id": "frost-omen",
+      "filename": "frost-pierce.webp",
+      "image_prompt": "再生成しない。既存画像を仮絵として同一byteで再利用。専用画像・Factory JOBは未作成。"
+    }
+  ]
+}
