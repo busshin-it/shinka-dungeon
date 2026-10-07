@@ -5,7 +5,9 @@ import {
   rewardScore, planTurn, runTrial, campBranches, summarize, legacyCompatibility
 } from '../tools/astral-growth-balance.mjs';
 
-const engine = loadEngine();
+const currentEngine = loadEngine();
+// Keep the original measurement-tool regression fixture on growth-v1.
+const engine = {...currentEngine, createGame: (random, options = {ruleset:'growth-v1'}) => currentEngine.createGame(random, options)};
 const options = { ...DEFAULTS, beam: 2, seeds: 1, branchSeeds: 1 };
 const plain = value => JSON.parse(JSON.stringify(value));
 
