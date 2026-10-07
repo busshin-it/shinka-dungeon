@@ -4,10 +4,10 @@
   "audited_date": "2026-10-06",
   "repository": "busshin-it/shinka-dungeon",
   "source_commit": "739cdb63f938048977dcb2f998770d4df4ef5ab3",
-  "scope": "Read-only inspection; only this catalog and its Markdown companion were written. No art generation, mutation, queue change or runtime remapping. v4.12 adds 4 dedicated art aliases mapped to the same reviewed Noa files; 25 keys, 21 distinct images. v4.13 adds four star-dial aliases, 29 keys and the same 21 distinct card images; enemy reuses existing gatekeeper image. v4.14 growth trial adds two basic definitions reusing dark/guard keys; no new artwork or aliases.",
+  "scope": "Read-only inspection; only this catalog and its Markdown companion were written. No art generation, mutation, queue change or runtime remapping. v4.12 adds 4 dedicated art aliases mapped to the same reviewed Noa files; 25 keys, 21 distinct images. v4.13 adds four star-dial aliases, 29 keys and the same 21 distinct card images; enemy reuses existing gatekeeper image. v4.14 growth trial adds two basic definitions reusing dark/guard keys; no new artwork or aliases. v4.15 adds four effect-first aliases using the same 21 distinct images; source pixels inspected 2026-10-07. New cards are growth-only rewards.",
   "summary": {
-    "planning_cards": 48,
-    "active_art_keys": 29,
+    "planning_cards": 52,
+    "active_art_keys": 33,
     "active_v4_card_files": 11,
     "active_embedded_art_keys": 10,
     "conditional_factory_candidates": 2,
@@ -343,6 +343,30 @@
       "name": "調律の頁",
       "family": "focus",
       "art_key": "tuningNote"
+    },
+    {
+      "card_id": "frostRecall",
+      "name": "氷写しの頁",
+      "family": "ice",
+      "art_key": "frostRecall"
+    },
+    {
+      "card_id": "bankedEcho",
+      "name": "蓄光の残響",
+      "family": "thunder",
+      "art_key": "bankedEcho"
+    },
+    {
+      "card_id": "ashStudy",
+      "name": "灰読み",
+      "family": "focus",
+      "art_key": "ashStudy"
+    },
+    {
+      "card_id": "mirrorRelay",
+      "name": "渡り鏡",
+      "family": "guard",
+      "art_key": "mirrorRelay"
     },
     {
       "card_id": "echo",
@@ -2237,5 +2261,11 @@
     "shutterWard": "chantWard",
     "orbitEcho": "quietComet",
     "tuningNote": "starRelay"
+  },
+  "effect_first_aliases": {
+    "frostRecall": "frostPierce",
+    "bankedEcho": "quietComet",
+    "ashStudy": "starBookmark",
+    "mirrorRelay": "starRelay"
   }
 }

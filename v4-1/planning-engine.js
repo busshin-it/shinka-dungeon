@@ -48,6 +48,10 @@
     shutterWard: { name: '閉じる星環', cost: 1, block: 3, emptyNextBlock: 6, family: 'guard', art: 'shutterWard' },
     orbitEcho: { name: '星軌の追撃', cost: 2, damage: 9, memoryCap: 8, family: 'dark', art: 'orbitEcho' },
     tuningNote: { name: '調律の頁', cost: 1, nextFocus: 6, draw: 1, exhaust: true, family: 'focus', art: 'tuningNote' },
+    frostRecall: { name: '氷写しの頁', cost: 1, weaken: 2, recycleAttack: true, family: 'ice', art: 'frostRecall' },
+    bankedEcho: { name: '蓄光の残響', cost: 1, damage: 4, bankBonus: 6, nextFocus: 3, family: 'thunder', art: 'bankedEcho' },
+    ashStudy: { name: '灰読み', cost: 0, draw: 1, exhaustBlock: 4, exhaustReflect: 2, exhaust: true, family: 'focus', art: 'ashStudy' },
+    mirrorRelay: { name: '渡り鏡', cost: 0, transferBlockCap: 6, reflect: 2, exhaust: true, family: 'guard', art: 'mirrorRelay' },
     echo: { name: '返照', cost: 0, reflect: 2, exhaust: true, family: 'guard', art: 'manaBarrier' }
   });
   function card(id) {
@@ -129,6 +133,8 @@
   });
   // Only fresh version-4 runs use this trial. Classic definitions remain unchanged.
   const GROWTH_RULESET = 'growth-v1';
+  // New growth rewards only: preserve every classic reward pool and its RNG calls.
+  const GROWTH_REWARD_ONLY = Object.freeze(['frostRecall','bankedEcho','ashStudy','mirrorRelay']);
   const BASIC_STARTER = Object.freeze(['basicStrike','basicWard','basicStrike','basicWard','basicStrike','basicWard','basicStrike','basicWard','basicStrike','basicWard']);
   const GROWTH_ENEMIES = Object.freeze({ ...ENEMIES,
     skeleton: { ...ENEMIES.skeleton, hp: 15, moves: [
@@ -327,7 +333,7 @@
       } else if (s.phase === 'reward') {
         const offers = shuffle([...REWARD_POOLS[s.origin]]).slice(0,1);
         offers.push(shuffle(['light','stillness','renew','meditate','focus'].filter(id => !offers.includes(id)))[0]);
-        while (offers.length < 4) offers.push(shuffle(Object.keys(CARDS).filter(id => !CARDS[id].starterOnly && !offers.includes(id) && (!['chantWard','starFerryWard','ebbArrow','starRelay','mirrorLance','marginLight','quietScript','mirrorNote','returnPage','starlitPin','shutterWard','orbitEcho','tuningNote'].includes(id) || s.battle >= 2)))[0]); s.rewardOffers = offers;
+        while (offers.length < 4) offers.push(shuffle(Object.keys(CARDS).filter(id => !CARDS[id].starterOnly && !GROWTH_REWARD_ONLY.includes(id) && !offers.includes(id) && (!['chantWard','starFerryWard','ebbArrow','starRelay','mirrorLance','marginLight','quietScript','mirrorNote','returnPage','starlitPin','shutterWard','orbitEcho','tuningNote'].includes(id) || s.battle >= 2)))[0]); s.rewardOffers = offers;
       }
       return true;
     }

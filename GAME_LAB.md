@@ -1,5 +1,14 @@
 # GAME LAB Research Log
 
+## 2026-10-07｜V4.15 効果先行4枚・ローカル候補
+
+- 新しい指示「イラストを後回しにして効果を増やす」に合わせ、氷写しの頁 / 蓄光の残響 / 灰読み / 渡り鏡を既存効果だけで追加。図鑑52種。
+- growth-v1の第2戦後から個別抽選。旧v3の抽選/RNG、初回成長報酬、初期10枚、旧48定義、敵/ルート/保存schemaを保持。開いていた報酬は再抽選せず、将来の成長報酬だけ広がる。
+- 148 Node・4 Python・14 Factory、制作12ケース、release/差分チェック合格。独立レビューも全Node/Pythonと旧commit比較でblockerなし。
+- 画像生成/API/新依存/設定変更なし。既存画像と検証・依存を再利用。実装工程と外部待ちを分けて計測。
+- 手動横画面/実機はユーザー担当。実ユーザー保存・長期バランス・楽しさは未確認。公開確認は別記録にする。
+- 詳細: [制作・検証報告](design/production/effect-first-report.md)。
+
 ## 2026-10-07｜V4.14 成長ループ試遊・公開
 
 - [PR #12](https://github.com/busshin-it/shinka-dungeon/pull/12)を正確なheadのCI成功後にready・squash merge。main `47ff4be`、build `4.14-15de5d91590f`。

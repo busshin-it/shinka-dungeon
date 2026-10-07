@@ -61,9 +61,9 @@ function fixture(cards, changes = {}, battle = 1) {
 }
 
 // Both card pools and independent save formats are deliberate product contracts.
-test('24-card legacy and 48-card planning modes stay separate', () => {
+test('24-card legacy and 52-card planning modes stay separate', () => {
   assert.equal(Object.keys(legacy.CARDS).length, 24);
-  assert.equal(Object.keys(planning.CARDS).length, 48);
+  assert.equal(Object.keys(planning.CARDS).length, 52);
   assert.equal(legacy.card('frostPierce'), null);
   for (const [engine, format, version] of [[legacy,'astral-corridor',1],[planning,'astral-planning',3]]) {
     const game = engine.createGame(engine.seededRandom(5)); game.start();
