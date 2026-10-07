@@ -175,7 +175,7 @@ node tools/astral-star-dial-balance.mjs --seeds=64 --reward-seeds=512
 - `node --test tests/astral-*.test.mjs` で148テスト。新15テストには12宣言ケース、旧4.14の13保存/次操作、1,152抽選比較を含む。
 - 既存検証・画像・依存を再利用し、設定と生成待ちを増やさない。[報告と未確認範囲](design/production/effect-first-report.md)、[任意の保存隔離6場面](ui-qa/effect-first.html)。
 
-## V4.16 基本札1コスト（検証候補）
+## V4.16 基本札1コスト（公開済み・仮仕様）
 
 新しい旅だけ基本2種を1コストにし、自然回復を+3へ。開始2・上限5・持越しは維持。
 新規保存はgrowth-v2/version5。以前のgrowth-v1/version4は基本0/+1のまま、classic/v3と旧移行も保持する。
@@ -183,3 +183,6 @@ node tools/astral-star-dial-balance.mjs --seeds=64 --reward-seeds=512
 旧growth回帰を残し、新規v5のコスト・支払い失敗・回復・再開時表示を別に確認する。
 72組の簡易比較ではカード使用約29.2%減、ターン約13.2%増。初報酬は平均2→3.083ターンで、短時間化や楽しさは未確認。
 設計PR #14〜17のカード/敵/イベント提案は未統合。新カードや画像は追加しない。
+
+2026-10-07 UTC公開。build `4.16-ee39a402df7e`、PR #18、両Pages成功、46配布ファイルのbyte一致を確認。
+[公開証拠・待機/再試行・未確認範囲](design/production/starter-cost-release.md)。
