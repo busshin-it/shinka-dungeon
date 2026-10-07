@@ -1,0 +1,575 @@
+{
+  "schemaVersion": 1,
+  "id": "noa-postscript",
+  "title": "ノアの追記",
+  "theme": "既存の書庫に4枚を追記。今の一枚を、次のターンや次の手札につなぐ。既存効果と同一画像を再利用。",
+  "style": {
+    "world": "A quiet ancient celestial library with dim stone arches and abstract star maps.",
+    "palette": "Silver and star-blue highlights, deep teal and amethyst shadows, restrained parchment amber.",
+    "medium": "Detailed painterly Japanese fantasy RPG card art with readable material detail.",
+    "composition": "Square illustration; one clear central subject, preserve its entire silhouette, readable at small card size.",
+    "avoid": "Readable letters, numbers, logos, borders, UI, extra subjects, contact sheets or collage."
+  },
+  "cards": [
+    {
+      "id": "marginLight",
+      "asset": "margin-light",
+      "base": {
+        "name": "余白の灯",
+        "cost": 0,
+        "nextFocus": 4,
+        "exhaust": true,
+        "family": "focus",
+        "art": "marginLight"
+      },
+      "upgrade": {
+        "nextFocus": 6
+      },
+      "textIncludes": [
+        "最初の攻撃＋{nextFocus}",
+        "消滅"
+      ],
+      "cases": [
+        {
+          "name": "base-zero-energy",
+          "variant": "base",
+          "state": {
+            "energy": 0
+          },
+          "preview": {
+            "actualNextFocus": 4
+          },
+          "after": {
+            "energy": 0,
+            "pendingFocus": 4,
+            "exhaust": [
+              "marginLight"
+            ]
+          },
+          "text": {
+            "summary": [
+              "次ターン攻撃＋4"
+            ],
+            "rules": [
+              "次ターンの最初の攻撃だけ",
+              "消滅"
+            ]
+          }
+        },
+        {
+          "name": "upgrade-stacks-existing-reservation",
+          "variant": "upgrade",
+          "state": {
+            "energy": 0,
+            "pendingFocus": 3
+          },
+          "preview": {
+            "actualNextFocus": 6
+          },
+          "after": {
+            "pendingFocus": 9,
+            "exhaust": [
+              "marginLight+"
+            ]
+          },
+          "text": {
+            "summary": [
+              "次ターン攻撃＋6"
+            ],
+            "rules": [
+              "消滅"
+            ]
+          }
+        }
+      ],
+      "design": {
+        "rarity": "unassigned",
+        "rarity_status": "保留。先読みモードにレアリティ抽選は未実装。今回の追加で分布や最終レアリティを確定しない。",
+        "primary_engine": "future_preparation",
+        "secondary_engine": "exhaust_synergy",
+        "strong_when": [
+          "余った手札1枚を次ターンの攻撃へ変えたい",
+          "魔力を消費せず貯めながら準備し、灰の守りの消滅条件にもつなぎたい"
+        ],
+        "weak_when": [
+          "今すぐ攻撃や防御が必要",
+          "次ターンに攻撃できず予約が消える",
+          "長期戦で再利用したい"
+        ],
+        "related_cards": [
+          "focus",
+          "starWait",
+          "ashWard"
+        ],
+        "design_intent": "魔法師の未来予測を支える小さな準備札。集中の完全上位にはせず、消滅と時間差を残す。",
+        "asset_id": "margin-light"
+      }
+    },
+    {
+      "id": "quietScript",
+      "asset": "quiet-script",
+      "base": {
+        "name": "休符の星",
+        "cost": 1,
+        "damage": 4,
+        "recoverBonus": 4,
+        "nextFocus": 3,
+        "family": "dark",
+        "art": "quietScript"
+      },
+      "upgrade": {
+        "damage": 7,
+        "nextFocus": 5
+      },
+      "textIncludes": [
+        "{damage}ダメージ",
+        "追加{recoverBonus}",
+        "最初の攻撃＋{nextFocus}"
+      ],
+      "cases": [
+        {
+          "name": "base-attack-action",
+          "variant": "base",
+          "state": {
+            "turn": 1
+          },
+          "preview": {
+            "actualDamage": 4,
+            "actualNextFocus": 3,
+            "recoverCondition": false
+          },
+          "after": {
+            "enemyHp": 44,
+            "pendingFocus": 3,
+            "energy": 4
+          },
+          "text": {
+            "summary": [
+              "攻撃4",
+              "次ターン攻撃＋3"
+            ],
+            "rules": [
+              "未成立"
+            ]
+          }
+        },
+        {
+          "name": "base-rest-action",
+          "variant": "base",
+          "state": {
+            "turn": 2
+          },
+          "preview": {
+            "actualDamage": 8,
+            "actualNextFocus": 3,
+            "recoverCondition": true
+          },
+          "after": {
+            "enemyHp": 40,
+            "pendingFocus": 3
+          },
+          "text": {
+            "summary": [
+              "攻撃8"
+            ],
+            "rules": [
+              "成立"
+            ]
+          }
+        },
+        {
+          "name": "upgrade-rest-action",
+          "variant": "upgrade",
+          "state": {
+            "turn": 2
+          },
+          "preview": {
+            "actualDamage": 11,
+            "actualNextFocus": 5,
+            "recoverCondition": true
+          },
+          "after": {
+            "enemyHp": 37,
+            "pendingFocus": 5
+          },
+          "text": {
+            "summary": [
+              "攻撃11",
+              "次ターン攻撃＋5"
+            ],
+            "rules": [
+              "成立"
+            ]
+          }
+        },
+        {
+          "name": "upgrade-attack-action",
+          "variant": "upgrade",
+          "state": {
+            "turn": 1
+          },
+          "preview": {
+            "actualDamage": 7,
+            "recoverCondition": false
+          },
+          "after": {
+            "enemyHp": 41,
+            "pendingFocus": 5
+          },
+          "text": {
+            "summary": [
+              "攻撃7"
+            ],
+            "rules": [
+              "未成立"
+            ]
+          }
+        }
+      ],
+      "design": {
+        "rarity": "unassigned",
+        "rarity_status": "保留。先読みモードにレアリティ抽選は未実装。今回の追加で分布や最終レアリティを確定しない。",
+        "primary_engine": "intent_timing",
+        "secondary_engine": "future_preparation",
+        "strong_when": [
+          "敵が攻撃なしの行動で、次ターンに大きな一撃を作りたい",
+          "攻撃を今と次ターンへ分散して詠唱崩しへつなぐ"
+        ],
+        "weak_when": [
+          "敵が攻撃中で、今すぐ大きな一撃が必要",
+          "この攻撃で戦闘が終わり次ターン予約が不要"
+        ],
+        "related_cards": [
+          "quietComet",
+          "starWait",
+          "focus"
+        ],
+        "design_intent": "敵Intentで現在の価値が変わり、次の一撃へも接続する。単体の即時火力では凪の彗星を置き換えない。",
+        "asset_id": "quiet-script"
+      }
+    },
+    {
+      "id": "mirrorNote",
+      "asset": "mirror-note",
+      "base": {
+        "name": "鏡頁の一閃",
+        "cost": 1,
+        "damage": 4,
+        "reflect": 3,
+        "family": "guard",
+        "art": "mirrorNote"
+      },
+      "upgrade": {
+        "damage": 7,
+        "reflect": 4
+      },
+      "textIncludes": [
+        "{damage}ダメージ",
+        "{reflect}反射"
+      ],
+      "cases": [
+        {
+          "name": "base-keeps-existing-reflect",
+          "variant": "base",
+          "state": {
+            "reflect": 2,
+            "block": 5
+          },
+          "preview": {
+            "actualDamage": 4,
+            "actualReflect": 3
+          },
+          "after": {
+            "enemyHp": 44,
+            "reflect": 5,
+            "block": 5
+          },
+          "text": {
+            "summary": [
+              "攻撃4",
+              "反射3/打撃"
+            ]
+          }
+        },
+        {
+          "name": "upgrade-keeps-existing-reflect",
+          "variant": "upgrade",
+          "state": {
+            "reflect": 2
+          },
+          "preview": {
+            "actualDamage": 7,
+            "actualReflect": 4
+          },
+          "after": {
+            "enemyHp": 41,
+            "reflect": 6
+          },
+          "text": {
+            "summary": [
+              "攻撃7",
+              "反射4/打撃"
+            ]
+          }
+        }
+      ],
+      "design": {
+        "rarity": "unassigned",
+        "rarity_status": "保留。先読みモードにレアリティ抽選は未実装。今回の追加で分布や最終レアリティを確定しない。",
+        "primary_engine": "reflection",
+        "secondary_engine": "hand_attack",
+        "strong_when": [
+          "敵が連撃し、HPや既存防御で耐えられる",
+          "鏡頁の槍へ反射を渡すか敵打撃への反撃を待つか選べる"
+        ],
+        "weak_when": [
+          "敵が攻撃しない",
+          "防御そのものが足りず、反射しても致死ダメージを防げない",
+          "月鏡護符の防御カード条件を発動させたい"
+        ],
+        "related_cards": [
+          "mirror",
+          "mirrorLance",
+          "reflectShield"
+        ],
+        "design_intent": "手札攻撃と反射の橋渡し。防御を与えないことで戦士の直接耐久へ寄せず、現在HPとIntentを読ませる。",
+        "asset_id": "mirror-note"
+      }
+    },
+    {
+      "id": "returnPage",
+      "asset": "return-page",
+      "base": {
+        "name": "返しの頁",
+        "cost": 1,
+        "block": 4,
+        "recycleAttack": true,
+        "family": "guard",
+        "art": "returnPage"
+      },
+      "upgrade": {
+        "block": 7
+      },
+      "textIncludes": [
+        "{block}ブロック",
+        "捨て札のいちばん新しい攻撃札1枚"
+      ],
+      "cases": [
+        {
+          "name": "base-no-attack",
+          "variant": "base",
+          "state": {},
+          "preview": {
+            "actualBlock": 4,
+            "recycleTargetId": null
+          },
+          "after": {
+            "block": 4,
+            "discard": [
+              "guard",
+              "returnPage"
+            ],
+            "exhaust": []
+          },
+          "text": {
+            "summary": [
+              "防御4",
+              "戻せる攻撃札なし"
+            ],
+            "rules": [
+              "今は引かない"
+            ]
+          },
+          "discard": [
+            "guard"
+          ]
+        },
+        {
+          "name": "upgrade-retrieves-upgraded-latest",
+          "variant": "upgrade",
+          "state": {},
+          "preview": {
+            "actualBlock": 7,
+            "recycleTargetId": "bolt+"
+          },
+          "after": {
+            "block": 7,
+            "discard": [
+              "ice",
+              "guard",
+              "returnPage+"
+            ],
+            "exhaust": []
+          },
+          "text": {
+            "summary": [
+              "防御7",
+              "山札の上へ：雷撃＋"
+            ],
+            "rules": [
+              "今は引かない"
+            ]
+          },
+          "discard": [
+            "ice",
+            "bolt+",
+            "guard"
+          ]
+        }
+      ],
+      "design": {
+        "rarity": "unassigned",
+        "rarity_status": "保留。先読みモードにレアリティ抽選は未実装。今回の追加で分布や最終レアリティを確定しない。",
+        "primary_engine": "echo",
+        "secondary_engine": "block_and_draw_order",
+        "strong_when": [
+          "捨て札の狙った攻撃を次のドローへ確定したい",
+          "攻撃→返しの頁→ドローの順を組みたい"
+        ],
+        "weak_when": [
+          "捨て札に攻撃がない",
+          "直ちに多くの防御や手札が必要",
+          "先に弱い攻撃を捨てて回収対象が変わった"
+        ],
+        "related_cards": [
+          "starBookmark",
+          "renew",
+          "meditate",
+          "dark"
+        ],
+        "design_intent": "過去の魔法を未来の資源へ変える反響。消滅なしの代わりに魔力1を払い、即時ドローしない。",
+        "asset_id": "return-page"
+      }
+    }
+  ],
+  "assets": [
+    {
+      "key": "margin-light",
+      "kind": "card",
+      "subject": "Existing Noa library illustration, now also used by 余白の灯.",
+      "alt": {
+        "mode": "decorative",
+        "text": ""
+      },
+      "path": "./assets/star-relay.webp",
+      "status": "reuse",
+      "reuseFrom": "Published v4.11 starRelay, main 477a03a745dad2e70cd05085d2c96e7c5375df73",
+      "sha256": "ab57e7fed839a208808a30a2b13abcbfce1b4c6bcaa4990c5fdbb3ab5cd5094c",
+      "provenance": {
+        "kind": "project-generated",
+        "evidence": "design/noa-set-art-report.md — star-relay; repository generation prompt and original QA report."
+      },
+      "visualQa": {
+        "status": "passed",
+        "note": "Source pixels directly inspected with view_image on 2026-10-06. Same bytes, path and CSS crop as the published Noa card; mirror-lance retains right-top spearhead framing. This records reused image QA only. New card text/layout browser QA remains pending and is tracked in the batch report."
+      },
+      "asset_id": "margin-light",
+      "asset_id_scope": "Production manifest alias only; not an Asset Factory queue/job registration.",
+      "filename": "star-relay.webp",
+      "image_prompt": "再生成しない。./assets/star-relay.webp の既存Noa素材を同一バイトで再利用。元の生成プロンプトの復元を意味せず、新しい画像JOBは発行しない。"
+    },
+    {
+      "key": "quiet-script",
+      "kind": "card",
+      "subject": "Existing Noa library illustration, now also used by 休符の星.",
+      "alt": {
+        "mode": "decorative",
+        "text": ""
+      },
+      "path": "./assets/quiet-comet.webp",
+      "status": "reuse",
+      "reuseFrom": "Published v4.11 quietComet, main 477a03a745dad2e70cd05085d2c96e7c5375df73",
+      "sha256": "036721a68c2e830d40ef0d9810a1cdb7a57085879f466302e2124955c0984680",
+      "provenance": {
+        "kind": "project-generated",
+        "evidence": "design/noa-set-art-report.md — quiet-comet; repository generation prompt and original QA report."
+      },
+      "visualQa": {
+        "status": "passed",
+        "note": "Source pixels directly inspected with view_image on 2026-10-06. Same bytes, path and CSS crop as the published Noa card; mirror-lance retains right-top spearhead framing. This records reused image QA only. New card text/layout browser QA remains pending and is tracked in the batch report."
+      },
+      "asset_id": "quiet-script",
+      "asset_id_scope": "Production manifest alias only; not an Asset Factory queue/job registration.",
+      "filename": "quiet-comet.webp",
+      "image_prompt": "再生成しない。./assets/quiet-comet.webp の既存Noa素材を同一バイトで再利用。元の生成プロンプトの復元を意味せず、新しい画像JOBは発行しない。"
+    },
+    {
+      "key": "mirror-note",
+      "kind": "card",
+      "subject": "Existing Noa library illustration, now also used by 鏡頁の一閃.",
+      "alt": {
+        "mode": "decorative",
+        "text": ""
+      },
+      "path": "./assets/mirror-lance.webp",
+      "status": "reuse",
+      "reuseFrom": "Published v4.11 mirrorLance, main 477a03a745dad2e70cd05085d2c96e7c5375df73",
+      "sha256": "93a900269fe66e3fdb0fd068da361fc1a51752ae499821afa93ba7fd9ddb42a4",
+      "provenance": {
+        "kind": "project-generated",
+        "evidence": "design/noa-set-art-report.md — mirror-lance; repository generation prompt and original QA report."
+      },
+      "visualQa": {
+        "status": "passed",
+        "note": "Source pixels directly inspected with view_image on 2026-10-06. Same bytes, path and CSS crop as the published Noa card; mirror-lance retains right-top spearhead framing. This records reused image QA only. New card text/layout browser QA remains pending and is tracked in the batch report."
+      },
+      "asset_id": "mirror-note",
+      "asset_id_scope": "Production manifest alias only; not an Asset Factory queue/job registration.",
+      "filename": "mirror-lance.webp",
+      "image_prompt": "再生成しない。./assets/mirror-lance.webp の既存Noa素材を同一バイトで再利用。元の生成プロンプトの復元を意味せず、新しい画像JOBは発行しない。"
+    },
+    {
+      "key": "return-page",
+      "kind": "card",
+      "subject": "Existing Noa library illustration, now also used by 返しの頁.",
+      "alt": {
+        "mode": "decorative",
+        "text": ""
+      },
+      "path": "./assets/star-bookmark.webp",
+      "status": "reuse",
+      "reuseFrom": "Published v4.11 starBookmark, main 477a03a745dad2e70cd05085d2c96e7c5375df73",
+      "sha256": "5eb5e60418525f3b5b54998054bc6a525cfd654f7c84b231a9db5e80fffc028c",
+      "provenance": {
+        "kind": "project-generated",
+        "evidence": "design/noa-set-art-report.md — star-bookmark; repository generation prompt and original QA report."
+      },
+      "visualQa": {
+        "status": "passed",
+        "note": "Source pixels directly inspected with view_image on 2026-10-06. Same bytes, path and CSS crop as the published Noa card; mirror-lance retains right-top spearhead framing. This records reused image QA only. New card text/layout browser QA remains pending and is tracked in the batch report."
+      },
+      "asset_id": "return-page",
+      "asset_id_scope": "Production manifest alias only; not an Asset Factory queue/job registration.",
+      "filename": "star-bookmark.webp",
+      "image_prompt": "再生成しない。./assets/star-bookmark.webp の既存Noa素材を同一バイトで再利用。元の生成プロンプトの復元を意味せず、新しい画像JOBは発行しない。"
+    },
+    {
+      "key": "librarian-noa",
+      "kind": "npc",
+      "subject": "Noa, the quiet librarian of the stars, with teal and deep violet garments, silver clasp, floating atlas and star bookmark. Distinct from the mage and ferryman.",
+      "alt": {
+        "mode": "text",
+        "text": "星綴りの司書ノア"
+      },
+      "path": "./assets/librarian-noa.webp",
+      "status": "reuse",
+      "reuseFrom": "Published Noa library guide, main 477a03a745dad2e70cd05085d2c96e7c5375df73",
+      "sha256": "f88e237806bba2cead68c5e8a0dbf723b8eca1186eeb7719e8a564397a05ec76",
+      "provenance": {
+        "kind": "project-generated",
+        "evidence": "design/noa-set-art-report.md — librarian-noa; repository generation prompt and original QA report."
+      },
+      "visualQa": {
+        "status": "passed",
+        "note": "librarian-noa.webp source pixels directly inspected with view_image on 2026-10-06; same bytes/path/renderer as published Noa guide. No new NPC or portrait added."
+      },
+      "asset_id": "librarian-noa",
+      "asset_id_scope": "Production manifest alias only; not an Asset Factory queue/job registration.",
+      "filename": "librarian-noa.webp",
+      "image_prompt": "再生成しない。./assets/librarian-noa.webp の既存Noa素材を同一バイトで再利用。元の生成プロンプトの復元を意味せず、新しい画像JOBは発行しない。"
+    }
+  ],
+  "designSource": "GAME_DESIGN.md §§2, 6, 7, 11–14; ASTRAL_DEVELOPMENT.md; design/production/README.md",
+  "implementationStatus": "local-unpublished-candidate",
+  "roadmapScope": "Existing Astral mage-mode four-card request only. Does not complete, replace, or reorder GAME_DESIGN §16 warrior W009–W036 roadmap."
+}

@@ -1,0 +1,3199 @@
+{
+  "sourceCommit": "477a03a745dad2e70cd05085d2c96e7c5375df73",
+  "synthetic": true,
+  "cards": {
+    "ice": {
+      "name": "氷の矢",
+      "cost": 1,
+      "damage": 6,
+      "weaken": 2,
+      "family": "ice",
+      "art": "ice"
+    },
+    "guard": {
+      "name": "光壁",
+      "cost": 1,
+      "block": 8,
+      "family": "guard",
+      "art": "guard"
+    },
+    "bolt": {
+      "name": "雷撃",
+      "cost": 2,
+      "damage": 14,
+      "family": "thunder",
+      "art": "bolt"
+    },
+    "dark": {
+      "name": "闇弾",
+      "cost": 1,
+      "damage": 5,
+      "draw": 1,
+      "family": "dark",
+      "art": "dark"
+    },
+    "focus": {
+      "name": "集中",
+      "cost": 0,
+      "focus": 4,
+      "family": "focus",
+      "art": "focus"
+    },
+    "frostNova": {
+      "name": "霜の輪",
+      "cost": 1,
+      "damage": 4,
+      "weaken": 4,
+      "family": "ice",
+      "art": "frostNova"
+    },
+    "mirror": {
+      "name": "鏡の結界",
+      "cost": 1,
+      "block": 5,
+      "reflect": 3,
+      "family": "guard",
+      "art": "manaBarrier"
+    },
+    "chain": {
+      "name": "連鎖雷",
+      "cost": 1,
+      "damage": 7,
+      "combo": 5,
+      "family": "thunder",
+      "art": "chainBolt"
+    },
+    "renew": {
+      "name": "星の護り",
+      "cost": 1,
+      "block": 5,
+      "draw": 1,
+      "family": "guard",
+      "art": "manaBarrier"
+    },
+    "meditate": {
+      "name": "ひらめき",
+      "cost": 0,
+      "draw": 2,
+      "exhaust": true,
+      "family": "focus",
+      "art": "manaBurst"
+    },
+    "iceSpear": {
+      "name": "氷晶槍",
+      "cost": 2,
+      "damage": 12,
+      "weaken": 3,
+      "family": "ice",
+      "art": "ice"
+    },
+    "frostWard": {
+      "name": "霜の盾",
+      "cost": 1,
+      "block": 5,
+      "weaken": 2,
+      "family": "ice",
+      "art": "frostNova"
+    },
+    "shatter": {
+      "name": "砕氷",
+      "cost": 1,
+      "damage": 5,
+      "weakBonus": 8,
+      "consumeWeak": true,
+      "family": "ice",
+      "art": "shatter"
+    },
+    "winter": {
+      "name": "冬の結界",
+      "cost": 2,
+      "block": 10,
+      "weaken": 3,
+      "exhaust": true,
+      "family": "ice",
+      "art": "manaBarrier"
+    },
+    "spark": {
+      "name": "火花",
+      "cost": 0,
+      "damage": 2,
+      "emptyBonus": 4,
+      "family": "thunder",
+      "art": "bolt"
+    },
+    "charge": {
+      "name": "蓄電",
+      "cost": 0,
+      "energy": 1,
+      "exhaust": true,
+      "family": "thunder",
+      "art": "charge"
+    },
+    "thunderCrash": {
+      "name": "轟雷",
+      "cost": 2,
+      "damage": 8,
+      "combo": 8,
+      "family": "thunder",
+      "art": "chainBolt"
+    },
+    "surge": {
+      "name": "雷の奔流",
+      "cost": 2,
+      "damage": 9,
+      "draw": 2,
+      "family": "thunder",
+      "art": "chainBolt"
+    },
+    "reflectShield": {
+      "name": "反照の盾",
+      "cost": 1,
+      "block": 3,
+      "reflect": 6,
+      "exhaust": true,
+      "family": "guard",
+      "art": "manaBarrier"
+    },
+    "shieldStrike": {
+      "name": "鏡撃",
+      "cost": 1,
+      "damage": 3,
+      "blockDamage": 12,
+      "consumeBlock": true,
+      "family": "guard",
+      "art": "shieldStrike"
+    },
+    "drain": {
+      "name": "吸光",
+      "cost": 1,
+      "damage": 6,
+      "heal": 3,
+      "exhaust": true,
+      "family": "dark",
+      "art": "abyss"
+    },
+    "light": {
+      "name": "小さな灯火",
+      "cost": 1,
+      "heal": 6,
+      "exhaust": true,
+      "family": "focus",
+      "art": "focus"
+    },
+    "stillness": {
+      "name": "静心",
+      "cost": 1,
+      "block": 3,
+      "focus": 7,
+      "family": "focus",
+      "art": "manaBurst"
+    },
+    "starWait": {
+      "name": "星待ち",
+      "cost": 1,
+      "block": 3,
+      "nextFocus": 8,
+      "family": "focus",
+      "art": "focus"
+    },
+    "zenithBolt": {
+      "name": "天頂の雷",
+      "cost": 3,
+      "damage": 20,
+      "bankBonus": 6,
+      "family": "thunder",
+      "art": "bolt"
+    },
+    "emberVeil": {
+      "name": "残火の帳",
+      "cost": 0,
+      "block": 2,
+      "prevEmptyBlock": 5,
+      "family": "guard",
+      "art": "manaBarrier"
+    },
+    "fadingStar": {
+      "name": "燃え残る星",
+      "cost": 1,
+      "damage": 5,
+      "emptyNextBlock": 5,
+      "family": "dark",
+      "art": "manaBurst"
+    },
+    "memoryArrow": {
+      "name": "追憶の矢",
+      "cost": 1,
+      "damage": 4,
+      "memoryCap": 6,
+      "family": "dark",
+      "art": "dark"
+    },
+    "ashWard": {
+      "name": "灰の守り",
+      "cost": 1,
+      "block": 4,
+      "exhaustBlock": 4,
+      "exhaustReflect": 2,
+      "family": "guard",
+      "art": "manaBarrier"
+    },
+    "frostPierce": {
+      "name": "霜穿ち",
+      "cost": 2,
+      "damage": 10,
+      "weakThreshold": 3,
+      "thresholdBonus": 7,
+      "family": "ice",
+      "art": "frostPierce"
+    },
+    "chantWard": {
+      "name": "詠止の結界",
+      "cost": 1,
+      "block": 4,
+      "breakBlock": 6,
+      "breakDraw": 1,
+      "family": "guard",
+      "art": "chantWard"
+    },
+    "starFerryWard": {
+      "name": "星舟の結界",
+      "cost": 1,
+      "block": 4,
+      "bankBlock": 6,
+      "family": "guard",
+      "art": "starFerryWard"
+    },
+    "ebbArrow": {
+      "name": "潮引きの矢",
+      "cost": 1,
+      "damage": 5,
+      "emptyWeak": 3,
+      "family": "dark",
+      "art": "ebbArrow"
+    },
+    "starRelay": {
+      "name": "星継ぎ",
+      "cost": 0,
+      "transferBlockCap": 10,
+      "family": "focus",
+      "art": "starRelay"
+    },
+    "quietComet": {
+      "name": "凪の彗星",
+      "cost": 2,
+      "damage": 10,
+      "recoverBonus": 10,
+      "family": "dark",
+      "art": "quietComet"
+    },
+    "mirrorLance": {
+      "name": "鏡頁の槍",
+      "cost": 1,
+      "damage": 4,
+      "reflectDamageMultiplier": 2,
+      "reflectDamageCap": 10,
+      "consumeReflect": true,
+      "family": "guard",
+      "art": "mirrorLance"
+    },
+    "starBookmark": {
+      "name": "星の栞",
+      "cost": 0,
+      "block": 2,
+      "recycleAttack": true,
+      "exhaust": true,
+      "family": "guard",
+      "art": "starBookmark"
+    },
+    "echo": {
+      "name": "返照",
+      "cost": 0,
+      "reflect": 2,
+      "exhaust": true,
+      "family": "guard",
+      "art": "manaBarrier"
+    }
+  },
+  "origins": {
+    "frost": {
+      "name": "氷晶の護符",
+      "symbol": "❄",
+      "short": "氷で制する",
+      "effect": "毎ターン、最初の弱体を持つ氷カードの弱体＋1。",
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "shatter",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "frostWard"
+      ]
+    },
+    "storm": {
+      "name": "雷鳴の護符",
+      "symbol": "ϟ",
+      "short": "雷で崩す",
+      "effect": "毎ターン、最初の魔力2の攻撃＋3。",
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "bolt",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "chain"
+      ]
+    },
+    "mirror": {
+      "name": "月鏡の護符",
+      "symbol": "◈",
+      "short": "鏡で返す",
+      "effect": "毎ターン、最初の防御カードで反射＋2。",
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "mirror",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "shieldStrike"
+      ]
+    }
+  },
+  "saves": {
+    "chapter": {
+      "format": "astral-planning",
+      "version": 3,
+      "rngState": 3259064721,
+      "state": {
+        "phase": "chapter",
+        "origin": "storm",
+        "battle": 3,
+        "turn": 5,
+        "hp": 38,
+        "maxHp": 60,
+        "enemyId": "trial",
+        "enemyHp": 0,
+        "enemyMaxHp": 70,
+        "energy": 0,
+        "maxEnergy": 5,
+        "pendingFocus": 0,
+        "pendingBlock": 0,
+        "prevEndEmpty": false,
+        "turnLastAttack": 0,
+        "prevLastAttack": 0,
+        "usedExhaustThisTurn": false,
+        "relics": [],
+        "relicUsed": {
+          "emberCore": false,
+          "starBottle": false
+        },
+        "removalSource": null,
+        "block": 0,
+        "focus": 0,
+        "weaken": 0,
+        "reflect": 0,
+        "turnDamage": 0,
+        "spellCount": 0,
+        "interrupted": false,
+        "flags": {},
+        "deck": [
+          "ice",
+          "guard",
+          "focus",
+          "spark",
+          "bolt",
+          "fadingStar",
+          "starWait",
+          "charge",
+          "meditate",
+          "chain"
+        ],
+        "hand": [
+          "bolt",
+          "focus",
+          "fadingStar",
+          "guard"
+        ],
+        "draw": [
+          "ice",
+          "starWait",
+          "spark"
+        ],
+        "discard": [
+          "chain"
+        ],
+        "exhaust": [
+          "meditate",
+          "charge"
+        ],
+        "route": "moon",
+        "route2": null,
+        "chapter2Options": {
+          "library": "bowWatcher",
+          "wind": "bellSpirit"
+        },
+        "chapter2Encounter": null,
+        "forge": false,
+        "insight": false,
+        "sanctuary": "rest",
+        "camp": null,
+        "lastReward": null,
+        "lastUpgrade": null,
+        "pendingUpgrade": null,
+        "upgrades": [],
+        "removed": [],
+        "rewards": [],
+        "rewardOffers": [
+          "chain",
+          "light",
+          "ebbArrow",
+          "starWait"
+        ],
+        "history": [
+          {
+            "enemy": "蒼鎧の門番",
+            "battle": 1,
+            "turns": 3,
+            "hp": 54,
+            "result": "victory"
+          },
+          {
+            "enemy": "鏡の亡霊",
+            "battle": 2,
+            "turns": 6,
+            "hp": 28,
+            "result": "victory"
+          },
+          {
+            "enemy": "守護者の幻影",
+            "battle": 3,
+            "turns": 5,
+            "hp": 30,
+            "result": "victory"
+          }
+        ],
+        "wins": 3,
+        "stats": {
+          "played": {
+            "bolt": 2,
+            "spark": 9,
+            "focus": 7,
+            "chain": 9,
+            "meditate": 3,
+            "charge": 3,
+            "fadingStar": 2,
+            "ice": 4,
+            "guard": 1
+          },
+          "dealt": 176,
+          "taken": 58,
+          "healed": 0,
+          "energyGained": 3,
+          "blocked": 6,
+          "reflected": 0,
+          "interrupts": 1,
+          "relics": 2
+        },
+        "log": [
+          "守護者の幻影を越えた。",
+          "連鎖雷：4ダメージ。",
+          "星の双刃 2回。0防ぎ、HP −4。",
+          "火花：6ダメージ。",
+          "氷の矢：6ダメージ。各打撃−2。"
+        ]
+      }
+    },
+    "reward": {
+      "format": "astral-planning",
+      "version": 3,
+      "rngState": 3259064721,
+      "state": {
+        "phase": "reward",
+        "origin": "storm",
+        "battle": 3,
+        "turn": 5,
+        "hp": 38,
+        "maxHp": 60,
+        "enemyId": "trial",
+        "enemyHp": 0,
+        "enemyMaxHp": 70,
+        "energy": 0,
+        "maxEnergy": 5,
+        "pendingFocus": 0,
+        "pendingBlock": 0,
+        "prevEndEmpty": false,
+        "turnLastAttack": 0,
+        "prevLastAttack": 0,
+        "usedExhaustThisTurn": false,
+        "relics": [],
+        "relicUsed": {
+          "emberCore": false,
+          "starBottle": false
+        },
+        "removalSource": null,
+        "block": 0,
+        "focus": 0,
+        "weaken": 0,
+        "reflect": 0,
+        "turnDamage": 0,
+        "spellCount": 0,
+        "interrupted": false,
+        "flags": {},
+        "deck": [
+          "ice",
+          "guard",
+          "focus",
+          "spark",
+          "bolt",
+          "fadingStar",
+          "starWait",
+          "charge",
+          "meditate",
+          "chain"
+        ],
+        "hand": [
+          "bolt",
+          "focus",
+          "fadingStar",
+          "guard"
+        ],
+        "draw": [
+          "ice",
+          "starWait",
+          "spark"
+        ],
+        "discard": [
+          "chain"
+        ],
+        "exhaust": [
+          "meditate",
+          "charge"
+        ],
+        "route": "moon",
+        "route2": null,
+        "chapter2Options": {
+          "library": "bowWatcher",
+          "wind": "bellSpirit"
+        },
+        "chapter2Encounter": null,
+        "forge": false,
+        "insight": false,
+        "sanctuary": "rest",
+        "camp": null,
+        "lastReward": null,
+        "lastUpgrade": null,
+        "pendingUpgrade": null,
+        "upgrades": [],
+        "removed": [],
+        "rewards": [],
+        "rewardOffers": [
+          "starRelay",
+          "quietComet",
+          "mirrorLance",
+          "starBookmark"
+        ],
+        "history": [
+          {
+            "enemy": "蒼鎧の門番",
+            "battle": 1,
+            "turns": 3,
+            "hp": 54,
+            "result": "victory"
+          },
+          {
+            "enemy": "鏡の亡霊",
+            "battle": 2,
+            "turns": 6,
+            "hp": 28,
+            "result": "victory"
+          },
+          {
+            "enemy": "守護者の幻影",
+            "battle": 3,
+            "turns": 5,
+            "hp": 30,
+            "result": "victory"
+          }
+        ],
+        "wins": 3,
+        "stats": {
+          "played": {
+            "bolt": 2,
+            "spark": 9,
+            "focus": 7,
+            "chain": 9,
+            "meditate": 3,
+            "charge": 3,
+            "fadingStar": 2,
+            "ice": 4,
+            "guard": 1
+          },
+          "dealt": 176,
+          "taken": 58,
+          "healed": 0,
+          "energyGained": 3,
+          "blocked": 6,
+          "reflected": 0,
+          "interrupts": 1,
+          "relics": 2
+        },
+        "log": [
+          "守護者の幻影を越えた。",
+          "連鎖雷：4ダメージ。",
+          "星の双刃 2回。0防ぎ、HP −4。",
+          "火花：6ダメージ。",
+          "氷の矢：6ダメージ。各打撃−2。"
+        ]
+      }
+    },
+    "evolve": {
+      "format": "astral-planning",
+      "version": 3,
+      "rngState": 673594391,
+      "state": {
+        "phase": "evolve",
+        "origin": "storm",
+        "battle": 4,
+        "turn": 2,
+        "hp": 42,
+        "maxHp": 60,
+        "enemyId": "tideStarSentinel",
+        "enemyHp": 0,
+        "enemyMaxHp": 72,
+        "energy": 2,
+        "maxEnergy": 5,
+        "pendingFocus": 0,
+        "pendingBlock": 0,
+        "prevEndEmpty": false,
+        "turnLastAttack": 0,
+        "prevLastAttack": 0,
+        "usedExhaustThisTurn": false,
+        "relics": [],
+        "relicUsed": {
+          "emberCore": false,
+          "starBottle": false
+        },
+        "removalSource": null,
+        "block": 0,
+        "focus": 0,
+        "weaken": 0,
+        "reflect": 0,
+        "turnDamage": 0,
+        "spellCount": 0,
+        "interrupted": false,
+        "flags": {},
+        "deck": [
+          "starRelay",
+          "quietComet",
+          "mirrorLance",
+          "starBookmark",
+          "guard",
+          "guard",
+          "guard",
+          "guard",
+          "guard",
+          "guard"
+        ],
+        "hand": [
+          "starFerryWard",
+          "starFerryWard+",
+          "ebbArrow+",
+          "guard"
+        ],
+        "draw": [
+          "guard",
+          "guard",
+          "guard",
+          "guard",
+          "guard"
+        ],
+        "discard": [
+          "ebbArrow"
+        ],
+        "exhaust": [],
+        "route": "moon",
+        "route2": "causeway",
+        "chapter2Options": {
+          "library": "bowWatcher",
+          "wind": "bellSpirit"
+        },
+        "chapter2Encounter": "tideStarSentinel",
+        "forge": false,
+        "insight": false,
+        "sanctuary": "rest",
+        "camp": null,
+        "lastReward": null,
+        "lastUpgrade": null,
+        "pendingUpgrade": null,
+        "upgrades": [],
+        "removed": [],
+        "rewards": [],
+        "rewardOffers": [
+          "chain",
+          "light",
+          "fadingStar",
+          "shieldStrike"
+        ],
+        "history": [
+          {
+            "enemy": "蒼鎧の門番",
+            "battle": 1,
+            "turns": 3,
+            "hp": 54,
+            "result": "victory"
+          },
+          {
+            "enemy": "鏡の亡霊",
+            "battle": 2,
+            "turns": 6,
+            "hp": 28,
+            "result": "victory"
+          },
+          {
+            "enemy": "守護者の幻影",
+            "battle": 3,
+            "turns": 5,
+            "hp": 30,
+            "result": "victory"
+          },
+          {
+            "enemy": "潮星の番人",
+            "battle": 4,
+            "turns": 2,
+            "hp": 34,
+            "result": "victory"
+          }
+        ],
+        "wins": 4,
+        "stats": {
+          "played": {
+            "bolt": 2,
+            "spark": 9,
+            "focus": 7,
+            "chain": 9,
+            "meditate": 3,
+            "charge": 3,
+            "fadingStar": 2,
+            "ice": 4,
+            "guard": 1,
+            "ebbArrow": 1
+          },
+          "dealt": 177,
+          "taken": 58,
+          "healed": 0,
+          "energyGained": 3,
+          "blocked": 6,
+          "reflected": 0,
+          "interrupts": 1,
+          "relics": 2
+        },
+        "log": [
+          "潮星の番人を越えた。",
+          "潮引きの矢：1ダメージ。",
+          "引き潮は魔力2以上、満ち潮は魔力0で軽減。敵が動く直前の魔力で決まる。",
+          "HPを4払い、星渡りの回廊へ。以後、各戦闘の開始魔力が3になる。",
+          "守護者の幻影を越えた。"
+        ]
+      }
+    },
+    "battle": {
+      "format": "astral-planning",
+      "version": 3,
+      "rngState": 3698640100,
+      "state": {
+        "phase": "battle",
+        "origin": "storm",
+        "battle": 4,
+        "turn": 1,
+        "hp": 34,
+        "maxHp": 60,
+        "enemyId": "tideStarSentinel",
+        "enemyHp": 72,
+        "enemyMaxHp": 72,
+        "energy": 3,
+        "maxEnergy": 5,
+        "pendingFocus": 0,
+        "pendingBlock": 5,
+        "prevEndEmpty": false,
+        "turnLastAttack": 0,
+        "prevLastAttack": 0,
+        "usedExhaustThisTurn": false,
+        "relics": [],
+        "relicUsed": {
+          "emberCore": false,
+          "starBottle": false
+        },
+        "removalSource": null,
+        "block": 8,
+        "focus": 0,
+        "weaken": 0,
+        "reflect": 5,
+        "turnDamage": 0,
+        "spellCount": 0,
+        "interrupted": false,
+        "flags": {},
+        "deck": [
+          "starRelay",
+          "quietComet",
+          "mirrorLance",
+          "starBookmark",
+          "meditate",
+          "guard",
+          "guard",
+          "guard",
+          "bolt+",
+          "guard"
+        ],
+        "hand": [
+          "starRelay",
+          "quietComet",
+          "mirrorLance",
+          "starBookmark",
+          "meditate"
+        ],
+        "draw": [
+          "guard",
+          "guard",
+          "guard"
+        ],
+        "discard": [
+          "bolt+",
+          "guard"
+        ],
+        "exhaust": [],
+        "route": "moon",
+        "route2": "causeway",
+        "chapter2Options": {
+          "library": "bowWatcher",
+          "wind": "bellSpirit"
+        },
+        "chapter2Encounter": "tideStarSentinel",
+        "forge": false,
+        "insight": false,
+        "sanctuary": "rest",
+        "camp": null,
+        "lastReward": null,
+        "lastUpgrade": null,
+        "pendingUpgrade": null,
+        "upgrades": [],
+        "removed": [],
+        "rewards": [],
+        "rewardOffers": [],
+        "history": [
+          {
+            "enemy": "蒼鎧の門番",
+            "battle": 1,
+            "turns": 3,
+            "hp": 54,
+            "result": "victory"
+          },
+          {
+            "enemy": "鏡の亡霊",
+            "battle": 2,
+            "turns": 6,
+            "hp": 28,
+            "result": "victory"
+          },
+          {
+            "enemy": "守護者の幻影",
+            "battle": 3,
+            "turns": 5,
+            "hp": 30,
+            "result": "victory"
+          }
+        ],
+        "wins": 3,
+        "stats": {
+          "played": {
+            "bolt": 2,
+            "spark": 9,
+            "focus": 7,
+            "chain": 9,
+            "meditate": 3,
+            "charge": 3,
+            "fadingStar": 2,
+            "ice": 4,
+            "guard": 1
+          },
+          "dealt": 176,
+          "taken": 58,
+          "healed": 0,
+          "energyGained": 3,
+          "blocked": 6,
+          "reflected": 0,
+          "interrupts": 1,
+          "relics": 2
+        },
+        "log": [
+          "引き潮は魔力2以上、満ち潮は魔力0で軽減。敵が動く直前の魔力で決まる。",
+          "HPを4払い、星渡りの回廊へ。以後、各戦闘の開始魔力が3になる。",
+          "守護者の幻影を越えた。",
+          "連鎖雷：4ダメージ。",
+          "星の双刃 2回。0防ぎ、HP −4。"
+        ]
+      }
+    },
+    "battleEmpty": {
+      "format": "astral-planning",
+      "version": 3,
+      "rngState": 3698640100,
+      "state": {
+        "phase": "battle",
+        "origin": "storm",
+        "battle": 4,
+        "turn": 1,
+        "hp": 34,
+        "maxHp": 60,
+        "enemyId": "tideStarSentinel",
+        "enemyHp": 72,
+        "enemyMaxHp": 72,
+        "energy": 3,
+        "maxEnergy": 5,
+        "pendingFocus": 0,
+        "pendingBlock": 5,
+        "prevEndEmpty": false,
+        "turnLastAttack": 0,
+        "prevLastAttack": 0,
+        "usedExhaustThisTurn": false,
+        "relics": [],
+        "relicUsed": {
+          "emberCore": false,
+          "starBottle": false
+        },
+        "removalSource": null,
+        "block": 0,
+        "focus": 0,
+        "weaken": 0,
+        "reflect": 0,
+        "turnDamage": 0,
+        "spellCount": 0,
+        "interrupted": false,
+        "flags": {},
+        "deck": [
+          "starRelay",
+          "quietComet",
+          "mirrorLance",
+          "starBookmark",
+          "meditate",
+          "guard",
+          "guard",
+          "guard",
+          "guard",
+          "guard"
+        ],
+        "hand": [
+          "starRelay",
+          "quietComet",
+          "mirrorLance",
+          "starBookmark",
+          "meditate"
+        ],
+        "draw": [
+          "guard",
+          "guard",
+          "guard"
+        ],
+        "discard": [
+          "guard",
+          "guard"
+        ],
+        "exhaust": [],
+        "route": "moon",
+        "route2": "causeway",
+        "chapter2Options": {
+          "library": "bowWatcher",
+          "wind": "bellSpirit"
+        },
+        "chapter2Encounter": "tideStarSentinel",
+        "forge": false,
+        "insight": false,
+        "sanctuary": "rest",
+        "camp": null,
+        "lastReward": null,
+        "lastUpgrade": null,
+        "pendingUpgrade": null,
+        "upgrades": [],
+        "removed": [],
+        "rewards": [],
+        "rewardOffers": [],
+        "history": [
+          {
+            "enemy": "蒼鎧の門番",
+            "battle": 1,
+            "turns": 3,
+            "hp": 54,
+            "result": "victory"
+          },
+          {
+            "enemy": "鏡の亡霊",
+            "battle": 2,
+            "turns": 6,
+            "hp": 28,
+            "result": "victory"
+          },
+          {
+            "enemy": "守護者の幻影",
+            "battle": 3,
+            "turns": 5,
+            "hp": 30,
+            "result": "victory"
+          }
+        ],
+        "wins": 3,
+        "stats": {
+          "played": {
+            "bolt": 2,
+            "spark": 9,
+            "focus": 7,
+            "chain": 9,
+            "meditate": 3,
+            "charge": 3,
+            "fadingStar": 2,
+            "ice": 4,
+            "guard": 1
+          },
+          "dealt": 176,
+          "taken": 58,
+          "healed": 0,
+          "energyGained": 3,
+          "blocked": 6,
+          "reflected": 0,
+          "interrupts": 1,
+          "relics": 2
+        },
+        "log": [
+          "引き潮は魔力2以上、満ち潮は魔力0で軽減。敵が動く直前の魔力で決まる。",
+          "HPを4払い、星渡りの回廊へ。以後、各戦闘の開始魔力が3になる。",
+          "守護者の幻影を越えた。",
+          "連鎖雷：4ダメージ。",
+          "星の双刃 2回。0防ぎ、HP −4。"
+        ]
+      }
+    }
+  },
+  "firstBattleRewards": [
+    {
+      "origin": "frost",
+      "seed": 1,
+      "offers": [
+        "frostNova",
+        "renew",
+        "ice",
+        "light"
+      ],
+      "rngState": 131922181
+    },
+    {
+      "origin": "frost",
+      "seed": 2,
+      "offers": [
+        "winter",
+        "meditate",
+        "fadingStar",
+        "charge"
+      ],
+      "rngState": 1116856726
+    },
+    {
+      "origin": "frost",
+      "seed": 3,
+      "offers": [
+        "frostPierce",
+        "meditate",
+        "dark",
+        "ashWard"
+      ],
+      "rngState": 2101791271
+    },
+    {
+      "origin": "frost",
+      "seed": 4,
+      "offers": [
+        "frostPierce",
+        "renew",
+        "surge",
+        "light"
+      ],
+      "rngState": 3086725816
+    },
+    {
+      "origin": "frost",
+      "seed": 5,
+      "offers": [
+        "frostNova",
+        "meditate",
+        "quietComet",
+        "focus"
+      ],
+      "rngState": 4071660361
+    },
+    {
+      "origin": "frost",
+      "seed": 6,
+      "offers": [
+        "frostPierce",
+        "renew",
+        "shieldStrike",
+        "ashWard"
+      ],
+      "rngState": 761627610
+    },
+    {
+      "origin": "frost",
+      "seed": 7,
+      "offers": [
+        "frostPierce",
+        "meditate",
+        "shatter",
+        "spark"
+      ],
+      "rngState": 1746562155
+    },
+    {
+      "origin": "frost",
+      "seed": 8,
+      "offers": [
+        "frostNova",
+        "light",
+        "dark",
+        "zenithBolt"
+      ],
+      "rngState": 2731496700
+    },
+    {
+      "origin": "frost",
+      "seed": 9,
+      "offers": [
+        "frostPierce",
+        "focus",
+        "zenithBolt",
+        "starBookmark"
+      ],
+      "rngState": 3716431245
+    },
+    {
+      "origin": "frost",
+      "seed": 10,
+      "offers": [
+        "frostPierce",
+        "focus",
+        "shatter",
+        "bolt"
+      ],
+      "rngState": 406398494
+    },
+    {
+      "origin": "frost",
+      "seed": 11,
+      "offers": [
+        "shatter",
+        "stillness",
+        "frostNova",
+        "chain"
+      ],
+      "rngState": 1391333039
+    },
+    {
+      "origin": "frost",
+      "seed": 12,
+      "offers": [
+        "frostNova",
+        "light",
+        "zenithBolt",
+        "echo"
+      ],
+      "rngState": 2376267584
+    },
+    {
+      "origin": "frost",
+      "seed": 13,
+      "offers": [
+        "frostPierce",
+        "renew",
+        "stillness",
+        "reflectShield"
+      ],
+      "rngState": 3361202129
+    },
+    {
+      "origin": "frost",
+      "seed": 14,
+      "offers": [
+        "frostNova",
+        "focus",
+        "ice",
+        "surge"
+      ],
+      "rngState": 51169378
+    },
+    {
+      "origin": "frost",
+      "seed": 15,
+      "offers": [
+        "frostPierce",
+        "renew",
+        "frostWard",
+        "frostNova"
+      ],
+      "rngState": 1036103923
+    },
+    {
+      "origin": "frost",
+      "seed": 16,
+      "offers": [
+        "frostPierce",
+        "focus",
+        "stillness",
+        "light"
+      ],
+      "rngState": 2021038468
+    },
+    {
+      "origin": "frost",
+      "seed": 17,
+      "offers": [
+        "shatter",
+        "focus",
+        "reflectShield",
+        "quietComet"
+      ],
+      "rngState": 3005973013
+    },
+    {
+      "origin": "frost",
+      "seed": 18,
+      "offers": [
+        "shatter",
+        "renew",
+        "focus",
+        "memoryArrow"
+      ],
+      "rngState": 3990907558
+    },
+    {
+      "origin": "frost",
+      "seed": 19,
+      "offers": [
+        "shatter",
+        "stillness",
+        "quietComet",
+        "surge"
+      ],
+      "rngState": 680874807
+    },
+    {
+      "origin": "frost",
+      "seed": 20,
+      "offers": [
+        "frostNova",
+        "light",
+        "frostPierce",
+        "stillness"
+      ],
+      "rngState": 1665809352
+    },
+    {
+      "origin": "frost",
+      "seed": 21,
+      "offers": [
+        "shatter",
+        "meditate",
+        "charge",
+        "reflectShield"
+      ],
+      "rngState": 2650743897
+    },
+    {
+      "origin": "frost",
+      "seed": 22,
+      "offers": [
+        "shatter",
+        "focus",
+        "surge",
+        "bolt"
+      ],
+      "rngState": 3635678442
+    },
+    {
+      "origin": "frost",
+      "seed": 23,
+      "offers": [
+        "iceSpear",
+        "meditate",
+        "shieldStrike",
+        "frostWard"
+      ],
+      "rngState": 325645691
+    },
+    {
+      "origin": "frost",
+      "seed": 24,
+      "offers": [
+        "frostNova",
+        "light",
+        "emberVeil",
+        "frostWard"
+      ],
+      "rngState": 1310580236
+    },
+    {
+      "origin": "frost",
+      "seed": 25,
+      "offers": [
+        "frostNova",
+        "renew",
+        "guard",
+        "winter"
+      ],
+      "rngState": 2295514781
+    },
+    {
+      "origin": "frost",
+      "seed": 26,
+      "offers": [
+        "iceSpear",
+        "focus",
+        "shatter",
+        "mirror"
+      ],
+      "rngState": 3280449326
+    },
+    {
+      "origin": "frost",
+      "seed": 27,
+      "offers": [
+        "frostNova",
+        "renew",
+        "meditate",
+        "spark"
+      ],
+      "rngState": 4265383871
+    },
+    {
+      "origin": "frost",
+      "seed": 28,
+      "offers": [
+        "frostPierce",
+        "focus",
+        "shatter",
+        "ashWard"
+      ],
+      "rngState": 955351120
+    },
+    {
+      "origin": "frost",
+      "seed": 29,
+      "offers": [
+        "iceSpear",
+        "focus",
+        "frostPierce",
+        "bolt"
+      ],
+      "rngState": 1940285665
+    },
+    {
+      "origin": "frost",
+      "seed": 30,
+      "offers": [
+        "winter",
+        "renew",
+        "ice",
+        "frostPierce"
+      ],
+      "rngState": 2925220210
+    },
+    {
+      "origin": "frost",
+      "seed": 31,
+      "offers": [
+        "frostPierce",
+        "stillness",
+        "surge",
+        "mirror"
+      ],
+      "rngState": 3910154755
+    },
+    {
+      "origin": "frost",
+      "seed": 32,
+      "offers": [
+        "frostNova",
+        "meditate",
+        "dark",
+        "frostPierce"
+      ],
+      "rngState": 600122004
+    },
+    {
+      "origin": "frost",
+      "seed": 33,
+      "offers": [
+        "winter",
+        "focus",
+        "stillness",
+        "frostWard"
+      ],
+      "rngState": 1585056549
+    },
+    {
+      "origin": "frost",
+      "seed": 34,
+      "offers": [
+        "frostNova",
+        "focus",
+        "charge",
+        "drain"
+      ],
+      "rngState": 2569991094
+    },
+    {
+      "origin": "frost",
+      "seed": 35,
+      "offers": [
+        "iceSpear",
+        "focus",
+        "shieldStrike",
+        "quietComet"
+      ],
+      "rngState": 3554925639
+    },
+    {
+      "origin": "frost",
+      "seed": 36,
+      "offers": [
+        "winter",
+        "light",
+        "iceSpear",
+        "reflectShield"
+      ],
+      "rngState": 244892888
+    },
+    {
+      "origin": "frost",
+      "seed": 37,
+      "offers": [
+        "frostPierce",
+        "renew",
+        "spark",
+        "thunderCrash"
+      ],
+      "rngState": 1229827433
+    },
+    {
+      "origin": "frost",
+      "seed": 38,
+      "offers": [
+        "shatter",
+        "focus",
+        "echo",
+        "drain"
+      ],
+      "rngState": 2214761978
+    },
+    {
+      "origin": "frost",
+      "seed": 39,
+      "offers": [
+        "frostPierce",
+        "renew",
+        "guard",
+        "frostNova"
+      ],
+      "rngState": 3199696523
+    },
+    {
+      "origin": "frost",
+      "seed": 40,
+      "offers": [
+        "frostPierce",
+        "meditate",
+        "mirror",
+        "chain"
+      ],
+      "rngState": 4184631068
+    },
+    {
+      "origin": "frost",
+      "seed": 41,
+      "offers": [
+        "shatter",
+        "focus",
+        "spark",
+        "mirror"
+      ],
+      "rngState": 874598317
+    },
+    {
+      "origin": "frost",
+      "seed": 42,
+      "offers": [
+        "frostPierce",
+        "renew",
+        "ashWard",
+        "guard"
+      ],
+      "rngState": 1859532862
+    },
+    {
+      "origin": "frost",
+      "seed": 43,
+      "offers": [
+        "winter",
+        "stillness",
+        "light",
+        "frostNova"
+      ],
+      "rngState": 2844467407
+    },
+    {
+      "origin": "frost",
+      "seed": 44,
+      "offers": [
+        "shatter",
+        "light",
+        "renew",
+        "memoryArrow"
+      ],
+      "rngState": 3829401952
+    },
+    {
+      "origin": "frost",
+      "seed": 45,
+      "offers": [
+        "winter",
+        "focus",
+        "ashWard",
+        "charge"
+      ],
+      "rngState": 519369201
+    },
+    {
+      "origin": "frost",
+      "seed": 46,
+      "offers": [
+        "frostNova",
+        "meditate",
+        "memoryArrow",
+        "starBookmark"
+      ],
+      "rngState": 1504303746
+    },
+    {
+      "origin": "frost",
+      "seed": 47,
+      "offers": [
+        "winter",
+        "stillness",
+        "reflectShield",
+        "meditate"
+      ],
+      "rngState": 2489238291
+    },
+    {
+      "origin": "frost",
+      "seed": 48,
+      "offers": [
+        "frostNova",
+        "meditate",
+        "chain",
+        "fadingStar"
+      ],
+      "rngState": 3474172836
+    },
+    {
+      "origin": "frost",
+      "seed": 49,
+      "offers": [
+        "shatter",
+        "renew",
+        "dark",
+        "frostNova"
+      ],
+      "rngState": 164140085
+    },
+    {
+      "origin": "frost",
+      "seed": 50,
+      "offers": [
+        "winter",
+        "focus",
+        "bolt",
+        "thunderCrash"
+      ],
+      "rngState": 1149074630
+    },
+    {
+      "origin": "frost",
+      "seed": 51,
+      "offers": [
+        "winter",
+        "renew",
+        "shieldStrike",
+        "surge"
+      ],
+      "rngState": 2134009175
+    },
+    {
+      "origin": "frost",
+      "seed": 52,
+      "offers": [
+        "shatter",
+        "focus",
+        "echo",
+        "starBookmark"
+      ],
+      "rngState": 3118943720
+    },
+    {
+      "origin": "frost",
+      "seed": 53,
+      "offers": [
+        "winter",
+        "focus",
+        "chain",
+        "drain"
+      ],
+      "rngState": 4103878265
+    },
+    {
+      "origin": "frost",
+      "seed": 54,
+      "offers": [
+        "frostPierce",
+        "meditate",
+        "spark",
+        "emberVeil"
+      ],
+      "rngState": 793845514
+    },
+    {
+      "origin": "frost",
+      "seed": 55,
+      "offers": [
+        "winter",
+        "stillness",
+        "surge",
+        "echo"
+      ],
+      "rngState": 1778780059
+    },
+    {
+      "origin": "frost",
+      "seed": 56,
+      "offers": [
+        "winter",
+        "light",
+        "reflectShield",
+        "focus"
+      ],
+      "rngState": 2763714604
+    },
+    {
+      "origin": "frost",
+      "seed": 57,
+      "offers": [
+        "frostPierce",
+        "light",
+        "thunderCrash",
+        "mirror"
+      ],
+      "rngState": 3748649149
+    },
+    {
+      "origin": "frost",
+      "seed": 58,
+      "offers": [
+        "frostPierce",
+        "meditate",
+        "surge",
+        "thunderCrash"
+      ],
+      "rngState": 438616398
+    },
+    {
+      "origin": "frost",
+      "seed": 59,
+      "offers": [
+        "frostNova",
+        "light",
+        "dark",
+        "guard"
+      ],
+      "rngState": 1423550943
+    },
+    {
+      "origin": "frost",
+      "seed": 60,
+      "offers": [
+        "frostPierce",
+        "focus",
+        "dark",
+        "renew"
+      ],
+      "rngState": 2408485488
+    },
+    {
+      "origin": "frost",
+      "seed": 61,
+      "offers": [
+        "frostPierce",
+        "light",
+        "mirror",
+        "chain"
+      ],
+      "rngState": 3393420033
+    },
+    {
+      "origin": "frost",
+      "seed": 62,
+      "offers": [
+        "iceSpear",
+        "renew",
+        "drain",
+        "echo"
+      ],
+      "rngState": 83387282
+    },
+    {
+      "origin": "frost",
+      "seed": 63,
+      "offers": [
+        "frostPierce",
+        "light",
+        "surge",
+        "reflectShield"
+      ],
+      "rngState": 1068321827
+    },
+    {
+      "origin": "frost",
+      "seed": 64,
+      "offers": [
+        "frostPierce",
+        "stillness",
+        "winter",
+        "reflectShield"
+      ],
+      "rngState": 2053256372
+    },
+    {
+      "origin": "storm",
+      "seed": 1,
+      "offers": [
+        "spark",
+        "focus",
+        "echo",
+        "meditate"
+      ],
+      "rngState": 47933630
+    },
+    {
+      "origin": "storm",
+      "seed": 2,
+      "offers": [
+        "thunderCrash",
+        "stillness",
+        "ashWard",
+        "frostWard"
+      ],
+      "rngState": 3169073235
+    },
+    {
+      "origin": "storm",
+      "seed": 3,
+      "offers": [
+        "spark",
+        "renew",
+        "bolt",
+        "fadingStar"
+      ],
+      "rngState": 1995245544
+    },
+    {
+      "origin": "storm",
+      "seed": 4,
+      "offers": [
+        "spark",
+        "stillness",
+        "drain",
+        "ashWard"
+      ],
+      "rngState": 821417853
+    },
+    {
+      "origin": "storm",
+      "seed": 5,
+      "offers": [
+        "surge",
+        "renew",
+        "chain",
+        "shieldStrike"
+      ],
+      "rngState": 3942557458
+    },
+    {
+      "origin": "storm",
+      "seed": 6,
+      "offers": [
+        "spark",
+        "focus",
+        "frostNova",
+        "thunderCrash"
+      ],
+      "rngState": 2768729767
+    },
+    {
+      "origin": "storm",
+      "seed": 7,
+      "offers": [
+        "spark",
+        "renew",
+        "light",
+        "quietComet"
+      ],
+      "rngState": 1594902076
+    },
+    {
+      "origin": "storm",
+      "seed": 8,
+      "offers": [
+        "thunderCrash",
+        "light",
+        "dark",
+        "drain"
+      ],
+      "rngState": 421074385
+    },
+    {
+      "origin": "storm",
+      "seed": 9,
+      "offers": [
+        "chain",
+        "renew",
+        "light",
+        "iceSpear"
+      ],
+      "rngState": 3542213990
+    },
+    {
+      "origin": "storm",
+      "seed": 10,
+      "offers": [
+        "thunderCrash",
+        "meditate",
+        "echo",
+        "memoryArrow"
+      ],
+      "rngState": 2368386299
+    },
+    {
+      "origin": "storm",
+      "seed": 11,
+      "offers": [
+        "thunderCrash",
+        "renew",
+        "stillness",
+        "spark"
+      ],
+      "rngState": 1194558608
+    },
+    {
+      "origin": "storm",
+      "seed": 12,
+      "offers": [
+        "surge",
+        "light",
+        "starWait",
+        "mirror"
+      ],
+      "rngState": 20730917
+    },
+    {
+      "origin": "storm",
+      "seed": 13,
+      "offers": [
+        "surge",
+        "focus",
+        "frostNova",
+        "shieldStrike"
+      ],
+      "rngState": 3141870522
+    },
+    {
+      "origin": "storm",
+      "seed": 14,
+      "offers": [
+        "surge",
+        "renew",
+        "emberVeil",
+        "bolt"
+      ],
+      "rngState": 1968042831
+    },
+    {
+      "origin": "storm",
+      "seed": 15,
+      "offers": [
+        "chain",
+        "focus",
+        "zenithBolt",
+        "memoryArrow"
+      ],
+      "rngState": 794215140
+    },
+    {
+      "origin": "storm",
+      "seed": 16,
+      "offers": [
+        "chain",
+        "stillness",
+        "echo",
+        "light"
+      ],
+      "rngState": 3915354745
+    },
+    {
+      "origin": "storm",
+      "seed": 17,
+      "offers": [
+        "thunderCrash",
+        "focus",
+        "stillness",
+        "fadingStar"
+      ],
+      "rngState": 2741527054
+    },
+    {
+      "origin": "storm",
+      "seed": 18,
+      "offers": [
+        "chain",
+        "focus",
+        "frostWard",
+        "fadingStar"
+      ],
+      "rngState": 1567699363
+    },
+    {
+      "origin": "storm",
+      "seed": 19,
+      "offers": [
+        "chain",
+        "renew",
+        "zenithBolt",
+        "surge"
+      ],
+      "rngState": 393871672
+    },
+    {
+      "origin": "storm",
+      "seed": 20,
+      "offers": [
+        "thunderCrash",
+        "light",
+        "zenithBolt",
+        "drain"
+      ],
+      "rngState": 3515011277
+    },
+    {
+      "origin": "storm",
+      "seed": 21,
+      "offers": [
+        "chain",
+        "light",
+        "thunderCrash",
+        "bolt"
+      ],
+      "rngState": 2341183586
+    },
+    {
+      "origin": "storm",
+      "seed": 22,
+      "offers": [
+        "surge",
+        "meditate",
+        "starBookmark",
+        "light"
+      ],
+      "rngState": 1167355895
+    },
+    {
+      "origin": "storm",
+      "seed": 23,
+      "offers": [
+        "spark",
+        "renew",
+        "reflectShield",
+        "frostPierce"
+      ],
+      "rngState": 4288495500
+    },
+    {
+      "origin": "storm",
+      "seed": 24,
+      "offers": [
+        "thunderCrash",
+        "light",
+        "emberVeil",
+        "starBookmark"
+      ],
+      "rngState": 3114667809
+    },
+    {
+      "origin": "storm",
+      "seed": 25,
+      "offers": [
+        "spark",
+        "renew",
+        "stillness",
+        "fadingStar"
+      ],
+      "rngState": 1940840118
+    },
+    {
+      "origin": "storm",
+      "seed": 26,
+      "offers": [
+        "spark",
+        "renew",
+        "meditate",
+        "focus"
+      ],
+      "rngState": 767012427
+    },
+    {
+      "origin": "storm",
+      "seed": 27,
+      "offers": [
+        "surge",
+        "focus",
+        "echo",
+        "winter"
+      ],
+      "rngState": 3888152032
+    },
+    {
+      "origin": "storm",
+      "seed": 28,
+      "offers": [
+        "spark",
+        "meditate",
+        "shieldStrike",
+        "drain"
+      ],
+      "rngState": 2714324341
+    },
+    {
+      "origin": "storm",
+      "seed": 29,
+      "offers": [
+        "spark",
+        "focus",
+        "light",
+        "bolt"
+      ],
+      "rngState": 1540496650
+    },
+    {
+      "origin": "storm",
+      "seed": 30,
+      "offers": [
+        "spark",
+        "focus",
+        "bolt",
+        "guard"
+      ],
+      "rngState": 366668959
+    },
+    {
+      "origin": "storm",
+      "seed": 31,
+      "offers": [
+        "thunderCrash",
+        "stillness",
+        "spark",
+        "drain"
+      ],
+      "rngState": 3487808564
+    },
+    {
+      "origin": "storm",
+      "seed": 32,
+      "offers": [
+        "surge",
+        "focus",
+        "chain",
+        "starBookmark"
+      ],
+      "rngState": 2313980873
+    },
+    {
+      "origin": "storm",
+      "seed": 33,
+      "offers": [
+        "spark",
+        "light",
+        "surge",
+        "thunderCrash"
+      ],
+      "rngState": 1140153182
+    },
+    {
+      "origin": "storm",
+      "seed": 34,
+      "offers": [
+        "thunderCrash",
+        "meditate",
+        "iceSpear",
+        "ashWard"
+      ],
+      "rngState": 4261292787
+    },
+    {
+      "origin": "storm",
+      "seed": 35,
+      "offers": [
+        "spark",
+        "light",
+        "mirror",
+        "iceSpear"
+      ],
+      "rngState": 3087465096
+    },
+    {
+      "origin": "storm",
+      "seed": 36,
+      "offers": [
+        "surge",
+        "light",
+        "frostPierce",
+        "charge"
+      ],
+      "rngState": 1913637405
+    },
+    {
+      "origin": "storm",
+      "seed": 37,
+      "offers": [
+        "chain",
+        "renew",
+        "spark",
+        "bolt"
+      ],
+      "rngState": 739809714
+    },
+    {
+      "origin": "storm",
+      "seed": 38,
+      "offers": [
+        "chain",
+        "stillness",
+        "memoryArrow",
+        "thunderCrash"
+      ],
+      "rngState": 3860949319
+    },
+    {
+      "origin": "storm",
+      "seed": 39,
+      "offers": [
+        "thunderCrash",
+        "focus",
+        "guard",
+        "starWait"
+      ],
+      "rngState": 2687121628
+    },
+    {
+      "origin": "storm",
+      "seed": 40,
+      "offers": [
+        "chain",
+        "meditate",
+        "thunderCrash",
+        "iceSpear"
+      ],
+      "rngState": 1513293937
+    },
+    {
+      "origin": "storm",
+      "seed": 41,
+      "offers": [
+        "chain",
+        "focus",
+        "ashWard",
+        "guard"
+      ],
+      "rngState": 339466246
+    },
+    {
+      "origin": "storm",
+      "seed": 42,
+      "offers": [
+        "thunderCrash",
+        "renew",
+        "meditate",
+        "drain"
+      ],
+      "rngState": 3460605851
+    },
+    {
+      "origin": "storm",
+      "seed": 43,
+      "offers": [
+        "chain",
+        "stillness",
+        "shieldStrike",
+        "focus"
+      ],
+      "rngState": 2286778160
+    },
+    {
+      "origin": "storm",
+      "seed": 44,
+      "offers": [
+        "surge",
+        "focus",
+        "meditate",
+        "charge"
+      ],
+      "rngState": 1112950469
+    },
+    {
+      "origin": "storm",
+      "seed": 45,
+      "offers": [
+        "thunderCrash",
+        "light",
+        "memoryArrow",
+        "frostPierce"
+      ],
+      "rngState": 4234090074
+    },
+    {
+      "origin": "storm",
+      "seed": 46,
+      "offers": [
+        "surge",
+        "renew",
+        "stillness",
+        "frostNova"
+      ],
+      "rngState": 3060262383
+    },
+    {
+      "origin": "storm",
+      "seed": 47,
+      "offers": [
+        "chain",
+        "light",
+        "spark",
+        "guard"
+      ],
+      "rngState": 1886434692
+    },
+    {
+      "origin": "storm",
+      "seed": 48,
+      "offers": [
+        "chain",
+        "meditate",
+        "drain",
+        "light"
+      ],
+      "rngState": 712607001
+    },
+    {
+      "origin": "storm",
+      "seed": 49,
+      "offers": [
+        "surge",
+        "focus",
+        "chain",
+        "frostPierce"
+      ],
+      "rngState": 3833746606
+    },
+    {
+      "origin": "storm",
+      "seed": 50,
+      "offers": [
+        "thunderCrash",
+        "stillness",
+        "bolt",
+        "shieldStrike"
+      ],
+      "rngState": 2659918915
+    },
+    {
+      "origin": "storm",
+      "seed": 51,
+      "offers": [
+        "spark",
+        "focus",
+        "light",
+        "thunderCrash"
+      ],
+      "rngState": 1486091224
+    },
+    {
+      "origin": "storm",
+      "seed": 52,
+      "offers": [
+        "spark",
+        "stillness",
+        "surge",
+        "focus"
+      ],
+      "rngState": 312263533
+    },
+    {
+      "origin": "storm",
+      "seed": 53,
+      "offers": [
+        "thunderCrash",
+        "focus",
+        "emberVeil",
+        "frostWard"
+      ],
+      "rngState": 3433403138
+    },
+    {
+      "origin": "storm",
+      "seed": 54,
+      "offers": [
+        "surge",
+        "renew",
+        "charge",
+        "echo"
+      ],
+      "rngState": 2259575447
+    },
+    {
+      "origin": "storm",
+      "seed": 55,
+      "offers": [
+        "spark",
+        "stillness",
+        "echo",
+        "reflectShield"
+      ],
+      "rngState": 1085747756
+    },
+    {
+      "origin": "storm",
+      "seed": 56,
+      "offers": [
+        "thunderCrash",
+        "light",
+        "meditate",
+        "fadingStar"
+      ],
+      "rngState": 4206887361
+    },
+    {
+      "origin": "storm",
+      "seed": 57,
+      "offers": [
+        "spark",
+        "meditate",
+        "bolt",
+        "winter"
+      ],
+      "rngState": 3033059670
+    },
+    {
+      "origin": "storm",
+      "seed": 58,
+      "offers": [
+        "spark",
+        "focus",
+        "memoryArrow",
+        "thunderCrash"
+      ],
+      "rngState": 1859231979
+    },
+    {
+      "origin": "storm",
+      "seed": 59,
+      "offers": [
+        "surge",
+        "light",
+        "shatter",
+        "guard"
+      ],
+      "rngState": 685404288
+    },
+    {
+      "origin": "storm",
+      "seed": 60,
+      "offers": [
+        "spark",
+        "renew",
+        "zenithBolt",
+        "surge"
+      ],
+      "rngState": 3806543893
+    },
+    {
+      "origin": "storm",
+      "seed": 61,
+      "offers": [
+        "spark",
+        "meditate",
+        "shatter",
+        "renew"
+      ],
+      "rngState": 2632716202
+    },
+    {
+      "origin": "storm",
+      "seed": 62,
+      "offers": [
+        "thunderCrash",
+        "stillness",
+        "drain",
+        "fadingStar"
+      ],
+      "rngState": 1458888511
+    },
+    {
+      "origin": "storm",
+      "seed": 63,
+      "offers": [
+        "spark",
+        "meditate",
+        "stillness",
+        "echo"
+      ],
+      "rngState": 285060820
+    },
+    {
+      "origin": "storm",
+      "seed": 64,
+      "offers": [
+        "thunderCrash",
+        "meditate",
+        "iceSpear",
+        "shieldStrike"
+      ],
+      "rngState": 3406200425
+    },
+    {
+      "origin": "mirror",
+      "seed": 1,
+      "offers": [
+        "reflectShield",
+        "focus",
+        "echo",
+        "meditate"
+      ],
+      "rngState": 47933630
+    },
+    {
+      "origin": "mirror",
+      "seed": 2,
+      "offers": [
+        "drain",
+        "stillness",
+        "ashWard",
+        "frostWard"
+      ],
+      "rngState": 3169073235
+    },
+    {
+      "origin": "mirror",
+      "seed": 3,
+      "offers": [
+        "reflectShield",
+        "renew",
+        "bolt",
+        "fadingStar"
+      ],
+      "rngState": 1995245544
+    },
+    {
+      "origin": "mirror",
+      "seed": 4,
+      "offers": [
+        "reflectShield",
+        "stillness",
+        "drain",
+        "ashWard"
+      ],
+      "rngState": 821417853
+    },
+    {
+      "origin": "mirror",
+      "seed": 5,
+      "offers": [
+        "echo",
+        "renew",
+        "chain",
+        "reflectShield"
+      ],
+      "rngState": 3942557458
+    },
+    {
+      "origin": "mirror",
+      "seed": 6,
+      "offers": [
+        "reflectShield",
+        "focus",
+        "frostNova",
+        "charge"
+      ],
+      "rngState": 2768729767
+    },
+    {
+      "origin": "mirror",
+      "seed": 7,
+      "offers": [
+        "reflectShield",
+        "renew",
+        "light",
+        "quietComet"
+      ],
+      "rngState": 1594902076
+    },
+    {
+      "origin": "mirror",
+      "seed": 8,
+      "offers": [
+        "drain",
+        "light",
+        "dark",
+        "shieldStrike"
+      ],
+      "rngState": 421074385
+    },
+    {
+      "origin": "mirror",
+      "seed": 9,
+      "offers": [
+        "mirror",
+        "renew",
+        "light",
+        "iceSpear"
+      ],
+      "rngState": 3542213990
+    },
+    {
+      "origin": "mirror",
+      "seed": 10,
+      "offers": [
+        "drain",
+        "meditate",
+        "echo",
+        "memoryArrow"
+      ],
+      "rngState": 2368386299
+    },
+    {
+      "origin": "mirror",
+      "seed": 11,
+      "offers": [
+        "drain",
+        "renew",
+        "stillness",
+        "spark"
+      ],
+      "rngState": 1194558608
+    },
+    {
+      "origin": "mirror",
+      "seed": 12,
+      "offers": [
+        "echo",
+        "light",
+        "stillness",
+        "mirror"
+      ],
+      "rngState": 20730917
+    },
+    {
+      "origin": "mirror",
+      "seed": 13,
+      "offers": [
+        "echo",
+        "focus",
+        "frostNova",
+        "reflectShield"
+      ],
+      "rngState": 3141870522
+    },
+    {
+      "origin": "mirror",
+      "seed": 14,
+      "offers": [
+        "echo",
+        "renew",
+        "zenithBolt",
+        "bolt"
+      ],
+      "rngState": 1968042831
+    },
+    {
+      "origin": "mirror",
+      "seed": 15,
+      "offers": [
+        "mirror",
+        "focus",
+        "zenithBolt",
+        "memoryArrow"
+      ],
+      "rngState": 794215140
+    },
+    {
+      "origin": "mirror",
+      "seed": 16,
+      "offers": [
+        "mirror",
+        "stillness",
+        "echo",
+        "light"
+      ],
+      "rngState": 3915354745
+    },
+    {
+      "origin": "mirror",
+      "seed": 17,
+      "offers": [
+        "drain",
+        "focus",
+        "stillness",
+        "fadingStar"
+      ],
+      "rngState": 2741527054
+    },
+    {
+      "origin": "mirror",
+      "seed": 18,
+      "offers": [
+        "mirror",
+        "focus",
+        "frostWard",
+        "fadingStar"
+      ],
+      "rngState": 1567699363
+    },
+    {
+      "origin": "mirror",
+      "seed": 19,
+      "offers": [
+        "mirror",
+        "renew",
+        "zenithBolt",
+        "surge"
+      ],
+      "rngState": 393871672
+    },
+    {
+      "origin": "mirror",
+      "seed": 20,
+      "offers": [
+        "drain",
+        "light",
+        "zenithBolt",
+        "shieldStrike"
+      ],
+      "rngState": 3515011277
+    },
+    {
+      "origin": "mirror",
+      "seed": 21,
+      "offers": [
+        "mirror",
+        "light",
+        "thunderCrash",
+        "bolt"
+      ],
+      "rngState": 2341183586
+    },
+    {
+      "origin": "mirror",
+      "seed": 22,
+      "offers": [
+        "echo",
+        "meditate",
+        "quietComet",
+        "drain"
+      ],
+      "rngState": 1167355895
+    },
+    {
+      "origin": "mirror",
+      "seed": 23,
+      "offers": [
+        "reflectShield",
+        "renew",
+        "surge",
+        "frostPierce"
+      ],
+      "rngState": 4288495500
+    },
+    {
+      "origin": "mirror",
+      "seed": 24,
+      "offers": [
+        "drain",
+        "light",
+        "emberVeil",
+        "starBookmark"
+      ],
+      "rngState": 3114667809
+    },
+    {
+      "origin": "mirror",
+      "seed": 25,
+      "offers": [
+        "reflectShield",
+        "renew",
+        "stillness",
+        "fadingStar"
+      ],
+      "rngState": 1940840118
+    },
+    {
+      "origin": "mirror",
+      "seed": 26,
+      "offers": [
+        "reflectShield",
+        "renew",
+        "meditate",
+        "focus"
+      ],
+      "rngState": 767012427
+    },
+    {
+      "origin": "mirror",
+      "seed": 27,
+      "offers": [
+        "echo",
+        "focus",
+        "starBookmark",
+        "winter"
+      ],
+      "rngState": 3888152032
+    },
+    {
+      "origin": "mirror",
+      "seed": 28,
+      "offers": [
+        "reflectShield",
+        "meditate",
+        "shieldStrike",
+        "drain"
+      ],
+      "rngState": 2714324341
+    },
+    {
+      "origin": "mirror",
+      "seed": 29,
+      "offers": [
+        "reflectShield",
+        "focus",
+        "light",
+        "bolt"
+      ],
+      "rngState": 1540496650
+    },
+    {
+      "origin": "mirror",
+      "seed": 30,
+      "offers": [
+        "reflectShield",
+        "focus",
+        "bolt",
+        "guard"
+      ],
+      "rngState": 366668959
+    },
+    {
+      "origin": "mirror",
+      "seed": 31,
+      "offers": [
+        "drain",
+        "stillness",
+        "spark",
+        "shieldStrike"
+      ],
+      "rngState": 3487808564
+    },
+    {
+      "origin": "mirror",
+      "seed": 32,
+      "offers": [
+        "echo",
+        "focus",
+        "chain",
+        "quietComet"
+      ],
+      "rngState": 2313980873
+    },
+    {
+      "origin": "mirror",
+      "seed": 33,
+      "offers": [
+        "reflectShield",
+        "light",
+        "thunderCrash",
+        "charge"
+      ],
+      "rngState": 1140153182
+    },
+    {
+      "origin": "mirror",
+      "seed": 34,
+      "offers": [
+        "drain",
+        "meditate",
+        "iceSpear",
+        "ashWard"
+      ],
+      "rngState": 4261292787
+    },
+    {
+      "origin": "mirror",
+      "seed": 35,
+      "offers": [
+        "reflectShield",
+        "light",
+        "mirror",
+        "iceSpear"
+      ],
+      "rngState": 3087465096
+    },
+    {
+      "origin": "mirror",
+      "seed": 36,
+      "offers": [
+        "echo",
+        "light",
+        "ashWard",
+        "charge"
+      ],
+      "rngState": 1913637405
+    },
+    {
+      "origin": "mirror",
+      "seed": 37,
+      "offers": [
+        "mirror",
+        "renew",
+        "spark",
+        "bolt"
+      ],
+      "rngState": 739809714
+    },
+    {
+      "origin": "mirror",
+      "seed": 38,
+      "offers": [
+        "mirror",
+        "stillness",
+        "memoryArrow",
+        "thunderCrash"
+      ],
+      "rngState": 3860949319
+    },
+    {
+      "origin": "mirror",
+      "seed": 39,
+      "offers": [
+        "drain",
+        "focus",
+        "guard",
+        "starWait"
+      ],
+      "rngState": 2687121628
+    },
+    {
+      "origin": "mirror",
+      "seed": 40,
+      "offers": [
+        "mirror",
+        "meditate",
+        "thunderCrash",
+        "iceSpear"
+      ],
+      "rngState": 1513293937
+    },
+    {
+      "origin": "mirror",
+      "seed": 41,
+      "offers": [
+        "mirror",
+        "focus",
+        "ashWard",
+        "guard"
+      ],
+      "rngState": 339466246
+    },
+    {
+      "origin": "mirror",
+      "seed": 42,
+      "offers": [
+        "drain",
+        "renew",
+        "meditate",
+        "shieldStrike"
+      ],
+      "rngState": 3460605851
+    },
+    {
+      "origin": "mirror",
+      "seed": 43,
+      "offers": [
+        "mirror",
+        "stillness",
+        "shieldStrike",
+        "focus"
+      ],
+      "rngState": 2286778160
+    },
+    {
+      "origin": "mirror",
+      "seed": 44,
+      "offers": [
+        "echo",
+        "focus",
+        "meditate",
+        "charge"
+      ],
+      "rngState": 1112950469
+    },
+    {
+      "origin": "mirror",
+      "seed": 45,
+      "offers": [
+        "drain",
+        "light",
+        "memoryArrow",
+        "frostPierce"
+      ],
+      "rngState": 4234090074
+    },
+    {
+      "origin": "mirror",
+      "seed": 46,
+      "offers": [
+        "echo",
+        "renew",
+        "light",
+        "frostNova"
+      ],
+      "rngState": 3060262383
+    },
+    {
+      "origin": "mirror",
+      "seed": 47,
+      "offers": [
+        "mirror",
+        "light",
+        "spark",
+        "guard"
+      ],
+      "rngState": 1886434692
+    },
+    {
+      "origin": "mirror",
+      "seed": 48,
+      "offers": [
+        "mirror",
+        "meditate",
+        "drain",
+        "light"
+      ],
+      "rngState": 712607001
+    },
+    {
+      "origin": "mirror",
+      "seed": 49,
+      "offers": [
+        "echo",
+        "focus",
+        "chain",
+        "ashWard"
+      ],
+      "rngState": 3833746606
+    },
+    {
+      "origin": "mirror",
+      "seed": 50,
+      "offers": [
+        "drain",
+        "stillness",
+        "bolt",
+        "reflectShield"
+      ],
+      "rngState": 2659918915
+    },
+    {
+      "origin": "mirror",
+      "seed": 51,
+      "offers": [
+        "reflectShield",
+        "focus",
+        "light",
+        "charge"
+      ],
+      "rngState": 1486091224
+    },
+    {
+      "origin": "mirror",
+      "seed": 52,
+      "offers": [
+        "reflectShield",
+        "stillness",
+        "thunderCrash",
+        "focus"
+      ],
+      "rngState": 312263533
+    },
+    {
+      "origin": "mirror",
+      "seed": 53,
+      "offers": [
+        "drain",
+        "focus",
+        "emberVeil",
+        "frostWard"
+      ],
+      "rngState": 3433403138
+    },
+    {
+      "origin": "mirror",
+      "seed": 54,
+      "offers": [
+        "echo",
+        "renew",
+        "charge",
+        "starBookmark"
+      ],
+      "rngState": 2259575447
+    },
+    {
+      "origin": "mirror",
+      "seed": 55,
+      "offers": [
+        "reflectShield",
+        "stillness",
+        "echo",
+        "surge"
+      ],
+      "rngState": 1085747756
+    },
+    {
+      "origin": "mirror",
+      "seed": 56,
+      "offers": [
+        "drain",
+        "light",
+        "meditate",
+        "fadingStar"
+      ],
+      "rngState": 4206887361
+    },
+    {
+      "origin": "mirror",
+      "seed": 57,
+      "offers": [
+        "reflectShield",
+        "meditate",
+        "bolt",
+        "winter"
+      ],
+      "rngState": 3033059670
+    },
+    {
+      "origin": "mirror",
+      "seed": 58,
+      "offers": [
+        "reflectShield",
+        "focus",
+        "memoryArrow",
+        "charge"
+      ],
+      "rngState": 1859231979
+    },
+    {
+      "origin": "mirror",
+      "seed": 59,
+      "offers": [
+        "echo",
+        "light",
+        "shatter",
+        "guard"
+      ],
+      "rngState": 685404288
+    },
+    {
+      "origin": "mirror",
+      "seed": 60,
+      "offers": [
+        "reflectShield",
+        "renew",
+        "zenithBolt",
+        "thunderCrash"
+      ],
+      "rngState": 3806543893
+    },
+    {
+      "origin": "mirror",
+      "seed": 61,
+      "offers": [
+        "reflectShield",
+        "meditate",
+        "shatter",
+        "renew"
+      ],
+      "rngState": 2632716202
+    },
+    {
+      "origin": "mirror",
+      "seed": 62,
+      "offers": [
+        "drain",
+        "stillness",
+        "shieldStrike",
+        "fadingStar"
+      ],
+      "rngState": 1458888511
+    },
+    {
+      "origin": "mirror",
+      "seed": 63,
+      "offers": [
+        "reflectShield",
+        "meditate",
+        "stillness",
+        "echo"
+      ],
+      "rngState": 285060820
+    },
+    {
+      "origin": "mirror",
+      "seed": 64,
+      "offers": [
+        "drain",
+        "meditate",
+        "iceSpear",
+        "reflectShield"
+      ],
+      "rngState": 3406200425
+    }
+  ]
+}

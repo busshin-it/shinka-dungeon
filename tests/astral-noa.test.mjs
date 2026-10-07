@@ -90,8 +90,8 @@ function fixture(hand, changes = {}, options = {}) {
 function rng(game) { return game.exportSave().rngState; }
 
 // Definition, compatibility, and atomicity contracts.
-test('Noa adds exactly four base IDs with the specified upgrades and no starter changes', () => {
-  assert.equal(Object.keys(engine.CARDS).length, 38);
+test('original Noa IDs retain specified upgrades as the planning collection grows', () => {
+  assert.equal(Object.keys(engine.CARDS).length, 42);
   const expected = {
     starRelay:{ cost:0, transferBlockCap:10 }, quietComet:{ cost:2, damage:10, recoverBonus:10 },
     mirrorLance:{ cost:1, damage:4, reflectDamageMultiplier:2, reflectDamageCap:10, consumeReflect:true },

@@ -109,3 +109,19 @@ ZIPはサーバーへ展開して使用します。`file://` の単一HTML配布
 
 - `tests/astral-noa-text.test.mjs` は選択中の実効値/栞対象/条件なし文言/反射2倍の式/画像manifest/38枚入口を検証する3テスト。
 - `node tools/astral-noa-balance.mjs --seeds=24 --reward-seeds=512 --beam=8` は公開コードに触れず比較する。結果と方策の制約は `design/noa-balance-results.json`。72組の第1〜3戦対照では両初期札案が全組突破し、弱い札の追加被害平均は+0.069/+1.569/+1.319HP。第2戦後の弱い札進化は休息より次戦終了HPが高い28組・低い41組・同じ3組。後半の合成分岐には休息/進化/除去が有利な例がそれぞれある。人間の楽しさや最適性の証明には使わない。
+
+## V4.12 ノアの追記（ローカル候補）
+
+先読み42枚。余白の灯／休符の星／鏡頁の一閃／返しの頁の4枚を、既存効果とノアの既存アートだけで追加。
+すべて第2戦後から一般2枠の候補。旧カード・初期デッキ・保存形式・UIレイアウトは維持する。
+詳細数値、76テストと報酬対照、未完了の実ブラウザQAは
+[`design/production/noa-postscript-report.md`](design/production/noa-postscript-report.md)。
+
+```sh
+node tools/astral-card-production.mjs validate design/production/noa-postscript.json release
+node --test tests/astral-*.test.mjs
+python3 -m unittest discover -s tests -p 'test_astral_release.py'
+python3 tools/astral_release.py verify
+```
+
+`ui-qa/postscript.html` は今回の6つの合成場面。素材ピクセルの確認と、ブラウザでの本文/操作の確認は別々に扱う。

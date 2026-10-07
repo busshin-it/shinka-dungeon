@@ -1,0 +1,55 @@
+{
+  "schemaVersion": 1,
+  "imageGenerationCalls": 0,
+  "browserQa": "pending-supported-environment",
+  "intervals": [
+    {
+      "id": "initial-design",
+      "owner": "implementation",
+      "phase": "design",
+      "start": "2026-10-06T21:46:21Z",
+      "end": "2026-10-06T21:47:54Z",
+      "note": "Inspect current main, isolate worktree, select existing-effect companion set."
+    },
+    {
+      "id": "source-art-review",
+      "owner": "implementation",
+      "phase": "reuse-review",
+      "start": "2026-10-06T21:48:09Z",
+      "end": "2026-10-06T21:48:39Z",
+      "note": "View five existing Noa source images; no new image generation."
+    },
+    {
+      "id": "implementation",
+      "owner": "implementation",
+      "phase": "implementation",
+      "start": "2026-10-06T21:49:24Z",
+      "end": "2026-10-06T21:52:58Z",
+      "note": "Add data definitions, aliases, specs, regression fixtures, tests, and local release metadata."
+    },
+    {
+      "id": "final-aggregate-tests",
+      "owner": "implementation",
+      "phase": "tests",
+      "start": "2026-10-06T21:52:58Z",
+      "end": "2026-10-06T21:53:54Z",
+      "note": "76 game/tool, 4 release and 14 Asset Factory tests. Reused existing sharp install after resolving missing local dependency; no install/API."
+    },
+    {
+      "id": "independent-review",
+      "owner": "independent-reviewer",
+      "phase": "tests",
+      "start": "2026-10-06T21:48:09Z",
+      "end": "2026-10-06T21:55:12Z",
+      "note": "Independent design/code/pixel review and final rerun; waiting for implementation is included in this observed review window."
+    },
+    {
+      "id": "report-integration",
+      "owner": "implementation",
+      "phase": "integration",
+      "start": "2026-10-06T21:53:59Z",
+      "end": "2026-10-06T21:55:26Z",
+      "note": "Report and documented source-image/browser QA distinction; final independent review received."
+    }
+  ]
+}

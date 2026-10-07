@@ -4,16 +4,17 @@
   "audited_date": "2026-10-06",
   "repository": "busshin-it/shinka-dungeon",
   "source_commit": "739cdb63f938048977dcb2f998770d4df4ef5ab3",
-  "scope": "Read-only inspection; only this catalog and its Markdown companion were written. No art generation, mutation, queue change or runtime remapping.",
+  "scope": "Read-only inspection; only this catalog and its Markdown companion were written. No art generation, mutation, queue change or runtime remapping. v4.12 adds 4 dedicated art aliases mapped to the same reviewed Noa files; 25 keys, 21 distinct images.",
   "summary": {
-    "planning_cards": 38,
-    "active_art_keys": 21,
+    "planning_cards": 42,
+    "active_art_keys": 25,
     "active_v4_card_files": 11,
     "active_embedded_art_keys": 10,
     "conditional_factory_candidates": 2,
     "supporting_assets": 4,
     "pixel_inspected_entries": 27,
-    "unreviewed_legacy_pngs": 18
+    "unreviewed_legacy_pngs": 18,
+    "distinct_active_card_images": 21
   },
   "priority_order": [
     "Reuse a current v4 art key when its motif and set identity fit.",
@@ -282,6 +283,30 @@
       "name": "星の栞",
       "family": "guard",
       "art_key": "starBookmark"
+    },
+    {
+      "card_id": "marginLight",
+      "name": "余白の灯",
+      "family": "focus",
+      "art_key": "marginLight"
+    },
+    {
+      "card_id": "quietScript",
+      "name": "休符の星",
+      "family": "dark",
+      "art_key": "quietScript"
+    },
+    {
+      "card_id": "mirrorNote",
+      "name": "鏡頁の一閃",
+      "family": "guard",
+      "art_key": "mirrorNote"
+    },
+    {
+      "card_id": "returnPage",
+      "name": "返しの頁",
+      "family": "guard",
+      "art_key": "returnPage"
     },
     {
       "card_id": "echo",
@@ -2162,5 +2187,11 @@
         ]
       }
     }
-  ]
+  ],
+  "reuse_aliases": {
+    "marginLight": "starRelay",
+    "quietScript": "quietComet",
+    "mirrorNote": "mirrorLance",
+    "returnPage": "starBookmark"
+  }
 }
