@@ -1,0 +1,18 @@
+{
+  "sourceCommit": "477a03a745dad2e70cd05085d2c96e7c5375df73",
+  "seedCountPerOrigin": 512,
+  "origins": 3,
+  "pairedDraws": 1536,
+  "battle": 2,
+  "sameFixedSlotPairs": 1536,
+  "oldNoaOffers": 313,
+  "newNoaOffers": 304,
+  "newCardOffers": {
+    "marginLight": 61,
+    "quietScript": 69,
+    "mirrorNote": 78,
+    "returnPage": 71
+  },
+  "fourDistinctOffers": true,
+  "note": "Paired synthetic reward-only sampling. Not combat balance, optimal play, or evidence of human enjoyment."
+}

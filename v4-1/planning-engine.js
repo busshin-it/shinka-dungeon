@@ -38,6 +38,10 @@
     quietComet: { name: '凪の彗星', cost: 2, damage: 10, recoverBonus: 10, family: 'dark', art: 'quietComet' },
     mirrorLance: { name: '鏡頁の槍', cost: 1, damage: 4, reflectDamageMultiplier: 2, reflectDamageCap: 10, consumeReflect: true, family: 'guard', art: 'mirrorLance' },
     starBookmark: { name: '星の栞', cost: 0, block: 2, recycleAttack: true, exhaust: true, family: 'guard', art: 'starBookmark' },
+    marginLight: { name: '余白の灯', cost: 0, nextFocus: 4, exhaust: true, family: 'focus', art: 'marginLight' },
+    quietScript: { name: '休符の星', cost: 1, damage: 4, recoverBonus: 4, nextFocus: 3, family: 'dark', art: 'quietScript' },
+    mirrorNote: { name: '鏡頁の一閃', cost: 1, damage: 4, reflect: 3, family: 'guard', art: 'mirrorNote' },
+    returnPage: { name: '返しの頁', cost: 1, block: 4, recycleAttack: true, family: 'guard', art: 'returnPage' },
     echo: { name: '返照', cost: 0, reflect: 2, exhaust: true, family: 'guard', art: 'manaBarrier' }
   });
   function card(id) {
@@ -287,7 +291,7 @@
       if (s.phase === 'reward') {
         const offers = shuffle([...REWARD_POOLS[s.origin]]).slice(0,1);
         offers.push(shuffle(['light','stillness','renew','meditate','focus'].filter(id => !offers.includes(id)))[0]);
-        while (offers.length < 4) offers.push(shuffle(Object.keys(CARDS).filter(id => !offers.includes(id) && (!['chantWard','starFerryWard','ebbArrow','starRelay','mirrorLance'].includes(id) || s.battle >= 2)))[0]); s.rewardOffers = offers;
+        while (offers.length < 4) offers.push(shuffle(Object.keys(CARDS).filter(id => !offers.includes(id) && (!['chantWard','starFerryWard','ebbArrow','starRelay','mirrorLance','marginLight','quietScript','mirrorNote','returnPage'].includes(id) || s.battle >= 2)))[0]); s.rewardOffers = offers;
       }
       return true;
     }

@@ -1,0 +1,874 @@
+{
+  "chapter": {
+    "version": 1,
+    "seed": 1,
+    "engine": {
+      "format": "astral-planning",
+      "version": 3,
+      "rngState": 3259064721,
+      "state": {
+        "phase": "chapter",
+        "origin": "storm",
+        "battle": 3,
+        "turn": 5,
+        "hp": 38,
+        "maxHp": 60,
+        "enemyId": "trial",
+        "enemyHp": 0,
+        "enemyMaxHp": 70,
+        "energy": 0,
+        "maxEnergy": 5,
+        "pendingFocus": 0,
+        "pendingBlock": 0,
+        "prevEndEmpty": false,
+        "turnLastAttack": 0,
+        "prevLastAttack": 0,
+        "usedExhaustThisTurn": false,
+        "relics": [],
+        "relicUsed": {
+          "emberCore": false,
+          "starBottle": false
+        },
+        "removalSource": null,
+        "block": 0,
+        "focus": 0,
+        "weaken": 0,
+        "reflect": 0,
+        "turnDamage": 0,
+        "spellCount": 0,
+        "interrupted": false,
+        "flags": {},
+        "deck": [
+          "ice",
+          "guard",
+          "focus",
+          "spark",
+          "bolt",
+          "fadingStar",
+          "starWait",
+          "charge",
+          "meditate",
+          "chain"
+        ],
+        "hand": [
+          "bolt",
+          "focus",
+          "fadingStar",
+          "guard"
+        ],
+        "draw": [
+          "ice",
+          "starWait",
+          "spark"
+        ],
+        "discard": [
+          "chain"
+        ],
+        "exhaust": [
+          "meditate",
+          "charge"
+        ],
+        "route": "moon",
+        "route2": null,
+        "chapter2Options": {
+          "library": "bowWatcher",
+          "wind": "bellSpirit"
+        },
+        "chapter2Encounter": null,
+        "forge": false,
+        "insight": false,
+        "sanctuary": "rest",
+        "camp": null,
+        "lastReward": null,
+        "lastUpgrade": null,
+        "pendingUpgrade": null,
+        "upgrades": [],
+        "removed": [],
+        "rewards": [],
+        "rewardOffers": [
+          "chain",
+          "light",
+          "ebbArrow",
+          "starWait"
+        ],
+        "history": [
+          {
+            "enemy": "蒼鎧の門番",
+            "battle": 1,
+            "turns": 3,
+            "hp": 54,
+            "result": "victory"
+          },
+          {
+            "enemy": "鏡の亡霊",
+            "battle": 2,
+            "turns": 6,
+            "hp": 28,
+            "result": "victory"
+          },
+          {
+            "enemy": "守護者の幻影",
+            "battle": 3,
+            "turns": 5,
+            "hp": 30,
+            "result": "victory"
+          }
+        ],
+        "wins": 3,
+        "stats": {
+          "played": {
+            "bolt": 2,
+            "spark": 9,
+            "focus": 7,
+            "chain": 9,
+            "meditate": 3,
+            "charge": 3,
+            "fadingStar": 2,
+            "ice": 4,
+            "guard": 1
+          },
+          "dealt": 176,
+          "taken": 58,
+          "healed": 0,
+          "energyGained": 3,
+          "blocked": 6,
+          "reflected": 0,
+          "interrupts": 1,
+          "relics": 2
+        },
+        "log": [
+          "守護者の幻影を越えた。",
+          "連鎖雷：4ダメージ。",
+          "星の双刃 2回。0防ぎ、HP −4。",
+          "火花：6ダメージ。",
+          "氷の矢：6ダメージ。各打撃−2。"
+        ]
+      }
+    }
+  },
+  "reward": {
+    "version": 1,
+    "seed": 1,
+    "engine": {
+      "format": "astral-planning",
+      "version": 3,
+      "rngState": 3259064721,
+      "state": {
+        "phase": "reward",
+        "origin": "storm",
+        "battle": 3,
+        "turn": 5,
+        "hp": 38,
+        "maxHp": 60,
+        "enemyId": "trial",
+        "enemyHp": 0,
+        "enemyMaxHp": 70,
+        "energy": 0,
+        "maxEnergy": 5,
+        "pendingFocus": 0,
+        "pendingBlock": 0,
+        "prevEndEmpty": false,
+        "turnLastAttack": 0,
+        "prevLastAttack": 0,
+        "usedExhaustThisTurn": false,
+        "relics": [],
+        "relicUsed": {
+          "emberCore": false,
+          "starBottle": false
+        },
+        "removalSource": null,
+        "block": 0,
+        "focus": 0,
+        "weaken": 0,
+        "reflect": 0,
+        "turnDamage": 0,
+        "spellCount": 0,
+        "interrupted": false,
+        "flags": {},
+        "deck": [
+          "ice",
+          "guard",
+          "focus",
+          "spark",
+          "bolt",
+          "fadingStar",
+          "starWait",
+          "charge",
+          "meditate",
+          "chain"
+        ],
+        "hand": [
+          "bolt",
+          "focus",
+          "fadingStar",
+          "guard"
+        ],
+        "draw": [
+          "ice",
+          "starWait",
+          "spark"
+        ],
+        "discard": [
+          "chain"
+        ],
+        "exhaust": [
+          "meditate",
+          "charge"
+        ],
+        "route": "moon",
+        "route2": null,
+        "chapter2Options": {
+          "library": "bowWatcher",
+          "wind": "bellSpirit"
+        },
+        "chapter2Encounter": null,
+        "forge": false,
+        "insight": false,
+        "sanctuary": "rest",
+        "camp": null,
+        "lastReward": null,
+        "lastUpgrade": null,
+        "pendingUpgrade": null,
+        "upgrades": [],
+        "removed": [],
+        "rewards": [],
+        "rewardOffers": [
+          "marginLight",
+          "quietScript",
+          "mirrorNote",
+          "returnPage"
+        ],
+        "history": [
+          {
+            "enemy": "蒼鎧の門番",
+            "battle": 1,
+            "turns": 3,
+            "hp": 54,
+            "result": "victory"
+          },
+          {
+            "enemy": "鏡の亡霊",
+            "battle": 2,
+            "turns": 6,
+            "hp": 28,
+            "result": "victory"
+          },
+          {
+            "enemy": "守護者の幻影",
+            "battle": 3,
+            "turns": 5,
+            "hp": 30,
+            "result": "victory"
+          }
+        ],
+        "wins": 3,
+        "stats": {
+          "played": {
+            "bolt": 2,
+            "spark": 9,
+            "focus": 7,
+            "chain": 9,
+            "meditate": 3,
+            "charge": 3,
+            "fadingStar": 2,
+            "ice": 4,
+            "guard": 1
+          },
+          "dealt": 176,
+          "taken": 58,
+          "healed": 0,
+          "energyGained": 3,
+          "blocked": 6,
+          "reflected": 0,
+          "interrupts": 1,
+          "relics": 2
+        },
+        "log": [
+          "守護者の幻影を越えた。",
+          "連鎖雷：4ダメージ。",
+          "星の双刃 2回。0防ぎ、HP −4。",
+          "火花：6ダメージ。",
+          "氷の矢：6ダメージ。各打撃−2。"
+        ]
+      }
+    }
+  },
+  "evolve": {
+    "version": 1,
+    "seed": 1,
+    "engine": {
+      "format": "astral-planning",
+      "version": 3,
+      "rngState": 673594391,
+      "state": {
+        "phase": "evolve",
+        "origin": "storm",
+        "battle": 4,
+        "turn": 2,
+        "hp": 42,
+        "maxHp": 60,
+        "enemyId": "tideStarSentinel",
+        "enemyHp": 0,
+        "enemyMaxHp": 72,
+        "energy": 2,
+        "maxEnergy": 5,
+        "pendingFocus": 0,
+        "pendingBlock": 0,
+        "prevEndEmpty": false,
+        "turnLastAttack": 0,
+        "prevLastAttack": 0,
+        "usedExhaustThisTurn": false,
+        "relics": [],
+        "relicUsed": {
+          "emberCore": false,
+          "starBottle": false
+        },
+        "removalSource": null,
+        "block": 0,
+        "focus": 0,
+        "weaken": 0,
+        "reflect": 0,
+        "turnDamage": 0,
+        "spellCount": 0,
+        "interrupted": false,
+        "flags": {},
+        "deck": [
+          "marginLight",
+          "quietScript",
+          "mirrorNote",
+          "returnPage",
+          "guard",
+          "guard",
+          "guard",
+          "guard",
+          "guard",
+          "guard"
+        ],
+        "hand": [
+          "starFerryWard",
+          "starFerryWard+",
+          "ebbArrow+",
+          "guard"
+        ],
+        "draw": [
+          "guard",
+          "guard",
+          "guard",
+          "guard",
+          "guard"
+        ],
+        "discard": [
+          "ebbArrow"
+        ],
+        "exhaust": [],
+        "route": "moon",
+        "route2": "causeway",
+        "chapter2Options": {
+          "library": "bowWatcher",
+          "wind": "bellSpirit"
+        },
+        "chapter2Encounter": "tideStarSentinel",
+        "forge": false,
+        "insight": false,
+        "sanctuary": "rest",
+        "camp": null,
+        "lastReward": null,
+        "lastUpgrade": null,
+        "pendingUpgrade": null,
+        "upgrades": [],
+        "removed": [],
+        "rewards": [],
+        "rewardOffers": [
+          "chain",
+          "light",
+          "fadingStar",
+          "shieldStrike"
+        ],
+        "history": [
+          {
+            "enemy": "蒼鎧の門番",
+            "battle": 1,
+            "turns": 3,
+            "hp": 54,
+            "result": "victory"
+          },
+          {
+            "enemy": "鏡の亡霊",
+            "battle": 2,
+            "turns": 6,
+            "hp": 28,
+            "result": "victory"
+          },
+          {
+            "enemy": "守護者の幻影",
+            "battle": 3,
+            "turns": 5,
+            "hp": 30,
+            "result": "victory"
+          },
+          {
+            "enemy": "潮星の番人",
+            "battle": 4,
+            "turns": 2,
+            "hp": 34,
+            "result": "victory"
+          }
+        ],
+        "wins": 4,
+        "stats": {
+          "played": {
+            "bolt": 2,
+            "spark": 9,
+            "focus": 7,
+            "chain": 9,
+            "meditate": 3,
+            "charge": 3,
+            "fadingStar": 2,
+            "ice": 4,
+            "guard": 1,
+            "ebbArrow": 1
+          },
+          "dealt": 177,
+          "taken": 58,
+          "healed": 0,
+          "energyGained": 3,
+          "blocked": 6,
+          "reflected": 0,
+          "interrupts": 1,
+          "relics": 2
+        },
+        "log": [
+          "潮星の番人を越えた。",
+          "潮引きの矢：1ダメージ。",
+          "引き潮は魔力2以上、満ち潮は魔力0で軽減。敵が動く直前の魔力で決まる。",
+          "HPを4払い、星渡りの回廊へ。以後、各戦闘の開始魔力が3になる。",
+          "守護者の幻影を越えた。"
+        ]
+      }
+    },
+    "savedAt": 0
+  },
+  "battle": {
+    "version": 1,
+    "seed": 1,
+    "engine": {
+      "format": "astral-planning",
+      "version": 3,
+      "rngState": 3698640100,
+      "state": {
+        "phase": "battle",
+        "origin": "storm",
+        "battle": 4,
+        "turn": 1,
+        "hp": 34,
+        "maxHp": 60,
+        "enemyId": "tideStarSentinel",
+        "enemyHp": 72,
+        "enemyMaxHp": 72,
+        "energy": 3,
+        "maxEnergy": 5,
+        "pendingFocus": 0,
+        "pendingBlock": 0,
+        "prevEndEmpty": false,
+        "turnLastAttack": 0,
+        "prevLastAttack": 0,
+        "usedExhaustThisTurn": false,
+        "relics": [],
+        "relicUsed": {
+          "emberCore": false,
+          "starBottle": false
+        },
+        "removalSource": null,
+        "block": 0,
+        "focus": 0,
+        "weaken": 0,
+        "reflect": 0,
+        "turnDamage": 0,
+        "spellCount": 0,
+        "interrupted": false,
+        "flags": {},
+        "deck": [
+          "marginLight",
+          "quietScript",
+          "mirrorNote",
+          "returnPage",
+          "meditate",
+          "guard",
+          "guard",
+          "guard",
+          "bolt+",
+          "guard"
+        ],
+        "hand": [
+          "marginLight",
+          "quietScript",
+          "mirrorNote",
+          "returnPage",
+          "meditate"
+        ],
+        "draw": [
+          "guard",
+          "guard",
+          "guard"
+        ],
+        "discard": [
+          "bolt+",
+          "guard"
+        ],
+        "exhaust": [],
+        "route": "moon",
+        "route2": "causeway",
+        "chapter2Options": {
+          "library": "bowWatcher",
+          "wind": "bellSpirit"
+        },
+        "chapter2Encounter": "tideStarSentinel",
+        "forge": false,
+        "insight": false,
+        "sanctuary": "rest",
+        "camp": null,
+        "lastReward": null,
+        "lastUpgrade": null,
+        "pendingUpgrade": null,
+        "upgrades": [],
+        "removed": [],
+        "rewards": [],
+        "rewardOffers": [],
+        "history": [
+          {
+            "enemy": "蒼鎧の門番",
+            "battle": 1,
+            "turns": 3,
+            "hp": 54,
+            "result": "victory"
+          },
+          {
+            "enemy": "鏡の亡霊",
+            "battle": 2,
+            "turns": 6,
+            "hp": 28,
+            "result": "victory"
+          },
+          {
+            "enemy": "守護者の幻影",
+            "battle": 3,
+            "turns": 5,
+            "hp": 30,
+            "result": "victory"
+          }
+        ],
+        "wins": 3,
+        "stats": {
+          "played": {
+            "bolt": 2,
+            "spark": 9,
+            "focus": 7,
+            "chain": 9,
+            "meditate": 3,
+            "charge": 3,
+            "fadingStar": 2,
+            "ice": 4,
+            "guard": 1
+          },
+          "dealt": 176,
+          "taken": 58,
+          "healed": 0,
+          "energyGained": 3,
+          "blocked": 6,
+          "reflected": 0,
+          "interrupts": 1,
+          "relics": 2
+        },
+        "log": [
+          "引き潮は魔力2以上、満ち潮は魔力0で軽減。敵が動く直前の魔力で決まる。",
+          "HPを4払い、星渡りの回廊へ。以後、各戦闘の開始魔力が3になる。",
+          "守護者の幻影を越えた。",
+          "連鎖雷：4ダメージ。",
+          "星の双刃 2回。0防ぎ、HP −4。"
+        ]
+      }
+    }
+  },
+  "battleEmpty": {
+    "version": 1,
+    "seed": 1,
+    "engine": {
+      "format": "astral-planning",
+      "version": 3,
+      "rngState": 3698640100,
+      "state": {
+        "phase": "battle",
+        "origin": "storm",
+        "battle": 4,
+        "turn": 2,
+        "hp": 34,
+        "maxHp": 60,
+        "enemyId": "tideStarSentinel",
+        "enemyHp": 72,
+        "enemyMaxHp": 72,
+        "energy": 3,
+        "maxEnergy": 5,
+        "pendingFocus": 0,
+        "pendingBlock": 0,
+        "prevEndEmpty": false,
+        "turnLastAttack": 0,
+        "prevLastAttack": 0,
+        "usedExhaustThisTurn": false,
+        "relics": [],
+        "relicUsed": {
+          "emberCore": false,
+          "starBottle": false
+        },
+        "removalSource": null,
+        "block": 0,
+        "focus": 0,
+        "weaken": 0,
+        "reflect": 0,
+        "turnDamage": 0,
+        "spellCount": 0,
+        "interrupted": false,
+        "flags": {},
+        "deck": [
+          "marginLight",
+          "quietScript",
+          "mirrorNote",
+          "returnPage",
+          "meditate",
+          "guard",
+          "guard",
+          "guard",
+          "guard",
+          "guard"
+        ],
+        "hand": [
+          "marginLight",
+          "quietScript",
+          "mirrorNote",
+          "returnPage",
+          "meditate"
+        ],
+        "draw": [
+          "guard",
+          "guard",
+          "guard"
+        ],
+        "discard": [
+          "guard",
+          "guard"
+        ],
+        "exhaust": [],
+        "route": "moon",
+        "route2": "causeway",
+        "chapter2Options": {
+          "library": "bowWatcher",
+          "wind": "bellSpirit"
+        },
+        "chapter2Encounter": "tideStarSentinel",
+        "forge": false,
+        "insight": false,
+        "sanctuary": "rest",
+        "camp": null,
+        "lastReward": null,
+        "lastUpgrade": null,
+        "pendingUpgrade": null,
+        "upgrades": [],
+        "removed": [],
+        "rewards": [],
+        "rewardOffers": [],
+        "history": [
+          {
+            "enemy": "蒼鎧の門番",
+            "battle": 1,
+            "turns": 3,
+            "hp": 54,
+            "result": "victory"
+          },
+          {
+            "enemy": "鏡の亡霊",
+            "battle": 2,
+            "turns": 6,
+            "hp": 28,
+            "result": "victory"
+          },
+          {
+            "enemy": "守護者の幻影",
+            "battle": 3,
+            "turns": 5,
+            "hp": 30,
+            "result": "victory"
+          }
+        ],
+        "wins": 3,
+        "stats": {
+          "played": {
+            "bolt": 2,
+            "spark": 9,
+            "focus": 7,
+            "chain": 9,
+            "meditate": 3,
+            "charge": 3,
+            "fadingStar": 2,
+            "ice": 4,
+            "guard": 1
+          },
+          "dealt": 176,
+          "taken": 58,
+          "healed": 0,
+          "energyGained": 3,
+          "blocked": 6,
+          "reflected": 0,
+          "interrupts": 1,
+          "relics": 2
+        },
+        "log": [
+          "引き潮は魔力2以上、満ち潮は魔力0で軽減。敵が動く直前の魔力で決まる。",
+          "HPを4払い、星渡りの回廊へ。以後、各戦闘の開始魔力が3になる。",
+          "守護者の幻影を越えた。",
+          "連鎖雷：4ダメージ。",
+          "星の双刃 2回。0防ぎ、HP −4。"
+        ]
+      }
+    }
+  },
+  "battleUpgrade": {
+    "version": 1,
+    "seed": 1,
+    "engine": {
+      "format": "astral-planning",
+      "version": 3,
+      "rngState": 3698640100,
+      "state": {
+        "phase": "battle",
+        "origin": "storm",
+        "battle": 4,
+        "turn": 1,
+        "hp": 34,
+        "maxHp": 60,
+        "enemyId": "tideStarSentinel",
+        "enemyHp": 72,
+        "enemyMaxHp": 72,
+        "energy": 3,
+        "maxEnergy": 5,
+        "pendingFocus": 0,
+        "pendingBlock": 0,
+        "prevEndEmpty": false,
+        "turnLastAttack": 0,
+        "prevLastAttack": 0,
+        "usedExhaustThisTurn": false,
+        "relics": [],
+        "relicUsed": {
+          "emberCore": false,
+          "starBottle": false
+        },
+        "removalSource": null,
+        "block": 0,
+        "focus": 0,
+        "weaken": 0,
+        "reflect": 0,
+        "turnDamage": 0,
+        "spellCount": 0,
+        "interrupted": false,
+        "flags": {},
+        "deck": [
+          "marginLight+",
+          "quietScript+",
+          "mirrorNote+",
+          "returnPage+",
+          "meditate",
+          "guard",
+          "guard",
+          "guard",
+          "bolt+",
+          "guard"
+        ],
+        "hand": [
+          "marginLight+",
+          "quietScript+",
+          "mirrorNote+",
+          "returnPage+",
+          "meditate"
+        ],
+        "draw": [
+          "guard",
+          "guard",
+          "guard"
+        ],
+        "discard": [
+          "bolt+",
+          "guard"
+        ],
+        "exhaust": [],
+        "route": "moon",
+        "route2": "causeway",
+        "chapter2Options": {
+          "library": "bowWatcher",
+          "wind": "bellSpirit"
+        },
+        "chapter2Encounter": "tideStarSentinel",
+        "forge": false,
+        "insight": false,
+        "sanctuary": "rest",
+        "camp": null,
+        "lastReward": null,
+        "lastUpgrade": null,
+        "pendingUpgrade": null,
+        "upgrades": [],
+        "removed": [],
+        "rewards": [],
+        "rewardOffers": [],
+        "history": [
+          {
+            "enemy": "蒼鎧の門番",
+            "battle": 1,
+            "turns": 3,
+            "hp": 54,
+            "result": "victory"
+          },
+          {
+            "enemy": "鏡の亡霊",
+            "battle": 2,
+            "turns": 6,
+            "hp": 28,
+            "result": "victory"
+          },
+          {
+            "enemy": "守護者の幻影",
+            "battle": 3,
+            "turns": 5,
+            "hp": 30,
+            "result": "victory"
+          }
+        ],
+        "wins": 3,
+        "stats": {
+          "played": {
+            "bolt": 2,
+            "spark": 9,
+            "focus": 7,
+            "chain": 9,
+            "meditate": 3,
+            "charge": 3,
+            "fadingStar": 2,
+            "ice": 4,
+            "guard": 1
+          },
+          "dealt": 176,
+          "taken": 58,
+          "healed": 0,
+          "energyGained": 3,
+          "blocked": 6,
+          "reflected": 0,
+          "interrupts": 1,
+          "relics": 2
+        },
+        "log": [
+          "引き潮は魔力2以上、満ち潮は魔力0で軽減。敵が動く直前の魔力で決まる。",
+          "HPを4払い、星渡りの回廊へ。以後、各戦闘の開始魔力が3になる。",
+          "守護者の幻影を越えた。",
+          "連鎖雷：4ダメージ。",
+          "星の双刃 2回。0防ぎ、HP −4。"
+        ]
+      }
+    }
+  }
+}

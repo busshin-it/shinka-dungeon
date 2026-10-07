@@ -123,7 +123,7 @@ test('release/cache membership, image mapping and alt policy are checked against
   assert.throws(()=>validateSet(example(),{root}),/release\/cache manifest/);
   root=scratch(t);editFile(root,'v4-1/planning.html',s=>s.replace('data-card-art="starRelay"','data-card-art="obsolete"'));
   assert.throws(()=>validateSet(example(),{root}),/image mapping/);
-  root=scratch(t);editFile(root,'v4-1/planning.html',s=>s.replace('src="./assets/star-relay.webp" alt=""','src="./assets/star-relay.webp"'));
+  root=scratch(t);editFile(root,'v4-1/planning.html',s=>s.replace('data-card-art="starRelay" src="./assets/star-relay.webp" alt=""','data-card-art="starRelay" src="./assets/star-relay.webp"'));
   assert.throws(()=>validateSet(example(),{root}),/alt differs/);
   root=scratch(t);editFile(root,'v4-1/planning-game.js',s=>s.replace('alt="星綴りの司書ノア"','alt=""'));
   assert.throws(()=>validateSet(example(),{root}),/NPC path\/alt/);
@@ -170,10 +170,24 @@ test('timings report overlapping service time separately from elapsed/active wal
 test('CLI fails closed on invalid commands and emits portable JSON without writes',()=>{
   const tool=path.join(ROOT,'tools/astral-card-production.mjs');
   const catalog=JSON.parse(execFileSync(process.execPath,[tool,'catalog'],{encoding:'utf8'}));
-  assert.equal(catalog.length,38);assert.equal(catalog.find(c=>c.id==='quietComet').upgrade.damage,13);
+  assert.equal(catalog.length,42);assert.equal(catalog.find(c=>c.id==='quietComet').upgrade.damage,13);
   const output=JSON.parse(execFileSync(process.execPath,[tool,'validate',path.join(ROOT,'design/production/noa-example.json'),'release'],{encoding:'utf8'}));
   assert.equal(output.scenarios,9);
   for(const args of [['generate'],['catalog','ignored'],['validate',path.join(ROOT,'design/production/noa-example.json'),'oops']]) {
     const result=spawnSync(process.execPath,[tool,...args],{encoding:'utf8'});assert.equal(result.status,1);assert(result.stderr.includes('Card production check failed'));
   }
+});
+
+test('Noa postscript passes reuse-only release checks and 10 behavior/text/save scenarios',()=>{
+ const spec=JSON.parse(fs.readFileSync(path.join(ROOT,'design/production/noa-postscript.json'),'utf8'));
+ assert.deepEqual(validateSet(spec,{stage:'release'}),{set:'noa-postscript',stage:'release',cards:4,assets:5,scenarios:10});
+ assert.deepEqual(promptManifest(spec).jobs,[]);
+ assert(spec.assets.every(asset=>asset.status==='reuse'));
+ const aliases=JSON.parse(fs.readFileSync(path.join(ROOT,'design/production/reusable-art.json'),'utf8')).reuse_aliases;
+ for(const [id,original]of Object.entries(aliases)) {
+  const card=spec.cards.find(c=>c.id===id),asset=spec.assets.find(a=>a.key===card.asset);
+  const html=fs.readFileSync(path.join(ROOT,'v4-1/planning.html'),'utf8');
+  const oldPath=html.match(new RegExp(`data-card-art="${original}" src="([^"]+)"`))[1];
+  assert.equal(asset.path,oldPath,id+' shares reviewed original image');
+ }
 });

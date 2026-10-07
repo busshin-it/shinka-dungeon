@@ -99,3 +99,10 @@
 - コード参照: `v4-1/planning-engine.js:4–41`（38カード）、`v4-1/planning.html:36`（専用11点）、`v4-1/planning-game.js:26`（解決順序）。
 - JSON `provenance.last_asset_commit` と各ファイルの固定commitリンクから来歴を辿れる。
 - この監査はローカル静止画レビュー。画面QA・新規採用・法的な権利調査を済ませたという意味ではない。
+
+## v4.12 ローカル候補の追記（2026-10-06）
+
+ノアの追記4枚では、4つの既存Noa画像を専用artキーで再利用する。
+42カード / 25 artキー / 21種類の実画像。新規画像バイトは0。
+`reusable-art.json` の `current_cards`・件数と `reuse_aliases` に新しい対応を記録。
+画像そのものと既存artキーの対応は変えない。新しい本文のブラウザ確認は別途必要。
