@@ -1,0 +1,184 @@
+{
+  "schemaVersion": 1,
+  "style": {
+    "world": "A quiet ancient celestial library with dim stone arches and abstract star maps.",
+    "palette": "Silver and star-blue highlights, deep teal and amethyst shadows, restrained parchment amber.",
+    "medium": "Detailed painterly Japanese fantasy RPG card art with readable material detail.",
+    "composition": "Square illustration; one clear central subject, preserve its entire silhouette, readable at small card size.",
+    "avoid": "Readable letters, numbers, logos, borders, UI, extra subjects, contact sheets or collage."
+  },
+  "scope": "single-card-pilot",
+  "id": "restitch",
+  "title": "綴じ直し",
+  "theme": "攻撃を今すぐ再使用する魔力と、守りへ残す魔力の選択。",
+  "designSource": "PR #14 at 2f74109738e13b7ff63665cd06f940a373390571 §5; baseline main bdd6d338931083993a13cec15318d37af77bc019",
+  "implementationStatus": "candidate",
+  "rewardScope": "growth-v2 battle 2 onward only; growth-v1/classic and first rewards unchanged",
+  "cards": [
+    {
+      "id": "restitch",
+      "asset": "restitch",
+      "base": {
+        "name": "綴じ直し",
+        "cost": 1,
+        "recycleAttack": true,
+        "draw": 1,
+        "exhaust": true,
+        "family": "focus",
+        "art": "restitch"
+      },
+      "upgrade": {
+        "draw": 2
+      },
+      "textIncludes": [
+        "いちばん新しい攻撃札1枚",
+        "{draw}枚引く",
+        "消滅"
+      ],
+      "cases": [
+        {
+          "name": "base-recovers-upgraded-target",
+          "variant": "base",
+          "discard": [
+            "bolt+",
+            "guard"
+          ],
+          "preview": {
+            "actualDraw": 1,
+            "recycleTargetId": "bolt+",
+            "isAttack": false
+          },
+          "after": {
+            "hand": [
+              "bolt+"
+            ],
+            "discard": [
+              "guard"
+            ],
+            "exhaust": [
+              "restitch"
+            ],
+            "energy": 4,
+            "usedExhaustThisTurn": true
+          },
+          "text": {
+            "summary": [
+              "雷撃＋",
+              "1枚引く"
+            ],
+            "rules": [
+              "その後1枚引く",
+              "消滅"
+            ]
+          }
+        },
+        {
+          "name": "upgrade-target-then-draw-top",
+          "variant": "upgrade",
+          "discard": [
+            "ice"
+          ],
+          "preview": {
+            "actualDraw": 2,
+            "recycleTargetId": "ice"
+          },
+          "after": {
+            "hand": [
+              "ice",
+              "guard"
+            ],
+            "discard": [],
+            "exhaust": [
+              "restitch+"
+            ]
+          },
+          "text": {
+            "summary": [
+              "氷の矢",
+              "2枚引く"
+            ],
+            "rules": [
+              "その後2枚引く"
+            ]
+          }
+        },
+        {
+          "name": "no-target-still-draws",
+          "variant": "base",
+          "discard": [
+            "guard"
+          ],
+          "preview": {
+            "actualDraw": 1,
+            "recycleTargetId": null
+          },
+          "after": {
+            "hand": [
+              "guard"
+            ],
+            "exhaust": [
+              "restitch"
+            ]
+          },
+          "text": {
+            "summary": [
+              "戻せる攻撃札なし",
+              "1枚引く"
+            ],
+            "rules": [
+              "その後1枚引く"
+            ]
+          }
+        }
+      ],
+      "design": {
+        "rarity": "unassigned",
+        "primary_engine": "recycle_attack",
+        "secondary_engine": "draw_exhaust",
+        "strong_when": [
+          "必要な攻撃が最新の捨て札で再使用の魔力もある"
+        ],
+        "weak_when": [
+          "新しい弱い攻撃が回収対象になる",
+          "残魔力不足",
+          "守りが必要"
+        ],
+        "related_cards": [
+          "ice",
+          "chain",
+          "bolt",
+          "ashWard",
+          "ashStudy"
+        ],
+        "design_intent": "任意サーチせず、使用順と残り魔力に判断を残す。",
+        "asset_id": "restitch"
+      }
+    }
+  ],
+  "assets": [
+    {
+      "key": "restitch",
+      "kind": "card",
+      "subject": "Existing star-bookmark project artwork reused; no new image generation.",
+      "alt": {
+        "mode": "decorative",
+        "text": ""
+      },
+      "path": "./assets/star-bookmark.webp",
+      "status": "reuse",
+      "reuseFrom": "starBookmark; baseline bdd6d338931083993a13cec15318d37af77bc019",
+      "sha256": "5eb5e60418525f3b5b54998054bc6a525cfd654f7c84b231a9db5e80fffc028c",
+      "provenance": {
+        "kind": "existing-project",
+        "evidence": "design/production/reusable-art.json; same project use only, no broader rights claim."
+      },
+      "visualQa": {
+        "status": "passed",
+        "note": "Source pixels inspected individually on 2026-10-07 UTC. Celestial bookmark and lifted page fit recycle theme. Existing bytes/path/crop retained. This is source-art inspection, not browser/device QA."
+      },
+      "asset_id": "restitch",
+      "filename": "star-bookmark.webp",
+      "image_prompt": "再生成しない。既存画像を同一byteで再利用。専用画像やFactory JOBは追加しない。"
+    }
+  ]
+}

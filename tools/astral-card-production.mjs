@@ -136,10 +136,10 @@ export function validateSet(spec, {root = ROOT, stage = 'integrated'} = {}) {
   check(['draft','integrated','release'].includes(stage), `Unknown stage: ${stage}`);
   check(object(spec) && spec.schemaVersion === 1 && typeof spec.id === 'string' && SLUG.test(spec.id), 'Expected schemaVersion:1 and a kebab-case set id');
   check(nonempty(spec.title) && nonempty(spec.theme), 'Set title and theme are required');
-  check(spec.scope === undefined || spec.scope === 'two-card-pilot', 'Unknown production scope');
-  const pilot = spec.scope === 'two-card-pilot';
-  check(Array.isArray(spec.cards) && (pilot ? spec.cards.length === 2 : spec.cards.length >= 4 && spec.cards.length <= 6), pilot ? 'A two-card pilot contains exactly 2 cards' : 'A production set contains 4–6 cards');
-  check(Array.isArray(spec.assets) && spec.assets.length === spec.cards.length + (pilot ? 0 : 1), pilot ? 'A two-card pilot contains exactly two card images' : 'A production set contains one NPC image and one image per card');
+  check(spec.scope === undefined || ['single-card-pilot','two-card-pilot'].includes(spec.scope), 'Unknown production scope');
+  const pilot = spec.scope !== undefined, pilotSize = spec.scope === 'single-card-pilot' ? 1 : 2;
+  check(Array.isArray(spec.cards) && (pilot ? spec.cards.length === pilotSize : spec.cards.length >= 4 && spec.cards.length <= 6), pilot ? `A card pilot contains exactly ${pilotSize} cards` : 'A production set contains 4–6 cards');
+  check(Array.isArray(spec.assets) && spec.assets.length === spec.cards.length + (pilot ? 0 : 1), pilot ? 'A card pilot contains exactly one image per card' : 'A production set contains one NPC image and one image per card');
   check(object(spec.style) && ['world','palette','medium','composition','avoid'].every(x => nonempty(spec.style[x])), 'Shared prompt needs world, palette, medium, composition and avoid');
   const assetKeys = new Set(), cardIds = new Set(), outputs = new Set();
   for (const asset of spec.assets) {
@@ -171,7 +171,7 @@ export function validateSet(spec, {root = ROOT, stage = 'integrated'} = {}) {
       if (asset.provenance.kind === 'third-party') check(nonempty(asset.provenance.license) && nonempty(asset.provenance.sourceUrl) && asset.provenance.rightsReviewed === true, `${asset.key}: third-party source/license review required`);
     }
   }
-  check(spec.assets.filter(x => x.kind === 'npc').length === (pilot ? 0 : 1), pilot ? 'A two-card pilot does not introduce an NPC' : 'Exactly one NPC image required');
+  check(spec.assets.filter(x => x.kind === 'npc').length === (pilot ? 0 : 1), pilot ? 'A card pilot does not introduce an NPC' : 'Exactly one NPC image required');
   const {engine,format} = loadGame(root);
   const images = imageAttributes(read(root,'v4-1/planning.html'));
   const gameSource = read(root,'v4-1/planning-game.js');
