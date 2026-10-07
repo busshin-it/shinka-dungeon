@@ -41,6 +41,14 @@
       "start": "2026-10-07T11:31:00Z",
       "end": "2026-10-07T11:33:25Z",
       "note": "Record scope, checks, known failures, limits and observed timing; request final documentation review."
+    },
+    {
+      "id": "first-publication",
+      "owner": "publication",
+      "phase": "publish",
+      "start": "2026-10-07T11:35:41.182Z",
+      "end": "2026-10-07T11:49:02.661739+00:00",
+      "note": "Verified upload, two failed responses and authorized same-content retries, draft PR, exact-head CI, merge, both Pages, and46 served-file byte matches. Includes waiting and coordination, not pure service or CPU time."
     }
   ]
 }
