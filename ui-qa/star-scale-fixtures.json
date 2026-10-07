@@ -1,0 +1,1108 @@
+{
+  "chapter": {
+    "version": 1,
+    "seed": 418,
+    "savedAt": 0,
+    "engine": {
+      "format": "astral-planning",
+      "version": 5,
+      "rngState": 846104095,
+      "state": {
+        "phase": "chapter",
+        "origin": "frost",
+        "battle": 3,
+        "turn": 1,
+        "hp": 60,
+        "maxHp": 60,
+        "enemyId": "trial",
+        "enemyHp": 0,
+        "enemyMaxHp": 52,
+        "energy": 4,
+        "maxEnergy": 5,
+        "pendingFocus": 0,
+        "pendingBlock": 0,
+        "prevEndEmpty": false,
+        "turnLastAttack": 0,
+        "prevLastAttack": 0,
+        "usedExhaustThisTurn": false,
+        "relics": [],
+        "relicUsed": {
+          "emberCore": false,
+          "starBottle": false
+        },
+        "removalSource": null,
+        "block": 0,
+        "focus": 0,
+        "weaken": 0,
+        "reflect": 0,
+        "turnDamage": 0,
+        "spellCount": 0,
+        "interrupted": false,
+        "flags": {},
+        "deck": [
+          "basicStrike",
+          "basicWard",
+          "basicStrike",
+          "basicWard",
+          "basicStrike",
+          "basicWard",
+          "basicStrike",
+          "basicWard",
+          "basicStrike",
+          "basicWard"
+        ],
+        "hand": [],
+        "draw": [
+          "basicWard",
+          "basicStrike",
+          "basicWard",
+          "basicStrike",
+          "basicWard",
+          "basicStrike",
+          "basicWard",
+          "basicStrike",
+          "basicWard"
+        ],
+        "discard": [
+          "basicStrike"
+        ],
+        "exhaust": [],
+        "route": "moon",
+        "route2": null,
+        "chapter2Options": {
+          "library": "starScaleGuard",
+          "wind": "bellSpirit"
+        },
+        "chapter2Encounter": null,
+        "forge": false,
+        "insight": false,
+        "sanctuary": null,
+        "camp": null,
+        "lastReward": null,
+        "lastUpgrade": null,
+        "pendingUpgrade": null,
+        "upgrades": [],
+        "removed": [],
+        "rewards": [],
+        "rewardOffers": [
+          "frostRecall",
+          "mirror",
+          "winter",
+          "bankedEcho"
+        ],
+        "history": [
+          {
+            "enemy": "蒼鎧の門番",
+            "battle": 1,
+            "turns": 1,
+            "hp": 60,
+            "result": "victory"
+          },
+          {
+            "enemy": "鏡の亡霊",
+            "battle": 2,
+            "turns": 1,
+            "hp": 60,
+            "result": "victory"
+          },
+          {
+            "enemy": "守護者の幻影",
+            "battle": 3,
+            "turns": 1,
+            "hp": 60,
+            "result": "victory"
+          }
+        ],
+        "wins": 3,
+        "stats": {
+          "played": {
+            "basicStrike": 3
+          },
+          "dealt": 3,
+          "taken": 0,
+          "healed": 0,
+          "energyGained": 0,
+          "blocked": 0,
+          "reflected": 0,
+          "interrupts": 0,
+          "relics": 0
+        },
+        "log": [
+          "守護者の幻影を越えた。",
+          "小さな魔弾：1ダメージ。",
+          "第1章の試練。溜めの間に魔力を残し、強打を崩そう。",
+          "灯りの間でHPを14回復した。",
+          "鏡の亡霊を越えた。"
+        ],
+        "ruleset": "growth-v2",
+        "earlyRemoval": null
+      }
+    }
+  },
+  "ready": {
+    "version": 1,
+    "seed": 418,
+    "savedAt": 0,
+    "engine": {
+      "format": "astral-planning",
+      "version": 5,
+      "rngState": 846104095,
+      "state": {
+        "phase": "ready",
+        "origin": "frost",
+        "battle": 3,
+        "turn": 1,
+        "hp": 60,
+        "maxHp": 60,
+        "enemyId": "trial",
+        "enemyHp": 0,
+        "enemyMaxHp": 52,
+        "energy": 4,
+        "maxEnergy": 5,
+        "pendingFocus": 0,
+        "pendingBlock": 0,
+        "prevEndEmpty": false,
+        "turnLastAttack": 0,
+        "prevLastAttack": 0,
+        "usedExhaustThisTurn": false,
+        "relics": [],
+        "relicUsed": {
+          "emberCore": false,
+          "starBottle": false
+        },
+        "removalSource": null,
+        "block": 0,
+        "focus": 0,
+        "weaken": 0,
+        "reflect": 0,
+        "turnDamage": 0,
+        "spellCount": 0,
+        "interrupted": false,
+        "flags": {},
+        "deck": [
+          "basicStrike",
+          "basicWard",
+          "basicStrike",
+          "basicWard",
+          "basicStrike",
+          "basicWard",
+          "basicStrike",
+          "basicWard",
+          "basicStrike",
+          "basicWard"
+        ],
+        "hand": [],
+        "draw": [
+          "basicWard",
+          "basicStrike",
+          "basicWard",
+          "basicStrike",
+          "basicWard",
+          "basicStrike",
+          "basicWard",
+          "basicStrike",
+          "basicWard"
+        ],
+        "discard": [
+          "basicStrike"
+        ],
+        "exhaust": [],
+        "route": "moon",
+        "route2": "library",
+        "chapter2Options": {
+          "library": "starScaleGuard",
+          "wind": "bellSpirit"
+        },
+        "chapter2Encounter": "starScaleGuard",
+        "forge": false,
+        "insight": true,
+        "sanctuary": null,
+        "camp": null,
+        "lastReward": null,
+        "lastUpgrade": null,
+        "pendingUpgrade": null,
+        "upgrades": [],
+        "removed": [],
+        "rewards": [],
+        "rewardOffers": [
+          "frostRecall",
+          "mirror",
+          "winter",
+          "bankedEcho"
+        ],
+        "history": [
+          {
+            "enemy": "蒼鎧の門番",
+            "battle": 1,
+            "turns": 1,
+            "hp": 60,
+            "result": "victory"
+          },
+          {
+            "enemy": "鏡の亡霊",
+            "battle": 2,
+            "turns": 1,
+            "hp": 60,
+            "result": "victory"
+          },
+          {
+            "enemy": "守護者の幻影",
+            "battle": 3,
+            "turns": 1,
+            "hp": 60,
+            "result": "victory"
+          }
+        ],
+        "wins": 3,
+        "stats": {
+          "played": {
+            "basicStrike": 3
+          },
+          "dealt": 3,
+          "taken": 0,
+          "healed": 0,
+          "energyGained": 0,
+          "blocked": 0,
+          "reflected": 0,
+          "interrupts": 0,
+          "relics": 0
+        },
+        "log": [
+          "星図を得た。以後、各戦闘の初手が6枚になる。",
+          "守護者の幻影を越えた。",
+          "小さな魔弾：1ダメージ。",
+          "第1章の試練。溜めの間に魔力を残し、強打を崩そう。",
+          "灯りの間でHPを14回復した。"
+        ],
+        "ruleset": "growth-v2",
+        "earlyRemoval": null
+      }
+    }
+  },
+  "rest": {
+    "version": 1,
+    "seed": 418,
+    "savedAt": 0,
+    "engine": {
+      "format": "astral-planning",
+      "version": 5,
+      "rngState": 339876570,
+      "state": {
+        "phase": "battle",
+        "origin": "mirror",
+        "battle": 4,
+        "turn": 1,
+        "hp": 60,
+        "maxHp": 60,
+        "enemyId": "starScaleGuard",
+        "enemyHp": 70,
+        "enemyMaxHp": 70,
+        "energy": 5,
+        "maxEnergy": 5,
+        "pendingFocus": 0,
+        "pendingBlock": 0,
+        "prevEndEmpty": false,
+        "turnLastAttack": 0,
+        "prevLastAttack": 0,
+        "usedExhaustThisTurn": false,
+        "relics": [],
+        "relicUsed": {
+          "emberCore": false,
+          "starBottle": false
+        },
+        "removalSource": null,
+        "block": 0,
+        "focus": 0,
+        "weaken": 0,
+        "reflect": 0,
+        "turnDamage": 0,
+        "spellCount": 0,
+        "interrupted": false,
+        "flags": {},
+        "deck": [
+          "quietComet",
+          "rimeMirror",
+          "basicStrike",
+          "basicWard",
+          "focus",
+          "basicWard",
+          "basicWard",
+          "basicWard",
+          "basicWard",
+          "basicWard"
+        ],
+        "hand": [
+          "quietComet",
+          "rimeMirror",
+          "basicStrike",
+          "basicWard",
+          "focus"
+        ],
+        "draw": [
+          "basicWard",
+          "basicWard",
+          "basicWard",
+          "basicWard",
+          "basicWard"
+        ],
+        "discard": [],
+        "exhaust": [],
+        "route": "moon",
+        "route2": "library",
+        "chapter2Options": {
+          "library": "starScaleGuard",
+          "wind": "bellSpirit"
+        },
+        "chapter2Encounter": "starScaleGuard",
+        "forge": false,
+        "insight": true,
+        "sanctuary": null,
+        "camp": null,
+        "lastReward": null,
+        "lastUpgrade": null,
+        "pendingUpgrade": null,
+        "upgrades": [],
+        "removed": [],
+        "rewards": [],
+        "rewardOffers": [],
+        "history": [
+          {
+            "enemy": "蒼鎧の門番",
+            "battle": 1,
+            "turns": 1,
+            "hp": 60,
+            "result": "victory"
+          },
+          {
+            "enemy": "鏡の亡霊",
+            "battle": 2,
+            "turns": 1,
+            "hp": 60,
+            "result": "victory"
+          },
+          {
+            "enemy": "守護者の幻影",
+            "battle": 3,
+            "turns": 1,
+            "hp": 60,
+            "result": "victory"
+          }
+        ],
+        "wins": 3,
+        "stats": {
+          "played": {
+            "basicStrike": 3
+          },
+          "dealt": 3,
+          "taken": 0,
+          "healed": 0,
+          "energyGained": 0,
+          "blocked": 0,
+          "reflected": 0,
+          "interrupts": 0,
+          "relics": 0
+        },
+        "log": [
+          "秤の刃は敵行動直前の魔力2以上で12→6。次の詠唱はこのターン合計12ダメージで18→8。弱体・防御も有効。",
+          "星図を得た。以後、各戦闘の初手が6枚になる。",
+          "守護者の幻影を越えた。",
+          "小さな魔弾：1ダメージ。",
+          "第1章の試練。溜めの間に魔力を残し、強打を崩そう。"
+        ],
+        "ruleset": "growth-v2",
+        "earlyRemoval": null
+      }
+    }
+  },
+  "bankMet": {
+    "version": 1,
+    "seed": 418,
+    "savedAt": 0,
+    "engine": {
+      "format": "astral-planning",
+      "version": 5,
+      "rngState": 339876570,
+      "state": {
+        "phase": "battle",
+        "origin": "mirror",
+        "battle": 4,
+        "turn": 2,
+        "hp": 60,
+        "maxHp": 60,
+        "enemyId": "starScaleGuard",
+        "enemyHp": 70,
+        "enemyMaxHp": 70,
+        "energy": 3,
+        "maxEnergy": 5,
+        "pendingFocus": 0,
+        "pendingBlock": 0,
+        "prevEndEmpty": false,
+        "turnLastAttack": 0,
+        "prevLastAttack": 0,
+        "usedExhaustThisTurn": false,
+        "relics": [],
+        "relicUsed": {
+          "emberCore": false,
+          "starBottle": false
+        },
+        "removalSource": null,
+        "block": 0,
+        "focus": 0,
+        "weaken": 0,
+        "reflect": 0,
+        "turnDamage": 0,
+        "spellCount": 0,
+        "interrupted": false,
+        "flags": {},
+        "deck": [
+          "starFerryWard",
+          "basicStrike",
+          "charge",
+          "guard",
+          "ice",
+          "basicWard",
+          "basicWard",
+          "basicWard",
+          "basicWard",
+          "basicWard"
+        ],
+        "hand": [
+          "starFerryWard",
+          "basicStrike",
+          "charge",
+          "guard",
+          "ice"
+        ],
+        "draw": [
+          "basicWard",
+          "basicWard",
+          "basicWard",
+          "basicWard",
+          "basicWard"
+        ],
+        "discard": [],
+        "exhaust": [],
+        "route": "moon",
+        "route2": "library",
+        "chapter2Options": {
+          "library": "starScaleGuard",
+          "wind": "bellSpirit"
+        },
+        "chapter2Encounter": "starScaleGuard",
+        "forge": false,
+        "insight": true,
+        "sanctuary": null,
+        "camp": null,
+        "lastReward": null,
+        "lastUpgrade": null,
+        "pendingUpgrade": null,
+        "upgrades": [],
+        "removed": [],
+        "rewards": [],
+        "rewardOffers": [],
+        "history": [
+          {
+            "enemy": "蒼鎧の門番",
+            "battle": 1,
+            "turns": 1,
+            "hp": 60,
+            "result": "victory"
+          },
+          {
+            "enemy": "鏡の亡霊",
+            "battle": 2,
+            "turns": 1,
+            "hp": 60,
+            "result": "victory"
+          },
+          {
+            "enemy": "守護者の幻影",
+            "battle": 3,
+            "turns": 1,
+            "hp": 60,
+            "result": "victory"
+          }
+        ],
+        "wins": 3,
+        "stats": {
+          "played": {
+            "basicStrike": 3
+          },
+          "dealt": 3,
+          "taken": 0,
+          "healed": 0,
+          "energyGained": 0,
+          "blocked": 0,
+          "reflected": 0,
+          "interrupts": 0,
+          "relics": 0
+        },
+        "log": [
+          "秤の刃は敵行動直前の魔力2以上で12→6。次の詠唱はこのターン合計12ダメージで18→8。弱体・防御も有効。",
+          "星図を得た。以後、各戦闘の初手が6枚になる。",
+          "守護者の幻影を越えた。",
+          "小さな魔弾：1ダメージ。",
+          "第1章の試練。溜めの間に魔力を残し、強打を崩そう。"
+        ],
+        "ruleset": "growth-v2",
+        "earlyRemoval": null
+      }
+    }
+  },
+  "bankUnmet": {
+    "version": 1,
+    "seed": 418,
+    "savedAt": 0,
+    "engine": {
+      "format": "astral-planning",
+      "version": 5,
+      "rngState": 339876570,
+      "state": {
+        "phase": "battle",
+        "origin": "mirror",
+        "battle": 4,
+        "turn": 2,
+        "hp": 60,
+        "maxHp": 60,
+        "enemyId": "starScaleGuard",
+        "enemyHp": 70,
+        "enemyMaxHp": 70,
+        "energy": 1,
+        "maxEnergy": 5,
+        "pendingFocus": 0,
+        "pendingBlock": 0,
+        "prevEndEmpty": false,
+        "turnLastAttack": 0,
+        "prevLastAttack": 0,
+        "usedExhaustThisTurn": false,
+        "relics": [],
+        "relicUsed": {
+          "emberCore": false,
+          "starBottle": false
+        },
+        "removalSource": null,
+        "block": 0,
+        "focus": 0,
+        "weaken": 0,
+        "reflect": 0,
+        "turnDamage": 0,
+        "spellCount": 0,
+        "interrupted": false,
+        "flags": {},
+        "deck": [
+          "guard",
+          "charge",
+          "bolt",
+          "basicWard",
+          "basicStrike",
+          "basicWard",
+          "basicWard",
+          "basicWard",
+          "basicWard",
+          "basicWard"
+        ],
+        "hand": [
+          "guard",
+          "charge",
+          "bolt",
+          "basicWard",
+          "basicStrike"
+        ],
+        "draw": [
+          "basicWard",
+          "basicWard",
+          "basicWard",
+          "basicWard",
+          "basicWard"
+        ],
+        "discard": [],
+        "exhaust": [],
+        "route": "moon",
+        "route2": "library",
+        "chapter2Options": {
+          "library": "starScaleGuard",
+          "wind": "bellSpirit"
+        },
+        "chapter2Encounter": "starScaleGuard",
+        "forge": false,
+        "insight": true,
+        "sanctuary": null,
+        "camp": null,
+        "lastReward": null,
+        "lastUpgrade": null,
+        "pendingUpgrade": null,
+        "upgrades": [],
+        "removed": [],
+        "rewards": [],
+        "rewardOffers": [],
+        "history": [
+          {
+            "enemy": "蒼鎧の門番",
+            "battle": 1,
+            "turns": 1,
+            "hp": 60,
+            "result": "victory"
+          },
+          {
+            "enemy": "鏡の亡霊",
+            "battle": 2,
+            "turns": 1,
+            "hp": 60,
+            "result": "victory"
+          },
+          {
+            "enemy": "守護者の幻影",
+            "battle": 3,
+            "turns": 1,
+            "hp": 60,
+            "result": "victory"
+          }
+        ],
+        "wins": 3,
+        "stats": {
+          "played": {
+            "basicStrike": 3
+          },
+          "dealt": 3,
+          "taken": 0,
+          "healed": 0,
+          "energyGained": 0,
+          "blocked": 0,
+          "reflected": 0,
+          "interrupts": 0,
+          "relics": 0
+        },
+        "log": [
+          "秤の刃は敵行動直前の魔力2以上で12→6。次の詠唱はこのターン合計12ダメージで18→8。弱体・防御も有効。",
+          "星図を得た。以後、各戦闘の初手が6枚になる。",
+          "守護者の幻影を越えた。",
+          "小さな魔弾：1ダメージ。",
+          "第1章の試練。溜めの間に魔力を残し、強打を崩そう。"
+        ],
+        "ruleset": "growth-v2",
+        "earlyRemoval": null
+      }
+    }
+  },
+  "chantProgress": {
+    "version": 1,
+    "seed": 418,
+    "savedAt": 0,
+    "engine": {
+      "format": "astral-planning",
+      "version": 5,
+      "rngState": 339876570,
+      "state": {
+        "phase": "battle",
+        "origin": "mirror",
+        "battle": 4,
+        "turn": 3,
+        "hp": 60,
+        "maxHp": 60,
+        "enemyId": "starScaleGuard",
+        "enemyHp": 70,
+        "enemyMaxHp": 70,
+        "energy": 3,
+        "maxEnergy": 5,
+        "pendingFocus": 0,
+        "pendingBlock": 0,
+        "prevEndEmpty": false,
+        "turnLastAttack": 0,
+        "prevLastAttack": 0,
+        "usedExhaustThisTurn": false,
+        "relics": [],
+        "relicUsed": {
+          "emberCore": false,
+          "starBottle": false
+        },
+        "removalSource": null,
+        "block": 0,
+        "focus": 0,
+        "weaken": 0,
+        "reflect": 0,
+        "turnDamage": 6,
+        "spellCount": 1,
+        "interrupted": false,
+        "flags": {},
+        "deck": [
+          "ice",
+          "basicStrike",
+          "guard",
+          "frostOmen",
+          "basicWard",
+          "basicWard",
+          "basicWard",
+          "basicWard",
+          "basicWard",
+          "basicWard"
+        ],
+        "hand": [
+          "ice",
+          "basicStrike",
+          "guard",
+          "frostOmen",
+          "basicWard"
+        ],
+        "draw": [
+          "basicWard",
+          "basicWard",
+          "basicWard",
+          "basicWard",
+          "basicWard"
+        ],
+        "discard": [],
+        "exhaust": [],
+        "route": "moon",
+        "route2": "library",
+        "chapter2Options": {
+          "library": "starScaleGuard",
+          "wind": "bellSpirit"
+        },
+        "chapter2Encounter": "starScaleGuard",
+        "forge": false,
+        "insight": true,
+        "sanctuary": null,
+        "camp": null,
+        "lastReward": null,
+        "lastUpgrade": null,
+        "pendingUpgrade": null,
+        "upgrades": [],
+        "removed": [],
+        "rewards": [],
+        "rewardOffers": [],
+        "history": [
+          {
+            "enemy": "蒼鎧の門番",
+            "battle": 1,
+            "turns": 1,
+            "hp": 60,
+            "result": "victory"
+          },
+          {
+            "enemy": "鏡の亡霊",
+            "battle": 2,
+            "turns": 1,
+            "hp": 60,
+            "result": "victory"
+          },
+          {
+            "enemy": "守護者の幻影",
+            "battle": 3,
+            "turns": 1,
+            "hp": 60,
+            "result": "victory"
+          }
+        ],
+        "wins": 3,
+        "stats": {
+          "played": {
+            "basicStrike": 3
+          },
+          "dealt": 3,
+          "taken": 0,
+          "healed": 0,
+          "energyGained": 0,
+          "blocked": 0,
+          "reflected": 0,
+          "interrupts": 0,
+          "relics": 0
+        },
+        "log": [
+          "秤の刃は敵行動直前の魔力2以上で12→6。次の詠唱はこのターン合計12ダメージで18→8。弱体・防御も有効。",
+          "星図を得た。以後、各戦闘の初手が6枚になる。",
+          "守護者の幻影を越えた。",
+          "小さな魔弾：1ダメージ。",
+          "第1章の試練。溜めの間に魔力を残し、強打を崩そう。"
+        ],
+        "ruleset": "growth-v2",
+        "earlyRemoval": null
+      }
+    }
+  },
+  "chantBroken": {
+    "version": 1,
+    "seed": 418,
+    "savedAt": 0,
+    "engine": {
+      "format": "astral-planning",
+      "version": 5,
+      "rngState": 339876570,
+      "state": {
+        "phase": "battle",
+        "origin": "mirror",
+        "battle": 4,
+        "turn": 3,
+        "hp": 60,
+        "maxHp": 60,
+        "enemyId": "starScaleGuard",
+        "enemyHp": 70,
+        "enemyMaxHp": 70,
+        "energy": 3,
+        "maxEnergy": 5,
+        "pendingFocus": 0,
+        "pendingBlock": 0,
+        "prevEndEmpty": false,
+        "turnLastAttack": 0,
+        "prevLastAttack": 0,
+        "usedExhaustThisTurn": false,
+        "relics": [],
+        "relicUsed": {
+          "emberCore": false,
+          "starBottle": false
+        },
+        "removalSource": null,
+        "block": 0,
+        "focus": 0,
+        "weaken": 0,
+        "reflect": 0,
+        "turnDamage": 12,
+        "spellCount": 2,
+        "interrupted": true,
+        "flags": {},
+        "deck": [
+          "guard",
+          "frostOmen",
+          "basicStrike",
+          "basicWard",
+          "rimeMirror",
+          "basicWard",
+          "basicWard",
+          "basicWard",
+          "basicWard",
+          "basicWard"
+        ],
+        "hand": [
+          "guard",
+          "frostOmen",
+          "basicStrike",
+          "basicWard",
+          "rimeMirror"
+        ],
+        "draw": [
+          "basicWard",
+          "basicWard",
+          "basicWard",
+          "basicWard",
+          "basicWard"
+        ],
+        "discard": [],
+        "exhaust": [],
+        "route": "moon",
+        "route2": "library",
+        "chapter2Options": {
+          "library": "starScaleGuard",
+          "wind": "bellSpirit"
+        },
+        "chapter2Encounter": "starScaleGuard",
+        "forge": false,
+        "insight": true,
+        "sanctuary": null,
+        "camp": null,
+        "lastReward": null,
+        "lastUpgrade": null,
+        "pendingUpgrade": null,
+        "upgrades": [],
+        "removed": [],
+        "rewards": [],
+        "rewardOffers": [],
+        "history": [
+          {
+            "enemy": "蒼鎧の門番",
+            "battle": 1,
+            "turns": 1,
+            "hp": 60,
+            "result": "victory"
+          },
+          {
+            "enemy": "鏡の亡霊",
+            "battle": 2,
+            "turns": 1,
+            "hp": 60,
+            "result": "victory"
+          },
+          {
+            "enemy": "守護者の幻影",
+            "battle": 3,
+            "turns": 1,
+            "hp": 60,
+            "result": "victory"
+          }
+        ],
+        "wins": 3,
+        "stats": {
+          "played": {
+            "basicStrike": 3
+          },
+          "dealt": 3,
+          "taken": 0,
+          "healed": 0,
+          "energyGained": 0,
+          "blocked": 0,
+          "reflected": 0,
+          "interrupts": 0,
+          "relics": 0
+        },
+        "log": [
+          "秤の刃は敵行動直前の魔力2以上で12→6。次の詠唱はこのターン合計12ダメージで18→8。弱体・防御も有効。",
+          "星図を得た。以後、各戦闘の初手が6枚になる。",
+          "守護者の幻影を越えた。",
+          "小さな魔弾：1ダメージ。",
+          "第1章の試練。溜めの間に魔力を残し、強打を崩そう。"
+        ],
+        "ruleset": "growth-v2",
+        "earlyRemoval": null
+      }
+    }
+  },
+  "savedOld": {
+    "version": 1,
+    "seed": 418,
+    "savedAt": 0,
+    "engine": {
+      "format": "astral-planning",
+      "version": 5,
+      "rngState": 3979689204,
+      "state": {
+        "phase": "ready",
+        "origin": "frost",
+        "battle": 3,
+        "turn": 1,
+        "hp": 60,
+        "maxHp": 60,
+        "enemyId": "trial",
+        "enemyHp": 0,
+        "enemyMaxHp": 52,
+        "energy": 4,
+        "maxEnergy": 5,
+        "pendingFocus": 0,
+        "pendingBlock": 0,
+        "prevEndEmpty": false,
+        "turnLastAttack": 0,
+        "prevLastAttack": 0,
+        "usedExhaustThisTurn": false,
+        "relics": [],
+        "relicUsed": {
+          "emberCore": false,
+          "starBottle": false
+        },
+        "removalSource": null,
+        "block": 0,
+        "focus": 0,
+        "weaken": 0,
+        "reflect": 0,
+        "turnDamage": 0,
+        "spellCount": 0,
+        "interrupted": false,
+        "flags": {},
+        "deck": [
+          "basicStrike+",
+          "basicWard",
+          "basicStrike",
+          "basicWard",
+          "basicStrike",
+          "basicWard",
+          "basicStrike",
+          "basicWard",
+          "basicStrike",
+          "basicWard",
+          "ice",
+          "ashStudy",
+          "ebbArrow"
+        ],
+        "hand": [],
+        "draw": [
+          "basicWard",
+          "basicStrike",
+          "basicWard",
+          "basicStrike",
+          "basicWard",
+          "basicStrike",
+          "basicWard",
+          "basicStrike",
+          "basicWard",
+          "ice",
+          "ashStudy"
+        ],
+        "discard": [
+          "basicStrike+"
+        ],
+        "exhaust": [],
+        "route": "moon",
+        "route2": "library",
+        "chapter2Options": {
+          "library": "starDial",
+          "wind": "bellSpirit"
+        },
+        "chapter2Encounter": "starDial",
+        "forge": false,
+        "insight": true,
+        "sanctuary": null,
+        "camp": null,
+        "lastReward": "ebbArrow",
+        "lastUpgrade": "basicStrike+",
+        "pendingUpgrade": null,
+        "upgrades": [
+          "basicStrike+"
+        ],
+        "removed": [],
+        "rewards": [
+          "ice",
+          "ashStudy",
+          "ebbArrow"
+        ],
+        "rewardOffers": [
+          "ebbArrow",
+          "echo",
+          "mirrorLance",
+          "ashWard"
+        ],
+        "history": [
+          {
+            "enemy": "蒼鎧の門番",
+            "battle": 1,
+            "turns": 2,
+            "hp": 60,
+            "result": "victory"
+          },
+          {
+            "enemy": "鏡の亡霊",
+            "battle": 2,
+            "turns": 1,
+            "hp": 60,
+            "result": "victory"
+          },
+          {
+            "enemy": "守護者の幻影",
+            "battle": 3,
+            "turns": 1,
+            "hp": 60,
+            "result": "victory"
+          }
+        ],
+        "wins": 3,
+        "stats": {
+          "played": {
+            "basicStrike": 4
+          },
+          "dealt": 6,
+          "taken": 4,
+          "healed": 0,
+          "energyGained": 0,
+          "blocked": 0,
+          "reflected": 0,
+          "interrupts": 0,
+          "relics": 0
+        },
+        "log": [
+          "星図を得た。以後、各戦闘の初手が6枚になる。",
+          "守護者の幻影を越えた。",
+          "小さな魔弾＋：1ダメージ。",
+          "第1章の試練。溜めの間に魔力を残し、強打を崩そう。",
+          "小さな魔弾＋へ進化。次の初手で試せる。"
+        ],
+        "ruleset": "growth-v2",
+        "earlyRemoval": null
+      }
+    }
+  }
+}

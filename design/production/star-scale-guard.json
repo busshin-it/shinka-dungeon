@@ -1,0 +1,34 @@
+{
+  "schemaVersion": 1,
+  "sourceProposal": "https://github.com/busshin-it/shinka-dungeon/pull/15",
+  "scope": "One enemy for fresh growth-v2 journeys only. No cards, handlers, images, save fields or RNG calls added.",
+  "id": "starScaleGuard",
+  "definition": {
+    "name": "星秤の衛兵",
+    "hp": 70,
+    "art": "starDial",
+    "lesson": "秤の刃は敵行動直前の魔力2以上で12→6。次の詠唱はこのターン合計12ダメージで18→8。弱体・防御も有効。",
+    "moves": [
+      {
+        "type": "recover",
+        "label": "星秤を合わせる"
+      },
+      {
+        "type": "attack",
+        "label": "秤の刃",
+        "power": 12,
+        "hits": 1,
+        "manaCondition": "bank",
+        "manaReduction": 6
+      },
+      {
+        "type": "attack",
+        "label": "重星の詠唱",
+        "power": 18,
+        "hits": 1,
+        "threshold": 12,
+        "reduction": 10
+      }
+    ]
+  }
+}

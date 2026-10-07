@@ -154,7 +154,13 @@
     trial: { ...ENEMIES.trial, hp: 52, moves: [
       { type: 'attack', label: '星の双刃', power: 3, hits: 2 }, { type: 'attack', label: '試練の詠唱', power: 14, hits: 1, threshold: 10, reduction: 8 }, { type: 'recover', label: '幻影が揺らぐ' }] }
   });
-  const enemiesFor = state => isGrowthRun(state) ? GROWTH_ENEMIES : ENEMIES;
+  // New encounters are pinned in chapter2Options at run creation. Restoring a saved
+  // growth-v2 journey never replaces its options, current enemy, HP or history.
+  const CURRENT_ENEMIES = Object.freeze({ ...GROWTH_ENEMIES,
+    starScaleGuard: { name: '星秤の衛兵', hp: 70, art: 'starDial', lesson: '秤の刃は敵行動直前の魔力2以上で12→6。次の詠唱はこのターン合計12ダメージで18→8。弱体・防御も有効。', moves: [
+      { type: 'recover', label: '星秤を合わせる' }, { type: 'attack', label: '秤の刃', power: 12, hits: 1, manaCondition: 'bank', manaReduction: 6 }, { type: 'attack', label: '重星の詠唱', power: 18, hits: 1, threshold: 12, reduction: 10 }] }
+  });
+  const enemiesFor = state => state?.ruleset === STARTER_COST_RULESET ? CURRENT_ENEMIES : isGrowthRun(state) ? GROWTH_ENEMIES : ENEMIES;
   const FIRST_REWARD_POOLS = Object.freeze([
     ['ice','bolt','dark','quietComet'],
     ['chain','shieldStrike','focus','starWait'],
@@ -166,7 +172,7 @@
     starBottle: { name: '星砂の小瓶', symbol: '✧', effect: '各戦闘1回。自然回復後の魔力が4以上なら、そのターン最初の攻撃＋5。' }
   });
   function breakRule(m) { return m.singleThreshold ? {kind:'single',threshold:m.singleThreshold} : m.attackCountThreshold ? {kind:'count',threshold:m.attackCountThreshold} : m.threshold ? {kind:'total',threshold:m.threshold} : {kind:null,threshold:0}; }
-  function manaRuleText(m) { return m.manaCondition === 'bank' ? '魔力2以上で14→6' : m.manaCondition === 'empty' ? '魔力0で16→8' : ''; }
+  function manaRuleText(m) { return m.manaCondition ? `魔力${m.manaCondition === 'bank' ? '2以上' : '0'}で${m.power}→${m.power-m.manaReduction}` : ''; }
   function describeMove(m) {
     if(m.type==='recover')return `${m.label}${m.heal?`（最大${m.heal}回復）`:'（攻撃なし）'}`;
     const r=breakRule(m),condition=m.manaCondition?manaRuleText(m):r.kind==='single'?`一撃${r.threshold}で${m.power-m.reduction}`:r.kind==='count'?`攻撃札${r.threshold}枚で${m.power-m.reduction}`:r.kind==='total'?`合計${r.threshold}で${m.power-m.reduction}`:'';
@@ -207,6 +213,7 @@
         stats: { played: {}, dealt: 0, taken: 0, healed: 0, energyGained: 0, blocked: 0, reflected: 0, interrupts: 0, relics: 0 },
         log: ['護符を選んで、蒼星の回廊へ。'] };
       if (isGrowthRun({ruleset})) { s.ruleset = ruleset; s.earlyRemoval = null; s.deck = [...BASIC_STARTER]; s.enemyHp = s.enemyMaxHp = GROWTH_ENEMIES.skeleton.hp; }
+      if (ruleset === STARTER_COST_RULESET) s.chapter2Options.library = 'starScaleGuard';
       return snapshot();
     }
     function selectOrigin(id) { if (s.phase !== 'intro' || !Object.hasOwn(ORIGINS, id)) return false; s.origin = id; s.deck = [...starter(id)]; return true; }
@@ -423,9 +430,9 @@
         const growth = [4,5].includes(save.version);
         const savedRuleset = save.version === 5 ? STARTER_COST_RULESET : GROWTH_RULESET;
         if (!record(x) || (growth ? x.ruleset !== savedRuleset || !(x.earlyRemoval === null || (typeof x.earlyRemoval === 'string' && runCard(x.earlyRemoval))) : Object.hasOwn(x,'ruleset') || Object.hasOwn(x,'earlyRemoval'))) return false;
-        const definitions = growth ? GROWTH_ENEMIES : ENEMIES;
+        const definitions = enemiesFor(x);
         const phases = ['intro','battle','victory','defeat','complete','reward','route','chapter','sanctuary','evolve','camp','remove','ready','astrolabe'];
-        if (!record(x) || !phases.includes(x.phase) || !Object.hasOwn(ORIGINS,x.origin) || !Object.hasOwn(ENEMIES,x.enemyId)) return false;
+        if (!record(x) || !phases.includes(x.phase) || !Object.hasOwn(ORIGINS,x.origin) || !Object.hasOwn(definitions,x.enemyId)) return false;
         if (!integer(x.battle,1,6) || !integer(x.turn,1,10000) || ![60,66].includes(x.maxHp) || !integer(x.hp,0,x.maxHp) || x.enemyMaxHp !== definitions[x.enemyId].hp || !integer(x.enemyHp,0,x.enemyMaxHp)) return false;
         if (x.maxEnergy !== 5 || !integer(x.energy,0,5) || !integer(x.wins,0,6)) return false;
         for (const k of ['block','focus','weaken','reflect','turnDamage','spellCount','pendingFocus','pendingBlock','turnLastAttack','prevLastAttack']) if (!integer(x[k],0,100000)) return false;
@@ -437,7 +444,7 @@
         if (!record(x.flags) || Object.values(x.flags).some(v => typeof v !== 'boolean') || Object.keys(x.flags).some(k => !['frost','storm','mirror','forge'].includes(k))) return false;
         if (!record(x.stats) || !record(x.stats.played) || Object.entries(x.stats.played).some(([id,n]) => !Object.hasOwn(CARDS,id) || !integer(n,0,1000000))) return false;
         for (const k of ['dealt','taken','healed','energyGained','blocked','reflected','interrupts','relics']) if (!integer(x.stats[k],0,1000000)) return false;
-        if (!Array.isArray(x.history) || x.history.length > 6 || x.history.some(h => !Object.values(ENEMIES).some(e => e.name === h.enemy) || !integer(h.battle,1,6) || !integer(h.turns,1,10000) || !integer(h.hp,0,66) || !['victory','defeat'].includes(h.result))) return false;
+        if (!Array.isArray(x.history) || x.history.length > 6 || x.history.some(h => !Object.values(definitions).some(e => e.name === h.enemy) || !integer(h.battle,1,6) || !integer(h.turns,1,10000) || !integer(h.hp,0,66) || !['victory','defeat'].includes(h.result))) return false;
         if (x.history.filter(h=>h.result==='victory').length !== x.wins) return false;
         if (!Array.isArray(x.relics) || x.relics.length>1 || new Set(x.relics).size!==x.relics.length || x.relics.some(id=>!Object.hasOwn(RELICS,id))) return false;
         if (!record(x.relicUsed) || Object.keys(x.relicUsed).sort().join('|')!=='emberCore|starBottle' || Object.values(x.relicUsed).some(v=>typeof v!=='boolean') || Object.keys(RELICS).some(id=>!x.relics.includes(id)&&x.relicUsed[id])) return false;
@@ -472,12 +479,13 @@
         if (hasRoute ? !['moon','forge'].includes(x.route) : x.route !== null) return false;
         if (hasChapterRoute ? !['library','wind','causeway'].includes(x.route2) : x.route2 !== null) return false;
         if (x.forge !== (x.route === 'forge') || x.insight !== (x.route2 === 'library') || x.maxHp !== (x.route2 === 'wind' ? 66 : 60)) return false;
-        if (!record(x.chapter2Options) || Object.keys(x.chapter2Options).sort().join('|')!=='library|wind' || !['starDial|bellSpirit','bowWatcher|bellSpirit','archive|wind'].includes(`${x.chapter2Options.library}|${x.chapter2Options.wind}`)) return false;
-        if (!x.route2 && !['starDial','bowWatcher'].includes(x.chapter2Options.library)) return false;
+        const allowedPairs = ['starDial|bellSpirit','bowWatcher|bellSpirit','archive|wind', ...(save.version === 5 ? ['starScaleGuard|bellSpirit'] : [])];
+        if (!record(x.chapter2Options) || Object.keys(x.chapter2Options).sort().join('|')!=='library|wind' || !allowedPairs.includes(`${x.chapter2Options.library}|${x.chapter2Options.wind}`)) return false;
+        if (!x.route2 && !['starDial','bowWatcher', ...(save.version === 5 ? ['starScaleGuard'] : [])].includes(x.chapter2Options.library)) return false;
         if (x.chapter2Encounter !== (x.route2 === 'causeway' ? 'tideStarSentinel' : x.route2?x.chapter2Options[x.route2]:null)) return false;
         const encounter = b => b === 1 ? 'skeleton' : b === 2 ? (x.route==='moon'?'wraith':'stone') : b === 3 ? 'trial' : b === 4 ? x.chapter2Encounter : b === 5 ? 'elite' : 'moth';
         if (x.enemyId !== encounter(x.battle)) return false;
-        if (x.history.some((h,i)=>h.battle!==i+1 || h.enemy!==ENEMIES[encounter(i+1)].name || (i<x.history.length-1&&h.result!=='victory') || (h.result==='defeat'?h.hp!==0:h.hp<=0))) return false;
+        if (x.history.some((h,i)=>h.battle!==i+1 || h.enemy!==definitions[encounter(i+1)].name || (i<x.history.length-1&&h.result!=='victory') || (h.result==='defeat'?h.hp!==0:h.hp<=0))) return false;
         if (afterBattle && (x.history.at(-1).turns !== x.turn || x.history.at(-1).result !== (x.phase==='defeat'?'defeat':'victory'))) return false;
         if (x.rewards.length>5 || x.upgrades.length>2 || x.removed.length>(growth?3:2) || x.deck.length !== 10+x.rewards.length-x.removed.length) return false;
         if (x.pendingUpgrade && !x.deck.includes(x.pendingUpgrade)) return false;
@@ -497,5 +505,5 @@
     reset();
     return { snapshot, card: runCard, selectOrigin, start, intent, futureIntents, previewCard, play, endTurn, rewardOptions, openReward, chooseReward, chooseRoute, chooseSanctuary, chooseRelic, cancelRelic, upgradeOptions, evolve, cancelEvolution, chooseChapter, chooseCamp, removeOptions, removeCard, cancelRemoval, nextBattle, exportSave, restoreSave, reset };
   }
-  globalThis.ShinkaV43 = Object.freeze({ CARDS, ORIGINS, ENEMIES, GROWTH_ENEMIES, GROWTH_RULESET, STARTER_COST_RULESET, isGrowthRun, manaRegenFor, BASIC_STARTER, FIRST_REWARD_POOLS, enemiesFor, RELICS, enemyPattern, MAX_HP, MAX_ENERGY, RUN_LENGTH, card, seededRandom, resolveAttack, createGame });
+  globalThis.ShinkaV43 = Object.freeze({ CARDS, ORIGINS, ENEMIES, GROWTH_ENEMIES, CURRENT_ENEMIES, GROWTH_RULESET, STARTER_COST_RULESET, isGrowthRun, manaRegenFor, BASIC_STARTER, FIRST_REWARD_POOLS, enemiesFor, RELICS, enemyPattern, MAX_HP, MAX_ENERGY, RUN_LENGTH, card, seededRandom, resolveAttack, createGame });
 })();

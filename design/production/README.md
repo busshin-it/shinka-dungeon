@@ -176,3 +176,9 @@ release検証はAPI/本番公開を行わない。CIで現在のNoa見本を検�
 カードちょうど2枚、カード画像ちょうど2点、NPCなしを検証する。
 通常セットの4〜6枚＋NPC1点という既存制約は維持する。
 [実装範囲・検証報告](frost-synergy-report.md)を参照。新効果や生成ジョブは追加しない。
+
+## V4.18 敵1体の試遊
+
+[星秤の衛兵](star-scale-report.md)は新規growth-v2の書庫候補1体だけ。既存アート/効果を再利用し、カード・画像・schema・RNGを増やさない。
+[データ仕様](star-scale-guard.json)、[対照計測](star-scale-results.json)、[保存隔離QA](../../ui-qa/star-scale.html)。
+カードセット用validatorの入力ではなく、専用 `tests/astral-star-scale.test.mjs` でデータと全互換条件を確認する。
