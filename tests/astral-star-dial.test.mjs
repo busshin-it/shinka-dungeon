@@ -9,7 +9,8 @@ const read = path => fs.readFileSync(new URL('../' + path, import.meta.url), 'ut
 const context = {};
 for (const file of ['planning-v1-engine.js','planning-v2-engine.js','planning-engine.js'])
   vm.runInNewContext(read('v4-1/' + file), context);
-const engine = context.ShinkaV43;
+// Historical card/route regressions deliberately use the preserved v3 rules.
+const engine = {...context.ShinkaV43, createGame: random => context.ShinkaV43.createGame(random,{ruleset:'classic'})};
 const plain = value => JSON.parse(JSON.stringify(value));
 const NEW = ['starlitPin', 'shutterWard', 'orbitEcho', 'tuningNote'];
 const ALL = NEW.flatMap(id => [id, id + '+']);
@@ -92,7 +93,7 @@ function rng(game) { return game.exportSave().rngState; }
 
 const baseline = JSON.parse(read('tests/fixtures/astral-v412-baseline.json'));
 test('star dial adds four cards and one enemy; all 42 old definitions, 11 enemies and starters remain exact',()=>{
- assert.equal(Object.keys(engine.CARDS).length,46); assert.equal(Object.keys(engine.ENEMIES).length,12);
+ assert.equal(Object.keys(engine.CARDS).length,48); assert.equal(Object.keys(engine.ENEMIES).length,12);
  for(const [id,value]of Object.entries(baseline.cards))assert.deepEqual(plain(engine.CARDS[id]),value,id);
  for(const [id,value]of Object.entries(baseline.enemies))assert.deepEqual(plain(engine.ENEMIES[id]),value,id);
  assert.deepEqual(plain(engine.ORIGINS),baseline.origins); assert.equal(engine.RUN_LENGTH,6);
@@ -170,10 +171,10 @@ test('all four unlock only after battle 2 in general slots with unique and persi
 test('all new cards survive reward, forced next opening, upgrade, removal and complete six-fight route',()=>{
  for(const id of NEW){let game;for(let seed=1;seed<=1000;seed++){const g=fixture(['spark'],{enemyHp:1},{battle:2}),save=plain(g.exportSave());save.rngState=seed;g.restoreSave(save);g.play(0);g.openReward();if(g.rewardOptions().includes(id)){game=g;break;}}assert(game);step(game,'chooseReward',id);const basic=restore(game.exportSave());step(basic,'chooseSanctuary','rest');step(basic,'nextBattle');assert(basic.snapshot().hand.includes(id));step(game,'chooseSanctuary','evolve');step(game,'evolve',id);step(game,'nextBattle');assert(game.snapshot().hand.includes(id+'+'));makeWin(game);step(game,'openReward');step(game,'chooseReward',null);step(game,'chooseChapter','library');step(game,'nextBattle');assert.equal(game.snapshot().enemyId,'starDial');makeWin(game);step(game,'openReward');step(game,'chooseReward',null);step(game,'chooseSanctuary','remove');step(game,'removeCard',id+'+');step(game,'nextBattle');assert(!zones(game.snapshot()).includes(id+'+'));makeWin(game);step(game,'openReward');step(game,'chooseReward',null);step(game,'chooseCamp','rest');step(game,'nextBattle');makeWin(game);step(game,'openReward');assert.equal(game.snapshot().phase,'complete');assert.equal(game.snapshot().wins,6);assert.equal(game.snapshot().history[3].enemy,'星儀の調律者');}
 });
-test('nine user-owned UI scenarios restore, retain safe isolated harness, and current entry labels are 46',()=>{
+test('nine user-owned UI scenarios restore, retain safe isolated harness, and current entry labels are 48',()=>{
  const data=JSON.parse(read('ui-qa/star-dial-fixtures.json'));assert.equal(Object.keys(data).length,9);
  for(const value of Object.values(data))roundtrip(restore(value.engine));
  const html=read('ui-qa/star-dial.html');assert(html.includes('sandbox="allow-scripts"'));assert(!html.includes('allow-same-origin'));assert(html.includes("Object.defineProperty(window,'localStorage'"));assert(html.includes("script[src=\"./pwa.js\"]"));assert(html.includes("link.removeAttribute('href')"));
- for(const file of ['planning.html','planning-game.js','game.js','index.html']){assert(read('v4-1/'+file).includes('46枚'));assert(!read('v4-1/'+file).includes('42枚'));}
+ for(const file of ['planning.html','planning-game.js','game.js','index.html']){assert(read('v4-1/'+file).includes('48枚'));assert(!read('v4-1/'+file).includes('42枚'));}
  const ui=read('v4-1/planning.html');for(const id of NEW)assert(ui.includes(`data-card-art="${id}"`));assert(ui.includes('保存中の冒険は以前の相手を維持'));
 });

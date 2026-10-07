@@ -106,3 +106,8 @@
 42カード / 25 artキー / 21種類の実画像。新規画像バイトは0。
 `reusable-art.json` の `current_cards`・件数と `reuse_aliases` に新しい対応を記録。
 画像そのものと既存artキーの対応は変えない。新しい本文のブラウザ確認は別途必要。
+
+
+## V4.14 basic starter reuse
+
+Two definitions (basicStrike / basicWard) reuse the existing dark / guard embedded runtime keys. Catalog is now48 definitions, still29 art keys and21 distinct card images. Runtime pixels were opened individually again for this trial; no image generation or mutation. These are shared motifs, not bespoke weak-card artwork.

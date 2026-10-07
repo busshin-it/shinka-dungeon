@@ -1,0 +1,24 @@
+<!doctype html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>V4.14 成長ループ 合成データ表示確認</title><style>body{margin:12px;background:#101a27;color:#eef;font:14px system-ui}h1{font-size:18px}p{font-size:12px}button,select{margin:3px;padding:8px;background:#203a54;color:#eef;border:1px solid #789}iframe{display:block;border:1px solid #789;width:844px;height:390px;margin-top:12px}output{display:block;margin:8px}</style></head><body><h1>V4.14 成長ループ 合成データの表示確認</h1><p>テスト専用。端末のゲーム保存は読み書きせず、フレーム内の一時メモリだけを使います。実機タッチの検証ではありません。</p><label>場面 <select id="scenario"></select></label><button id="load">合成場面を読み直す</button><button data-size="844x390">844×390</button><button data-size="740x300">740×300</button><button data-size="740x331">740×331</button><button data-size="640x240">640×240</button><button data-size="640x280">640×280</button><button data-size="390x844">390×844</button><output id="status">準備中</output><iframe sandbox="allow-scripts" id="game" title="合成データだけを使うテストゲーム"></iframe><script>
+(async()=>{
+ const frame=document.querySelector('#game'),status=document.querySelector('#status'),select=document.querySelector('#scenario');
+ try{
+  const [markup,data]=await Promise.all([fetch('../v4-1/planning.html',{cache:'no-store'}).then(r=>{if(!r.ok)throw Error(r.status);return r.text()}),fetch('./growth-fixtures.json',{cache:'no-store'}).then(r=>{if(!r.ok)throw Error(r.status);return r.json()})]);
+  const labels={intro:'新しい成長試遊の入口',basics:'基本札だけの第1戦',firstReward:'最初の4択',rewardReady:'新しい札を試す前',rewardOpening:'報酬入りの初手',firstCamp:'第2戦後の3択',remove:'1枚除去の選択',removedReady:'1枚除去後',afterRemoval:'除去後の第3戦',evolve:'基本札の進化',upgradedReady:'進化後の初手予告',classicBattle:'旧保存の第1戦（HP48）',classicCamp:'旧保存の休息所'};
+  for(const key of Object.keys(data)){const option=document.createElement('option');option.value=key;option.textContent=labels[key]||key;select.append(option)}
+  function load(){
+   const value=JSON.stringify(JSON.stringify(data[select.value])).replaceAll('<','\\u003c');
+   const base=new URL('../v4-1/',location.href).href;
+   const documentCopy=new DOMParser().parseFromString(markup,'text/html');
+   documentCopy.querySelectorAll('a').forEach(link=>{link.removeAttribute('href');link.setAttribute('aria-disabled','true');link.title='合成QAでは別ページへ移動しません'});
+   documentCopy.querySelectorAll('script[src="./pwa.js"]').forEach(script=>script.remove());
+   const isolation=`<base href="${base}"><script>(()=>{const values=new Map([['shinka-astral-planning-save-v1',${value}]]);const memory={getItem:key=>values.get(String(key))??null,setItem:(key,value)=>values.set(String(key),String(value)),removeItem:key=>values.delete(String(key)),clear:()=>values.clear(),key:index=>[...values.keys()][index]??null,get length(){return values.size}};Object.defineProperty(window,'localStorage',{value:memory,configurable:false});})();<`+'/script>';
+   // All storage used by game code is shadowed before any runtime scripts load.
+   frame.srcdoc='<!doctype html>'+documentCopy.documentElement.outerHTML.replace('<head>','<head>'+isolation);
+   status.textContent='合成場面：'+select.options[select.selectedIndex].text+'。「続きから」で確認';
+  }
+  document.querySelector('#load').onclick=load;select.onchange=load;
+  document.querySelectorAll('[data-size]').forEach(button=>button.onclick=()=>{const[w,h]=button.dataset.size.split('x');frame.style.width=w+'px';frame.style.height=h+'px'});
+  load();
+ }catch(error){status.textContent='準備失敗：'+error.message}
+})();
+</script></body></html>

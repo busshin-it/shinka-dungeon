@@ -9,7 +9,9 @@ function load(file, name) {
   vm.runInNewContext(read('v4-1/' + file), context);
   return context[name];
 }
-const planning = load('planning-engine.js', 'ShinkaV43');
+const currentPlanning = load('planning-engine.js', 'ShinkaV43');
+// Classic runs cover unchanged v3 mechanics; growth tests cover the fresh v4 default.
+const planning = {...currentPlanning, createGame: random => currentPlanning.createGame(random,{ruleset:'classic'})};
 const legacy = load('engine.js', 'ShinkaV4');
 const plain = value => JSON.parse(JSON.stringify(value));
 
@@ -59,9 +61,9 @@ function fixture(cards, changes = {}, battle = 1) {
 }
 
 // Both card pools and independent save formats are deliberate product contracts.
-test('24-card legacy and 46-card planning modes stay separate', () => {
+test('24-card legacy and 48-card planning modes stay separate', () => {
   assert.equal(Object.keys(legacy.CARDS).length, 24);
-  assert.equal(Object.keys(planning.CARDS).length, 46);
+  assert.equal(Object.keys(planning.CARDS).length, 48);
   assert.equal(legacy.card('frostPierce'), null);
   for (const [engine, format, version] of [[legacy,'astral-corridor',1],[planning,'astral-planning',3]]) {
     const game = engine.createGame(engine.seededRandom(5)); game.start();

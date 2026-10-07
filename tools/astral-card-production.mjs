@@ -88,7 +88,7 @@ function expectSubset(actual, expected, label) {
 
 // A real, fixed-seed battle with synthetic zones. Restore validation stays enabled.
 function fixture(engine, id, scenario = {}) {
-  const game = engine.createGame(engine.seededRandom(27));
+  const game = engine.createGame(engine.seededRandom(27), {ruleset:'classic'});
   game.start();
   const save = plain(game.exportSave()), s = save.state;
   const allowed = new Set(['turn','energy','block','reflect','weaken','focus','pendingBlock','pendingFocus','prevEndEmpty','prevLastAttack','usedExhaustThisTurn','interrupted','turnDamage','spellCount']);

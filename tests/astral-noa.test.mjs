@@ -9,7 +9,8 @@ const read = path => fs.readFileSync(new URL('../' + path, import.meta.url), 'ut
 const context = {};
 for (const file of ['planning-v1-engine.js','planning-v2-engine.js','planning-engine.js'])
   vm.runInNewContext(read('v4-1/' + file), context);
-const engine = context.ShinkaV43;
+// Historical card/route regressions deliberately use the preserved v3 rules.
+const engine = {...context.ShinkaV43, createGame: random => context.ShinkaV43.createGame(random,{ruleset:'classic'})};
 const plain = value => JSON.parse(JSON.stringify(value));
 const NEW = ['starRelay', 'quietComet', 'mirrorLance', 'starBookmark'];
 const ALL = NEW.flatMap(id => [id, id + '+']);
@@ -94,7 +95,7 @@ function rng(game) { return game.exportSave().rngState; }
 
 // Definition, compatibility, and atomicity contracts.
 test('original Noa IDs retain specified upgrades as the planning collection grows', () => {
-  assert.equal(Object.keys(engine.CARDS).length, 46);
+  assert.equal(Object.keys(engine.CARDS).length, 48);
   const expected = {
     starRelay:{ cost:0, transferBlockCap:10 }, quietComet:{ cost:2, damage:10, recoverBonus:10 },
     mirrorLance:{ cost:1, damage:4, reflectDamageMultiplier:2, reflectDamageCap:10, consumeReflect:true },

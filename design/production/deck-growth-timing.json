@@ -1,0 +1,56 @@
+{
+  "schemaVersion": 1,
+  "imageGenerationCalls": 0,
+  "browserQa": "user-owned-not-performed-not-a-development-gate",
+  "note": "Observed UTC task intervals including tools and waits. Parallel intervals overlap; their sum is not elapsed time. No speedup ratio claimed. Metrics report separately records its 124.115-second final run.",
+  "intervals": [
+    {
+      "id": "design",
+      "owner": "implementation",
+      "phase": "design",
+      "start": "2026-10-07T04:44:32Z",
+      "end": "2026-10-07T04:47:26Z",
+      "note": "Read engineering guidance, empty environment catalog, current main and design/development logs; create isolated worktree and select bounded trial."
+    },
+    {
+      "id": "implementation",
+      "owner": "implementation",
+      "phase": "implementation",
+      "start": "2026-10-07T04:47:26Z",
+      "end": "2026-10-07T04:54:16Z",
+      "note": "Ruleset/save boundary, basic cards, early enemies/rewards/removal, UI, historical regressions. First timing signal led to HP24\u219215 teaching encounter."
+    },
+    {
+      "id": "independent-save-review",
+      "owner": "independent-reviewer",
+      "phase": "tests",
+      "start": "2026-10-07T04:50:27Z",
+      "end": "2026-10-07T05:03:40Z",
+      "note": "Independent24 tests, old/new complete trace comparisons, UI-code review,13 synthetic QA scenes. Review fixes covered stale upgrade preview and legacy relic wording."
+    },
+    {
+      "id": "metrics",
+      "owner": "metrics-worker",
+      "phase": "tests",
+      "start": "2026-10-07T04:47:52Z",
+      "end": "2026-10-07T05:03:17Z",
+      "note": "Build bounded public-API beam comparison and10 counter tests; smoke and two full sweeps; fix terminal-resource scoring before final report."
+    },
+    {
+      "id": "docs-and-qa-fixtures",
+      "owner": "implementation",
+      "phase": "integration",
+      "start": "2026-10-07T04:55:25Z",
+      "end": "2026-10-07T05:05:18Z",
+      "note": "Original-spec vs trial documents,13 isolated fixtures, interpretation/limits, release manifest, final evidence. Overlaps review and aggregate checks."
+    },
+    {
+      "id": "final-verification",
+      "owner": "implementation",
+      "phase": "tests",
+      "start": "2026-10-07T05:05:18Z",
+      "end": "2026-10-07T05:05:51Z",
+      "note": "Final133 Node(17.155s),4 Python,14Factory,9/10/10production,release/whitespace/hash checks. FirstFactory failure due missing sharp resolved with existing installed dependency; no package change."
+    }
+  ]
+}
