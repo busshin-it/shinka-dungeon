@@ -128,7 +128,7 @@ python3 tools/astral_release.py verify
 
 `ui-qa/postscript.html` は今回の6つの合成場面。素材ピクセルの確認と、ブラウザでの本文/操作の確認は別々に扱う。
 
-## V4.13 星儀の試練（ローカル候補）
+## V4.13 星儀の試練（公開済み）
 
 先読み46枚。新しい旅の書庫に「星儀の調律者」HP74を追加。
 休み→三連撃4×3（攻撃札1枚ごとに各打撃−1、最大3枚で1×3）→強打18（一撃12で8）。
@@ -148,4 +148,6 @@ node tools/astral-star-dial-balance.mjs --seeds=64 --reward-seeds=512
 99 Node・4 Python・14 Asset Factoryテスト合格。192件の対照は新敵の第4戦被害が小さいが、
 単純方策の6戦完走は旧1/新0件なので人間の楽しさ・適正難易度を証明しない。
 `ui-qa/star-dial.html` は9つの保存隔離合成場面。手動横画面/実機QAはユーザー担当で開発を止めない。
-ローカル未公開候補であり、実ブラウザ・実機確認やPages公開済みとは扱わない。
+2026-10-07公開。build `4.13-ebd5c053d7f6`、公開46ファイルのbyte一致を確認。
+[公開記録](design/production/star-dial-release.md)にCI・Pages・再試行と未検証範囲を記録する。
+実ブラウザ・実機確認の合格は主張しない。

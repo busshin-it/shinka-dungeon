@@ -1,5 +1,14 @@
 # GAME LAB Research Log
 
+## 2026-10-07｜V4.13 星儀の試練・公開
+
+- [PR #11](https://github.com/busshin-it/shinka-dungeon/pull/11)を正確なheadのCI成功後にmerge。main `1d6515f`、build `4.13-ebd5c053d7f6`。新敵1体＋4枚で先読み46枚。
+- 最終再検証: 99 Node、4 Python、14 Factory、制作仕様9/10/10ケース、release verify、空白差分チェック合格。レビュー済み候補・PR・mergeのtree一致。
+- 標準Pages成功後、44配布入力＋release.json＋SWの46ファイルをHTTPS再取得し、候補とbyte/SHA-256一致。
+- 検証付きPagesは初回OIDC timeout、再実行で同名artifact重複。成功した別経路の実配信を確認し、設定変更せずdocs-only commitで新runへ。後続の確認はPRコメントへ記録。
+- 手動横画面/実機QAはユーザー担当。広い見た目確認、実ユーザー保存での試遊、長期バランス・楽しさは未確認。新敵は新しい旅だけに出現し、旧保存の敵は維持。
+- 詳細・失敗記録・次の判断: [公開記録](design/production/star-dial-release.md)。以下の候補ログは制作時点の履歴。
+
 ## 2026-10-07 Noa postscript 4.12 published
 
 - Published: [PR #10](https://github.com/busshin-it/shinka-dungeon/pull/10), main `6acba70dbd7197994afee6d464655d5041c6e8ce`, build `4.12-059517d696ed`, planning mode 42 cards. Both Pages deployment paths succeeded for this exact commit.
