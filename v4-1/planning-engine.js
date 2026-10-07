@@ -1,6 +1,8 @@
 /* Astral Planning mode. Independent engine/save format; stable V4 is unchanged. */
 (() => {
   const CARDS = Object.freeze({
+    basicStrike: { name: '小さな魔弾', cost: 0, damage: 3, family: 'basic', art: 'dark', starterOnly: true },
+    basicWard: { name: '薄い守り', cost: 0, block: 3, family: 'basic', art: 'guard', starterOnly: true },
     ice: { name: '氷の矢', cost: 1, damage: 6, weaken: 2, family: 'ice', art: 'ice' },
     guard: { name: '光壁', cost: 1, block: 8, family: 'guard', art: 'guard' },
     bolt: { name: '雷撃', cost: 2, damage: 14, family: 'thunder', art: 'bolt' },
@@ -55,8 +57,8 @@
     const c = { ...CARDS[base], id, base, isAttack: Object.hasOwn(CARDS[base],'damage'), upgraded: id.endsWith('+') };
     if (c.upgraded) {
       c.name += '＋';
-      if (c.isAttack) c.damage += c.cost === 0 ? 1 : 3;
-      if (c.block) c.block += c.base === 'emberVeil' ? 2 : 3;
+      if (c.isAttack) c.damage += c.base === 'basicStrike' ? 2 : c.cost === 0 ? 1 : 3;
+      if (c.block) c.block += ['basicWard','emberVeil'].includes(c.base) ? 2 : 3;
       if (c.nextFocus) c.nextFocus += 2;
       if (c.transferBlockCap) c.transferBlockCap += 4;
       if (c.weaken) c.weaken++;
@@ -125,6 +127,26 @@
     moth: { name: '星環の守護者', hp: 112, art: 'moth', lesson: '最終戦。三連撃と詠唱強打。14ダメージで強打21→9。', moves: [
       { type: 'attack', label: '星刃の三連撃', power: 5, hits: 3 }, { type: 'attack', label: '星環の詠唱', power: 21, hits: 1, threshold: 14, reduction: 12 }, { type: 'recover', label: '星を集める', heal: 6 }] }
   });
+  // Only fresh version-4 runs use this trial. Classic definitions remain unchanged.
+  const GROWTH_RULESET = 'growth-v1';
+  const BASIC_STARTER = Object.freeze(['basicStrike','basicWard','basicStrike','basicWard','basicStrike','basicWard','basicStrike','basicWard','basicStrike','basicWard']);
+  const GROWTH_ENEMIES = Object.freeze({ ...ENEMIES,
+    skeleton: { ...ENEMIES.skeleton, hp: 15, moves: [
+      { type: 'attack', label: '剣のひと振り', power: 4, hits: 1 }, { type: 'recover', label: '剣を構える' }, { type: 'attack', label: '振り下ろし', power: 8, hits: 1 }] },
+    wraith: { ...ENEMIES.wraith, hp: 36, moves: [
+      { type: 'attack', label: '水鏡の双刃', power: 3, hits: 2 }, { type: 'attack', label: '霊刃', power: 8, hits: 1 }] },
+    stone: { ...ENEMIES.stone, hp: 38, lesson: '詠唱中に8ダメージ与えると、強打12→6。', moves: [
+      { type: 'attack', label: '炉の強打', power: 12, hits: 1, threshold: 8, reduction: 6 }, { type: 'attack', label: '石の拳', power: 6, hits: 1 }, { type: 'recover', label: '炉を冷やす' }] },
+    trial: { ...ENEMIES.trial, hp: 52, moves: [
+      { type: 'attack', label: '星の双刃', power: 3, hits: 2 }, { type: 'attack', label: '試練の詠唱', power: 14, hits: 1, threshold: 10, reduction: 8 }, { type: 'recover', label: '幻影が揺らぐ' }] }
+  });
+  const enemiesFor = state => state?.ruleset === GROWTH_RULESET ? GROWTH_ENEMIES : ENEMIES;
+  const FIRST_REWARD_POOLS = Object.freeze([
+    ['ice','bolt','dark','quietComet'],
+    ['chain','shieldStrike','focus','starWait'],
+    ['guard','frostWard','mirror','renew'],
+    ['meditate','charge','light','starBookmark','spark','frostNova']
+  ]);
   const RELICS = Object.freeze({
     emberCore: { name: '残火の芯', symbol: '✦', effect: '各戦闘1回。魔力0でターンを終えると、次ターンに4ブロック。' },
     starBottle: { name: '星砂の小瓶', symbol: '✧', effect: '各戦闘1回。自然回復後の魔力が4以上なら、そのターン最初の攻撃＋5。' }
@@ -136,7 +158,7 @@
     const r=breakRule(m),condition=m.manaCondition?manaRuleText(m):r.kind==='single'?`一撃${r.threshold}で${m.power-m.reduction}`:r.kind==='count'?`攻撃札${r.threshold}枚で${m.power-m.reduction}`:r.kind==='total'?`合計${r.threshold}で${m.power-m.reduction}`:'';
     return `${m.label} ${m.power}${m.hits>1?`×${m.hits}`:''}${condition?`〔${condition}${m.hits>1?`×${m.hits}`:''}〕`:''}`;
   }
-  function enemyPattern(id) { return ENEMIES[id]?.moves.map(describeMove).join(' → ') || ''; }
+  function enemyPattern(id, state) { return enemiesFor(state)[id]?.moves.map(describeMove).join(' → ') || ''; }
   const MAX_HP = 60;
   const MAX_ENERGY = 5;
   const RUN_LENGTH = 6;
@@ -150,10 +172,13 @@
     }
     return { hp, enemyHp, taken, blocked, reflected, resolvedHits };
   }
-  function createGame(random = Math.random) {
+  function createGame(random = Math.random, { ruleset = GROWTH_RULESET } = {}) {
+    if (![GROWTH_RULESET,'classic'].includes(ruleset)) throw new Error('Unknown run ruleset');
     let s, rng = random;
     const snapshot = () => JSON.parse(JSON.stringify(s));
-    const enemy = () => ENEMIES[s.enemyId];
+    const isGrowth = () => s.ruleset === GROWTH_RULESET;
+    const starter = origin => isGrowth() ? BASIC_STARTER : ORIGINS[origin].deck;
+    const enemy = () => enemiesFor(s)[s.enemyId];
     const moveAt = turn => enemy().moves[(turn - 1) % enemy().moves.length];
     const move = () => moveAt(s.turn);
     const note = text => { s.log = [text, ...s.log].slice(0, 5); };
@@ -166,16 +191,18 @@
         lastReward: null, lastUpgrade: null, pendingUpgrade: null, upgrades: [], removed: [], rewards: [], rewardOffers: [], history: [], wins: 0,
         stats: { played: {}, dealt: 0, taken: 0, healed: 0, energyGained: 0, blocked: 0, reflected: 0, interrupts: 0, relics: 0 },
         log: ['護符を選んで、蒼星の回廊へ。'] };
+      if (ruleset === GROWTH_RULESET) { s.ruleset = GROWTH_RULESET; s.earlyRemoval = null; s.deck = [...BASIC_STARTER]; s.enemyHp = s.enemyMaxHp = GROWTH_ENEMIES.skeleton.hp; }
       return snapshot();
     }
-    function selectOrigin(id) { if (s.phase !== 'intro' || !Object.hasOwn(ORIGINS, id)) return false; s.origin = id; s.deck = [...ORIGINS[id].deck]; return true; }
+    function selectOrigin(id) { if (s.phase !== 'intro' || !Object.hasOwn(ORIGINS, id)) return false; s.origin = id; s.deck = [...starter(id)]; return true; }
     function prepare() {
       s.phase = 'battle'; s.turn = 1; s.energy = s.route2 === 'causeway' && s.battle >= 4 ? 3 : 2; s.block = s.focus = s.weaken = s.reflect = s.turnDamage = s.spellCount = 0; s.flags = {}; s.interrupted = false; s.pendingFocus = s.pendingBlock = 0; s.prevEndEmpty = false; s.turnLastAttack = s.prevLastAttack = 0; s.usedExhaustThisTurn = false; s.relicUsed = {emberCore:false,starBottle:false}; s.removalSource = null;
       s.enemyId = s.battle === 1 ? 'skeleton' : s.battle === 2 ? (s.route === 'moon' ? 'wraith' : 'stone') : s.battle === 3 ? 'trial' : s.battle === 4 ? s.chapter2Encounter : s.battle === 5 ? 'elite' : 'moth';
+      if (isGrowth() && s.battle === 3) s.sanctuary = null;
       s.enemyMaxHp = s.enemyHp = enemy().hp;
       s.rewardOffers = [];
       s.hand = []; s.discard = []; s.exhaust = []; s.draw = shuffle([...s.deck]);
-      const opening = s.battle === 1 ? ORIGINS[s.origin].deck.slice(0, 5) : [s.lastReward, s.pendingUpgrade].filter(Boolean);
+      const opening = s.battle === 1 ? starter(s.origin).slice(0, 5) : [s.lastReward, s.pendingUpgrade].filter(Boolean);
       for (const id of opening) { const index = s.draw.indexOf(id); if (index >= 0) { s.draw.splice(index, 1); s.hand.push(id); } }
       draw((s.insight ? 6 : 5) - s.hand.length); s.pendingUpgrade = null; note(enemy().lesson);
     }
@@ -294,10 +321,13 @@
     function openReward() {
       if (s.phase !== 'victory') return false;
       s.phase = s.battle === RUN_LENGTH ? 'complete' : 'reward';
-      if (s.phase === 'reward') {
+      if (s.phase === 'reward' && isGrowth()) {
+        if (s.battle === 1) s.rewardOffers = FIRST_REWARD_POOLS.map(pool => shuffle([...pool])[0]);
+        else s.rewardOffers = shuffle(Object.keys(CARDS).filter(id => !CARDS[id].starterOnly)).slice(0,4);
+      } else if (s.phase === 'reward') {
         const offers = shuffle([...REWARD_POOLS[s.origin]]).slice(0,1);
         offers.push(shuffle(['light','stillness','renew','meditate','focus'].filter(id => !offers.includes(id)))[0]);
-        while (offers.length < 4) offers.push(shuffle(Object.keys(CARDS).filter(id => !offers.includes(id) && (!['chantWard','starFerryWard','ebbArrow','starRelay','mirrorLance','marginLight','quietScript','mirrorNote','returnPage','starlitPin','shutterWard','orbitEcho','tuningNote'].includes(id) || s.battle >= 2)))[0]); s.rewardOffers = offers;
+        while (offers.length < 4) offers.push(shuffle(Object.keys(CARDS).filter(id => !CARDS[id].starterOnly && !offers.includes(id) && (!['chantWard','starFerryWard','ebbArrow','starRelay','mirrorLance','marginLight','quietScript','mirrorNote','returnPage','starlitPin','shutterWard','orbitEcho','tuningNote'].includes(id) || s.battle >= 2)))[0]); s.rewardOffers = offers;
       }
       return true;
     }
@@ -331,17 +361,18 @@
     }
     function removeOptions() { return [...new Set(s.deck)]; }
     function removeCard(id) {
-      if (s.phase !== 'remove' || !removeOptions().includes(id) || s.deck.length <= 5 || s.removed.length >= 2) return false;
+      if (s.phase !== 'remove' || !removeOptions().includes(id) || s.deck.length <= 5 || s.removed.length >= (isGrowth() ? 3 : 2)) return false;
       s.deck.splice(s.deck.indexOf(id),1); s.removed.push(id);
       if (s.lastReward === id && !s.deck.includes(id)) s.lastReward = null;
+      if (isGrowth() && s.battle === 2) s.earlyRemoval = id;
       if (s.removalSource === 'sanctuary') s.sanctuary = 'remove'; else s.camp = 'remove';
       s.removalSource = null; s.phase = 'ready'; return true;
     }
     function cancelRemoval() { if (s.phase !== 'remove') return false; s.phase = s.removalSource === 'sanctuary' ? 'sanctuary' : 'camp'; s.removalSource = null; return true; }
     function chooseSanctuary(id) {
       if (s.phase !== 'sanctuary' || !['rest', 'evolve', 'relic', 'remove'].includes(id)) return false;
-      if (id === 'relic') { if (s.battle !== 2 || s.hp <= 6 || s.relics.length) return false; s.phase = 'astrolabe'; return true; }
-      if (id === 'remove') { if (s.battle !== 4 || s.deck.length <= 5) return false; s.removalSource = 'sanctuary'; s.phase = 'remove'; return true; }
+      if (id === 'relic') { if (isGrowth() || s.battle !== 2 || s.hp <= 6 || s.relics.length) return false; s.phase = 'astrolabe'; return true; }
+      if (id === 'remove') { if ((s.battle !== 4 && !(isGrowth() && s.battle === 2)) || s.deck.length <= 5 || s.removed.length >= (isGrowth() ? 3 : 2)) return false; s.removalSource = 'sanctuary'; s.phase = 'remove'; return true; }
       if (id === 'rest') { s.hp = Math.min(s.maxHp, s.hp + 14); s.sanctuary = 'rest'; s.phase = 'ready'; note('灯りの間でHPを14回復した。'); }
       else s.phase = 'evolve';
       return true;
@@ -359,7 +390,7 @@
     function nextBattle() { if (s.phase !== 'ready' || s.battle >= RUN_LENGTH) return false; s.battle++; prepare(); return true; }
     function exportSave() {
       if (typeof rng.state !== 'function') return null;
-      return { format: 'astral-planning', version: 3, rngState: rng.state(), state: snapshot() };
+      return { format: 'astral-planning', version: isGrowth() ? 4 : 3, rngState: rng.state(), state: snapshot() };
     }
     function restoreSave(save) {
       // Local saves are data, never executable state. Validate before changing the live game.
@@ -371,12 +402,15 @@
           const options = save.state.route2 ? {library:'archive',wind:'wind'} : {library:'bowWatcher',wind:'bellSpirit'};
           save = {...save,version:3,state:{...save.state,chapter2Options:options,chapter2Encounter:save.state.route2?options[save.state.route2]:null}};
         }
-        if (!save || save.format !== 'astral-planning' || save.version !== 3 || !Number.isInteger(save.rngState) || save.rngState < 0 || save.rngState > 4294967295) return false;
+        if (!save || save.format !== 'astral-planning' || ![3,4].includes(save.version) || !Number.isInteger(save.rngState) || save.rngState < 0 || save.rngState > 4294967295) return false;
         const x = save.state, integer = (v, min, max) => Number.isInteger(v) && v >= min && v <= max;
         const record = v => v !== null && typeof v === 'object' && Object.prototype.toString.call(v) === '[object Object]';
+        const growth = save.version === 4;
+        if (!record(x) || (growth ? x.ruleset !== GROWTH_RULESET || !(x.earlyRemoval === null || (typeof x.earlyRemoval === 'string' && card(x.earlyRemoval))) : Object.hasOwn(x,'ruleset') || Object.hasOwn(x,'earlyRemoval'))) return false;
+        const definitions = growth ? GROWTH_ENEMIES : ENEMIES;
         const phases = ['intro','battle','victory','defeat','complete','reward','route','chapter','sanctuary','evolve','camp','remove','ready','astrolabe'];
         if (!record(x) || !phases.includes(x.phase) || !Object.hasOwn(ORIGINS,x.origin) || !Object.hasOwn(ENEMIES,x.enemyId)) return false;
-        if (!integer(x.battle,1,6) || !integer(x.turn,1,10000) || ![60,66].includes(x.maxHp) || !integer(x.hp,0,x.maxHp) || x.enemyMaxHp !== ENEMIES[x.enemyId].hp || !integer(x.enemyHp,0,x.enemyMaxHp)) return false;
+        if (!integer(x.battle,1,6) || !integer(x.turn,1,10000) || ![60,66].includes(x.maxHp) || !integer(x.hp,0,x.maxHp) || x.enemyMaxHp !== definitions[x.enemyId].hp || !integer(x.enemyHp,0,x.enemyMaxHp)) return false;
         if (x.maxEnergy !== 5 || !integer(x.energy,0,5) || !integer(x.wins,0,6)) return false;
         for (const k of ['block','focus','weaken','reflect','turnDamage','spellCount','pendingFocus','pendingBlock','turnLastAttack','prevLastAttack']) if (!integer(x[k],0,100000)) return false;
         for (const k of ['interrupted','forge','insight','prevEndEmpty','usedExhaustThisTurn']) if (typeof x[k] !== 'boolean') return false;
@@ -391,18 +425,20 @@
         if (x.history.filter(h=>h.result==='victory').length !== x.wins) return false;
         if (!Array.isArray(x.relics) || x.relics.length>1 || new Set(x.relics).size!==x.relics.length || x.relics.some(id=>!Object.hasOwn(RELICS,id))) return false;
         if (!record(x.relicUsed) || Object.keys(x.relicUsed).sort().join('|')!=='emberCore|starBottle' || Object.values(x.relicUsed).some(v=>typeof v!=='boolean') || Object.keys(RELICS).some(id=>!x.relics.includes(id)&&x.relicUsed[id])) return false;
-        if (![null,'sanctuary','camp'].includes(x.removalSource) || (x.phase==='remove' ? x.removalSource!==(x.battle===4?'sanctuary':'camp') : x.removalSource!==null)) return false;
+        if (![null,'sanctuary','camp'].includes(x.removalSource) || (x.phase==='remove' ? x.removalSource!==([2,4].includes(x.battle)?'sanctuary':'camp') : x.removalSource!==null)) return false;
         if (x.relics.length && (x.battle<2 || (x.battle===2&&(x.phase!=='ready'||x.sanctuary!=='relic')))) return false;
         if (x.sanctuary==='relic' && !x.relics.length) return false;
-        if (x.sanctuary==='remove' && (x.battle<4 || (x.battle===4&&x.phase!=='ready'))) return false;
+        if (x.sanctuary==='remove' && !(growth && x.battle===2 && x.phase==='ready' && x.earlyRemoval) && (x.battle<4 || (x.battle===4&&x.phase!=='ready'))) return false;
         if (x.camp!==null && (x.battle<5 || (x.battle===5&&x.phase!=='ready'))) return false;
-        if (x.removed.length !== Number(x.sanctuary==='remove')+Number(x.camp==='remove')) return false;
+        if (x.removed.length !== Number(x.sanctuary==='remove' && !(growth && x.battle===2))+Number(x.camp==='remove')+Number(growth && x.earlyRemoval!==null)) return false;
+        if (growth && x.earlyRemoval!==null && (x.battle<2 || (x.battle===2 && (x.phase!=='ready' || x.sanctuary!=='remove')) || x.removed[0]!==x.earlyRemoval)) return false;
+        if (growth && x.relics.length) return false;
         if (!Array.isArray(x.log) || x.log.length > 5 || x.log.some(t => typeof t !== 'string' || t.length > 500)) return false;
         if ((x.phase !== 'battle' && (x.pendingFocus || x.pendingBlock || x.prevEndEmpty || x.turnLastAttack || x.prevLastAttack || x.usedExhaustThisTurn)) || (x.turn === 1 && (x.prevEndEmpty || x.prevLastAttack))) return false;
         const afterBattle = !['intro','battle'].includes(x.phase), victoryPhase = afterBattle && x.phase !== 'defeat';
         if (x.phase === 'intro') {
           if (x.battle !== 1 || x.turn !== 1 || x.wins !== 0 || x.hp !== MAX_HP || x.energy !== 2 || x.history.length || x.route || x.route2 || x.lastReward || x.lastUpgrade || x.pendingUpgrade || x.rewards.length || x.upgrades.length || x.removed.length) return false;
-          if ([...x.deck].sort().join('|') !== [...ORIGINS[x.origin].deck].sort().join('|') || x.hand.length+x.draw.length+x.discard.length+x.exhaust.length !== 0 || x.enemyHp !== ENEMIES.skeleton.hp) return false;
+          if ([...x.deck].sort().join('|') !== [...(growth ? BASIC_STARTER : ORIGINS[x.origin].deck)].sort().join('|') || x.hand.length+x.draw.length+x.discard.length+x.exhaust.length !== 0 || x.enemyHp !== definitions.skeleton.hp) return false;
         } else {
           if (x.wins !== (victoryPhase ? x.battle : x.battle-1) || x.history.length !== (afterBattle ? x.battle : x.battle-1)) return false;
           if (victoryPhase && (x.hp <= 0 || x.enemyHp !== 0)) return false;
@@ -413,8 +449,8 @@
         if (x.phase === 'chapter' && x.battle !== 3) return false;
         if (['sanctuary','evolve'].includes(x.phase) && ![2,4].includes(x.battle)) return false;
         if (x.phase === 'camp' && x.battle !== 5) return false;
-        if (x.phase === 'remove' && ![4,5].includes(x.battle)) return false;
-        if (x.phase === 'astrolabe' && (x.battle!==2 || x.hp<=6 || x.relics.length)) return false;
+        if (x.phase === 'remove' && !(growth ? [2,4,5] : [4,5]).includes(x.battle)) return false;
+        if (x.phase === 'astrolabe' && (growth || x.battle!==2 || x.hp<=6 || x.relics.length)) return false;
         const hasRoute = x.battle >= 2 || (x.battle === 1 && x.phase === 'ready');
         const hasChapterRoute = x.battle >= 4 || (x.battle === 3 && x.phase === 'ready');
         if (hasRoute ? !['moon','forge'].includes(x.route) : x.route !== null) return false;
@@ -427,12 +463,12 @@
         if (x.enemyId !== encounter(x.battle)) return false;
         if (x.history.some((h,i)=>h.battle!==i+1 || h.enemy!==ENEMIES[encounter(i+1)].name || (i<x.history.length-1&&h.result!=='victory') || (h.result==='defeat'?h.hp!==0:h.hp<=0))) return false;
         if (afterBattle && (x.history.at(-1).turns !== x.turn || x.history.at(-1).result !== (x.phase==='defeat'?'defeat':'victory'))) return false;
-        if (x.rewards.length>5 || x.upgrades.length>2 || x.removed.length>2 || x.deck.length !== 10+x.rewards.length-x.removed.length) return false;
+        if (x.rewards.length>5 || x.upgrades.length>2 || x.removed.length>(growth?3:2) || x.deck.length !== 10+x.rewards.length-x.removed.length) return false;
         if (x.pendingUpgrade && !x.deck.includes(x.pendingUpgrade)) return false;
         if (['battle','victory','defeat','complete'].includes(x.phase) && [...x.hand,...x.draw,...x.discard,...x.exhaust].sort().join('|') !== [...x.deck].sort().join('|')) return false;
         if (x.phase === 'battle' && (!x.hp || !x.enemyHp)) return false;
         if (x.phase === 'battle') {
-          const m=ENEMIES[x.enemyId].moves[(x.turn-1)%ENEMIES[x.enemyId].moves.length], r=breakRule(m);
+          const m=definitions[x.enemyId].moves[(x.turn-1)%definitions[x.enemyId].moves.length], r=breakRule(m);
           if (!r.kind && x.interrupted) return false;
           if (r.kind==='count' && x.interrupted !== (x.spellCount>=r.threshold)) return false;
           if (r.kind==='single' && x.interrupted && (!x.spellCount || x.turnDamage<r.threshold)) return false;
@@ -445,5 +481,5 @@
     reset();
     return { snapshot, selectOrigin, start, intent, futureIntents, previewCard, play, endTurn, rewardOptions, openReward, chooseReward, chooseRoute, chooseSanctuary, chooseRelic, cancelRelic, upgradeOptions, evolve, cancelEvolution, chooseChapter, chooseCamp, removeOptions, removeCard, cancelRemoval, nextBattle, exportSave, restoreSave, reset };
   }
-  globalThis.ShinkaV43 = Object.freeze({ CARDS, ORIGINS, ENEMIES, RELICS, enemyPattern, MAX_HP, MAX_ENERGY, RUN_LENGTH, card, seededRandom, resolveAttack, createGame });
+  globalThis.ShinkaV43 = Object.freeze({ CARDS, ORIGINS, ENEMIES, GROWTH_ENEMIES, GROWTH_RULESET, BASIC_STARTER, FIRST_REWARD_POOLS, enemiesFor, RELICS, enemyPattern, MAX_HP, MAX_ENERGY, RUN_LENGTH, card, seededRandom, resolveAttack, createGame });
 })();

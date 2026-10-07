@@ -20,7 +20,7 @@ node --test tests/astral-*.test.mjs
 python3 -m unittest discover -s tests -p 'test_astral_release.py'
 ```
 
-- 24枚版と先読み46枚版の独立、保存形式、RNGを含む保存復帰と次の操作を確認
+- 24枚版と先読み48枚版の独立、保存形式、RNGを含む保存復帰と次の操作を確認
 - 旧04.8の合成保存4件を復元し、開いている報酬を再抽選しないことを確認
 - 霜穿ちの弱体2/3境界、進化値、弱体を消費しない動作
 - 詠止の結界の使用順、進化値、条件成立時だけ1枚引く動作
@@ -151,3 +151,16 @@ node tools/astral-star-dial-balance.mjs --seeds=64 --reward-seeds=512
 2026-10-07公開。build `4.13-ebd5c053d7f6`、公開46ファイルのbyte一致を確認。
 [公開記録](design/production/star-dial-release.md)にCI・Pages・再試行と未検証範囲を記録する。
 実ブラウザ・実機確認の合格は主張しない。
+
+
+## V4.14 成長ループ試遊（ローカル・未公開候補）
+
+基本2種＋既存46種。新規ランのデッキ・第1〜3戦・初報酬・第2戦後の除去をまとめて試す。
+旧v3の途中保存は元の敵/報酬/RNG/デッキを維持、新規はruleset付きv4。
+歴史的なカード効果テストは明示的なclassic生成、新規v4は専用の成長/互換/計測テストで検証する。
+[仮仕様・制約・検証報告](design/production/deck-growth-report.md)、[同一seed比較](design/production/deck-growth-results.json)。
+
+`node tools/astral-growth-balance.mjs --seeds=24 --beam=6 --branch-seeds=8`
+でターンと実行アクション、条件発動、支度の比較、保存互換を再計測できる。
+`ui-qa/growth.html` は13合成場面。手動横画面/実機はユーザー担当で開発を止めない。
+この候補を公開済みとは扱わず、V4.13の公開履歴は上記に残す。

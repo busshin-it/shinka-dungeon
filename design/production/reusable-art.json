@@ -4,9 +4,9 @@
   "audited_date": "2026-10-06",
   "repository": "busshin-it/shinka-dungeon",
   "source_commit": "739cdb63f938048977dcb2f998770d4df4ef5ab3",
-  "scope": "Read-only inspection; only this catalog and its Markdown companion were written. No art generation, mutation, queue change or runtime remapping. v4.12 adds 4 dedicated art aliases mapped to the same reviewed Noa files; 25 keys, 21 distinct images. v4.13 adds four star-dial aliases, 29 keys and the same 21 distinct card images; enemy reuses existing gatekeeper image.",
+  "scope": "Read-only inspection; only this catalog and its Markdown companion were written. No art generation, mutation, queue change or runtime remapping. v4.12 adds 4 dedicated art aliases mapped to the same reviewed Noa files; 25 keys, 21 distinct images. v4.13 adds four star-dial aliases, 29 keys and the same 21 distinct card images; enemy reuses existing gatekeeper image. v4.14 growth trial adds two basic definitions reusing dark/guard keys; no new artwork or aliases.",
   "summary": {
-    "planning_cards": 46,
+    "planning_cards": 48,
     "active_art_keys": 29,
     "active_v4_card_files": 11,
     "active_embedded_art_keys": 10,
@@ -62,6 +62,18 @@
     "Record reuse as an explicit decision and why generation is unnecessary; only request new art for a remaining named gap."
   ],
   "current_cards": [
+    {
+      "card_id": "basicStrike",
+      "name": "小さな魔弾",
+      "family": "basic",
+      "art_key": "dark"
+    },
+    {
+      "card_id": "basicWard",
+      "name": "薄い守り",
+      "family": "basic",
+      "art_key": "guard"
+    },
     {
       "card_id": "ice",
       "name": "氷の矢",
@@ -1109,6 +1121,7 @@
       },
       "art_key": "guard",
       "current_cards": [
+        "basicWard",
         "guard"
       ],
       "style_group": "gothic-ruins-detailed",
@@ -1193,6 +1206,7 @@
       },
       "art_key": "dark",
       "current_cards": [
+        "basicStrike",
         "dark",
         "memoryArrow"
       ],
