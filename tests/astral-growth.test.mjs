@@ -10,7 +10,9 @@ const read = path => fs.readFileSync(new URL('../' + path, import.meta.url), 'ut
 const context = {};
 for (const file of ['planning-v1-engine.js', 'planning-v2-engine.js', 'planning-engine.js'])
   vm.runInNewContext(read('v4-1/' + file), context);
-const engine = context.ShinkaV43;
+const currentEngine = context.ShinkaV43;
+// Historical v4 trial remains pinned; fresh v5 coverage lives in astral-starter-cost.
+const engine = {...currentEngine, createGame: (random, options = {ruleset:'growth-v1'}) => currentEngine.createGame(random, options)};
 const plain = value => JSON.parse(JSON.stringify(value));
 const sorted = values => [...values].sort();
 const zones = state => [...state.hand, ...state.draw, ...state.discard, ...state.exhaust];
