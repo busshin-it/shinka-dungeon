@@ -1,5 +1,13 @@
 # GAME LAB Research Log
 
+## 2026-10-07｜V4.19 綴じ直し・公開
+
+- [PR #21](https://github.com/busshin-it/shinka-dungeon/pull/21)を正確なheadのCI成功後にmerge。main `effb5fade`、build `4.19-3d070049d693`。検証付きPages成功、HTTPS配布46ファイル一致。
+- コスト1で最新の捨て札攻撃を回収し、直後に1枚（進化2枚）引いて消滅する1枚。図鑑55種。旧ruleset・初回・開いていた報酬/RNGと保存version5を維持。
+- Node206・Python4・Factory14、独立12,048旧保存次操作/2,112報酬RNGと取得/進化/除去を検証。既存画像・処理を再利用し、新依存/設定変更なし。
+- 192場面の限定対照は72回使用/120回見送り。全ラン方策は新札を取得せず、強さ・楽しさを断定しない。実ブラウザ/実機/実ユーザー保存は未確認。
+- [公開記録](design/production/restitch-release.md)、[対照と限界](design/production/restitch-report.md)、[保存隔離QA](ui-qa/restitch.html)。以下の候補ログは制作時点の履歴。
+
 ## 2026-10-07｜V4.18 星秤の衛兵・公開
 
 - [PR #20](https://github.com/busshin-it/shinka-dungeon/pull/20)を正確なheadのCI成功後にmerge。main `f7be2a36`、build `4.18-4e4d2b8d0dd7`。両Pages成功、HTTPS配布46ファイル一致。
