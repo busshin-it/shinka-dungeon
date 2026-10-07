@@ -170,7 +170,7 @@ test('timings report overlapping service time separately from elapsed/active wal
 test('CLI fails closed on invalid commands and emits portable JSON without writes',()=>{
   const tool=path.join(ROOT,'tools/astral-card-production.mjs');
   const catalog=JSON.parse(execFileSync(process.execPath,[tool,'catalog'],{encoding:'utf8'}));
-  assert.equal(catalog.length,42);assert.equal(catalog.find(c=>c.id==='quietComet').upgrade.damage,13);
+  assert.equal(catalog.length,46);assert.equal(catalog.find(c=>c.id==='quietComet').upgrade.damage,13);
   const output=JSON.parse(execFileSync(process.execPath,[tool,'validate',path.join(ROOT,'design/production/noa-example.json'),'release'],{encoding:'utf8'}));
   assert.equal(output.scenarios,9);
   for(const args of [['generate'],['catalog','ignored'],['validate',path.join(ROOT,'design/production/noa-example.json'),'oops']]) {
@@ -190,4 +190,16 @@ test('Noa postscript passes reuse-only release checks and 10 behavior/text/save 
   const oldPath=html.match(new RegExp(`data-card-art="${original}" src="([^"]+)"`))[1];
   assert.equal(asset.path,oldPath,id+' shares reviewed original image');
  }
+});
+
+test('Star Dial set passes release cases, unchanged artwork, explicit enemy mapping and reuse-only jobs',()=>{
+ const spec=JSON.parse(fs.readFileSync(path.join(ROOT,'design/production/star-dial.json'),'utf8'));
+ assert.deepEqual(validateSet(spec,{stage:'release'}),{set:'star-dial',stage:'release',cards:4,assets:5,scenarios:10});
+ assert.deepEqual(promptManifest(spec).jobs,[]);
+ const {engine}=loadGame();assert.deepEqual(JSON.parse(JSON.stringify(engine.ENEMIES[spec.encounter.id])),spec.encounter.definition);
+ const art=spec.encounter.art,bytes=safeAsset(ROOT,art.path);assert.equal(crypto.createHash('sha256').update(bytes).digest('hex'),art.sha256);
+ const html=fs.readFileSync(path.join(ROOT,'v4-1/planning.html'),'utf8');assert(html.includes(`data-art="starDial" src="${art.path}" alt=""`));
+ assert(JSON.parse(fs.readFileSync(path.join(ROOT,'tools/astral-files.json'))).includes(art.path));
+ const aliases=JSON.parse(fs.readFileSync(path.join(ROOT,'design/production/reusable-art.json'))).star_dial_aliases;
+ for(const [id,original]of Object.entries(aliases)){const card=spec.cards.find(c=>c.id===id),asset=spec.assets.find(a=>a.key===card.asset);assert.equal(asset.path,html.match(new RegExp(`data-card-art="${original}" src="([^"]+)"`))[1]);}
 });

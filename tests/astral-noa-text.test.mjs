@@ -24,8 +24,8 @@ test('Noa assets are in the release manifest and every mode entry names the curr
  const files=JSON.parse(read('tools/astral-files.json')),planning=read('v4-1/planning.html');
  for(const name of ['librarian-noa','star-relay','quiet-comet','mirror-lance','star-bookmark']){assert(files.includes(`./assets/${name}.webp`));assert(fs.statSync(new URL(`../v4-1/assets/${name}.webp`,import.meta.url)).size>1000);}
  for(const art of ['starRelay','quietComet','mirrorLance','starBookmark'])assert(planning.includes(`data-card-art="${art}"`));
- for(const file of ['v4-1/index.html','v4-1/game.js','v4-1/planning.html','v4-1/planning-game.js']){const text=read(file);assert(text.includes('42枚'));assert(!text.includes('34枚'));}
- assert(planning.includes('42種類'));assert(read('v4-1/planning-game.js').includes('星綴りの司書ノア'));
+ for(const file of ['v4-1/index.html','v4-1/game.js','v4-1/planning.html','v4-1/planning-game.js']){const text=read(file);assert(text.includes('46枚'));assert(!text.includes('34枚'));}
+ assert(planning.includes('46種類'));assert(read('v4-1/planning-game.js').includes('星綴りの司書ノア'));
 });
 test('Mirror Lance art keeps its upper-right spearhead in responsive crops',()=>{
  assert.match(read('v4-1/planning.css'),/\.planning-mode\s+\.card-art\[src\$="mirror-lance\.webp"\]\s*\{\s*object-position:\s*right\s+top\s*\}/);

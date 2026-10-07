@@ -1,0 +1,6949 @@
+{
+  "sourceSha256": "9b569453fa80482452dfa12ac9c5bac160fc1df2998f2de30ff1c07550ab98f3",
+  "policy": "One-step greedy damage and immediate prevented HP loss with small future-resource weights. Identical chapter save, deck, HP and RNG per enemy pair; only the allowed library option is changed. Shared policy takes highest heuristic reward and rests. Not optimal play, human difficulty, fun, or proof of balance.",
+  "summary": {
+    "attempted": 192,
+    "reachedChapter": 192,
+    "bowWatcher": {
+      "battle4Wins": 168,
+      "completed": 1,
+      "meanBattle4HpLoss": 29.661,
+      "meanBattle4Turns": 8.13,
+      "meanInterrupts": 0.443
+    },
+    "starDial": {
+      "battle4Wins": 188,
+      "completed": 0,
+      "meanBattle4HpLoss": 24.13,
+      "meanBattle4Turns": 7.635,
+      "meanInterrupts": 0.292
+    },
+    "newMinusOldHpLoss": -5.531
+  },
+  "rewards": {
+    "samples": 1536,
+    "fixedSlotsIdentical": 1536,
+    "newCounts": {
+      "starlitPin": 76,
+      "shutterWard": 75,
+      "orbitEcho": 79,
+      "tuningNote": 88
+    },
+    "oldNoaCount": 304,
+    "newNoaCount": 279
+  },
+  "rows": [
+    {
+      "origin": "frost",
+      "seed": 1,
+      "hp": 44,
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "shatter",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "frostWard",
+        "frostPierce",
+        "frostNova",
+        "iceSpear"
+      ],
+      "bowWatcher": {
+        "win": true,
+        "hpLoss": 21,
+        "endHp": 23,
+        "turns": 7,
+        "interrupts": 2,
+        "complete": false
+      },
+      "starDial": {
+        "win": true,
+        "hpLoss": 24,
+        "endHp": 20,
+        "turns": 9,
+        "interrupts": 0,
+        "complete": false
+      }
+    },
+    {
+      "origin": "frost",
+      "seed": 2,
+      "hp": 44,
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "shatter",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "frostWard",
+        "frostPierce",
+        "iceSpear",
+        "frostNova"
+      ],
+      "bowWatcher": {
+        "win": true,
+        "hpLoss": 38,
+        "endHp": 6,
+        "turns": 8,
+        "interrupts": 0,
+        "complete": false
+      },
+      "starDial": {
+        "win": true,
+        "hpLoss": 28,
+        "endHp": 16,
+        "turns": 7,
+        "interrupts": 0,
+        "complete": false
+      }
+    },
+    {
+      "origin": "frost",
+      "seed": 3,
+      "hp": 52,
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "shatter",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "frostWard",
+        "iceSpear",
+        "frostPierce",
+        "iceSpear"
+      ],
+      "bowWatcher": {
+        "win": true,
+        "hpLoss": 30,
+        "endHp": 22,
+        "turns": 8,
+        "interrupts": 1,
+        "complete": false
+      },
+      "starDial": {
+        "win": true,
+        "hpLoss": 25,
+        "endHp": 27,
+        "turns": 9,
+        "interrupts": 0,
+        "complete": false
+      }
+    },
+    {
+      "origin": "frost",
+      "seed": 4,
+      "hp": 45,
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "shatter",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "frostWard",
+        "frostNova",
+        "zenithBolt",
+        "winter"
+      ],
+      "bowWatcher": {
+        "win": true,
+        "hpLoss": 30,
+        "endHp": 15,
+        "turns": 8,
+        "interrupts": 0,
+        "complete": false
+      },
+      "starDial": {
+        "win": true,
+        "hpLoss": 23,
+        "endHp": 22,
+        "turns": 9,
+        "interrupts": 0,
+        "complete": false
+      }
+    },
+    {
+      "origin": "frost",
+      "seed": 5,
+      "hp": 47,
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "shatter",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "frostWard",
+        "quietComet",
+        "renew",
+        "iceSpear"
+      ],
+      "bowWatcher": {
+        "win": true,
+        "hpLoss": 28,
+        "endHp": 19,
+        "turns": 8,
+        "interrupts": 1,
+        "complete": false
+      },
+      "starDial": {
+        "win": true,
+        "hpLoss": 35,
+        "endHp": 12,
+        "turns": 7,
+        "interrupts": 0,
+        "complete": false
+      }
+    },
+    {
+      "origin": "frost",
+      "seed": 6,
+      "hp": 53,
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "shatter",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "frostWard",
+        "frostNova",
+        "shatter",
+        "frostNova"
+      ],
+      "bowWatcher": {
+        "win": true,
+        "hpLoss": 31,
+        "endHp": 22,
+        "turns": 8,
+        "interrupts": 0,
+        "complete": false
+      },
+      "starDial": {
+        "win": true,
+        "hpLoss": 28,
+        "endHp": 25,
+        "turns": 8,
+        "interrupts": 0,
+        "complete": false
+      }
+    },
+    {
+      "origin": "frost",
+      "seed": 7,
+      "hp": 49,
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "shatter",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "frostWard",
+        "frostNova",
+        "chain",
+        "winter"
+      ],
+      "bowWatcher": {
+        "win": true,
+        "hpLoss": 45,
+        "endHp": 4,
+        "turns": 10,
+        "interrupts": 0,
+        "complete": false
+      },
+      "starDial": {
+        "win": true,
+        "hpLoss": 30,
+        "endHp": 19,
+        "turns": 10,
+        "interrupts": 0,
+        "complete": false
+      }
+    },
+    {
+      "origin": "frost",
+      "seed": 8,
+      "hp": 60,
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "shatter",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "frostWard",
+        "frostWard",
+        "frostPierce",
+        "frostNova"
+      ],
+      "bowWatcher": {
+        "win": true,
+        "hpLoss": 33,
+        "endHp": 27,
+        "turns": 9,
+        "interrupts": 1,
+        "complete": false
+      },
+      "starDial": {
+        "win": true,
+        "hpLoss": 23,
+        "endHp": 37,
+        "turns": 9,
+        "interrupts": 0,
+        "complete": false
+      }
+    },
+    {
+      "origin": "frost",
+      "seed": 9,
+      "hp": 46,
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "shatter",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "frostWard",
+        "bolt",
+        "winter",
+        "frostWard"
+      ],
+      "bowWatcher": {
+        "win": true,
+        "hpLoss": 23,
+        "endHp": 23,
+        "turns": 8,
+        "interrupts": 1,
+        "complete": false
+      },
+      "starDial": {
+        "win": true,
+        "hpLoss": 29,
+        "endHp": 17,
+        "turns": 8,
+        "interrupts": 1,
+        "complete": false
+      }
+    },
+    {
+      "origin": "frost",
+      "seed": 10,
+      "hp": 44,
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "shatter",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "frostWard",
+        "renew",
+        "frostNova",
+        "iceSpear"
+      ],
+      "bowWatcher": {
+        "win": true,
+        "hpLoss": 32,
+        "endHp": 12,
+        "turns": 10,
+        "interrupts": 0,
+        "complete": false
+      },
+      "starDial": {
+        "win": true,
+        "hpLoss": 15,
+        "endHp": 29,
+        "turns": 9,
+        "interrupts": 0,
+        "complete": false
+      }
+    },
+    {
+      "origin": "frost",
+      "seed": 11,
+      "hp": 37,
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "shatter",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "frostWard",
+        "frostPierce",
+        "surge",
+        "frostPierce"
+      ],
+      "bowWatcher": {
+        "win": true,
+        "hpLoss": 28,
+        "endHp": 9,
+        "turns": 8,
+        "interrupts": 1,
+        "complete": false
+      },
+      "starDial": {
+        "win": true,
+        "hpLoss": 10,
+        "endHp": 27,
+        "turns": 9,
+        "interrupts": 0,
+        "complete": false
+      }
+    },
+    {
+      "origin": "frost",
+      "seed": 12,
+      "hp": 50,
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "shatter",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "frostWard",
+        "winter",
+        "frostNova",
+        "meditate"
+      ],
+      "bowWatcher": {
+        "win": true,
+        "hpLoss": 13,
+        "endHp": 37,
+        "turns": 8,
+        "interrupts": 1,
+        "complete": false
+      },
+      "starDial": {
+        "win": true,
+        "hpLoss": 21,
+        "endHp": 29,
+        "turns": 8,
+        "interrupts": 0,
+        "complete": false
+      }
+    },
+    {
+      "origin": "frost",
+      "seed": 13,
+      "hp": 55,
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "shatter",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "frostWard",
+        "shatter",
+        "winter",
+        "winter"
+      ],
+      "bowWatcher": {
+        "win": true,
+        "hpLoss": 37,
+        "endHp": 18,
+        "turns": 10,
+        "interrupts": 0,
+        "complete": false
+      },
+      "starDial": {
+        "win": true,
+        "hpLoss": 25,
+        "endHp": 30,
+        "turns": 10,
+        "interrupts": 0,
+        "complete": false
+      }
+    },
+    {
+      "origin": "frost",
+      "seed": 14,
+      "hp": 31,
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "shatter",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "frostWard",
+        "frostPierce",
+        "frostPierce",
+        "thunderCrash"
+      ],
+      "bowWatcher": {
+        "win": false,
+        "hpLoss": 31,
+        "endHp": 0,
+        "turns": 6,
+        "interrupts": 1,
+        "complete": false
+      },
+      "starDial": {
+        "win": false,
+        "hpLoss": 31,
+        "endHp": 0,
+        "turns": 6,
+        "interrupts": 1,
+        "complete": false
+      }
+    },
+    {
+      "origin": "frost",
+      "seed": 15,
+      "hp": 54,
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "shatter",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "frostWard",
+        "iceSpear",
+        "frostPierce",
+        "frostNova"
+      ],
+      "bowWatcher": {
+        "win": true,
+        "hpLoss": 35,
+        "endHp": 19,
+        "turns": 10,
+        "interrupts": 0,
+        "complete": false
+      },
+      "starDial": {
+        "win": true,
+        "hpLoss": 18,
+        "endHp": 36,
+        "turns": 8,
+        "interrupts": 1,
+        "complete": false
+      }
+    },
+    {
+      "origin": "frost",
+      "seed": 16,
+      "hp": 58,
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "shatter",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "frostWard",
+        "iceSpear",
+        "winter",
+        "frostWard"
+      ],
+      "bowWatcher": {
+        "win": true,
+        "hpLoss": 13,
+        "endHp": 45,
+        "turns": 8,
+        "interrupts": 2,
+        "complete": false
+      },
+      "starDial": {
+        "win": true,
+        "hpLoss": 24,
+        "endHp": 34,
+        "turns": 9,
+        "interrupts": 0,
+        "complete": false
+      }
+    },
+    {
+      "origin": "frost",
+      "seed": 17,
+      "hp": 60,
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "shatter",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "frostWard",
+        "meditate",
+        "bolt",
+        "shatter"
+      ],
+      "bowWatcher": {
+        "win": true,
+        "hpLoss": 14,
+        "endHp": 46,
+        "turns": 5,
+        "interrupts": 2,
+        "complete": false
+      },
+      "starDial": {
+        "win": true,
+        "hpLoss": 21,
+        "endHp": 39,
+        "turns": 8,
+        "interrupts": 0,
+        "complete": false
+      }
+    },
+    {
+      "origin": "frost",
+      "seed": 18,
+      "hp": 55,
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "shatter",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "frostWard",
+        "frostWard",
+        "winter",
+        "iceSpear"
+      ],
+      "bowWatcher": {
+        "win": true,
+        "hpLoss": 26,
+        "endHp": 29,
+        "turns": 8,
+        "interrupts": 0,
+        "complete": false
+      },
+      "starDial": {
+        "win": true,
+        "hpLoss": 23,
+        "endHp": 32,
+        "turns": 7,
+        "interrupts": 1,
+        "complete": false
+      }
+    },
+    {
+      "origin": "frost",
+      "seed": 19,
+      "hp": 50,
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "shatter",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "frostWard",
+        "winter",
+        "iceSpear",
+        "frostPierce"
+      ],
+      "bowWatcher": {
+        "win": true,
+        "hpLoss": 20,
+        "endHp": 30,
+        "turns": 9,
+        "interrupts": 1,
+        "complete": false
+      },
+      "starDial": {
+        "win": true,
+        "hpLoss": 22,
+        "endHp": 28,
+        "turns": 9,
+        "interrupts": 1,
+        "complete": false
+      }
+    },
+    {
+      "origin": "frost",
+      "seed": 20,
+      "hp": 47,
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "shatter",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "frostWard",
+        "iceSpear",
+        "iceSpear",
+        "frostPierce"
+      ],
+      "bowWatcher": {
+        "win": true,
+        "hpLoss": 34,
+        "endHp": 13,
+        "turns": 11,
+        "interrupts": 0,
+        "complete": false
+      },
+      "starDial": {
+        "win": true,
+        "hpLoss": 18,
+        "endHp": 29,
+        "turns": 9,
+        "interrupts": 1,
+        "complete": false
+      }
+    },
+    {
+      "origin": "frost",
+      "seed": 21,
+      "hp": 57,
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "shatter",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "frostWard",
+        "iceSpear",
+        "shatter",
+        "renew"
+      ],
+      "bowWatcher": {
+        "win": true,
+        "hpLoss": 45,
+        "endHp": 12,
+        "turns": 10,
+        "interrupts": 0,
+        "complete": false
+      },
+      "starDial": {
+        "win": true,
+        "hpLoss": 34,
+        "endHp": 23,
+        "turns": 9,
+        "interrupts": 0,
+        "complete": false
+      }
+    },
+    {
+      "origin": "frost",
+      "seed": 22,
+      "hp": 49,
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "shatter",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "frostWard",
+        "frostNova",
+        "frostNova",
+        "bolt"
+      ],
+      "bowWatcher": {
+        "win": true,
+        "hpLoss": 21,
+        "endHp": 28,
+        "turns": 8,
+        "interrupts": 1,
+        "complete": false
+      },
+      "starDial": {
+        "win": true,
+        "hpLoss": 28,
+        "endHp": 21,
+        "turns": 8,
+        "interrupts": 0,
+        "complete": false
+      }
+    },
+    {
+      "origin": "frost",
+      "seed": 23,
+      "hp": 47,
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "shatter",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "frostWard",
+        "winter",
+        "frostNova",
+        "dark"
+      ],
+      "bowWatcher": {
+        "win": true,
+        "hpLoss": 31,
+        "endHp": 16,
+        "turns": 11,
+        "interrupts": 0,
+        "complete": false
+      },
+      "starDial": {
+        "win": true,
+        "hpLoss": 15,
+        "endHp": 32,
+        "turns": 7,
+        "interrupts": 1,
+        "complete": false
+      }
+    },
+    {
+      "origin": "frost",
+      "seed": 24,
+      "hp": 51,
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "shatter",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "frostWard",
+        "frostNova",
+        "frostNova",
+        "frostNova"
+      ],
+      "bowWatcher": {
+        "win": true,
+        "hpLoss": 21,
+        "endHp": 30,
+        "turns": 8,
+        "interrupts": 1,
+        "complete": false
+      },
+      "starDial": {
+        "win": true,
+        "hpLoss": 26,
+        "endHp": 25,
+        "turns": 9,
+        "interrupts": 0,
+        "complete": false
+      }
+    },
+    {
+      "origin": "frost",
+      "seed": 25,
+      "hp": 47,
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "shatter",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "frostWard",
+        "frostWard",
+        "winter",
+        "frostNova"
+      ],
+      "bowWatcher": {
+        "win": true,
+        "hpLoss": 25,
+        "endHp": 22,
+        "turns": 8,
+        "interrupts": 1,
+        "complete": false
+      },
+      "starDial": {
+        "win": true,
+        "hpLoss": 23,
+        "endHp": 24,
+        "turns": 8,
+        "interrupts": 0,
+        "complete": false
+      }
+    },
+    {
+      "origin": "frost",
+      "seed": 26,
+      "hp": 56,
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "shatter",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "frostWard",
+        "iceSpear",
+        "ice",
+        "frostPierce"
+      ],
+      "bowWatcher": {
+        "win": true,
+        "hpLoss": 41,
+        "endHp": 15,
+        "turns": 10,
+        "interrupts": 1,
+        "complete": false
+      },
+      "starDial": {
+        "win": true,
+        "hpLoss": 25,
+        "endHp": 31,
+        "turns": 9,
+        "interrupts": 0,
+        "complete": false
+      }
+    },
+    {
+      "origin": "frost",
+      "seed": 27,
+      "hp": 48,
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "shatter",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "frostWard",
+        "iceSpear",
+        "shatter",
+        "frostNova"
+      ],
+      "bowWatcher": {
+        "win": true,
+        "hpLoss": 33,
+        "endHp": 15,
+        "turns": 9,
+        "interrupts": 0,
+        "complete": false
+      },
+      "starDial": {
+        "win": true,
+        "hpLoss": 25,
+        "endHp": 23,
+        "turns": 9,
+        "interrupts": 0,
+        "complete": false
+      }
+    },
+    {
+      "origin": "frost",
+      "seed": 28,
+      "hp": 50,
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "shatter",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "frostWard",
+        "winter",
+        "frostPierce",
+        "zenithBolt"
+      ],
+      "bowWatcher": {
+        "win": true,
+        "hpLoss": 31,
+        "endHp": 19,
+        "turns": 8,
+        "interrupts": 1,
+        "complete": false
+      },
+      "starDial": {
+        "win": true,
+        "hpLoss": 28,
+        "endHp": 22,
+        "turns": 7,
+        "interrupts": 1,
+        "complete": false
+      }
+    },
+    {
+      "origin": "frost",
+      "seed": 29,
+      "hp": 53,
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "shatter",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "frostWard",
+        "shatter",
+        "meditate",
+        "orbitEcho"
+      ],
+      "bowWatcher": {
+        "win": true,
+        "hpLoss": 26,
+        "endHp": 27,
+        "turns": 11,
+        "interrupts": 1,
+        "complete": false
+      },
+      "starDial": {
+        "win": true,
+        "hpLoss": 15,
+        "endHp": 38,
+        "turns": 11,
+        "interrupts": 0,
+        "complete": false
+      }
+    },
+    {
+      "origin": "frost",
+      "seed": 30,
+      "hp": 39,
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "shatter",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "frostWard",
+        "iceSpear",
+        "frostWard",
+        "frostWard"
+      ],
+      "bowWatcher": {
+        "win": false,
+        "hpLoss": 39,
+        "endHp": 0,
+        "turns": 8,
+        "interrupts": 0,
+        "complete": false
+      },
+      "starDial": {
+        "win": true,
+        "hpLoss": 10,
+        "endHp": 29,
+        "turns": 9,
+        "interrupts": 1,
+        "complete": false
+      }
+    },
+    {
+      "origin": "frost",
+      "seed": 31,
+      "hp": 50,
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "shatter",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "frostWard",
+        "frostNova",
+        "renew",
+        "frostPierce"
+      ],
+      "bowWatcher": {
+        "win": true,
+        "hpLoss": 37,
+        "endHp": 13,
+        "turns": 10,
+        "interrupts": 0,
+        "complete": false
+      },
+      "starDial": {
+        "win": true,
+        "hpLoss": 28,
+        "endHp": 22,
+        "turns": 9,
+        "interrupts": 0,
+        "complete": false
+      }
+    },
+    {
+      "origin": "frost",
+      "seed": 32,
+      "hp": 42,
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "shatter",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "frostWard",
+        "winter",
+        "meditate",
+        "frostWard"
+      ],
+      "bowWatcher": {
+        "win": true,
+        "hpLoss": 17,
+        "endHp": 25,
+        "turns": 8,
+        "interrupts": 1,
+        "complete": false
+      },
+      "starDial": {
+        "win": true,
+        "hpLoss": 22,
+        "endHp": 20,
+        "turns": 7,
+        "interrupts": 1,
+        "complete": false
+      }
+    },
+    {
+      "origin": "frost",
+      "seed": 33,
+      "hp": 36,
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "shatter",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "frostWard",
+        "frostPierce",
+        "bolt",
+        "winter"
+      ],
+      "bowWatcher": {
+        "win": true,
+        "hpLoss": 22,
+        "endHp": 14,
+        "turns": 8,
+        "interrupts": 1,
+        "complete": false
+      },
+      "starDial": {
+        "win": true,
+        "hpLoss": 26,
+        "endHp": 10,
+        "turns": 9,
+        "interrupts": 0,
+        "complete": false
+      }
+    },
+    {
+      "origin": "frost",
+      "seed": 34,
+      "hp": 42,
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "shatter",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "frostWard",
+        "frostWard",
+        "frostPierce",
+        "bolt"
+      ],
+      "bowWatcher": {
+        "win": false,
+        "hpLoss": 42,
+        "endHp": 0,
+        "turns": 9,
+        "interrupts": 0,
+        "complete": false
+      },
+      "starDial": {
+        "win": true,
+        "hpLoss": 21,
+        "endHp": 21,
+        "turns": 9,
+        "interrupts": 0,
+        "complete": false
+      }
+    },
+    {
+      "origin": "frost",
+      "seed": 35,
+      "hp": 45,
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "shatter",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "frostWard",
+        "frostWard",
+        "winter",
+        "iceSpear"
+      ],
+      "bowWatcher": {
+        "win": true,
+        "hpLoss": 22,
+        "endHp": 23,
+        "turns": 8,
+        "interrupts": 1,
+        "complete": false
+      },
+      "starDial": {
+        "win": true,
+        "hpLoss": 32,
+        "endHp": 13,
+        "turns": 7,
+        "interrupts": 1,
+        "complete": false
+      }
+    },
+    {
+      "origin": "frost",
+      "seed": 36,
+      "hp": 47,
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "shatter",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "frostWard",
+        "frostWard",
+        "ice",
+        "zenithBolt"
+      ],
+      "bowWatcher": {
+        "win": true,
+        "hpLoss": 31,
+        "endHp": 16,
+        "turns": 9,
+        "interrupts": 0,
+        "complete": false
+      },
+      "starDial": {
+        "win": true,
+        "hpLoss": 20,
+        "endHp": 27,
+        "turns": 8,
+        "interrupts": 0,
+        "complete": false
+      }
+    },
+    {
+      "origin": "frost",
+      "seed": 37,
+      "hp": 53,
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "shatter",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "frostWard",
+        "iceSpear",
+        "frostPierce",
+        "frostNova"
+      ],
+      "bowWatcher": {
+        "win": true,
+        "hpLoss": 21,
+        "endHp": 32,
+        "turns": 8,
+        "interrupts": 1,
+        "complete": false
+      },
+      "starDial": {
+        "win": true,
+        "hpLoss": 18,
+        "endHp": 35,
+        "turns": 8,
+        "interrupts": 0,
+        "complete": false
+      }
+    },
+    {
+      "origin": "frost",
+      "seed": 38,
+      "hp": 41,
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "shatter",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "frostWard",
+        "surge",
+        "frostWard",
+        "bolt"
+      ],
+      "bowWatcher": {
+        "win": true,
+        "hpLoss": 20,
+        "endHp": 21,
+        "turns": 8,
+        "interrupts": 1,
+        "complete": false
+      },
+      "starDial": {
+        "win": true,
+        "hpLoss": 21,
+        "endHp": 20,
+        "turns": 8,
+        "interrupts": 0,
+        "complete": false
+      }
+    },
+    {
+      "origin": "frost",
+      "seed": 39,
+      "hp": 56,
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "shatter",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "frostWard",
+        "meditate",
+        "zenithBolt",
+        "winter"
+      ],
+      "bowWatcher": {
+        "win": true,
+        "hpLoss": 22,
+        "endHp": 34,
+        "turns": 9,
+        "interrupts": 1,
+        "complete": false
+      },
+      "starDial": {
+        "win": true,
+        "hpLoss": 18,
+        "endHp": 38,
+        "turns": 8,
+        "interrupts": 1,
+        "complete": false
+      }
+    },
+    {
+      "origin": "frost",
+      "seed": 40,
+      "hp": 53,
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "shatter",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "frostWard",
+        "winter",
+        "iceSpear",
+        "zenithBolt"
+      ],
+      "bowWatcher": {
+        "win": true,
+        "hpLoss": 17,
+        "endHp": 36,
+        "turns": 8,
+        "interrupts": 1,
+        "complete": false
+      },
+      "starDial": {
+        "win": true,
+        "hpLoss": 29,
+        "endHp": 24,
+        "turns": 8,
+        "interrupts": 0,
+        "complete": false
+      }
+    },
+    {
+      "origin": "frost",
+      "seed": 41,
+      "hp": 56,
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "shatter",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "frostWard",
+        "frostNova",
+        "zenithBolt",
+        "zenithBolt"
+      ],
+      "bowWatcher": {
+        "win": true,
+        "hpLoss": 38,
+        "endHp": 18,
+        "turns": 8,
+        "interrupts": 0,
+        "complete": false
+      },
+      "starDial": {
+        "win": true,
+        "hpLoss": 28,
+        "endHp": 28,
+        "turns": 8,
+        "interrupts": 0,
+        "complete": false
+      }
+    },
+    {
+      "origin": "frost",
+      "seed": 42,
+      "hp": 58,
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "shatter",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "frostWard",
+        "iceSpear",
+        "ice",
+        "shatter"
+      ],
+      "bowWatcher": {
+        "win": true,
+        "hpLoss": 17,
+        "endHp": 41,
+        "turns": 6,
+        "interrupts": 2,
+        "complete": false
+      },
+      "starDial": {
+        "win": true,
+        "hpLoss": 31,
+        "endHp": 27,
+        "turns": 7,
+        "interrupts": 0,
+        "complete": false
+      }
+    },
+    {
+      "origin": "frost",
+      "seed": 43,
+      "hp": 60,
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "shatter",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "frostWard",
+        "meditate",
+        "winter",
+        "frostPierce"
+      ],
+      "bowWatcher": {
+        "win": true,
+        "hpLoss": 35,
+        "endHp": 25,
+        "turns": 10,
+        "interrupts": 0,
+        "complete": false
+      },
+      "starDial": {
+        "win": true,
+        "hpLoss": 25,
+        "endHp": 35,
+        "turns": 9,
+        "interrupts": 0,
+        "complete": false
+      }
+    },
+    {
+      "origin": "frost",
+      "seed": 44,
+      "hp": 53,
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "shatter",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "frostWard",
+        "meditate",
+        "ice",
+        "iceSpear"
+      ],
+      "bowWatcher": {
+        "win": true,
+        "hpLoss": 25,
+        "endHp": 28,
+        "turns": 7,
+        "interrupts": 1,
+        "complete": false
+      },
+      "starDial": {
+        "win": true,
+        "hpLoss": 31,
+        "endHp": 22,
+        "turns": 7,
+        "interrupts": 0,
+        "complete": false
+      }
+    },
+    {
+      "origin": "frost",
+      "seed": 45,
+      "hp": 37,
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "shatter",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "frostWard",
+        "iceSpear",
+        "iceSpear",
+        "frostPierce"
+      ],
+      "bowWatcher": {
+        "win": true,
+        "hpLoss": 22,
+        "endHp": 15,
+        "turns": 9,
+        "interrupts": 2,
+        "complete": false
+      },
+      "starDial": {
+        "win": true,
+        "hpLoss": 27,
+        "endHp": 10,
+        "turns": 6,
+        "interrupts": 0,
+        "complete": false
+      }
+    },
+    {
+      "origin": "frost",
+      "seed": 46,
+      "hp": 50,
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "shatter",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "frostWard",
+        "surge",
+        "frostWard",
+        "frostNova"
+      ],
+      "bowWatcher": {
+        "win": true,
+        "hpLoss": 16,
+        "endHp": 34,
+        "turns": 8,
+        "interrupts": 2,
+        "complete": false
+      },
+      "starDial": {
+        "win": true,
+        "hpLoss": 25,
+        "endHp": 25,
+        "turns": 8,
+        "interrupts": 0,
+        "complete": false
+      }
+    },
+    {
+      "origin": "frost",
+      "seed": 47,
+      "hp": 42,
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "shatter",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "frostWard",
+        "frostNova",
+        "bolt",
+        "surge"
+      ],
+      "bowWatcher": {
+        "win": true,
+        "hpLoss": 26,
+        "endHp": 16,
+        "turns": 8,
+        "interrupts": 1,
+        "complete": false
+      },
+      "starDial": {
+        "win": true,
+        "hpLoss": 20,
+        "endHp": 22,
+        "turns": 8,
+        "interrupts": 0,
+        "complete": false
+      }
+    },
+    {
+      "origin": "frost",
+      "seed": 48,
+      "hp": 52,
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "shatter",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "frostWard",
+        "frostNova",
+        "shatter",
+        "dark"
+      ],
+      "bowWatcher": {
+        "win": true,
+        "hpLoss": 28,
+        "endHp": 24,
+        "turns": 8,
+        "interrupts": 0,
+        "complete": false
+      },
+      "starDial": {
+        "win": true,
+        "hpLoss": 31,
+        "endHp": 21,
+        "turns": 7,
+        "interrupts": 0,
+        "complete": false
+      }
+    },
+    {
+      "origin": "frost",
+      "seed": 49,
+      "hp": 33,
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "shatter",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "frostWard",
+        "frostPierce",
+        "chain",
+        "frostPierce"
+      ],
+      "bowWatcher": {
+        "win": true,
+        "hpLoss": 30,
+        "endHp": 3,
+        "turns": 9,
+        "interrupts": 1,
+        "complete": false
+      },
+      "starDial": {
+        "win": true,
+        "hpLoss": 28,
+        "endHp": 5,
+        "turns": 9,
+        "interrupts": 0,
+        "complete": false
+      }
+    },
+    {
+      "origin": "frost",
+      "seed": 50,
+      "hp": 39,
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "shatter",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "frostWard",
+        "chain",
+        "bolt",
+        "iceSpear"
+      ],
+      "bowWatcher": {
+        "win": true,
+        "hpLoss": 33,
+        "endHp": 6,
+        "turns": 9,
+        "interrupts": 0,
+        "complete": false
+      },
+      "starDial": {
+        "win": true,
+        "hpLoss": 26,
+        "endHp": 13,
+        "turns": 8,
+        "interrupts": 1,
+        "complete": false
+      }
+    },
+    {
+      "origin": "frost",
+      "seed": 51,
+      "hp": 50,
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "shatter",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "frostWard",
+        "iceSpear",
+        "meditate",
+        "frostWard"
+      ],
+      "bowWatcher": {
+        "win": true,
+        "hpLoss": 20,
+        "endHp": 30,
+        "turns": 8,
+        "interrupts": 2,
+        "complete": false
+      },
+      "starDial": {
+        "win": true,
+        "hpLoss": 20,
+        "endHp": 30,
+        "turns": 8,
+        "interrupts": 0,
+        "complete": false
+      }
+    },
+    {
+      "origin": "frost",
+      "seed": 52,
+      "hp": 46,
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "shatter",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "frostWard",
+        "frostPierce",
+        "frostNova",
+        "meditate"
+      ],
+      "bowWatcher": {
+        "win": true,
+        "hpLoss": 22,
+        "endHp": 24,
+        "turns": 8,
+        "interrupts": 1,
+        "complete": false
+      },
+      "starDial": {
+        "win": true,
+        "hpLoss": 15,
+        "endHp": 31,
+        "turns": 8,
+        "interrupts": 1,
+        "complete": false
+      }
+    },
+    {
+      "origin": "frost",
+      "seed": 53,
+      "hp": 45,
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "shatter",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "frostWard",
+        "frostPierce",
+        "chain",
+        "surge"
+      ],
+      "bowWatcher": {
+        "win": true,
+        "hpLoss": 38,
+        "endHp": 7,
+        "turns": 10,
+        "interrupts": 1,
+        "complete": false
+      },
+      "starDial": {
+        "win": true,
+        "hpLoss": 27,
+        "endHp": 18,
+        "turns": 9,
+        "interrupts": 0,
+        "complete": false
+      }
+    },
+    {
+      "origin": "frost",
+      "seed": 54,
+      "hp": 60,
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "shatter",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "frostWard",
+        "ice",
+        "ice",
+        "frostPierce"
+      ],
+      "bowWatcher": {
+        "win": true,
+        "hpLoss": 30,
+        "endHp": 30,
+        "turns": 7,
+        "interrupts": 1,
+        "complete": false
+      },
+      "starDial": {
+        "win": true,
+        "hpLoss": 20,
+        "endHp": 40,
+        "turns": 8,
+        "interrupts": 0,
+        "complete": false
+      }
+    },
+    {
+      "origin": "frost",
+      "seed": 55,
+      "hp": 42,
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "shatter",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "frostWard",
+        "meditate",
+        "shatter",
+        "orbitEcho"
+      ],
+      "bowWatcher": {
+        "win": true,
+        "hpLoss": 37,
+        "endHp": 5,
+        "turns": 9,
+        "interrupts": 0,
+        "complete": false
+      },
+      "starDial": {
+        "win": true,
+        "hpLoss": 25,
+        "endHp": 17,
+        "turns": 8,
+        "interrupts": 0,
+        "complete": false
+      }
+    },
+    {
+      "origin": "frost",
+      "seed": 56,
+      "hp": 52,
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "shatter",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "frostWard",
+        "frostWard",
+        "frostNova",
+        "zenithBolt"
+      ],
+      "bowWatcher": {
+        "win": true,
+        "hpLoss": 29,
+        "endHp": 23,
+        "turns": 10,
+        "interrupts": 0,
+        "complete": false
+      },
+      "starDial": {
+        "win": true,
+        "hpLoss": 18,
+        "endHp": 34,
+        "turns": 7,
+        "interrupts": 1,
+        "complete": false
+      }
+    },
+    {
+      "origin": "frost",
+      "seed": 57,
+      "hp": 52,
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "shatter",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "frostWard",
+        "frostNova",
+        "frostPierce",
+        "iceSpear"
+      ],
+      "bowWatcher": {
+        "win": true,
+        "hpLoss": 27,
+        "endHp": 25,
+        "turns": 8,
+        "interrupts": 1,
+        "complete": false
+      },
+      "starDial": {
+        "win": true,
+        "hpLoss": 22,
+        "endHp": 30,
+        "turns": 8,
+        "interrupts": 0,
+        "complete": false
+      }
+    },
+    {
+      "origin": "frost",
+      "seed": 58,
+      "hp": 42,
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "shatter",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "frostWard",
+        "thunderCrash",
+        "frostPierce",
+        "shatter"
+      ],
+      "bowWatcher": {
+        "win": false,
+        "hpLoss": 42,
+        "endHp": 0,
+        "turns": 8,
+        "interrupts": 0,
+        "complete": false
+      },
+      "starDial": {
+        "win": true,
+        "hpLoss": 31,
+        "endHp": 11,
+        "turns": 9,
+        "interrupts": 0,
+        "complete": false
+      }
+    },
+    {
+      "origin": "frost",
+      "seed": 59,
+      "hp": 54,
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "shatter",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "frostWard",
+        "winter",
+        "frostWard",
+        "frostWard"
+      ],
+      "bowWatcher": {
+        "win": true,
+        "hpLoss": 24,
+        "endHp": 30,
+        "turns": 9,
+        "interrupts": 1,
+        "complete": false
+      },
+      "starDial": {
+        "win": true,
+        "hpLoss": 21,
+        "endHp": 33,
+        "turns": 7,
+        "interrupts": 1,
+        "complete": false
+      }
+    },
+    {
+      "origin": "frost",
+      "seed": 60,
+      "hp": 58,
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "shatter",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "frostWard",
+        "frostNova",
+        "surge",
+        "frostPierce"
+      ],
+      "bowWatcher": {
+        "win": true,
+        "hpLoss": 42,
+        "endHp": 16,
+        "turns": 10,
+        "interrupts": 0,
+        "complete": false
+      },
+      "starDial": {
+        "win": true,
+        "hpLoss": 25,
+        "endHp": 33,
+        "turns": 8,
+        "interrupts": 0,
+        "complete": false
+      }
+    },
+    {
+      "origin": "frost",
+      "seed": 61,
+      "hp": 51,
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "shatter",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "frostWard",
+        "frostNova",
+        "frostNova",
+        "frostNova"
+      ],
+      "bowWatcher": {
+        "win": true,
+        "hpLoss": 29,
+        "endHp": 22,
+        "turns": 8,
+        "interrupts": 0,
+        "complete": false
+      },
+      "starDial": {
+        "win": true,
+        "hpLoss": 26,
+        "endHp": 25,
+        "turns": 7,
+        "interrupts": 0,
+        "complete": false
+      }
+    },
+    {
+      "origin": "frost",
+      "seed": 62,
+      "hp": 47,
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "shatter",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "frostWard",
+        "winter",
+        "winter",
+        "meditate"
+      ],
+      "bowWatcher": {
+        "win": true,
+        "hpLoss": 18,
+        "endHp": 29,
+        "turns": 7,
+        "interrupts": 2,
+        "complete": false
+      },
+      "starDial": {
+        "win": true,
+        "hpLoss": 18,
+        "endHp": 29,
+        "turns": 8,
+        "interrupts": 1,
+        "complete": false
+      }
+    },
+    {
+      "origin": "frost",
+      "seed": 63,
+      "hp": 46,
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "shatter",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "frostWard",
+        "surge",
+        "meditate",
+        "winter"
+      ],
+      "bowWatcher": {
+        "win": true,
+        "hpLoss": 34,
+        "endHp": 12,
+        "turns": 9,
+        "interrupts": 0,
+        "complete": false
+      },
+      "starDial": {
+        "win": true,
+        "hpLoss": 31,
+        "endHp": 15,
+        "turns": 7,
+        "interrupts": 0,
+        "complete": false
+      }
+    },
+    {
+      "origin": "frost",
+      "seed": 64,
+      "hp": 52,
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "shatter",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "frostWard",
+        "zenithBolt",
+        "winter",
+        "frostPierce"
+      ],
+      "bowWatcher": {
+        "win": true,
+        "hpLoss": 42,
+        "endHp": 10,
+        "turns": 11,
+        "interrupts": 0,
+        "complete": false
+      },
+      "starDial": {
+        "win": true,
+        "hpLoss": 30,
+        "endHp": 22,
+        "turns": 11,
+        "interrupts": 0,
+        "complete": false
+      }
+    },
+    {
+      "origin": "storm",
+      "seed": 1,
+      "hp": 30,
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "bolt",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "chain",
+        "zenithBolt",
+        "surge",
+        "meditate"
+      ],
+      "bowWatcher": {
+        "win": false,
+        "hpLoss": 30,
+        "endHp": 0,
+        "turns": 5,
+        "interrupts": 0,
+        "complete": false
+      },
+      "starDial": {
+        "win": false,
+        "hpLoss": 30,
+        "endHp": 0,
+        "turns": 6,
+        "interrupts": 0,
+        "complete": false
+      }
+    },
+    {
+      "origin": "storm",
+      "seed": 2,
+      "hp": 53,
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "bolt",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "chain",
+        "frostPierce",
+        "chain",
+        "frostPierce"
+      ],
+      "bowWatcher": {
+        "win": true,
+        "hpLoss": 22,
+        "endHp": 31,
+        "turns": 6,
+        "interrupts": 1,
+        "complete": false
+      },
+      "starDial": {
+        "win": true,
+        "hpLoss": 14,
+        "endHp": 39,
+        "turns": 8,
+        "interrupts": 1,
+        "complete": false
+      }
+    },
+    {
+      "origin": "storm",
+      "seed": 3,
+      "hp": 54,
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "bolt",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "chain",
+        "chain",
+        "surge",
+        "spark"
+      ],
+      "bowWatcher": {
+        "win": true,
+        "hpLoss": 28,
+        "endHp": 26,
+        "turns": 6,
+        "interrupts": 0,
+        "complete": true
+      },
+      "starDial": {
+        "win": true,
+        "hpLoss": 22,
+        "endHp": 32,
+        "turns": 5,
+        "interrupts": 0,
+        "complete": false
+      }
+    },
+    {
+      "origin": "storm",
+      "seed": 4,
+      "hp": 52,
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "bolt",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "chain",
+        "ice",
+        "ebbArrow",
+        "meditate"
+      ],
+      "bowWatcher": {
+        "win": true,
+        "hpLoss": 34,
+        "endHp": 18,
+        "turns": 10,
+        "interrupts": 0,
+        "complete": false
+      },
+      "starDial": {
+        "win": true,
+        "hpLoss": 25,
+        "endHp": 27,
+        "turns": 8,
+        "interrupts": 1,
+        "complete": false
+      }
+    },
+    {
+      "origin": "storm",
+      "seed": 5,
+      "hp": 60,
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "bolt",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "chain",
+        "frostNova",
+        "surge",
+        "zenithBolt"
+      ],
+      "bowWatcher": {
+        "win": true,
+        "hpLoss": 36,
+        "endHp": 24,
+        "turns": 7,
+        "interrupts": 0,
+        "complete": false
+      },
+      "starDial": {
+        "win": true,
+        "hpLoss": 15,
+        "endHp": 45,
+        "turns": 6,
+        "interrupts": 0,
+        "complete": false
+      }
+    },
+    {
+      "origin": "storm",
+      "seed": 6,
+      "hp": 33,
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "bolt",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "chain",
+        "surge",
+        "dark",
+        "chain"
+      ],
+      "bowWatcher": {
+        "win": true,
+        "hpLoss": 28,
+        "endHp": 5,
+        "turns": 8,
+        "interrupts": 0,
+        "complete": false
+      },
+      "starDial": {
+        "win": true,
+        "hpLoss": 22,
+        "endHp": 11,
+        "turns": 6,
+        "interrupts": 0,
+        "complete": false
+      }
+    },
+    {
+      "origin": "storm",
+      "seed": 7,
+      "hp": 42,
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "bolt",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "chain",
+        "surge",
+        "meditate",
+        "thunderCrash"
+      ],
+      "bowWatcher": {
+        "win": true,
+        "hpLoss": 29,
+        "endHp": 13,
+        "turns": 6,
+        "interrupts": 1,
+        "complete": false
+      },
+      "starDial": {
+        "win": true,
+        "hpLoss": 24,
+        "endHp": 18,
+        "turns": 7,
+        "interrupts": 0,
+        "complete": false
+      }
+    },
+    {
+      "origin": "storm",
+      "seed": 8,
+      "hp": 44,
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "bolt",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "chain",
+        "zenithBolt",
+        "chain",
+        "marginLight"
+      ],
+      "bowWatcher": {
+        "win": true,
+        "hpLoss": 26,
+        "endHp": 18,
+        "turns": 8,
+        "interrupts": 0,
+        "complete": false
+      },
+      "starDial": {
+        "win": true,
+        "hpLoss": 17,
+        "endHp": 27,
+        "turns": 8,
+        "interrupts": 0,
+        "complete": false
+      }
+    },
+    {
+      "origin": "storm",
+      "seed": 9,
+      "hp": 42,
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "bolt",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "chain",
+        "surge",
+        "iceSpear",
+        "thunderCrash"
+      ],
+      "bowWatcher": {
+        "win": false,
+        "hpLoss": 42,
+        "endHp": 0,
+        "turns": 8,
+        "interrupts": 0,
+        "complete": false
+      },
+      "starDial": {
+        "win": false,
+        "hpLoss": 42,
+        "endHp": 0,
+        "turns": 6,
+        "interrupts": 0,
+        "complete": false
+      }
+    },
+    {
+      "origin": "storm",
+      "seed": 10,
+      "hp": 43,
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "bolt",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "chain",
+        "meditate",
+        "iceSpear",
+        "thunderCrash"
+      ],
+      "bowWatcher": {
+        "win": true,
+        "hpLoss": 19,
+        "endHp": 24,
+        "turns": 8,
+        "interrupts": 1,
+        "complete": false
+      },
+      "starDial": {
+        "win": true,
+        "hpLoss": 20,
+        "endHp": 23,
+        "turns": 8,
+        "interrupts": 0,
+        "complete": false
+      }
+    },
+    {
+      "origin": "storm",
+      "seed": 11,
+      "hp": 39,
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "bolt",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "chain",
+        "surge",
+        "bolt",
+        "renew"
+      ],
+      "bowWatcher": {
+        "win": false,
+        "hpLoss": 39,
+        "endHp": 0,
+        "turns": 8,
+        "interrupts": 0,
+        "complete": false
+      },
+      "starDial": {
+        "win": true,
+        "hpLoss": 30,
+        "endHp": 9,
+        "turns": 8,
+        "interrupts": 0,
+        "complete": false
+      }
+    },
+    {
+      "origin": "storm",
+      "seed": 12,
+      "hp": 38,
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "bolt",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "chain",
+        "meditate",
+        "quietScript",
+        "surge"
+      ],
+      "bowWatcher": {
+        "win": false,
+        "hpLoss": 38,
+        "endHp": 0,
+        "turns": 6,
+        "interrupts": 0,
+        "complete": false
+      },
+      "starDial": {
+        "win": true,
+        "hpLoss": 27,
+        "endHp": 11,
+        "turns": 8,
+        "interrupts": 1,
+        "complete": false
+      }
+    },
+    {
+      "origin": "storm",
+      "seed": 13,
+      "hp": 35,
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "bolt",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "chain",
+        "zenithBolt",
+        "chain",
+        "chain"
+      ],
+      "bowWatcher": {
+        "win": true,
+        "hpLoss": 21,
+        "endHp": 14,
+        "turns": 7,
+        "interrupts": 1,
+        "complete": false
+      },
+      "starDial": {
+        "win": true,
+        "hpLoss": 26,
+        "endHp": 9,
+        "turns": 7,
+        "interrupts": 0,
+        "complete": false
+      }
+    },
+    {
+      "origin": "storm",
+      "seed": 14,
+      "hp": 51,
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "bolt",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "chain",
+        "starBookmark",
+        "iceSpear",
+        "bolt"
+      ],
+      "bowWatcher": {
+        "win": true,
+        "hpLoss": 26,
+        "endHp": 25,
+        "turns": 6,
+        "interrupts": 0,
+        "complete": false
+      },
+      "starDial": {
+        "win": true,
+        "hpLoss": 14,
+        "endHp": 37,
+        "turns": 5,
+        "interrupts": 0,
+        "complete": false
+      }
+    },
+    {
+      "origin": "storm",
+      "seed": 15,
+      "hp": 45,
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "bolt",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "chain",
+        "surge",
+        "iceSpear",
+        "surge"
+      ],
+      "bowWatcher": {
+        "win": true,
+        "hpLoss": 34,
+        "endHp": 11,
+        "turns": 7,
+        "interrupts": 1,
+        "complete": false
+      },
+      "starDial": {
+        "win": true,
+        "hpLoss": 30,
+        "endHp": 15,
+        "turns": 7,
+        "interrupts": 0,
+        "complete": false
+      }
+    },
+    {
+      "origin": "storm",
+      "seed": 16,
+      "hp": 57,
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "bolt",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "chain",
+        "surge",
+        "surge",
+        "iceSpear"
+      ],
+      "bowWatcher": {
+        "win": true,
+        "hpLoss": 31,
+        "endHp": 26,
+        "turns": 8,
+        "interrupts": 0,
+        "complete": false
+      },
+      "starDial": {
+        "win": true,
+        "hpLoss": 34,
+        "endHp": 23,
+        "turns": 8,
+        "interrupts": 0,
+        "complete": false
+      }
+    },
+    {
+      "origin": "storm",
+      "seed": 17,
+      "hp": 35,
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "bolt",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "chain",
+        "zenithBolt",
+        "surge",
+        "surge"
+      ],
+      "bowWatcher": {
+        "win": false,
+        "hpLoss": 35,
+        "endHp": 0,
+        "turns": 5,
+        "interrupts": 0,
+        "complete": false
+      },
+      "starDial": {
+        "win": true,
+        "hpLoss": 20,
+        "endHp": 15,
+        "turns": 6,
+        "interrupts": 1,
+        "complete": false
+      }
+    },
+    {
+      "origin": "storm",
+      "seed": 18,
+      "hp": 39,
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "bolt",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "chain",
+        "quietComet",
+        "winter",
+        "thunderCrash"
+      ],
+      "bowWatcher": {
+        "win": true,
+        "hpLoss": 24,
+        "endHp": 15,
+        "turns": 8,
+        "interrupts": 0,
+        "complete": false
+      },
+      "starDial": {
+        "win": true,
+        "hpLoss": 20,
+        "endHp": 19,
+        "turns": 8,
+        "interrupts": 0,
+        "complete": false
+      }
+    },
+    {
+      "origin": "storm",
+      "seed": 19,
+      "hp": 42,
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "bolt",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "chain",
+        "chain",
+        "meditate",
+        "surge"
+      ],
+      "bowWatcher": {
+        "win": true,
+        "hpLoss": 29,
+        "endHp": 13,
+        "turns": 7,
+        "interrupts": 0,
+        "complete": false
+      },
+      "starDial": {
+        "win": true,
+        "hpLoss": 26,
+        "endHp": 16,
+        "turns": 7,
+        "interrupts": 0,
+        "complete": false
+      }
+    },
+    {
+      "origin": "storm",
+      "seed": 20,
+      "hp": 60,
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "bolt",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "chain",
+        "guard",
+        "frostNova",
+        "surge"
+      ],
+      "bowWatcher": {
+        "win": true,
+        "hpLoss": 20,
+        "endHp": 40,
+        "turns": 10,
+        "interrupts": 1,
+        "complete": false
+      },
+      "starDial": {
+        "win": true,
+        "hpLoss": 20,
+        "endHp": 40,
+        "turns": 8,
+        "interrupts": 1,
+        "complete": false
+      }
+    },
+    {
+      "origin": "storm",
+      "seed": 21,
+      "hp": 46,
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "bolt",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "chain",
+        "meditate",
+        "chain",
+        "thunderCrash"
+      ],
+      "bowWatcher": {
+        "win": true,
+        "hpLoss": 25,
+        "endHp": 21,
+        "turns": 8,
+        "interrupts": 0,
+        "complete": false
+      },
+      "starDial": {
+        "win": true,
+        "hpLoss": 19,
+        "endHp": 27,
+        "turns": 6,
+        "interrupts": 0,
+        "complete": false
+      }
+    },
+    {
+      "origin": "storm",
+      "seed": 22,
+      "hp": 48,
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "bolt",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "chain",
+        "surge",
+        "meditate",
+        "frostPierce"
+      ],
+      "bowWatcher": {
+        "win": true,
+        "hpLoss": 30,
+        "endHp": 18,
+        "turns": 8,
+        "interrupts": 1,
+        "complete": false
+      },
+      "starDial": {
+        "win": true,
+        "hpLoss": 32,
+        "endHp": 16,
+        "turns": 7,
+        "interrupts": 0,
+        "complete": false
+      }
+    },
+    {
+      "origin": "storm",
+      "seed": 23,
+      "hp": 49,
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "bolt",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "chain",
+        "iceSpear",
+        "surge",
+        "renew"
+      ],
+      "bowWatcher": {
+        "win": true,
+        "hpLoss": 32,
+        "endHp": 17,
+        "turns": 9,
+        "interrupts": 1,
+        "complete": false
+      },
+      "starDial": {
+        "win": true,
+        "hpLoss": 21,
+        "endHp": 28,
+        "turns": 8,
+        "interrupts": 0,
+        "complete": false
+      }
+    },
+    {
+      "origin": "storm",
+      "seed": 24,
+      "hp": 51,
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "bolt",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "chain",
+        "frostWard",
+        "surge",
+        "meditate"
+      ],
+      "bowWatcher": {
+        "win": true,
+        "hpLoss": 37,
+        "endHp": 14,
+        "turns": 7,
+        "interrupts": 0,
+        "complete": false
+      },
+      "starDial": {
+        "win": true,
+        "hpLoss": 15,
+        "endHp": 36,
+        "turns": 8,
+        "interrupts": 0,
+        "complete": false
+      }
+    },
+    {
+      "origin": "storm",
+      "seed": 25,
+      "hp": 39,
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "bolt",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "chain",
+        "bolt",
+        "zenithBolt",
+        "starWait"
+      ],
+      "bowWatcher": {
+        "win": false,
+        "hpLoss": 39,
+        "endHp": 0,
+        "turns": 5,
+        "interrupts": 0,
+        "complete": false
+      },
+      "starDial": {
+        "win": true,
+        "hpLoss": 33,
+        "endHp": 6,
+        "turns": 7,
+        "interrupts": 0,
+        "complete": false
+      }
+    },
+    {
+      "origin": "storm",
+      "seed": 26,
+      "hp": 35,
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "bolt",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "chain",
+        "thunderCrash",
+        "surge",
+        "zenithBolt"
+      ],
+      "bowWatcher": {
+        "win": false,
+        "hpLoss": 35,
+        "endHp": 0,
+        "turns": 8,
+        "interrupts": 1,
+        "complete": false
+      },
+      "starDial": {
+        "win": true,
+        "hpLoss": 30,
+        "endHp": 5,
+        "turns": 9,
+        "interrupts": 1,
+        "complete": false
+      }
+    },
+    {
+      "origin": "storm",
+      "seed": 27,
+      "hp": 45,
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "bolt",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "chain",
+        "thunderCrash",
+        "renew",
+        "emberVeil"
+      ],
+      "bowWatcher": {
+        "win": true,
+        "hpLoss": 34,
+        "endHp": 11,
+        "turns": 11,
+        "interrupts": 0,
+        "complete": false
+      },
+      "starDial": {
+        "win": true,
+        "hpLoss": 32,
+        "endHp": 13,
+        "turns": 8,
+        "interrupts": 0,
+        "complete": false
+      }
+    },
+    {
+      "origin": "storm",
+      "seed": 28,
+      "hp": 60,
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "bolt",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "chain",
+        "spark",
+        "chain",
+        "chain"
+      ],
+      "bowWatcher": {
+        "win": true,
+        "hpLoss": 16,
+        "endHp": 44,
+        "turns": 7,
+        "interrupts": 1,
+        "complete": false
+      },
+      "starDial": {
+        "win": true,
+        "hpLoss": 20,
+        "endHp": 40,
+        "turns": 7,
+        "interrupts": 1,
+        "complete": false
+      }
+    },
+    {
+      "origin": "storm",
+      "seed": 29,
+      "hp": 27,
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "bolt",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "chain",
+        "bolt",
+        "frostPierce",
+        "zenithBolt"
+      ],
+      "bowWatcher": {
+        "win": false,
+        "hpLoss": 27,
+        "endHp": 0,
+        "turns": 5,
+        "interrupts": 0,
+        "complete": false
+      },
+      "starDial": {
+        "win": true,
+        "hpLoss": 21,
+        "endHp": 6,
+        "turns": 6,
+        "interrupts": 1,
+        "complete": false
+      }
+    },
+    {
+      "origin": "storm",
+      "seed": 30,
+      "hp": 44,
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "bolt",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "chain",
+        "meditate",
+        "surge",
+        "iceSpear"
+      ],
+      "bowWatcher": {
+        "win": true,
+        "hpLoss": 27,
+        "endHp": 17,
+        "turns": 7,
+        "interrupts": 1,
+        "complete": false
+      },
+      "starDial": {
+        "win": true,
+        "hpLoss": 28,
+        "endHp": 16,
+        "turns": 7,
+        "interrupts": 0,
+        "complete": false
+      }
+    },
+    {
+      "origin": "storm",
+      "seed": 31,
+      "hp": 43,
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "bolt",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "chain",
+        "meditate",
+        "winter",
+        "chain"
+      ],
+      "bowWatcher": {
+        "win": true,
+        "hpLoss": 30,
+        "endHp": 13,
+        "turns": 9,
+        "interrupts": 0,
+        "complete": false
+      },
+      "starDial": {
+        "win": true,
+        "hpLoss": 34,
+        "endHp": 9,
+        "turns": 7,
+        "interrupts": 0,
+        "complete": false
+      }
+    },
+    {
+      "origin": "storm",
+      "seed": 32,
+      "hp": 52,
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "bolt",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "chain",
+        "frostPierce",
+        "iceSpear",
+        "chain"
+      ],
+      "bowWatcher": {
+        "win": true,
+        "hpLoss": 38,
+        "endHp": 14,
+        "turns": 10,
+        "interrupts": 0,
+        "complete": false
+      },
+      "starDial": {
+        "win": true,
+        "hpLoss": 34,
+        "endHp": 18,
+        "turns": 7,
+        "interrupts": 0,
+        "complete": false
+      }
+    },
+    {
+      "origin": "storm",
+      "seed": 33,
+      "hp": 42,
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "bolt",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "chain",
+        "meditate",
+        "quietComet",
+        "meditate"
+      ],
+      "bowWatcher": {
+        "win": true,
+        "hpLoss": 34,
+        "endHp": 8,
+        "turns": 7,
+        "interrupts": 0,
+        "complete": false
+      },
+      "starDial": {
+        "win": true,
+        "hpLoss": 19,
+        "endHp": 23,
+        "turns": 6,
+        "interrupts": 0,
+        "complete": false
+      }
+    },
+    {
+      "origin": "storm",
+      "seed": 34,
+      "hp": 32,
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "bolt",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "chain",
+        "memoryArrow",
+        "surge",
+        "spark"
+      ],
+      "bowWatcher": {
+        "win": false,
+        "hpLoss": 32,
+        "endHp": 0,
+        "turns": 5,
+        "interrupts": 0,
+        "complete": false
+      },
+      "starDial": {
+        "win": true,
+        "hpLoss": 22,
+        "endHp": 10,
+        "turns": 6,
+        "interrupts": 0,
+        "complete": false
+      }
+    },
+    {
+      "origin": "storm",
+      "seed": 35,
+      "hp": 44,
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "bolt",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "chain",
+        "ice",
+        "meditate",
+        "surge"
+      ],
+      "bowWatcher": {
+        "win": true,
+        "hpLoss": 29,
+        "endHp": 15,
+        "turns": 8,
+        "interrupts": 0,
+        "complete": false
+      },
+      "starDial": {
+        "win": true,
+        "hpLoss": 22,
+        "endHp": 22,
+        "turns": 7,
+        "interrupts": 0,
+        "complete": false
+      }
+    },
+    {
+      "origin": "storm",
+      "seed": 36,
+      "hp": 46,
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "bolt",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "chain",
+        "zenithBolt",
+        "thunderCrash",
+        "ice"
+      ],
+      "bowWatcher": {
+        "win": true,
+        "hpLoss": 32,
+        "endHp": 14,
+        "turns": 7,
+        "interrupts": 1,
+        "complete": false
+      },
+      "starDial": {
+        "win": true,
+        "hpLoss": 26,
+        "endHp": 20,
+        "turns": 7,
+        "interrupts": 0,
+        "complete": false
+      }
+    },
+    {
+      "origin": "storm",
+      "seed": 37,
+      "hp": 50,
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "bolt",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "chain",
+        "meditate",
+        "chain",
+        "surge"
+      ],
+      "bowWatcher": {
+        "win": true,
+        "hpLoss": 44,
+        "endHp": 6,
+        "turns": 10,
+        "interrupts": 0,
+        "complete": false
+      },
+      "starDial": {
+        "win": true,
+        "hpLoss": 25,
+        "endHp": 25,
+        "turns": 8,
+        "interrupts": 0,
+        "complete": false
+      }
+    },
+    {
+      "origin": "storm",
+      "seed": 38,
+      "hp": 33,
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "bolt",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "chain",
+        "fadingStar",
+        "zenithBolt",
+        "bolt"
+      ],
+      "bowWatcher": {
+        "win": true,
+        "hpLoss": 24,
+        "endHp": 9,
+        "turns": 7,
+        "interrupts": 1,
+        "complete": false
+      },
+      "starDial": {
+        "win": true,
+        "hpLoss": 23,
+        "endHp": 10,
+        "turns": 7,
+        "interrupts": 1,
+        "complete": false
+      }
+    },
+    {
+      "origin": "storm",
+      "seed": 39,
+      "hp": 48,
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "bolt",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "chain",
+        "surge",
+        "surge",
+        "renew"
+      ],
+      "bowWatcher": {
+        "win": true,
+        "hpLoss": 29,
+        "endHp": 19,
+        "turns": 9,
+        "interrupts": 1,
+        "complete": false
+      },
+      "starDial": {
+        "win": true,
+        "hpLoss": 29,
+        "endHp": 19,
+        "turns": 9,
+        "interrupts": 0,
+        "complete": false
+      }
+    },
+    {
+      "origin": "storm",
+      "seed": 40,
+      "hp": 38,
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "bolt",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "chain",
+        "surge",
+        "iceSpear",
+        "zenithBolt"
+      ],
+      "bowWatcher": {
+        "win": false,
+        "hpLoss": 38,
+        "endHp": 0,
+        "turns": 6,
+        "interrupts": 0,
+        "complete": false
+      },
+      "starDial": {
+        "win": true,
+        "hpLoss": 28,
+        "endHp": 10,
+        "turns": 7,
+        "interrupts": 1,
+        "complete": false
+      }
+    },
+    {
+      "origin": "storm",
+      "seed": 41,
+      "hp": 54,
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "bolt",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "chain",
+        "zenithBolt",
+        "meditate",
+        "surge"
+      ],
+      "bowWatcher": {
+        "win": true,
+        "hpLoss": 38,
+        "endHp": 16,
+        "turns": 6,
+        "interrupts": 0,
+        "complete": false
+      },
+      "starDial": {
+        "win": true,
+        "hpLoss": 28,
+        "endHp": 26,
+        "turns": 8,
+        "interrupts": 0,
+        "complete": false
+      }
+    },
+    {
+      "origin": "storm",
+      "seed": 42,
+      "hp": 51,
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "bolt",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "chain",
+        "ice",
+        "thunderCrash",
+        "frostPierce"
+      ],
+      "bowWatcher": {
+        "win": true,
+        "hpLoss": 32,
+        "endHp": 19,
+        "turns": 7,
+        "interrupts": 0,
+        "complete": false
+      },
+      "starDial": {
+        "win": true,
+        "hpLoss": 27,
+        "endHp": 24,
+        "turns": 7,
+        "interrupts": 1,
+        "complete": false
+      }
+    },
+    {
+      "origin": "storm",
+      "seed": 43,
+      "hp": 39,
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "bolt",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "chain",
+        "iceSpear",
+        "bolt",
+        "winter"
+      ],
+      "bowWatcher": {
+        "win": true,
+        "hpLoss": 36,
+        "endHp": 3,
+        "turns": 8,
+        "interrupts": 0,
+        "complete": false
+      },
+      "starDial": {
+        "win": true,
+        "hpLoss": 37,
+        "endHp": 2,
+        "turns": 7,
+        "interrupts": 0,
+        "complete": false
+      }
+    },
+    {
+      "origin": "storm",
+      "seed": 44,
+      "hp": 36,
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "bolt",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "chain",
+        "renew",
+        "chain",
+        "winter"
+      ],
+      "bowWatcher": {
+        "win": true,
+        "hpLoss": 29,
+        "endHp": 7,
+        "turns": 8,
+        "interrupts": 1,
+        "complete": false
+      },
+      "starDial": {
+        "win": true,
+        "hpLoss": 22,
+        "endHp": 14,
+        "turns": 8,
+        "interrupts": 0,
+        "complete": false
+      }
+    },
+    {
+      "origin": "storm",
+      "seed": 45,
+      "hp": 40,
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "bolt",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "chain",
+        "surge",
+        "surge",
+        "meditate"
+      ],
+      "bowWatcher": {
+        "win": true,
+        "hpLoss": 34,
+        "endHp": 6,
+        "turns": 9,
+        "interrupts": 0,
+        "complete": false
+      },
+      "starDial": {
+        "win": true,
+        "hpLoss": 37,
+        "endHp": 3,
+        "turns": 7,
+        "interrupts": 0,
+        "complete": false
+      }
+    },
+    {
+      "origin": "storm",
+      "seed": 46,
+      "hp": 32,
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "bolt",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "chain",
+        "surge",
+        "winter",
+        "meditate"
+      ],
+      "bowWatcher": {
+        "win": true,
+        "hpLoss": 31,
+        "endHp": 1,
+        "turns": 9,
+        "interrupts": 0,
+        "complete": false
+      },
+      "starDial": {
+        "win": true,
+        "hpLoss": 24,
+        "endHp": 8,
+        "turns": 7,
+        "interrupts": 0,
+        "complete": false
+      }
+    },
+    {
+      "origin": "storm",
+      "seed": 47,
+      "hp": 27,
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "bolt",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "chain",
+        "surge",
+        "surge",
+        "spark"
+      ],
+      "bowWatcher": {
+        "win": false,
+        "hpLoss": 27,
+        "endHp": 0,
+        "turns": 5,
+        "interrupts": 0,
+        "complete": false
+      },
+      "starDial": {
+        "win": true,
+        "hpLoss": 16,
+        "endHp": 11,
+        "turns": 6,
+        "interrupts": 0,
+        "complete": false
+      }
+    },
+    {
+      "origin": "storm",
+      "seed": 48,
+      "hp": 39,
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "bolt",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "chain",
+        "ice",
+        "surge",
+        "meditate"
+      ],
+      "bowWatcher": {
+        "win": false,
+        "hpLoss": 39,
+        "endHp": 0,
+        "turns": 8,
+        "interrupts": 0,
+        "complete": false
+      },
+      "starDial": {
+        "win": true,
+        "hpLoss": 32,
+        "endHp": 7,
+        "turns": 7,
+        "interrupts": 0,
+        "complete": false
+      }
+    },
+    {
+      "origin": "storm",
+      "seed": 49,
+      "hp": 45,
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "bolt",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "chain",
+        "meditate",
+        "frostNova",
+        "frostNova"
+      ],
+      "bowWatcher": {
+        "win": true,
+        "hpLoss": 27,
+        "endHp": 18,
+        "turns": 11,
+        "interrupts": 0,
+        "complete": false
+      },
+      "starDial": {
+        "win": true,
+        "hpLoss": 23,
+        "endHp": 22,
+        "turns": 8,
+        "interrupts": 1,
+        "complete": false
+      }
+    },
+    {
+      "origin": "storm",
+      "seed": 50,
+      "hp": 40,
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "bolt",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "chain",
+        "surge",
+        "meditate",
+        "ice"
+      ],
+      "bowWatcher": {
+        "win": true,
+        "hpLoss": 28,
+        "endHp": 12,
+        "turns": 8,
+        "interrupts": 0,
+        "complete": false
+      },
+      "starDial": {
+        "win": true,
+        "hpLoss": 21,
+        "endHp": 19,
+        "turns": 8,
+        "interrupts": 1,
+        "complete": false
+      }
+    },
+    {
+      "origin": "storm",
+      "seed": 51,
+      "hp": 36,
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "bolt",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "chain",
+        "surge",
+        "meditate",
+        "quietComet"
+      ],
+      "bowWatcher": {
+        "win": true,
+        "hpLoss": 28,
+        "endHp": 8,
+        "turns": 6,
+        "interrupts": 0,
+        "complete": false
+      },
+      "starDial": {
+        "win": true,
+        "hpLoss": 13,
+        "endHp": 23,
+        "turns": 6,
+        "interrupts": 0,
+        "complete": false
+      }
+    },
+    {
+      "origin": "storm",
+      "seed": 52,
+      "hp": 39,
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "bolt",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "chain",
+        "surge",
+        "frostNova",
+        "meditate"
+      ],
+      "bowWatcher": {
+        "win": true,
+        "hpLoss": 31,
+        "endHp": 8,
+        "turns": 8,
+        "interrupts": 0,
+        "complete": false
+      },
+      "starDial": {
+        "win": true,
+        "hpLoss": 21,
+        "endHp": 18,
+        "turns": 8,
+        "interrupts": 0,
+        "complete": false
+      }
+    },
+    {
+      "origin": "storm",
+      "seed": 53,
+      "hp": 46,
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "bolt",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "chain",
+        "thunderCrash",
+        "frostNova",
+        "meditate"
+      ],
+      "bowWatcher": {
+        "win": true,
+        "hpLoss": 39,
+        "endHp": 7,
+        "turns": 10,
+        "interrupts": 0,
+        "complete": false
+      },
+      "starDial": {
+        "win": true,
+        "hpLoss": 23,
+        "endHp": 23,
+        "turns": 9,
+        "interrupts": 0,
+        "complete": false
+      }
+    },
+    {
+      "origin": "storm",
+      "seed": 54,
+      "hp": 45,
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "bolt",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "chain",
+        "ice",
+        "frostNova",
+        "bolt"
+      ],
+      "bowWatcher": {
+        "win": true,
+        "hpLoss": 37,
+        "endHp": 8,
+        "turns": 9,
+        "interrupts": 0,
+        "complete": false
+      },
+      "starDial": {
+        "win": true,
+        "hpLoss": 25,
+        "endHp": 20,
+        "turns": 8,
+        "interrupts": 0,
+        "complete": false
+      }
+    },
+    {
+      "origin": "storm",
+      "seed": 55,
+      "hp": 38,
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "bolt",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "chain",
+        "meditate",
+        "bolt",
+        "zenithBolt"
+      ],
+      "bowWatcher": {
+        "win": true,
+        "hpLoss": 32,
+        "endHp": 6,
+        "turns": 10,
+        "interrupts": 0,
+        "complete": false
+      },
+      "starDial": {
+        "win": true,
+        "hpLoss": 21,
+        "endHp": 17,
+        "turns": 9,
+        "interrupts": 0,
+        "complete": false
+      }
+    },
+    {
+      "origin": "storm",
+      "seed": 56,
+      "hp": 30,
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "bolt",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "chain",
+        "surge",
+        "surge",
+        "starlitPin"
+      ],
+      "bowWatcher": {
+        "win": false,
+        "hpLoss": 30,
+        "endHp": 0,
+        "turns": 5,
+        "interrupts": 0,
+        "complete": false
+      },
+      "starDial": {
+        "win": true,
+        "hpLoss": 20,
+        "endHp": 10,
+        "turns": 8,
+        "interrupts": 0,
+        "complete": false
+      }
+    },
+    {
+      "origin": "storm",
+      "seed": 57,
+      "hp": 42,
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "bolt",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "chain",
+        "iceSpear",
+        "chain",
+        "frostNova"
+      ],
+      "bowWatcher": {
+        "win": true,
+        "hpLoss": 17,
+        "endHp": 25,
+        "turns": 8,
+        "interrupts": 1,
+        "complete": false
+      },
+      "starDial": {
+        "win": true,
+        "hpLoss": 21,
+        "endHp": 21,
+        "turns": 7,
+        "interrupts": 0,
+        "complete": false
+      }
+    },
+    {
+      "origin": "storm",
+      "seed": 58,
+      "hp": 31,
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "bolt",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "chain",
+        "surge",
+        "meditate",
+        "drain"
+      ],
+      "bowWatcher": {
+        "win": true,
+        "hpLoss": 19,
+        "endHp": 15,
+        "turns": 8,
+        "interrupts": 1,
+        "complete": false
+      },
+      "starDial": {
+        "win": true,
+        "hpLoss": 17,
+        "endHp": 17,
+        "turns": 7,
+        "interrupts": 1,
+        "complete": false
+      }
+    },
+    {
+      "origin": "storm",
+      "seed": 59,
+      "hp": 38,
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "bolt",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "chain",
+        "surge",
+        "chain",
+        "surge"
+      ],
+      "bowWatcher": {
+        "win": true,
+        "hpLoss": 37,
+        "endHp": 1,
+        "turns": 7,
+        "interrupts": 0,
+        "complete": false
+      },
+      "starDial": {
+        "win": true,
+        "hpLoss": 19,
+        "endHp": 19,
+        "turns": 6,
+        "interrupts": 1,
+        "complete": false
+      }
+    },
+    {
+      "origin": "storm",
+      "seed": 60,
+      "hp": 50,
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "bolt",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "chain",
+        "meditate",
+        "surge",
+        "surge"
+      ],
+      "bowWatcher": {
+        "win": true,
+        "hpLoss": 34,
+        "endHp": 16,
+        "turns": 8,
+        "interrupts": 0,
+        "complete": false
+      },
+      "starDial": {
+        "win": true,
+        "hpLoss": 21,
+        "endHp": 29,
+        "turns": 8,
+        "interrupts": 0,
+        "complete": false
+      }
+    },
+    {
+      "origin": "storm",
+      "seed": 61,
+      "hp": 35,
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "bolt",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "chain",
+        "quietComet",
+        "thunderCrash",
+        "surge"
+      ],
+      "bowWatcher": {
+        "win": true,
+        "hpLoss": 31,
+        "endHp": 4,
+        "turns": 7,
+        "interrupts": 0,
+        "complete": false
+      },
+      "starDial": {
+        "win": true,
+        "hpLoss": 34,
+        "endHp": 1,
+        "turns": 7,
+        "interrupts": 0,
+        "complete": false
+      }
+    },
+    {
+      "origin": "storm",
+      "seed": 62,
+      "hp": 46,
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "bolt",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "chain",
+        "surge",
+        "surge",
+        "iceSpear"
+      ],
+      "bowWatcher": {
+        "win": true,
+        "hpLoss": 24,
+        "endHp": 22,
+        "turns": 7,
+        "interrupts": 1,
+        "complete": false
+      },
+      "starDial": {
+        "win": true,
+        "hpLoss": 30,
+        "endHp": 16,
+        "turns": 7,
+        "interrupts": 0,
+        "complete": false
+      }
+    },
+    {
+      "origin": "storm",
+      "seed": 63,
+      "hp": 36,
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "bolt",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "chain",
+        "thunderCrash",
+        "thunderCrash",
+        "surge"
+      ],
+      "bowWatcher": {
+        "win": false,
+        "hpLoss": 36,
+        "endHp": 0,
+        "turns": 6,
+        "interrupts": 0,
+        "complete": false
+      },
+      "starDial": {
+        "win": true,
+        "hpLoss": 24,
+        "endHp": 12,
+        "turns": 8,
+        "interrupts": 0,
+        "complete": false
+      }
+    },
+    {
+      "origin": "storm",
+      "seed": 64,
+      "hp": 34,
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "bolt",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "chain",
+        "winter",
+        "surge",
+        "surge"
+      ],
+      "bowWatcher": {
+        "win": true,
+        "hpLoss": 31,
+        "endHp": 3,
+        "turns": 8,
+        "interrupts": 0,
+        "complete": false
+      },
+      "starDial": {
+        "win": true,
+        "hpLoss": 28,
+        "endHp": 6,
+        "turns": 7,
+        "interrupts": 0,
+        "complete": false
+      }
+    },
+    {
+      "origin": "mirror",
+      "seed": 1,
+      "hp": 56,
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "mirror",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "shieldStrike",
+        "frostNova",
+        "shatter",
+        "iceSpear"
+      ],
+      "bowWatcher": {
+        "win": true,
+        "hpLoss": 32,
+        "endHp": 24,
+        "turns": 7,
+        "interrupts": 1,
+        "complete": false
+      },
+      "starDial": {
+        "win": true,
+        "hpLoss": 18,
+        "endHp": 38,
+        "turns": 7,
+        "interrupts": 1,
+        "complete": false
+      }
+    },
+    {
+      "origin": "mirror",
+      "seed": 2,
+      "hp": 55,
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "mirror",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "shieldStrike",
+        "chain",
+        "quietScript",
+        "frostNova"
+      ],
+      "bowWatcher": {
+        "win": true,
+        "hpLoss": 23,
+        "endHp": 32,
+        "turns": 8,
+        "interrupts": 0,
+        "complete": false
+      },
+      "starDial": {
+        "win": true,
+        "hpLoss": 17,
+        "endHp": 38,
+        "turns": 6,
+        "interrupts": 1,
+        "complete": false
+      }
+    },
+    {
+      "origin": "mirror",
+      "seed": 3,
+      "hp": 50,
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "mirror",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "shieldStrike",
+        "winter",
+        "quietComet",
+        "winter"
+      ],
+      "bowWatcher": {
+        "win": true,
+        "hpLoss": 26,
+        "endHp": 24,
+        "turns": 8,
+        "interrupts": 0,
+        "complete": false
+      },
+      "starDial": {
+        "win": true,
+        "hpLoss": 34,
+        "endHp": 16,
+        "turns": 7,
+        "interrupts": 0,
+        "complete": false
+      }
+    },
+    {
+      "origin": "mirror",
+      "seed": 4,
+      "hp": 43,
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "mirror",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "shieldStrike",
+        "drain",
+        "tuningNote",
+        "iceSpear"
+      ],
+      "bowWatcher": {
+        "win": true,
+        "hpLoss": 36,
+        "endHp": 10,
+        "turns": 8,
+        "interrupts": 0,
+        "complete": false
+      },
+      "starDial": {
+        "win": true,
+        "hpLoss": 22,
+        "endHp": 24,
+        "turns": 8,
+        "interrupts": 1,
+        "complete": false
+      }
+    },
+    {
+      "origin": "mirror",
+      "seed": 5,
+      "hp": 37,
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "mirror",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "shieldStrike",
+        "surge",
+        "iceSpear",
+        "zenithBolt"
+      ],
+      "bowWatcher": {
+        "win": true,
+        "hpLoss": 27,
+        "endHp": 10,
+        "turns": 8,
+        "interrupts": 1,
+        "complete": false
+      },
+      "starDial": {
+        "win": true,
+        "hpLoss": 20,
+        "endHp": 17,
+        "turns": 7,
+        "interrupts": 0,
+        "complete": false
+      }
+    },
+    {
+      "origin": "mirror",
+      "seed": 6,
+      "hp": 53,
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "mirror",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "shieldStrike",
+        "dark",
+        "starRelay",
+        "starBookmark"
+      ],
+      "bowWatcher": {
+        "win": true,
+        "hpLoss": 28,
+        "endHp": 25,
+        "turns": 7,
+        "interrupts": 0,
+        "complete": false
+      },
+      "starDial": {
+        "win": true,
+        "hpLoss": 18,
+        "endHp": 35,
+        "turns": 6,
+        "interrupts": 1,
+        "complete": false
+      }
+    },
+    {
+      "origin": "mirror",
+      "seed": 7,
+      "hp": 48,
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "mirror",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "shieldStrike",
+        "frostNova",
+        "drain",
+        "starlitPin"
+      ],
+      "bowWatcher": {
+        "win": true,
+        "hpLoss": 27,
+        "endHp": 24,
+        "turns": 8,
+        "interrupts": 0,
+        "complete": false
+      },
+      "starDial": {
+        "win": true,
+        "hpLoss": 13,
+        "endHp": 38,
+        "turns": 8,
+        "interrupts": 1,
+        "complete": false
+      }
+    },
+    {
+      "origin": "mirror",
+      "seed": 8,
+      "hp": 56,
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "mirror",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "shieldStrike",
+        "zenithBolt",
+        "tuningNote",
+        "winter"
+      ],
+      "bowWatcher": {
+        "win": true,
+        "hpLoss": 24,
+        "endHp": 32,
+        "turns": 7,
+        "interrupts": 1,
+        "complete": false
+      },
+      "starDial": {
+        "win": true,
+        "hpLoss": 29,
+        "endHp": 27,
+        "turns": 7,
+        "interrupts": 0,
+        "complete": false
+      }
+    },
+    {
+      "origin": "mirror",
+      "seed": 9,
+      "hp": 56,
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "mirror",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "shieldStrike",
+        "meditate",
+        "frostNova",
+        "meditate"
+      ],
+      "bowWatcher": {
+        "win": true,
+        "hpLoss": 29,
+        "endHp": 27,
+        "turns": 9,
+        "interrupts": 0,
+        "complete": false
+      },
+      "starDial": {
+        "win": true,
+        "hpLoss": 26,
+        "endHp": 30,
+        "turns": 8,
+        "interrupts": 0,
+        "complete": false
+      }
+    },
+    {
+      "origin": "mirror",
+      "seed": 10,
+      "hp": 50,
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "mirror",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "shieldStrike",
+        "winter",
+        "starBookmark",
+        "meditate"
+      ],
+      "bowWatcher": {
+        "win": true,
+        "hpLoss": 6,
+        "endHp": 44,
+        "turns": 8,
+        "interrupts": 2,
+        "complete": false
+      },
+      "starDial": {
+        "win": true,
+        "hpLoss": 15,
+        "endHp": 35,
+        "turns": 8,
+        "interrupts": 0,
+        "complete": false
+      }
+    },
+    {
+      "origin": "mirror",
+      "seed": 11,
+      "hp": 50,
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "mirror",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "shieldStrike",
+        "iceSpear",
+        "quietComet",
+        "bolt"
+      ],
+      "bowWatcher": {
+        "win": true,
+        "hpLoss": 29,
+        "endHp": 21,
+        "turns": 7,
+        "interrupts": 0,
+        "complete": false
+      },
+      "starDial": {
+        "win": true,
+        "hpLoss": 18,
+        "endHp": 32,
+        "turns": 8,
+        "interrupts": 0,
+        "complete": false
+      }
+    },
+    {
+      "origin": "mirror",
+      "seed": 12,
+      "hp": 55,
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "mirror",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "shieldStrike",
+        "chain",
+        "renew",
+        "meditate"
+      ],
+      "bowWatcher": {
+        "win": true,
+        "hpLoss": 25,
+        "endHp": 30,
+        "turns": 9,
+        "interrupts": 0,
+        "complete": false
+      },
+      "starDial": {
+        "win": true,
+        "hpLoss": 26,
+        "endHp": 29,
+        "turns": 7,
+        "interrupts": 1,
+        "complete": false
+      }
+    },
+    {
+      "origin": "mirror",
+      "seed": 13,
+      "hp": 47,
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "mirror",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "shieldStrike",
+        "zenithBolt",
+        "frostPierce",
+        "quietComet"
+      ],
+      "bowWatcher": {
+        "win": true,
+        "hpLoss": 23,
+        "endHp": 24,
+        "turns": 9,
+        "interrupts": 0,
+        "complete": false
+      },
+      "starDial": {
+        "win": true,
+        "hpLoss": 13,
+        "endHp": 34,
+        "turns": 6,
+        "interrupts": 0,
+        "complete": false
+      }
+    },
+    {
+      "origin": "mirror",
+      "seed": 14,
+      "hp": 55,
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "mirror",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "shieldStrike",
+        "iceSpear",
+        "meditate",
+        "frostPierce"
+      ],
+      "bowWatcher": {
+        "win": true,
+        "hpLoss": 35,
+        "endHp": 20,
+        "turns": 10,
+        "interrupts": 0,
+        "complete": false
+      },
+      "starDial": {
+        "win": true,
+        "hpLoss": 21,
+        "endHp": 34,
+        "turns": 8,
+        "interrupts": 1,
+        "complete": false
+      }
+    },
+    {
+      "origin": "mirror",
+      "seed": 15,
+      "hp": 41,
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "mirror",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "shieldStrike",
+        "surge",
+        "shieldStrike",
+        "winter"
+      ],
+      "bowWatcher": {
+        "win": true,
+        "hpLoss": 20,
+        "endHp": 21,
+        "turns": 8,
+        "interrupts": 1,
+        "complete": false
+      },
+      "starDial": {
+        "win": true,
+        "hpLoss": 21,
+        "endHp": 20,
+        "turns": 7,
+        "interrupts": 1,
+        "complete": false
+      }
+    },
+    {
+      "origin": "mirror",
+      "seed": 16,
+      "hp": 47,
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "mirror",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "shieldStrike",
+        "starWait",
+        "bolt",
+        "thunderCrash"
+      ],
+      "bowWatcher": {
+        "win": true,
+        "hpLoss": 22,
+        "endHp": 25,
+        "turns": 8,
+        "interrupts": 2,
+        "complete": false
+      },
+      "starDial": {
+        "win": true,
+        "hpLoss": 28,
+        "endHp": 19,
+        "turns": 8,
+        "interrupts": 0,
+        "complete": false
+      }
+    },
+    {
+      "origin": "mirror",
+      "seed": 17,
+      "hp": 48,
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "mirror",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "shieldStrike",
+        "chain",
+        "zenithBolt",
+        "orbitEcho"
+      ],
+      "bowWatcher": {
+        "win": true,
+        "hpLoss": 43,
+        "endHp": 5,
+        "turns": 8,
+        "interrupts": 0,
+        "complete": false
+      },
+      "starDial": {
+        "win": true,
+        "hpLoss": 29,
+        "endHp": 19,
+        "turns": 8,
+        "interrupts": 0,
+        "complete": false
+      }
+    },
+    {
+      "origin": "mirror",
+      "seed": 18,
+      "hp": 46,
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "mirror",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "shieldStrike",
+        "iceSpear",
+        "renew",
+        "drain"
+      ],
+      "bowWatcher": {
+        "win": true,
+        "hpLoss": 28,
+        "endHp": 21,
+        "turns": 8,
+        "interrupts": 0,
+        "complete": false
+      },
+      "starDial": {
+        "win": true,
+        "hpLoss": 28,
+        "endHp": 21,
+        "turns": 8,
+        "interrupts": 0,
+        "complete": false
+      }
+    },
+    {
+      "origin": "mirror",
+      "seed": 19,
+      "hp": 32,
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "mirror",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "shieldStrike",
+        "frostPierce",
+        "starWait",
+        "renew"
+      ],
+      "bowWatcher": {
+        "win": false,
+        "hpLoss": 32,
+        "endHp": 0,
+        "turns": 5,
+        "interrupts": 0,
+        "complete": false
+      },
+      "starDial": {
+        "win": true,
+        "hpLoss": 25,
+        "endHp": 7,
+        "turns": 8,
+        "interrupts": 1,
+        "complete": false
+      }
+    },
+    {
+      "origin": "mirror",
+      "seed": 20,
+      "hp": 46,
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "mirror",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "shieldStrike",
+        "guard",
+        "winter",
+        "winter"
+      ],
+      "bowWatcher": {
+        "win": true,
+        "hpLoss": 39,
+        "endHp": 7,
+        "turns": 10,
+        "interrupts": 0,
+        "complete": false
+      },
+      "starDial": {
+        "win": true,
+        "hpLoss": 21,
+        "endHp": 25,
+        "turns": 7,
+        "interrupts": 2,
+        "complete": false
+      }
+    },
+    {
+      "origin": "mirror",
+      "seed": 21,
+      "hp": 49,
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "mirror",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "shieldStrike",
+        "meditate",
+        "renew",
+        "drain"
+      ],
+      "bowWatcher": {
+        "win": true,
+        "hpLoss": 38,
+        "endHp": 14,
+        "turns": 11,
+        "interrupts": 0,
+        "complete": false
+      },
+      "starDial": {
+        "win": true,
+        "hpLoss": 27,
+        "endHp": 25,
+        "turns": 9,
+        "interrupts": 0,
+        "complete": false
+      }
+    },
+    {
+      "origin": "mirror",
+      "seed": 22,
+      "hp": 59,
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "mirror",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "shieldStrike",
+        "iceSpear",
+        "spark",
+        "bolt"
+      ],
+      "bowWatcher": {
+        "win": true,
+        "hpLoss": 33,
+        "endHp": 26,
+        "turns": 7,
+        "interrupts": 0,
+        "complete": false
+      },
+      "starDial": {
+        "win": true,
+        "hpLoss": 19,
+        "endHp": 40,
+        "turns": 5,
+        "interrupts": 0,
+        "complete": false
+      }
+    },
+    {
+      "origin": "mirror",
+      "seed": 23,
+      "hp": 55,
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "mirror",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "shieldStrike",
+        "winter",
+        "meditate",
+        "dark"
+      ],
+      "bowWatcher": {
+        "win": true,
+        "hpLoss": 40,
+        "endHp": 15,
+        "turns": 8,
+        "interrupts": 0,
+        "complete": false
+      },
+      "starDial": {
+        "win": true,
+        "hpLoss": 31,
+        "endHp": 24,
+        "turns": 8,
+        "interrupts": 1,
+        "complete": false
+      }
+    },
+    {
+      "origin": "mirror",
+      "seed": 24,
+      "hp": 36,
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "mirror",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "shieldStrike",
+        "bolt",
+        "surge",
+        "quietScript"
+      ],
+      "bowWatcher": {
+        "win": false,
+        "hpLoss": 36,
+        "endHp": 0,
+        "turns": 5,
+        "interrupts": 0,
+        "complete": false
+      },
+      "starDial": {
+        "win": true,
+        "hpLoss": 22,
+        "endHp": 14,
+        "turns": 6,
+        "interrupts": 0,
+        "complete": false
+      }
+    },
+    {
+      "origin": "mirror",
+      "seed": 25,
+      "hp": 46,
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "mirror",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "shieldStrike",
+        "winter",
+        "drain",
+        "meditate"
+      ],
+      "bowWatcher": {
+        "win": true,
+        "hpLoss": 22,
+        "endHp": 27,
+        "turns": 8,
+        "interrupts": 1,
+        "complete": false
+      },
+      "starDial": {
+        "win": true,
+        "hpLoss": 19,
+        "endHp": 30,
+        "turns": 6,
+        "interrupts": 0,
+        "complete": false
+      }
+    },
+    {
+      "origin": "mirror",
+      "seed": 26,
+      "hp": 36,
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "mirror",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "shieldStrike",
+        "shatter",
+        "frostPierce",
+        "mirrorNote"
+      ],
+      "bowWatcher": {
+        "win": true,
+        "hpLoss": 23,
+        "endHp": 13,
+        "turns": 8,
+        "interrupts": 0,
+        "complete": false
+      },
+      "starDial": {
+        "win": true,
+        "hpLoss": 27,
+        "endHp": 9,
+        "turns": 7,
+        "interrupts": 0,
+        "complete": false
+      }
+    },
+    {
+      "origin": "mirror",
+      "seed": 27,
+      "hp": 45,
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "mirror",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "shieldStrike",
+        "renew",
+        "starBookmark",
+        "renew"
+      ],
+      "bowWatcher": {
+        "win": true,
+        "hpLoss": 34,
+        "endHp": 11,
+        "turns": 9,
+        "interrupts": 1,
+        "complete": false
+      },
+      "starDial": {
+        "win": true,
+        "hpLoss": 16,
+        "endHp": 29,
+        "turns": 8,
+        "interrupts": 0,
+        "complete": false
+      }
+    },
+    {
+      "origin": "mirror",
+      "seed": 28,
+      "hp": 40,
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "mirror",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "shieldStrike",
+        "frostNova",
+        "zenithBolt",
+        "renew"
+      ],
+      "bowWatcher": {
+        "win": true,
+        "hpLoss": 31,
+        "endHp": 9,
+        "turns": 10,
+        "interrupts": 0,
+        "complete": false
+      },
+      "starDial": {
+        "win": true,
+        "hpLoss": 29,
+        "endHp": 11,
+        "turns": 9,
+        "interrupts": 0,
+        "complete": false
+      }
+    },
+    {
+      "origin": "mirror",
+      "seed": 29,
+      "hp": 45,
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "mirror",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "shieldStrike",
+        "renew",
+        "frostNova",
+        "meditate"
+      ],
+      "bowWatcher": {
+        "win": true,
+        "hpLoss": 28,
+        "endHp": 17,
+        "turns": 11,
+        "interrupts": 0,
+        "complete": false
+      },
+      "starDial": {
+        "win": true,
+        "hpLoss": 15,
+        "endHp": 30,
+        "turns": 9,
+        "interrupts": 0,
+        "complete": false
+      }
+    },
+    {
+      "origin": "mirror",
+      "seed": 30,
+      "hp": 46,
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "mirror",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "shieldStrike",
+        "shatter",
+        "zenithBolt",
+        "renew"
+      ],
+      "bowWatcher": {
+        "win": true,
+        "hpLoss": 29,
+        "endHp": 17,
+        "turns": 9,
+        "interrupts": 1,
+        "complete": false
+      },
+      "starDial": {
+        "win": true,
+        "hpLoss": 25,
+        "endHp": 21,
+        "turns": 9,
+        "interrupts": 0,
+        "complete": false
+      }
+    },
+    {
+      "origin": "mirror",
+      "seed": 31,
+      "hp": 43,
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "mirror",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "shieldStrike",
+        "ice",
+        "renew",
+        "bolt"
+      ],
+      "bowWatcher": {
+        "win": true,
+        "hpLoss": 33,
+        "endHp": 10,
+        "turns": 10,
+        "interrupts": 0,
+        "complete": false
+      },
+      "starDial": {
+        "win": true,
+        "hpLoss": 20,
+        "endHp": 23,
+        "turns": 8,
+        "interrupts": 1,
+        "complete": false
+      }
+    },
+    {
+      "origin": "mirror",
+      "seed": 32,
+      "hp": 56,
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "mirror",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "shieldStrike",
+        "zenithBolt",
+        "meditate",
+        "marginLight"
+      ],
+      "bowWatcher": {
+        "win": true,
+        "hpLoss": 19,
+        "endHp": 37,
+        "turns": 8,
+        "interrupts": 1,
+        "complete": false
+      },
+      "starDial": {
+        "win": true,
+        "hpLoss": 22,
+        "endHp": 34,
+        "turns": 7,
+        "interrupts": 0,
+        "complete": false
+      }
+    },
+    {
+      "origin": "mirror",
+      "seed": 33,
+      "hp": 34,
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "mirror",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "shieldStrike",
+        "shieldStrike",
+        "quietComet",
+        "quietComet"
+      ],
+      "bowWatcher": {
+        "win": true,
+        "hpLoss": 16,
+        "endHp": 18,
+        "turns": 8,
+        "interrupts": 1,
+        "complete": false
+      },
+      "starDial": {
+        "win": true,
+        "hpLoss": 25,
+        "endHp": 9,
+        "turns": 6,
+        "interrupts": 0,
+        "complete": false
+      }
+    },
+    {
+      "origin": "mirror",
+      "seed": 34,
+      "hp": 34,
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "mirror",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "shieldStrike",
+        "frostPierce",
+        "bolt",
+        "iceSpear"
+      ],
+      "bowWatcher": {
+        "win": true,
+        "hpLoss": 29,
+        "endHp": 5,
+        "turns": 9,
+        "interrupts": 0,
+        "complete": false
+      },
+      "starDial": {
+        "win": true,
+        "hpLoss": 31,
+        "endHp": 3,
+        "turns": 8,
+        "interrupts": 0,
+        "complete": false
+      }
+    },
+    {
+      "origin": "mirror",
+      "seed": 35,
+      "hp": 60,
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "mirror",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "shieldStrike",
+        "renew",
+        "frostNova",
+        "chain"
+      ],
+      "bowWatcher": {
+        "win": true,
+        "hpLoss": 32,
+        "endHp": 28,
+        "turns": 10,
+        "interrupts": 1,
+        "complete": false
+      },
+      "starDial": {
+        "win": true,
+        "hpLoss": 19,
+        "endHp": 41,
+        "turns": 9,
+        "interrupts": 0,
+        "complete": false
+      }
+    },
+    {
+      "origin": "mirror",
+      "seed": 36,
+      "hp": 34,
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "mirror",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "shieldStrike",
+        "surge",
+        "ice",
+        "surge"
+      ],
+      "bowWatcher": {
+        "win": false,
+        "hpLoss": 34,
+        "endHp": 0,
+        "turns": 8,
+        "interrupts": 0,
+        "complete": false
+      },
+      "starDial": {
+        "win": true,
+        "hpLoss": 16,
+        "endHp": 18,
+        "turns": 7,
+        "interrupts": 1,
+        "complete": false
+      }
+    },
+    {
+      "origin": "mirror",
+      "seed": 37,
+      "hp": 52,
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "mirror",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "shieldStrike",
+        "iceSpear",
+        "starWait",
+        "thunderCrash"
+      ],
+      "bowWatcher": {
+        "win": true,
+        "hpLoss": 34,
+        "endHp": 18,
+        "turns": 9,
+        "interrupts": 1,
+        "complete": false
+      },
+      "starDial": {
+        "win": true,
+        "hpLoss": 28,
+        "endHp": 24,
+        "turns": 7,
+        "interrupts": 0,
+        "complete": false
+      }
+    },
+    {
+      "origin": "mirror",
+      "seed": 38,
+      "hp": 37,
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "mirror",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "shieldStrike",
+        "frostPierce",
+        "zenithBolt",
+        "zenithBolt"
+      ],
+      "bowWatcher": {
+        "win": false,
+        "hpLoss": 37,
+        "endHp": 0,
+        "turns": 5,
+        "interrupts": 0,
+        "complete": false
+      },
+      "starDial": {
+        "win": true,
+        "hpLoss": 34,
+        "endHp": 3,
+        "turns": 8,
+        "interrupts": 0,
+        "complete": false
+      }
+    },
+    {
+      "origin": "mirror",
+      "seed": 39,
+      "hp": 51,
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "mirror",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "shieldStrike",
+        "ice",
+        "shatter",
+        "frostPierce"
+      ],
+      "bowWatcher": {
+        "win": true,
+        "hpLoss": 47,
+        "endHp": 4,
+        "turns": 10,
+        "interrupts": 0,
+        "complete": false
+      },
+      "starDial": {
+        "win": true,
+        "hpLoss": 35,
+        "endHp": 16,
+        "turns": 8,
+        "interrupts": 0,
+        "complete": false
+      }
+    },
+    {
+      "origin": "mirror",
+      "seed": 40,
+      "hp": 52,
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "mirror",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "shieldStrike",
+        "drain",
+        "frostWard",
+        "mirror"
+      ],
+      "bowWatcher": {
+        "win": true,
+        "hpLoss": 16,
+        "endHp": 39,
+        "turns": 8,
+        "interrupts": 1,
+        "complete": false
+      },
+      "starDial": {
+        "win": true,
+        "hpLoss": 26,
+        "endHp": 29,
+        "turns": 7,
+        "interrupts": 0,
+        "complete": false
+      }
+    },
+    {
+      "origin": "mirror",
+      "seed": 41,
+      "hp": 54,
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "mirror",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "shieldStrike",
+        "meditate",
+        "iceSpear",
+        "zenithBolt"
+      ],
+      "bowWatcher": {
+        "win": true,
+        "hpLoss": 14,
+        "endHp": 40,
+        "turns": 8,
+        "interrupts": 1,
+        "complete": false
+      },
+      "starDial": {
+        "win": true,
+        "hpLoss": 27,
+        "endHp": 27,
+        "turns": 7,
+        "interrupts": 0,
+        "complete": false
+      }
+    },
+    {
+      "origin": "mirror",
+      "seed": 42,
+      "hp": 49,
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "mirror",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "shieldStrike",
+        "iceSpear",
+        "ice",
+        "memoryArrow"
+      ],
+      "bowWatcher": {
+        "win": true,
+        "hpLoss": 25,
+        "endHp": 24,
+        "turns": 9,
+        "interrupts": 0,
+        "complete": false
+      },
+      "starDial": {
+        "win": true,
+        "hpLoss": 21,
+        "endHp": 28,
+        "turns": 8,
+        "interrupts": 1,
+        "complete": false
+      }
+    },
+    {
+      "origin": "mirror",
+      "seed": 43,
+      "hp": 44,
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "mirror",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "shieldStrike",
+        "iceSpear",
+        "bolt",
+        "guard"
+      ],
+      "bowWatcher": {
+        "win": true,
+        "hpLoss": 27,
+        "endHp": 17,
+        "turns": 10,
+        "interrupts": 1,
+        "complete": false
+      },
+      "starDial": {
+        "win": true,
+        "hpLoss": 27,
+        "endHp": 17,
+        "turns": 9,
+        "interrupts": 1,
+        "complete": false
+      }
+    },
+    {
+      "origin": "mirror",
+      "seed": 44,
+      "hp": 46,
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "mirror",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "shieldStrike",
+        "drain",
+        "ice",
+        "meditate"
+      ],
+      "bowWatcher": {
+        "win": true,
+        "hpLoss": 33,
+        "endHp": 16,
+        "turns": 8,
+        "interrupts": 0,
+        "complete": false
+      },
+      "starDial": {
+        "win": true,
+        "hpLoss": 30,
+        "endHp": 19,
+        "turns": 7,
+        "interrupts": 0,
+        "complete": false
+      }
+    },
+    {
+      "origin": "mirror",
+      "seed": 45,
+      "hp": 60,
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "mirror",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "shieldStrike",
+        "meditate",
+        "drain",
+        "quietScript"
+      ],
+      "bowWatcher": {
+        "win": true,
+        "hpLoss": 35,
+        "endHp": 28,
+        "turns": 7,
+        "interrupts": 0,
+        "complete": false
+      },
+      "starDial": {
+        "win": true,
+        "hpLoss": 30,
+        "endHp": 33,
+        "turns": 7,
+        "interrupts": 0,
+        "complete": false
+      }
+    },
+    {
+      "origin": "mirror",
+      "seed": 46,
+      "hp": 56,
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "mirror",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "shieldStrike",
+        "chain",
+        "drain",
+        "meditate"
+      ],
+      "bowWatcher": {
+        "win": true,
+        "hpLoss": 27,
+        "endHp": 32,
+        "turns": 7,
+        "interrupts": 0,
+        "complete": false
+      },
+      "starDial": {
+        "win": true,
+        "hpLoss": 26,
+        "endHp": 33,
+        "turns": 7,
+        "interrupts": 0,
+        "complete": false
+      }
+    },
+    {
+      "origin": "mirror",
+      "seed": 47,
+      "hp": 44,
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "mirror",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "shieldStrike",
+        "meditate",
+        "renew",
+        "frostPierce"
+      ],
+      "bowWatcher": {
+        "win": true,
+        "hpLoss": 30,
+        "endHp": 14,
+        "turns": 11,
+        "interrupts": 0,
+        "complete": false
+      },
+      "starDial": {
+        "win": true,
+        "hpLoss": 29,
+        "endHp": 15,
+        "turns": 8,
+        "interrupts": 0,
+        "complete": false
+      }
+    },
+    {
+      "origin": "mirror",
+      "seed": 48,
+      "hp": 54,
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "mirror",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "shieldStrike",
+        "ice",
+        "meditate",
+        "dark"
+      ],
+      "bowWatcher": {
+        "win": true,
+        "hpLoss": 29,
+        "endHp": 25,
+        "turns": 7,
+        "interrupts": 0,
+        "complete": false
+      },
+      "starDial": {
+        "win": true,
+        "hpLoss": 30,
+        "endHp": 24,
+        "turns": 7,
+        "interrupts": 0,
+        "complete": false
+      }
+    },
+    {
+      "origin": "mirror",
+      "seed": 49,
+      "hp": 50,
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "mirror",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "shieldStrike",
+        "meditate",
+        "starWait",
+        "dark"
+      ],
+      "bowWatcher": {
+        "win": true,
+        "hpLoss": 32,
+        "endHp": 18,
+        "turns": 7,
+        "interrupts": 0,
+        "complete": false
+      },
+      "starDial": {
+        "win": true,
+        "hpLoss": 29,
+        "endHp": 21,
+        "turns": 7,
+        "interrupts": 0,
+        "complete": false
+      }
+    },
+    {
+      "origin": "mirror",
+      "seed": 50,
+      "hp": 50,
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "mirror",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "shieldStrike",
+        "emberVeil",
+        "bolt",
+        "iceSpear"
+      ],
+      "bowWatcher": {
+        "win": true,
+        "hpLoss": 29,
+        "endHp": 21,
+        "turns": 9,
+        "interrupts": 0,
+        "complete": false
+      },
+      "starDial": {
+        "win": true,
+        "hpLoss": 11,
+        "endHp": 39,
+        "turns": 6,
+        "interrupts": 1,
+        "complete": false
+      }
+    },
+    {
+      "origin": "mirror",
+      "seed": 51,
+      "hp": 47,
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "mirror",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "shieldStrike",
+        "drain",
+        "meditate",
+        "renew"
+      ],
+      "bowWatcher": {
+        "win": true,
+        "hpLoss": 19,
+        "endHp": 31,
+        "turns": 9,
+        "interrupts": 1,
+        "complete": false
+      },
+      "starDial": {
+        "win": true,
+        "hpLoss": 13,
+        "endHp": 37,
+        "turns": 8,
+        "interrupts": 1,
+        "complete": false
+      }
+    },
+    {
+      "origin": "mirror",
+      "seed": 52,
+      "hp": 49,
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "mirror",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "shieldStrike",
+        "meditate",
+        "starFerryWard",
+        "quietComet"
+      ],
+      "bowWatcher": {
+        "win": true,
+        "hpLoss": 27,
+        "endHp": 22,
+        "turns": 7,
+        "interrupts": 1,
+        "complete": false
+      },
+      "starDial": {
+        "win": true,
+        "hpLoss": 24,
+        "endHp": 25,
+        "turns": 7,
+        "interrupts": 1,
+        "complete": false
+      }
+    },
+    {
+      "origin": "mirror",
+      "seed": 53,
+      "hp": 60,
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "mirror",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "shieldStrike",
+        "meditate",
+        "tuningNote",
+        "surge"
+      ],
+      "bowWatcher": {
+        "win": true,
+        "hpLoss": 37,
+        "endHp": 23,
+        "turns": 9,
+        "interrupts": 0,
+        "complete": false
+      },
+      "starDial": {
+        "win": true,
+        "hpLoss": 17,
+        "endHp": 43,
+        "turns": 9,
+        "interrupts": 0,
+        "complete": false
+      }
+    },
+    {
+      "origin": "mirror",
+      "seed": 54,
+      "hp": 51,
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "mirror",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "shieldStrike",
+        "chain",
+        "meditate",
+        "iceSpear"
+      ],
+      "bowWatcher": {
+        "win": true,
+        "hpLoss": 23,
+        "endHp": 28,
+        "turns": 9,
+        "interrupts": 0,
+        "complete": false
+      },
+      "starDial": {
+        "win": true,
+        "hpLoss": 34,
+        "endHp": 17,
+        "turns": 7,
+        "interrupts": 0,
+        "complete": false
+      }
+    },
+    {
+      "origin": "mirror",
+      "seed": 55,
+      "hp": 43,
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "mirror",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "shieldStrike",
+        "iceSpear",
+        "thunderCrash",
+        "orbitEcho"
+      ],
+      "bowWatcher": {
+        "win": true,
+        "hpLoss": 39,
+        "endHp": 4,
+        "turns": 10,
+        "interrupts": 0,
+        "complete": false
+      },
+      "starDial": {
+        "win": true,
+        "hpLoss": 30,
+        "endHp": 13,
+        "turns": 9,
+        "interrupts": 0,
+        "complete": false
+      }
+    },
+    {
+      "origin": "mirror",
+      "seed": 56,
+      "hp": 39,
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "mirror",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "shieldStrike",
+        "iceSpear",
+        "quietComet",
+        "drain"
+      ],
+      "bowWatcher": {
+        "win": true,
+        "hpLoss": 40,
+        "endHp": 2,
+        "turns": 9,
+        "interrupts": 1,
+        "complete": false
+      },
+      "starDial": {
+        "win": true,
+        "hpLoss": 22,
+        "endHp": 20,
+        "turns": 9,
+        "interrupts": 0,
+        "complete": false
+      }
+    },
+    {
+      "origin": "mirror",
+      "seed": 57,
+      "hp": 40,
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "mirror",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "shieldStrike",
+        "zenithBolt",
+        "renew",
+        "drain"
+      ],
+      "bowWatcher": {
+        "win": true,
+        "hpLoss": 37,
+        "endHp": 6,
+        "turns": 7,
+        "interrupts": 0,
+        "complete": false
+      },
+      "starDial": {
+        "win": true,
+        "hpLoss": 32,
+        "endHp": 11,
+        "turns": 8,
+        "interrupts": 0,
+        "complete": false
+      }
+    },
+    {
+      "origin": "mirror",
+      "seed": 58,
+      "hp": 40,
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "mirror",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "shieldStrike",
+        "starWait",
+        "frostPierce",
+        "renew"
+      ],
+      "bowWatcher": {
+        "win": true,
+        "hpLoss": 21,
+        "endHp": 19,
+        "turns": 8,
+        "interrupts": 1,
+        "complete": false
+      },
+      "starDial": {
+        "win": true,
+        "hpLoss": 17,
+        "endHp": 23,
+        "turns": 7,
+        "interrupts": 1,
+        "complete": false
+      }
+    },
+    {
+      "origin": "mirror",
+      "seed": 59,
+      "hp": 50,
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "mirror",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "shieldStrike",
+        "frostPierce",
+        "renew",
+        "quietScript"
+      ],
+      "bowWatcher": {
+        "win": true,
+        "hpLoss": 26,
+        "endHp": 24,
+        "turns": 8,
+        "interrupts": 0,
+        "complete": false
+      },
+      "starDial": {
+        "win": true,
+        "hpLoss": 19,
+        "endHp": 31,
+        "turns": 8,
+        "interrupts": 1,
+        "complete": false
+      }
+    },
+    {
+      "origin": "mirror",
+      "seed": 60,
+      "hp": 40,
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "mirror",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "shieldStrike",
+        "surge",
+        "iceSpear",
+        "renew"
+      ],
+      "bowWatcher": {
+        "win": false,
+        "hpLoss": 40,
+        "endHp": 0,
+        "turns": 9,
+        "interrupts": 0,
+        "complete": false
+      },
+      "starDial": {
+        "win": true,
+        "hpLoss": 23,
+        "endHp": 17,
+        "turns": 8,
+        "interrupts": 1,
+        "complete": false
+      }
+    },
+    {
+      "origin": "mirror",
+      "seed": 61,
+      "hp": 52,
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "mirror",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "shieldStrike",
+        "bolt",
+        "zenithBolt",
+        "iceSpear"
+      ],
+      "bowWatcher": {
+        "win": true,
+        "hpLoss": 40,
+        "endHp": 12,
+        "turns": 9,
+        "interrupts": 0,
+        "complete": false
+      },
+      "starDial": {
+        "win": true,
+        "hpLoss": 23,
+        "endHp": 29,
+        "turns": 7,
+        "interrupts": 1,
+        "complete": false
+      }
+    },
+    {
+      "origin": "mirror",
+      "seed": 62,
+      "hp": 55,
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "mirror",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "shieldStrike",
+        "frostNova",
+        "tuningNote",
+        "dark"
+      ],
+      "bowWatcher": {
+        "win": true,
+        "hpLoss": 43,
+        "endHp": 12,
+        "turns": 9,
+        "interrupts": 0,
+        "complete": false
+      },
+      "starDial": {
+        "win": true,
+        "hpLoss": 25,
+        "endHp": 30,
+        "turns": 8,
+        "interrupts": 0,
+        "complete": false
+      }
+    },
+    {
+      "origin": "mirror",
+      "seed": 63,
+      "hp": 35,
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "mirror",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "shieldStrike",
+        "quietComet",
+        "shatter",
+        "meditate"
+      ],
+      "bowWatcher": {
+        "win": false,
+        "hpLoss": 35,
+        "endHp": 0,
+        "turns": 6,
+        "interrupts": 0,
+        "complete": false
+      },
+      "starDial": {
+        "win": false,
+        "hpLoss": 35,
+        "endHp": 0,
+        "turns": 6,
+        "interrupts": 0,
+        "complete": false
+      }
+    },
+    {
+      "origin": "mirror",
+      "seed": 64,
+      "hp": 54,
+      "deck": [
+        "ice",
+        "guard",
+        "focus",
+        "spark",
+        "mirror",
+        "fadingStar",
+        "starWait",
+        "charge",
+        "meditate",
+        "shieldStrike",
+        "winter",
+        "chain",
+        "surge"
+      ],
+      "bowWatcher": {
+        "win": true,
+        "hpLoss": 22,
+        "endHp": 32,
+        "turns": 8,
+        "interrupts": 0,
+        "complete": false
+      },
+      "starDial": {
+        "win": true,
+        "hpLoss": 18,
+        "endHp": 36,
+        "turns": 7,
+        "interrupts": 1,
+        "complete": false
+      }
+    }
+  ]
+}

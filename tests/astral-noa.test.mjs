@@ -55,6 +55,9 @@ function battleBase(battle, route = 'moon', route2 = 'library') {
   const key = `${battle}/${route}/${route2}`;
   if (baseCache.has(key)) return plain(baseCache.get(key));
   const game = engine.createGame(engine.seededRandom(4917));
+  // Original Noa regression encounters are preserved via a genuine old option pair.
+  const initial = plain(game.exportSave()); initial.state.chapter2Options = {library:'bowWatcher',wind:'bellSpirit'};
+  assert.equal(game.restoreSave(initial), true);
   game.start();
   // Reach each phase with real public transitions. Only combat resources/zones are synthetic.
   for (let b = 1; b < battle; b++) {
@@ -91,7 +94,7 @@ function rng(game) { return game.exportSave().rngState; }
 
 // Definition, compatibility, and atomicity contracts.
 test('original Noa IDs retain specified upgrades as the planning collection grows', () => {
-  assert.equal(Object.keys(engine.CARDS).length, 42);
+  assert.equal(Object.keys(engine.CARDS).length, 46);
   const expected = {
     starRelay:{ cost:0, transferBlockCap:10 }, quietComet:{ cost:2, damage:10, recoverBonus:10 },
     mirrorLance:{ cost:1, damage:4, reflectDamageMultiplier:2, reflectDamageCap:10, consumeReflect:true },

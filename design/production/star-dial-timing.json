@@ -1,0 +1,13 @@
+{
+  "schemaVersion": 1,
+  "imageGenerationCalls": 0,
+  "browserQa": "user-owned-not-performed-not-a-development-gate",
+  "note": "Observed task intervals, including tools/waits within each interval. No speedup ratio inferred. Independent review overlaps implementation.",
+  "intervals": [
+    {"id":"design","owner":"implementation","phase":"design","start":"2026-10-07T02:24:50Z","end":"2026-10-07T02:27:19Z","note":"Read current main design/production documentation, inspect existing mechanics and assets, define small encounter set."},
+    {"id":"implementation","owner":"implementation","phase":"implementation","start":"2026-10-07T02:27:19Z","end":"2026-10-07T02:32:30Z","note":"Implement four existing-effect cards, encounter/default compatibility, per-hit forecasts, specs, fixtures, tests and sampling tool."},
+    {"id":"aggregate-verification","owner":"implementation","phase":"tests","start":"2026-10-07T02:32:48Z","end":"2026-10-07T02:33:08Z","note":"99 Node, 4 Python, 14 Asset Factory tests; release metadata and whitespace checks."},
+    {"id":"independent-review","owner":"independent-reviewer","phase":"tests","start":"2026-10-07T02:27:00Z","end":"2026-10-07T02:35:21Z","note":"Read-only design/code review and independent final verification, includes waiting for implementation. 1,757 extra old/new snapshot and next-action comparisons."},
+    {"id":"report","owner":"integration","phase":"integration","start":"2026-10-07T02:33:36Z","end":"2026-10-07T02:35:21Z","note":"Record design alignment, tests, matched sampling, remaining user-owned QA and local-only publication status."}
+  ]
+}

@@ -1,0 +1,617 @@
+{
+  "schemaVersion": 1,
+  "id": "star-dial",
+  "title": "星儀の試練",
+  "theme": "手数を増やすターンと、一撃を育てるターン。ノアの書庫で次の行動を読み分ける。",
+  "style": {
+    "world": "A quiet ancient celestial library with dim stone arches and abstract star maps.",
+    "palette": "Silver and star-blue highlights, deep teal and amethyst shadows, restrained parchment amber.",
+    "medium": "Detailed painterly Japanese fantasy RPG card art with readable material detail.",
+    "composition": "Square illustration; one clear central subject, preserve its entire silhouette, readable at small card size.",
+    "avoid": "Readable letters, numbers, logos, borders, UI, extra subjects, contact sheets or collage."
+  },
+  "cards": [
+    {
+      "id": "starlitPin",
+      "asset": "starlit-pin",
+      "base": {
+        "name": "星屑の瞬き",
+        "cost": 0,
+        "damage": 1,
+        "weaken": 1,
+        "exhaust": true,
+        "family": "ice",
+        "art": "starlitPin"
+      },
+      "upgrade": {
+        "damage": 2,
+        "weaken": 2
+      },
+      "textIncludes": [
+        "{damage}ダメージ",
+        "−{weaken}",
+        "消滅"
+      ],
+      "cases": [
+        {
+          "name": "base-zero-energy",
+          "variant": "base",
+          "state": {
+            "energy": 0
+          },
+          "preview": {
+            "actualDamage": 1,
+            "actualWeak": 2
+          },
+          "after": {
+            "energy": 0,
+            "enemyHp": 47,
+            "weaken": 2,
+            "exhaust": [
+              "starlitPin"
+            ]
+          },
+          "text": {
+            "summary": [
+              "攻撃1",
+              "弱体2/打撃"
+            ],
+            "rules": [
+              "消滅"
+            ]
+          }
+        },
+        {
+          "name": "upgrade-max-weakness",
+          "variant": "upgrade",
+          "state": {
+            "energy": 0,
+            "weaken": 4
+          },
+          "preview": {
+            "actualDamage": 2,
+            "actualWeak": 3
+          },
+          "after": {
+            "weaken": 4,
+            "enemyHp": 46,
+            "exhaust": [
+              "starlitPin+"
+            ]
+          },
+          "text": {
+            "summary": [
+              "攻撃2",
+              "弱体3/打撃"
+            ]
+          }
+        }
+      ],
+      "design": {
+        "rarity": "unassigned",
+        "rarity_status": "最終レアリティ・分布は保留。既存一般枠の抽選のみ。",
+        "primary_engine": "attack_count",
+        "secondary_engine": "weakness_exhaust",
+        "strong_when": [
+          "三連撃を弱体で受けながら、手札攻撃の枚数も増やしたい",
+          "魔力を残しながら砕氷・霜穿ち・灰の守りへつなげたい"
+        ],
+        "weak_when": [
+          "一撃12を求められていて集中を小さな攻撃に使いたくない",
+          "手札枠が苦しく、長期戦で繰り返し使いたい"
+        ],
+        "related_cards": [
+          "spark",
+          "ice",
+          "ashWard",
+          "frostPierce"
+        ],
+        "design_intent": "魔力0の一時的な細い攻撃。反復できる火花の代替上位にはしない。",
+        "asset_id": "starlit-pin"
+      }
+    },
+    {
+      "id": "shutterWard",
+      "asset": "shutter-ward",
+      "base": {
+        "name": "閉じる星環",
+        "cost": 1,
+        "block": 3,
+        "emptyNextBlock": 6,
+        "family": "guard",
+        "art": "shutterWard"
+      },
+      "upgrade": {
+        "block": 6
+      },
+      "textIncludes": [
+        "{block}ブロック",
+        "魔力0",
+        "{emptyNextBlock}ブロック"
+      ],
+      "cases": [
+        {
+          "name": "base-empty",
+          "variant": "base",
+          "state": {
+            "energy": 1
+          },
+          "preview": {
+            "actualBlock": 3,
+            "actualNextBlock": 6
+          },
+          "after": {
+            "energy": 0,
+            "block": 3,
+            "pendingBlock": 6
+          },
+          "text": {
+            "summary": [
+              "防御3",
+              "次ターン防御6"
+            ],
+            "rules": [
+              "成立"
+            ]
+          }
+        },
+        {
+          "name": "base-banked",
+          "variant": "base",
+          "state": {
+            "energy": 2
+          },
+          "preview": {
+            "actualNextBlock": 0
+          },
+          "after": {
+            "energy": 1,
+            "pendingBlock": 0
+          },
+          "text": {
+            "rules": [
+              "今回は予約なし"
+            ]
+          }
+        },
+        {
+          "name": "upgrade-stacking",
+          "variant": "upgrade",
+          "state": {
+            "energy": 1,
+            "pendingBlock": 5
+          },
+          "preview": {
+            "actualBlock": 6,
+            "actualNextBlock": 6
+          },
+          "after": {
+            "block": 6,
+            "pendingBlock": 11
+          },
+          "text": {
+            "summary": [
+              "防御6",
+              "次ターン防御6"
+            ]
+          }
+        }
+      ],
+      "design": {
+        "rarity": "unassigned",
+        "rarity_status": "最終レアリティ・分布は保留。既存一般枠の抽選のみ。",
+        "primary_engine": "mana_depletion",
+        "secondary_engine": "future_defense",
+        "strong_when": [
+          "今ターンを魔力0で終え、次ターンの連撃に備えたい",
+          "防御を星継ぎや鏡撃へ変換したい"
+        ],
+        "weak_when": [
+          "今すぐ大きな防御が必要",
+          "次が休み、または魔力を残したい"
+        ],
+        "related_cards": [
+          "guard",
+          "fadingStar",
+          "starRelay",
+          "shieldStrike"
+        ],
+        "design_intent": "現在の防御量を抑え、支払い順で次ターンの価値を作る。",
+        "asset_id": "shutter-ward"
+      }
+    },
+    {
+      "id": "orbitEcho",
+      "asset": "orbit-echo",
+      "base": {
+        "name": "星軌の追撃",
+        "cost": 2,
+        "damage": 9,
+        "memoryCap": 8,
+        "family": "dark",
+        "art": "orbitEcho"
+      },
+      "upgrade": {
+        "damage": 12
+      },
+      "textIncludes": [
+        "{damage}ダメージ",
+        "最大{memoryCap}"
+      ],
+      "cases": [
+        {
+          "name": "base-no-memory",
+          "variant": "base",
+          "state": {
+            "turn": 2,
+            "prevLastAttack": 0
+          },
+          "preview": {
+            "actualDamage": 9,
+            "actualMemory": 0
+          },
+          "after": {
+            "enemyHp": 39,
+            "energy": 3,
+            "turnLastAttack": 9
+          },
+          "text": {
+            "summary": [
+              "攻撃9"
+            ],
+            "rules": [
+              "今＋0"
+            ]
+          }
+        },
+        {
+          "name": "base-odd-memory",
+          "variant": "base",
+          "state": {
+            "turn": 2,
+            "prevLastAttack": 15
+          },
+          "preview": {
+            "actualDamage": 16,
+            "actualMemory": 7
+          },
+          "after": {
+            "enemyHp": 32,
+            "turnLastAttack": 16
+          },
+          "text": {
+            "summary": [
+              "攻撃16"
+            ],
+            "rules": [
+              "最大8",
+              "今＋7"
+            ]
+          }
+        },
+        {
+          "name": "upgrade-capped",
+          "variant": "upgrade",
+          "state": {
+            "turn": 2,
+            "prevLastAttack": 99
+          },
+          "preview": {
+            "actualDamage": 20,
+            "actualMemory": 8
+          },
+          "after": {
+            "enemyHp": 28,
+            "turnLastAttack": 20
+          },
+          "text": {
+            "summary": [
+              "攻撃20"
+            ],
+            "rules": [
+              "今＋8"
+            ]
+          }
+        }
+      ],
+      "design": {
+        "rarity": "unassigned",
+        "rarity_status": "最終レアリティ・分布は保留。既存一般枠の抽選のみ。",
+        "primary_engine": "attack_memory",
+        "secondary_engine": "single_hit",
+        "strong_when": [
+          "前ターン最後の手札攻撃を大きくしており、次の一撃詠唱へ回答したい",
+          "雷鳴の護符や次ターン集中と組み合わせたい"
+        ],
+        "weak_when": [
+          "前ターンに攻撃しなかった、または最後の攻撃が小さかった",
+          "魔力2を防御・複数枚の攻撃へ残したい"
+        ],
+        "related_cards": [
+          "memoryArrow",
+          "bolt",
+          "quietComet",
+          "tuningNote"
+        ],
+        "design_intent": "素の威力は雷撃未満。前ターンの最後の攻撃を選ぶ判断で上回る。",
+        "asset_id": "orbit-echo"
+      }
+    },
+    {
+      "id": "tuningNote",
+      "asset": "tuning-note",
+      "base": {
+        "name": "調律の頁",
+        "cost": 1,
+        "nextFocus": 6,
+        "draw": 1,
+        "exhaust": true,
+        "family": "focus",
+        "art": "tuningNote"
+      },
+      "upgrade": {
+        "nextFocus": 8,
+        "draw": 2
+      },
+      "textIncludes": [
+        "最初の攻撃＋{nextFocus}",
+        "{draw}枚引く",
+        "消滅"
+      ],
+      "cases": [
+        {
+          "name": "base-draw-now-focus-later",
+          "variant": "base",
+          "state": {
+            "energy": 1
+          },
+          "preview": {
+            "actualDraw": 1,
+            "actualNextFocus": 6
+          },
+          "after": {
+            "energy": 0,
+            "focus": 0,
+            "pendingFocus": 6,
+            "hand": [
+              "guard"
+            ],
+            "exhaust": [
+              "tuningNote"
+            ]
+          },
+          "text": {
+            "summary": [
+              "1枚引く",
+              "次ターン攻撃＋6"
+            ],
+            "rules": [
+              "消滅"
+            ]
+          }
+        },
+        {
+          "name": "upgrade-reservation-stacks",
+          "variant": "upgrade",
+          "state": {
+            "energy": 1,
+            "pendingFocus": 4
+          },
+          "preview": {
+            "actualDraw": 2,
+            "actualNextFocus": 8
+          },
+          "after": {
+            "energy": 0,
+            "pendingFocus": 12,
+            "hand": [
+              "guard",
+              "guard"
+            ],
+            "exhaust": [
+              "tuningNote+"
+            ]
+          },
+          "text": {
+            "summary": [
+              "2枚引く",
+              "次ターン攻撃＋8"
+            ]
+          }
+        }
+      ],
+      "design": {
+        "rarity": "unassigned",
+        "rarity_status": "最終レアリティ・分布は保留。既存一般枠の抽選のみ。",
+        "primary_engine": "future_preparation",
+        "secondary_engine": "draw_exhaust",
+        "strong_when": [
+          "今の手札を探りながら、次の一撃へ集中を予約したい",
+          "消滅条件を作り灰の守りへつなげたい"
+        ],
+        "weak_when": [
+          "今すぐ攻撃・防御が必要",
+          "次ターンに攻撃できない、または魔力1を残したい"
+        ],
+        "related_cards": [
+          "marginLight",
+          "starWait",
+          "meditate",
+          "ashWard"
+        ],
+        "design_intent": "余白の灯より魔力が必要。星待ちと違って今の防御はなく、消滅する。",
+        "asset_id": "tuning-note"
+      }
+    }
+  ],
+  "assets": [
+    {
+      "key": "starlit-pin",
+      "kind": "card",
+      "subject": "A tiny star-ice flash breaking into shards.",
+      "alt": {
+        "mode": "decorative",
+        "text": ""
+      },
+      "path": "./assets/frost-pierce.webp",
+      "status": "reuse",
+      "reuseFrom": "Published frostPierce at 53b2e76666de46a2ec2fe1d973356cbcadd41c73",
+      "sha256": "03130bd24e99c017b293be7420fe41ad8551d77ca8f8a9bb8d242e46bb8084b7",
+      "provenance": {
+        "kind": "existing-project",
+        "evidence": "Same project art, recorded in design/production/reusable-art.json; no broader rights claim."
+      },
+      "visualQa": {
+        "status": "passed",
+        "note": "Source pixels viewed individually on 2026-10-07. Same published image bytes and crop; only dedicated card art alias added. New text/landscape browser QA is not claimed; the user owns that check."
+      },
+      "asset_id": "starlit-pin",
+      "asset_id_scope": "Production alias only, no Asset Factory job.",
+      "filename": "frost-pierce.webp",
+      "image_prompt": "再生成しない。既存ファイルを同一バイトで再利用。"
+    },
+    {
+      "key": "shutter-ward",
+      "kind": "card",
+      "subject": "A closing celestial ward reserving its light.",
+      "alt": {
+        "mode": "decorative",
+        "text": ""
+      },
+      "path": "./assets/chant-ward.webp",
+      "status": "reuse",
+      "reuseFrom": "Published chantWard at 53b2e76666de46a2ec2fe1d973356cbcadd41c73",
+      "sha256": "b73cfce0f161bd44399b3af56b0d697ee9e9dfa2aab94a296832ef7278a9879a",
+      "provenance": {
+        "kind": "existing-project",
+        "evidence": "Same project art, recorded in design/production/reusable-art.json; no broader rights claim."
+      },
+      "visualQa": {
+        "status": "passed",
+        "note": "Source pixels viewed individually on 2026-10-07. Same published image bytes and crop; only dedicated card art alias added. New text/landscape browser QA is not claimed; the user owns that check."
+      },
+      "asset_id": "shutter-ward",
+      "asset_id_scope": "Production alias only, no Asset Factory job.",
+      "filename": "chant-ward.webp",
+      "image_prompt": "再生成しない。既存ファイルを同一バイトで再利用。"
+    },
+    {
+      "key": "orbit-echo",
+      "kind": "card",
+      "subject": "The last comet follows its remembered orbit.",
+      "alt": {
+        "mode": "decorative",
+        "text": ""
+      },
+      "path": "./assets/quiet-comet.webp",
+      "status": "reuse",
+      "reuseFrom": "Published quietComet at 53b2e76666de46a2ec2fe1d973356cbcadd41c73",
+      "sha256": "036721a68c2e830d40ef0d9810a1cdb7a57085879f466302e2124955c0984680",
+      "provenance": {
+        "kind": "project-generated",
+        "evidence": "design/noa-set-art-report.md"
+      },
+      "visualQa": {
+        "status": "passed",
+        "note": "Source pixels viewed individually on 2026-10-07. Same published image bytes and crop; only dedicated card art alias added. New text/landscape browser QA is not claimed; the user owns that check."
+      },
+      "asset_id": "orbit-echo",
+      "asset_id_scope": "Production alias only, no Asset Factory job.",
+      "filename": "quiet-comet.webp",
+      "image_prompt": "再生成しない。既存ファイルを同一バイトで再利用。"
+    },
+    {
+      "key": "tuning-note",
+      "kind": "card",
+      "subject": "An atlas page opens toward the next star.",
+      "alt": {
+        "mode": "decorative",
+        "text": ""
+      },
+      "path": "./assets/star-relay.webp",
+      "status": "reuse",
+      "reuseFrom": "Published starRelay at 53b2e76666de46a2ec2fe1d973356cbcadd41c73",
+      "sha256": "ab57e7fed839a208808a30a2b13abcbfce1b4c6bcaa4990c5fdbb3ab5cd5094c",
+      "provenance": {
+        "kind": "project-generated",
+        "evidence": "design/noa-set-art-report.md"
+      },
+      "visualQa": {
+        "status": "passed",
+        "note": "Source pixels viewed individually on 2026-10-07. Same published image bytes and crop; only dedicated card art alias added. New text/landscape browser QA is not claimed; the user owns that check."
+      },
+      "asset_id": "tuning-note",
+      "asset_id_scope": "Production alias only, no Asset Factory job.",
+      "filename": "star-relay.webp",
+      "image_prompt": "再生成しない。既存ファイルを同一バイトで再利用。"
+    },
+    {
+      "key": "librarian-noa",
+      "kind": "npc",
+      "subject": "Noa, the quiet librarian of the stars, with teal and deep violet garments, silver clasp, floating atlas and star bookmark. Distinct from the mage and ferryman.",
+      "alt": {
+        "mode": "text",
+        "text": "星綴りの司書ノア"
+      },
+      "path": "./assets/librarian-noa.webp",
+      "status": "reuse",
+      "reuseFrom": "Published Noa library guide, main 477a03a745dad2e70cd05085d2c96e7c5375df73",
+      "sha256": "f88e237806bba2cead68c5e8a0dbf723b8eca1186eeb7719e8a564397a05ec76",
+      "provenance": {
+        "kind": "project-generated",
+        "evidence": "design/noa-set-art-report.md — librarian-noa; repository generation prompt and original QA report."
+      },
+      "visualQa": {
+        "status": "passed",
+        "note": "librarian-noa.webp source pixels inspected again on 2026-10-07; unchanged bytes, path and guide renderer. New text/landscape browser QA is user-owned and not claimed."
+      },
+      "asset_id": "librarian-noa",
+      "asset_id_scope": "Production manifest alias only; not an Asset Factory queue/job registration.",
+      "filename": "librarian-noa.webp",
+      "image_prompt": "再生成しない。./assets/librarian-noa.webp の既存Noa素材を同一バイトで再利用。元の生成プロンプトの復元を意味せず、新しい画像JOBは発行しない。"
+    }
+  ],
+  "encounter": {
+    "id": "starDial",
+    "definition": {
+      "name": "星儀の調律者",
+      "hp": 74,
+      "art": "starDial",
+      "lesson": "三連撃は攻撃札1枚ごとに各打撃−1（3枚まで）。次の強打は一撃12で18→8。弱体・反射・防御も有効。",
+      "moves": [
+        {
+          "type": "recover",
+          "label": "星儀を合わせる"
+        },
+        {
+          "type": "attack",
+          "label": "三連星の詠唱",
+          "power": 4,
+          "hits": 3,
+          "attackCountThreshold": 3,
+          "stepReduction": 1,
+          "reduction": 3
+        },
+        {
+          "type": "attack",
+          "label": "星軸の詠唱",
+          "power": 18,
+          "hits": 1,
+          "singleThreshold": 12,
+          "reduction": 10
+        }
+      ]
+    },
+    "art": {
+      "path": "./assets/gatekeeper.webp",
+      "status": "reuse",
+      "sha256": "41347b6dd633ccbd749a2ecf79099d3870812c4ed6a9162989a8db6cf07bf436",
+      "provenance": "Existing project art, same bytes as skeleton/stone. Separate name and action pattern; no new illustration is claimed.",
+      "pixelReview": "2026-10-07: transparent full-body star-armored staff bearer inspected directly. Existing silhouette fits an observatory attendant. Device crop QA remains user-owned."
+    },
+    "placement": "Fresh-run library route at battle 4 only; existing saved options/encounters and legacy migration remain unchanged."
+  },
+  "designSource": "GAME_DESIGN.md sections 2, 6, 7, 11–14; ASTRAL_DEVELOPMENT.md; production README",
+  "implementationStatus": "local-unpublished-candidate",
+  "roadmapScope": "Existing Astral mage-mode four-card request only. Does not complete, replace, or reorder GAME_DESIGN §16 warrior W009–W036 roadmap."
+}
