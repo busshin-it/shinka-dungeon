@@ -153,7 +153,7 @@ node tools/astral-star-dial-balance.mjs --seeds=64 --reward-seeds=512
 実ブラウザ・実機確認の合格は主張しない。
 
 
-## V4.14 成長ループ試遊（ローカル・未公開候補）
+## V4.14 成長ループ試遊（公開済み・仮仕様）
 
 基本2種＋既存46種。新規ランのデッキ・第1〜3戦・初報酬・第2戦後の除去をまとめて試す。
 旧v3の途中保存は元の敵/報酬/RNG/デッキを維持、新規はruleset付きv4。
@@ -163,4 +163,6 @@ node tools/astral-star-dial-balance.mjs --seeds=64 --reward-seeds=512
 `node tools/astral-growth-balance.mjs --seeds=24 --beam=6 --branch-seeds=8`
 でターンと実行アクション、条件発動、支度の比較、保存互換を再計測できる。
 `ui-qa/growth.html` は13合成場面。手動横画面/実機はユーザー担当で開発を止めない。
-この候補を公開済みとは扱わず、V4.13の公開履歴は上記に残す。
+2026-10-07公開。build `4.14-15de5d91590f`、両Pages成功、配信46ファイルのbyte一致を確認。
+[公開記録](design/production/deck-growth-release.md)にPR・CI・配信確認と未検証範囲を記録する。
+初報酬は早まった一方、簡易方策の全体操作数は約9.9%増。楽しさ・固定行動の解消は未確認。V4.13の公開履歴は上記に残す。
