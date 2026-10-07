@@ -3,7 +3,7 @@
  const frame=document.querySelector('#game'),status=document.querySelector('#status'),select=document.querySelector('#scenario');
  try{
   const [markup,data]=await Promise.all([fetch('../v4-1/planning.html',{cache:'no-store'}).then(r=>{if(!r.ok)throw Error(r.status);return r.text()}),fetch('./mana-bridges-fixtures.json',{cache:'no-store'}).then(r=>{if(!r.ok)throw Error(r.status);return r.json()})]);
-  const labels={"lastMana":"最後の魔力：霜渡り→火花","keepMana":"魔力を残すと予約なし","iceCharm":"氷晶：弱体と次の大技","mirrorHits":"連撃：反射を残す","afterEmpty":"前ターン枯渇：防御8","afterBank":"前ターン温存：防御3","bank4":"使用前魔力4：攻撃16","bank3":"使用前魔力3：攻撃8","upgraded":"進化5枚の数値","noMana":"魔力不足の確認"};
+  const labels={"reward1_growth-v2":"第1戦後の報酬・次敵予告（growth-v2）","reward2_growth-v2":"第2戦後の報酬・次敵予告（growth-v2）","reward3_growth-v2":"第3戦後の報酬・次敵予告（growth-v2）","reward4_growth-v2":"第4戦後の報酬・次敵予告（growth-v2）","reward5_growth-v2":"第5戦後の報酬・次敵予告（growth-v2）","reward3_growth-v1":"第3戦後の報酬・次敵予告（growth-v1）","reward3_classic":"第3戦後の報酬・次敵予告（classic）","lastMana":"最後の魔力：霜渡り→火花","keepMana":"魔力を残すと予約なし","iceCharm":"氷晶：弱体と次の大技","mirrorHits":"連撃：反射を残す","afterEmpty":"前ターン枯渇：防御8","afterBank":"前ターン温存：防御3","bank4":"使用前魔力4：攻撃16","bank3":"使用前魔力3：攻撃8","upgraded":"進化5枚の数値","noMana":"魔力不足の確認"};
   for(const key of Object.keys(data)){const option=document.createElement('option');option.value=key;option.textContent=labels[key]||key;select.append(option)}
   function load(){
    const value=JSON.stringify(JSON.stringify(data[select.value])).replaceAll('<','\\u003c');

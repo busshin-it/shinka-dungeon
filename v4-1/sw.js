@@ -1,5 +1,5 @@
 /* Isolated app worker: only this app's cache prefix and scope are managed. */
-const BUILD = '4.20-af79dcf8b5a3';
+const BUILD = '4.20-eb0fe84478f5';
 const SCOPE = new URL(self.registration.scope);
 const PREFIX = 'astral-v4-1:' + SCOPE.pathname + ':';
 const CACHE = PREFIX + BUILD;

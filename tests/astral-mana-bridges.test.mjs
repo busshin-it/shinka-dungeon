@@ -134,8 +134,8 @@ test('independent 4.19 definitions, saved offers, next actions and RNG stay pinn
  for(const row of baseline.fixtures){const g=restore(row.save);assert.equal(g[row.command[0]](...row.command.slice(1)),row.result);assert.equal(hash(g.exportSave()),row.afterSha256,row.name);}
 });
 
-test('ten synthetic UI scenes use valid game wrappers and cannot reach real saves or PWA',()=>{
- const scenes=JSON.parse(read('ui-qa/mana-bridges-fixtures.json'));assert.equal(Object.keys(scenes).length,10);
+test('seventeen synthetic UI scenes use valid game wrappers and cannot reach real saves or PWA',()=>{
+ const scenes=JSON.parse(read('ui-qa/mana-bridges-fixtures.json'));assert.equal(Object.keys(scenes).length,17);
  for(const wrapped of Object.values(scenes)){assert.equal(wrapped.version,1);assert.equal(wrapped.seed,419);assert.equal(wrapped.savedAt,0);assert(JSON.stringify(wrapped).length<100000);restore(wrapped.engine);}
  const html=read('ui-qa/mana-bridges.html');
  for(const text of ['sandbox="allow-scripts"',"Object.defineProperty(window,'localStorage'",'script[src="./pwa.js"]',"link.removeAttribute('href')",'./mana-bridges-fixtures.json'])assert(html.includes(text));
