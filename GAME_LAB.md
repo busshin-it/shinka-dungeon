@@ -1,5 +1,14 @@
 # GAME LAB Research Log
 
+## 2026-10-07｜V4.18 星秤の衛兵・公開
+
+- [PR #20](https://github.com/busshin-it/shinka-dungeon/pull/20)を正確なheadのCI成功後にmerge。main `f7be2a36`、build `4.18-4e4d2b8d0dd7`。両Pages成功、HTTPS配布46ファイル一致。
+- 設計PR #15の先行案1体だけを新規growth-v2の書庫へ。休み→魔力2以上で12→6→合計12ダメージで18→8。旧保存の相手/HP/履歴、54枚、6戦、schema、報酬RNGを維持。
+- 191 Node・4 Python・14 Factoryと独立レビュー合格。旧216ラン/22,538操作がbyte一致。新敵1,728被害境界、66固定保存、2,880報酬/RNGも検証。
+- 同一章間保存24組の平均第4戦被害14.708→11.458、ターン6.083→6.542、6戦完走18→17。自動方策だけで楽しさや最適バランスを判断しない。
+- 4.16の基本1コスト/+3、4.17の霜2枚は別変更として維持。画像生成・新依存・設定変更なし。手動描画/実機/実ユーザー保存は未確認。
+- [公開記録](design/production/star-scale-release.md)、[対照方法と限界](design/production/star-scale-report.md)、[保存隔離QA](ui-qa/star-scale.html)。
+
 ## 2026-10-07｜V4.15 効果先行4枚・公開
 
 - [PR #13](https://github.com/busshin-it/shinka-dungeon/pull/13)をCI成功後にmerge。main `20af682`、build `4.15-4fde8aa6412c`。両Pages成功、配信46ファイル一致。

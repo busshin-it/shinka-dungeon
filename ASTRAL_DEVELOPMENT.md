@@ -199,10 +199,12 @@ PR #14の先行案だけを実装。霜鏡と霜刻の予告をgrowth-v2の第2�
 Node175・Python4・Factory14合格。自然ラン方策は新2枚を未選択のため、強さ/楽しさの改善は未確認。
 [公開証拠・工程・未確認範囲](design/production/frost-synergy-release.md)。
 
-## V4.18 星秤の衛兵（1体試遊）
+## V4.18 星秤の衛兵（公開済み・1体試遊）
 
 新規growth-v2の書庫候補だけに星秤の衛兵HP70を追加。休み→魔力2以上で12→6→合計12ダメージで18→8。
 既存保存の候補/相手/HP/履歴は旧相手のまま。classic/growth-v1、カード54種、6戦、保存schema、報酬/RNGは維持。
 191 Node・4 Python・14 Asset Factory、66保存の次操作、2,880報酬/RNG一致を検証。
 24件の同一章間保存比較は平均第4戦被害14.708→11.458、ターン6.083→6.542、6戦完走18→17。
 人間の楽しさや適正難易度は断定しない。[範囲・検証・制約](design/production/star-scale-report.md)、[保存隔離8場面](ui-qa/star-scale.html)。
+
+PR #20 / build `4.18-4e4d2b8d0dd7`。両Pages成功、HTTPS配布46ファイル一致。[公開記録](design/production/star-scale-release.md)。
