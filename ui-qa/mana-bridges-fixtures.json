@@ -1,0 +1,1212 @@
+{
+  "lastMana": {
+    "version": 1,
+    "engine": {
+      "format": "astral-planning",
+      "version": 5,
+      "rngState": 79026115,
+      "state": {
+        "phase": "battle",
+        "origin": "mirror",
+        "battle": 2,
+        "turn": 1,
+        "hp": 60,
+        "maxHp": 60,
+        "enemyId": "wraith",
+        "enemyHp": 36,
+        "enemyMaxHp": 36,
+        "energy": 1,
+        "maxEnergy": 5,
+        "pendingFocus": 0,
+        "pendingBlock": 0,
+        "prevEndEmpty": false,
+        "turnLastAttack": 0,
+        "prevLastAttack": 0,
+        "usedExhaustThisTurn": false,
+        "relics": [],
+        "relicUsed": {
+          "emberCore": false,
+          "starBottle": false
+        },
+        "removalSource": null,
+        "block": 0,
+        "focus": 0,
+        "weaken": 0,
+        "reflect": 0,
+        "turnDamage": 0,
+        "spellCount": 0,
+        "interrupted": false,
+        "flags": {},
+        "deck": [
+          "frostCrossing",
+          "spark",
+          "basicWard",
+          "basicWard",
+          "basicWard",
+          "basicWard",
+          "basicWard",
+          "basicWard",
+          "basicWard",
+          "basicWard"
+        ],
+        "hand": [
+          "frostCrossing",
+          "spark"
+        ],
+        "draw": [
+          "basicWard",
+          "basicWard",
+          "basicWard",
+          "basicWard",
+          "basicWard",
+          "basicWard",
+          "basicWard",
+          "basicWard"
+        ],
+        "discard": [],
+        "exhaust": [],
+        "route": "moon",
+        "route2": null,
+        "chapter2Options": {
+          "library": "starScaleGuard",
+          "wind": "bellSpirit"
+        },
+        "chapter2Encounter": null,
+        "forge": false,
+        "insight": false,
+        "sanctuary": null,
+        "camp": null,
+        "lastReward": null,
+        "lastUpgrade": null,
+        "pendingUpgrade": null,
+        "upgrades": [],
+        "removed": [],
+        "rewards": [],
+        "rewardOffers": [],
+        "history": [
+          {
+            "enemy": "蒼鎧の門番",
+            "battle": 1,
+            "turns": 1,
+            "hp": 60,
+            "result": "victory"
+          }
+        ],
+        "wins": 1,
+        "stats": {
+          "played": {
+            "basicStrike": 1
+          },
+          "dealt": 1,
+          "taken": 0,
+          "healed": 0,
+          "energyGained": 0,
+          "blocked": 0,
+          "reflected": 0,
+          "interrupts": 0,
+          "relics": 0
+        },
+        "log": [
+          "弱体と反射は連撃の1発ごとに効く。",
+          "月の泉で12回復。水鏡の道へ。",
+          "蒼鎧の門番を越えた。",
+          "小さな魔弾：1ダメージ。",
+          "溜めの間に攻め、次の強打に備えよう。"
+        ],
+        "ruleset": "growth-v2",
+        "earlyRemoval": null
+      }
+    },
+    "seed": 419,
+    "savedAt": 0
+  },
+  "keepMana": {
+    "version": 1,
+    "engine": {
+      "format": "astral-planning",
+      "version": 5,
+      "rngState": 79026115,
+      "state": {
+        "phase": "battle",
+        "origin": "mirror",
+        "battle": 2,
+        "turn": 1,
+        "hp": 60,
+        "maxHp": 60,
+        "enemyId": "wraith",
+        "enemyHp": 36,
+        "enemyMaxHp": 36,
+        "energy": 3,
+        "maxEnergy": 5,
+        "pendingFocus": 0,
+        "pendingBlock": 0,
+        "prevEndEmpty": false,
+        "turnLastAttack": 0,
+        "prevLastAttack": 0,
+        "usedExhaustThisTurn": false,
+        "relics": [],
+        "relicUsed": {
+          "emberCore": false,
+          "starBottle": false
+        },
+        "removalSource": null,
+        "block": 0,
+        "focus": 0,
+        "weaken": 0,
+        "reflect": 0,
+        "turnDamage": 0,
+        "spellCount": 0,
+        "interrupted": false,
+        "flags": {},
+        "deck": [
+          "frostCrossing",
+          "guard",
+          "basicWard",
+          "basicWard",
+          "basicWard",
+          "basicWard",
+          "basicWard",
+          "basicWard",
+          "basicWard",
+          "basicWard"
+        ],
+        "hand": [
+          "frostCrossing",
+          "guard"
+        ],
+        "draw": [
+          "basicWard",
+          "basicWard",
+          "basicWard",
+          "basicWard",
+          "basicWard",
+          "basicWard",
+          "basicWard",
+          "basicWard"
+        ],
+        "discard": [],
+        "exhaust": [],
+        "route": "moon",
+        "route2": null,
+        "chapter2Options": {
+          "library": "starScaleGuard",
+          "wind": "bellSpirit"
+        },
+        "chapter2Encounter": null,
+        "forge": false,
+        "insight": false,
+        "sanctuary": null,
+        "camp": null,
+        "lastReward": null,
+        "lastUpgrade": null,
+        "pendingUpgrade": null,
+        "upgrades": [],
+        "removed": [],
+        "rewards": [],
+        "rewardOffers": [],
+        "history": [
+          {
+            "enemy": "蒼鎧の門番",
+            "battle": 1,
+            "turns": 1,
+            "hp": 60,
+            "result": "victory"
+          }
+        ],
+        "wins": 1,
+        "stats": {
+          "played": {
+            "basicStrike": 1
+          },
+          "dealt": 1,
+          "taken": 0,
+          "healed": 0,
+          "energyGained": 0,
+          "blocked": 0,
+          "reflected": 0,
+          "interrupts": 0,
+          "relics": 0
+        },
+        "log": [
+          "弱体と反射は連撃の1発ごとに効く。",
+          "月の泉で12回復。水鏡の道へ。",
+          "蒼鎧の門番を越えた。",
+          "小さな魔弾：1ダメージ。",
+          "溜めの間に攻め、次の強打に備えよう。"
+        ],
+        "ruleset": "growth-v2",
+        "earlyRemoval": null
+      }
+    },
+    "seed": 419,
+    "savedAt": 0
+  },
+  "iceCharm": {
+    "version": 1,
+    "engine": {
+      "format": "astral-planning",
+      "version": 5,
+      "rngState": 79026115,
+      "state": {
+        "phase": "battle",
+        "origin": "frost",
+        "battle": 2,
+        "turn": 1,
+        "hp": 60,
+        "maxHp": 60,
+        "enemyId": "wraith",
+        "enemyHp": 36,
+        "enemyMaxHp": 36,
+        "energy": 3,
+        "maxEnergy": 5,
+        "pendingFocus": 0,
+        "pendingBlock": 0,
+        "prevEndEmpty": false,
+        "turnLastAttack": 0,
+        "prevLastAttack": 0,
+        "usedExhaustThisTurn": false,
+        "relics": [],
+        "relicUsed": {
+          "emberCore": false,
+          "starBottle": false
+        },
+        "removalSource": null,
+        "block": 0,
+        "focus": 0,
+        "weaken": 0,
+        "reflect": 0,
+        "turnDamage": 0,
+        "spellCount": 0,
+        "interrupted": false,
+        "flags": {},
+        "deck": [
+          "starFrostLetter",
+          "frostPierce",
+          "basicWard",
+          "basicWard",
+          "basicWard",
+          "basicWard",
+          "basicWard",
+          "basicWard",
+          "basicWard",
+          "basicWard"
+        ],
+        "hand": [
+          "starFrostLetter",
+          "frostPierce"
+        ],
+        "draw": [
+          "basicWard",
+          "basicWard",
+          "basicWard",
+          "basicWard",
+          "basicWard",
+          "basicWard",
+          "basicWard",
+          "basicWard"
+        ],
+        "discard": [],
+        "exhaust": [],
+        "route": "moon",
+        "route2": null,
+        "chapter2Options": {
+          "library": "starScaleGuard",
+          "wind": "bellSpirit"
+        },
+        "chapter2Encounter": null,
+        "forge": false,
+        "insight": false,
+        "sanctuary": null,
+        "camp": null,
+        "lastReward": null,
+        "lastUpgrade": null,
+        "pendingUpgrade": null,
+        "upgrades": [],
+        "removed": [],
+        "rewards": [],
+        "rewardOffers": [],
+        "history": [
+          {
+            "enemy": "蒼鎧の門番",
+            "battle": 1,
+            "turns": 1,
+            "hp": 60,
+            "result": "victory"
+          }
+        ],
+        "wins": 1,
+        "stats": {
+          "played": {
+            "basicStrike": 1
+          },
+          "dealt": 1,
+          "taken": 0,
+          "healed": 0,
+          "energyGained": 0,
+          "blocked": 0,
+          "reflected": 0,
+          "interrupts": 0,
+          "relics": 0
+        },
+        "log": [
+          "弱体と反射は連撃の1発ごとに効く。",
+          "月の泉で12回復。水鏡の道へ。",
+          "蒼鎧の門番を越えた。",
+          "小さな魔弾：1ダメージ。",
+          "溜めの間に攻め、次の強打に備えよう。"
+        ],
+        "ruleset": "growth-v2",
+        "earlyRemoval": null
+      }
+    },
+    "seed": 419,
+    "savedAt": 0
+  },
+  "mirrorHits": {
+    "version": 1,
+    "engine": {
+      "format": "astral-planning",
+      "version": 5,
+      "rngState": 79026115,
+      "state": {
+        "phase": "battle",
+        "origin": "mirror",
+        "battle": 2,
+        "turn": 1,
+        "hp": 60,
+        "maxHp": 60,
+        "enemyId": "wraith",
+        "enemyHp": 36,
+        "enemyMaxHp": 36,
+        "energy": 2,
+        "maxEnergy": 5,
+        "pendingFocus": 0,
+        "pendingBlock": 0,
+        "prevEndEmpty": false,
+        "turnLastAttack": 0,
+        "prevLastAttack": 0,
+        "usedExhaustThisTurn": false,
+        "relics": [],
+        "relicUsed": {
+          "emberCore": false,
+          "starBottle": false
+        },
+        "removalSource": null,
+        "block": 0,
+        "focus": 0,
+        "weaken": 0,
+        "reflect": 0,
+        "turnDamage": 0,
+        "spellCount": 0,
+        "interrupted": false,
+        "flags": {},
+        "deck": [
+          "stillMirror",
+          "guard",
+          "basicWard",
+          "basicWard",
+          "basicWard",
+          "basicWard",
+          "basicWard",
+          "basicWard",
+          "basicWard",
+          "basicWard"
+        ],
+        "hand": [
+          "stillMirror",
+          "guard"
+        ],
+        "draw": [
+          "basicWard",
+          "basicWard",
+          "basicWard",
+          "basicWard",
+          "basicWard",
+          "basicWard",
+          "basicWard",
+          "basicWard"
+        ],
+        "discard": [],
+        "exhaust": [],
+        "route": "moon",
+        "route2": null,
+        "chapter2Options": {
+          "library": "starScaleGuard",
+          "wind": "bellSpirit"
+        },
+        "chapter2Encounter": null,
+        "forge": false,
+        "insight": false,
+        "sanctuary": null,
+        "camp": null,
+        "lastReward": null,
+        "lastUpgrade": null,
+        "pendingUpgrade": null,
+        "upgrades": [],
+        "removed": [],
+        "rewards": [],
+        "rewardOffers": [],
+        "history": [
+          {
+            "enemy": "蒼鎧の門番",
+            "battle": 1,
+            "turns": 1,
+            "hp": 60,
+            "result": "victory"
+          }
+        ],
+        "wins": 1,
+        "stats": {
+          "played": {
+            "basicStrike": 1
+          },
+          "dealt": 1,
+          "taken": 0,
+          "healed": 0,
+          "energyGained": 0,
+          "blocked": 0,
+          "reflected": 0,
+          "interrupts": 0,
+          "relics": 0
+        },
+        "log": [
+          "弱体と反射は連撃の1発ごとに効く。",
+          "月の泉で12回復。水鏡の道へ。",
+          "蒼鎧の門番を越えた。",
+          "小さな魔弾：1ダメージ。",
+          "溜めの間に攻め、次の強打に備えよう。"
+        ],
+        "ruleset": "growth-v2",
+        "earlyRemoval": null
+      }
+    },
+    "seed": 419,
+    "savedAt": 0
+  },
+  "afterEmpty": {
+    "version": 1,
+    "engine": {
+      "format": "astral-planning",
+      "version": 5,
+      "rngState": 79026115,
+      "state": {
+        "phase": "battle",
+        "origin": "mirror",
+        "battle": 2,
+        "turn": 2,
+        "hp": 60,
+        "maxHp": 60,
+        "enemyId": "wraith",
+        "enemyHp": 36,
+        "enemyMaxHp": 36,
+        "energy": 3,
+        "maxEnergy": 5,
+        "pendingFocus": 0,
+        "pendingBlock": 0,
+        "prevEndEmpty": true,
+        "turnLastAttack": 0,
+        "prevLastAttack": 0,
+        "usedExhaustThisTurn": false,
+        "relics": [],
+        "relicUsed": {
+          "emberCore": false,
+          "starBottle": false
+        },
+        "removalSource": null,
+        "block": 0,
+        "focus": 0,
+        "weaken": 0,
+        "reflect": 0,
+        "turnDamage": 0,
+        "spellCount": 0,
+        "interrupted": false,
+        "flags": {},
+        "deck": [
+          "afterglowWard",
+          "bolt",
+          "basicWard",
+          "basicWard",
+          "basicWard",
+          "basicWard",
+          "basicWard",
+          "basicWard",
+          "basicWard",
+          "basicWard"
+        ],
+        "hand": [
+          "afterglowWard",
+          "bolt"
+        ],
+        "draw": [
+          "basicWard",
+          "basicWard",
+          "basicWard",
+          "basicWard",
+          "basicWard",
+          "basicWard",
+          "basicWard",
+          "basicWard"
+        ],
+        "discard": [],
+        "exhaust": [],
+        "route": "moon",
+        "route2": null,
+        "chapter2Options": {
+          "library": "starScaleGuard",
+          "wind": "bellSpirit"
+        },
+        "chapter2Encounter": null,
+        "forge": false,
+        "insight": false,
+        "sanctuary": null,
+        "camp": null,
+        "lastReward": null,
+        "lastUpgrade": null,
+        "pendingUpgrade": null,
+        "upgrades": [],
+        "removed": [],
+        "rewards": [],
+        "rewardOffers": [],
+        "history": [
+          {
+            "enemy": "蒼鎧の門番",
+            "battle": 1,
+            "turns": 1,
+            "hp": 60,
+            "result": "victory"
+          }
+        ],
+        "wins": 1,
+        "stats": {
+          "played": {
+            "basicStrike": 1
+          },
+          "dealt": 1,
+          "taken": 0,
+          "healed": 0,
+          "energyGained": 0,
+          "blocked": 0,
+          "reflected": 0,
+          "interrupts": 0,
+          "relics": 0
+        },
+        "log": [
+          "弱体と反射は連撃の1発ごとに効く。",
+          "月の泉で12回復。水鏡の道へ。",
+          "蒼鎧の門番を越えた。",
+          "小さな魔弾：1ダメージ。",
+          "溜めの間に攻め、次の強打に備えよう。"
+        ],
+        "ruleset": "growth-v2",
+        "earlyRemoval": null
+      }
+    },
+    "seed": 419,
+    "savedAt": 0
+  },
+  "afterBank": {
+    "version": 1,
+    "engine": {
+      "format": "astral-planning",
+      "version": 5,
+      "rngState": 79026115,
+      "state": {
+        "phase": "battle",
+        "origin": "mirror",
+        "battle": 2,
+        "turn": 2,
+        "hp": 60,
+        "maxHp": 60,
+        "enemyId": "wraith",
+        "enemyHp": 36,
+        "enemyMaxHp": 36,
+        "energy": 3,
+        "maxEnergy": 5,
+        "pendingFocus": 0,
+        "pendingBlock": 0,
+        "prevEndEmpty": false,
+        "turnLastAttack": 0,
+        "prevLastAttack": 0,
+        "usedExhaustThisTurn": false,
+        "relics": [],
+        "relicUsed": {
+          "emberCore": false,
+          "starBottle": false
+        },
+        "removalSource": null,
+        "block": 0,
+        "focus": 0,
+        "weaken": 0,
+        "reflect": 0,
+        "turnDamage": 0,
+        "spellCount": 0,
+        "interrupted": false,
+        "flags": {},
+        "deck": [
+          "afterglowWard",
+          "bolt",
+          "basicWard",
+          "basicWard",
+          "basicWard",
+          "basicWard",
+          "basicWard",
+          "basicWard",
+          "basicWard",
+          "basicWard"
+        ],
+        "hand": [
+          "afterglowWard",
+          "bolt"
+        ],
+        "draw": [
+          "basicWard",
+          "basicWard",
+          "basicWard",
+          "basicWard",
+          "basicWard",
+          "basicWard",
+          "basicWard",
+          "basicWard"
+        ],
+        "discard": [],
+        "exhaust": [],
+        "route": "moon",
+        "route2": null,
+        "chapter2Options": {
+          "library": "starScaleGuard",
+          "wind": "bellSpirit"
+        },
+        "chapter2Encounter": null,
+        "forge": false,
+        "insight": false,
+        "sanctuary": null,
+        "camp": null,
+        "lastReward": null,
+        "lastUpgrade": null,
+        "pendingUpgrade": null,
+        "upgrades": [],
+        "removed": [],
+        "rewards": [],
+        "rewardOffers": [],
+        "history": [
+          {
+            "enemy": "蒼鎧の門番",
+            "battle": 1,
+            "turns": 1,
+            "hp": 60,
+            "result": "victory"
+          }
+        ],
+        "wins": 1,
+        "stats": {
+          "played": {
+            "basicStrike": 1
+          },
+          "dealt": 1,
+          "taken": 0,
+          "healed": 0,
+          "energyGained": 0,
+          "blocked": 0,
+          "reflected": 0,
+          "interrupts": 0,
+          "relics": 0
+        },
+        "log": [
+          "弱体と反射は連撃の1発ごとに効く。",
+          "月の泉で12回復。水鏡の道へ。",
+          "蒼鎧の門番を越えた。",
+          "小さな魔弾：1ダメージ。",
+          "溜めの間に攻め、次の強打に備えよう。"
+        ],
+        "ruleset": "growth-v2",
+        "earlyRemoval": null
+      }
+    },
+    "seed": 419,
+    "savedAt": 0
+  },
+  "bank4": {
+    "version": 1,
+    "engine": {
+      "format": "astral-planning",
+      "version": 5,
+      "rngState": 79026115,
+      "state": {
+        "phase": "battle",
+        "origin": "mirror",
+        "battle": 2,
+        "turn": 1,
+        "hp": 60,
+        "maxHp": 60,
+        "enemyId": "wraith",
+        "enemyHp": 36,
+        "enemyMaxHp": 36,
+        "energy": 4,
+        "maxEnergy": 5,
+        "pendingFocus": 0,
+        "pendingBlock": 0,
+        "prevEndEmpty": false,
+        "turnLastAttack": 0,
+        "prevLastAttack": 0,
+        "usedExhaustThisTurn": false,
+        "relics": [],
+        "relicUsed": {
+          "emberCore": false,
+          "starBottle": false
+        },
+        "removalSource": null,
+        "block": 0,
+        "focus": 0,
+        "weaken": 0,
+        "reflect": 0,
+        "turnDamage": 0,
+        "spellCount": 0,
+        "interrupted": false,
+        "flags": {},
+        "deck": [
+          "bankedStarBlade",
+          "starFerryWard",
+          "basicWard",
+          "basicWard",
+          "basicWard",
+          "basicWard",
+          "basicWard",
+          "basicWard",
+          "basicWard",
+          "basicWard"
+        ],
+        "hand": [
+          "bankedStarBlade",
+          "starFerryWard"
+        ],
+        "draw": [
+          "basicWard",
+          "basicWard",
+          "basicWard",
+          "basicWard",
+          "basicWard",
+          "basicWard",
+          "basicWard",
+          "basicWard"
+        ],
+        "discard": [],
+        "exhaust": [],
+        "route": "moon",
+        "route2": null,
+        "chapter2Options": {
+          "library": "starScaleGuard",
+          "wind": "bellSpirit"
+        },
+        "chapter2Encounter": null,
+        "forge": false,
+        "insight": false,
+        "sanctuary": null,
+        "camp": null,
+        "lastReward": null,
+        "lastUpgrade": null,
+        "pendingUpgrade": null,
+        "upgrades": [],
+        "removed": [],
+        "rewards": [],
+        "rewardOffers": [],
+        "history": [
+          {
+            "enemy": "蒼鎧の門番",
+            "battle": 1,
+            "turns": 1,
+            "hp": 60,
+            "result": "victory"
+          }
+        ],
+        "wins": 1,
+        "stats": {
+          "played": {
+            "basicStrike": 1
+          },
+          "dealt": 1,
+          "taken": 0,
+          "healed": 0,
+          "energyGained": 0,
+          "blocked": 0,
+          "reflected": 0,
+          "interrupts": 0,
+          "relics": 0
+        },
+        "log": [
+          "弱体と反射は連撃の1発ごとに効く。",
+          "月の泉で12回復。水鏡の道へ。",
+          "蒼鎧の門番を越えた。",
+          "小さな魔弾：1ダメージ。",
+          "溜めの間に攻め、次の強打に備えよう。"
+        ],
+        "ruleset": "growth-v2",
+        "earlyRemoval": null
+      }
+    },
+    "seed": 419,
+    "savedAt": 0
+  },
+  "bank3": {
+    "version": 1,
+    "engine": {
+      "format": "astral-planning",
+      "version": 5,
+      "rngState": 79026115,
+      "state": {
+        "phase": "battle",
+        "origin": "mirror",
+        "battle": 2,
+        "turn": 1,
+        "hp": 60,
+        "maxHp": 60,
+        "enemyId": "wraith",
+        "enemyHp": 36,
+        "enemyMaxHp": 36,
+        "energy": 3,
+        "maxEnergy": 5,
+        "pendingFocus": 0,
+        "pendingBlock": 0,
+        "prevEndEmpty": false,
+        "turnLastAttack": 0,
+        "prevLastAttack": 0,
+        "usedExhaustThisTurn": false,
+        "relics": [],
+        "relicUsed": {
+          "emberCore": false,
+          "starBottle": false
+        },
+        "removalSource": null,
+        "block": 0,
+        "focus": 0,
+        "weaken": 0,
+        "reflect": 0,
+        "turnDamage": 0,
+        "spellCount": 0,
+        "interrupted": false,
+        "flags": {},
+        "deck": [
+          "bankedStarBlade",
+          "starFerryWard",
+          "basicWard",
+          "basicWard",
+          "basicWard",
+          "basicWard",
+          "basicWard",
+          "basicWard",
+          "basicWard",
+          "basicWard"
+        ],
+        "hand": [
+          "bankedStarBlade",
+          "starFerryWard"
+        ],
+        "draw": [
+          "basicWard",
+          "basicWard",
+          "basicWard",
+          "basicWard",
+          "basicWard",
+          "basicWard",
+          "basicWard",
+          "basicWard"
+        ],
+        "discard": [],
+        "exhaust": [],
+        "route": "moon",
+        "route2": null,
+        "chapter2Options": {
+          "library": "starScaleGuard",
+          "wind": "bellSpirit"
+        },
+        "chapter2Encounter": null,
+        "forge": false,
+        "insight": false,
+        "sanctuary": null,
+        "camp": null,
+        "lastReward": null,
+        "lastUpgrade": null,
+        "pendingUpgrade": null,
+        "upgrades": [],
+        "removed": [],
+        "rewards": [],
+        "rewardOffers": [],
+        "history": [
+          {
+            "enemy": "蒼鎧の門番",
+            "battle": 1,
+            "turns": 1,
+            "hp": 60,
+            "result": "victory"
+          }
+        ],
+        "wins": 1,
+        "stats": {
+          "played": {
+            "basicStrike": 1
+          },
+          "dealt": 1,
+          "taken": 0,
+          "healed": 0,
+          "energyGained": 0,
+          "blocked": 0,
+          "reflected": 0,
+          "interrupts": 0,
+          "relics": 0
+        },
+        "log": [
+          "弱体と反射は連撃の1発ごとに効く。",
+          "月の泉で12回復。水鏡の道へ。",
+          "蒼鎧の門番を越えた。",
+          "小さな魔弾：1ダメージ。",
+          "溜めの間に攻め、次の強打に備えよう。"
+        ],
+        "ruleset": "growth-v2",
+        "earlyRemoval": null
+      }
+    },
+    "seed": 419,
+    "savedAt": 0
+  },
+  "upgraded": {
+    "version": 1,
+    "engine": {
+      "format": "astral-planning",
+      "version": 5,
+      "rngState": 79026115,
+      "state": {
+        "phase": "battle",
+        "origin": "mirror",
+        "battle": 2,
+        "turn": 1,
+        "hp": 60,
+        "maxHp": 60,
+        "enemyId": "wraith",
+        "enemyHp": 36,
+        "enemyMaxHp": 36,
+        "energy": 5,
+        "maxEnergy": 5,
+        "pendingFocus": 0,
+        "pendingBlock": 0,
+        "prevEndEmpty": false,
+        "turnLastAttack": 0,
+        "prevLastAttack": 0,
+        "usedExhaustThisTurn": false,
+        "relics": [],
+        "relicUsed": {
+          "emberCore": false,
+          "starBottle": false
+        },
+        "removalSource": null,
+        "block": 0,
+        "focus": 0,
+        "weaken": 0,
+        "reflect": 0,
+        "turnDamage": 0,
+        "spellCount": 0,
+        "interrupted": false,
+        "flags": {},
+        "deck": [
+          "frostCrossing+",
+          "starFrostLetter+",
+          "stillMirror+",
+          "afterglowWard+",
+          "bankedStarBlade+",
+          "basicWard",
+          "basicWard",
+          "basicWard",
+          "basicWard",
+          "basicWard"
+        ],
+        "hand": [
+          "frostCrossing+",
+          "starFrostLetter+",
+          "stillMirror+",
+          "afterglowWard+",
+          "bankedStarBlade+"
+        ],
+        "draw": [
+          "basicWard",
+          "basicWard",
+          "basicWard",
+          "basicWard",
+          "basicWard"
+        ],
+        "discard": [],
+        "exhaust": [],
+        "route": "moon",
+        "route2": null,
+        "chapter2Options": {
+          "library": "starScaleGuard",
+          "wind": "bellSpirit"
+        },
+        "chapter2Encounter": null,
+        "forge": false,
+        "insight": false,
+        "sanctuary": null,
+        "camp": null,
+        "lastReward": null,
+        "lastUpgrade": null,
+        "pendingUpgrade": null,
+        "upgrades": [],
+        "removed": [],
+        "rewards": [],
+        "rewardOffers": [],
+        "history": [
+          {
+            "enemy": "蒼鎧の門番",
+            "battle": 1,
+            "turns": 1,
+            "hp": 60,
+            "result": "victory"
+          }
+        ],
+        "wins": 1,
+        "stats": {
+          "played": {
+            "basicStrike": 1
+          },
+          "dealt": 1,
+          "taken": 0,
+          "healed": 0,
+          "energyGained": 0,
+          "blocked": 0,
+          "reflected": 0,
+          "interrupts": 0,
+          "relics": 0
+        },
+        "log": [
+          "弱体と反射は連撃の1発ごとに効く。",
+          "月の泉で12回復。水鏡の道へ。",
+          "蒼鎧の門番を越えた。",
+          "小さな魔弾：1ダメージ。",
+          "溜めの間に攻め、次の強打に備えよう。"
+        ],
+        "ruleset": "growth-v2",
+        "earlyRemoval": null
+      }
+    },
+    "seed": 419,
+    "savedAt": 0
+  },
+  "noMana": {
+    "version": 1,
+    "engine": {
+      "format": "astral-planning",
+      "version": 5,
+      "rngState": 79026115,
+      "state": {
+        "phase": "battle",
+        "origin": "mirror",
+        "battle": 2,
+        "turn": 1,
+        "hp": 60,
+        "maxHp": 60,
+        "enemyId": "wraith",
+        "enemyHp": 36,
+        "enemyMaxHp": 36,
+        "energy": 0,
+        "maxEnergy": 5,
+        "pendingFocus": 0,
+        "pendingBlock": 0,
+        "prevEndEmpty": false,
+        "turnLastAttack": 0,
+        "prevLastAttack": 0,
+        "usedExhaustThisTurn": false,
+        "relics": [],
+        "relicUsed": {
+          "emberCore": false,
+          "starBottle": false
+        },
+        "removalSource": null,
+        "block": 0,
+        "focus": 0,
+        "weaken": 0,
+        "reflect": 0,
+        "turnDamage": 0,
+        "spellCount": 0,
+        "interrupted": false,
+        "flags": {},
+        "deck": [
+          "frostCrossing",
+          "bankedStarBlade",
+          "basicWard",
+          "basicWard",
+          "basicWard",
+          "basicWard",
+          "basicWard",
+          "basicWard",
+          "basicWard",
+          "basicWard"
+        ],
+        "hand": [
+          "frostCrossing",
+          "bankedStarBlade"
+        ],
+        "draw": [
+          "basicWard",
+          "basicWard",
+          "basicWard",
+          "basicWard",
+          "basicWard",
+          "basicWard",
+          "basicWard",
+          "basicWard"
+        ],
+        "discard": [],
+        "exhaust": [],
+        "route": "moon",
+        "route2": null,
+        "chapter2Options": {
+          "library": "starScaleGuard",
+          "wind": "bellSpirit"
+        },
+        "chapter2Encounter": null,
+        "forge": false,
+        "insight": false,
+        "sanctuary": null,
+        "camp": null,
+        "lastReward": null,
+        "lastUpgrade": null,
+        "pendingUpgrade": null,
+        "upgrades": [],
+        "removed": [],
+        "rewards": [],
+        "rewardOffers": [],
+        "history": [
+          {
+            "enemy": "蒼鎧の門番",
+            "battle": 1,
+            "turns": 1,
+            "hp": 60,
+            "result": "victory"
+          }
+        ],
+        "wins": 1,
+        "stats": {
+          "played": {
+            "basicStrike": 1
+          },
+          "dealt": 1,
+          "taken": 0,
+          "healed": 0,
+          "energyGained": 0,
+          "blocked": 0,
+          "reflected": 0,
+          "interrupts": 0,
+          "relics": 0
+        },
+        "log": [
+          "弱体と反射は連撃の1発ごとに効く。",
+          "月の泉で12回復。水鏡の道へ。",
+          "蒼鎧の門番を越えた。",
+          "小さな魔弾：1ダメージ。",
+          "溜めの間に攻め、次の強打に備えよう。"
+        ],
+        "ruleset": "growth-v2",
+        "earlyRemoval": null
+      }
+    },
+    "seed": 419,
+    "savedAt": 0
+  }
+}

@@ -93,7 +93,7 @@ function rng(game) { return game.exportSave().rngState; }
 
 const baseline=JSON.parse(read('tests/fixtures/astral-v411-baseline.json'));
 test('postscript adds only four supported definitions; existing 38 definitions and starters stay byte-equivalent',()=>{
- assert.equal(Object.keys(engine.CARDS).length,55);
+ assert.equal(Object.keys(engine.CARDS).length,60);
  assert.equal(Object.keys(baseline.cards).length,38);
  for(const [id,c]of Object.entries(baseline.cards))assert.deepEqual(plain(engine.CARDS[id]),c,id);
  assert.deepEqual(plain(engine.ORIGINS),baseline.origins);
@@ -213,7 +213,7 @@ test('synthetic UI fixtures restore through real validator and preserve isolated
  const data=JSON.parse(read('ui-qa/postscript-fixtures.json'));
  for(const [key,value]of Object.entries(data)){const g=restore(value.engine);if(key==='reward')assert.deepEqual(plain(g.rewardOptions()),NEW);if(key.startsWith('battle'))assert.equal(g.snapshot().hand.filter(id=>NEW.includes(engine.card(id).base)).length,4);}
  const html=read('ui-qa/postscript.html');assert(html.includes('sandbox="allow-scripts"'));assert(!html.includes('allow-same-origin'));assert(html.includes("Object.defineProperty(window,'localStorage'"));assert(html.includes("script[src=\"./pwa.js\"]"));assert(html.includes("link.removeAttribute('href')"));
- for(const file of ['v4-1/planning.html','v4-1/planning-game.js','v4-1/game.js','v4-1/index.html']){assert(read(file).includes('55枚'));assert(!read(file).includes('38枚'));}
+ for(const file of ['v4-1/planning.html','v4-1/planning-game.js','v4-1/game.js','v4-1/index.html']){assert(read(file).includes('60枚'));assert(!read(file).includes('38枚'));}
  const ui=read('v4-1/planning.html');for(const id of NEW)assert(ui.includes('data-card-art="'+id+'"'));
  assert(read('v4-1/planning.css').includes('.planning-mode .card-art[src$="mirror-lance.webp"]{object-position:right top}'));
 });

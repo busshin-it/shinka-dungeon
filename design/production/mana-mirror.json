@@ -1,0 +1,222 @@
+{
+  "schemaVersion": 1,
+  "id": "mana-mirror",
+  "title": "魔力と準備：mana-mirror",
+  "theme": "貯める・使い切る・次の準備。回収案は停止。",
+  "scope": "two-card-pilot",
+  "style": {
+    "world": "A quiet ancient celestial library with dim stone arches and abstract star maps.",
+    "palette": "Silver and star-blue highlights, deep teal and amethyst shadows, restrained parchment amber.",
+    "medium": "Detailed painterly Japanese fantasy RPG card art with readable material detail.",
+    "composition": "Square illustration; one clear central subject, preserve its entire silhouette, readable at small card size.",
+    "avoid": "Readable letters, numbers, logos, borders, UI, extra subjects, contact sheets or collage."
+  },
+  "implementationStatus": "candidate",
+  "rewardScope": "growth-v2 battle2 onward; old rules and open offers unchanged",
+  "cards": [
+    {
+      "id": "stillMirror",
+      "asset": "still-mirror",
+      "base": {
+        "name": "静鏡",
+        "cost": 1,
+        "reflect": 4,
+        "nextFocus": 3,
+        "family": "guard",
+        "art": "stillMirror"
+      },
+      "upgrade": {
+        "reflect": 5,
+        "nextFocus": 5
+      },
+      "textIncludes": [
+        "{reflect}反射",
+        "＋{nextFocus}"
+      ],
+      "cases": [
+        {
+          "name": "normal-condition",
+          "variant": "base",
+          "state": {},
+          "preview": {
+            "actualReflect": 4,
+            "actualNextFocus": 3
+          },
+          "after": {
+            "reflect": 4,
+            "pendingFocus": 3,
+            "block": 0
+          },
+          "text": {
+            "summary": [
+              "反射4/打撃",
+              "次ターン攻撃＋3"
+            ]
+          }
+        },
+        {
+          "name": "evolved-condition",
+          "variant": "upgrade",
+          "state": {},
+          "preview": {
+            "actualReflect": 5,
+            "actualNextFocus": 5
+          },
+          "after": {
+            "reflect": 5,
+            "pendingFocus": 5,
+            "block": 0
+          },
+          "text": {
+            "summary": [
+              "反射5/打撃",
+              "次ターン攻撃＋5"
+            ]
+          }
+        }
+      ],
+      "design": {
+        "primary_engine": "反射と次ターン攻撃",
+        "strong_when": [
+          "連撃を返して次に攻める"
+        ],
+        "weak_when": [
+          "直接防御なし。休みでは反射が消える"
+        ],
+        "related_cards": [
+          "mirrorLance",
+          "mirror",
+          "rimeMirror"
+        ],
+        "design_intent": "使い終わったカードの回収・再利用・履歴資源化を追加しない。"
+      }
+    },
+    {
+      "id": "afterglowWard",
+      "asset": "afterglow-ward",
+      "base": {
+        "name": "余熱の結界",
+        "cost": 1,
+        "block": 3,
+        "reflect": 1,
+        "prevEmptyBlock": 5,
+        "family": "guard",
+        "art": "afterglowWard"
+      },
+      "upgrade": {
+        "block": 6,
+        "reflect": 2
+      },
+      "textIncludes": [
+        "{block}ブロック",
+        "追加{prevEmptyBlock}",
+        "{reflect}反射"
+      ],
+      "cases": [
+        {
+          "name": "normal-condition",
+          "variant": "base",
+          "state": {
+            "prevEndEmpty": true,
+            "turn": 2
+          },
+          "preview": {
+            "actualBlock": 8,
+            "actualReflect": 1
+          },
+          "after": {
+            "block": 8,
+            "reflect": 1
+          },
+          "text": {
+            "summary": [
+              "防御8",
+              "反射1/打撃"
+            ]
+          }
+        },
+        {
+          "name": "evolved-condition",
+          "variant": "upgrade",
+          "state": {
+            "prevEndEmpty": true,
+            "turn": 2
+          },
+          "preview": {
+            "actualBlock": 11,
+            "actualReflect": 2
+          },
+          "after": {
+            "block": 11,
+            "reflect": 2
+          },
+          "text": {
+            "summary": [
+              "防御11",
+              "反射2/打撃"
+            ]
+          }
+        }
+      ],
+      "design": {
+        "primary_engine": "前ターン枯渇と反射",
+        "strong_when": [
+          "使い切った翌ターンを守る"
+        ],
+        "weak_when": [
+          "魔力を残した後は防御3。残火の帳は0コストなので常に置換しない"
+        ],
+        "related_cards": [
+          "emberVeil",
+          "fadingStar",
+          "spark"
+        ],
+        "design_intent": "使い終わったカードの回収・再利用・履歴資源化を追加しない。"
+      }
+    }
+  ],
+  "assets": [
+    {
+      "key": "still-mirror",
+      "kind": "card",
+      "subject": "静鏡用に既存プロジェクト画像を暫定共有。専用画像は後続。",
+      "alt": {
+        "mode": "decorative",
+        "text": ""
+      },
+      "path": "./assets/mirror-lance.webp",
+      "status": "reuse",
+      "reuseFrom": "mirrorLance / main c59fd503af74f9b93c2057900f0cbd910df5431e",
+      "sha256": "93a900269fe66e3fdb0fd068da361fc1a51752ae499821afa93ba7fd9ddb42a4",
+      "provenance": {
+        "kind": "existing-project",
+        "evidence": "design/production/reusable-art.json。プロジェクト内の既存画像を同一byteで再利用。"
+      },
+      "visualQa": {
+        "status": "passed",
+        "note": "2026-10-08 JSTに各元画像を個別に目視。新カードのブラウザ・実機描画QAとは区別。"
+      }
+    },
+    {
+      "key": "afterglow-ward",
+      "kind": "card",
+      "subject": "余熱の結界用に既存プロジェクト画像を暫定共有。専用画像は後続。",
+      "alt": {
+        "mode": "decorative",
+        "text": ""
+      },
+      "path": "./assets/star-ferry-ward.webp",
+      "status": "reuse",
+      "reuseFrom": "starFerryWard / main c59fd503af74f9b93c2057900f0cbd910df5431e",
+      "sha256": "c72f959ea23e9714f0329bcd50b729456986321bef20da4144a334c89ed5fa79",
+      "provenance": {
+        "kind": "existing-project",
+        "evidence": "design/production/reusable-art.json。プロジェクト内の既存画像を同一byteで再利用。"
+      },
+      "visualQa": {
+        "status": "passed",
+        "note": "2026-10-08 JSTに各元画像を個別に目視。新カードのブラウザ・実機描画QAとは区別。"
+      }
+    }
+  ]
+}

@@ -93,7 +93,7 @@ function rng(game) { return game.exportSave().rngState; }
 
 const baseline = JSON.parse(read('tests/fixtures/astral-v412-baseline.json'));
 test('star dial adds four cards and one enemy; all 42 old definitions, 11 enemies and starters remain exact',()=>{
- assert.equal(Object.keys(engine.CARDS).length,55); assert.equal(Object.keys(engine.ENEMIES).length,12);
+ assert.equal(Object.keys(engine.CARDS).length,60); assert.equal(Object.keys(engine.ENEMIES).length,12);
  for(const [id,value]of Object.entries(baseline.cards))assert.deepEqual(plain(engine.CARDS[id]),value,id);
  for(const [id,value]of Object.entries(baseline.enemies))assert.deepEqual(plain(engine.ENEMIES[id]),value,id);
  assert.deepEqual(plain(engine.ORIGINS),baseline.origins); assert.equal(engine.RUN_LENGTH,6);
@@ -175,6 +175,6 @@ test('nine user-owned UI scenarios restore, retain safe isolated harness, and cu
  const data=JSON.parse(read('ui-qa/star-dial-fixtures.json'));assert.equal(Object.keys(data).length,9);
  for(const value of Object.values(data))roundtrip(restore(value.engine));
  const html=read('ui-qa/star-dial.html');assert(html.includes('sandbox="allow-scripts"'));assert(!html.includes('allow-same-origin'));assert(html.includes("Object.defineProperty(window,'localStorage'"));assert(html.includes("script[src=\"./pwa.js\"]"));assert(html.includes("link.removeAttribute('href')"));
- for(const file of ['planning.html','planning-game.js','game.js','index.html']){assert(read('v4-1/'+file).includes('55枚'));assert(!read('v4-1/'+file).includes('42枚'));}
+ for(const file of ['planning.html','planning-game.js','game.js','index.html']){assert(read('v4-1/'+file).includes('60枚'));assert(!read('v4-1/'+file).includes('42枚'));}
  const ui=read('v4-1/planning.html');for(const id of NEW)assert(ui.includes(`data-card-art="${id}"`));assert(ui.includes('保存中の冒険は以前の相手を維持'));
 });

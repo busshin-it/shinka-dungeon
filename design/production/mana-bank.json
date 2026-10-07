@@ -1,0 +1,124 @@
+{
+  "schemaVersion": 1,
+  "id": "mana-bank",
+  "title": "魔力と準備：mana-bank",
+  "theme": "貯める・使い切る・次の準備。回収案は停止。",
+  "scope": "single-card-pilot",
+  "style": {
+    "world": "A quiet ancient celestial library with dim stone arches and abstract star maps.",
+    "palette": "Silver and star-blue highlights, deep teal and amethyst shadows, restrained parchment amber.",
+    "medium": "Detailed painterly Japanese fantasy RPG card art with readable material detail.",
+    "composition": "Square illustration; one clear central subject, preserve its entire silhouette, readable at small card size.",
+    "avoid": "Readable letters, numbers, logos, borders, UI, extra subjects, contact sheets or collage."
+  },
+  "implementationStatus": "candidate",
+  "rewardScope": "growth-v2 battle2 onward; old rules and open offers unchanged",
+  "cards": [
+    {
+      "id": "bankedStarBlade",
+      "asset": "banked-star-blade",
+      "base": {
+        "name": "蓄星の刃",
+        "cost": 2,
+        "damage": 8,
+        "bankBonus": 8,
+        "nextFocus": 2,
+        "family": "thunder",
+        "art": "bankedStarBlade"
+      },
+      "upgrade": {
+        "damage": 11,
+        "nextFocus": 4
+      },
+      "textIncludes": [
+        "{damage}ダメージ",
+        "使用前の魔力4以上なら＋{bankBonus}",
+        "＋{nextFocus}"
+      ],
+      "cases": [
+        {
+          "name": "normal-condition",
+          "variant": "base",
+          "state": {
+            "energy": 4
+          },
+          "preview": {
+            "actualDamage": 16,
+            "actualNextFocus": 2
+          },
+          "after": {
+            "enemyHp": 32,
+            "pendingFocus": 2,
+            "energy": 2
+          },
+          "text": {
+            "summary": [
+              "攻撃16",
+              "次ターン攻撃＋2"
+            ]
+          }
+        },
+        {
+          "name": "evolved-condition",
+          "variant": "upgrade",
+          "state": {
+            "energy": 4
+          },
+          "preview": {
+            "actualDamage": 19,
+            "actualNextFocus": 4
+          },
+          "after": {
+            "enemyHp": 29,
+            "pendingFocus": 4,
+            "energy": 2
+          },
+          "text": {
+            "summary": [
+              "攻撃19",
+              "次ターン攻撃＋4"
+            ]
+          }
+        }
+      ],
+      "design": {
+        "primary_engine": "魔力蓄積と次ターン攻撃",
+        "strong_when": [
+          "使用前魔力4を用意し今と次へ火力を分ける"
+        ],
+        "weak_when": [
+          "魔力2/3では通常8で雷撃14より弱い"
+        ],
+        "related_cards": [
+          "zenithBolt",
+          "starFerryWard",
+          "bolt"
+        ],
+        "design_intent": "使い終わったカードの回収・再利用・履歴資源化を追加しない。"
+      }
+    }
+  ],
+  "assets": [
+    {
+      "key": "banked-star-blade",
+      "kind": "card",
+      "subject": "蓄星の刃用に既存プロジェクト画像を暫定共有。専用画像は後続。",
+      "alt": {
+        "mode": "decorative",
+        "text": ""
+      },
+      "path": "./assets/charge.webp",
+      "status": "reuse",
+      "reuseFrom": "charge / main c59fd503af74f9b93c2057900f0cbd910df5431e",
+      "sha256": "1bf6efdcbb09dbb6dad11b395a0a3630440ff571456322ea79bbaf535f0ab9f9",
+      "provenance": {
+        "kind": "existing-project",
+        "evidence": "design/production/reusable-art.json。プロジェクト内の既存画像を同一byteで再利用。"
+      },
+      "visualQa": {
+        "status": "passed",
+        "note": "2026-10-08 JSTに各元画像を個別に目視。新カードのブラウザ・実機描画QAとは区別。"
+      }
+    }
+  ]
+}

@@ -1,0 +1,217 @@
+{
+  "schemaVersion": 1,
+  "id": "mana-frost",
+  "title": "魔力と準備：mana-frost",
+  "theme": "貯める・使い切る・次の準備。回収案は停止。",
+  "scope": "two-card-pilot",
+  "style": {
+    "world": "A quiet ancient celestial library with dim stone arches and abstract star maps.",
+    "palette": "Silver and star-blue highlights, deep teal and amethyst shadows, restrained parchment amber.",
+    "medium": "Detailed painterly Japanese fantasy RPG card art with readable material detail.",
+    "composition": "Square illustration; one clear central subject, preserve its entire silhouette, readable at small card size.",
+    "avoid": "Readable letters, numbers, logos, borders, UI, extra subjects, contact sheets or collage."
+  },
+  "implementationStatus": "candidate",
+  "rewardScope": "growth-v2 battle2 onward; old rules and open offers unchanged",
+  "cards": [
+    {
+      "id": "frostCrossing",
+      "asset": "frost-crossing",
+      "base": {
+        "name": "霜渡り",
+        "cost": 1,
+        "weaken": 2,
+        "emptyNextBlock": 5,
+        "family": "ice",
+        "art": "frostCrossing"
+      },
+      "upgrade": {
+        "weaken": 3
+      },
+      "textIncludes": [
+        "−{weaken}",
+        "次の自分のターンに{emptyNextBlock}"
+      ],
+      "cases": [
+        {
+          "name": "normal-condition",
+          "variant": "base",
+          "state": {
+            "energy": 1
+          },
+          "preview": {
+            "actualWeak": 3,
+            "actualNextBlock": 5
+          },
+          "after": {
+            "energy": 0,
+            "weaken": 3,
+            "pendingBlock": 5
+          },
+          "text": {
+            "summary": [
+              "弱体3/打撃",
+              "次ターン防御5"
+            ]
+          }
+        },
+        {
+          "name": "evolved-condition",
+          "variant": "upgrade",
+          "state": {
+            "energy": 1
+          },
+          "preview": {
+            "actualWeak": 4,
+            "actualNextBlock": 5
+          },
+          "after": {
+            "energy": 0,
+            "weaken": 4,
+            "pendingBlock": 5
+          },
+          "text": {
+            "summary": [
+              "弱体4/打撃",
+              "次ターン防御5"
+            ]
+          }
+        }
+      ],
+      "design": {
+        "primary_engine": "魔力枯渇と次ターン防御",
+        "strong_when": [
+          "最後の魔力1で現在の連撃と次の強打へ備える"
+        ],
+        "weak_when": [
+          "残魔力があると次の防御は予約されない"
+        ],
+        "related_cards": [
+          "frostOmen",
+          "spark",
+          "shutterWard"
+        ],
+        "design_intent": "使い終わったカードの回収・再利用・履歴資源化を追加しない。"
+      }
+    },
+    {
+      "id": "starFrostLetter",
+      "asset": "star-frost-letter",
+      "base": {
+        "name": "星霜の便り",
+        "cost": 1,
+        "weaken": 2,
+        "nextFocus": 4,
+        "family": "ice",
+        "art": "starFrostLetter"
+      },
+      "upgrade": {
+        "weaken": 3,
+        "nextFocus": 6
+      },
+      "textIncludes": [
+        "−{weaken}",
+        "＋{nextFocus}"
+      ],
+      "cases": [
+        {
+          "name": "normal-condition",
+          "variant": "base",
+          "state": {},
+          "preview": {
+            "actualWeak": 3,
+            "actualNextFocus": 4
+          },
+          "after": {
+            "weaken": 3,
+            "pendingFocus": 4
+          },
+          "text": {
+            "summary": [
+              "弱体3/打撃",
+              "次ターン攻撃＋4"
+            ]
+          }
+        },
+        {
+          "name": "evolved-condition",
+          "variant": "upgrade",
+          "state": {},
+          "preview": {
+            "actualWeak": 4,
+            "actualNextFocus": 6
+          },
+          "after": {
+            "weaken": 4,
+            "pendingFocus": 6
+          },
+          "text": {
+            "summary": [
+              "弱体4/打撃",
+              "次ターン攻撃＋6"
+            ]
+          }
+        }
+      ],
+      "design": {
+        "primary_engine": "弱体と次ターン攻撃",
+        "strong_when": [
+          "今の連撃を弱め次の大技を準備する"
+        ],
+        "weak_when": [
+          "今すぐ倒すためのダメージも直接防御もない"
+        ],
+        "related_cards": [
+          "bolt",
+          "frostPierce",
+          "starWait"
+        ],
+        "design_intent": "使い終わったカードの回収・再利用・履歴資源化を追加しない。"
+      }
+    }
+  ],
+  "assets": [
+    {
+      "key": "frost-crossing",
+      "kind": "card",
+      "subject": "霜渡り用に既存プロジェクト画像を暫定共有。専用画像は後続。",
+      "alt": {
+        "mode": "decorative",
+        "text": ""
+      },
+      "path": "./assets/chant-ward.webp",
+      "status": "reuse",
+      "reuseFrom": "chantWard / main c59fd503af74f9b93c2057900f0cbd910df5431e",
+      "sha256": "b73cfce0f161bd44399b3af56b0d697ee9e9dfa2aab94a296832ef7278a9879a",
+      "provenance": {
+        "kind": "existing-project",
+        "evidence": "design/production/reusable-art.json。プロジェクト内の既存画像を同一byteで再利用。"
+      },
+      "visualQa": {
+        "status": "passed",
+        "note": "2026-10-08 JSTに各元画像を個別に目視。新カードのブラウザ・実機描画QAとは区別。"
+      }
+    },
+    {
+      "key": "star-frost-letter",
+      "kind": "card",
+      "subject": "星霜の便り用に既存プロジェクト画像を暫定共有。専用画像は後続。",
+      "alt": {
+        "mode": "decorative",
+        "text": ""
+      },
+      "path": "./assets/star-relay.webp",
+      "status": "reuse",
+      "reuseFrom": "starRelay / main c59fd503af74f9b93c2057900f0cbd910df5431e",
+      "sha256": "ab57e7fed839a208808a30a2b13abcbfce1b4c6bcaa4990c5fdbb3ab5cd5094c",
+      "provenance": {
+        "kind": "existing-project",
+        "evidence": "design/production/reusable-art.json。プロジェクト内の既存画像を同一byteで再利用。"
+      },
+      "visualQa": {
+        "status": "passed",
+        "note": "2026-10-08 JSTに各元画像を個別に目視。新カードのブラウザ・実機描画QAとは区別。"
+      }
+    }
+  ]
+}
