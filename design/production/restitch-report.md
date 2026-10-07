@@ -1,6 +1,6 @@
 # V4.19 綴じ直し：1枚の相乗効果試遊
 
-状態：公開前候補。2026-10-07 UTC。数値は試遊用の仮値。
+状態：2026-10-07 UTC公開済み。数値は試遊用の仮値。[公開記録](restitch-release.md)を参照。以下の検証は公開前候補の記録。
 基準main `bdd6d338931083993a13cec15318d37af77bc019` / build `4.18-4e4d2b8d0dd7`。
 [設計PR #14](https://github.com/busshin-it/shinka-dungeon/pull/14)の最新head
 `2f74109738e13b7ff63665cd06f940a373390571`、§5だけを個別実装。提案PR自体はマージしない。

@@ -209,9 +209,12 @@ Node175・Python4・Factory14合格。自然ラン方策は新2枚を未選択�
 
 PR #20 / build `4.18-4e4d2b8d0dd7`。両Pages成功、HTTPS配布46ファイル一致。[公開記録](design/production/star-scale-release.md)。
 
-## V4.19 綴じ直し（検証済み候補）
+## V4.19 綴じ直し（公開済み・仮仕様）
 
 PR #14の§5だけを個別実装。魔力1で最新の捨て札攻撃を戻し、すぐ1枚（進化2枚）引いて消滅。
 growth-v2の第2戦後以降だけ、図鑑55種。旧ruleset/初回/開いていた報酬とRNG、保存version5、既存効果ハンドラを維持。
 旧回収札の「今は引かない」を保持し、新札は実効ドローを表示。新画像・依存・イベントなし。
 [制作仕様](design/production/restitch.json)、[206テスト・独立旧保存比較・対照と制約](design/production/restitch-report.md)、[合成UI8場面](ui-qa/restitch.html)。
+
+PR #21 / build `4.19-3d070049d693`。正確なheadのCIと検証付きPages成功、HTTPS配布46ファイル一致。
+[公開記録・復旧・未確認範囲](design/production/restitch-release.md)。
