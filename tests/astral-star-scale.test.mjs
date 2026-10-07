@@ -22,11 +22,11 @@ function base(battle=4,route='library',ruleset='growth-v2'){
 function fixture(hand=[],changes={},options={}){const save=base(options.battle||4,options.route||'library',options.ruleset||'growth-v2'),s=save.state;Object.assign(s,{origin:'mirror',hp:s.maxHp,energy:5},changes);s.hand=[...hand];s.draw=Array(10-hand.length).fill('basicWard');s.discard=[];s.exhaust=[];s.deck=zones(s);return restore(save);}
 function denySave(g,edit){const before=p(g.exportSave()),bad=p(before);edit(bad);assert.equal(g.restoreSave(bad),false);assert.deepEqual(p(g.exportSave()),before);}
 
-test('one current enemy, no new cards, old definitions and save shape remain exact',()=>{
- assert.deepEqual(p(E.ENEMIES),old.definitions.enemies);assert.deepEqual(p(E.GROWTH_ENEMIES),old.definitions.growthEnemies);assert.deepEqual(p(E.CARDS),old.definitions.cards);
+test('one current enemy, all old card definitions and save shape remain exact',()=>{
+ assert.deepEqual(p(E.ENEMIES),old.definitions.enemies);assert.deepEqual(p(E.GROWTH_ENEMIES),old.definitions.growthEnemies);assert.deepEqual(p(Object.fromEntries(Object.entries(E.CARDS).filter(([id])=>id!=='restitch'))),old.definitions.cards);
  for(const [id,c]of Object.entries(old.definitions.upgrades))assert.deepEqual(p(E.card(id)),c);
  assert.equal(Object.keys(E.CURRENT_ENEMIES).length,Object.keys(E.GROWTH_ENEMIES).length+1);
- assert.equal(E.RUN_LENGTH,6);assert.equal(Object.keys(E.CARDS).length,54);
+ assert.equal(E.RUN_LENGTH,6);assert.equal(Object.keys(E.CARDS).length,55);
  const e=E.enemiesFor({ruleset:'growth-v2'}).starScaleGuard;
  assert.deepEqual(p(e),JSON.parse(read('design/production/star-scale-guard.json')).definition);
  assert.equal(e.art,'starDial');assert(read('v4-1/planning.html').includes('data-art="starDial"'));
@@ -40,13 +40,15 @@ test('66 pinned v3/v4/v5 saves keep old enemy, options, history, next action and
  for(const {name,save,command,afterSha256}of old.fixtures){const g=restore(save);step(g,command[0],...command.slice(1));assert.equal(sha(g.exportSave()),afterSha256,`${save.version}/${name}`);}
  for(const ruleset of ['classic','growth-v1'])assert.equal(E.createGame(E.seededRandom(1),{ruleset}).snapshot().chapter2Options.library,'starDial');
 });
-test('all 2880 same-seed reward selections and RNG results remain exact',()=>{
+test('2112 legacy and first-current reward selections and RNG remain exact after current-pool expansion',()=>{
  const rows=[];
  for(const ruleset of ['classic','growth-v1','growth-v2'])for(const origin of ['frost','storm','mirror'])for(let seed=1;seed<=64;seed++){
   const g=E.createGame(E.seededRandom(seed),{ruleset});g.selectOrigin(origin);g.start();
-  for(let battle=1;battle<=5;battle++){win(g);g.openReward();rows.push([ruleset,origin,seed,battle,p(g.rewardOptions()),g.exportSave().rngState]);g.chooseReward(null);if(battle===1)g.chooseRoute('moon');else if(battle===3)g.chooseChapter('library');else if(battle===5)g.chooseCamp('rest');else g.chooseSanctuary('rest');g.nextBattle();}
+  for(let battle=1;battle<=5;battle++){win(g);g.openReward();if(ruleset!=='growth-v2'||battle===1)rows.push([ruleset,origin,seed,battle,p(g.rewardOptions()),g.exportSave().rngState]);g.chooseReward(null);if(battle===1)g.chooseRoute('moon');else if(battle===3)g.chooseChapter('library');else if(battle===5)g.chooseCamp('rest');else g.chooseSanctuary('rest');g.nextBattle();}
  }
- assert.equal(rows.length,old.rewardRows);assert.equal(sha(rows),old.rewardSha256);
+ // V4.19 intentionally expands current battle2+ only; preserve the pinned legacy/first-reward baseline.
+ const stable=JSON.parse(read('tests/fixtures/astral-v416-frost-synthetic.json'));
+ assert.equal(rows.length,stable.rewardRows);assert.equal(sha(rows),stable.rewardSha256);
 });
 test('new runs have fixed encounter from intro; all three chapter routes preserve their own enemy',()=>{
  for(const route of ['library','wind','causeway']){const g=restore(base(4,route));assert.equal(g.snapshot().enemyId,{library:'starScaleGuard',wind:'bellSpirit',causeway:'tideStarSentinel'}[route]);assert.equal(g.snapshot().enemyMaxHp,{library:70,wind:76,causeway:72}[route]);step(g,'endTurn');}

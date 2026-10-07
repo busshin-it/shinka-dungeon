@@ -105,8 +105,8 @@ function oldGrowthTrace(E, digest, capture = () => {}) {
 test('v4.15 definitions, 54 full growth-v1 phase traces, and 24 natural runs remain byte-exact', () => {
   assert.equal(baseline.sourceCommit,'a84ec049d3ff5e94b818b2f3447abe29739da513');
   assert.equal(baseline.synthetic,true);
-  assert.equal(Object.keys(E.CARDS).length,54);
-  for(const name of ['CARDS','ORIGINS','ENEMIES','GROWTH_ENEMIES','RELICS','BASIC_STARTER','FIRST_REWARD_POOLS']) assert.equal(sha(plain(name === 'CARDS' ? Object.fromEntries(Object.entries(E.CARDS).filter(([id]) => !['rimeMirror','frostOmen'].includes(id))) : E[name])),baseline.definitions[name],name);
+  assert.equal(Object.keys(E.CARDS).length,55);
+  for(const name of ['CARDS','ORIGINS','ENEMIES','GROWTH_ENEMIES','RELICS','BASIC_STARTER','FIRST_REWARD_POOLS']) assert.equal(sha(plain(name === 'CARDS' ? Object.fromEntries(Object.entries(E.CARDS).filter(([id]) => !['rimeMirror','frostOmen','restitch'].includes(id))) : E[name])),baseline.definitions[name],name);
   assert.deepEqual(oldGrowthTrace(E,sha),baseline.growthTrace);
 });
 

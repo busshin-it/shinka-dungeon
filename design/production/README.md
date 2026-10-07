@@ -182,3 +182,10 @@ release検証はAPI/本番公開を行わない。CIで現在のNoa見本を検�
 [星秤の衛兵](star-scale-report.md)は新規growth-v2の書庫候補1体だけ。既存アート/効果を再利用し、カード・画像・schema・RNGを増やさない。
 [データ仕様](star-scale-guard.json)、[対照計測](star-scale-results.json)、[保存隔離QA](../../ui-qa/star-scale.html)。
 カードセット用validatorの入力ではなく、専用 `tests/astral-star-scale.test.mjs` でデータと全互換条件を確認する。
+
+## 1枚だけの既存効果試遊
+
+V4.19の`restitch.json`は明示的な`scope: single-card-pilot`。ちょうど1カード＋その画像1件、新NPCなしに限定する。
+既存two-card-pilotと4〜6枚/NPCセットの制約は維持し、未知scopeや新効果は拒否する。
+`node tools/astral-card-production.mjs validate design/production/restitch.json release`で通常/進化/対象なしの3宣言場面を確認。
+複数操作・山札・魔力・撃破・報酬・旧保存の境界は専用テストと[報告](restitch-report.md)を参照。
