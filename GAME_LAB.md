@@ -1,5 +1,14 @@
 # GAME LAB Research Log
 
+## 2026-10-07 Noa postscript 4.12 published
+
+- Published: [PR #10](https://github.com/busshin-it/shinka-dungeon/pull/10), main `6acba70dbd7197994afee6d464655d5041c6e8ce`, build `4.12-059517d696ed`, planning mode 42 cards. Both Pages deployment paths succeeded for this exact commit.
+- Release checks rerun: 76 Node game/production, 4 Python release/package, 14 Factory tests; existing/new production validation 9/10 scenarios. All 44 distributed inputs plus release.json/SW (46 files) matched the reviewed local bytes after deployment.
+- Cloud-browser live-URL smoke: isolated synthetic reward screen at 844×390 and 640×240, scrolling to all four new cards; images/text visible; evolution selection did not confirm by itself and Back returned to preparation; Return Page displayed the upgraded attack target and cancelled without being played.
+- Limits: this is a bounded smoke, not full visual QA. Physical smartphone touch, all viewport/scenario combinations, repeated-click/interrupted flows, old/new shared-art identification, actual player saves, long-term balance and enjoyment remain unverified.
+- Next: user checks the published game on their smartphone and sends screenshots of any layout/text issues. Keep changes bounded to that feedback; no automatic next batch or branching-prototype merge. Existing PWA clients may need all game windows closed and reopened to activate a prepared update; never clear saves to update.
+- Detail and evidence: [publication record](design/production/noa-postscript-release.md). The local-only notes below describe the earlier candidate stage.
+
 ## 2026-10-06 Noa postscript local candidate / design-MD audit
 
 - Status: local unpublished candidate only. GitHub main checked at 22:22 UTC remains `477a03a`, public game 4.11 / 38 cards. Candidate game is 4.12 / 42 cards.
