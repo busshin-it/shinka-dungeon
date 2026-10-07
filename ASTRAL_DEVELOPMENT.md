@@ -20,7 +20,7 @@ node --test tests/astral-*.test.mjs
 python3 -m unittest discover -s tests -p 'test_astral_release.py'
 ```
 
-- 24枚版と38枚版の独立、保存形式、RNGを含む保存復帰と次の操作を確認
+- 24枚版と先読み46枚版の独立、保存形式、RNGを含む保存復帰と次の操作を確認
 - 旧04.8の合成保存4件を復元し、開いている報酬を再抽選しないことを確認
 - 霜穿ちの弱体2/3境界、進化値、弱体を消費しない動作
 - 詠止の結界の使用順、進化値、条件成立時だけ1枚引く動作
@@ -127,3 +127,25 @@ python3 tools/astral_release.py verify
 ```
 
 `ui-qa/postscript.html` は今回の6つの合成場面。素材ピクセルの確認と、ブラウザでの本文/操作の確認は別々に扱う。
+
+## V4.13 星儀の試練（ローカル候補）
+
+先読み46枚。新しい旅の書庫に「星儀の調律者」HP74を追加。
+休み→三連撃4×3（攻撃札1枚ごとに各打撃−1、最大3枚で1×3）→強打18（一撃12で8）。
+星屑の瞬き／閉じる星環／星軌の追撃／調律の頁の4枚は第2戦後の一般枠で解禁。
+既存効果・既存画像を再利用し、旧カード・初期デッキ・6戦・保存version3/shapeを維持する。
+保存済みの旧書庫候補/遭遇は新敵へ置換しない。旧v1/v2移行も維持。
+詳細は[制作・検証報告](design/production/star-dial-report.md)。
+
+```sh
+node tools/astral-card-production.mjs validate design/production/star-dial.json release
+node --test tests/astral-*.test.mjs
+python3 -m unittest discover -s tests -p 'test_astral_release.py'
+python3 tools/astral_release.py verify
+node tools/astral-star-dial-balance.mjs --seeds=64 --reward-seeds=512
+```
+
+99 Node・4 Python・14 Asset Factoryテスト合格。192件の対照は新敵の第4戦被害が小さいが、
+単純方策の6戦完走は旧1/新0件なので人間の楽しさ・適正難易度を証明しない。
+`ui-qa/star-dial.html` は9つの保存隔離合成場面。手動横画面/実機QAはユーザー担当で開発を止めない。
+ローカル未公開候補であり、実ブラウザ・実機確認やPages公開済みとは扱わない。

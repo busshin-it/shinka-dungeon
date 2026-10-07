@@ -59,9 +59,9 @@ function fixture(cards, changes = {}, battle = 1) {
 }
 
 // Both card pools and independent save formats are deliberate product contracts.
-test('24-card legacy and 42-card planning modes stay separate', () => {
+test('24-card legacy and 46-card planning modes stay separate', () => {
   assert.equal(Object.keys(legacy.CARDS).length, 24);
-  assert.equal(Object.keys(planning.CARDS).length, 42);
+  assert.equal(Object.keys(planning.CARDS).length, 46);
   assert.equal(legacy.card('frostPierce'), null);
   for (const [engine, format, version] of [[legacy,'astral-corridor',1],[planning,'astral-planning',3]]) {
     const game = engine.createGame(engine.seededRandom(5)); game.start();
@@ -184,7 +184,7 @@ test('causeway payment is atomic, survives restore, and preserves old chapter ch
     const before = plain(game.exportSave()), copy = planning.createGame();
     assert.equal(copy.restoreSave(before), true); assert.deepEqual(plain(copy.exportSave()), before);
     copy.nextBattle(); assert.equal(copy.snapshot().energy, 2);
-    assert.equal(copy.snapshot().enemyId, route === 'library' ? 'bowWatcher' : 'bellSpirit');
+    assert.equal(copy.snapshot().enemyId, route === 'library' ? 'starDial' : 'bellSpirit');
   }
 });
 

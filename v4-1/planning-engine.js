@@ -42,6 +42,10 @@
     quietScript: { name: '休符の星', cost: 1, damage: 4, recoverBonus: 4, nextFocus: 3, family: 'dark', art: 'quietScript' },
     mirrorNote: { name: '鏡頁の一閃', cost: 1, damage: 4, reflect: 3, family: 'guard', art: 'mirrorNote' },
     returnPage: { name: '返しの頁', cost: 1, block: 4, recycleAttack: true, family: 'guard', art: 'returnPage' },
+    starlitPin: { name: '星屑の瞬き', cost: 0, damage: 1, weaken: 1, exhaust: true, family: 'ice', art: 'starlitPin' },
+    shutterWard: { name: '閉じる星環', cost: 1, block: 3, emptyNextBlock: 6, family: 'guard', art: 'shutterWard' },
+    orbitEcho: { name: '星軌の追撃', cost: 2, damage: 9, memoryCap: 8, family: 'dark', art: 'orbitEcho' },
+    tuningNote: { name: '調律の頁', cost: 1, nextFocus: 6, draw: 1, exhaust: true, family: 'focus', art: 'tuningNote' },
     echo: { name: '返照', cost: 0, reflect: 2, exhaust: true, family: 'guard', art: 'manaBarrier' }
   });
   function card(id) {
@@ -108,6 +112,8 @@
       { type: 'recover', label: '弓を引き絞る' }, { type: 'attack', label: '星を射る詠唱', power: 18, hits: 1, singleThreshold: 12, reduction: 10 }, { type: 'attack', label: '弦の返し', power: 9, hits: 1 }] },
     bellSpirit: { name: '鈴鏡の精', hp: 76, art: 'bellSpirit', lesson: '詠唱中は手札の攻撃1枚ごとに威力−2。3枚で12→6。反射は枚数に数えない。', moves: [
       { type: 'attack', label: '三つ鈴の詠唱', power: 12, hits: 1, attackCountThreshold: 3, stepReduction: 2, reduction: 6 }, { type: 'recover', label: '鈴を整える', heal: 4 }, { type: 'attack', label: '鏡の振り子', power: 10, hits: 1 }] },
+    starDial: { name: '星儀の調律者', hp: 74, art: 'starDial', lesson: '三連撃は攻撃札1枚ごとに各打撃−1（3枚まで）。次の強打は一撃12で18→8。弱体・反射・防御も有効。', moves: [
+      { type: 'recover', label: '星儀を合わせる' }, { type: 'attack', label: '三連星の詠唱', power: 4, hits: 3, attackCountThreshold: 3, stepReduction: 1, reduction: 3 }, { type: 'attack', label: '星軸の詠唱', power: 18, hits: 1, singleThreshold: 12, reduction: 10 }] },
     archive: { name: '書庫の観測者', hp: 68, art: 'wraith', lesson: '三連撃と一撃が交互。手札を増やしても使い切る必要はない。', moves: [
       { type: 'attack', label: '星屑の三連撃', power: 4, hits: 3 }, { type: 'attack', label: '頁の刃', power: 14, hits: 1 }, { type: 'recover', label: '頁をめくる' }] },
     wind: { name: '嵐をまとう甲冑', hp: 76, art: 'skeleton', lesson: '重い連撃と詠唱。魔力を残すか、使い切って火花につなぐか。', moves: [
@@ -128,7 +134,7 @@
   function describeMove(m) {
     if(m.type==='recover')return `${m.label}${m.heal?`（最大${m.heal}回復）`:'（攻撃なし）'}`;
     const r=breakRule(m),condition=m.manaCondition?manaRuleText(m):r.kind==='single'?`一撃${r.threshold}で${m.power-m.reduction}`:r.kind==='count'?`攻撃札${r.threshold}枚で${m.power-m.reduction}`:r.kind==='total'?`合計${r.threshold}で${m.power-m.reduction}`:'';
-    return `${m.label} ${m.power}${m.hits>1?`×${m.hits}`:''}${condition?`〔${condition}〕`:''}`;
+    return `${m.label} ${m.power}${m.hits>1?`×${m.hits}`:''}${condition?`〔${condition}${m.hits>1?`×${m.hits}`:''}〕`:''}`;
   }
   function enemyPattern(id) { return ENEMIES[id]?.moves.map(describeMove).join(' → ') || ''; }
   const MAX_HP = 60;
@@ -156,7 +162,7 @@
     function reset() {
       s = { phase: 'intro', origin: 'frost', battle: 1, turn: 1, hp: MAX_HP, maxHp: MAX_HP, enemyId: 'skeleton', enemyHp: 48, enemyMaxHp: 48,
         energy: 2, maxEnergy: MAX_ENERGY, pendingFocus: 0, pendingBlock: 0, prevEndEmpty: false, turnLastAttack: 0, prevLastAttack: 0, usedExhaustThisTurn: false, relics: [], relicUsed: {emberCore:false,starBottle:false}, removalSource: null, block: 0, focus: 0, weaken: 0, reflect: 0, turnDamage: 0, spellCount: 0, interrupted: false, flags: {},
-        deck: [...ORIGINS.frost.deck], hand: [], draw: [], discard: [], exhaust: [], route: null, route2: null, chapter2Options: {library:'bowWatcher',wind:'bellSpirit'}, chapter2Encounter: null, forge: false, insight: false, sanctuary: null, camp: null,
+        deck: [...ORIGINS.frost.deck], hand: [], draw: [], discard: [], exhaust: [], route: null, route2: null, chapter2Options: {library:'starDial',wind:'bellSpirit'}, chapter2Encounter: null, forge: false, insight: false, sanctuary: null, camp: null,
         lastReward: null, lastUpgrade: null, pendingUpgrade: null, upgrades: [], removed: [], rewards: [], rewardOffers: [], history: [], wins: 0,
         stats: { played: {}, dealt: 0, taken: 0, healed: 0, energyGained: 0, blocked: 0, reflected: 0, interrupts: 0, relics: 0 },
         log: ['護符を選んで、蒼星の回廊へ。'] };
@@ -188,7 +194,7 @@
       const result = resolveAttack(s, a);
       const progress = rule.kind === 'count' ? Math.min(rule.threshold,s.spellCount) : rule.kind === 'single' ? (s.interrupted?rule.threshold:0) : Math.min(rule.threshold,s.turnDamage);
       const extra = rule.threshold ? { threshold:rule.threshold,progress,remaining:Math.max(0,rule.threshold-progress),broken:s.interrupted,breakKind:rule.kind } : {};
-      const tip = m.manaCondition ? `${manaRuleText(m)}。敵行動直前に判定。${manaConditionMet ? '現在は条件成立。' : ''}` : !rule.threshold ? '' : rule.kind==='count' ? `攻撃札${progress}/${rule.threshold}。基本威力${m.power}→${m.power-reduction}。${s.interrupted?'最大軽減。':`あと${rule.threshold-progress}枚で最大軽減。`}` : s.interrupted ? `詠唱崩し成功。基本威力${m.power}→${m.power-m.reduction}。` : rule.kind==='single' ? `一撃${rule.threshold}以上で威力−${m.reduction}。合計では不可。` : `あと${extra.remaining}ダメージで威力−${m.reduction}。`;
+      const tip = m.manaCondition ? `${manaRuleText(m)}。敵行動直前に判定。${manaConditionMet ? '現在は条件成立。' : ''}` : !rule.threshold ? '' : rule.kind==='count' ? `攻撃札${progress}/${rule.threshold}。基本威力${m.power}→${m.power-reduction}${m.hits>1?'（各打撃）':''}。${s.interrupted?'最大軽減。':`あと${rule.threshold-progress}枚で最大軽減。`}` : s.interrupted ? `詠唱崩し成功。基本威力${m.power}→${m.power-m.reduction}。` : rule.kind==='single' ? `一撃${rule.threshold}以上で威力−${m.reduction}。合計では不可。` : `あと${extra.remaining}ダメージで威力−${m.reduction}。`;
       return { ...a, ...extra, ...(m.manaCondition ? {manaCondition:m.manaCondition,manaConditionMet} : {}), hpLoss: result.taken, reflected: result.reflected, resolvedHits: result.resolvedHits,
         detail: `今の守りで HP −${result.taken}。${result.reflected ? `反射${result.reflected}。` : ''}${tip}${result.resolvedHits < m.hits && result.enemyHp === 0 && result.hp > 0 ? '反射で残りの打撃を止める。' : ''}` };
     }
@@ -291,7 +297,7 @@
       if (s.phase === 'reward') {
         const offers = shuffle([...REWARD_POOLS[s.origin]]).slice(0,1);
         offers.push(shuffle(['light','stillness','renew','meditate','focus'].filter(id => !offers.includes(id)))[0]);
-        while (offers.length < 4) offers.push(shuffle(Object.keys(CARDS).filter(id => !offers.includes(id) && (!['chantWard','starFerryWard','ebbArrow','starRelay','mirrorLance','marginLight','quietScript','mirrorNote','returnPage'].includes(id) || s.battle >= 2)))[0]); s.rewardOffers = offers;
+        while (offers.length < 4) offers.push(shuffle(Object.keys(CARDS).filter(id => !offers.includes(id) && (!['chantWard','starFerryWard','ebbArrow','starRelay','mirrorLance','marginLight','quietScript','mirrorNote','returnPage','starlitPin','shutterWard','orbitEcho','tuningNote'].includes(id) || s.battle >= 2)))[0]); s.rewardOffers = offers;
       }
       return true;
     }
@@ -414,8 +420,8 @@
         if (hasRoute ? !['moon','forge'].includes(x.route) : x.route !== null) return false;
         if (hasChapterRoute ? !['library','wind','causeway'].includes(x.route2) : x.route2 !== null) return false;
         if (x.forge !== (x.route === 'forge') || x.insight !== (x.route2 === 'library') || x.maxHp !== (x.route2 === 'wind' ? 66 : 60)) return false;
-        if (!record(x.chapter2Options) || Object.keys(x.chapter2Options).sort().join('|')!=='library|wind' || !['bowWatcher|bellSpirit','archive|wind'].includes(`${x.chapter2Options.library}|${x.chapter2Options.wind}`)) return false;
-        if (!x.route2 && x.chapter2Options.library !== 'bowWatcher') return false;
+        if (!record(x.chapter2Options) || Object.keys(x.chapter2Options).sort().join('|')!=='library|wind' || !['starDial|bellSpirit','bowWatcher|bellSpirit','archive|wind'].includes(`${x.chapter2Options.library}|${x.chapter2Options.wind}`)) return false;
+        if (!x.route2 && !['starDial','bowWatcher'].includes(x.chapter2Options.library)) return false;
         if (x.chapter2Encounter !== (x.route2 === 'causeway' ? 'tideStarSentinel' : x.route2?x.chapter2Options[x.route2]:null)) return false;
         const encounter = b => b === 1 ? 'skeleton' : b === 2 ? (x.route==='moon'?'wraith':'stone') : b === 3 ? 'trial' : b === 4 ? x.chapter2Encounter : b === 5 ? 'elite' : 'moth';
         if (x.enemyId !== encounter(x.battle)) return false;

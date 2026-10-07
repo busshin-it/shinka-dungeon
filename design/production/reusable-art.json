@@ -4,10 +4,10 @@
   "audited_date": "2026-10-06",
   "repository": "busshin-it/shinka-dungeon",
   "source_commit": "739cdb63f938048977dcb2f998770d4df4ef5ab3",
-  "scope": "Read-only inspection; only this catalog and its Markdown companion were written. No art generation, mutation, queue change or runtime remapping. v4.12 adds 4 dedicated art aliases mapped to the same reviewed Noa files; 25 keys, 21 distinct images.",
+  "scope": "Read-only inspection; only this catalog and its Markdown companion were written. No art generation, mutation, queue change or runtime remapping. v4.12 adds 4 dedicated art aliases mapped to the same reviewed Noa files; 25 keys, 21 distinct images. v4.13 adds four star-dial aliases, 29 keys and the same 21 distinct card images; enemy reuses existing gatekeeper image.",
   "summary": {
-    "planning_cards": 42,
-    "active_art_keys": 25,
+    "planning_cards": 46,
+    "active_art_keys": 29,
     "active_v4_card_files": 11,
     "active_embedded_art_keys": 10,
     "conditional_factory_candidates": 2,
@@ -307,6 +307,30 @@
       "name": "返しの頁",
       "family": "guard",
       "art_key": "returnPage"
+    },
+    {
+      "card_id": "starlitPin",
+      "name": "星屑の瞬き",
+      "family": "ice",
+      "art_key": "starlitPin"
+    },
+    {
+      "card_id": "shutterWard",
+      "name": "閉じる星環",
+      "family": "guard",
+      "art_key": "shutterWard"
+    },
+    {
+      "card_id": "orbitEcho",
+      "name": "星軌の追撃",
+      "family": "dark",
+      "art_key": "orbitEcho"
+    },
+    {
+      "card_id": "tuningNote",
+      "name": "調律の頁",
+      "family": "focus",
+      "art_key": "tuningNote"
     },
     {
       "card_id": "echo",
@@ -2193,5 +2217,11 @@
     "quietScript": "quietComet",
     "mirrorNote": "mirrorLance",
     "returnPage": "starBookmark"
+  },
+  "star_dial_aliases": {
+    "starlitPin": "frostPierce",
+    "shutterWard": "chantWard",
+    "orbitEcho": "quietComet",
+    "tuningNote": "starRelay"
   }
 }
