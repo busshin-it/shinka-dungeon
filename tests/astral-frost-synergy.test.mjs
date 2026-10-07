@@ -17,7 +17,9 @@ const bases=new Map();
 function win(g){const save=plain(g.exportSave()),s=save.state;Object.assign(s,{hp:s.maxHp,enemyHp:1,energy:5,block:0,focus:0,reflect:0,weaken:0,pendingBlock:0,pendingFocus:0,turnLastAttack:0,prevLastAttack:0,prevEndEmpty:false,usedExhaustThisTurn:false,turnDamage:0,spellCount:0,interrupted:false,flags:{}});s.draw=[...s.deck];s.hand=s.draw.splice(s.draw.findIndex(x=>engine.card(x).isAttack),1);s.discard=[];s.exhaust=[];assert(g.restoreSave(save));step(g,'play',0);}
 function base(battle=2,ruleset='growth-v2'){
  const key=battle+'/'+ruleset;if(bases.has(key))return plain(bases.get(key));
- const g=engine.createGame(engine.seededRandom(918),{ruleset});g.start();
+ const g=engine.createGame(engine.seededRandom(918),{ruleset});
+ // Pin the previous saved encounter for historical three-hit/card regressions.
+ const pinned=plain(g.exportSave());pinned.state.chapter2Options.library='starDial';assert(g.restoreSave(pinned));g.start();
  for(let b=1;b<battle;b++){win(g);g.openReward();g.chooseReward(null);if(b===1)g.chooseRoute('moon');else if(b===3)g.chooseChapter('library');else if(b===5)g.chooseCamp('rest');else g.chooseSanctuary('rest');g.nextBattle();}
  const save=plain(g.exportSave());bases.set(key,save);return plain(save);
 }
