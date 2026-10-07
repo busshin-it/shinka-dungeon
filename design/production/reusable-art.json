@@ -4,10 +4,10 @@
   "audited_date": "2026-10-06",
   "repository": "busshin-it/shinka-dungeon",
   "source_commit": "739cdb63f938048977dcb2f998770d4df4ef5ab3",
-  "scope": "Read-only inspection; only this catalog and its Markdown companion were written. No art generation, mutation, queue change or runtime remapping. v4.12 adds 4 dedicated art aliases mapped to the same reviewed Noa files; 25 keys, 21 distinct images. v4.13 adds four star-dial aliases, 29 keys and the same 21 distinct card images; enemy reuses existing gatekeeper image. v4.14 growth trial adds two basic definitions reusing dark/guard keys; no new artwork or aliases. v4.15 adds four effect-first aliases using the same 21 distinct images; source pixels inspected 2026-10-07. New cards are growth-only rewards.",
+  "scope": "Read-only inspection; only this catalog and its Markdown companion were written. No art generation, mutation, queue change or runtime remapping. v4.12 adds 4 dedicated art aliases mapped to the same reviewed Noa files; 25 keys, 21 distinct images. v4.13 adds four star-dial aliases, 29 keys and the same 21 distinct card images; enemy reuses existing gatekeeper image. v4.14 growth trial adds two basic definitions reusing dark/guard keys; no new artwork or aliases. v4.15 adds four effect-first aliases using the same 21 distinct images; source pixels inspected 2026-10-07. New cards are growth-only rewards. v4.17 adds two frost-synergy aliases, using the same existing images as interim art; no generation.",
   "summary": {
-    "planning_cards": 52,
-    "active_art_keys": 33,
+    "planning_cards": 54,
+    "active_art_keys": 35,
     "active_v4_card_files": 11,
     "active_embedded_art_keys": 10,
     "conditional_factory_candidates": 2,
@@ -367,6 +367,18 @@
       "name": "渡り鏡",
       "family": "guard",
       "art_key": "mirrorRelay"
+    },
+    {
+      "card_id": "rimeMirror",
+      "name": "霜鏡",
+      "family": "ice",
+      "art_key": "rimeMirror"
+    },
+    {
+      "card_id": "frostOmen",
+      "name": "霜刻の予告",
+      "family": "ice",
+      "art_key": "frostOmen"
     },
     {
       "card_id": "echo",
@@ -2267,5 +2279,9 @@
     "bankedEcho": "quietComet",
     "ashStudy": "starBookmark",
     "mirrorRelay": "starRelay"
+  },
+  "frost_synergy_aliases": {
+    "rimeMirror": "chantWard",
+    "frostOmen": "frostPierce"
   }
 }
