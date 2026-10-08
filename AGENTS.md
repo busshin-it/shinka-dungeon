@@ -18,6 +18,7 @@
 3. `GAME_LAB.md` の最新部分
 4. `ASTRAL_DEVELOPMENT.md`
 5. 必要に応じて `design/` 配下
+- カード効果やコンボを**通常チャットで画像付き相談**する場合は `design/card-design-dialogue-guide.md` を確認する（設計案と実装済み仕様を混同しない）。
 6. 秘書AI・進捗確認時は `AI_SECRETARY_STATUS.md`
 
 ## 3. 作業原則
