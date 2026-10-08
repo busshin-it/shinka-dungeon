@@ -230,3 +230,23 @@ Node242・Python4・Factory14成功。保存→復帰・取得→使用→進化
 ## 2026-10-08｜V4.25 PR #28 統合承認
 
 ユーザーが「魔法師のPRを完了」を選択し、マージ許可に基づいて既存PR #28の統合を進める。最新mainとの統合は競合なし、Node242・Python4・Factory14・release verifyを再検証。追加のカード・戦士実装・画像・設定変更なし。実際のマージ・Pagesの結果は[PR #28](https://github.com/busshin-it/shinka-dungeon/pull/28)とActionsを正とする。既存旅から続けると4択を保持するため、3択の試遊は新しい旅で行う。この1セットで停止。
+
+## 2026-10-08｜護符3種の試作・4.27候補（未公開）
+
+V4.25から12案／6系統を設計、連奏・返刃・蓄星だけ追加。新UIは6種から3候補、旧保存は元の3種を維持。カード61種、敵、初期10枚、報酬、保存キー／v6は維持。旧mainは新護符IDの保存を復元できないため、試作保存はPR版の隔離領域で試す。
+Node255・Python4・Factory14・release44入力成功。保存復帰／条件境界／UI配線と旧main24トレースを照合。108戦の合成比較では蓄星の被害増加も見られ、実ブラウザ・人間の面白さ・全6戦バランスは未確認。
+[設計](design/production/charm-seeds-design.md)、[復旧・検証報告](design/production/charm-seeds-report.md)。Draft PRで停止、マージ・公開をしない。
+
+## 2026-10-08｜V4.27候補・護符3種の試作（Draftで停止）
+
+基点はV4.25 main fc157e7、カード61種。連奏/返刃/蓄星を既存攻撃数・focus・pendingBlockで試作。新UIだけ6種から固定seedの3候補、旧intro保存は固定3種を保持。保存v6/既存キーを維持し、flags内のintro試作印と返刃使用済印だけ限定許可。候補抽選は戦闘RNGを消費しない。旧3護符/カード/敵/報酬定義を変更しない。逆方向の試作保存→V4.25読込は対応しない。
+
+Node256・Python4・Factory14、配布44ファイル整合成功。build 4.27-38ed2476626f。固定2seed/6護符/3構成の比較と、独立mainの24旧経路、実報酬→使用→進化を検証。実ブラウザ・実機・面白さは未確認。マージ・公開・後続大量実装は禁止。
+[護符12案と魔法師6系統](design/production/charm-seeds-design.md)、[復旧・保存境界・テスト・失敗記録](design/production/charm-seeds-report.md)。
+
+```sh
+node --test tests/astral-*.test.mjs
+python3 -m unittest discover -s tests -p 'test_astral_release.py'
+python3 tools/astral_release.py verify
+node tools/astral-charm-seeds-check.mjs
+```

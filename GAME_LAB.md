@@ -1,5 +1,20 @@
 # GAME LAB Research Log
 
+## 2026-10-08｜V4.27候補・切断した護符試作を復旧
+
+- 最新main V4.25（fc157e7、61カード）と全heads/PRを確認。専用GitHub成果は未送信、ローカルfeat/charm-seeds-20261008の未コミットコード・テスト・比較を引き継いだ。
+- 護符12案・魔法師6系統を仮設計として記録。実装は連奏/返刃/蓄星の3種だけ、新UIは既存3＋試作3から3候補。旧intro固定3種・既存保存/RNGを維持。新カード・敵・戦闘数・画像・公開設定なし。
+- Node256・Python4・Factory14・release verify成功。独立main定義と24旧経路を再照合。2seed×6護符×3構成の108戦比較は合成・有限方策であり面白さや最適性の証明ではない。実ブラウザ/実機は未確認。
+- 候補seedの偏り、introの不正flag、旧説明assert、未更新配布メタデータを修正して記録。Draft PRまでで停止、mainマージ・公開は禁止。
+- [設計12案/6系統](design/production/charm-seeds-design.md)、[検証と限界](design/production/charm-seeds-report.md)、[比較結果](design/production/charm-seeds-results.json)。
+
+## 2026-10-08｜初期護符の再設計・3種試作（4.27候補、未統合）
+
+- 最新main V4.25・61枚を確認し、切断前の未コミット作業を再利用。別Draft #25/#26/#27/#29は含めない。
+- 12護符／魔法師6系統を仮設計、連奏・返刃・蓄星だけ試作。新旅は既存＋試作6種から3候補、旧保存は元の護符・抽選／RNGを維持。
+- Node255／Python4／Factory14、release44入力成功。2seed×6護符×3合成デッキ、108戦で戦術差を計測。蓄星の被害増加と月鏡の短期優勢を記録し、面白さ・最適性は断定しない。実ブラウザ／実機は未確認。
+- [12案・6系統](design/production/charm-seeds-design.md)、[復旧・テスト・限界・試遊](design/production/charm-seeds-report.md)、[結果](design/production/charm-seeds-results.json)。Draft PRで停止、マージ・公開なし。
+
 ## 2026-10-08｜V4.25・PR #28の統合承認
 
 - GitHubを再確認。mainはV4.21、戦士は設計のみ、PR #28は未統合だった。ユーザーは今回も「魔法師のPRを完了」を選択し、既存のマージ許可に基づきこの1セットを統合する。
