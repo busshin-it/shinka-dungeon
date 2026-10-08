@@ -44,7 +44,7 @@ test('two-card pilot exactly matches proposal, reuses reviewed art, and keeps st
  const mirror=engine.card('rimeMirror+'),omen=engine.card('frostOmen+');assert.equal(mirror.weaken,3);assert.equal(mirror.reflect,3);assert.equal(omen.damage,6);assert.equal(omen.thresholdBonus,5);assert.equal(omen.nextFocus,5);
 });
 test('all 52 old base/upgraded definitions and 22 pinned v5 phase/next-action saves stay exact',()=>{
- assert.equal(baseline.sourceCommit,'f65d4dc545e590f9c28029b3bb3cd84cd6a2f27a');assert.equal(baseline.synthetic,true);assert.equal(Object.keys(engine.CARDS).length,61);
+ assert.equal(baseline.sourceCommit,'f65d4dc545e590f9c28029b3bb3cd84cd6a2f27a');assert.equal(baseline.synthetic,true);assert.equal(Object.keys(engine.CARDS).length,63);
  for(const [id,c]of Object.entries(baseline.definitions.cards))assert.deepEqual(plain(engine.CARDS[id]),c,id);
  for(const [id,c]of Object.entries(baseline.definitions.upgrades))assert.deepEqual(plain(engine.card(id)),c,id);
  for(const {name,save,command,afterSha256}of baseline.fixtures){const g=restore(save);step(g,command[0],...command.slice(1));assert.equal(sha(g.exportSave()),afterSha256,name);}

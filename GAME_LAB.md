@@ -1,5 +1,13 @@
 # GAME LAB Research Log
 
+## 2026-10-08｜専用イラスト付き2枚だけ・4.23候補
+
+- GitHub main 4.21/61種を基準に氷灯の結界・鏡火の種を追加。候補63種。未統合PR #25は取り込まない。既存効果の組合せだけでstate/schema/敵/ルートは不変。
+- 専用アート2点を内蔵image_genで個別生成。事前JOB ID・prompt・正式pathから実装/配布へ接続。既存絵/Factory queueは変更しない。
+- 全Node244・Python4・Factory14・production6場面・配布46入力が成功。報酬→取得→使用→後の進化、保存互換と条件不足/反射保持の見送りを確認。
+- 台帳の追加順不一致を修正し全回帰再実行。実機/ブラウザ/楽しさは未確認。mainマージ・公開なし。この2枚で停止。
+- [仕様・画像・比較・失敗記録](design/production/two-card-art-report-20261008.md)。
+
 ## 2026-10-07｜V4.19 綴じ直し・公開
 
 - [PR #21](https://github.com/busshin-it/shinka-dungeon/pull/21)を正確なheadのCI成功後にmerge。main `effb5fade`、build `4.19-3d070049d693`。検証付きPages成功、HTTPS配布46ファイル一致。

@@ -163,7 +163,7 @@ function classicTrace(E, digest) {
     }
     naturals.push([origin, seed, digest(rows)]);
   }
-  const cards = Object.fromEntries(Object.entries(E.CARDS).filter(([id, c]) => !c.starterOnly && !['frostRecall','bankedEcho','ashStudy','mirrorRelay','rimeMirror','frostOmen','restitch','frostCrossing','starFrostLetter','stillMirror','afterglowWard','bankedStarBlade','rimeThaw'].includes(id)));
+  const cards = Object.fromEntries(Object.entries(E.CARDS).filter(([id, c]) => !c.starterOnly && !['frostRecall','bankedEcho','ashStudy','mirrorRelay','rimeMirror','frostOmen','restitch','frostCrossing','starFrostLetter','stillMirror','afterglowWard','bankedStarBlade','rimeThaw','iceLanternWard','mirrorEmberSeed'].includes(id)));
   return {
     definitions: digest([cards, E.ORIGINS, E.ENEMIES, E.RELICS, Object.keys(cards).flatMap(id => [E.card(id), E.card(id+'+')])]),
     transitions: digest(traces), naturalReplays: digest(naturals), scenarioCount:traces.length, naturalCount:naturals.length
@@ -178,7 +178,7 @@ test('classic definitions, 432 complete phase traces and 24 natural runs exactly
 });
 
 test('fresh starts use v4 growth, exactly five basic attacks and five wards for all charms', () => {
-  assert.equal(Object.keys(engine.CARDS).length, 61);
+  assert.equal(Object.keys(engine.CARDS).length, 63);
   for (const origin of Object.keys(engine.ORIGINS)) {
     const game = engine.createGame(engine.seededRandom(37));
     assert.equal(game.exportSave().version, 4);
@@ -275,7 +275,7 @@ test('later growth rewards sample all 50 reward cards, stay unique, and never of
     const offers=plain(g.rewardOptions());assert.equal(new Set(offers).size,4);
     for(const id of offers){assert(!id.endsWith('+'));assert(!engine.card(id).starterOnly);seen.add(id);}
   }
-  assert.deepEqual(sorted(seen),sorted(Object.keys(engine.CARDS).filter(id=>!engine.CARDS[id].starterOnly&&!['rimeMirror','frostOmen','restitch','frostCrossing','starFrostLetter','stillMirror','afterglowWard','bankedStarBlade','rimeThaw'].includes(id))));
+  assert.deepEqual(sorted(seen),sorted(Object.keys(engine.CARDS).filter(id=>!engine.CARDS[id].starterOnly&&!['rimeMirror','frostOmen','restitch','frostCrossing','starFrostLetter','stillMirror','afterglowWard','bankedStarBlade','rimeThaw','iceLanternWard','mirrorEmberSeed'].includes(id))));
 });
 
 test('taking or skipping a reward preserves openings, cards, RNG, and repeated-action safety', () => {
