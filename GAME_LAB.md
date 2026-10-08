@@ -1,5 +1,12 @@
 # GAME LAB Research Log
 
+## 2026-10-08｜V4.25候補・序盤3戦の3択報酬
+
+- main V4.21を確認。戦士は設計のみのため、ユーザー選択で既存魔法師の序盤3戦を対象に変更。
+- 新しい旅growth-v3／保存v6だけ、第1・第2戦後に攻撃・防御・組合せの各候補を1枚ずつ提示し、取得かスキップ。新カード・敵・画像なし。旧保存の4択／RNGと第3戦後の一般抽選を維持。
+- 全Node242・Python4・Factory14成功、release verify成功。2シード16分岐で戦術・被害・時間の差を確認。ただし霜の護符では氷の矢が優勢で、面白さ・スキップの価値・バランスは未確定。実ブラウザ／実機は未確認。
+- [調査・設計・保存互換・失敗と限界・試遊ポイント](design/production/early-choice-report.md)、[再現可能な小量比較](design/production/early-choice-results.json)。main未反映・公開なし。この1セットで停止。
+
 ## 2026-10-07｜V4.19 綴じ直し・公開
 
 - [PR #21](https://github.com/busshin-it/shinka-dungeon/pull/21)を正確なheadのCI成功後にmerge。main `effb5fade`、build `4.19-3d070049d693`。検証付きPages成功、HTTPS配布46ファイル一致。
