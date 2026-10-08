@@ -15,7 +15,7 @@ test('five no-reuse cards match authored normal/evolved specs, art and visible t
   assert.deepEqual(promptManifest(spec).jobs,[]);
  }
  for(const id of ids){const c=engine.CARDS[id];for(const key of ['recycleAttack','memoryCap','exhaustBlock','exhaustReflect','draw','energy'])assert(!Object.hasOwn(c,key),id+' does not reuse spent cards');}
- assert.equal(Object.keys(engine.CARDS).length,61);
+ assert.equal(Object.keys(engine.CARDS).length, 62);
 });
 
 test('all normal/evolved cards have pure previews, atomic failed payments and unchanged v5 shape',()=>{

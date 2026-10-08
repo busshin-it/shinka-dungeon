@@ -1,0 +1,100 @@
+{
+  "schemaVersion": 1,
+  "id": "banked-stance",
+  "title": "星留めの構え：魔力を残す守りと今の攻め",
+  "theme": "魔力を残すほど守りが厚くなる一方、同じターンの次の攻撃も強める。使い終わった札や捨て札は参照しない。",
+  "scope": "single-card-pilot",
+  "style": {
+    "world": "A quiet ancient celestial library with dim stone arches and abstract star maps.",
+    "palette": "Silver and star-blue highlights, deep teal and amethyst shadows, restrained parchment amber.",
+    "medium": "Detailed painterly Japanese fantasy RPG card art with readable material detail.",
+    "composition": "Square illustration; one clear central subject, preserve its entire silhouette, readable at small card size.",
+    "avoid": "Readable letters, numbers, logos, borders, UI, extra subjects, contact sheets or collage."
+  },
+  "implementationStatus": "candidate",
+  "rewardScope": "growth-v2 battle2 onward; old rules, battle1 and open offers unchanged",
+  "cards": [
+    {
+      "id": "bankedStance",
+      "asset": "banked-stance",
+      "base": {
+        "name": "星留めの構え",
+        "cost": 1,
+        "block": 2,
+        "bankBlock": 5,
+        "focus": 3,
+        "family": "focus",
+        "art": "bankedStance"
+      },
+      "upgrade": {
+        "block": 5,
+        "focus": 5
+      },
+      "textIncludes": [
+        "{block}ブロック",
+        "支払い直後に魔力2以上なら追加{bankBlock}ブロック",
+        "このターン、次の攻撃＋{focus}"
+      ],
+      "cases": [
+        {
+          "name": "normal-bank",
+          "variant": "base",
+          "state": {"energy": 3},
+          "preview": {"actualBlock": 7, "focus": 3},
+          "after": {"block": 7, "focus": 3, "energy": 2, "enemyHp": 48},
+          "text": {"summary": ["防御7", "攻撃＋3"], "rules": ["支払い直後の魔力2以上", "成立"]}
+        },
+        {
+          "name": "normal-spend",
+          "variant": "base",
+          "state": {"energy": 2},
+          "preview": {"actualBlock": 2, "focus": 3},
+          "after": {"block": 2, "focus": 3, "energy": 1, "enemyHp": 48},
+          "text": {"summary": ["防御2", "攻撃＋3"], "rules": ["支払い直後の魔力2以上", "未成立"]}
+        },
+        {
+          "name": "evolved-bank",
+          "variant": "upgrade",
+          "state": {"energy": 3},
+          "preview": {"actualBlock": 10, "focus": 5},
+          "after": {"block": 10, "focus": 5, "energy": 2, "enemyHp": 48},
+          "text": {"summary": ["防御10", "攻撃＋5"], "rules": ["支払い直後の魔力2以上", "成立"]}
+        }
+      ],
+      "design": {
+        "primary_engine": "魔力蓄積と今ターンの攻防交換",
+        "strong_when": [
+          "魔力3以上から使い、守りを厚くしつつ次の攻撃へつなぐ",
+          "敵の攻撃に備えながら攻撃札も同じターンに使える"
+        ],
+        "weak_when": [
+          "魔力1〜2で緊急防御が必要",
+          "構えより先に攻撃して魔力を使うと追加防御を失う",
+          "攻撃札がないターンはfocus部分が消える"
+        ],
+        "related_cards": ["starFerryWard", "stillness", "bankedStarBlade", "basicStrike"],
+        "design_intent": "構えを先に出せば守りと攻撃補正を得やすいが、先に重い攻撃を使うと追加防御を失う。常に同じ順番を正解にしない。"
+      }
+    }
+  ],
+  "assets": [
+    {
+      "key": "banked-stance",
+      "kind": "card",
+      "subject": "星留めの構えの暫定アート。既存の星舟の結界画像を再利用。",
+      "alt": {"mode": "decorative", "text": ""},
+      "path": "./assets/star-ferry-ward.webp",
+      "status": "reuse",
+      "reuseFrom": "starFerryWard",
+      "sha256": "c72f959ea23e9714f0329bcd50b729456986321bef20da4144a334c89ed5fa79",
+      "provenance": {
+        "kind": "existing-project",
+        "evidence": "既存配布アセットを同一byteで再利用。新しい画像生成は行わない。"
+      },
+      "visualQa": {
+        "status": "passed",
+        "note": "既存採用画像はpixel QA済み。同一byteを再利用する。新カードとしての実ブラウザ・実機表示は未確認。"
+      }
+    }
+  ]
+}

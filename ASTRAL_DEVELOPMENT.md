@@ -218,3 +218,20 @@ growth-v2の第2戦後以降だけ、図鑑55種。旧ruleset/初回/開いて�
 
 PR #21 / build `4.19-3d070049d693`。正確なheadのCIと検証付きPages成功、HTTPS配布46ファイル一致。
 [公開記録・復旧・未確認範囲](design/production/restitch-release.md)。
+
+
+## V4.20 魔力橋渡し5枚と次敵予告（main統合済み）
+
+霜渡り・星霜の便り・静鏡・余熱の結界・蓄星の刃の5枚をgrowth-v2第2戦後以降へ追加し、報酬を選ぶ前に次の敵を確認できる表示を追加。図鑑60種。保存version5と旧rulesetを維持。
+詳細は [mana-bridges-release-20261008.md](design/production/mana-bridges-release-20261008.md)。
+
+## V4.21 霜解き（main統合済み）
+
+弱体を残して次の攻撃を軽減するか、全消費して今の防御へ変えるかを選ぶ1枚。通常防御6、弱体×2を追加防御（追加最大6）、進化防御9。図鑑61種。新状態・保存変更なし。
+PR #24をmain `36430590d91ce82b38063c06cf12f286617c2a8f` へ統合。
+
+## V4.22 星留めの構え（候補）
+
+PR #25候補。コスト1、防御2（進化5）、支払い後魔力2以上なら防御+5、このターンの次の攻撃+3（進化+5）。
+既存のbankBlock/focusだけを使用し、新状態・保存変更・画像生成なし。growth-v2第2戦後以降のみ。図鑑62種。
+詳細は [banked-stance-report-20261008.md](design/production/banked-stance-report-20261008.md)。
