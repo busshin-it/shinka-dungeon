@@ -1,6 +1,6 @@
 {
-  "version": "4.19",
-  "build": "4.19-3d070049d693",
+  "version": "4.20",
+  "build": "4.20-eb0fe84478f5",
   "scope": "./",
   "entry": "./",
   "planning": "./planning.html",

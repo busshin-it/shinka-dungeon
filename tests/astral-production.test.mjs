@@ -170,7 +170,7 @@ test('timings report overlapping service time separately from elapsed/active wal
 test('CLI fails closed on invalid commands and emits portable JSON without writes',()=>{
   const tool=path.join(ROOT,'tools/astral-card-production.mjs');
   const catalog=JSON.parse(execFileSync(process.execPath,[tool,'catalog'],{encoding:'utf8'}));
-  assert.equal(catalog.length,55);assert.equal(catalog.find(c=>c.id==='quietComet').upgrade.damage,13);
+  assert.equal(catalog.length,60);assert.equal(catalog.find(c=>c.id==='quietComet').upgrade.damage,13);
   const output=JSON.parse(execFileSync(process.execPath,[tool,'validate',path.join(ROOT,'design/production/noa-example.json'),'release'],{encoding:'utf8'}));
   assert.equal(output.scenarios,9);
   for(const args of [['generate'],['catalog','ignored'],['validate',path.join(ROOT,'design/production/noa-example.json'),'oops']]) {

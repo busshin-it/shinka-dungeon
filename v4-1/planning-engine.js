@@ -55,6 +55,11 @@
     rimeMirror: { name: '霜鏡', cost: 1, weaken: 2, reflect: 2, family: 'ice', art: 'rimeMirror' },
     frostOmen: { name: '霜刻の予告', cost: 1, damage: 3, weakThreshold: 3, thresholdBonus: 5, nextFocus: 3, family: 'ice', art: 'frostOmen' },
     restitch: { name: '綴じ直し', cost: 1, recycleAttack: true, draw: 1, exhaust: true, family: 'focus', art: 'restitch' },
+    frostCrossing: { name: '霜渡り', cost: 1, weaken: 2, emptyNextBlock: 5, family: 'ice', art: 'frostCrossing' },
+    starFrostLetter: { name: '星霜の便り', cost: 1, weaken: 2, nextFocus: 4, family: 'ice', art: 'starFrostLetter' },
+    stillMirror: { name: '静鏡', cost: 1, reflect: 4, nextFocus: 3, family: 'guard', art: 'stillMirror' },
+    afterglowWard: { name: '余熱の結界', cost: 1, block: 3, reflect: 1, prevEmptyBlock: 5, family: 'guard', art: 'afterglowWard' },
+    bankedStarBlade: { name: '蓄星の刃', cost: 2, damage: 8, bankBonus: 8, nextFocus: 2, family: 'thunder', art: 'bankedStarBlade' },
     echo: { name: '返照', cost: 0, reflect: 2, exhaust: true, family: 'guard', art: 'manaBarrier' }
   });
   function card(id, state) {
@@ -143,7 +148,7 @@
   // New growth rewards only: preserve every classic reward pool and its RNG calls.
   const GROWTH_REWARD_ONLY = Object.freeze(['frostRecall','bankedEcho','ashStudy','mirrorRelay']);
   // These cards enter only the current paid-starter ruleset, never legacy rewards.
-  const CURRENT_REWARD_ONLY = Object.freeze(['rimeMirror','frostOmen','restitch']);
+  const CURRENT_REWARD_ONLY = Object.freeze(['rimeMirror','frostOmen','restitch','frostCrossing','starFrostLetter','stillMirror','afterglowWard','bankedStarBlade']);
   const BASIC_STARTER = Object.freeze(['basicStrike','basicWard','basicStrike','basicWard','basicStrike','basicWard','basicStrike','basicWard','basicStrike','basicWard']);
   const GROWTH_ENEMIES = Object.freeze({ ...ENEMIES,
     skeleton: { ...ENEMIES.skeleton, hp: 15, moves: [
