@@ -1,0 +1,86 @@
+{
+  "schemaVersion": 1,
+  "scope": "Exactly two cards and one enemy; local batch only; no factory auto queue activation",
+  "jobs": [
+    {
+      "asset_id": "shinka_card_hushNeedle_puppet_v1",
+      "project": "進化ダンジョン",
+      "type": "card",
+      "name": "封鈴の針",
+      "game_key": "hushNeedle",
+      "filename": "hush-needle.webp",
+      "path": "v4-1/assets/hush-needle.webp",
+      "prompt": "Use case: stylized-concept. Asset type: card artwork for Shinka Dungeon. Subject: A single slender silver magical needle threaded with cold blue ribbon pierces and binds the mouth of one small antique gothic bell. Frost seals its sound while a violet reflective halo glimmers around it. Dark empty dungeon backdrop, central subject with generous crop-safe margins. Portrait composition 2:3, pure card interior illustration. Style: Gothic silhouette puppet dark fantasy, 2D hand-painted cut-paper shadow theatre, matte paper and cloth textures, strong readable silhouettes, deep black navy violet, restrained antique gold and icy blue highlights. No photorealism or glossy 3D. Avoid: No letters, numbers, readable runes, captions, card frame, border, cost icon, UI, watermark, logo, contact sheet, collage, multiple panels, alternate variants, extra characters. One asset only.",
+      "negative": "No letters, numbers, readable runes, captions, card frame, border, cost icon, UI, watermark, logo, contact sheet, collage, multiple panels, alternate variants, extra characters. One asset only.",
+      "aspect_ratio": "2:3",
+      "transparent": false,
+      "style_alignment": "Gothic silhouette puppet dark fantasy, 2D hand-painted cut-paper shadow theatre, matte paper and cloth textures, strong readable silhouettes, deep black navy violet, restrained antique gold and icy blue highlights. No photorealism or glossy 3D.",
+      "status": "integrated_candidate",
+      "attempts": 1,
+      "generation_id": "exec-0e3c54d8-e279-4c15-a156-956fe0a95d6e.png",
+      "qa": {
+        "status": "passed",
+        "note": "Generated subject inspected individually; decoded 768x1152 WebP and central 180px card crop inspected. Not browser/device QA."
+      },
+      "sha256": "a1960b97922e19315c6eb744e8d0a9d29d249e826f1299646eab2e6508a2d490",
+      "generator": "Work built-in image_gen"
+    },
+    {
+      "asset_id": "shinka_card_bellUnbind_puppet_v1",
+      "project": "進化ダンジョン",
+      "type": "card",
+      "name": "解鈴の灯",
+      "game_key": "bellUnbind",
+      "filename": "bell-unbind.webp",
+      "path": "v4-1/assets/bell-unbind.webp",
+      "prompt": "Use case: stylized-concept. Asset type: card artwork for Shinka Dungeon. Subject: One antique gothic bell opens along its seam, releasing one warm violet-gold flame shaped like a small future star. Its icy binding ribbon dissolves into the flame. Central bold silhouette in a dark dungeon, restrained light, generous crop-safe margins. Portrait composition 2:3, pure card interior illustration. Style: Gothic silhouette puppet dark fantasy, 2D hand-painted cut-paper shadow theatre, matte paper and cloth textures, strong readable silhouettes, deep black navy violet, restrained antique gold and icy blue highlights. No photorealism or glossy 3D. Avoid: No letters, numbers, readable runes, captions, card frame, border, cost icon, UI, watermark, logo, contact sheet, collage, multiple panels, alternate variants, extra characters. One asset only.",
+      "negative": "No letters, numbers, readable runes, captions, card frame, border, cost icon, UI, watermark, logo, contact sheet, collage, multiple panels, alternate variants, extra characters. One asset only.",
+      "aspect_ratio": "2:3",
+      "transparent": false,
+      "style_alignment": "Gothic silhouette puppet dark fantasy, 2D hand-painted cut-paper shadow theatre, matte paper and cloth textures, strong readable silhouettes, deep black navy violet, restrained antique gold and icy blue highlights. No photorealism or glossy 3D.",
+      "status": "integrated_candidate",
+      "attempts": 1,
+      "generation_id": "exec-db8ae2b9-ddda-4688-ad21-9f4a64d55a16.png",
+      "qa": {
+        "status": "passed",
+        "note": "Generated subject inspected individually; decoded 768x1152 WebP and central 180px card crop inspected. Not browser/device QA."
+      },
+      "sha256": "cfd564cf79ccf16d1d05f7477290a8dc4bdf9afde76bc42d96f3a221dd86552d",
+      "generator": "Work built-in image_gen"
+    },
+    {
+      "asset_id": "shinka_enemy_hushBell_puppet_v1",
+      "project": "進化ダンジョン",
+      "type": "enemy",
+      "name": "三鈴の傀儡",
+      "game_key": "hushBell",
+      "filename": "hush-bell.webp",
+      "path": "v4-1/assets/hush-bell.webp",
+      "prompt": "Use case: stylized-concept. Asset type: enemy artwork for Shinka Dungeon. Subject: Exactly one gothic stage puppet enemy. A small faceless hooded bell keeper with articulated cloth limbs, three small bronze bells hanging on a single curved staff, asymmetrical blue ribbon wrapping the bells. Entire body and staff visible with generous margins, limbs separated in a readable pose, no other characters. Portrait 2:3, genuinely transparent background, no ground plane or background scenery. Style: Gothic silhouette puppet dark fantasy, 2D hand-painted cut-paper shadow theatre, matte paper and cloth textures, strong readable silhouettes, deep black navy violet, restrained antique gold and icy blue highlights. No photorealism or glossy 3D. Avoid: No letters, numbers, readable runes, captions, card frame, border, cost icon, UI, watermark, logo, contact sheet, collage, multiple panels, alternate variants, extra characters. One asset only.",
+      "negative": "No letters, numbers, readable runes, captions, card frame, border, cost icon, UI, watermark, logo, contact sheet, collage, multiple panels, alternate variants, extra characters. One asset only.",
+      "aspect_ratio": "2:3",
+      "transparent": true,
+      "style_alignment": "Gothic silhouette puppet dark fantasy, 2D hand-painted cut-paper shadow theatre, matte paper and cloth textures, strong readable silhouettes, deep black navy violet, restrained antique gold and icy blue highlights. No photorealism or glossy 3D.",
+      "status": "integrated_candidate",
+      "attempts": 1,
+      "generation_id": "exec-2469f4f2-3bf9-4453-b946-f74f2919b36a.png",
+      "qa": {
+        "status": "passed",
+        "note": "Generated enemy and decoded 768x1152 transparent WebP inspected individually: one full-body puppet, visible limbs/staff, transparent corners; alpha retained. Not browser/device QA."
+      },
+      "sha256": "d5fb63a93e314ac8594d28653728b1da367c94d1dd41be2d06ad0e6d4035a105",
+      "generator": "Work built-in image_gen",
+      "alpha_check": {
+        "min": 0,
+        "max": 255,
+        "zero_fraction": 0.5839063856336806,
+        "corner_values": [
+          0,
+          0,
+          0,
+          0
+        ]
+      }
+    }
+  ]
+}

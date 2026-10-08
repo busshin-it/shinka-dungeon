@@ -21,7 +21,7 @@ for(const ruleset of ['classic','growth-v1','growth-v2'])test(`${ruleset} reward
  }
 });
 test('saved previous library candidate stays Star Dial instead of being advertised as Star Scale',()=>{
- const g=reward(3),save=plain(g.exportSave());save.state.chapter2Options.library='starDial';const old=restore(save),s=old.snapshot(),c=J.rewardOpponents(s,engine.enemiesFor(s));assert.equal(c[0].id,'starDial');
+ const g=reward(3),save=plain(g.exportSave());save.state.chapter2Options={library:'starDial',wind:'bellSpirit'};const old=restore(save),s=old.snapshot(),c=J.rewardOpponents(s,engine.enemiesFor(s));assert.equal(c[0].id,'starDial');
  assert(old.chooseReward(null));assert(old.chooseChapter('library'));assert(old.nextBattle());assert.equal(old.snapshot().enemyId,c[0].id);
 });
 test('preview is absent outside reward and after final victory; rendered strings escape markup',()=>{

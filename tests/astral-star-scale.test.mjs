@@ -15,7 +15,9 @@ function win(g){const save=p(g.exportSave()),s=save.state;Object.assign(s,{hp:s.
 const bases=new Map();
 function base(battle=4,route='library',ruleset='growth-v2'){
  const key=[battle,route,ruleset].join('/');if(bases.has(key))return p(bases.get(key));
- const g=E.createGame(E.seededRandom(418),{ruleset});g.start();
+ const g=E.createGame(E.seededRandom(418),{ruleset});
+ // This suite pins the V4.18 encounter; fresh wind is covered by hush-bell tests.
+ if(ruleset==='growth-v2'){const saved=p(g.exportSave());saved.state.chapter2Options.wind='bellSpirit';assert(g.restoreSave(saved));}g.start();
  for(let b=1;b<battle;b++){win(g);g.openReward();g.chooseReward(null);if(b===1)g.chooseRoute('moon');else if(b===3)g.chooseChapter(route);else if(b===5)g.chooseCamp('rest');else g.chooseSanctuary('rest');g.nextBattle();}
  bases.set(key,p(g.exportSave()));return p(g.exportSave());
 }
@@ -23,10 +25,10 @@ function fixture(hand=[],changes={},options={}){const save=base(options.battle||
 function denySave(g,edit){const before=p(g.exportSave()),bad=p(before);edit(bad);assert.equal(g.restoreSave(bad),false);assert.deepEqual(p(g.exportSave()),before);}
 
 test('one current enemy, all old card definitions and save shape remain exact',()=>{
- assert.deepEqual(p(E.ENEMIES),old.definitions.enemies);assert.deepEqual(p(E.GROWTH_ENEMIES),old.definitions.growthEnemies);assert.deepEqual(p(Object.fromEntries(Object.entries(E.CARDS).filter(([id])=>!['restitch','frostCrossing','starFrostLetter','stillMirror','afterglowWard','bankedStarBlade','rimeThaw'].includes(id)))),old.definitions.cards);
+ assert.deepEqual(p(E.ENEMIES),old.definitions.enemies);assert.deepEqual(p(E.GROWTH_ENEMIES),old.definitions.growthEnemies);assert.deepEqual(p(Object.fromEntries(Object.entries(E.CARDS).filter(([id])=>!['restitch','frostCrossing','starFrostLetter','stillMirror','afterglowWard','bankedStarBlade','rimeThaw','hushNeedle','bellUnbind'].includes(id)))),old.definitions.cards);
  for(const [id,c]of Object.entries(old.definitions.upgrades))assert.deepEqual(p(E.card(id)),c);
- assert.equal(Object.keys(E.CURRENT_ENEMIES).length,Object.keys(E.GROWTH_ENEMIES).length+1);
- assert.equal(E.RUN_LENGTH,6);assert.equal(Object.keys(E.CARDS).length,61);
+ assert.equal(Object.keys(E.CURRENT_ENEMIES).length,Object.keys(E.GROWTH_ENEMIES).length+2);
+ assert.equal(E.RUN_LENGTH,6);assert.equal(Object.keys(E.CARDS).length,63);
  const e=E.enemiesFor({ruleset:'growth-v2'}).starScaleGuard;
  assert.deepEqual(p(e),JSON.parse(read('design/production/star-scale-guard.json')).definition);
  assert.equal(e.art,'starDial');assert(read('v4-1/planning.html').includes('data-art="starDial"'));

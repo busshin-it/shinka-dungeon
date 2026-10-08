@@ -189,3 +189,11 @@ V4.19の`restitch.json`は明示的な`scope: single-card-pilot`。ちょうど1
 既存two-card-pilotと4〜6枚/NPCセットの制約は維持し、未知scopeや新効果は拒否する。
 `node tools/astral-card-production.mjs validate design/production/restitch.json release`で通常/進化/対象なしの3宣言場面を確認。
 複数操作・山札・魔力・撃破・報酬・旧保存の境界は専用テストと[報告](restitch-report.md)を参照。
+
+
+## 三鈴の小型1セット（4.24候補）
+
+[hush-bell-cards.json](hush-bell-cards.json)は既存two-card-pilot検証を使用。敵は[hush-bell-enemy.json](hush-bell-enemy.json)を専用テストで検証し、カードscopeを拡張しない。
+専用3画像の生成前メタデータと完成prompt/negative/alpha/ハッシュは[hush-bell-art-jobs.json](hush-bell-art-jobs.json)。Factoryの自動キューを起動しない。
+進化で基本版にない既知効果が増える場合もcatalogへ抽出する。未知効果を無視/許可せず、完全一致で検証する。
+[判断・互換境界・失敗と限定検証](hush-bell-report.md)。候補を記録したところで停止し、次セットを自動開始しない。

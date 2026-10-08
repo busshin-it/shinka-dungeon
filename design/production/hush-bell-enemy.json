@@ -1,0 +1,33 @@
+{
+  "schemaVersion": 1,
+  "id": "hushBell",
+  "scope": "One new enemy, fresh growth-v2 wind route only; saved pairs remain pinned",
+  "definition": {
+    "name": "三鈴の傀儡",
+    "hp": 72,
+    "art": "hushBell",
+    "lesson": "三つ鈴は敵行動直前の弱体2以上で三連撃→一撃。弱体を消費すると戻る。反射の回数も減る。次は単発14。",
+    "moves": [
+      {
+        "type": "recover",
+        "label": "鈴の糸を結ぶ"
+      },
+      {
+        "type": "attack",
+        "label": "三つ鈴",
+        "power": 5,
+        "hits": 3,
+        "weakHitThreshold": 2,
+        "weakHits": 1
+      },
+      {
+        "type": "attack",
+        "label": "吊り鐘の一撃",
+        "power": 14,
+        "hits": 1
+      }
+    ]
+  },
+  "rule": "weakHitThreshold evaluated before enemy action; reduces hits without consuming weakness; per-hit weakness still applies; intent() supplies endTurn resolution",
+  "asset_id": "shinka_enemy_hushBell_puppet_v1"
+}

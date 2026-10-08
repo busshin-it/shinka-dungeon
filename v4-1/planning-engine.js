@@ -61,6 +61,8 @@
     afterglowWard: { name: '余熱の結界', cost: 1, block: 3, reflect: 1, prevEmptyBlock: 5, family: 'guard', art: 'afterglowWard' },
     bankedStarBlade: { name: '蓄星の刃', cost: 2, damage: 8, bankBonus: 8, nextFocus: 2, family: 'thunder', art: 'bankedStarBlade' },
     rimeThaw: { name: '霜解き', cost: 1, block: 6, weakBlockMultiplier: 2, weakBlockCap: 6, consumeWeak: true, family: 'ice', art: 'rimeThaw' },
+    hushNeedle: { name: '封鈴の針', cost: 1, damage: 3, emptyWeak: 2, reflect: 2, family: 'dark', art: 'hushNeedle' },
+    bellUnbind: { name: '解鈴の灯', cost: 1, damage: 2, weakBonus: 6, consumeWeak: true, nextFocus: 4, family: 'dark', art: 'bellUnbind' },
     echo: { name: '返照', cost: 0, reflect: 2, exhaust: true, family: 'guard', art: 'manaBarrier' }
   });
   function card(id, state) {
@@ -82,6 +84,9 @@
       if (c.heal) c.heal += 2;
       if (c.energy) c.energy++;
       if (c.exhaust && c.draw) c.draw++;
+      // This batch adds a different timing/guard option, not a new saved state.
+      if (c.base === 'hushNeedle') { c.cost = 0; c.damage = 4; c.emptyWeak = 2; c.reflect = 2; }
+      if (c.base === 'bellUnbind') c.block = 3;
     }
     c.text = [c.isAttack && `${c.damage}ダメージ`, c.combo && `このターン2枚目以降の攻撃なら＋${c.combo}`,
       c.block && `${c.block}ブロック`, c.weaken && `次の敵の攻撃行動の各打撃 −${c.weaken}`,
@@ -150,7 +155,7 @@
   // New growth rewards only: preserve every classic reward pool and its RNG calls.
   const GROWTH_REWARD_ONLY = Object.freeze(['frostRecall','bankedEcho','ashStudy','mirrorRelay']);
   // These cards enter only the current paid-starter ruleset, never legacy rewards.
-  const CURRENT_REWARD_ONLY = Object.freeze(['rimeMirror','frostOmen','restitch','frostCrossing','starFrostLetter','stillMirror','afterglowWard','bankedStarBlade','rimeThaw']);
+  const CURRENT_REWARD_ONLY = Object.freeze(['rimeMirror','frostOmen','restitch','frostCrossing','starFrostLetter','stillMirror','afterglowWard','bankedStarBlade','rimeThaw','hushNeedle','bellUnbind']);
   const BASIC_STARTER = Object.freeze(['basicStrike','basicWard','basicStrike','basicWard','basicStrike','basicWard','basicStrike','basicWard','basicStrike','basicWard']);
   const GROWTH_ENEMIES = Object.freeze({ ...ENEMIES,
     skeleton: { ...ENEMIES.skeleton, hp: 15, moves: [
@@ -165,6 +170,8 @@
   // New encounters are pinned in chapter2Options at run creation. Restoring a saved
   // growth-v2 journey never replaces its options, current enemy, HP or history.
   const CURRENT_ENEMIES = Object.freeze({ ...GROWTH_ENEMIES,
+    hushBell: { name: '三鈴の傀儡', hp: 72, art: 'hushBell', lesson: '三つ鈴は敵行動直前の弱体2以上で三連撃→一撃。弱体を消費すると戻る。反射の回数も減る。次は単発14。', moves: [
+      { type: 'recover', label: '鈴の糸を結ぶ' }, { type: 'attack', label: '三つ鈴', power: 5, hits: 3, weakHitThreshold: 2, weakHits: 1 }, { type: 'attack', label: '吊り鐘の一撃', power: 14, hits: 1 }] },
     starScaleGuard: { name: '星秤の衛兵', hp: 70, art: 'starDial', lesson: '秤の刃は敵行動直前の魔力2以上で12→6。次の詠唱はこのターン合計12ダメージで18→8。弱体・防御も有効。', moves: [
       { type: 'recover', label: '星秤を合わせる' }, { type: 'attack', label: '秤の刃', power: 12, hits: 1, manaCondition: 'bank', manaReduction: 6 }, { type: 'attack', label: '重星の詠唱', power: 18, hits: 1, threshold: 12, reduction: 10 }] }
   });
@@ -184,7 +191,7 @@
   function describeMove(m) {
     if(m.type==='recover')return `${m.label}${m.heal?`（最大${m.heal}回復）`:'（攻撃なし）'}`;
     const r=breakRule(m),condition=m.manaCondition?manaRuleText(m):r.kind==='single'?`一撃${r.threshold}で${m.power-m.reduction}`:r.kind==='count'?`攻撃札${r.threshold}枚で${m.power-m.reduction}`:r.kind==='total'?`合計${r.threshold}で${m.power-m.reduction}`:'';
-    return `${m.label} ${m.power}${m.hits>1?`×${m.hits}`:''}${condition?`〔${condition}${m.hits>1?`×${m.hits}`:''}〕`:''}`;
+    return `${m.label} ${m.power}${m.hits>1?`×${m.hits}`:''}${condition?`〔${condition}${m.hits>1?`×${m.hits}`:''}〕`:''}${m.weakHitThreshold?`〔弱体${m.weakHitThreshold}以上で${m.weakHits}撃〕`:''}`;
   }
   function enemyPattern(id, state) { return enemiesFor(state)[id]?.moves.map(describeMove).join(' → ') || ''; }
   const MAX_HP = 60;
@@ -221,7 +228,7 @@
         stats: { played: {}, dealt: 0, taken: 0, healed: 0, energyGained: 0, blocked: 0, reflected: 0, interrupts: 0, relics: 0 },
         log: ['護符を選んで、蒼星の回廊へ。'] };
       if (isGrowthRun({ruleset})) { s.ruleset = ruleset; s.earlyRemoval = null; s.deck = [...BASIC_STARTER]; s.enemyHp = s.enemyMaxHp = GROWTH_ENEMIES.skeleton.hp; }
-      if (ruleset === STARTER_COST_RULESET) s.chapter2Options.library = 'starScaleGuard';
+      if (ruleset === STARTER_COST_RULESET) { s.chapter2Options.library = 'starScaleGuard'; s.chapter2Options.wind = 'hushBell'; }
       return snapshot();
     }
     function selectOrigin(id) { if (s.phase !== 'intro' || !Object.hasOwn(ORIGINS, id)) return false; s.origin = id; s.deck = [...starter(id)]; return true; }
@@ -247,13 +254,15 @@
       const manaConditionMet = m.manaCondition === 'bank' ? s.energy >= 2 : m.manaCondition === 'empty' ? s.energy === 0 : false;
       const reduction = m.manaCondition ? (manaConditionMet ? m.manaReduction : 0) : rule.kind === 'count' ? Math.min(rule.threshold,s.spellCount)*m.stepReduction : s.interrupted ? m.reduction || 0 : 0;
       const perHit = Math.max(0, m.power - reduction - s.weaken);
-      const a = { type: 'attack', label: m.label, perHit, hits: m.hits, damage: perHit * m.hits };
+      const weakHitConditionMet = Boolean(m.weakHitThreshold && s.weaken >= m.weakHitThreshold);
+      const hits = weakHitConditionMet ? m.weakHits : m.hits;
+      const a = { type: 'attack', label: m.label, perHit, hits, damage: perHit * hits };
       const result = resolveAttack(s, a);
       const progress = rule.kind === 'count' ? Math.min(rule.threshold,s.spellCount) : rule.kind === 'single' ? (s.interrupted?rule.threshold:0) : Math.min(rule.threshold,s.turnDamage);
       const extra = rule.threshold ? { threshold:rule.threshold,progress,remaining:Math.max(0,rule.threshold-progress),broken:s.interrupted,breakKind:rule.kind } : {};
       const tip = m.manaCondition ? `${manaRuleText(m)}。敵行動直前に判定。${manaConditionMet ? '現在は条件成立。' : ''}` : !rule.threshold ? '' : rule.kind==='count' ? `攻撃札${progress}/${rule.threshold}。基本威力${m.power}→${m.power-reduction}${m.hits>1?'（各打撃）':''}。${s.interrupted?'最大軽減。':`あと${rule.threshold-progress}枚で最大軽減。`}` : s.interrupted ? `詠唱崩し成功。基本威力${m.power}→${m.power-m.reduction}。` : rule.kind==='single' ? `一撃${rule.threshold}以上で威力−${m.reduction}。合計では不可。` : `あと${extra.remaining}ダメージで威力−${m.reduction}。`;
-      return { ...a, ...extra, ...(m.manaCondition ? {manaCondition:m.manaCondition,manaConditionMet} : {}), hpLoss: result.taken, reflected: result.reflected, resolvedHits: result.resolvedHits,
-        detail: `今の守りで HP −${result.taken}。${result.reflected ? `反射${result.reflected}。` : ''}${tip}${result.resolvedHits < m.hits && result.enemyHp === 0 && result.hp > 0 ? '反射で残りの打撃を止める。' : ''}` };
+      return { ...a, ...extra, ...(m.manaCondition ? {manaCondition:m.manaCondition,manaConditionMet} : {}), ...(m.weakHitThreshold ? {weakHitThreshold:m.weakHitThreshold,weakHits:m.weakHits,weakHitConditionMet} : {}), hpLoss: result.taken, reflected: result.reflected, resolvedHits: result.resolvedHits,
+        detail: `今の守りで HP −${result.taken}。${result.reflected ? `反射${result.reflected}。` : ''}${m.weakHitThreshold ? `弱体${m.weakHitThreshold}以上で${m.hits}連撃→${m.weakHits}撃。敵行動直前に判定。${weakHitConditionMet ? '現在は条件成立。' : ''}` : ''}${tip}${result.resolvedHits < hits && result.enemyHp === 0 && result.hp > 0 ? '反射で残りの打撃を止める。' : ''}` };
     }
     // Future entries are base actions, not predicted HP loss. No current guard/weakness is projected.
     function futureIntents(count = 2) {
@@ -262,6 +271,7 @@
         const turn=s.turn+i+1,m=moveAt(turn),rule=breakRule(m);
         return {turn,type:m.type,label:m.label,power:m.power||0,hits:m.hits||0,heal:m.heal||0,
           threshold:rule.threshold,breakKind:rule.kind,reduction:m.reduction||0,stepReduction:m.stepReduction||0,conditional:true, ...(m.manaCondition ? {manaCondition:m.manaCondition,manaReduction:m.manaReduction} : {}),
+          ...(m.weakHitThreshold ? {weakHitThreshold:m.weakHitThreshold,weakHits:m.weakHits} : {}),
           detail:`${describeMove(m)}。基本値で、弱体や各条件により変化。`};
       });
     }
@@ -488,7 +498,7 @@
         if (hasRoute ? !['moon','forge'].includes(x.route) : x.route !== null) return false;
         if (hasChapterRoute ? !['library','wind','causeway'].includes(x.route2) : x.route2 !== null) return false;
         if (x.forge !== (x.route === 'forge') || x.insight !== (x.route2 === 'library') || x.maxHp !== (x.route2 === 'wind' ? 66 : 60)) return false;
-        const allowedPairs = ['starDial|bellSpirit','bowWatcher|bellSpirit','archive|wind', ...(save.version === 5 ? ['starScaleGuard|bellSpirit'] : [])];
+        const allowedPairs = ['starDial|bellSpirit','bowWatcher|bellSpirit','archive|wind', ...(save.version === 5 ? ['starScaleGuard|bellSpirit','starScaleGuard|hushBell'] : [])];
         if (!record(x.chapter2Options) || Object.keys(x.chapter2Options).sort().join('|')!=='library|wind' || !allowedPairs.includes(`${x.chapter2Options.library}|${x.chapter2Options.wind}`)) return false;
         if (!x.route2 && !['starDial','bowWatcher', ...(save.version === 5 ? ['starScaleGuard'] : [])].includes(x.chapter2Options.library)) return false;
         if (x.chapter2Encounter !== (x.route2 === 'causeway' ? 'tideStarSentinel' : x.route2?x.chapter2Options[x.route2]:null)) return false;
