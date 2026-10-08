@@ -20,7 +20,7 @@ test('Banked Stance checks mana after payment and upgrades block/focus only',()=
     const focus=suffix?5:3;
     const bank=energy>=3?5:0;
     assert.equal(p.actualBlock,baseBlock+bank);
-    assert.equal(p.actualFocus,focus);
+    assert.equal(p.focus,focus);
     assert.equal(p.bankBlockCondition,energy>=3);
     assert.deepEqual(plain(g.exportSave()),before);
     const text=format(p);
