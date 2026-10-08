@@ -30,6 +30,8 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
+      - name: Compute 4.22 candidate metadata
+        run: python3 tools/astral_release.py release --version 4.22
       - name: Check release metadata and cache contents
         run: python3 tools/astral_release.py verify
       - name: Check cards, saves, RNG, and reward boundaries
