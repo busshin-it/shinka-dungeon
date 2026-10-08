@@ -134,7 +134,7 @@ test('new default is save v5 growth-v2 for every charm, with same ten cards and 
     assert.equal(g.snapshot().energy,2);assert.equal(g.snapshot().maxEnergy,5);assert.equal(g.snapshot().enemyMaxHp,15);
     assert.equal(g.snapshot().earlyRemoval,null);
   }
-  assert.throws(()=>E.createGame(E.seededRandom(1),{ruleset:'growth-v3'}),/Unknown/);
+  assert.throws(()=>E.createGame(E.seededRandom(1),{ruleset:'unknown'}),/Unknown/);
 });
 
 test('only active growth-v2 basic costs change, including upgrades; primitive effects stay three/five', () => {
@@ -201,7 +201,7 @@ test('inconsistent versions/rulesets and corrupt state reject without mutating l
   for(const valid of originals)for(const version of [0,1,2,3,4,5,6,'5',null])for(const ruleset of [undefined,'classic','growth-v1','growth-v2','growth-v3',null]) {
     const candidate=plain(valid);candidate.version=version;
     if(ruleset===undefined)delete candidate.state.ruleset;else candidate.state.ruleset=ruleset;
-    const correct=valid.version===3 ? version===3&&ruleset===undefined : (version===4&&ruleset==='growth-v1')||(version===5&&ruleset==='growth-v2');
+    const correct=valid.version===3 ? version===3&&ruleset===undefined : (version===4&&ruleset==='growth-v1')||(version===5&&ruleset==='growth-v2')||(version===6&&ruleset==='growth-v3'&&valid.version!==3);
     if(correct)continue;
     const live=fixture(['basicStrike'],{energy:1}),reference=restore(plain(live.exportSave()));
     denied(live,'restoreSave',candidate);
@@ -240,7 +240,7 @@ test('active-save UI logic renders v3/v4/v5 card costs and mana text consistentl
   for(const marker of ['data-starter-rule','data-mana-rule'])assert.equal(html.split(marker).length-1,1,marker+' source anchor is unique');
   assert(!html.includes('id="starterRuleText"'));assert(!html.includes('id="manaRuleText"'));
   const fresh=uiHarness();assert(fresh.node('#storyBody').innerHTML.includes('この旅の基本2種は魔力1。'));
-  fresh.click('#storyDialog',{action:'start'});assert.equal(fresh.saved().version,5);assert.equal(fresh.saved().state.energy,2);
+  fresh.click('#storyDialog',{action:'start'});assert.equal(fresh.saved().version,6);assert.equal(fresh.saved().state.energy,2);
 for(const version of [3,4,5])for(const phase of ['intro','battle','evolve','remove']) {
  if(version===3&&!['intro','battle'].includes(phase))continue;
  let save=plain(baseline.fixtures.find(x=>x.save.version===(version===5?4:version)&&x.save.state.phase===phase).save);

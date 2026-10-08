@@ -1,5 +1,19 @@
 # GAME LAB Research Log
 
+## 2026-10-08｜V4.25・PR #28の統合承認
+
+- GitHubを再確認。mainはV4.21、戦士は設計のみ、PR #28は未統合だった。ユーザーは今回も「魔法師のPRを完了」を選択し、既存のマージ許可に基づきこの1セットを統合する。
+- 最新main `d8e3d6cde273e22d7510d232fe9d7f1f31c54943` とのローカル統合で競合なし。前回候補以降のmain差分はPROJECT_CONTEXTのFactory自動更新時刻のみ。コード・保存・画像の追加変更なし。
+- Node242・Python4・Factory14、release verifyを再確認。新しい旅の初回2報酬は3択、旧旅は4択。公開は既存Pagesワークフローのまま。実際の統合・公開状態は[PR #28](https://github.com/busshin-it/shinka-dungeon/pull/28)とActionsを正とする。
+- 面白さの課題・試遊ポイントは[報告](design/production/early-choice-report.md)。戦士実装・次のカードセットには進まない。以下の候補ログは制作時点の履歴。
+
+## 2026-10-08｜V4.25候補・序盤3戦の3択報酬
+
+- main V4.21を確認。戦士は設計のみのため、ユーザー選択で既存魔法師の序盤3戦を対象に変更。
+- 新しい旅growth-v3／保存v6だけ、第1・第2戦後に攻撃・防御・組合せの各候補を1枚ずつ提示し、取得かスキップ。新カード・敵・画像なし。旧保存の4択／RNGと第3戦後の一般抽選を維持。
+- 全Node242・Python4・Factory14成功、release verify成功。2シード16分岐で戦術・被害・時間の差を確認。ただし霜の護符では氷の矢が優勢で、面白さ・スキップの価値・バランスは未確定。実ブラウザ／実機は未確認。
+- [調査・設計・保存互換・失敗と限界・試遊ポイント](design/production/early-choice-report.md)、[再現可能な小量比較](design/production/early-choice-results.json)。main未反映・公開なし。この1セットで停止。
+
 ## 2026-10-07｜V4.19 綴じ直し・公開
 
 - [PR #21](https://github.com/busshin-it/shinka-dungeon/pull/21)を正確なheadのCI成功後にmerge。main `effb5fade`、build `4.19-3d070049d693`。検証付きPages成功、HTTPS配布46ファイル一致。

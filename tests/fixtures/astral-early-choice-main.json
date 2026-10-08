@@ -1,0 +1,54 @@
+{
+  "source": "main 36430590d91ce82b38063c06cf12f286617c2a8f, generated before modification with OPTIONS in astral-early-choice-check",
+  "definitions": "9e9dcac741a7d7edaea33ffa0c72cf8cdbddb8ef5830d3eb7751b8474264c564",
+  "rows": [
+    {
+      "ruleset": "classic",
+      "seed": 1,
+      "intro": "fda83f2afeea4fd17f5822652b641f6db463926f8c14e5d82337b7f1dfa6d29f",
+      "victory": "79606a9b0cb47ee67ebb9e12de28ef5a338ffedcdc0c39b5b5bd7c9f06a63aad",
+      "reward": "2761bd3464e220b292c3b0b71f505217e65339841a597a5839748f891b7c940b",
+      "second": "c1c411b2727605a41bc14e7e791faa93a83d6bce0d57de92252f3211d7e2c436"
+    },
+    {
+      "ruleset": "classic",
+      "seed": 7,
+      "intro": "afd6fa4aa81de5dce2ded9c2f577ef1310f7048f2a40f2605e6cd81220e23ac5",
+      "victory": "672963dd9efde076bc920ebe21c6903bf40351ec0ea0b79c426be3603daf6eb2",
+      "reward": "777124cda1dfce4dc12357585906d2ad106e2f52558362a1300db1426ca90ca0",
+      "second": "4a9cc2a96dd64e470a26715d9a4688f3ca61cb988e058aef89dab3659ba1ee2c"
+    },
+    {
+      "ruleset": "growth-v1",
+      "seed": 1,
+      "intro": "2692014d26285c30b7ccdc1bc3d7d6f0c9fa1e2c25e672b7616546d65bbe4274",
+      "victory": "62a6d2fd358ea0b7b0b628794c35a4bddb5abd5822f0cf8d7f923e886d0cb2ca",
+      "reward": "6b39b8c9d2b367ea0b09bcfd065e9d01c476f69eed22a414b293a99ec59239e5",
+      "second": "99f38dbbd2cddee096ca12f6a90b7a2fa63c291f73769d66dd2ed6debc7316c1"
+    },
+    {
+      "ruleset": "growth-v1",
+      "seed": 7,
+      "intro": "d1bb18662de6eacda268a372015c981b835286eec1d82fcb1f19a050571b46e9",
+      "victory": "cc3d7b0707ac45305e5af54cbae8f20dbe643acb7f97190f1e7c8517451010e6",
+      "reward": "607eef498ce5c333c59bb81117b47fa0f2738441f6c58e96bbd84b5d6d72b116",
+      "second": "dbd23d955423df19d20dcd45d4b41b93437eecc7d687bcbb7acc04deb30293e1"
+    },
+    {
+      "ruleset": "growth-v2",
+      "seed": 1,
+      "intro": "f9465b6bb99448ea8f93ee8bfed83a59a0184f96cc1838743f2955a131af5d2e",
+      "victory": "223000242d107367f5676a1506413f7e7c53311581c0192f6976bcd2fb5e8cec",
+      "reward": "ae310406433237c554de882ba1d7e3bdb058218c4c7062fef141aa58e4871379",
+      "second": "3b289309ade5f23332c288f526733fdafe61cb03e16f8b6e886cc03c58b5e2f9"
+    },
+    {
+      "ruleset": "growth-v2",
+      "seed": 7,
+      "intro": "0e7c6b99421add85d3da63eaa902dfe3d7b0f1796347c0da8c7f5741329d397c",
+      "victory": "bd1fa9fda0877faeaf92d03f6e2102ab093dc472a8ee706c255e522accd7d0a6",
+      "reward": "66763f637878de5d21e8cad920acdaffc55867055fbf4df6ad2ba7c0a66d738b",
+      "second": "f43471311cf3282cee4d8bf23ee00cc2598f5162103fa20f38dbe777afdfce84"
+    }
+  ]
+}

@@ -218,3 +218,15 @@ growth-v2の第2戦後以降だけ、図鑑55種。旧ruleset/初回/開いて�
 
 PR #21 / build `4.19-3d070049d693`。正確なheadのCIと検証付きPages成功、HTTPS配布46ファイル一致。
 [公開記録・復旧・未確認範囲](design/production/restitch-release.md)。
+
+
+## 2026-10-08｜V4.25候補：序盤3戦のカード選択
+
+main V4.21を元に、新しいUIの旅growth-v3（保存v6）だけ初回2報酬を役割別3択へ。戦士は未実装のため、ユーザー確認で既存魔法師を対象にした。カード61種・敵・既存画像・経済は維持。旧旅は4択と乱数を保持、API既定growth-v2も維持。第3戦後は一般4択。
+Node242・Python4・Factory14成功。保存→復帰・取得→使用→進化・敵予告とUI配線を確認。2シード16分岐の結果は戦術差の確認のみで、面白さ／優勢候補の解消を断定しない。main未反映・公開なし。
+[詳細・次回が繰り返さないための失敗記録](design/production/early-choice-report.md)。本バッチはdraft PRまでで停止。
+
+
+## 2026-10-08｜V4.25 PR #28 統合承認
+
+ユーザーが「魔法師のPRを完了」を選択し、マージ許可に基づいて既存PR #28の統合を進める。最新mainとの統合は競合なし、Node242・Python4・Factory14・release verifyを再検証。追加のカード・戦士実装・画像・設定変更なし。実際のマージ・Pagesの結果は[PR #28](https://github.com/busshin-it/shinka-dungeon/pull/28)とActionsを正とする。既存旅から続けると4択を保持するため、3択の試遊は新しい旅で行う。この1セットで停止。

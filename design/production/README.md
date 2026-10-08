@@ -189,3 +189,7 @@ V4.19の`restitch.json`は明示的な`scope: single-card-pilot`。ちょうど1
 既存two-card-pilotと4〜6枚/NPCセットの制約は維持し、未知scopeや新効果は拒否する。
 `node tools/astral-card-production.mjs validate design/production/restitch.json release`で通常/進化/対象なしの3宣言場面を確認。
 複数操作・山札・魔力・撃破・報酬・旧保存の境界は専用テストと[報告](restitch-report.md)を参照。
+
+## 序盤の報酬選択だけを改善する場合
+
+カード制作を増やさず、[V4.25候補の調査・3択プール・保存互換・小量比較](early-choice-report.md)を参照。戦士は未実装で、この候補はユーザー選択により既存魔法師の序盤3戦が対象。新しい旅と旧保存の報酬を混同しない。
