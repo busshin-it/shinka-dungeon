@@ -6,8 +6,8 @@
   "source_commit": "739cdb63f938048977dcb2f998770d4df4ef5ab3",
   "scope": "Read-only inspection; only this catalog and its Markdown companion were written. No art generation, mutation, queue change or runtime remapping. v4.12 adds 4 dedicated art aliases mapped to the same reviewed Noa files; 25 keys, 21 distinct images. v4.13 adds four star-dial aliases, 29 keys and the same 21 distinct card images; enemy reuses existing gatekeeper image. v4.14 growth trial adds two basic definitions reusing dark/guard keys; no new artwork or aliases. v4.15 adds four effect-first aliases using the same 21 distinct images; source pixels inspected 2026-10-07. New cards are growth-only rewards. v4.17 adds two frost-synergy aliases, using the same existing images as interim art; no generation. V4.19 adds the restitch alias to the existing star-bookmark image; no new image bytes. V4.20 candidate adds five mana/preparation aliases using individually reviewed existing art, without generation. V4.21 candidate adds rimeThaw, reusing pixel-inspected chant-ward.webp; no generation.",
   "summary": {
-    "planning_cards": 61,
-    "active_art_keys": 42,
+    "planning_cards": 65,
+    "active_art_keys": 46,
     "active_v4_card_files": 11,
     "active_embedded_art_keys": 10,
     "conditional_factory_candidates": 2,
@@ -421,6 +421,30 @@
       "name": "霜解き",
       "family": "ice",
       "art_key": "rimeThaw"
+    },
+    {
+      "card_id": "prismStrike",
+      "name": "継ぎ色の刃",
+      "family": "dark",
+      "art_key": "prismStrike"
+    },
+    {
+      "card_id": "bankedScreen",
+      "name": "星留めの盾",
+      "family": "guard",
+      "art_key": "bankedScreen"
+    },
+    {
+      "card_id": "starBreath",
+      "name": "星読みの息継ぎ",
+      "family": "focus",
+      "art_key": "starBreath"
+    },
+    {
+      "card_id": "shieldRelay",
+      "name": "護光の一閃",
+      "family": "guard",
+      "art_key": "shieldRelay"
     },
     {
       "card_id": "echo",
@@ -2338,5 +2362,11 @@
   },
   "rime_thaw_aliases": {
     "rimeThaw": "./assets/chant-ward.webp"
+  },
+  "early_variety_aliases": {
+    "prismStrike": "mirrorNote",
+    "bankedScreen": "starFerryWard",
+    "starBreath": "tuningNote",
+    "shieldRelay": "shieldStrike"
   }
 }

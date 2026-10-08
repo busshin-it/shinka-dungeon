@@ -1,0 +1,256 @@
+{
+  "sourceCommit": "fc157e7e14b789d34940394ef56a2415f116fba2",
+  "rows": [
+    {
+      "seed": 1,
+      "reward": {
+        "format": "astral-planning",
+        "version": 6,
+        "rngState": 557551588,
+        "state": {
+          "phase": "reward",
+          "origin": "frost",
+          "battle": 1,
+          "turn": 4,
+          "hp": 59,
+          "maxHp": 60,
+          "enemyId": "skeleton",
+          "enemyHp": 0,
+          "enemyMaxHp": 15,
+          "energy": 2,
+          "maxEnergy": 5,
+          "pendingFocus": 0,
+          "pendingBlock": 0,
+          "prevEndEmpty": false,
+          "turnLastAttack": 0,
+          "prevLastAttack": 0,
+          "usedExhaustThisTurn": false,
+          "relics": [],
+          "relicUsed": {
+            "emberCore": false,
+            "starBottle": false
+          },
+          "removalSource": null,
+          "block": 0,
+          "focus": 0,
+          "weaken": 0,
+          "reflect": 0,
+          "turnDamage": 0,
+          "spellCount": 0,
+          "interrupted": false,
+          "flags": {},
+          "deck": [
+            "basicStrike",
+            "basicWard",
+            "basicStrike",
+            "basicWard",
+            "basicStrike",
+            "basicWard",
+            "basicStrike",
+            "basicWard",
+            "basicStrike",
+            "basicWard"
+          ],
+          "hand": [
+            "basicStrike",
+            "basicWard",
+            "basicStrike",
+            "basicStrike"
+          ],
+          "draw": [],
+          "discard": [
+            "basicWard",
+            "basicWard",
+            "basicWard",
+            "basicStrike",
+            "basicWard",
+            "basicStrike"
+          ],
+          "exhaust": [],
+          "route": null,
+          "route2": null,
+          "chapter2Options": {
+            "library": "starScaleGuard",
+            "wind": "bellSpirit"
+          },
+          "chapter2Encounter": null,
+          "forge": false,
+          "insight": false,
+          "sanctuary": null,
+          "camp": null,
+          "lastReward": null,
+          "lastUpgrade": null,
+          "pendingUpgrade": null,
+          "upgrades": [],
+          "removed": [],
+          "rewards": [],
+          "rewardOffers": [
+            "ice",
+            "mirror",
+            "starWait"
+          ],
+          "history": [
+            {
+              "enemy": "蒼鎧の門番",
+              "battle": 1,
+              "turns": 4,
+              "hp": 59,
+              "result": "victory"
+            }
+          ],
+          "wins": 1,
+          "stats": {
+            "played": {
+              "basicWard": 4,
+              "basicStrike": 5
+            },
+            "dealt": 15,
+            "taken": 1,
+            "healed": 0,
+            "energyGained": 0,
+            "blocked": 11,
+            "reflected": 0,
+            "interrupts": 0,
+            "relics": 0
+          },
+          "log": [
+            "蒼鎧の門番を越えた。",
+            "小さな魔弾：3ダメージ。",
+            "振り下ろし。8防ぎ、HP −0。",
+            "小さな魔弾：3ダメージ。",
+            "薄い守り：3ブロック。"
+          ],
+          "ruleset": "growth-v3",
+          "earlyRemoval": null
+        }
+      },
+      "secondHash": "3cd4409e2aed48bd7b4245c21b5c626ef3c16402ba144ac56ee3f839726a83be"
+    },
+    {
+      "seed": 7,
+      "reward": {
+        "format": "astral-planning",
+        "version": 6,
+        "rngState": 3582867826,
+        "state": {
+          "phase": "reward",
+          "origin": "frost",
+          "battle": 1,
+          "turn": 3,
+          "hp": 59,
+          "maxHp": 60,
+          "enemyId": "skeleton",
+          "enemyHp": 0,
+          "enemyMaxHp": 15,
+          "energy": 2,
+          "maxEnergy": 5,
+          "pendingFocus": 0,
+          "pendingBlock": 0,
+          "prevEndEmpty": false,
+          "turnLastAttack": 0,
+          "prevLastAttack": 0,
+          "usedExhaustThisTurn": false,
+          "relics": [],
+          "relicUsed": {
+            "emberCore": false,
+            "starBottle": false
+          },
+          "removalSource": null,
+          "block": 0,
+          "focus": 0,
+          "weaken": 0,
+          "reflect": 0,
+          "turnDamage": 0,
+          "spellCount": 0,
+          "interrupted": false,
+          "flags": {},
+          "deck": [
+            "basicStrike",
+            "basicWard",
+            "basicStrike",
+            "basicWard",
+            "basicStrike",
+            "basicWard",
+            "basicStrike",
+            "basicWard",
+            "basicStrike",
+            "basicWard"
+          ],
+          "hand": [
+            "basicWard",
+            "basicWard",
+            "basicStrike"
+          ],
+          "draw": [
+            "basicStrike",
+            "basicWard",
+            "basicStrike",
+            "basicWard",
+            "basicWard"
+          ],
+          "discard": [
+            "basicStrike",
+            "basicStrike"
+          ],
+          "exhaust": [],
+          "route": null,
+          "route2": null,
+          "chapter2Options": {
+            "library": "starScaleGuard",
+            "wind": "bellSpirit"
+          },
+          "chapter2Encounter": null,
+          "forge": false,
+          "insight": false,
+          "sanctuary": null,
+          "camp": null,
+          "lastReward": null,
+          "lastUpgrade": null,
+          "pendingUpgrade": null,
+          "upgrades": [],
+          "removed": [],
+          "rewards": [],
+          "rewardOffers": [
+            "ice",
+            "renew",
+            "dark"
+          ],
+          "history": [
+            {
+              "enemy": "蒼鎧の門番",
+              "battle": 1,
+              "turns": 3,
+              "hp": 59,
+              "result": "victory"
+            }
+          ],
+          "wins": 1,
+          "stats": {
+            "played": {
+              "basicWard": 1,
+              "basicStrike": 5
+            },
+            "dealt": 15,
+            "taken": 1,
+            "healed": 0,
+            "energyGained": 0,
+            "blocked": 3,
+            "reflected": 0,
+            "interrupts": 0,
+            "relics": 0
+          },
+          "log": [
+            "蒼鎧の門番を越えた。",
+            "小さな魔弾：3ダメージ。",
+            "小さな魔弾：3ダメージ。",
+            "攻撃しない。",
+            "小さな魔弾：3ダメージ。"
+          ],
+          "ruleset": "growth-v3",
+          "earlyRemoval": null
+        }
+      },
+      "secondHash": "f4e9d7a7b8e892f05e3bf04198d37634ebccf59ebc48c2ae298bd9c9891e641f"
+    }
+  ]
+}

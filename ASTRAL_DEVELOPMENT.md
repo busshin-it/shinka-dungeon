@@ -230,3 +230,7 @@ Node242・Python4・Factory14成功。保存→復帰・取得→使用→進化
 ## 2026-10-08｜V4.25 PR #28 統合承認
 
 ユーザーが「魔法師のPRを完了」を選択し、マージ許可に基づいて既存PR #28の統合を進める。最新mainとの統合は競合なし、Node242・Python4・Factory14・release verifyを再検証。追加のカード・戦士実装・画像・設定変更なし。実際のマージ・Pagesの結果は[PR #28](https://github.com/busshin-it/shinka-dungeon/pull/28)とActionsを正とする。既存旅から続けると4択を保持するため、3択の試遊は新しい旅で行う。この1セットで停止。
+
+## 2026-10-08｜V4.26候補：序盤の種類を増やす
+
+main fc157e7e（V4.25公開済み）から4枚を追加し65種へ。growth-v4／保存v7の新しい旅だけ、初回31・次47種類から役割別3択。継ぎ色の刃・星留めの盾・星読みの息継ぎ・護光の一閃は既存効果と画像の組合せ。stateフィールド追加なし、旧報酬／RNG・通常戦闘は維持。Node252・Python4・Factory14と制作8ケース合格。draft PRで停止し、main・Pages設定は変更しない。[詳細と未解決の試遊課題](design/production/early-variety-report.md)。

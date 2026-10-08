@@ -105,8 +105,8 @@ function oldGrowthTrace(E, digest, capture = () => {}) {
 test('v4.15 definitions, 54 full growth-v1 phase traces, and 24 natural runs remain byte-exact', () => {
   assert.equal(baseline.sourceCommit,'a84ec049d3ff5e94b818b2f3447abe29739da513');
   assert.equal(baseline.synthetic,true);
-  assert.equal(Object.keys(E.CARDS).length,61);
-  for(const name of ['CARDS','ORIGINS','ENEMIES','GROWTH_ENEMIES','RELICS','BASIC_STARTER','FIRST_REWARD_POOLS']) assert.equal(sha(plain(name === 'CARDS' ? Object.fromEntries(Object.entries(E.CARDS).filter(([id]) => !['rimeMirror','frostOmen','restitch','frostCrossing','starFrostLetter','stillMirror','afterglowWard','bankedStarBlade','rimeThaw'].includes(id))) : E[name])),baseline.definitions[name],name);
+  assert.equal(Object.keys(E.CARDS).length,65);
+  for(const name of ['CARDS','ORIGINS','ENEMIES','GROWTH_ENEMIES','RELICS','BASIC_STARTER','FIRST_REWARD_POOLS']) assert.equal(sha(plain(name === 'CARDS' ? Object.fromEntries(Object.entries(E.CARDS).filter(([id]) => !['rimeMirror','frostOmen','restitch','frostCrossing','starFrostLetter','stillMirror','afterglowWard','bankedStarBlade','rimeThaw','prismStrike','bankedScreen','starBreath','shieldRelay'].includes(id))) : E[name])),baseline.definitions[name],name);
   assert.deepEqual(oldGrowthTrace(E,sha),baseline.growthTrace);
 });
 
@@ -240,7 +240,7 @@ test('active-save UI logic renders v3/v4/v5 card costs and mana text consistentl
   for(const marker of ['data-starter-rule','data-mana-rule'])assert.equal(html.split(marker).length-1,1,marker+' source anchor is unique');
   assert(!html.includes('id="starterRuleText"'));assert(!html.includes('id="manaRuleText"'));
   const fresh=uiHarness();assert(fresh.node('#storyBody').innerHTML.includes('この旅の基本2種は魔力1。'));
-  fresh.click('#storyDialog',{action:'start'});assert.equal(fresh.saved().version,6);assert.equal(fresh.saved().state.energy,2);
+  fresh.click('#storyDialog',{action:'start'});assert.equal(fresh.saved().version,7);assert.equal(fresh.saved().state.energy,2);
 for(const version of [3,4,5])for(const phase of ['intro','battle','evolve','remove']) {
  if(version===3&&!['intro','battle'].includes(phase))continue;
  let save=plain(baseline.fixtures.find(x=>x.save.version===(version===5?4:version)&&x.save.state.phase===phase).save);

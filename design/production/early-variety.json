@@ -1,0 +1,472 @@
+{
+  "schemaVersion": 1,
+  "id": "early-variety",
+  "title": "序盤の広がり：4枚",
+  "theme": "基本札から今と次の選択を作る",
+  "designSource": "GAME_DESIGN.md; design/production/README.md",
+  "implementationStatus": "draft-pr-candidate",
+  "rewardScope": "growth-v4 only; first/second 31/47 possibilities, later all 63 reward cards; existing pools unchanged",
+  "style": {
+    "world": "Gothic silhouette puppet dark fantasy.",
+    "palette": "Deep violet, blue and silver.",
+    "medium": "Existing project illustrations reused without modification; dedicated Gothic silhouette puppet art deferred.",
+    "composition": "One illustration per card; no contact sheets.",
+    "avoid": "Text, numbers, card frames, UI, logos, contact sheets."
+  },
+  "cards": [
+    {
+      "id": "prismStrike",
+      "asset": "prism-strike",
+      "base": {
+        "name": "継ぎ色の刃",
+        "cost": 1,
+        "damage": 5,
+        "combo": 5,
+        "weaken": 1,
+        "family": "dark",
+        "art": "prismStrike"
+      },
+      "upgrade": {
+        "damage": 8,
+        "weaken": 2
+      },
+      "textIncludes": [
+        "{damage}ダメージ",
+        "−{weaken}"
+      ],
+      "cases": [
+        {
+          "name": "base-default",
+          "variant": "base",
+          "state": {},
+          "preview": {
+            "actualDamage": 5,
+            "actualWeak": 1
+          },
+          "after": {
+            "energy": 4,
+            "weaken": 1
+          },
+          "text": {
+            "summary": [
+              "攻撃{damage}",
+              "弱体{weaken}/打撃"
+            ],
+            "rules": [
+              "2枚目以降＋5"
+            ]
+          }
+        },
+        {
+          "name": "upgrade-default",
+          "variant": "upgrade",
+          "state": {},
+          "preview": {
+            "actualDamage": 8,
+            "actualWeak": 2
+          },
+          "after": {
+            "energy": 4,
+            "weaken": 2
+          },
+          "text": {
+            "summary": [
+              "攻撃{damage}",
+              "弱体{weaken}/打撃"
+            ],
+            "rules": [
+              "2枚目以降＋5"
+            ]
+          }
+        }
+      ],
+      "design": {
+        "decision": "基本魔弾を先に撃つか、弱体を先に付けるか。",
+        "strong_when": [
+          "攻撃が2枚あり、連撃を軽減したい。"
+        ],
+        "weak_when": [
+          "単独では5攻撃・弱体1で、氷の矢より弱体が小さい。"
+        ],
+        "related_cards": [
+          "basicStrike",
+          "chain",
+          "frostPierce",
+          "rimeThaw"
+        ],
+        "evolution": "数値の拡大で成立する敵・魔力・防御の境界が増える。新しいルールは増やさない。"
+      }
+    },
+    {
+      "id": "bankedScreen",
+      "asset": "banked-screen",
+      "base": {
+        "name": "星留めの盾",
+        "cost": 1,
+        "block": 3,
+        "bankBlock": 3,
+        "reflect": 2,
+        "family": "guard",
+        "art": "bankedScreen"
+      },
+      "upgrade": {
+        "block": 6,
+        "reflect": 3
+      },
+      "textIncludes": [
+        "{block}ブロック",
+        "魔力2以上"
+      ],
+      "cases": [
+        {
+          "name": "base-default",
+          "variant": "base",
+          "state": {},
+          "preview": {
+            "actualDamage": 0,
+            "actualBlock": 6,
+            "actualReflect": 2
+          },
+          "after": {
+            "energy": 4,
+            "block": 6,
+            "reflect": 2
+          },
+          "text": {
+            "summary": [
+              "防御{actualBlock}",
+              "反射{reflect}/打撃"
+            ],
+            "rules": [
+              "魔力2以上"
+            ]
+          }
+        },
+        {
+          "name": "upgrade-default",
+          "variant": "upgrade",
+          "state": {},
+          "preview": {
+            "actualDamage": 0,
+            "actualBlock": 9,
+            "actualReflect": 3
+          },
+          "after": {
+            "energy": 4,
+            "block": 9,
+            "reflect": 3
+          },
+          "text": {
+            "summary": [
+              "防御{actualBlock}",
+              "反射{reflect}/打撃"
+            ],
+            "rules": [
+              "魔力2以上"
+            ]
+          }
+        }
+      ],
+      "design": {
+        "decision": "魔力2を残すか、他の札を使うか。",
+        "strong_when": [
+          "魔力3以上で支払い、連撃に反射を返す。"
+        ],
+        "weak_when": [
+          "開始魔力2では防御3のみで、光壁より守れない。"
+        ],
+        "related_cards": [
+          "charge",
+          "mirrorLance",
+          "starFerryWard",
+          "stillMirror"
+        ],
+        "evolution": "数値の拡大で成立する敵・魔力・防御の境界が増える。新しいルールは増やさない。"
+      }
+    },
+    {
+      "id": "starBreath",
+      "asset": "star-breath",
+      "base": {
+        "name": "星読みの息継ぎ",
+        "cost": 1,
+        "draw": 2,
+        "nextFocus": 3,
+        "exhaust": true,
+        "family": "focus",
+        "art": "starBreath"
+      },
+      "upgrade": {
+        "draw": 3,
+        "nextFocus": 5
+      },
+      "textIncludes": [
+        "{draw}枚引く",
+        "次の自分のターン"
+      ],
+      "cases": [
+        {
+          "name": "base-default",
+          "variant": "base",
+          "state": {},
+          "preview": {
+            "actualDamage": 0,
+            "actualDraw": 2,
+            "actualNextFocus": 3
+          },
+          "after": {
+            "energy": 4,
+            "pendingFocus": 3
+          },
+          "text": {
+            "summary": [
+              "{draw}枚引く",
+              "次ターン攻撃＋{nextFocus}"
+            ],
+            "rules": [
+              "消滅"
+            ]
+          }
+        },
+        {
+          "name": "upgrade-default",
+          "variant": "upgrade",
+          "state": {},
+          "preview": {
+            "actualDamage": 0,
+            "actualDraw": 3,
+            "actualNextFocus": 5
+          },
+          "after": {
+            "energy": 4,
+            "pendingFocus": 5
+          },
+          "text": {
+            "summary": [
+              "{draw}枚引く",
+              "次ターン攻撃＋{nextFocus}"
+            ],
+            "rules": [
+              "消滅"
+            ]
+          }
+        }
+      ],
+      "design": {
+        "decision": "今の手札と次ターンの強打に1魔力を払うか。",
+        "strong_when": [
+          "次ターンに強い攻撃を使え、今の手札に選択肢が足りない。"
+        ],
+        "weak_when": [
+          "今すぐ守る必要がある時や、引いた札を使う魔力がない時。"
+        ],
+        "related_cards": [
+          "basicStrike",
+          "charge",
+          "bolt",
+          "spark"
+        ],
+        "evolution": "数値の拡大で成立する敵・魔力・防御の境界が増える。新しいルールは増やさない。"
+      }
+    },
+    {
+      "id": "shieldRelay",
+      "asset": "shield-relay",
+      "base": {
+        "name": "護光の一閃",
+        "cost": 1,
+        "damage": 3,
+        "transferBlockCap": 6,
+        "family": "guard",
+        "art": "shieldRelay"
+      },
+      "upgrade": {
+        "damage": 6,
+        "transferBlockCap": 10
+      },
+      "textIncludes": [
+        "{damage}ダメージ",
+        "最大{transferBlockCap}"
+      ],
+      "cases": [
+        {
+          "name": "base-default",
+          "variant": "base",
+          "state": {},
+          "preview": {
+            "actualDamage": 3,
+            "actualTransferredBlock": 0
+          },
+          "after": {
+            "energy": 4,
+            "block": 0,
+            "pendingBlock": 0
+          },
+          "text": {
+            "summary": [
+              "攻撃{damage}",
+              "次ターン防御0"
+            ],
+            "rules": [
+              "予約上限{transferBlockCap}"
+            ]
+          }
+        },
+        {
+          "name": "upgrade-default",
+          "variant": "upgrade",
+          "state": {},
+          "preview": {
+            "actualDamage": 6,
+            "actualTransferredBlock": 0
+          },
+          "after": {
+            "energy": 4,
+            "block": 0,
+            "pendingBlock": 0
+          },
+          "text": {
+            "summary": [
+              "攻撃{damage}",
+              "次ターン防御0"
+            ],
+            "rules": [
+              "予約上限{transferBlockCap}"
+            ]
+          }
+        }
+      ],
+      "design": {
+        "decision": "防御を今残すか、攻撃と次ターンの備えに変えるか。",
+        "strong_when": [
+          "敵の回復行動で余った防御を次の強打へ送れる。"
+        ],
+        "weak_when": [
+          "ブロック0では3攻撃のみ。攻撃直前に使うと防御を失う。"
+        ],
+        "related_cards": [
+          "basicWard",
+          "guard",
+          "chantWard",
+          "shieldStrike"
+        ],
+        "evolution": "数値の拡大で成立する敵・魔力・防御の境界が増える。新しいルールは増やさない。"
+      }
+    }
+  ],
+  "assets": [
+    {
+      "key": "prism-strike",
+      "asset_id": "prism-strike",
+      "kind": "card",
+      "subject": "Existing art for 継ぎ色の刃; distinct illustration deferred.",
+      "alt": {
+        "mode": "decorative",
+        "text": ""
+      },
+      "path": "./assets/mirror-lance.webp",
+      "status": "reuse",
+      "reuseFrom": "mirrorNote at main fc157e7e",
+      "sha256": "93a900269fe66e3fdb0fd068da361fc1a51752ae499821afa93ba7fd9ddb42a4",
+      "provenance": {
+        "kind": "existing-project",
+        "evidence": "Existing tracked project asset; design/production/reusable-art.json and its provenance references."
+      },
+      "visualQa": {
+        "status": "passed",
+        "note": "Source pixels inspected individually on 2026-10-08. Existing source art retained; new card layout and physical-device QA are pending. No new art style compliance claimed."
+      }
+    },
+    {
+      "key": "banked-screen",
+      "asset_id": "banked-screen",
+      "kind": "card",
+      "subject": "Existing art for 星留めの盾; distinct illustration deferred.",
+      "alt": {
+        "mode": "decorative",
+        "text": ""
+      },
+      "path": "./assets/star-ferry-ward.webp",
+      "status": "reuse",
+      "reuseFrom": "starFerryWard at main fc157e7e",
+      "sha256": "c72f959ea23e9714f0329bcd50b729456986321bef20da4144a334c89ed5fa79",
+      "provenance": {
+        "kind": "existing-project",
+        "evidence": "Existing tracked project asset; design/production/reusable-art.json and its provenance references."
+      },
+      "visualQa": {
+        "status": "passed",
+        "note": "Source pixels inspected individually on 2026-10-08. Existing source art retained; new card layout and physical-device QA are pending. No new art style compliance claimed."
+      }
+    },
+    {
+      "key": "star-breath",
+      "asset_id": "star-breath",
+      "kind": "card",
+      "subject": "Existing art for 星読みの息継ぎ; distinct illustration deferred.",
+      "alt": {
+        "mode": "decorative",
+        "text": ""
+      },
+      "path": "./assets/star-relay.webp",
+      "status": "reuse",
+      "reuseFrom": "tuningNote at main fc157e7e",
+      "sha256": "ab57e7fed839a208808a30a2b13abcbfce1b4c6bcaa4990c5fdbb3ab5cd5094c",
+      "provenance": {
+        "kind": "existing-project",
+        "evidence": "Existing tracked project asset; design/production/reusable-art.json and its provenance references."
+      },
+      "visualQa": {
+        "status": "passed",
+        "note": "Source pixels inspected individually on 2026-10-08. Existing source art retained; new card layout and physical-device QA are pending. No new art style compliance claimed."
+      }
+    },
+    {
+      "key": "shield-relay",
+      "asset_id": "shield-relay",
+      "kind": "card",
+      "subject": "Existing art for 護光の一閃; distinct illustration deferred.",
+      "alt": {
+        "mode": "decorative",
+        "text": ""
+      },
+      "path": "./assets/shield-strike.webp",
+      "status": "reuse",
+      "reuseFrom": "shieldStrike at main fc157e7e",
+      "sha256": "5badf9969a9b716841a4b989e477f45f64d81da8f48ea7f73a4457a6747d63ab",
+      "provenance": {
+        "kind": "existing-project",
+        "evidence": "Existing tracked project asset; design/production/reusable-art.json and its provenance references."
+      },
+      "visualQa": {
+        "status": "passed",
+        "note": "Source pixels inspected individually on 2026-10-08. Existing source art retained; new card layout and physical-device QA are pending. No new art style compliance claimed."
+      }
+    },
+    {
+      "key": "librarian-noa",
+      "kind": "npc",
+      "subject": "Noa, the quiet librarian of the stars, with teal and deep violet garments, silver clasp, floating atlas and star bookmark. Distinct from the mage and ferryman.",
+      "alt": {
+        "mode": "text",
+        "text": "星綴りの司書ノア"
+      },
+      "path": "./assets/librarian-noa.webp",
+      "status": "reuse",
+      "reuseFrom": "Published Noa library guide, main 477a03a745dad2e70cd05085d2c96e7c5375df73",
+      "sha256": "f88e237806bba2cead68c5e8a0dbf723b8eca1186eeb7719e8a564397a05ec76",
+      "provenance": {
+        "kind": "project-generated",
+        "evidence": "design/noa-set-art-report.md — librarian-noa; repository generation prompt and original QA report."
+      },
+      "visualQa": {
+        "status": "passed",
+        "note": "Existing Noa portrait pixels inspected individually on 2026-10-07. No change to bytes/path/renderer; no new NPC."
+      },
+      "asset_id": "librarian-noa",
+      "asset_id_scope": "Production manifest alias only; not an Asset Factory queue/job registration.",
+      "filename": "librarian-noa.webp",
+      "image_prompt": "再生成しない。./assets/librarian-noa.webp の既存Noa素材を同一バイトで再利用。元の生成プロンプトの復元を意味せず、新しい画像JOBは発行しない。"
+    }
+  ]
+}
