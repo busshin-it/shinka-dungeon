@@ -6,7 +6,7 @@
   "source_commit": "739cdb63f938048977dcb2f998770d4df4ef5ab3",
   "scope": "Read-only inspection; only this catalog and its Markdown companion were written. No art generation, mutation, queue change or runtime remapping. v4.12 adds 4 dedicated art aliases mapped to the same reviewed Noa files; 25 keys, 21 distinct images. v4.13 adds four star-dial aliases, 29 keys and the same 21 distinct card images; enemy reuses existing gatekeeper image. v4.14 growth trial adds two basic definitions reusing dark/guard keys; no new artwork or aliases. v4.15 adds four effect-first aliases using the same 21 distinct images; source pixels inspected 2026-10-07. New cards are growth-only rewards. v4.17 adds two frost-synergy aliases, using the same existing images as interim art; no generation. V4.19 adds the restitch alias to the existing star-bookmark image; no new image bytes. V4.20 candidate adds five mana/preparation aliases using individually reviewed existing art, without generation. V4.21 candidate adds rimeThaw, reusing pixel-inspected chant-ward.webp; no generation.",
   "summary": {
-    "planning_cards": 61,
+    "planning_cards": 62,
     "active_art_keys": 42,
     "active_v4_card_files": 11,
     "active_embedded_art_keys": 10,
@@ -423,6 +423,12 @@
       "art_key": "rimeThaw"
     },
     {
+      "card_id": "bankedStance",
+      "name": "星留めの構え",
+      "family": "focus",
+      "art_key": "starFerryWard"
+    },
+    {
       "card_id": "echo",
       "name": "返照",
       "family": "guard",
@@ -739,7 +745,8 @@
       },
       "art_key": "starFerryWard",
       "current_cards": [
-        "starFerryWard"
+        "starFerryWard",
+        "bankedStance"
       ],
       "style_group": "star-causeway-detailed",
       "visual_motif": "Ferryman and celestial boat inside a luminous blue dome on flooded ruins",
@@ -2338,5 +2345,6 @@
   },
   "rime_thaw_aliases": {
     "rimeThaw": "./assets/chant-ward.webp"
-  }
+  },
+  "inventory_note": " V4.22 candidate adds bankedStance as another alias of pixel-inspected star-ferry-ward.webp; no new image bytes."
 }
