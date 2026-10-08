@@ -1,0 +1,284 @@
+{
+  "schemaVersion": 1,
+  "scope": "two-card-pilot",
+  "id": "two-card-art",
+  "title": "氷灯の結界と鏡火の種",
+  "theme": "今を守る魔力と反射を未来へ交換する二つの橋渡し",
+  "style": {
+    "world": "Quiet ruined gothic celestial arches",
+    "palette": "Black navy violet ice blue antique gold",
+    "medium": "Hand-painted shadow-theatre puppet silhouettes and layered paper texture",
+    "composition": "Portrait 2:3, centered single subject, safe for tall card crop",
+    "avoid": "Text numbers borders cost UI contact sheet photorealism glossy 3D"
+  },
+  "designSource": "main 36430590; GAME_DESIGN §§2,6,7,11; current 61-card audit",
+  "implementationStatus": "candidate",
+  "rewardScope": "growth-v2 battle2 onward only; no other branch merged",
+  "cards": [
+    {
+      "id": "iceLanternWard",
+      "slug": "ice-lantern-ward",
+      "upgrade": {
+        "block": 6,
+        "weaken": 2
+      },
+      "textIncludes": [
+        "{block}ブロック",
+        "−{weaken}",
+        "追加{bankBlock}ブロック"
+      ],
+      "cases": [
+        {
+          "name": "bank",
+          "variant": "base",
+          "state": {
+            "energy": 3
+          },
+          "preview": {
+            "actualBlock": 8,
+            "actualWeak": 2
+          },
+          "after": {
+            "block": 8,
+            "weaken": 2,
+            "energy": 2
+          },
+          "text": {
+            "summary": [
+              "防御8",
+              "弱体2/打撃"
+            ]
+          }
+        },
+        {
+          "name": "low",
+          "variant": "base",
+          "state": {
+            "energy": 2
+          },
+          "preview": {
+            "actualBlock": 3,
+            "actualWeak": 2
+          },
+          "after": {
+            "block": 3,
+            "weaken": 2,
+            "energy": 1
+          },
+          "text": {
+            "summary": [
+              "防御3"
+            ]
+          }
+        },
+        {
+          "name": "upgraded",
+          "variant": "upgrade",
+          "state": {
+            "energy": 3
+          },
+          "preview": {
+            "actualBlock": 11,
+            "actualWeak": 3
+          },
+          "after": {
+            "block": 11,
+            "weaken": 3
+          },
+          "text": {
+            "summary": [
+              "防御11",
+              "弱体3/打撃"
+            ]
+          }
+        }
+      ],
+      "design": {
+        "primary_engine": "魔力蓄積",
+        "secondary_engine": "弱体と防御",
+        "related_cards": [
+          "starFerryWard",
+          "frostWard",
+          "frostOmen",
+          "rimeThaw"
+        ],
+        "strong_when": [
+          "使用前魔力3以上で単発攻撃を受ける",
+          "弱体を霜刻の予告や霜解きへつなぐ"
+        ],
+        "weak_when": [
+          "使用前魔力2以下",
+          "既に高い弱体がある",
+          "連撃では霜の盾の弱体が有利"
+        ],
+        "rarity": "unassigned"
+      },
+      "asset": "ice-lantern-ward",
+      "base": {
+        "name": "氷灯の結界",
+        "cost": 1,
+        "block": 3,
+        "weaken": 1,
+        "bankBlock": 5,
+        "family": "ice",
+        "art": "iceLanternWard"
+      }
+    },
+    {
+      "id": "mirrorEmberSeed",
+      "slug": "mirror-ember-seed",
+      "upgrade": {
+        "damage": 5,
+        "nextFocus": 6
+      },
+      "textIncludes": [
+        "{damage}ダメージ",
+        "反射の{reflectDamageMultiplier}倍",
+        "最初の攻撃＋{nextFocus}"
+      ],
+      "cases": [
+        {
+          "name": "reflect-three",
+          "variant": "base",
+          "state": {
+            "reflect": 3
+          },
+          "preview": {
+            "actualDamage": 5,
+            "actualNextFocus": 4
+          },
+          "after": {
+            "reflect": 0,
+            "pendingFocus": 4
+          },
+          "text": {
+            "summary": [
+              "攻撃5",
+              "次ターン攻撃＋4"
+            ]
+          }
+        },
+        {
+          "name": "no-reflection",
+          "variant": "base",
+          "state": {
+            "reflect": 0
+          },
+          "preview": {
+            "actualDamage": 2,
+            "actualNextFocus": 4
+          },
+          "after": {
+            "reflect": 0,
+            "pendingFocus": 4
+          },
+          "text": {
+            "summary": [
+              "攻撃2"
+            ]
+          }
+        },
+        {
+          "name": "upgrade-cap",
+          "variant": "upgrade",
+          "state": {
+            "reflect": 9
+          },
+          "preview": {
+            "actualDamage": 11,
+            "actualConsumedReflect": 9,
+            "actualNextFocus": 6
+          },
+          "after": {
+            "reflect": 0,
+            "pendingFocus": 6
+          },
+          "text": {
+            "summary": [
+              "攻撃11",
+              "次ターン攻撃＋6"
+            ],
+            "rules": [
+              "反射9をすべて消費"
+            ]
+          }
+        }
+      ],
+      "design": {
+        "primary_engine": "反射の資源交換",
+        "secondary_engine": "次ターン攻撃準備",
+        "related_cards": [
+          "stillMirror",
+          "rimeMirror",
+          "mirrorLance",
+          "bolt",
+          "starFrostLetter"
+        ],
+        "strong_when": [
+          "敵の休みで反射を即時攻撃と未来へ交換",
+          "次ターンに雷撃や霜穿ちを最初に使う"
+        ],
+        "weak_when": [
+          "今すぐ撃破したいなら鏡頁の槍",
+          "連撃へ反射を残したい",
+          "次ターンに攻撃できない"
+        ],
+        "rarity": "unassigned"
+      },
+      "asset": "mirror-ember-seed",
+      "base": {
+        "name": "鏡火の種",
+        "cost": 1,
+        "damage": 2,
+        "reflectDamageMultiplier": 1,
+        "reflectDamageCap": 6,
+        "consumeReflect": true,
+        "nextFocus": 4,
+        "family": "dark",
+        "art": "mirrorEmberSeed"
+      }
+    }
+  ],
+  "assets": [
+    {
+      "key": "ice-lantern-ward",
+      "kind": "card",
+      "subject": "Gothic silhouette puppet dark fantasy, hand-painted 2D shadow-theatre and layered paper texture. Strong readable silhouette. Black, deep navy, violet, icy blue, restrained antique gold. No realism or glossy 3D. Portrait composition, essential subject inside central 60 percent width and 70 percent height, suitable for tall card cropping. Pure card-interior illustration, no border. One antique-gold gothic lantern suspended vertically in a quiet ruined stone arch. Its single icy-blue flame forms a broad translucent protective frost shell around the lantern. Small star-shaped frost crystals on the shell; restrained light, deep navy negative space. No person. The lantern and shell form one unified clear subject. No text, letters, numbers, symbols resembling writing, card name, card frame, cost, UI, watermark, logo, collage, contact sheet, multi-panel, multiple variants, photorealism, glossy 3D, busy background, clipped main subject.",
+      "alt": {
+        "mode": "decorative",
+        "text": ""
+      },
+      "path": "./assets/ice-lantern-ward.webp",
+      "status": "final",
+      "sha256": "2594b7914a7d8b2649cd0e5b06106f42380bc93400427f27d8c54bc57fb805bd",
+      "provenance": {
+        "kind": "project-generated",
+        "evidence": "Built-in image_gen; independent generation per card; ID, full prompt and generation result in two-card-art-jobs-20261008.json"
+      },
+      "visualQa": {
+        "status": "passed",
+        "note": "Generated full image and final 768x1152 WebP inspected individually: single distinct lantern/mirror subject, no text/UI/frame, gothic paper/paint silhouette; actual browser/device rendering unverified."
+      }
+    },
+    {
+      "key": "mirror-ember-seed",
+      "kind": "card",
+      "subject": "Gothic silhouette puppet dark fantasy, hand-painted 2D shadow-theatre and layered paper texture. Strong readable silhouette. Black, deep navy, violet, icy blue, restrained antique gold. No realism or glossy 3D. Portrait composition, essential subject inside central 60 percent width and 70 percent height, suitable for tall card cropping. Pure card-interior illustration, no border. One silver mirror shard suspended vertically in a quiet gothic ruined arch. A small violet-blue ember burns inside the shard and a single upward twisting spark becomes a tiny luminous star above it, suggesting power planted for a future turn. Dark shadow-puppet paper-cut edges, hand-painted grain, antique gold accents, deep violet negative space. No person. One coherent magical subject. No text, letters, numbers, symbols resembling writing, card name, card frame, cost, UI, watermark, logo, collage, contact sheet, multi-panel, multiple variants, photorealism, glossy 3D, busy background, clipped main subject.",
+      "alt": {
+        "mode": "decorative",
+        "text": ""
+      },
+      "path": "./assets/mirror-ember-seed.webp",
+      "status": "final",
+      "sha256": "aa39bbd95701451450112df2a90b19e64b431932c0c1eea176b697f379fff76d",
+      "provenance": {
+        "kind": "project-generated",
+        "evidence": "Built-in image_gen; independent generation per card; ID, full prompt and generation result in two-card-art-jobs-20261008.json"
+      },
+      "visualQa": {
+        "status": "passed",
+        "note": "Generated full image and final 768x1152 WebP inspected individually: single distinct lantern/mirror subject, no text/UI/frame, gothic paper/paint silhouette; actual browser/device rendering unverified."
+      }
+    }
+  ]
+}

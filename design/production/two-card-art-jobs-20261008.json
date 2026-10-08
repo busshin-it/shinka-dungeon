@@ -1,0 +1,63 @@
+{
+  "batch_id": "two-card-art-20261008",
+  "scope": "exactly-two-cards",
+  "automatic_queue_enrollment": false,
+  "jobs": [
+    {
+      "asset_id": "shinka_card_iceLanternWard_puppet_v1",
+      "project": "shinka-dungeon",
+      "type": "card",
+      "card_id": "iceLanternWard",
+      "name": "氷灯の結界",
+      "filename": "ice-lantern-ward.webp",
+      "path": "v4-1/assets/ice-lantern-ward.webp",
+      "prompt": "Gothic silhouette puppet dark fantasy, hand-painted 2D shadow-theatre and layered paper texture. Strong readable silhouette. Black, deep navy, violet, icy blue, restrained antique gold. No realism or glossy 3D. Portrait composition, essential subject inside central 60 percent width and 70 percent height, suitable for tall card cropping. Pure card-interior illustration, no border. One antique-gold gothic lantern suspended vertically in a quiet ruined stone arch. Its single icy-blue flame forms a broad translucent protective frost shell around the lantern. Small star-shaped frost crystals on the shell; restrained light, deep navy negative space. No person. The lantern and shell form one unified clear subject. No text, letters, numbers, symbols resembling writing, card name, card frame, cost, UI, watermark, logo, collage, contact sheet, multi-panel, multiple variants, photorealism, glossy 3D, busy background, clipped main subject.",
+      "negative": "No text, letters, numbers, symbols resembling writing, card name, card frame, cost, UI, watermark, logo, collage, contact sheet, multi-panel, multiple variants, photorealism, glossy 3D, busy background, clipped main subject.",
+      "style_alignment": "Gothic silhouette puppet dark fantasy, hand-painted 2D shadow-theatre and layered paper texture. Strong readable silhouette. Black, deep navy, violet, icy blue, restrained antique gold. No realism or glossy 3D. Portrait composition, essential subject inside central 60 percent width and 70 percent height, suitable for tall card cropping. Pure card-interior illustration, no border.",
+      "transparent": false,
+      "aspect_ratio": "2:3",
+      "status": "integrated_candidate",
+      "attempts": 1,
+      "generation_id": "exec-448c4e23-9f89-48c3-a27d-cbf79123dbb8",
+      "quality_result": "passed: full and final WebP individually inspected; 180px central crop recognizable; actual browser/device unverified",
+      "qa": [
+        "one card one image",
+        "no text frame UI",
+        "gothic silhouette puppet",
+        "central portrait crop safe",
+        "distinct lantern versus mirror shard"
+      ],
+      "generation_source": "/workspace/scratch/f79406042033/generated_images/exec-448c4e23-9f89-48c3-a27d-cbf79123dbb8.png",
+      "generator": "built-in image_gen",
+      "sha256": "2594b7914a7d8b2649cd0e5b06106f42380bc93400427f27d8c54bc57fb805bd"
+    },
+    {
+      "asset_id": "shinka_card_mirrorEmberSeed_puppet_v1",
+      "project": "shinka-dungeon",
+      "type": "card",
+      "card_id": "mirrorEmberSeed",
+      "name": "鏡火の種",
+      "filename": "mirror-ember-seed.webp",
+      "path": "v4-1/assets/mirror-ember-seed.webp",
+      "prompt": "Gothic silhouette puppet dark fantasy, hand-painted 2D shadow-theatre and layered paper texture. Strong readable silhouette. Black, deep navy, violet, icy blue, restrained antique gold. No realism or glossy 3D. Portrait composition, essential subject inside central 60 percent width and 70 percent height, suitable for tall card cropping. Pure card-interior illustration, no border. One silver mirror shard suspended vertically in a quiet gothic ruined arch. A small violet-blue ember burns inside the shard and a single upward twisting spark becomes a tiny luminous star above it, suggesting power planted for a future turn. Dark shadow-puppet paper-cut edges, hand-painted grain, antique gold accents, deep violet negative space. No person. One coherent magical subject. No text, letters, numbers, symbols resembling writing, card name, card frame, cost, UI, watermark, logo, collage, contact sheet, multi-panel, multiple variants, photorealism, glossy 3D, busy background, clipped main subject.",
+      "negative": "No text, letters, numbers, symbols resembling writing, card name, card frame, cost, UI, watermark, logo, collage, contact sheet, multi-panel, multiple variants, photorealism, glossy 3D, busy background, clipped main subject.",
+      "style_alignment": "Gothic silhouette puppet dark fantasy, hand-painted 2D shadow-theatre and layered paper texture. Strong readable silhouette. Black, deep navy, violet, icy blue, restrained antique gold. No realism or glossy 3D. Portrait composition, essential subject inside central 60 percent width and 70 percent height, suitable for tall card cropping. Pure card-interior illustration, no border.",
+      "transparent": false,
+      "aspect_ratio": "2:3",
+      "status": "integrated_candidate",
+      "attempts": 1,
+      "generation_id": "exec-7a7d4484-7715-4817-8fea-084110a850eb",
+      "quality_result": "passed: full and final WebP individually inspected; 180px central crop recognizable; actual browser/device unverified",
+      "qa": [
+        "one card one image",
+        "no text frame UI",
+        "gothic silhouette puppet",
+        "central portrait crop safe",
+        "distinct lantern versus mirror shard"
+      ],
+      "generation_source": "/workspace/scratch/f79406042033/generated_images/exec-7a7d4484-7715-4817-8fea-084110a850eb.png",
+      "generator": "built-in image_gen",
+      "sha256": "aa39bbd95701451450112df2a90b19e64b431932c0c1eea176b697f379fff76d"
+    }
+  ]
+}
