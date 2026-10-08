@@ -7,6 +7,8 @@
 
 - https://github.com/busshin-it/ai-development-brain
 - 共通ルール本体: `AI_EXTERNAL_BRAIN.md`
+- Work共通ルール: `WORK_RULES.md`
+- 秘書AI運用: `SECRETARY_AI_RULES.md`
 
 共通ルールが未作成・未参照の場合でも、このリポジトリ固有の既存ルールを優先して安全に作業すること。
 
@@ -16,6 +18,7 @@
 3. `GAME_LAB.md` の最新部分
 4. `ASTRAL_DEVELOPMENT.md`
 5. 必要に応じて `design/` 配下
+6. 秘書AI・進捗確認時は `AI_SECRETARY_STATUS.md`
 
 ## 3. 作業原則
 - 今回の依頼範囲だけを変更する。
@@ -24,6 +27,7 @@
 - 大規模なリファクタリングを勝手に行わない。
 - 変更前に影響範囲を確認する。
 - 実装後は関連機能の動作確認を行う。
+- 意味のある開発完了時は `AI_SECRETARY_STATUS.md` の現在地・次・ブロッカーも更新する。
 - 重要な変更・判断・残課題は該当するMDへ反映する。
 
 ## 4. 情報の優先順位
