@@ -258,7 +258,7 @@ function main(args) {
   if (command === 'catalog') {
     check(!input, 'catalog takes no arguments');
     const {engine}=loadGame();
-    return Object.keys(engine.CARDS).map(id => ({id,base:plain(engine.CARDS[id]),upgrade:Object.fromEntries(Object.keys(engine.CARDS[id]).filter(k=>engine.card(id+'+')[k]!==engine.CARDS[id][k]).map(k=>[k,engine.card(id+'+')[k]]))}));
+    return Object.keys(engine.CARDS).map(id => ({id,base:plain(engine.CARDS[id]),upgrade:Object.fromEntries([...new Set([...Object.keys(engine.CARDS[id]), ...Object.keys(engine.card(id+'+')).filter(k=>NUMBERS.has(k)||FLAGS.has(k)||STRINGS.has(k))])].filter(k=>engine.card(id+'+')[k]!==engine.CARDS[id][k]).map(k=>[k,engine.card(id+'+')[k]]))}));
   }
   check(['validate','prompts','timing'].includes(command) && input, 'Usage: astral-card-production.mjs catalog | validate SET.json [draft|integrated|release] | prompts SET.json | timing LOG.json');
   const value=JSON.parse(fs.readFileSync(input,'utf8'));

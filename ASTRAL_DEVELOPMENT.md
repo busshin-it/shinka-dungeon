@@ -218,3 +218,11 @@ growth-v2の第2戦後以降だけ、図鑑55種。旧ruleset/初回/開いて�
 
 PR #21 / build `4.19-3d070049d693`。正確なheadのCIと検証付きPages成功、HTTPS配布46ファイル一致。
 [公開記録・復旧・未確認範囲](design/production/restitch-release.md)。
+
+
+## 4.24 三鈴の小型1セット（draft候補・未公開）
+
+main V4.21を基点に小ルール1・カード2・新敵1・専用画像3点だけ。未統合PR #25/#26は含めない。
+弱体2以上で新敵の三連撃が一撃へ変わり、反射の回数も変わる。カードは封鈴の針/解鈴の灯。
+新規growth-v2の既存wind道だけ新敵を記録し、旧保存のペア/相手/報酬/RNGとschemaを維持する。
+[制作・検証報告](design/production/hush-bell-report.md)。公開の現在地とは分け、draft PRで停止。

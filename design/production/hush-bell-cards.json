@@ -1,0 +1,316 @@
+{
+  "schemaVersion": 1,
+  "id": "hush-bell-cards",
+  "title": "三鈴：弱体を残すか解くか",
+  "theme": "Weakness retention versus immediate/future attack, empty mana timing",
+  "scope": "two-card-pilot",
+  "style": {
+    "world": "Ancient gothic star dungeon",
+    "palette": "Black navy violet antique gold icy blue",
+    "medium": "Gothic silhouette puppet dark fantasy, matte hand-painted cut-paper and cloth",
+    "composition": "Single central subject, portrait 2:3 crop-safe",
+    "avoid": "No letters, numbers, readable runes, captions, card frame, border, cost icon, UI, watermark, logo, contact sheet, collage, multiple panels, alternate variants, extra characters. One asset only."
+  },
+  "implementationStatus": "candidate",
+  "rewardScope": "growth-v2 battle2 onward only",
+  "cards": [
+    {
+      "id": "hushNeedle",
+      "asset": "hush-needle",
+      "base": {
+        "name": "封鈴の針",
+        "cost": 1,
+        "damage": 3,
+        "emptyWeak": 2,
+        "reflect": 2,
+        "family": "dark",
+        "art": "hushNeedle"
+      },
+      "upgrade": {
+        "cost": 0,
+        "damage": 4
+      },
+      "textIncludes": [
+        "{damage}ダメージ"
+      ],
+      "cases": [
+        {
+          "name": "normal-empty",
+          "variant": "base",
+          "state": {
+            "energy": 1
+          },
+          "preview": {
+            "actualDamage": 3,
+            "actualWeak": 2,
+            "actualReflect": 2
+          },
+          "after": {
+            "energy": 0,
+            "weaken": 2,
+            "reflect": 2,
+            "enemyHp": 45
+          },
+          "text": {
+            "summary": [
+              "攻撃3"
+            ],
+            "rules": [
+              "支払い直後の魔力0→弱体{emptyWeak}"
+            ]
+          }
+        },
+        {
+          "name": "normal-bank",
+          "variant": "base",
+          "state": {
+            "energy": 2
+          },
+          "preview": {
+            "actualDamage": 3,
+            "actualWeak": 0,
+            "actualReflect": 2
+          },
+          "after": {
+            "energy": 1,
+            "weaken": 0,
+            "reflect": 2,
+            "enemyHp": 45
+          },
+          "text": {
+            "summary": [
+              "攻撃3"
+            ],
+            "rules": [
+              "支払い直後の魔力0→弱体{emptyWeak}"
+            ]
+          }
+        },
+        {
+          "name": "evolved-empty",
+          "variant": "upgrade",
+          "state": {
+            "energy": 0
+          },
+          "preview": {
+            "actualDamage": 4,
+            "actualWeak": 2,
+            "actualReflect": 2
+          },
+          "after": {
+            "energy": 0,
+            "weaken": 2,
+            "reflect": 2,
+            "enemyHp": 44
+          },
+          "text": {
+            "summary": [
+              "攻撃4"
+            ],
+            "rules": [
+              "支払い直後の魔力0→弱体{emptyWeak}"
+            ]
+          }
+        }
+      ],
+      "design": {
+        "primary_engine": "魔力枯渇と弱体",
+        "secondary_engine": "反射",
+        "design_intent": "最後の魔力1を使って弱体を得るか、魔力を残して反射だけを得るか。進化後は他札で魔力0にしてから使う。",
+        "strong_when": [
+          "敵が連撃する",
+          "魔力を使い切れる"
+        ],
+        "weak_when": [
+          "魔力を残したい",
+          "攻撃なしでは反射が消える",
+          "次ターンの高コスト札へ魔力を残したい"
+        ],
+        "related_cards": [
+          "spark",
+          "charge",
+          "rimeMirror",
+          "mirrorLance"
+        ],
+        "upgrade_decision": "0コストになる。先に他札で0にする必要があり、基本版の最後の1を使う順番と異なる。"
+      }
+    },
+    {
+      "id": "bellUnbind",
+      "asset": "bell-unbind",
+      "base": {
+        "name": "解鈴の灯",
+        "cost": 1,
+        "damage": 2,
+        "weakBonus": 6,
+        "consumeWeak": true,
+        "nextFocus": 4,
+        "family": "dark",
+        "art": "bellUnbind"
+      },
+      "upgrade": {
+        "damage": 5,
+        "nextFocus": 6,
+        "block": 3
+      },
+      "textIncludes": [
+        "{damage}ダメージ"
+      ],
+      "cases": [
+        {
+          "name": "normal-weak",
+          "variant": "base",
+          "state": {
+            "energy": 1,
+            "weaken": 2
+          },
+          "preview": {
+            "actualDamage": 8,
+            "actualBlock": 0,
+            "actualNextFocus": 4
+          },
+          "after": {
+            "energy": 0,
+            "weaken": 0,
+            "block": 0,
+            "pendingFocus": 4,
+            "enemyHp": 40
+          },
+          "text": {
+            "summary": [
+              "攻撃8"
+            ],
+            "rules": [
+              "弱体があれば＋{weakBonus}。弱体をすべて消費",
+              "次ターンの最初の攻撃だけ"
+            ]
+          }
+        },
+        {
+          "name": "normal-no-weak",
+          "variant": "base",
+          "state": {
+            "energy": 1,
+            "weaken": 0
+          },
+          "preview": {
+            "actualDamage": 2,
+            "actualBlock": 0,
+            "actualNextFocus": 4
+          },
+          "after": {
+            "energy": 0,
+            "weaken": 0,
+            "block": 0,
+            "pendingFocus": 4,
+            "enemyHp": 46
+          },
+          "text": {
+            "summary": [
+              "攻撃2"
+            ],
+            "rules": [
+              "弱体があれば＋{weakBonus}。弱体をすべて消費",
+              "次ターンの最初の攻撃だけ"
+            ]
+          }
+        },
+        {
+          "name": "evolved-weak",
+          "variant": "upgrade",
+          "state": {
+            "energy": 1,
+            "weaken": 2
+          },
+          "preview": {
+            "actualDamage": 11,
+            "actualBlock": 3,
+            "actualNextFocus": 6
+          },
+          "after": {
+            "energy": 0,
+            "weaken": 0,
+            "block": 3,
+            "pendingFocus": 6,
+            "enemyHp": 37
+          },
+          "text": {
+            "summary": [
+              "攻撃11"
+            ],
+            "rules": [
+              "弱体があれば＋{weakBonus}。弱体をすべて消費",
+              "次ターンの最初の攻撃だけ"
+            ]
+          }
+        }
+      ],
+      "design": {
+        "primary_engine": "弱体消費と未来準備",
+        "secondary_engine": "攻撃と防御",
+        "design_intent": "弱体で三連撃を一撃に保つか、今の攻撃と次ターン初撃へ変えるか。",
+        "strong_when": [
+          "今は反射で連撃を返せる",
+          "敵が休み、次ターン攻撃を使える",
+          "弱体消費で今撃破できる"
+        ],
+        "weak_when": [
+          "弱体で連撃を抑える必要がある",
+          "弱体がない",
+          "今撃破するには砕氷の火力が必要",
+          "次ターン攻撃札を引けない"
+        ],
+        "related_cards": [
+          "ice",
+          "frostOmen",
+          "starFrostLetter",
+          "bolt",
+          "stillMirror"
+        ],
+        "upgrade_decision": "攻撃5・予約6に加えブロック3を得る。月鏡の護符の初回防御にもなるが、敵三連撃を戻す代償は残る。"
+      }
+    }
+  ],
+  "assets": [
+    {
+      "key": "hush-needle",
+      "kind": "card",
+      "subject": "封鈴の針",
+      "alt": {
+        "mode": "decorative",
+        "text": ""
+      },
+      "path": "./assets/hush-needle.webp",
+      "status": "final",
+      "sha256": "a1960b97922e19315c6eb744e8d0a9d29d249e826f1299646eab2e6508a2d490",
+      "provenance": {
+        "kind": "project-generated",
+        "evidence": "hush-bell-art-jobs.json: built-in image_gen, generation_id and prompt recorded before generation"
+      },
+      "visualQa": {
+        "status": "passed",
+        "note": "Generated subject inspected individually; decoded 768x1152 WebP and central 180px card crop inspected. Not browser/device QA."
+      }
+    },
+    {
+      "key": "bell-unbind",
+      "kind": "card",
+      "subject": "解鈴の灯",
+      "alt": {
+        "mode": "decorative",
+        "text": ""
+      },
+      "path": "./assets/bell-unbind.webp",
+      "status": "final",
+      "sha256": "cfd564cf79ccf16d1d05f7477290a8dc4bdf9afde76bc42d96f3a221dd86552d",
+      "provenance": {
+        "kind": "project-generated",
+        "evidence": "hush-bell-art-jobs.json: built-in image_gen, generation_id and prompt recorded before generation"
+      },
+      "visualQa": {
+        "status": "passed",
+        "note": "Generated subject inspected individually; decoded 768x1152 WebP and central 180px card crop inspected. Not browser/device QA."
+      }
+    }
+  ]
+}

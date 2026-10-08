@@ -42,5 +42,8 @@
   "./planning-v2-engine.js",
   "./planning.css",
   "./planning.html",
-  "./pwa.js"
+  "./pwa.js",
+  "./assets/hush-needle.webp",
+  "./assets/bell-unbind.webp",
+  "./assets/hush-bell.webp"
 ]

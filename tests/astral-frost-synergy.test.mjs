@@ -19,7 +19,7 @@ function base(battle=2,ruleset='growth-v2'){
  const key=battle+'/'+ruleset;if(bases.has(key))return plain(bases.get(key));
  const g=engine.createGame(engine.seededRandom(918),{ruleset});
  // Pin the previous saved encounter for historical three-hit/card regressions.
- const pinned=plain(g.exportSave());pinned.state.chapter2Options.library='starDial';assert(g.restoreSave(pinned));g.start();
+ const pinned=plain(g.exportSave());pinned.state.chapter2Options={library:'starDial',wind:'bellSpirit'};assert(g.restoreSave(pinned));g.start();
  for(let b=1;b<battle;b++){win(g);g.openReward();g.chooseReward(null);if(b===1)g.chooseRoute('moon');else if(b===3)g.chooseChapter('library');else if(b===5)g.chooseCamp('rest');else g.chooseSanctuary('rest');g.nextBattle();}
  const save=plain(g.exportSave());bases.set(key,save);return plain(save);
 }
@@ -37,14 +37,14 @@ const sha=x=>createHash('sha256').update(JSON.stringify(x)).digest('hex');
 test('two-card pilot exactly matches proposal, reuses reviewed art, and keeps strict scope validation',()=>{
  assert.deepEqual(validateSet(spec,{stage:'release'}),{set:'frost-synergy',stage:'release',cards:2,assets:2,scenarios:5});assert.deepEqual(promptManifest(spec).jobs,[]);
  assert.deepEqual(spec.cards.map(c=>c.id),NEW);assert(spec.assets.every(a=>a.status==='reuse'&&a.provenance.kind==='existing-project'));
- assert(read('v4-1/planning.html').includes('図鑑61'));
+ assert(read('v4-1/planning.html').includes('図鑑63'));
  const aliases=JSON.parse(read('design/production/reusable-art.json')).frost_synergy_aliases,html=read('v4-1/planning.html');
  for(const [id,original]of Object.entries(aliases)){const paths=[id,original].map(k=>html.match(new RegExp(`data-card-art="${k}" src="([^"]+)"`))[1]);assert.equal(paths[0],paths[1]);}
  for(const change of [s=>delete s.scope,s=>s.scope='anything',s=>s.cards.pop(),s=>s.assets.pop(),s=>{s.assets[0].kind='npc';s.assets[0].alt={mode:'text',text:'NPC'};}]){const bad=plain(spec);change(bad);assert.throws(()=>validateSet(bad,{stage:'draft'}));}
  const mirror=engine.card('rimeMirror+'),omen=engine.card('frostOmen+');assert.equal(mirror.weaken,3);assert.equal(mirror.reflect,3);assert.equal(omen.damage,6);assert.equal(omen.thresholdBonus,5);assert.equal(omen.nextFocus,5);
 });
 test('all 52 old base/upgraded definitions and 22 pinned v5 phase/next-action saves stay exact',()=>{
- assert.equal(baseline.sourceCommit,'f65d4dc545e590f9c28029b3bb3cd84cd6a2f27a');assert.equal(baseline.synthetic,true);assert.equal(Object.keys(engine.CARDS).length,61);
+ assert.equal(baseline.sourceCommit,'f65d4dc545e590f9c28029b3bb3cd84cd6a2f27a');assert.equal(baseline.synthetic,true);assert.equal(Object.keys(engine.CARDS).length,63);
  for(const [id,c]of Object.entries(baseline.definitions.cards))assert.deepEqual(plain(engine.CARDS[id]),c,id);
  for(const [id,c]of Object.entries(baseline.definitions.upgrades))assert.deepEqual(plain(engine.card(id)),c,id);
  for(const {name,save,command,afterSha256}of baseline.fixtures){const g=restore(save);step(g,command[0],...command.slice(1));assert.equal(sha(g.exportSave()),afterSha256,name);}

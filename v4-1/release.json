@@ -1,8 +1,8 @@
 {
-  "version": "4.21",
-  "build": "4.21-7d040b12358b",
+  "version": "4.24",
+  "build": "4.24-5707d8d4b10f",
   "scope": "./",
   "entry": "./",
   "planning": "./planning.html",
-  "files": 44
+  "files": 47
 }
