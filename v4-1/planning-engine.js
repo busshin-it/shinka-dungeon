@@ -60,6 +60,7 @@
     stillMirror: { name: '静鏡', cost: 1, reflect: 4, nextFocus: 3, family: 'guard', art: 'stillMirror' },
     afterglowWard: { name: '余熱の結界', cost: 1, block: 3, reflect: 1, prevEmptyBlock: 5, family: 'guard', art: 'afterglowWard' },
     bankedStarBlade: { name: '蓄星の刃', cost: 2, damage: 8, bankBonus: 8, nextFocus: 2, family: 'thunder', art: 'bankedStarBlade' },
+    rimeThaw: { name: '霜解き', cost: 1, block: 6, weakBlockMultiplier: 2, weakBlockCap: 6, consumeWeak: true, family: 'ice', art: 'rimeThaw' },
     echo: { name: '返照', cost: 0, reflect: 2, exhaust: true, family: 'guard', art: 'manaBarrier' }
   });
   function card(id, state) {
@@ -90,6 +91,7 @@
       c.reflectDamageCap && `反射の${c.reflectDamageMultiplier}倍を追加（最大${c.reflectDamageCap}）。反射をすべて消費`,
       c.recycleAttack && '捨て札のいちばん新しい攻撃札1枚を山札の一番上へ戻す',
       c.weakBonus && `敵に弱体があれば＋${c.weakBonus}。その弱体をすべて消費`,
+      c.weakBlockCap && `敵の弱体の${c.weakBlockMultiplier}倍を追加ブロック（最大${c.weakBlockCap}）。弱体をすべて消費`,
       c.weakThreshold && `敵の弱体が${c.weakThreshold}以上なら＋${c.thresholdBonus}。弱体は消費しない`,
       c.breakBlock && `このターン、すでに詠唱を崩していれば追加${c.breakBlock}ブロック${c.breakDraw?`、さらに${c.breakDraw}枚引く`:""}`,
       c.bankBlock && `支払い直後に魔力2以上なら追加${c.bankBlock}ブロック`,
@@ -148,7 +150,7 @@
   // New growth rewards only: preserve every classic reward pool and its RNG calls.
   const GROWTH_REWARD_ONLY = Object.freeze(['frostRecall','bankedEcho','ashStudy','mirrorRelay']);
   // These cards enter only the current paid-starter ruleset, never legacy rewards.
-  const CURRENT_REWARD_ONLY = Object.freeze(['rimeMirror','frostOmen','restitch','frostCrossing','starFrostLetter','stillMirror','afterglowWard','bankedStarBlade']);
+  const CURRENT_REWARD_ONLY = Object.freeze(['rimeMirror','frostOmen','restitch','frostCrossing','starFrostLetter','stillMirror','afterglowWard','bankedStarBlade','rimeThaw']);
   const BASIC_STARTER = Object.freeze(['basicStrike','basicWard','basicStrike','basicWard','basicStrike','basicWard','basicStrike','basicWard','basicStrike','basicWard']);
   const GROWTH_ENEMIES = Object.freeze({ ...ENEMIES,
     skeleton: { ...ENEMIES.skeleton, hp: 15, moves: [
@@ -276,12 +278,13 @@
       const recycleIndex = c.recycleAttack ? latestDiscardAttackIndex() : -1;
       const recycleTargetId = recycleIndex >= 0 ? s.discard[recycleIndex] : null;
       return { ...c, recoverCondition, actualReflectDamage,
+        ...(c.weakBlockCap ? {actualConsumedWeak:s.weaken,actualWeakBlockBonus:Math.min(c.weakBlockCap,s.weaken*c.weakBlockMultiplier)} : {}),
         actualTransferredBlock: c.transferBlockCap ? Math.min(c.transferBlockCap, s.block) : 0,
         actualConsumedBlock: c.transferBlockCap || c.consumeBlock ? s.block : 0,
         actualConsumedReflect: c.consumeReflect ? s.reflect : 0,
         recycleTargetId, recycleTargetName: recycleTargetId ? runCard(recycleTargetId).name : '',
         actualDamage: c.isAttack ? c.damage + s.focus + (recoverCondition ? c.recoverBonus : 0) + actualReflectDamage + (c.combo && s.spellCount > 0 ? c.combo : 0) + (c.weakBonus && s.weaken > 0 ? c.weakBonus : 0) + (c.emptyBonus && s.energy === 0 ? c.emptyBonus : 0) + (c.bankBonus && s.energy >= 4 ? c.bankBonus : 0) + (c.memoryCap ? Math.min(c.memoryCap,Math.floor(s.prevLastAttack/2)) : 0) + (c.weakThreshold && s.weaken >= c.weakThreshold ? c.thresholdBonus : 0) + Math.min(c.blockDamage || 0, s.block) + charm + forge : 0,
-        actualBlock: (c.block || 0) + (c.prevEmptyBlock && s.prevEndEmpty ? c.prevEmptyBlock : 0) + (c.exhaustBlock && s.usedExhaustThisTurn ? c.exhaustBlock : 0) + (c.breakBlock && s.interrupted ? c.breakBlock : 0) + (c.bankBlock && s.energy - c.cost >= 2 ? c.bankBlock : 0),
+        actualBlock: (c.block || 0) + (c.weakBlockCap ? Math.min(c.weakBlockCap,s.weaken*c.weakBlockMultiplier) : 0) + (c.prevEmptyBlock && s.prevEndEmpty ? c.prevEmptyBlock : 0) + (c.exhaustBlock && s.usedExhaustThisTurn ? c.exhaustBlock : 0) + (c.breakBlock && s.interrupted ? c.breakBlock : 0) + (c.bankBlock && s.energy - c.cost >= 2 ? c.bankBlock : 0),
         bankBlockCondition: Boolean(c.bankBlock && s.energy - c.cost >= 2), emptyWeakCondition: Boolean(c.emptyWeak && s.energy === c.cost),
         weakThresholdCondition: Boolean(c.weakThreshold && s.weaken >= c.weakThreshold), breakCondition: Boolean(c.breakBlock && s.interrupted),
         actualDraw: (c.draw || 0) + (c.breakDraw && s.interrupted ? c.breakDraw : 0),

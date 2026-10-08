@@ -1,0 +1,265 @@
+{
+  "schemaVersion": 1,
+  "id": "rime-thaw",
+  "title": "霜解き：弱体を残すか防御に変えるか",
+  "theme": "敵の弱体を防御へ変える選択。使用済み札の再利用は追加しない。",
+  "scope": "single-card-pilot",
+  "style": {
+    "world": "A quiet ancient celestial library with dim stone arches and abstract star maps.",
+    "palette": "Silver and star-blue highlights, deep teal and amethyst shadows, restrained parchment amber.",
+    "medium": "Detailed painterly Japanese fantasy RPG card art with readable material detail.",
+    "composition": "Square illustration; one clear central subject, preserve its entire silhouette, readable at small card size.",
+    "avoid": "Readable letters, numbers, logos, borders, UI, extra subjects, contact sheets or collage."
+  },
+  "implementationStatus": "candidate",
+  "rewardScope": "growth-v2 battle2 onward; old rules and open offers unchanged",
+  "cards": [
+    {
+      "id": "rimeThaw",
+      "asset": "rime-thaw",
+      "base": {
+        "name": "霜解き",
+        "cost": 1,
+        "block": 6,
+        "weakBlockMultiplier": 2,
+        "weakBlockCap": 6,
+        "consumeWeak": true,
+        "family": "ice",
+        "art": "rimeThaw"
+      },
+      "upgrade": {
+        "block": 9
+      },
+      "textIncludes": [
+        "{block}ブロック",
+        "弱体の{weakBlockMultiplier}倍",
+        "最大{weakBlockCap}",
+        "弱体をすべて消費"
+      ],
+      "cases": [
+        {
+          "name": "normal-weak-0",
+          "variant": "base",
+          "state": {
+            "energy": 1,
+            "weaken": 0
+          },
+          "preview": {
+            "actualBlock": 6,
+            "actualConsumedWeak": 0,
+            "actualWeakBlockBonus": 0,
+            "actualDamage": 0
+          },
+          "after": {
+            "block": 6,
+            "weaken": 0,
+            "energy": 0,
+            "enemyHp": 48,
+            "spellCount": 0
+          },
+          "text": {
+            "summary": [
+              "防御6"
+            ],
+            "rules": [
+              "弱体0をすべて消費",
+              "追加上限6"
+            ]
+          }
+        },
+        {
+          "name": "normal-weak-2",
+          "variant": "base",
+          "state": {
+            "energy": 1,
+            "weaken": 2
+          },
+          "preview": {
+            "actualBlock": 10,
+            "actualConsumedWeak": 2,
+            "actualWeakBlockBonus": 4,
+            "actualDamage": 0
+          },
+          "after": {
+            "block": 10,
+            "weaken": 0,
+            "energy": 0,
+            "enemyHp": 48,
+            "spellCount": 0
+          },
+          "text": {
+            "summary": [
+              "防御10"
+            ],
+            "rules": [
+              "弱体2をすべて消費",
+              "追加上限6"
+            ]
+          }
+        },
+        {
+          "name": "normal-weak-5",
+          "variant": "base",
+          "state": {
+            "energy": 1,
+            "weaken": 5
+          },
+          "preview": {
+            "actualBlock": 12,
+            "actualConsumedWeak": 5,
+            "actualWeakBlockBonus": 6,
+            "actualDamage": 0
+          },
+          "after": {
+            "block": 12,
+            "weaken": 0,
+            "energy": 0,
+            "enemyHp": 48,
+            "spellCount": 0
+          },
+          "text": {
+            "summary": [
+              "防御12"
+            ],
+            "rules": [
+              "弱体5をすべて消費",
+              "追加上限6"
+            ]
+          }
+        },
+        {
+          "name": "evolved-weak-0",
+          "variant": "upgrade",
+          "state": {
+            "energy": 1,
+            "weaken": 0
+          },
+          "preview": {
+            "actualBlock": 9,
+            "actualConsumedWeak": 0,
+            "actualWeakBlockBonus": 0,
+            "actualDamage": 0
+          },
+          "after": {
+            "block": 9,
+            "weaken": 0,
+            "energy": 0,
+            "enemyHp": 48,
+            "spellCount": 0
+          },
+          "text": {
+            "summary": [
+              "防御9"
+            ],
+            "rules": [
+              "弱体0をすべて消費",
+              "追加上限6"
+            ]
+          }
+        },
+        {
+          "name": "evolved-weak-2",
+          "variant": "upgrade",
+          "state": {
+            "energy": 1,
+            "weaken": 2
+          },
+          "preview": {
+            "actualBlock": 13,
+            "actualConsumedWeak": 2,
+            "actualWeakBlockBonus": 4,
+            "actualDamage": 0
+          },
+          "after": {
+            "block": 13,
+            "weaken": 0,
+            "energy": 0,
+            "enemyHp": 48,
+            "spellCount": 0
+          },
+          "text": {
+            "summary": [
+              "防御13"
+            ],
+            "rules": [
+              "弱体2をすべて消費",
+              "追加上限6"
+            ]
+          }
+        },
+        {
+          "name": "evolved-weak-5",
+          "variant": "upgrade",
+          "state": {
+            "energy": 1,
+            "weaken": 5
+          },
+          "preview": {
+            "actualBlock": 15,
+            "actualConsumedWeak": 5,
+            "actualWeakBlockBonus": 6,
+            "actualDamage": 0
+          },
+          "after": {
+            "block": 15,
+            "weaken": 0,
+            "energy": 0,
+            "enemyHp": 48,
+            "spellCount": 0
+          },
+          "text": {
+            "summary": [
+              "防御15"
+            ],
+            "rules": [
+              "弱体5をすべて消費",
+              "追加上限6"
+            ]
+          }
+        }
+      ],
+      "design": {
+        "primary_engine": "弱体と今ターンの防御",
+        "strong_when": [
+          "弱体があり、単発攻撃をしのぐ",
+          "弱体が不要な休みターンに鏡撃へ防御を渡す"
+        ],
+        "weak_when": [
+          "弱体がない",
+          "連撃を弱体で軽減した方が有利",
+          "霜刻の予告の弱体条件を先に失う"
+        ],
+        "related_cards": [
+          "ice",
+          "frostOmen",
+          "shieldStrike",
+          "frostCrossing"
+        ],
+        "design_intent": "弱体を未来の軽減として残すか、今の防御として消費するか。追加状態なし。"
+      }
+    }
+  ],
+  "assets": [
+    {
+      "key": "rime-thaw",
+      "kind": "card",
+      "subject": "霜解きの暫定アート。既存の星型の結界画像を再利用。",
+      "alt": {
+        "mode": "decorative",
+        "text": ""
+      },
+      "path": "./assets/chant-ward.webp",
+      "status": "reuse",
+      "reuseFrom": "chantWard / main 9b7e0f49fc650935b23bca7dd1c0a9fef7214a93",
+      "sha256": "b73cfce0f161bd44399b3af56b0d697ee9e9dfa2aab94a296832ef7278a9879a",
+      "provenance": {
+        "kind": "existing-project",
+        "evidence": "design/production/reusable-art.json。プロジェクト内の既存画像を同一byteで再利用。"
+      },
+      "visualQa": {
+        "status": "passed",
+        "note": "2026-10-08 JSTに各元画像を個別に目視。新カードのブラウザ・実機描画QAとは区別。"
+      }
+    }
+  ]
+}

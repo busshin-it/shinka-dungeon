@@ -17,7 +17,7 @@ const sha256 = bytes => crypto.createHash('sha256').update(bytes).digest('hex');
 const ID = /^[a-z][A-Za-z0-9]*$/;
 const SLUG = /^[a-z][a-z0-9]*(?:-[a-z0-9]+)*$/;
 const ASSET_PATH = /^\.\/assets\/[a-z0-9]+(?:[a-z0-9/-]*[a-z0-9])?\.(webp|png)$/;
-const NUMBERS = new Set('cost damage block weaken focus reflect draw heal energy combo weakBonus weakThreshold thresholdBonus breakBlock breakDraw bankBlock emptyWeak emptyBonus bankBonus memoryCap exhaustBlock exhaustReflect prevEmptyBlock nextFocus emptyNextBlock blockDamage transferBlockCap recoverBonus reflectDamageMultiplier reflectDamageCap'.split(' '));
+const NUMBERS = new Set('cost damage block weaken focus reflect draw heal energy combo weakBonus weakThreshold thresholdBonus breakBlock breakDraw bankBlock emptyWeak emptyBonus bankBonus memoryCap exhaustBlock exhaustReflect prevEmptyBlock nextFocus emptyNextBlock blockDamage transferBlockCap recoverBonus reflectDamageMultiplier reflectDamageCap weakBlockMultiplier weakBlockCap'.split(' '));
 const FLAGS = new Set('exhaust consumeWeak consumeBlock consumeReflect recycleAttack'.split(' '));
 const STRINGS = new Set(['name', 'family', 'art']);
 const PHASES = new Set(['design','reuse-review','image-generation','image-qa','implementation','tests','integration','browser-qa','tool-wait','publish']);
@@ -36,6 +36,9 @@ function definition(value, label, partial = false) {
   for (const [key, item] of Object.entries(value)) {
     check(NUMBERS.has(key) || FLAGS.has(key) || STRINGS.has(key), `${label}: unsupported effect ${key}; implement/review its preview, text, play and save tests first`);
     check(NUMBERS.has(key) ? Number.isSafeInteger(item) && item >= 0 : FLAGS.has(key) ? typeof item === 'boolean' : nonempty(item), `${label}.${key}: invalid value`);
+  }
+  if (!partial && (value.weakBlockMultiplier !== undefined || value.weakBlockCap !== undefined)) {
+    check(value.weakBlockMultiplier > 0 && value.weakBlockCap > 0 && value.block > 0 && value.consumeWeak === true && value.damage === undefined && value.weaken === undefined && value.emptyWeak === undefined, `${label}: weakness-to-block requires a positive multiplier/cap/block, consumes weakness, and cannot attack or reapply weakness`);
   }
   if (value.cost !== undefined) check(value.cost <= 5, `${label}: cost exceeds maximum energy`);
 }
