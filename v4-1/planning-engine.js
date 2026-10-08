@@ -61,6 +61,10 @@
     afterglowWard: { name: '余熱の結界', cost: 1, block: 3, reflect: 1, prevEmptyBlock: 5, family: 'guard', art: 'afterglowWard' },
     bankedStarBlade: { name: '蓄星の刃', cost: 2, damage: 8, bankBonus: 8, nextFocus: 2, family: 'thunder', art: 'bankedStarBlade' },
     rimeThaw: { name: '霜解き', cost: 1, block: 6, weakBlockMultiplier: 2, weakBlockCap: 6, consumeWeak: true, family: 'ice', art: 'rimeThaw' },
+    prismStrike: { name: '継ぎ色の刃', cost: 1, damage: 5, combo: 5, weaken: 1, family: 'dark', art: 'prismStrike' },
+    bankedScreen: { name: '星留めの盾', cost: 1, block: 3, bankBlock: 3, reflect: 2, family: 'guard', art: 'bankedScreen' },
+    starBreath: { name: '星読みの息継ぎ', cost: 1, draw: 2, nextFocus: 3, exhaust: true, family: 'focus', art: 'starBreath' },
+    shieldRelay: { name: '護光の一閃', cost: 1, damage: 3, transferBlockCap: 6, family: 'guard', art: 'shieldRelay' },
     echo: { name: '返照', cost: 0, reflect: 2, exhaust: true, family: 'guard', art: 'manaBarrier' }
   });
   function card(id, state) {
@@ -146,9 +150,11 @@
   const GROWTH_RULESET = 'growth-v1';
   const STARTER_COST_RULESET = 'growth-v2';
   const EARLY_CHOICE_RULESET = 'growth-v3';
-  const isPaidGrowthRun = state => [STARTER_COST_RULESET, EARLY_CHOICE_RULESET].includes(state?.ruleset);
+  const VARIETY_RULESET = 'growth-v4';
+  const VARIETY_REWARD_ONLY = Object.freeze(['prismStrike','bankedScreen','starBreath','shieldRelay']);
+  const isPaidGrowthRun = state => [STARTER_COST_RULESET, EARLY_CHOICE_RULESET, VARIETY_RULESET].includes(state?.ruleset);
   const isGrowthRun = state => state?.ruleset === GROWTH_RULESET || isPaidGrowthRun(state);
-  const rewardCountFor = state => state?.ruleset === EARLY_CHOICE_RULESET && state.battle <= 2 ? 3 : 4;
+  const rewardCountFor = state => [EARLY_CHOICE_RULESET, VARIETY_RULESET].includes(state?.ruleset) && state.battle <= 2 ? 3 : 4;
   const manaRegenFor = state => isPaidGrowthRun(state) ? 3 : 1;
   // New growth rewards only: preserve every classic reward pool and its RNG calls.
   const GROWTH_REWARD_ONLY = Object.freeze(['frostRecall','bankedEcho','ashStudy','mirrorRelay']);
@@ -191,6 +197,18 @@
       Object.freeze(['frostOmen','starFrostLetter','stillMirror','shieldStrike','fadingStar'])
     ])
   ]);
+  // Broad, disjoint role pools; one card per role, without guaranteeing any pair.
+  const varietyPressure = ['ice','bolt','chain','quietComet','quietScript','mirrorNote','drain','shatter','fadingStar','ebbArrow','prismStrike'];
+  const varietyDefense = ['guard','frostWard','mirror','renew','reflectShield','rimeMirror','afterglowWard','chantWard','bankedScreen'];
+  const varietySetup = ['charge','focus','stillness','starWait','marginLight','starRelay','mirrorRelay','tuningNote','starlitPin','starBreath','shieldRelay'];
+  const VARIETY_REWARD_POOLS = Object.freeze([
+    Object.freeze([varietyPressure, varietyDefense, varietySetup].map(x => Object.freeze([...x]))),
+    Object.freeze([
+      Object.freeze([...varietyPressure,'iceSpear','frostPierce','thunderCrash','zenithBolt','bankedEcho','bankedStarBlade']),
+      Object.freeze([...varietyDefense,'winter','starFerryWard','frostCrossing','rimeThaw','emberVeil','shutterWard']),
+      Object.freeze([...varietySetup,'starFrostLetter','stillMirror','frostOmen','surge'])
+    ])
+  ]);
   const RELICS = Object.freeze({
     emberCore: { name: '残火の芯', symbol: '✦', effect: '各戦闘1回。魔力0でターンを終えると、次ターンに4ブロック。' },
     starBottle: { name: '星砂の小瓶', symbol: '✧', effect: '各戦闘1回。自然回復後の魔力が4以上なら、そのターン最初の攻撃＋5。' }
@@ -217,7 +235,7 @@
     return { hp, enemyHp, taken, blocked, reflected, resolvedHits };
   }
   function createGame(random = Math.random, { ruleset = STARTER_COST_RULESET } = {}) {
-    if (![GROWTH_RULESET,STARTER_COST_RULESET,EARLY_CHOICE_RULESET,'classic'].includes(ruleset)) throw new Error('Unknown run ruleset');
+    if (![GROWTH_RULESET,STARTER_COST_RULESET,EARLY_CHOICE_RULESET,VARIETY_RULESET,'classic'].includes(ruleset)) throw new Error('Unknown run ruleset');
     let s, rng = random;
     const snapshot = () => JSON.parse(JSON.stringify(s));
     const isGrowth = () => isGrowthRun(s);
@@ -369,13 +387,14 @@
       if (s.phase !== 'victory') return false;
       s.phase = s.battle === RUN_LENGTH ? 'complete' : 'reward';
       if (s.phase === 'reward' && isGrowth()) {
-        if (s.ruleset === EARLY_CHOICE_RULESET && s.battle <= 2) s.rewardOffers = EARLY_REWARD_POOLS[s.battle-1].map(pool => shuffle([...pool])[0]);
+        if (s.ruleset === VARIETY_RULESET && s.battle <= 2) s.rewardOffers = VARIETY_REWARD_POOLS[s.battle-1].map(pool => shuffle([...pool])[0]);
+        else if (s.ruleset === EARLY_CHOICE_RULESET && s.battle <= 2) s.rewardOffers = EARLY_REWARD_POOLS[s.battle-1].map(pool => shuffle([...pool])[0]);
         else if (s.battle === 1) s.rewardOffers = FIRST_REWARD_POOLS.map(pool => shuffle([...pool])[0]);
-        else s.rewardOffers = shuffle(Object.keys(CARDS).filter(id => !CARDS[id].starterOnly && (isPaidGrowthRun(s) || !CURRENT_REWARD_ONLY.includes(id)))).slice(0,4);
+        else s.rewardOffers = shuffle(Object.keys(CARDS).filter(id => !CARDS[id].starterOnly && (s.ruleset === VARIETY_RULESET || !VARIETY_REWARD_ONLY.includes(id)) && (isPaidGrowthRun(s) || !CURRENT_REWARD_ONLY.includes(id)))).slice(0,4);
       } else if (s.phase === 'reward') {
         const offers = shuffle([...REWARD_POOLS[s.origin]]).slice(0,1);
         offers.push(shuffle(['light','stillness','renew','meditate','focus'].filter(id => !offers.includes(id)))[0]);
-        while (offers.length < 4) offers.push(shuffle(Object.keys(CARDS).filter(id => !CARDS[id].starterOnly && !GROWTH_REWARD_ONLY.includes(id) && !CURRENT_REWARD_ONLY.includes(id) && !offers.includes(id) && (!['chantWard','starFerryWard','ebbArrow','starRelay','mirrorLance','marginLight','quietScript','mirrorNote','returnPage','starlitPin','shutterWard','orbitEcho','tuningNote'].includes(id) || s.battle >= 2)))[0]); s.rewardOffers = offers;
+        while (offers.length < 4) offers.push(shuffle(Object.keys(CARDS).filter(id => !CARDS[id].starterOnly && !VARIETY_REWARD_ONLY.includes(id) && !GROWTH_REWARD_ONLY.includes(id) && !CURRENT_REWARD_ONLY.includes(id) && !offers.includes(id) && (!['chantWard','starFerryWard','ebbArrow','starRelay','mirrorLance','marginLight','quietScript','mirrorNote','returnPage','starlitPin','shutterWard','orbitEcho','tuningNote'].includes(id) || s.battle >= 2)))[0]); s.rewardOffers = offers;
       }
       return true;
     }
@@ -438,7 +457,7 @@
     function nextBattle() { if (s.phase !== 'ready' || s.battle >= RUN_LENGTH) return false; s.battle++; prepare(); return true; }
     function exportSave() {
       if (typeof rng.state !== 'function') return null;
-      return { format: 'astral-planning', version: s.ruleset === EARLY_CHOICE_RULESET ? 6 : s.ruleset === STARTER_COST_RULESET ? 5 : isGrowth() ? 4 : 3, rngState: rng.state(), state: snapshot() };
+      return { format: 'astral-planning', version: s.ruleset === VARIETY_RULESET ? 7 : s.ruleset === EARLY_CHOICE_RULESET ? 6 : s.ruleset === STARTER_COST_RULESET ? 5 : isGrowth() ? 4 : 3, rngState: rng.state(), state: snapshot() };
     }
     function restoreSave(save) {
       // Local saves are data, never executable state. Validate before changing the live game.
@@ -450,11 +469,11 @@
           const options = save.state.route2 ? {library:'archive',wind:'wind'} : {library:'bowWatcher',wind:'bellSpirit'};
           save = {...save,version:3,state:{...save.state,chapter2Options:options,chapter2Encounter:save.state.route2?options[save.state.route2]:null}};
         }
-        if (!save || save.format !== 'astral-planning' || ![3,4,5,6].includes(save.version) || !Number.isInteger(save.rngState) || save.rngState < 0 || save.rngState > 4294967295) return false;
+        if (!save || save.format !== 'astral-planning' || ![3,4,5,6,7].includes(save.version) || !Number.isInteger(save.rngState) || save.rngState < 0 || save.rngState > 4294967295) return false;
         const x = save.state, integer = (v, min, max) => Number.isInteger(v) && v >= min && v <= max;
         const record = v => v !== null && typeof v === 'object' && Object.prototype.toString.call(v) === '[object Object]';
-        const growth = [4,5,6].includes(save.version);
-        const savedRuleset = save.version === 6 ? EARLY_CHOICE_RULESET : save.version === 5 ? STARTER_COST_RULESET : GROWTH_RULESET;
+        const growth = [4,5,6,7].includes(save.version);
+        const savedRuleset = save.version === 7 ? VARIETY_RULESET : save.version === 6 ? EARLY_CHOICE_RULESET : save.version === 5 ? STARTER_COST_RULESET : GROWTH_RULESET;
         if (!record(x) || (growth ? x.ruleset !== savedRuleset || !(x.earlyRemoval === null || (typeof x.earlyRemoval === 'string' && runCard(x.earlyRemoval))) : Object.hasOwn(x,'ruleset') || Object.hasOwn(x,'earlyRemoval'))) return false;
         const definitions = enemiesFor(x);
         const phases = ['intro','battle','victory','defeat','complete','reward','route','chapter','sanctuary','evolve','camp','remove','ready','astrolabe'];
@@ -531,5 +550,5 @@
     reset();
     return { snapshot, card: runCard, selectOrigin, start, intent, futureIntents, previewCard, play, endTurn, rewardOptions, openReward, chooseReward, chooseRoute, chooseSanctuary, chooseRelic, cancelRelic, upgradeOptions, evolve, cancelEvolution, chooseChapter, chooseCamp, removeOptions, removeCard, cancelRemoval, nextBattle, exportSave, restoreSave, reset };
   }
-  globalThis.ShinkaV43 = Object.freeze({ CARDS, ORIGINS, ENEMIES, GROWTH_ENEMIES, CURRENT_ENEMIES, GROWTH_RULESET, STARTER_COST_RULESET, EARLY_CHOICE_RULESET, isPaidGrowthRun, rewardCountFor, EARLY_REWARD_POOLS, isGrowthRun, manaRegenFor, BASIC_STARTER, FIRST_REWARD_POOLS, enemiesFor, RELICS, enemyPattern, MAX_HP, MAX_ENERGY, RUN_LENGTH, card, seededRandom, resolveAttack, createGame });
+  globalThis.ShinkaV43 = Object.freeze({ CARDS, ORIGINS, ENEMIES, GROWTH_ENEMIES, CURRENT_ENEMIES, GROWTH_RULESET, STARTER_COST_RULESET, EARLY_CHOICE_RULESET, VARIETY_RULESET, VARIETY_REWARD_ONLY, VARIETY_REWARD_POOLS, isPaidGrowthRun, rewardCountFor, EARLY_REWARD_POOLS, isGrowthRun, manaRegenFor, BASIC_STARTER, FIRST_REWARD_POOLS, enemiesFor, RELICS, enemyPattern, MAX_HP, MAX_ENERGY, RUN_LENGTH, card, seededRandom, resolveAttack, createGame });
 })();

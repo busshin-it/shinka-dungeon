@@ -12,7 +12,7 @@ const spec=JSON.parse(read('design/production/restitch.json'));
 test('single-card pilot matches exact PR14 definition, evolved draw only, and reviewed reused art',()=>{
  assert.deepEqual(validateSet(spec,{stage:'release'}),{set:'restitch',stage:'release',cards:1,assets:1,scenarios:3});assert.deepEqual(promptManifest(spec).jobs,[]);
  assert.deepEqual(plain(engine.CARDS.restitch),{name:'綴じ直し',cost:1,recycleAttack:true,draw:1,exhaust:true,family:'focus',art:'restitch'});
- assert.equal(engine.card('restitch+').draw,2);assert.equal(engine.card('restitch+').cost,1);assert.equal(engine.card('restitch+').isAttack,false);assert.equal(Object.keys(engine.CARDS).length,61);
+ assert.equal(engine.card('restitch+').draw,2);assert.equal(engine.card('restitch+').cost,1);assert.equal(engine.card('restitch+').isAttack,false);assert.equal(Object.keys(engine.CARDS).length,65);
  assert.equal(spec.assets[0].sha256,sha(fs.readFileSync(new URL('../v4-1/assets/star-bookmark.webp',import.meta.url))));
  for(const change of [s=>delete s.scope,s=>s.scope='two-card-pilot',s=>s.scope='unknown',s=>s.cards.push(s.cards[0]),s=>s.assets.push(s.assets[0]),s=>s.assets[0].kind='npc',s=>s.cards[0].base.newRule=true]){const bad=plain(spec);change(bad);assert.throws(()=>validateSet(bad,{stage:'draft'}));}
 });
@@ -83,5 +83,5 @@ test('acquire, opening hand, evolve, remove and next battles preserve real v5 sa
 test('eight v5 synthetic UI fixtures restore and remain isolated from real saves',()=>{
  const data=JSON.parse(read('ui-qa/restitch-fixtures.json'));assert.equal(Object.keys(data).length,8);for(const value of Object.values(data)){assert.equal(value.engine.version,5);restore(value.engine);}
  const html=read('ui-qa/restitch.html');for(const text of ['sandbox="allow-scripts"',"Object.defineProperty(window,'localStorage'",'script[src="./pwa.js"]',"link.removeAttribute('href')"])assert(html.includes(text));assert(!html.includes('allow-same-origin'));
- for(const file of ['planning.html','planning-game.js','game.js','index.html'])assert(read('v4-1/'+file).includes('61枚'));
+ for(const file of ['planning.html','planning-game.js','game.js','index.html'])assert(read('v4-1/'+file).includes('65枚'));
 });

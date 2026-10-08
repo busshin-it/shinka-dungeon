@@ -61,7 +61,7 @@ test('existing choices create distinct payment, defense, sequencing and next-tur
 
 test('v6 rejects wrong ruleset / reward count atomically; open old rewards and RNG remain pinned',()=>{
  const g=reward(),valid=plain(g.exportSave());for(const modify of [s=>{s.version=5;},s=>{s.state.ruleset='growth-v2';},s=>{s.state.rewardOffers.push('focus');},s=>{s.state.rewardOffers.pop();}]){const bad=plain(valid);modify(bad);const live=roundtrip(g),before=plain(live.exportSave());assert.equal(live.restoreSave(bad),false);assert.deepEqual(plain(live.exportSave()),before);}
- const baseline=JSON.parse(read('tests/fixtures/astral-early-choice-main.json'));assert.equal(hash({CARDS:E.CARDS,ORIGINS:E.ORIGINS,ENEMIES:E.ENEMIES,GROWTH_ENEMIES:E.GROWTH_ENEMIES,CURRENT_ENEMIES:E.CURRENT_ENEMIES}),baseline.definitions);
+ const baseline=JSON.parse(read('tests/fixtures/astral-early-choice-main.json'));assert.equal(hash({CARDS:Object.fromEntries(Object.entries(E.CARDS).filter(([id])=>!E.VARIETY_REWARD_ONLY.includes(id))),ORIGINS:E.ORIGINS,ENEMIES:E.ENEMIES,GROWTH_ENEMIES:E.GROWTH_ENEMIES,CURRENT_ENEMIES:E.CURRENT_ENEMIES}),baseline.definitions);
  for(const row of baseline.rows){const old=E.createGame(E.seededRandom(row.seed),{ruleset:row.ruleset});assert.equal(hash(old.exportSave()),row.intro);old.start();assert(fight(E,old,OPTIONS).win);assert.equal(hash(old.exportSave()),row.victory);old.openReward();assert.equal(hash(old.exportSave()),row.reward);const resumed=roundtrip(old);assert.equal(resumed.rewardOptions().length,4);const id=resumed.rewardOptions()[0];resumed.chooseReward(id);resumed.chooseRoute('moon');resumed.nextBattle();assert.equal(hash(resumed.exportSave()),row.second);}
 });
 
@@ -86,8 +86,8 @@ function uiHarness(save) {
 }
 
 
-test('actual UI starts v6, renders three offers / existing preview, and wires take or skip (DOM stub)',()=>{
- const freshUI=uiHarness();freshUI.click('#storyDialog',{action:'start'});assert.equal(freshUI.saved().version,6);
+test('actual UI starts v7, renders three offers / existing preview, and wires take or skip (DOM stub)',()=>{
+ const freshUI=uiHarness();freshUI.click('#storyDialog',{action:'start'});assert.equal(freshUI.saved().version,7);
  const opened=reward(7),save=plain(opened.exportSave());
  for(const choice of [opened.rewardOptions()[0],null]){
   const ui=uiHarness(save);assert.deepEqual(ui.saved(),save);ui.click('#storyDialog',{action:'resume'});
@@ -96,4 +96,10 @@ test('actual UI starts v6, renders three offers / existing preview, and wires ta
   assert.equal(ui.saved().state.deck.length,choice?11:10);assert.equal(ui.saved().state.phase,'route');ui.click('#storyDialog',{route:'moon'});ui.click('#storyDialog',{action:'next'});assert.equal(ui.saved().state.battle,2);if(choice)assert(ui.saved().state.hand.includes(choice));
  }
  const second=restored(E,save);second.chooseReward(null);second.chooseRoute('moon');second.nextBattle();assert(fight(E,second,OPTIONS).win);second.openReward();const ui=uiHarness(plain(second.exportSave()));ui.click('#storyDialog',{action:'resume'});assert(ui.node('#storyBody').innerHTML.includes(E.enemiesFor(second.snapshot()).trial.name));assert.equal((ui.node('#storyBody').innerHTML.match(/data-reward=/g)||[]).length,3);
+});
+
+
+test('v7 broad rewards keep the enemy forecast, take and skip controls in actual UI (DOM stub)',()=>{
+ const g=E.createGame(E.seededRandom(7),{ruleset:E.VARIETY_RULESET});g.start();assert(fight(E,g,OPTIONS).win);g.openReward();
+ for(const choice of [...g.rewardOptions(),null]){const ui=uiHarness(plain(g.exportSave()));ui.click('#storyDialog',{action:'resume'});const html=ui.node('#storyBody').innerHTML;assert.equal((html.match(/data-reward=/g)||[]).length,3);assert(html.includes('reward-forecast'));assert(html.includes('水鏡'));assert(html.includes('炉'));if(choice)ui.click('#storyDialog',{reward:choice});else ui.click('#storyDialog',{action:'skipReward'});assert.equal(ui.saved().version,7);assert.equal(ui.saved().state.deck.length,choice?11:10);}
 });
