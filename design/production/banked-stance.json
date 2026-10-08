@@ -40,7 +40,7 @@
           "name": "normal-bank",
           "variant": "base",
           "state": {"energy": 3},
-          "preview": {"actualBlock": 7, "actualFocus": 3},
+          "preview": {"actualBlock": 7, "focus": 3},
           "after": {"block": 7, "focus": 3, "energy": 2, "enemyHp": 48},
           "text": {"summary": ["防御7", "攻撃＋3"], "rules": ["支払い直後の魔力2以上", "成立"]}
         },
@@ -48,7 +48,7 @@
           "name": "normal-spend",
           "variant": "base",
           "state": {"energy": 2},
-          "preview": {"actualBlock": 2, "actualFocus": 3},
+          "preview": {"actualBlock": 2, "focus": 3},
           "after": {"block": 2, "focus": 3, "energy": 1, "enemyHp": 48},
           "text": {"summary": ["防御2", "攻撃＋3"], "rules": ["支払い直後の魔力2以上", "未成立"]}
         },
@@ -56,7 +56,7 @@
           "name": "evolved-bank",
           "variant": "upgrade",
           "state": {"energy": 3},
-          "preview": {"actualBlock": 10, "actualFocus": 5},
+          "preview": {"actualBlock": 10, "focus": 5},
           "after": {"block": 10, "focus": 5, "energy": 2, "enemyHp": 48},
           "text": {"summary": ["防御10", "攻撃＋5"], "rules": ["支払い直後の魔力2以上", "成立"]}
         }
@@ -92,8 +92,8 @@
         "evidence": "既存配布アセットを同一byteで再利用。新しい画像生成は行わない。"
       },
       "visualQa": {
-        "status": "reuse",
-        "note": "既存採用画像の再利用。新カードとしての実ブラウザ・実機表示は未確認。"
+        "status": "passed",
+        "note": "既存採用画像はpixel QA済み。同一byteを再利用する。新カードとしての実ブラウザ・実機表示は未確認。"
       }
     }
   ]
