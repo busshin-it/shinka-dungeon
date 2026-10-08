@@ -516,7 +516,7 @@ test('UI story rendering uses each saved ruleset for sanctuary choices and next-
   ui.game=restore(data.upgradedReady.engine);assert(ui.renderStory(ui.game.snapshot()).includes('enemy-preview-hp:52'));
   ui.game=restore(data.classicCamp.engine);step(ui.game,'chooseSanctuary','rest');assert(ui.renderStory(ui.game.snapshot()).includes('enemy-preview-hp:70'));
   assert(src.includes("enemyPattern(enemyId,s)"));
-  assert(read('v4-1/planning.html').includes('新しい成長試遊の基本デッキから始め直します'));
+  assert(read('v4-1/planning.html').includes('同じプレイ番号の3候補から選び直し、基本デッキで始めます'));
 });
 
 test('coverage includes every reachable growth phase and classic-only astrolabe remains separately pinned', () => {

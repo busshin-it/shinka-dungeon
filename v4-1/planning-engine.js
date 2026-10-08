@@ -116,6 +116,24 @@
     mirror: { name: '月鏡の護符', symbol: '◈', short: '鏡で返す', effect: '毎ターン、最初の防御カードで反射＋2。',
       deck: ['ice','guard','focus','spark','mirror','fadingStar','starWait','charge','meditate','shieldStrike'] }
   });
+  // Opt-in starter trial. The historical ORIGINS object remains byte-identical.
+  const TRIAL_ORIGINS = Object.freeze({
+    cadence: { name: '連奏の護符', symbol: '♫', short: '二撃をつなぐ', effect: '毎ターン、2枚目の手札攻撃のダメージ＋3。' },
+    riposte: { name: '返刃の護符', symbol: '◇', short: '守りから攻める', effect: '毎ターン、最初にブロックを得るカードで、このターンの次の攻撃＋2。' },
+    reservoir: { name: '蓄星の護符', symbol: '✧', short: '魔力を残して備える', effect: '魔力2以上でターンを終えると、次ターンに2ブロック。' }
+  });
+  const ALL_ORIGINS = Object.freeze({...ORIGINS, ...TRIAL_ORIGINS});
+  const originsFor = state => state?.ruleset === EARLY_CHOICE_RULESET && (state.flags?.charmTrial || Object.hasOwn(TRIAL_ORIGINS,state.origin)) ? ALL_ORIGINS : ORIGINS;
+  // A separate seeded stream pins intro offers without spending battle/reward RNG.
+  function offeredOrigins(state, rngState) {
+    if (!state.flags?.charmTrial) return Object.keys(originsFor(state));
+    let seed = (rngState ^ 0x4348524d) >>> 0;
+    seed = Math.imul(seed ^ (seed >>> 16), 0x45d9f3b) >>> 0;
+    seed = Math.imul(seed ^ (seed >>> 16), 0x45d9f3b) >>> 0;
+    const random = seededRandom((seed ^ (seed >>> 16)) >>> 0), ids = Object.keys(ALL_ORIGINS);
+    for (let i=ids.length-1;i>0;i--) { const j=Math.floor(random()*(i+1)); [ids[i],ids[j]]=[ids[j],ids[i]]; }
+    return ids.slice(0,3);
+  }
   const ENEMIES = Object.freeze({
     skeleton: { name: '蒼鎧の門番', hp: 48, art: 'skeleton', lesson: '溜めの間に攻め、次の強打に備えよう。', moves: [
       { type: 'attack', label: '剣のひと振り', power: 6, hits: 1 }, { type: 'recover', label: '剣を構える' }, { type: 'attack', label: '振り下ろし', power: 12, hits: 1 }] },
@@ -216,8 +234,9 @@
     }
     return { hp, enemyHp, taken, blocked, reflected, resolvedHits };
   }
-  function createGame(random = Math.random, { ruleset = STARTER_COST_RULESET } = {}) {
+  function createGame(random = Math.random, { ruleset = STARTER_COST_RULESET, charmTrial = false } = {}) {
     if (![GROWTH_RULESET,STARTER_COST_RULESET,EARLY_CHOICE_RULESET,'classic'].includes(ruleset)) throw new Error('Unknown run ruleset');
+    if (charmTrial && (ruleset !== EARLY_CHOICE_RULESET || typeof random.state !== 'function')) throw new Error('Charm trial requires seeded growth-v3');
     let s, rng = random;
     const snapshot = () => JSON.parse(JSON.stringify(s));
     const isGrowth = () => isGrowthRun(s);
@@ -238,9 +257,11 @@
         log: ['護符を選んで、蒼星の回廊へ。'] };
       if (isGrowthRun({ruleset})) { s.ruleset = ruleset; s.earlyRemoval = null; s.deck = [...BASIC_STARTER]; s.enemyHp = s.enemyMaxHp = GROWTH_ENEMIES.skeleton.hp; }
       if (isPaidGrowthRun(s)) s.chapter2Options.library = 'starScaleGuard';
+      if (charmTrial) { s.flags.charmTrial = true; s.origin = offeredOrigins(s,rng.state())[0]; }
       return snapshot();
     }
-    function selectOrigin(id) { if (s.phase !== 'intro' || !Object.hasOwn(ORIGINS, id)) return false; s.origin = id; s.deck = [...starter(id)]; return true; }
+    function originOptions() { return offeredOrigins(s,typeof rng.state === 'function' ? rng.state() : 0); }
+    function selectOrigin(id) { if (s.phase !== 'intro' || !originOptions().includes(id)) return false; s.origin = id; s.deck = [...starter(id)]; return true; }
     function prepare() {
       s.phase = 'battle'; s.turn = 1; s.energy = s.route2 === 'causeway' && s.battle >= 4 ? 3 : 2; s.block = s.focus = s.weaken = s.reflect = s.turnDamage = s.spellCount = 0; s.flags = {}; s.interrupted = false; s.pendingFocus = s.pendingBlock = 0; s.prevEndEmpty = false; s.turnLastAttack = s.prevLastAttack = 0; s.usedExhaustThisTurn = false; s.relicUsed = {emberCore:false,starBottle:false}; s.removalSource = null;
       s.enemyId = s.battle === 1 ? 'skeleton' : s.battle === 2 ? (s.route === 'moon' ? 'wraith' : 'stone') : s.battle === 3 ? 'trial' : s.battle === 4 ? s.chapter2Encounter : s.battle === 5 ? 'elite' : 'moth';
@@ -293,14 +314,17 @@
       const actualReflectDamage = c.reflectDamageCap ? Math.min(c.reflectDamageCap, s.reflect * c.reflectDamageMultiplier) : 0;
       const recycleIndex = c.recycleAttack ? latestDiscardAttackIndex() : -1;
       const recycleTargetId = recycleIndex >= 0 ? s.discard[recycleIndex] : null;
-      return { ...c, recoverCondition, actualReflectDamage,
+      const actualBlock = (c.block || 0) + (c.weakBlockCap ? Math.min(c.weakBlockCap,s.weaken*c.weakBlockMultiplier) : 0) + (c.prevEmptyBlock && s.prevEndEmpty ? c.prevEmptyBlock : 0) + (c.exhaustBlock && s.usedExhaustThisTurn ? c.exhaustBlock : 0) + (c.breakBlock && s.interrupted ? c.breakBlock : 0) + (c.bankBlock && s.energy - c.cost >= 2 ? c.bankBlock : 0);
+      const cadence = s.origin === 'cadence' && c.isAttack && s.spellCount === 1 ? 3 : 0;
+      const riposte = s.origin === 'riposte' && actualBlock > 0 && !s.flags.riposte ? 2 : 0;
+      return { ...c, ...(riposte ? {focus:(c.focus || 0)+riposte,originFocusBonus:riposte} : {}), ...(cadence ? {originAttackBonus:cadence} : {}), recoverCondition, actualReflectDamage,
         ...(c.weakBlockCap ? {actualConsumedWeak:s.weaken,actualWeakBlockBonus:Math.min(c.weakBlockCap,s.weaken*c.weakBlockMultiplier)} : {}),
         actualTransferredBlock: c.transferBlockCap ? Math.min(c.transferBlockCap, s.block) : 0,
         actualConsumedBlock: c.transferBlockCap || c.consumeBlock ? s.block : 0,
         actualConsumedReflect: c.consumeReflect ? s.reflect : 0,
         recycleTargetId, recycleTargetName: recycleTargetId ? runCard(recycleTargetId).name : '',
-        actualDamage: c.isAttack ? c.damage + s.focus + (recoverCondition ? c.recoverBonus : 0) + actualReflectDamage + (c.combo && s.spellCount > 0 ? c.combo : 0) + (c.weakBonus && s.weaken > 0 ? c.weakBonus : 0) + (c.emptyBonus && s.energy === 0 ? c.emptyBonus : 0) + (c.bankBonus && s.energy >= 4 ? c.bankBonus : 0) + (c.memoryCap ? Math.min(c.memoryCap,Math.floor(s.prevLastAttack/2)) : 0) + (c.weakThreshold && s.weaken >= c.weakThreshold ? c.thresholdBonus : 0) + Math.min(c.blockDamage || 0, s.block) + charm + forge : 0,
-        actualBlock: (c.block || 0) + (c.weakBlockCap ? Math.min(c.weakBlockCap,s.weaken*c.weakBlockMultiplier) : 0) + (c.prevEmptyBlock && s.prevEndEmpty ? c.prevEmptyBlock : 0) + (c.exhaustBlock && s.usedExhaustThisTurn ? c.exhaustBlock : 0) + (c.breakBlock && s.interrupted ? c.breakBlock : 0) + (c.bankBlock && s.energy - c.cost >= 2 ? c.bankBlock : 0),
+        actualDamage: c.isAttack ? c.damage + s.focus + (recoverCondition ? c.recoverBonus : 0) + actualReflectDamage + (c.combo && s.spellCount > 0 ? c.combo : 0) + (c.weakBonus && s.weaken > 0 ? c.weakBonus : 0) + (c.emptyBonus && s.energy === 0 ? c.emptyBonus : 0) + (c.bankBonus && s.energy >= 4 ? c.bankBonus : 0) + (c.memoryCap ? Math.min(c.memoryCap,Math.floor(s.prevLastAttack/2)) : 0) + (c.weakThreshold && s.weaken >= c.weakThreshold ? c.thresholdBonus : 0) + Math.min(c.blockDamage || 0, s.block) + charm + forge + cadence : 0,
+        actualBlock,
         bankBlockCondition: Boolean(c.bankBlock && s.energy - c.cost >= 2), emptyWeakCondition: Boolean(c.emptyWeak && s.energy === c.cost),
         weakThresholdCondition: Boolean(c.weakThreshold && s.weaken >= c.weakThreshold), breakCondition: Boolean(c.breakBlock && s.interrupted),
         actualDraw: (c.draw || 0) + (c.breakDraw && s.interrupted ? c.breakDraw : 0),
@@ -319,6 +343,8 @@
     function play(index) {
       if (s.phase !== 'battle' || !Number.isInteger(index)) return false;
       const c = previewCard(index); if (!c || c.cost > s.energy) return false;
+      if (c.originFocusBonus) { s.flags.riposte = true; s.stats.relics++; }
+      if (c.originAttackBonus) s.stats.relics++;
       s.energy -= c.cost; s.hand.splice(index, 1); s.stats.played[c.base] = (s.stats.played[c.base] || 0) + 1;
       let damage = 0;
       if (c.isAttack) {
@@ -354,6 +380,7 @@
       } else { s.enemyHp += a.heal; note(a.detail); }
       s.discard.push(...s.hand.splice(0)); s.block = s.focus = s.reflect = 0; finish();
       if (s.phase === 'battle') {
+        if (s.origin === 'reservoir' && s.energy >= 2) { s.pendingBlock += 2; s.stats.relics++; note('蓄星の護符：次ターンに2ブロック。'); }
         s.prevEndEmpty = endedEmpty; s.prevLastAttack = s.turnLastAttack; s.turnLastAttack = 0; s.usedExhaustThisTurn = false;
         if (s.relics.includes('emberCore') && !s.relicUsed.emberCore && endedEmpty) { s.pendingBlock += 4; s.relicUsed.emberCore = true; s.stats.relics++; }
         s.turn++; s.energy = Math.min(MAX_ENERGY, s.energy + manaRegenFor(s));
@@ -458,7 +485,7 @@
         if (!record(x) || (growth ? x.ruleset !== savedRuleset || !(x.earlyRemoval === null || (typeof x.earlyRemoval === 'string' && runCard(x.earlyRemoval))) : Object.hasOwn(x,'ruleset') || Object.hasOwn(x,'earlyRemoval'))) return false;
         const definitions = enemiesFor(x);
         const phases = ['intro','battle','victory','defeat','complete','reward','route','chapter','sanctuary','evolve','camp','remove','ready','astrolabe'];
-        if (!record(x) || !phases.includes(x.phase) || !Object.hasOwn(ORIGINS,x.origin) || !Object.hasOwn(definitions,x.enemyId)) return false;
+        if (!record(x) || !phases.includes(x.phase) || !Object.hasOwn(originsFor(x),x.origin) || !Object.hasOwn(definitions,x.enemyId)) return false;
         if (!integer(x.battle,1,6) || !integer(x.turn,1,10000) || ![60,66].includes(x.maxHp) || !integer(x.hp,0,x.maxHp) || x.enemyMaxHp !== definitions[x.enemyId].hp || !integer(x.enemyHp,0,x.enemyMaxHp)) return false;
         if (x.maxEnergy !== 5 || !integer(x.energy,0,5) || !integer(x.wins,0,6)) return false;
         for (const k of ['block','focus','weaken','reflect','turnDamage','spellCount','pendingFocus','pendingBlock','turnLastAttack','prevLastAttack']) if (!integer(x[k],0,100000)) return false;
@@ -467,7 +494,8 @@
         for (const k of ['deck','hand','draw','discard','exhaust','upgrades','removed','rewards','rewardOffers']) if (!Array.isArray(x[k]) || x[k].length > 30 || x[k].some(id => typeof id !== 'string' || !runCard(id))) return false;
         if (x.deck.length < 5 || x.deck.length > 20 || x.rewardOffers.length > 4 || new Set(x.rewardOffers).size !== x.rewardOffers.length) return false;
         for (const k of ['lastReward','lastUpgrade','pendingUpgrade']) if (x[k] !== null && (typeof x[k] !== 'string' || !runCard(x[k]))) return false;
-        if (!record(x.flags) || Object.values(x.flags).some(v => typeof v !== 'boolean') || Object.keys(x.flags).some(k => !['frost','storm','mirror','forge'].includes(k))) return false;
+        if (!record(x.flags) || Object.values(x.flags).some(v => typeof v !== 'boolean') || Object.keys(x.flags).some(k => !['frost','storm','mirror','forge', ...(x.ruleset === EARLY_CHOICE_RULESET && x.phase === 'intro' ? ['charmTrial'] : []), ...(x.origin === 'riposte' && x.phase !== 'intro' ? ['riposte'] : [])].includes(k))) return false;
+        if (Object.hasOwn(x.flags,'charmTrial') && (x.flags.charmTrial !== true || !offeredOrigins(x,save.rngState).includes(x.origin))) return false;
         if (!record(x.stats) || !record(x.stats.played) || Object.entries(x.stats.played).some(([id,n]) => !Object.hasOwn(CARDS,id) || !integer(n,0,1000000))) return false;
         for (const k of ['dealt','taken','healed','energyGained','blocked','reflected','interrupts','relics']) if (!integer(x.stats[k],0,1000000)) return false;
         if (!Array.isArray(x.history) || x.history.length > 6 || x.history.some(h => !Object.values(definitions).some(e => e.name === h.enemy) || !integer(h.battle,1,6) || !integer(h.turns,1,10000) || !integer(h.hp,0,66) || !['victory','defeat'].includes(h.result))) return false;
@@ -529,7 +557,7 @@
       } catch { return false; }
     }
     reset();
-    return { snapshot, card: runCard, selectOrigin, start, intent, futureIntents, previewCard, play, endTurn, rewardOptions, openReward, chooseReward, chooseRoute, chooseSanctuary, chooseRelic, cancelRelic, upgradeOptions, evolve, cancelEvolution, chooseChapter, chooseCamp, removeOptions, removeCard, cancelRemoval, nextBattle, exportSave, restoreSave, reset };
+    return { snapshot, card: runCard, originOptions, selectOrigin, start, intent, futureIntents, previewCard, play, endTurn, rewardOptions, openReward, chooseReward, chooseRoute, chooseSanctuary, chooseRelic, cancelRelic, upgradeOptions, evolve, cancelEvolution, chooseChapter, chooseCamp, removeOptions, removeCard, cancelRemoval, nextBattle, exportSave, restoreSave, reset };
   }
-  globalThis.ShinkaV43 = Object.freeze({ CARDS, ORIGINS, ENEMIES, GROWTH_ENEMIES, CURRENT_ENEMIES, GROWTH_RULESET, STARTER_COST_RULESET, EARLY_CHOICE_RULESET, isPaidGrowthRun, rewardCountFor, EARLY_REWARD_POOLS, isGrowthRun, manaRegenFor, BASIC_STARTER, FIRST_REWARD_POOLS, enemiesFor, RELICS, enemyPattern, MAX_HP, MAX_ENERGY, RUN_LENGTH, card, seededRandom, resolveAttack, createGame });
+  globalThis.ShinkaV43 = Object.freeze({ CARDS, ORIGINS, TRIAL_ORIGINS, originsFor, ENEMIES, GROWTH_ENEMIES, CURRENT_ENEMIES, GROWTH_RULESET, STARTER_COST_RULESET, EARLY_CHOICE_RULESET, isPaidGrowthRun, rewardCountFor, EARLY_REWARD_POOLS, isGrowthRun, manaRegenFor, BASIC_STARTER, FIRST_REWARD_POOLS, enemiesFor, RELICS, enemyPattern, MAX_HP, MAX_ENERGY, RUN_LENGTH, card, seededRandom, resolveAttack, createGame });
 })();
