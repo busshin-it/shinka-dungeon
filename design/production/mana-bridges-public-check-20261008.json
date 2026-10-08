@@ -1,0 +1,284 @@
+{
+  "commit": "9b7e0f49fc650935b23bca7dd1c0a9fef7214a93",
+  "checkedAtUtc": "2026-10-08T00:56:13.264697+00:00",
+  "files": 46,
+  "matching": 46,
+  "rows": [
+    {
+      "path": "./app.css",
+      "matches": true,
+      "sha256": "4642315666c5e7e1e9e0ed104f4ca07ff06956c084c964ef9655a46ed070a8d2",
+      "expectedSha256": "4642315666c5e7e1e9e0ed104f4ca07ff06956c084c964ef9655a46ed070a8d2"
+    },
+    {
+      "path": "./assets/background.webp",
+      "matches": true,
+      "sha256": "8e0d08abd7bfb4a878b47969ab43d64f0a9f4cde7a155ee6e56b450d203bf884",
+      "expectedSha256": "8e0d08abd7bfb4a878b47969ab43d64f0a9f4cde7a155ee6e56b450d203bf884"
+    },
+    {
+      "path": "./assets/bell-spirit.webp",
+      "matches": true,
+      "sha256": "413538ae4553bf21c7d16eccf77146adfe01533a422ee6916c6884f465653ed2",
+      "expectedSha256": "413538ae4553bf21c7d16eccf77146adfe01533a422ee6916c6884f465653ed2"
+    },
+    {
+      "path": "./assets/boss.webp",
+      "matches": true,
+      "sha256": "1f6fd7481b89990c75df77f004087b2bc90b22933459c50af20dee93ecc18bbe",
+      "expectedSha256": "1f6fd7481b89990c75df77f004087b2bc90b22933459c50af20dee93ecc18bbe"
+    },
+    {
+      "path": "./assets/bow-watcher.webp",
+      "matches": true,
+      "sha256": "08950dacc07be1aeee7c4ccfe03d49edd280122b9faf063082eddf3364096e15",
+      "expectedSha256": "08950dacc07be1aeee7c4ccfe03d49edd280122b9faf063082eddf3364096e15"
+    },
+    {
+      "path": "./assets/chant-ward.webp",
+      "matches": true,
+      "sha256": "b73cfce0f161bd44399b3af56b0d697ee9e9dfa2aab94a296832ef7278a9879a",
+      "expectedSha256": "b73cfce0f161bd44399b3af56b0d697ee9e9dfa2aab94a296832ef7278a9879a"
+    },
+    {
+      "path": "./assets/charge.webp",
+      "matches": true,
+      "sha256": "1bf6efdcbb09dbb6dad11b395a0a3630440ff571456322ea79bbaf535f0ab9f9",
+      "expectedSha256": "1bf6efdcbb09dbb6dad11b395a0a3630440ff571456322ea79bbaf535f0ab9f9"
+    },
+    {
+      "path": "./assets/ebb-arrow.webp",
+      "matches": true,
+      "sha256": "7f683991fc427be5f351b1b442f9083b8c9c1858cbb5dbc7f55f1214408af116",
+      "expectedSha256": "7f683991fc427be5f351b1b442f9083b8c9c1858cbb5dbc7f55f1214408af116"
+    },
+    {
+      "path": "./assets/ferryman-rune.webp",
+      "matches": true,
+      "sha256": "4abc9848bd0f7f27cb9029bd73d7cee6382175d01201a660664e07df359eb934",
+      "expectedSha256": "4abc9848bd0f7f27cb9029bd73d7cee6382175d01201a660664e07df359eb934"
+    },
+    {
+      "path": "./assets/frost-pierce.webp",
+      "matches": true,
+      "sha256": "03130bd24e99c017b293be7420fe41ad8551d77ca8f8a9bb8d242e46bb8084b7",
+      "expectedSha256": "03130bd24e99c017b293be7420fe41ad8551d77ca8f8a9bb8d242e46bb8084b7"
+    },
+    {
+      "path": "./assets/gatekeeper.webp",
+      "matches": true,
+      "sha256": "41347b6dd633ccbd749a2ecf79099d3870812c4ed6a9162989a8db6cf07bf436",
+      "expectedSha256": "41347b6dd633ccbd749a2ecf79099d3870812c4ed6a9162989a8db6cf07bf436"
+    },
+    {
+      "path": "./assets/hero.webp",
+      "matches": true,
+      "sha256": "7bac13a1f2b73b83cf68a0e506a9ec6f77ffafff68f3973bff9d81015a42baa2",
+      "expectedSha256": "7bac13a1f2b73b83cf68a0e506a9ec6f77ffafff68f3973bff9d81015a42baa2"
+    },
+    {
+      "path": "./assets/librarian-noa.webp",
+      "matches": true,
+      "sha256": "f88e237806bba2cead68c5e8a0dbf723b8eca1186eeb7719e8a564397a05ec76",
+      "expectedSha256": "f88e237806bba2cead68c5e8a0dbf723b8eca1186eeb7719e8a564397a05ec76"
+    },
+    {
+      "path": "./assets/mirror-lance.webp",
+      "matches": true,
+      "sha256": "93a900269fe66e3fdb0fd068da361fc1a51752ae499821afa93ba7fd9ddb42a4",
+      "expectedSha256": "93a900269fe66e3fdb0fd068da361fc1a51752ae499821afa93ba7fd9ddb42a4"
+    },
+    {
+      "path": "./assets/moon-mirror.webp",
+      "matches": true,
+      "sha256": "c9ed9b04fdac564d17677427d68951dd3836ffac414f70aa95f0a22d374c649e",
+      "expectedSha256": "c9ed9b04fdac564d17677427d68951dd3836ffac414f70aa95f0a22d374c649e"
+    },
+    {
+      "path": "./assets/quiet-comet.webp",
+      "matches": true,
+      "sha256": "036721a68c2e830d40ef0d9810a1cdb7a57085879f466302e2124955c0984680",
+      "expectedSha256": "036721a68c2e830d40ef0d9810a1cdb7a57085879f466302e2124955c0984680"
+    },
+    {
+      "path": "./assets/shatter.webp",
+      "matches": true,
+      "sha256": "6a3c0cfe278fcf41f8f2d693d6f42817ebb2aae25707ded2cc79fbb594c642b2",
+      "expectedSha256": "6a3c0cfe278fcf41f8f2d693d6f42817ebb2aae25707ded2cc79fbb594c642b2"
+    },
+    {
+      "path": "./assets/shield-strike.webp",
+      "matches": true,
+      "sha256": "5badf9969a9b716841a4b989e477f45f64d81da8f48ea7f73a4457a6747d63ab",
+      "expectedSha256": "5badf9969a9b716841a4b989e477f45f64d81da8f48ea7f73a4457a6747d63ab"
+    },
+    {
+      "path": "./assets/star-bookmark.webp",
+      "matches": true,
+      "sha256": "5eb5e60418525f3b5b54998054bc6a525cfd654f7c84b231a9db5e80fffc028c",
+      "expectedSha256": "5eb5e60418525f3b5b54998054bc6a525cfd654f7c84b231a9db5e80fffc028c"
+    },
+    {
+      "path": "./assets/star-crossing-causeway.webp",
+      "matches": true,
+      "sha256": "adfc9a334478b74131db1dfd0f232d75e5f3af8955f5517b469cca2de8086885",
+      "expectedSha256": "adfc9a334478b74131db1dfd0f232d75e5f3af8955f5517b469cca2de8086885"
+    },
+    {
+      "path": "./assets/star-ferry-ward.webp",
+      "matches": true,
+      "sha256": "c72f959ea23e9714f0329bcd50b729456986321bef20da4144a334c89ed5fa79",
+      "expectedSha256": "c72f959ea23e9714f0329bcd50b729456986321bef20da4144a334c89ed5fa79"
+    },
+    {
+      "path": "./assets/star-relay.webp",
+      "matches": true,
+      "sha256": "ab57e7fed839a208808a30a2b13abcbfce1b4c6bcaa4990c5fdbb3ab5cd5094c",
+      "expectedSha256": "ab57e7fed839a208808a30a2b13abcbfce1b4c6bcaa4990c5fdbb3ab5cd5094c"
+    },
+    {
+      "path": "./assets/tide-star-sentinel.webp",
+      "matches": true,
+      "sha256": "d5efa9db2d9474700c5891321af1afa3d2f8448b7e56d0a28bb1ecda06a4bf34",
+      "expectedSha256": "d5efa9db2d9474700c5891321af1afa3d2f8448b7e56d0a28bb1ecda06a4bf34"
+    },
+    {
+      "path": "./assets/wraith.webp",
+      "matches": true,
+      "sha256": "9d25825eecafb75e6c85d0ca15916faedeeeeb39d9d80134629ea6a9d0a6bc1c",
+      "expectedSha256": "9d25825eecafb75e6c85d0ca15916faedeeeeb39d9d80134629ea6a9d0a6bc1c"
+    },
+    {
+      "path": "./card-art-data.js",
+      "matches": true,
+      "sha256": "f94a91c8adab58a25074b405befbf8d73016d97cdb273a986455ef84e93f1d8f",
+      "expectedSha256": "f94a91c8adab58a25074b405befbf8d73016d97cdb273a986455ef84e93f1d8f"
+    },
+    {
+      "path": "./engine.js",
+      "matches": true,
+      "sha256": "e2ee5f6eae96db90159fdeab2deaabac4736843695fb43b5bfcb1e7527038ed9",
+      "expectedSha256": "e2ee5f6eae96db90159fdeab2deaabac4736843695fb43b5bfcb1e7527038ed9"
+    },
+    {
+      "path": "./fan-card-text.js",
+      "matches": true,
+      "sha256": "240c22c71c3ae15c390071b457088ce96f1b5fd8f5472e1b9bc3974cff74fb60",
+      "expectedSha256": "240c22c71c3ae15c390071b457088ce96f1b5fd8f5472e1b9bc3974cff74fb60"
+    },
+    {
+      "path": "./fan-controller.js",
+      "matches": true,
+      "sha256": "00be80f7c6e03488c4de040bbe2f24a1a040da6cd3152be3d9b8198ac10fd8e5",
+      "expectedSha256": "00be80f7c6e03488c4de040bbe2f24a1a040da6cd3152be3d9b8198ac10fd8e5"
+    },
+    {
+      "path": "./fan-ui.css",
+      "matches": true,
+      "sha256": "3ecf68c7d7170e2e89a61d75b5c77d13d0846ceb20c05a4cb461d88b41217dfc",
+      "expectedSha256": "3ecf68c7d7170e2e89a61d75b5c77d13d0846ceb20c05a4cb461d88b41217dfc"
+    },
+    {
+      "path": "./fan-ui.js",
+      "matches": true,
+      "sha256": "3c5cb01f8bb486d42598a8051143ed4ba5108f2115b36040e22317fba95f52b1",
+      "expectedSha256": "3c5cb01f8bb486d42598a8051143ed4ba5108f2115b36040e22317fba95f52b1"
+    },
+    {
+      "path": "./game.js",
+      "matches": true,
+      "sha256": "b67f47bfc7daae022a296510272795803129688c63c37643352e0c6d8bda4a98",
+      "expectedSha256": "b67f47bfc7daae022a296510272795803129688c63c37643352e0c6d8bda4a98"
+    },
+    {
+      "path": "./icons/apple-touch-icon.png",
+      "matches": true,
+      "sha256": "74cedb2ffa5d928f4a6bdc0ce7cfb8b0a8258ca615324c5f7865916171f4a710",
+      "expectedSha256": "74cedb2ffa5d928f4a6bdc0ce7cfb8b0a8258ca615324c5f7865916171f4a710"
+    },
+    {
+      "path": "./icons/icon-192.png",
+      "matches": true,
+      "sha256": "a735b8960d4117aeb3761da62389a16a982860a6d7b11a035304d8727343fd8e",
+      "expectedSha256": "a735b8960d4117aeb3761da62389a16a982860a6d7b11a035304d8727343fd8e"
+    },
+    {
+      "path": "./icons/icon-512.png",
+      "matches": true,
+      "sha256": "631e40c260979d5365c0f91e1ff5e3848fb7ec70e31388d94c0fcc3a94b834a2",
+      "expectedSha256": "631e40c260979d5365c0f91e1ff5e3848fb7ec70e31388d94c0fcc3a94b834a2"
+    },
+    {
+      "path": "./index.html",
+      "matches": true,
+      "sha256": "51c7a1f42f353e06bcf87747eda408d1e2321ac936515727fc9325b1f0b1528e",
+      "expectedSha256": "51c7a1f42f353e06bcf87747eda408d1e2321ac936515727fc9325b1f0b1528e"
+    },
+    {
+      "path": "./journey-visual.js",
+      "matches": true,
+      "sha256": "a7f9f4f01524a4f6ff690e413cbc317d0bfc68da0b6e9800b79177b9bb3063fe",
+      "expectedSha256": "a7f9f4f01524a4f6ff690e413cbc317d0bfc68da0b6e9800b79177b9bb3063fe"
+    },
+    {
+      "path": "./manifest.webmanifest",
+      "matches": true,
+      "sha256": "58eeecd970238eaaf7156ac708d342dd848dfefb4e7cb241a9f1775ac8bbcd08",
+      "expectedSha256": "58eeecd970238eaaf7156ac708d342dd848dfefb4e7cb241a9f1775ac8bbcd08"
+    },
+    {
+      "path": "./planning-engine.js",
+      "matches": true,
+      "sha256": "01b69514f0feccce01faa452baaa1688a2bc5b636725a6613dfaca692ec4331e",
+      "expectedSha256": "01b69514f0feccce01faa452baaa1688a2bc5b636725a6613dfaca692ec4331e"
+    },
+    {
+      "path": "./planning-game.js",
+      "matches": true,
+      "sha256": "90c099369924373e4e35dfbf132d14474af3f2e6322a91e2c34fb8e7787da846",
+      "expectedSha256": "90c099369924373e4e35dfbf132d14474af3f2e6322a91e2c34fb8e7787da846"
+    },
+    {
+      "path": "./planning-v1-engine.js",
+      "matches": true,
+      "sha256": "2f8f31821545cf53c75198e20b6cd0f8cfe573c36cf61a6ad19f93272cae4e65",
+      "expectedSha256": "2f8f31821545cf53c75198e20b6cd0f8cfe573c36cf61a6ad19f93272cae4e65"
+    },
+    {
+      "path": "./planning-v2-engine.js",
+      "matches": true,
+      "sha256": "a61f4cfcd0758ef960f24d9b53259005f851da436a502f66f0a6a9b13e73545f",
+      "expectedSha256": "a61f4cfcd0758ef960f24d9b53259005f851da436a502f66f0a6a9b13e73545f"
+    },
+    {
+      "path": "./planning.css",
+      "matches": true,
+      "sha256": "5ce3005b25ee084178ef9303a8cb5e69c8caa2719c98b2a6a51ced294622223c",
+      "expectedSha256": "5ce3005b25ee084178ef9303a8cb5e69c8caa2719c98b2a6a51ced294622223c"
+    },
+    {
+      "path": "./planning.html",
+      "matches": true,
+      "sha256": "77c67bfb602957d3ca33ca28c8f81fdf813ff34394ee7a118eb8dbc230e12447",
+      "expectedSha256": "77c67bfb602957d3ca33ca28c8f81fdf813ff34394ee7a118eb8dbc230e12447"
+    },
+    {
+      "path": "./pwa.js",
+      "matches": true,
+      "sha256": "37e6c3759f4e3c908f04db68cb70553c5e51a55f8d803f6607aebf4bc092bc4c",
+      "expectedSha256": "37e6c3759f4e3c908f04db68cb70553c5e51a55f8d803f6607aebf4bc092bc4c"
+    },
+    {
+      "path": "./release.json",
+      "matches": true,
+      "sha256": "070252bc8963e23a55eb14e5bfd773506a00ecfb1809bc661de8d3c0bb9a669c",
+      "expectedSha256": "070252bc8963e23a55eb14e5bfd773506a00ecfb1809bc661de8d3c0bb9a669c"
+    },
+    {
+      "path": "./sw.js",
+      "matches": true,
+      "sha256": "6523f5f63877418f26545896d2cfacb59dea155fe381fe536f76ce686bf06054",
+      "expectedSha256": "6523f5f63877418f26545896d2cfacb59dea155fe381fe536f76ce686bf06054"
+    }
+  ]
+}
