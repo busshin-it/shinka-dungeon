@@ -48,3 +48,5 @@ Node全256、Python配布4、Factory14、release verify、git diff --check成功
 ## 停止点
 
 Draft PRまで。mainマージ、ready化、自動マージ、Pages公開、次の量産は行わない。次は人間が3護符で同じ敵に向き合い、守り→攻撃、二撃、魔力持越しを実際に選び分けたくなるか確認する。追加9案と6系統の職業実装は別の依頼が必要。
+
+提出先：[Draft PR #30](https://github.com/busshin-it/shinka-dungeon/pull/30)。初回head a48e5ced、tree e554e52a は検証済みローカルtreeと一致。mainは引き続きfc157e7。
