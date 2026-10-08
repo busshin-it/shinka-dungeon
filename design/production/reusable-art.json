@@ -426,7 +426,7 @@
       "card_id": "bankedStance",
       "name": "星留めの構え",
       "family": "focus",
-      "art_key": "starFerryWard"
+      "art_key": "bankedStance"
     },
     {
       "card_id": "echo",
@@ -745,8 +745,7 @@
       },
       "art_key": "starFerryWard",
       "current_cards": [
-        "starFerryWard",
-        "bankedStance"
+        "starFerryWard"
       ],
       "style_group": "star-causeway-detailed",
       "visual_motif": "Ferryman and celestial boat inside a luminous blue dome on flooded ruins",
