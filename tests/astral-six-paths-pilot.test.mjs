@@ -155,13 +155,14 @@ test("wolf energy cap is effective when carrying unspent mana between turns",()=
   g.endTurn();assert.equal(g.snapshot().energy,4);
 });
 
-test("existing 61-card screen links to isolated effects playtest without changing its engine or save flow",()=>{
+test("release app stays untouched while README links to standalone effects playtest",()=>{
   const html=fs.readFileSync(new URL("../v4-1/planning.html",import.meta.url),"utf8");
   const pilot=fs.readFileSync(new URL("../v4-1/six-paths-pilot.html",import.meta.url),"utf8");
-  assert.match(html,/<a class="quiet mode-link" href="\.\/six-paths-pilot\.html"[^>]*>新6系統の効果試作へ<\/a>/);
+  const readme=fs.readFileSync(new URL("../README.md",import.meta.url),"utf8");
+  assert.doesNotMatch(html,/href="\.\/six-paths-pilot\.html"/);
   assert.match(html,/<script src="\.\/planning-engine\.js"><\/script>/);
   assert.match(html,/<script src="\.\/planning-game\.js"><\/script>/);
-  assert.doesNotMatch(html,/src="\.\/six-paths-pilot\.mjs"/);
+  assert.match(readme,/\]\(v4-1\/six-paths-pilot\.html\)/);
   assert.match(pilot,/<a href="\.\/planning\.html">従来のゲームへ<\/a>/);
   assert.doesNotMatch(pilot,/localStorage|sessionStorage|planning-game\.js/);
 });
