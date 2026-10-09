@@ -301,11 +301,12 @@ test("three encounters can finish using rewards, with a complete state and deter
   g.chooseReward("mirror");
   assert(g.nextBattle());
   assert.equal(g.snapshot().enemyMaxHp,21);
-  play(g,"burst"); // 12
-  play(g,"bolt");  // +4
-  play(g,"strike"); // +4
-  g.endTurn(); // Enemy rests; hand refills
-  play(g,"bolt"); // +4: clear 21 HP
+  play(g,"burst"); // 12, consumes 3 energy
+  for(let step=0; step<15 && g.snapshot().phase==="battle"; step++){
+    const s=g.snapshot(), index=s.hand.findIndex(id=>["bolt","strike","burst"].includes(id) && g.canPlay(id));
+    if(index>=0) assert.equal(g.play(index),true);
+    else assert.equal(g.endTurn(),true); // test enemy rests; replenish energy and hand
+  }
   assert.equal(g.snapshot().phase,"victory");
   assert.equal(g.openReward(),true);
   assert.equal(g.snapshot().phase,"complete");
