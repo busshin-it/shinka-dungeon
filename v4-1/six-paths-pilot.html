@@ -60,42 +60,91 @@ footer{padding-bottom:30px;color:#bbc1cd;font-size:13px}
   <div id="hand" class="hand"></div>
   <div class="actions"><button id="endTurn" class="control">ターン終了 →</button><button id="restart" class="control secondary">もう一度試す</button></div>
 </section>
+<section id="journeyPanel" class="panel" hidden>
+  <h2 id="journeyTitle">戦闘の結果</h2>
+  <p id="journeyHint"></p>
+  <div id="rewardCards" class="hand"></div>
+  <div class="actions"><button id="advance" class="control">次へ進む →</button><button id="skipReward" class="control secondary" hidden>報酬を見送る</button></div>
+</section>
 <section class="panel"><h2>戦闘ログ</h2><pre id="log" aria-live="polite"></pre></section>
 <footer>
-  <p>試作版の数値・カード名・敵は調整用の仮設定です。公開中の61枚や既存のセーブには影響しません。敵の物理耐性・魔法耐性の数値はカードの攻撃にだけ適用し、鏡術反射は無属性です。</p>
+  <p>3戦・4択報酬・専用の自動保存に対応。数値・カード名・敵は調整用の仮設定です。公開中の61枚や既存のセーブには影響しません。敵の物理耐性・魔法耐性の数値はカードの攻撃にだけ適用し、鏡術反射は無属性です。</p>
   <p>攻撃呪文／氷と毒／純物理武器／回復と鏡術／大技／魔獣召喚。魔獣は同時に1体、カードに反応するのは各ターン1回です。</p>
 </footer>
 </main>
 <script type="module">
 import { createPilotGame, CARDS } from "./six-paths-pilot.mjs";
-let game = createPilotGame();
+const SAVE_KEY = "shinka-six-paths-journey-v1";
+const makeGame = () => createPilotGame({journey:true,battles:3});
+let game = makeGame();
+try {
+  const stored = localStorage.getItem(SAVE_KEY);
+  if (stored && !game.restoreSave(JSON.parse(stored))) localStorage.removeItem(SAVE_KEY);
+} catch { /* Storage is optional. A blocked or corrupt save never prevents play. */ }
+const persist = () => { try { localStorage.setItem(SAVE_KEY, JSON.stringify(game.exportSave())); } catch { /* optional storage */ } };
 const el = id => document.getElementById(id);
 const stat = (name,value) => '<div class="stat"><small>'+name+'</small><strong>'+value+'</strong></div>';
 const typeNames = {spell:"呪文",pureWeapon:"純物理武器",guard:"防御",mirror:"鏡術",summon:"魔獣",sacrifice:"生贄"};
 function render() {
   const s=game.snapshot();
-  el("stats").innerHTML = stat("自分HP",s.hp+" / "+s.maxHp)+stat("敵HP",s.enemyHp+" / "+s.enemy.maxHp)+stat("魔力",s.energy+" / "+s.maxEnergy)+stat("ターン",s.turn);
+  el("stats").innerHTML = stat("自分HP",s.hp+" / "+s.maxHp)+stat("敵HP",s.enemyHp+" / "+s.enemy.maxHp)+stat("魔力",s.energy+" / "+s.maxEnergy)+stat("ターン",s.turn)+stat("戦闘",s.battle+" / "+s.maxBattles);
   const status=el("status");
   status.className="status"+(s.phase==="defeat"?" warn":s.phase==="victory"?" win":"");
-  status.textContent=s.phase==="victory"?"試作敵を倒しました！":s.phase==="defeat"?"HPが0になり敗北しました。":"カードの使用順で効果が変わります。ターン終了で敵が行動します。";
+  status.textContent=s.phase==="victory"?"勝利！ 次は報酬選択です。":s.phase==="complete"?"3戦の試作冒険をクリアしました！":s.phase==="reward"?"4枚から1枚選ぶか、見送れます。":s.phase==="ready"?"報酬を選びました。次の戦闘へ進めます。":s.phase==="defeat"?"HPが0になり敗北しました。":"カードの使用順で効果が変わります。ターン終了で敵が行動します。";
   const next=s.nextIntent;
   const incoming=next.kind==="attack"?Math.max(0,next.perHit*next.hits-s.weaken):0;
   el("enemy").innerHTML='<p><strong>'+s.enemy.name+'</strong>（物理耐性'+s.enemy.physicalResist+'％ / 魔法耐性'+s.enemy.magicResist+'％）</p><p>次の行動：<strong>'+next.label+'</strong> / '+(next.kind==="attack"?"威力"+next.perHit+"×"+next.hits+"、弱体適用後の合計"+incoming:"攻撃しない")+'</p>';
   el("effects").textContent="通常防御 "+s.guard+" / 鏡術防御 "+s.mirrorGuard+"（待機 "+(s.mirrorReady?"あり":"なし")+"） / 氷の弱体 "+s.weaken+" / 毒 "+s.poison+" / 魔獣 "+(s.beast==="wolf"?"魔狼":s.beast==="stone"?"ゴーレム":"なし")+" / 純物理連撃 "+s.weaponStreak+(s.usedSpell?"（呪文使用により停止）":"");
-  const hand=el("hand");hand.replaceChildren();
+  const hand=el("hand");hand.hidden = s.phase !== "battle"; hand.replaceChildren();
   s.hand.forEach((id,index)=>{
     const c=CARDS[id],button=document.createElement("button");
     button.type="button";button.className="card";button.disabled=!game.canPlay(id);
     button.innerHTML='<span class="cost">'+c.cost+'魔力</span><span class="type">'+(typeNames[c.kind]||c.kind)+'</span><strong>'+c.name+'</strong><span class="desc">'+c.description+'</span>';
     button.setAttribute("aria-label",c.name+"、魔力"+c.cost+"。"+c.description);
-    button.onclick=()=>{if(game.play(index))render();};
+    button.onclick=()=>{if(game.play(index)){persist();render();}};
     hand.append(button);
   });
+  el("endTurn").hidden = s.phase!=="battle";
   el("endTurn").disabled=s.phase!=="battle";
+  const journey=el("journeyPanel"),rewards=el("rewardCards"),advance=el("advance"),skip=el("skipReward");
+  const hasNext=["victory","reward","ready"].includes(s.phase);
+  journey.hidden=!hasNext && s.phase!=="complete";
+  advance.hidden=s.phase==="reward" || s.phase==="complete";
+  skip.hidden=s.phase!=="reward";
+  rewards.hidden=s.phase!=="reward";
+  rewards.replaceChildren();
+  if(s.phase==="victory"){
+    el("journeyTitle").textContent="第"+s.battle+"戦に勝利";
+    el("journeyHint").textContent=s.battle===s.maxBattles?"最後の試作戦を突破しました。":"次の戦闘へ進む前に、4択のカード報酬を選びましょう。";
+    advance.textContent=s.battle===s.maxBattles?"冒険の結果を見る →":"4択報酬を見る →";
+  }else if(s.phase==="reward"){
+    el("journeyTitle").textContent="次の戦闘へ追加するカード";
+    el("journeyHint").textContent="今のデッキに1枚加えます。見送ってもHPを最大8回復。選んだカードは次戦の初手に入ります。";
+    game.rewardOptions().forEach(id=>{
+      const c=CARDS[id],button=document.createElement("button");
+      button.type="button";button.className="card";
+      button.innerHTML='<span class="cost">'+c.cost+'魔力</span><span class="type">'+(typeNames[c.kind]||c.kind)+'</span><strong>'+c.name+'</strong><span class="desc">'+c.description+'</span>';
+      button.onclick=()=>{if(game.chooseReward(id)){persist();render();}};
+      rewards.append(button);
+    });
+  }else if(s.phase==="ready"){
+    el("journeyTitle").textContent="次の試作戦へ";
+    el("journeyHint").textContent="HPを回復しました。毒・鏡術・召喚状態は戦闘ごとにリセットされます。";
+    advance.textContent="第"+(s.battle+1)+"戦へ →";
+  }else if(s.phase==="complete"){
+    el("journeyTitle").textContent="3戦の試作冒険クリア";
+    el("journeyHint").textContent="効果が成立するかを確かめるための試作です。数値や実際の面白さは後で調整します。";
+  }
   el("log").textContent=s.log.join("\n");
 }
-el("endTurn").onclick=()=>{if(game.endTurn())render();};
-el("restart").onclick=()=>{game=createPilotGame();render();};
+el("endTurn").onclick=()=>{if(game.endTurn()){persist();render();}};
+el("advance").onclick=()=>{
+  const phase=game.snapshot().phase;
+  const ok=phase==="victory"?game.openReward():phase==="ready"?game.nextBattle():false;
+  if(ok){persist();render();}
+};
+el("skipReward").onclick=()=>{if(game.chooseReward(null)){persist();render();}};
+el("restart").onclick=()=>{game=makeGame();try{localStorage.removeItem(SAVE_KEY);}catch{}render();};
 render();
 </script>
 </body>
