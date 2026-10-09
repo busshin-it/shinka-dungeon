@@ -610,6 +610,6 @@ test("setup screen is opt-in and uses a distinct quick forge save key and four d
   assert.match(html,/starterChoices\(round\)/);
   assert.match(html,/deck:forgeDeck\(forgePicks\)/);
   assert.match(html,/talismanId:forgeTalisman/);
-  assert.match(html,/game=modeIsForge \? null : makeGame\(\)/);
+  assert.match(html,/game\s*=\s*modeIsForge\s*\?\s*null\s*:\s*makeGame\(\)/);
   assert.doesNotMatch(html,/shinka-astral-planning-save-v1/);
 });
