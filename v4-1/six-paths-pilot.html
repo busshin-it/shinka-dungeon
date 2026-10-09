@@ -113,7 +113,7 @@ const makeGame = (custom=null) => modeIsLong ?
   createPilotGame({journey:true,battles:6,hp:60,encounters:encounterSet,encounterSetId:"canonical-enemies-v1"}) :
   createPilotGame({journey:true,battles:3});
 document.getElementById("modeDescription").textContent=modeIsForge ?
-  "護符8種類からランダム4候補、初期カードも4回のランダム3択。選んだカードで初手を作り、12戦のテンポ重視版を遊びます。" :
+  "護符8種類からランダム4候補を表示し、初期カードは3択×3回で選択。複雑な旧カードは使わず、10枚デッキで12戦のテンポ重視版を遊びます。" :
   modeIsQuick ?
   "12戦のテンポ重視版：敵HPだけを通常版の約60％にして、短めの戦闘から11回のカード報酬を楽しめます。通常12戦とは保存も独立しています。" :
   modeIsLong ?
@@ -150,7 +150,7 @@ function renderForge() {
   title.textContent=atTalisman?"冒険の護符を選ぶ":"初期手札を選ぶ · "+(round+1)+" / "+FORGE_PICK_COUNT;
   document.getElementById("setupHint").textContent=atTalisman ?
     "8種類からランダムに4候補。護符は毎戦闘の開始時に効果を発揮します。" :
-    "提示された3枚から1枚選びます。4枚選ぶと、魔弾1枚を加えた5枚が第1戦の初手になります。";
+    "3候補から1枚を3回選びます。選んだ3枚＋魔弾・踏み込みの計5枚が最初の手札。残り5枚と合わせて10枚で出発します。";
   const target=document.getElementById("setupChoices");target.replaceChildren();
   choices.forEach(id=>{
     const t=atTalisman?TALISMANS[id]:CARDS[id], btn=document.createElement("button");

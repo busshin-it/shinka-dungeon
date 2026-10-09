@@ -543,8 +543,8 @@ test("eight distinct, implemented talismans appear as four randomly selected can
   for(const id of a)assert(TALISMANS[id]);
   assert.throws(()=>talismanCandidates(()=>1));
 });
-test("four random opening-hand choices yield a 10-card deck with guaranteed first five",()=>{
-  assert.equal(FORGE_PICK_COUNT,4);
+test("three random opening-hand choices yield a ten-card deck with five-card first hand",()=>{
+  assert.equal(FORGE_PICK_COUNT,3);
   const picks=FORGE_DRAFT_ROUNDS.map((pool,i)=>{
     const offered=starterChoices(i,()=>0.15);
     assert.equal(offered.length,3);
@@ -554,10 +554,10 @@ test("four random opening-hand choices yield a 10-card deck with guaranteed firs
   });
   const deck=forgeDeck(picks);
   assert.equal(deck.length,10);
-  assert.deepEqual(deck.slice(0,5),[...picks,"bolt"]);
+  assert.deepEqual(deck.slice(0,5),[...picks,"bolt","strike"]);
   const g=createPilotGame({journey:true,battles:3,deck,talismanId:"sun"});
-  assert.deepEqual(g.snapshot().hand,[...picks,"bolt"]);
-  assert.throws(()=>forgeDeck(["lunge","bolt","wolf","lunge"]),"round two should reject unrelated starter cards");
+  assert.deepEqual(g.snapshot().hand,[...picks,"bolt","strike"]);
+  assert.throws(()=>forgeDeck(["lunge","bolt","wolf"]),"round two should reject unrelated starter cards");
   assert.throws(()=>forgeDeck(["bolt"]));
 });
 test("each talisman applies its own per-encounter starting effect and survives save restoration",()=>{
@@ -599,7 +599,7 @@ test("talisman save metadata is enforced without changing old three/six/twelve s
   assert.equal(sun.restoreSave(ss),true);
   assert.throws(()=>createPilotGame({talismanId:"missing"}));
 });
-test("setup screen is opt-in and uses a distinct quick forge save key and four draft rounds",()=>{
+test("setup screen is opt-in and uses a distinct quick forge save key and three draft rounds",()=>{
   const html=fs.readFileSync(new URL("../v4-1/six-paths-pilot.html",import.meta.url),"utf8");
   assert.match(html,/mode=long-journey&pace=quick&setup=forge/);
   assert.match(html,/shinka-six-paths-quick-forge-v1/);
@@ -610,6 +610,28 @@ test("setup screen is opt-in and uses a distinct quick forge save key and four d
   assert.match(html,/starterChoices\(round\)/);
   assert.match(html,/deck:forgeDeck\(forgePicks\)/);
   assert.match(html,/talismanId:forgeTalisman/);
+  assert.match(html,/初期カードは3択×3回/);
+  assert.match(html,/選んだ3枚＋魔弾・踏み込み/);
   assert.match(html,/game\s*=\s*modeIsForge\s*\?\s*null\s*:\s*makeGame\(\)/);
   assert.doesNotMatch(html,/shinka-astral-planning-save-v1/);
+});
+
+test("new starter choices use only the small new card pool and exclude older complicated cards",()=>{
+  const excluded=["frostCrossing","starFrostLetter","stillMirror","afterglowWard","rimeMirror","frostOmen","restitch","shatter"];
+  const offers=FORGE_DRAFT_ROUNDS.flat();
+  for(const id of excluded){
+    assert.equal(Object.hasOwn(CARDS,id),false,"no legacy complex card in experimental pool: "+id);
+    assert.equal(offers.includes(id),false,id);
+  }
+  assert.equal(FORGE_DRAFT_ROUNDS.length,3);
+  assert.equal(forgeDeck(["bolt","guard","poison"]).length,10);
+});
+test("a previously started four-pick forged journey stays restorable after changing setup to three picks",()=>{
+  const oldForgeDeck=["bolt","guard","poison","lunge","bolt","strike","guard","guard","mirror","heal"];
+  const opts={journey:true,battles:3,talismanId:"moon",deck:oldForgeDeck};
+  const prior=createPilotGame(opts), saved=prior.exportSave();
+  const newEngine=createPilotGame(opts);
+  assert.equal(newEngine.restoreSave(saved),true);
+  assert.deepEqual(newEngine.exportSave(),saved);
+  assert.equal(saved.state.deck.length,10);
 });
