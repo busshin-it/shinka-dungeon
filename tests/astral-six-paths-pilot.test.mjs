@@ -377,7 +377,7 @@ test("experimental browser mode is selected only by a query parameter and uses a
   const html=fs.readFileSync(new URL("../v4-1/six-paths-pilot.html",import.meta.url),"utf8");
   assert.match(html,/mode=legacy-enemies/);
   assert.match(html,/src="\.\/planning-engine\.js"/);
-  assert.match(html,/import \{ classicSixEncounters, longTwelveEncounters \}/);
+  assert.match(html,/import \{ classicSixEncounters, longTwelveEncounters, quickTwelveEncounters \}/);
   assert.match(html,/shinka-six-paths-legacy-enemies-v1/);
   assert.match(html,/shinka-six-paths-journey-v1/);
   assert.match(html,/encounterSetId:"canonical-enemies-v1"/);
