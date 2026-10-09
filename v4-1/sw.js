@@ -1,5 +1,5 @@
 /* Isolated app worker: only this app's cache prefix and scope are managed. */
-const BUILD = '4.27.1-fd408df15194';
+const BUILD = '4.27.2-fd408df15194';
 const SCOPE = new URL(self.registration.scope);
 const PREFIX = 'astral-v4-1:' + SCOPE.pathname + ':';
 const CACHE = PREFIX + BUILD;
@@ -28,7 +28,12 @@ self.addEventListener('fetch', event => {
   event.respondWith((async () => {
     const cache = await caches.open(CACHE);
     if (request.mode === 'navigate') {
-      const page = url.pathname === new URL(PLANNING).pathname ? PLANNING : INDEX;
+      // The signed offline bundle only contains these two pages. Never send
+      // the old game shell for a different HTML route such as six-paths-pilot.
+      const isPlanning = url.pathname === new URL(PLANNING).pathname;
+      const isIndex = url.pathname === SCOPE.pathname || url.pathname === new URL(INDEX).pathname;
+      if (!isPlanning && !isIndex) return fetch(request);
+      const page = isPlanning ? PLANNING : INDEX;
       return (await cache.match(page)) || fetch(request);
     }
     return (await cache.match(request)) || fetch(request);
