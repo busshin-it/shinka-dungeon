@@ -103,10 +103,10 @@ const stat = (name,value) => '<div class="stat"><small>'+name+'</small><strong>'
 const typeNames = {spell:"呪文",pureWeapon:"純物理武器",guard:"防御",mirror:"鏡術",summon:"魔獣",sacrifice:"生贄"};
 // Reuse checked-in Astral Corridor illustrations until dedicated cards exist.
 const PILOT_CARD_ART=Object.freeze({
-  bolt:"star-relay.webp",frost:"frost-pierce.webp",poison:"wraith.webp",
+  bolt:"pilot-magic-bullet.webp",frost:"frost-pierce.webp",poison:"wraith.webp",
   strike:"shield-strike.webp",lunge:"ebb-arrow.webp",
   guard:"chant-ward.webp",mirror:"moon-mirror.webp",heal:"star-bookmark.webp",
-  burst:"quiet-comet.webp",wolf:"bell-spirit.webp",stone:"tide-star-sentinel.webp",
+  burst:"pilot-doom-bullet.webp",wolf:"bell-spirit.webp",stone:"tide-star-sentinel.webp",
   sacrifice:"shatter.webp"
 });
 function illustratedCard(id){
@@ -186,11 +186,12 @@ function renderStage(s,next,incoming){
   e("deckButton").textContent="デッキ "+s.deck.length+"枚";
   e("battleLog").textContent=s.log[0]||"";
   e("intent").classList.toggle("calm",next.kind!=="attack");
-  e("intentName").textContent=next.kind==="attack"?"⚔ "+incoming:"✧ "+next.label;
-  e("intentText").textContent=next.kind==="attack"?(next.hits>1?"×"+next.hits+" / ":"")+next.label:"";
+  e("intentName").textContent=next.kind==="attack"?"⚔ "+incoming+(s.exposed?" / 被害×2":""):"✧ "+next.label;
+  e("intentText").textContent=next.kind==="attack"?(next.hits>1?"×"+next.hits+" / ":"")+next.label+(s.exposed?"（防御後の被害が2倍）":""):"";
   e("heroStatus").textContent="";
   const badges=e("effectBadges");badges.replaceChildren();
   const vals=[["🛡",s.guard,"通常防御"],["◇",s.mirrorGuard,"鏡術防御"],["❄",s.weaken,"弱体"],["☠",s.poison,"毒"],["⚔",s.weaponStreak,"連撃"]];
+  if(s.exposed) vals.push(["⚠","×2","次の敵攻撃で受けるダメージが2倍"]);
   if(s.beast) vals.push([s.beast==="wolf"?"🐺":"▣","●",s.beast==="wolf"?"魔狼":"ゴーレム"]);
   vals.filter(([,n])=>n>0).forEach(([symbol,n,label])=>{const chip=document.createElement("span");chip.className="pilot-chip";chip.title=label;chip.textContent=symbol+" "+n;badges.append(chip)});
 }
