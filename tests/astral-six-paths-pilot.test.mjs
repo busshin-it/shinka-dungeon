@@ -164,7 +164,8 @@ test("release app stays untouched while README links to standalone effects playt
   assert.match(html,/<script src="\.\/planning-game\.js"><\/script>/);
   assert.match(readme,/\]\(v4-1\/six-paths-pilot\.html\)/);
   assert.match(pilot,/<a href="\.\/planning\.html">従来のゲームへ<\/a>/);
-  assert.doesNotMatch(pilot,/localStorage|sessionStorage|planning-game\.js/);
+  assert.doesNotMatch(pilot,/shinka-planning-v5|sessionStorage|planning-game\.js/);
+  assert.match(pilot,/localStorage\.setItem\(SAVE_KEY/);
 });
 
 test("opt-in three-battle journey offers four deterministic choices or skip after victory",()=>{
