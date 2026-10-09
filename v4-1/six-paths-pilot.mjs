@@ -14,6 +14,16 @@ export const CARDS = Object.freeze({
   stone:   { name: "石のゴーレム召喚", cost: 1, kind: "summon", description: "守りを使うと各ターン最初の1回だけ防御+4。維持中魔力上限-1。", beast: "stone" },
   sacrifice:{ name: "生贄の儀", cost: 1, kind: "sacrifice", description: "魔獣が必要。魔狼なら物理12、ゴーレムなら防御10。", beastCost: true }
 });
+export const TALISMANS = Object.freeze({
+  sun: {name:"朝日の護符",description:"各戦闘の開始魔力+1。",effect:"energy"},
+  moon: {name:"月鏡の護符",description:"各戦闘開始時に鏡術防御4を準備。",effect:"mirror"},
+  frost: {name:"氷紋の護符",description:"各戦闘開始時に敵の次の攻撃を3弱体化。",effect:"frost"},
+  venom: {name:"毒花の護符",description:"各戦闘開始時に毒を2蓄積。",effect:"poison"},
+  wolf: {name:"魔狼の護符",description:"各戦闘開始時に魔狼を召喚（魔力上限-1）。",effect:"wolf"},
+  stone: {name:"岩守の護符",description:"各戦闘開始時にゴーレムを召喚（魔力上限-1）。",effect:"stone"},
+  shield: {name:"白盾の護符",description:"各戦闘開始時に通常防御5。",effect:"guard"},
+  wind: {name:"追い風の護符",description:"各戦闘の最初の手札を6枚にする。",effect:"draw"}
+});
 export const REWARD_POOL = Object.freeze(["mirror","poison","frost","lunge","heal","burst","wolf","stone","guard","bolt","strike","sacrifice"]);
 export const STARTER_DECK = Object.freeze(["bolt","frost","poison","strike","mirror","guard","wolf","strike","burst","heal","stone","sacrifice","lunge","bolt"]);
 export const ENEMY = Object.freeze({ name: "試作の番人", maxHp: 65, physicalResist: 20, magicResist: 30 });
@@ -27,6 +37,8 @@ const copy = value => JSON.parse(JSON.stringify(value));
 const round = n => Math.floor(n + 0.5);
 export function createPilotGame(options = {}) {
   const deck = options.deck ? [...options.deck] : [...STARTER_DECK];
+  const talismanId = options.talismanId ?? null;
+  if (talismanId !== null && !Object.hasOwn(TALISMANS,talismanId)) throw new Error("Invalid talisman");
   const intents = options.intents || INTENTS;
   const enemy = { ...ENEMY, ...(options.enemy || {}) };
   const encounterSet = options.encounters ? copy(options.encounters) : null;
@@ -56,6 +68,22 @@ export function createPilotGame(options = {}) {
     hand: [], draw: [...deck], discard: [], log: ["効果だけの試作です。数値は仮設定。"]
   };
   function maxEnergy() { return s.beast ? 4 : 5; }
+  function applyStartingTalisman() {
+    if (talismanId===null) return;
+    const kind=TALISMANS[talismanId].effect;
+    if(kind==="energy") s.energy=Math.min(maxEnergy(),s.energy+1);
+    if(kind==="mirror"){s.mirrorGuard+=4;s.mirrorReady=true;}
+    if(kind==="frost") s.weaken+=3;
+    if(kind==="poison") s.poison+=2;
+    if(kind==="wolf" || kind==="stone"){s.beast=kind;s.energy=Math.min(s.energy,maxEnergy());}
+    if(kind==="guard") s.guard+=5;
+    // Extra opening draw happens after the ordinary refill, in each new encounter.
+  }
+  function applyOpeningDraw() {
+    if(talismanId!=="wind") return;
+    if(!s.draw.length && s.discard.length) s.draw=s.discard.splice(0);
+    if(s.draw.length) s.hand.push(s.draw.shift());
+  }
   function activeEnemy(battle=s.battle) { return encounterSet ? encounterSet[battle-1].enemy : {...enemy,maxHp:enemy.maxHp+10*(battle-1)}; }
   function activeIntents() { return encounterSet ? encounterSet[s.battle-1].intents : intents; }
   function intent() {
@@ -244,17 +272,20 @@ export function createPilotGame(options = {}) {
     }
     s.phase = "battle";
     s.log.unshift("第" + s.battle + "戦開始。魔獣・毒・防御はリセット。");
+    applyStartingTalisman();
     refill();
+    applyOpeningDraw();
     s.log = s.log.slice(0,8);
     return true;
   }
   // Save is isolated from the shipped planning-game saves; never restore a legacy save.
   function exportSave() {
-    return journey ? copy({version: 1, mode: "six-paths-journey", battles: maxBattles, ...(encounterSet ? {encounterSetId} : {}), state: s}) : null;
+    return journey ? copy({version: 1, mode: "six-paths-journey", battles: maxBattles, ...(encounterSet ? {encounterSetId} : {}), ...(talismanId ? {talismanId} : {}), state: s}) : null;
   }
   function restoreSave(save) {
     if (!journey || !save || save.version !== 1 || save.mode !== "six-paths-journey" || save.battles !== maxBattles ||
-      (encounterSet ? save.encounterSetId !== encounterSetId : Object.hasOwn(save,"encounterSetId"))) return false;
+      (encounterSet ? save.encounterSetId !== encounterSetId : Object.hasOwn(save,"encounterSetId")) ||
+      (talismanId ? save.talismanId !== talismanId : Object.hasOwn(save,"talismanId"))) return false;
     try {
       const x = save.state;
       if (!x || typeof x !== "object" || Array.isArray(x)) return false;
@@ -289,9 +320,11 @@ export function createPilotGame(options = {}) {
       return true;
     } catch { return false; }
   }
+  applyStartingTalisman();
   refill();
+  applyOpeningDraw();
   return {
-    snapshot: () => copy({ ...s, enemy: { ...activeEnemy() }, nextIntent: { ...intent() }, maxEnergy: maxEnergy(), journey, maxBattles }),
+    snapshot: () => copy({ ...s, talismanId, enemy: { ...activeEnemy() }, nextIntent: { ...intent() }, maxEnergy: maxEnergy(), journey, maxBattles }),
     card: id => CARDS[id] ? { ...CARDS[id], id } : null,
     canPlay, play, endTurn, rewardOptions, openReward, chooseReward, nextBattle, exportSave, restoreSave
   };
