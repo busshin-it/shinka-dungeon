@@ -22,7 +22,10 @@ test("text-only pilot defines a small set across six tactical directions",()=>{
   const html=fs.readFileSync(new URL("../v4-1/six-paths-pilot.html",import.meta.url),"utf8");
   assert.match(html,/six-paths-pilot\.mjs/);
   assert.match(html,/id="hand"/);
-  assert.doesNotMatch(html,/<img\b/i);
+  assert.match(html,/<img[^>]+src="\.\/assets\/hero\.webp"/i);
+  assert.match(html,/src="\.\/assets\/gatekeeper\.webp"/);
+  assert.match(html,/href="\.\/planning\.css"/);
+  assert.match(html,/href="\.\/six-paths-stage\.css"/);
 });
 test("non-attacking turns retain mirror protection, ice weakness and poison but expire ordinary guard",()=>{
   const g=pilot(["mirror","guard","poison","frost","bolt"],[rest(),attack(6,2)],{initialEnergy:4});
@@ -166,7 +169,7 @@ test("release app stays untouched while README links to standalone effects playt
   assert.match(html,/<script src="\.\/planning-engine\.js"><\/script>/);
   assert.match(html,/<script src="\.\/planning-game\.js"><\/script>/);
   assert.match(readme,/\]\(v4-1\/six-paths-pilot\.html\)/);
-  assert.match(pilot,/<a href="\.\/planning\.html">従来のゲームへ<\/a>/);
+  assert.match(pilot,/<a href="\.\/planning\.html">以前の6戦版<\/a>/);
   assert.doesNotMatch(pilot,/shinka-planning-v5|sessionStorage|planning-game\.js/);
   assert.match(pilot,/localStorage\.setItem\(SAVE_KEY/);
 });
