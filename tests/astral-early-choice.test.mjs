@@ -79,10 +79,11 @@ function uiHarness(save) {
  }
  function node(selector){if(!elements.has(selector))elements.set(selector,new Element(selector));return elements.get(selector);}
  const document={querySelector:node,querySelectorAll:()=>[],body:node('body'),addEventListener(){}};
- const context={document,window:{CARD_ART_DATA:{}},localStorage:{getItem:k=>storage.get(k)??null,setItem:(k,v)=>storage.set(k,String(v)),removeItem:k=>storage.delete(k)},performance:{now:()=>now+=1000}};
+ const navigations=[];
+ const context={document,window:{CARD_ART_DATA:{},location:{assign:url=>navigations.push(url)}},localStorage:{getItem:k=>storage.get(k)??null,setItem:(k,v)=>storage.set(k,String(v)),removeItem:k=>storage.delete(k)},performance:{now:()=>now+=1000}};
  for(const file of ['planning-v1-engine.js','planning-v2-engine.js','planning-engine.js','fan-card-text.js','journey-visual.js','planning-game.js']){vm.runInNewContext(read('v4-1/'+file),context);if(file==='journey-visual.js')context.ShinkaJourney=context.window.ShinkaJourney;}
  function click(selector,dataset={}){const target={dataset,disabled:false,focus(){},closest:()=>target,matches:()=>false};for(const fn of node(selector).listeners.get('click')||[])fn({target});}
- return {node,click,storage,saved:()=>JSON.parse(storage.get('shinka-astral-planning-save-v1')).engine};
+ return {node,click,storage,navigations,saved:()=>JSON.parse(storage.get('shinka-astral-planning-save-v1')).engine};
 }
 
 
@@ -100,6 +101,6 @@ test('actual UI starts v6, renders three offers / existing preview, and wires ta
 
 test('trial UI uses three offered charms, persists intro selection, and restores old three fixed options (DOM stub)',()=>{
  const g=E.createGame(E.seededRandom(7),{ruleset:E.EARLY_CHOICE_RULESET,charmTrial:true}),save=plain(g.exportSave());
- const ui=uiHarness(save);ui.click('#storyDialog',{action:'resume'});const markup=ui.node('#storyBody').innerHTML;assert.equal((markup.match(/data-origin=/g)||[]).length,3);for(const id of g.originOptions())assert(markup.includes(E.originsFor(g.snapshot())[id].name));const choice=g.originOptions()[1];ui.click('#storyDialog',{origin:choice});assert.equal(ui.saved().state.origin,choice);assert(ui.saved().state.flags.charmTrial);const again=uiHarness(ui.saved());again.click('#storyDialog',{action:'resume'});assert(again.node('#storyBody').innerHTML.includes(E.originsFor(g.snapshot())[choice].effect));again.click('#storyDialog',{action:'start'});assert.equal(again.saved().version,6);assert.equal(again.saved().state.origin,choice);assert.deepEqual(again.saved().state.flags,{});assert(again.node('#charm').textContent.includes(E.originsFor(g.snapshot())[choice].name));
+ const ui=uiHarness(save);ui.click('#storyDialog',{action:'resume'});const entry=ui.node('#storyBody').innerHTML;assert.equal((entry.match(/data-forge-talisman=/g)||[]).length,4);const entryId=entry.match(/data-forge-talisman="([a-z]+)"/)[1];ui.click('#storyDialog',{forgeTalisman:entryId});assert.equal(ui.navigations.length,1);assert(ui.navigations[0].includes('setup=forge&fresh=1&talisman='+entryId));ui.click('#storyDialog',{action:'legacyIntro'});const markup=ui.node('#storyBody').innerHTML;assert.equal((markup.match(/data-origin=/g)||[]).length,3);for(const id of g.originOptions())assert(markup.includes(E.originsFor(g.snapshot())[id].name));const choice=g.originOptions()[1];ui.click('#storyDialog',{origin:choice});assert.equal(ui.saved().state.origin,choice);assert(ui.saved().state.flags.charmTrial);const again=uiHarness(ui.saved());again.click('#storyDialog',{action:'resume'});again.click('#storyDialog',{action:'legacyIntro'});assert(again.node('#storyBody').innerHTML.includes(E.originsFor(g.snapshot())[choice].effect));again.click('#storyDialog',{action:'start'});assert.equal(again.saved().version,6);assert.equal(again.saved().state.origin,choice);assert.deepEqual(again.saved().state.flags,{});assert(again.node('#charm').textContent.includes(E.originsFor(g.snapshot())[choice].name));
  const old=E.createGame(E.seededRandom(7),{ruleset:E.EARLY_CHOICE_RULESET}),legacy=uiHarness(plain(old.exportSave()));legacy.click('#storyDialog',{action:'resume'});const html=legacy.node('#storyBody').innerHTML;for(const id of Object.keys(E.ORIGINS))assert(html.includes(`data-origin="${id}"`));assert(!html.includes('data-origin="cadence"'));
 });
