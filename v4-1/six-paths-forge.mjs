@@ -3,7 +3,7 @@
 import { CARDS, TALISMANS } from "./six-paths-pilot.mjs";
 export const FORGE_FIXED_DECK = Object.freeze(["bolt","strike","guard","guard","mirror","heal","frost"]);
 export const FORGE_DRAFT_ROUNDS = Object.freeze([
-  Object.freeze(["bolt","strike","lunge","burst"]),
+  Object.freeze(["bolt","strike","lunge","guard"]),
   Object.freeze(["guard","mirror","heal","frost"]),
   Object.freeze(["poison","frost","wolf","stone"])
 ]);

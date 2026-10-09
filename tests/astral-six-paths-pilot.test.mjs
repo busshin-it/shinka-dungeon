@@ -101,13 +101,13 @@ test("pure-physical consecutive weapons grow from the second card, nonweapon bre
 test("using a spell suppresses the pure-weapon bonus for the rest of that turn",()=>{
   const g=pilot(["strike","bolt","strike","strike","guard"],[rest()]);
   play(g,"strike");play(g,"bolt");play(g,"strike");play(g,"strike");
-  assert.equal(g.snapshot().enemyHp,82); // 4+6+4+4
+  assert.equal(g.snapshot().enemyHp,84); // 4+4+4+4
   assert.equal(g.snapshot().usedSpell,true);
 });
 test("enemy physical and magic resistance use half-up rounding",()=>{
   const g=pilot(["strike","bolt","guard","poison","heal"],[rest()],{enemy:{maxHp:100,physicalResist:25,magicResist:30}});
   play(g,"strike");assert.equal(g.snapshot().enemyHp,97); // 4 * .75 = 3
-  play(g,"bolt");assert.equal(g.snapshot().enemyHp,93); // 6 * .7 = 4.2 -> 4
+  play(g,"bolt");assert.equal(g.snapshot().enemyHp,94); // 4 * .7 = 2.8 -> 3
 });
 test("wolf triggers only once per turn, even after swapping summons",()=>{
   const g=pilot(["wolf","strike","strike","stone","lunge"],[rest()]);
@@ -144,15 +144,19 @@ test("sacrifice requires active beast, consumes it, and is independent of reacti
   assert.equal(g.snapshot().beastReacted,true);
   assert.equal(g.snapshot().enemyHp,81); // wolf attack7 + sacrifice12
 });
-test("burst spends current guards for high spell damage; no lingering mirror reflection",()=>{
-  const g=pilot(["mirror","guard","burst","strike","poison"],[attack(8)],{initialEnergy:4});
+test("burst now carries double incoming-damage risk while keeping prepared defenses",()=>{
+  const g=pilot(["mirror","guard","burst","strike","poison"],[attack(8)],{initialEnergy:5});
   play(g,"mirror");play(g,"guard");
   play(g,"burst");
   const s=g.snapshot();
-  assert.equal(s.enemyHp,85);
-  assert.equal(s.guard,0);
-  assert.equal(s.mirrorGuard,0);
-  assert.equal(s.mirrorReady,false);
+  assert.equal(s.enemyHp,88);
+  assert.equal(s.guard,5);
+  assert.equal(s.mirrorGuard,6);
+  assert.equal(s.mirrorReady,true);
+  assert.equal(s.exposed,true);
+  g.endTurn();
+  assert.equal(g.snapshot().hp,30);
+  assert.equal(g.snapshot().exposed,false);
 });
 test("wolf energy cap is effective when carrying unspent mana between turns",()=>{
   const g=pilot(["wolf","guard","mirror","strike","bolt"],[rest(),rest()]);
@@ -297,8 +301,12 @@ test("three encounters can finish using rewards, with a complete state and deter
   g.chooseReward("mirror");
   assert(g.nextBattle());
   assert.equal(g.snapshot().enemyMaxHp,21);
-  play(g,"burst"); // 15
-  play(g,"bolt");  // +6
+  play(g,"burst"); // 12, consumes 3 energy
+  for(let step=0; step<15 && g.snapshot().phase==="battle"; step++){
+    const s=g.snapshot(), index=s.hand.findIndex(id=>["bolt","strike","burst"].includes(id) && g.canPlay(id));
+    if(index>=0) assert.equal(g.play(index),true);
+    else assert.equal(g.endTurn(),true); // test enemy rests; replenish energy and hand
+  }
   assert.equal(g.snapshot().phase,"victory");
   assert.equal(g.openReward(),true);
   assert.equal(g.snapshot().phase,"complete");
@@ -335,7 +343,9 @@ test("integrated opt-in mode reuses canonical six-encounter HP, names and action
   assert.equal(s.enemy.name,"蒼鎧の門番");
   assert.equal(s.nextIntent.perHit,4);
   assert.equal(pilot.exportSave().encounterSetId,"canonical-enemies-v1");
-  assert.equal(pilot.play(0),true); // burst 15, defeats stage 1
+  assert.equal(pilot.play(0),true); // burst 12 is no longer instant lethal
+  assert.equal(pilot.snapshot().phase,"battle");
+  play(pilot,"bolt"); // +4 finishes the 15-HP enemy
   assert.equal(pilot.snapshot().phase,"victory");
   pilot.openReward();
   pilot.chooseReward(null);
@@ -348,7 +358,7 @@ test("integrated opt-in mode reuses canonical six-encounter HP, names and action
 });
 test("legacy encounter condition rules use attack damage, best single hit, attack count and current energy",()=>{
   for(const [intent, actions, expected] of [
-    [{kind:"attack",label:"合計詠唱",perHit:14,hits:1,threshold:10,reduction:8},["bolt","bolt"],6],
+    [{kind:"attack",label:"合計詠唱",perHit:14,hits:1,threshold:10,reduction:8},["burst"],6],
     [{kind:"attack",label:"一撃詠唱",perHit:18,hits:1,singleThreshold:12,reduction:10},["burst"],8],
     [{kind:"attack",label:"手数詠唱",perHit:12,hits:1,attackCountThreshold:3,stepReduction:2},["strike","strike","strike"],6],
     [{kind:"attack",label:"魔力貯蔵",perHit:14,hits:1,manaCondition:"bank",manaReduction:8},[],6]
@@ -362,7 +372,7 @@ test("legacy encounter condition rules use attack damage, best single hit, attac
     intents:[{kind:"attack",label:"魔力貯蔵",perHit:14,hits:1,manaCondition:"bank",manaReduction:8}]});
   assert.equal(spent.snapshot().nextIntent.perHit,6);
   play(spent,"burst");
-  assert.equal(spent.snapshot().energy,1);
+  assert.equal(spent.snapshot().energy,0);
   assert.equal(spent.snapshot().nextIntent.perHit,14);
 });
 test("six-encounter mode and three-fight pilot do not accept each other's saves",()=>{
@@ -519,7 +529,7 @@ test("quick twelve-fight saves are separate from original twelve fights and olde
   assert.equal(restored.restoreSave(faster.exportSave()),true);
   assert.deepEqual(restored.exportSave(),faster.exportSave());
   assert.equal(faster.play(0),true);
-  assert.equal(faster.snapshot().enemyHp,3);
+  assert.equal(faster.snapshot().enemyHp,5);
   const saved=faster.exportSave();
   assert.equal(restored.restoreSave(saved),true);
   assert.deepEqual(restored.exportSave(),saved);
@@ -637,4 +647,52 @@ test("a previously started four-pick forged journey stays restorable after chang
   assert.equal(newEngine.restoreSave(saved),true);
   assert.deepEqual(newEngine.exportSave(),saved);
   assert.equal(saved.state.deck.length,10);
+});
+
+test("the two illustrated magic bullets are distinct choices and do not dominate the opening draft",()=>{
+  assert.equal(CARDS.bolt.damage,4);
+  assert.equal(CARDS.bolt.cost,1);
+  assert.equal(CARDS.burst.damage,12);
+  assert.equal(CARDS.burst.cost,3);
+  assert.equal(CARDS.burst.exposes,true);
+  assert.equal(FORGE_DRAFT_ROUNDS[0].includes("burst"),false);
+  assert.equal(FORGE_DRAFT_ROUNDS[0].includes("bolt"),true);
+  const html=fs.readFileSync(new URL("../v4-1/six-paths-pilot.html",import.meta.url),"utf8");
+  assert.match(html,/bolt:"pilot-magic-bullet\.webp"/);
+  assert.match(html,/burst:"pilot-doom-bullet\.webp"/);
+  for(const art of ["pilot-magic-bullet.webp","pilot-doom-bullet.webp"]){
+    const bytes=fs.readFileSync(new URL("../v4-1/assets/"+art,import.meta.url));
+    assert.equal(bytes.toString("ascii",0,4),"RIFF");
+    assert.equal(bytes.toString("ascii",8,12),"WEBP");
+  }
+});
+
+test("burst doubles only unblocked incoming damage at the next enemy attack",()=>{
+  const g=pilot(["burst","guard","strike","bolt","heal"],[attack(6)],{initialEnergy:3});
+  play(g,"burst");
+  assert.equal(g.snapshot().enemyHp,88);
+  assert.equal(g.snapshot().exposed,true);
+  g.endTurn();
+  assert.equal(g.snapshot().hp,18); // 6 * 2
+  assert.equal(g.snapshot().exposed,false);
+  g.endTurn();
+  assert.equal(g.snapshot().hp,12); // following attack returns to normal
+});
+
+test("burst weakness survives enemy rest, can be shielded, and old saves migrate safely",()=>{
+  const opts={journey:true,battles:3,initialEnergy:4,deck:["burst","guard","bolt","strike","heal"],intents:[rest(),attack(6)]};
+  const g=createPilotGame(opts);
+  const legacy=g.exportSave();
+  delete legacy.state.exposed;
+  const clone=createPilotGame(opts);
+  assert.equal(clone.restoreSave(legacy),true,"old pilot saves remain restorable");
+  play(g,"burst");
+  play(g,"guard");
+  g.endTurn();
+  assert.equal(g.snapshot().exposed,true,"rest should not consume next-attack risk");
+  const vulnerableSave=g.exportSave();
+  assert.equal(clone.restoreSave(vulnerableSave),true);
+  assert.equal(clone.snapshot().exposed,true);
+  g.endTurn();
+  assert.equal(g.snapshot().hp,18); // rest expires ordinary guard; 6 * 2 damage
 });
