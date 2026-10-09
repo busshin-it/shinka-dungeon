@@ -2,8 +2,9 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import fs from "node:fs";
 import vm from "node:vm";
+import {talismanCandidates,starterChoices,forgeDeck,FORGE_DRAFT_ROUNDS,FORGE_PICK_COUNT} from "../v4-1/six-paths-forge.mjs";
 import {classicSixEncounters,CLASSIC_ENCOUNTER_IDS,longTwelveEncounters,quickTwelveEncounters,QUICK_ENEMY_HP_PERCENT,TWELVE_ENCOUNTER_IDS,EXTRA_SIX} from "../v4-1/six-paths-enemy-bridge.mjs";
-import { createPilotGame, CARDS, STARTER_DECK } from "../v4-1/six-paths-pilot.mjs";
+import { createPilotGame, CARDS, STARTER_DECK, TALISMANS } from "../v4-1/six-paths-pilot.mjs";
 
 const attack = (perHit,hits=1,damageType="physical") => ({kind:"attack",label:"試験攻撃",perHit,hits,damageType});
 const rest = () => ({kind:"rest",label:"準備",heal:0});
@@ -525,8 +526,90 @@ test("quick mode is selectable from web navigation and uses a unique storage key
   assert.match(html,/mode=long-journey&pace=quick/);
   assert.match(html,/quickTwelveEncounters\(globalThis\.ShinkaV43\)/);
   assert.match(html,/shinka-six-paths-quick-journey-v1/);
-  assert.match(html,/encounterSetId:modeIsQuick\?"quick-twelve-enemies-v1":"long-twelve-enemies-v1"/);
+  assert.match(html,/encounterSetId:modeIsForge\?"quick-forge-enemies-v1":modeIsQuick\?"quick-twelve-enemies-v1":"long-twelve-enemies-v1"/);
   assert.match(html,/敵HPだけを通常版の約60％/);
   assert.match(html,/stat\("獲得札"/);
+  assert.doesNotMatch(html,/shinka-astral-planning-save-v1/);
+});
+
+test("eight distinct, implemented talismans appear as four randomly selected candidates",()=>{
+  assert.equal(Object.keys(TALISMANS).length,8);
+  assert.equal(new Set(Object.keys(TALISMANS)).size,8);
+  for(const t of Object.values(TALISMANS)){assert(t.name&&t.description&&t.effect);}
+  const a=talismanCandidates(()=>0.15),b=talismanCandidates(()=>0.85);
+  assert.equal(a.length,4);
+  assert.equal(new Set(a).size,4);
+  assert.notDeepEqual(a,b,"different random draws can produce different candidates");
+  for(const id of a)assert(TALISMANS[id]);
+  assert.throws(()=>talismanCandidates(()=>1));
+});
+test("four random opening-hand choices yield a 10-card deck with guaranteed first five",()=>{
+  assert.equal(FORGE_PICK_COUNT,4);
+  const picks=FORGE_DRAFT_ROUNDS.map((pool,i)=>{
+    const offered=starterChoices(i,()=>0.15);
+    assert.equal(offered.length,3);
+    assert.equal(new Set(offered).size,3);
+    assert(offered.every(x=>pool.includes(x)));
+    return offered[0];
+  });
+  const deck=forgeDeck(picks);
+  assert.equal(deck.length,10);
+  assert.deepEqual(deck.slice(0,5),[...picks,"bolt"]);
+  const g=createPilotGame({journey:true,battles:3,deck,talismanId:"sun"});
+  assert.deepEqual(g.snapshot().hand,[...picks,"bolt"]);
+  assert.throws(()=>forgeDeck(["lunge","bolt","wolf","lunge"]),"round two should reject unrelated starter cards");
+  assert.throws(()=>forgeDeck(["bolt"]));
+});
+test("each talisman applies its own per-encounter starting effect and survives save restoration",()=>{
+  const deck=["bolt","strike","guard","mirror","poison","frost","heal","lunge","wolf","burst"];
+  const expected={
+    sun:{energy:4},moon:{mirrorGuard:4,mirrorReady:true},
+    frost:{weaken:3},venom:{poison:2},
+    wolf:{beast:"wolf",maxEnergy:4},stone:{beast:"stone",maxEnergy:4},
+    shield:{guard:5},wind:{handSize:6}
+  };
+  for(const [id,props] of Object.entries(expected)){
+    const g=createPilotGame({journey:true,battles:3,deck,talismanId:id,enemy:{maxHp:1,physicalResist:0,magicResist:0}});
+    const s=g.snapshot();
+    assert.equal(s.talismanId,id);
+    for(const [k,v] of Object.entries(props)) assert.equal(k==="handSize"?s.hand.length:s[k],v,id+" "+k);
+    const save=g.exportSave();
+    assert.equal(save.talismanId,id);
+    const clone=createPilotGame({journey:true,battles:3,deck,talismanId:id,enemy:{maxHp:1,physicalResist:0,magicResist:0}});
+    assert.equal(clone.restoreSave(save),true);
+    assert.deepEqual(clone.exportSave(),save);
+    assert.equal(g.play(g.snapshot().hand.indexOf("bolt")),true);
+    assert.equal(g.snapshot().phase,"victory");
+    assert.equal(g.openReward(),true);
+    assert.equal(g.chooseReward(null),true);
+    assert.equal(g.nextBattle(),true);
+    const s2=g.snapshot();
+    for(const [k,v] of Object.entries(props))assert.equal(k==="handSize"?s2.hand.length:s2[k],v,id+" next encounter "+k);
+  }
+});
+test("talisman save metadata is enforced without changing old three/six/twelve save formats",()=>{
+  const normal=createPilotGame({journey:true,battles:3});
+  const sun=createPilotGame({journey:true,battles:3,talismanId:"sun"});
+  const moon=createPilotGame({journey:true,battles:3,talismanId:"moon"});
+  const ns=normal.exportSave(),ss=sun.exportSave();
+  assert.equal(Object.hasOwn(ns,"talismanId"),false);
+  assert.equal(normal.restoreSave(ss),false);
+  assert.equal(sun.restoreSave(ns),false);
+  assert.equal(moon.restoreSave(ss),false);
+  assert.equal(sun.restoreSave(ss),true);
+  assert.throws(()=>createPilotGame({talismanId:"missing"}));
+});
+test("setup screen is opt-in and uses a distinct quick forge save key and four draft rounds",()=>{
+  const html=fs.readFileSync(new URL("../v4-1/six-paths-pilot.html",import.meta.url),"utf8");
+  assert.match(html,/mode=long-journey&pace=quick&setup=forge/);
+  assert.match(html,/shinka-six-paths-quick-forge-v1/);
+  assert.match(html,/modeIsForge = modeIsQuick &&/);
+  assert.match(html,/id="setupPanel"/);
+  assert.match(html,/id="setupChoices"/);
+  assert.match(html,/talismanCandidates\(\)/);
+  assert.match(html,/starterChoices\(round\)/);
+  assert.match(html,/deck:forgeDeck\(forgePicks\)/);
+  assert.match(html,/talismanId:forgeTalisman/);
+  assert.match(html,/game\s*=\s*modeIsForge\s*\?\s*null\s*:\s*makeGame\(\)/);
   assert.doesNotMatch(html,/shinka-astral-planning-save-v1/);
 });
