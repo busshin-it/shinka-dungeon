@@ -48,7 +48,8 @@ footer{padding-bottom:30px;color:#bbc1cd;font-size:13px}
   <nav aria-label="ゲームモード">
     <a href="./planning.html">従来のゲームへ</a> ·
     <a href="./six-paths-pilot.html">新6系統：3戦試作</a> ·
-    <a href="./six-paths-pilot.html?mode=legacy-enemies">新6系統：本編の敵6戦</a>
+    <a href="./six-paths-pilot.html?mode=legacy-enemies">新6系統：本編の敵6戦</a> ·
+    <a href="./six-paths-pilot.html?mode=long-journey">新6系統：12戦の長い冒険</a>
   </nav>
 </header>
 <div class="panel">
@@ -72,24 +73,32 @@ footer{padding-bottom:30px;color:#bbc1cd;font-size:13px}
 </section>
 <section class="panel"><h2>戦闘ログ</h2><pre id="log" aria-live="polite"></pre></section>
 <footer>
-  <p>3戦または本編の敵6戦・4択報酬・モード別の自動保存に対応。数値・カード名・敵は調整用の仮設定です。公開中の61枚や既存のセーブには影響しません。敵の物理耐性・魔法耐性の数値はカードの攻撃にだけ適用し、鏡術反射は無属性です。</p>
+  <p>3戦・本編の敵6戦・新敵を加えた12戦に対応。各戦後の4択報酬（見送り可）とモード別の自動保存があります。数値・カード名・敵は調整用の仮設定です。公開中の61枚や既存のセーブには影響しません。敵の物理耐性・魔法耐性の数値はカードの攻撃にだけ適用し、鏡術反射は無属性です。</p>
   <p>攻撃呪文／氷と毒／純物理武器／回復と鏡術／大技／魔獣召喚。魔獣は同時に1体、カードに反応するのは各ターン1回です。</p>
-  <p>本編の敵6戦では名前・HP・行動順・詠唱崩し条件を本編データから読み込みます。敵攻撃の物理/魔法分類は本編データにないため「未分類」として扱い、敵の耐性は仮に0%です。報酬とプレイヤーのカードは新6系統専用で、本編のデッキ・ルート・セーブを移行するものではありません。</p>
+  <p>本編由来の敵6体は名前・HP・行動順・詠唱崩し条件を本編データから読み込みます。12戦モードではさらに実験用の新敵6体を交互に加えます。本編由来の敵に攻撃属性や耐性データはないため試作では未分類・0%として扱い、新敵だけ暫定耐性を設定しています。報酬とプレイヤーのカードは新6系統専用で、本編のデッキ・ルート・セーブを移行するものではありません。</p>
 </footer>
 </main>
 <script src="./planning-engine.js"></script>
 <script type="module">
 import { createPilotGame, CARDS } from "./six-paths-pilot.mjs";
-import { classicSixEncounters } from "./six-paths-enemy-bridge.mjs";
-const modeIsIntegrated = new URLSearchParams(location.search).get("mode")==="legacy-enemies";
-const encounterSet = modeIsIntegrated ? classicSixEncounters(globalThis.ShinkaV43) : null;
-const SAVE_KEY = modeIsIntegrated ? "shinka-six-paths-legacy-enemies-v1" : "shinka-six-paths-journey-v1";
-const makeGame = () => modeIsIntegrated ?
+import { classicSixEncounters, longTwelveEncounters } from "./six-paths-enemy-bridge.mjs";
+const selectedMode=new URLSearchParams(location.search).get("mode");
+const modeIsIntegrated = selectedMode==="legacy-enemies";
+const modeIsLong = selectedMode==="long-journey";
+const encounterSet = modeIsLong ? longTwelveEncounters(globalThis.ShinkaV43) :
+  modeIsIntegrated ? classicSixEncounters(globalThis.ShinkaV43) : null;
+const SAVE_KEY = modeIsLong ? "shinka-six-paths-long-journey-v1" :
+  modeIsIntegrated ? "shinka-six-paths-legacy-enemies-v1" : "shinka-six-paths-journey-v1";
+const makeGame = () => modeIsLong ?
+  createPilotGame({journey:true,battles:12,hp:60,deck:["bolt","bolt","strike","strike","guard","guard","mirror","poison","frost","heal"],encounters:encounterSet,encounterSetId:"long-twelve-enemies-v1"}) :
+  modeIsIntegrated ?
   createPilotGame({journey:true,battles:6,hp:60,encounters:encounterSet,encounterSetId:"canonical-enemies-v1"}) :
   createPilotGame({journey:true,battles:3});
-document.getElementById("modeDescription").textContent=modeIsIntegrated ?
+document.getElementById("modeDescription").textContent=modeIsLong ?
+  "本編の敵6体に新敵6体を加えた12戦の長い冒険。11回の報酬機会で新6系統のカードを育てます。HP・耐性値は調整用で、本編の保存とは別です。" :
+  modeIsIntegrated ?
   "本編の敵データで6戦を遊ぶ実験モード。カード効果は新6系統、敵のHP・行動・詠唱条件は既存版から読み込みます。旧保存は使用しません。" :
-  "新6系統のカード効果を3戦で試す独立した実験モード。イラストはまだありません。";
+  "新6系統のカード効果を3戦で試す独立した実験モード。イラストはまだありません.";
 let game = makeGame();
 try {
   const stored = localStorage.getItem(SAVE_KEY);
