@@ -1,6 +1,8 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import fs from "node:fs";
+import vm from "node:vm";
+import {classicSixEncounters,CLASSIC_ENCOUNTER_IDS} from "../v4-1/six-paths-enemy-bridge.mjs";
 import { createPilotGame, CARDS, STARTER_DECK } from "../v4-1/six-paths-pilot.mjs";
 
 const attack = (perHit,hits=1,damageType="physical") => ({kind:"attack",label:"試験攻撃",perHit,hits,damageType});
@@ -269,7 +271,8 @@ test("pilot browser flow wires four-option rewards, next fight and namespaced au
   assert.match(html,/game\.nextBattle\(\)/);
   assert.match(html,/game\.exportSave\(\)/);
   assert.match(html,/game\.restoreSave\(/);
-  assert.doesNotMatch(html,/shinka-planning-v5|ShinkaV43/);
+  assert.doesNotMatch(html,/shinka-planning-v5|shinka-astral-planning-save-v1/);
+  assert.match(html,/classicSixEncounters\(globalThis\.ShinkaV43\)/);
 });
 
 test("three encounters can finish using rewards, with a complete state and deterministic saved replay",()=>{
@@ -302,4 +305,81 @@ test("three encounters can finish using rewards, with a complete state and deter
   const restored=pilot(deck,[rest()],options);
   assert.equal(restored.restoreSave(saved),true);
   assert.deepEqual(restored.exportSave(),g.exportSave());
+});
+
+const getClassicEnemies = () => {
+  const ctx={};
+  vm.runInNewContext(fs.readFileSync(new URL("../v4-1/planning-engine.js",import.meta.url),"utf8"),ctx);
+  return classicSixEncounters(ctx.ShinkaV43);
+};
+test("integrated opt-in mode reuses canonical six-encounter HP, names and action order",()=>{
+  const encounters=getClassicEnemies();
+  assert.deepEqual([...CLASSIC_ENCOUNTER_IDS],["skeleton","wraith","trial","archive","elite","moth"]);
+  assert.deepEqual(encounters.map(e=>e.enemy.maxHp),[15,36,52,68,82,112]);
+  assert.deepEqual(encounters.map(e=>e.enemy.physicalResist),[0,0,0,0,0,0]);
+  assert.equal(encounters[0].enemy.name,"蒼鎧の門番");
+  assert.equal(encounters[1].intents[0].hits,2);
+  assert.equal(encounters[2].intents[1].threshold,10);
+  assert.equal(encounters[4].intents[1].threshold,13);
+  assert.equal(encounters[5].intents[1].threshold,14);
+  assert.equal(encounters[5].intents[2].heal,6);
+  assert(encounters.every(row=>row.intents.every(move=>move.kind==="rest"||move.damageType==="untyped")));
+  const pilot=createPilotGame({journey:true,battles:6,encounters,encounterSetId:"canonical-enemies-v1",initialEnergy:5,
+    deck:["burst","bolt","guard","strike","heal"]});
+  let s=pilot.snapshot();
+  assert.equal(s.enemy.maxHp,15);
+  assert.equal(s.enemy.name,"蒼鎧の門番");
+  assert.equal(s.nextIntent.perHit,4);
+  assert.equal(pilot.exportSave().encounterSetId,"canonical-enemies-v1");
+  assert.equal(pilot.play(0),true); // burst 15, defeats stage 1
+  assert.equal(pilot.snapshot().phase,"victory");
+  pilot.openReward();
+  pilot.chooseReward(null);
+  assert(pilot.nextBattle());
+  s=pilot.snapshot();
+  assert.equal(s.battle,2);
+  assert.equal(s.enemyHp,36);
+  assert.equal(s.enemy.name,"鏡の亡霊");
+  assert.equal(s.nextIntent.hits,2);
+});
+test("legacy encounter condition rules use attack damage, best single hit, attack count and current energy",()=>{
+  for(const [intent, actions, expected] of [
+    [{kind:"attack",label:"合計詠唱",perHit:14,hits:1,threshold:10,reduction:8},["bolt","bolt"],6],
+    [{kind:"attack",label:"一撃詠唱",perHit:18,hits:1,singleThreshold:12,reduction:10},["burst"],8],
+    [{kind:"attack",label:"手数詠唱",perHit:12,hits:1,attackCountThreshold:3,stepReduction:2},["strike","strike","strike"],6],
+    [{kind:"attack",label:"魔力貯蔵",perHit:14,hits:1,manaCondition:"bank",manaReduction:8},[],6]
+  ]){
+    const deck=[...actions, ...Array(5-actions.length).fill("guard")];
+    const g=createPilotGame({deck,intents:[intent],initialEnergy:5,enemy:{maxHp:100,physicalResist:0,magicResist:0}});
+    if(intent.manaCondition==="bank")assert.equal(g.snapshot().nextIntent.perHit,expected);
+    else {for(const id of actions)play(g,id);assert.equal(g.snapshot().nextIntent.perHit,expected);}
+  }
+  const spent=createPilotGame({deck:["burst","guard","guard","bolt","strike"],initialEnergy:3,
+    intents:[{kind:"attack",label:"魔力貯蔵",perHit:14,hits:1,manaCondition:"bank",manaReduction:8}]});
+  assert.equal(spent.snapshot().nextIntent.perHit,6);
+  play(spent,"burst");
+  assert.equal(spent.snapshot().energy,1);
+  assert.equal(spent.snapshot().nextIntent.perHit,14);
+});
+test("six-encounter mode and three-fight pilot do not accept each other's saves",()=>{
+  const encounters=getClassicEnemies();
+  const six=createPilotGame({journey:true,battles:6,encounters,encounterSetId:"canonical-enemies-v1"});
+  const three=createPilotGame({journey:true,battles:3});
+  const otherSix=createPilotGame({journey:true,battles:6,encounters,encounterSetId:"other-roster"});
+  assert.equal(six.restoreSave(three.exportSave()),false);
+  assert.equal(three.restoreSave(six.exportSave()),false);
+  assert.equal(otherSix.restoreSave(six.exportSave()),false);
+  const clone=createPilotGame({journey:true,battles:6,encounters,encounterSetId:"canonical-enemies-v1"});
+  assert.equal(clone.restoreSave(six.exportSave()),true);
+  assert.deepEqual(clone.exportSave(),six.exportSave());
+});
+test("experimental browser mode is selected only by a query parameter and uses a distinct save key",()=>{
+  const html=fs.readFileSync(new URL("../v4-1/six-paths-pilot.html",import.meta.url),"utf8");
+  assert.match(html,/mode=legacy-enemies/);
+  assert.match(html,/src="\.\/planning-engine\.js"/);
+  assert.match(html,/import \{ classicSixEncounters \}/);
+  assert.match(html,/shinka-six-paths-legacy-enemies-v1/);
+  assert.match(html,/shinka-six-paths-journey-v1/);
+  assert.match(html,/encounterSetId:"canonical-enemies-v1"/);
+  assert.doesNotMatch(html,/shinka-astral-planning-save-v1/);
 });
