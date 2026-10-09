@@ -146,7 +146,7 @@ export function createPilotGame(options = {}) {
     s.discard.push(...s.hand.splice(0));
     if (s.phase === "battle") {
       s.turn++;
-      s.energy = Math.min(3, maxEnergy());
+      s.energy = Math.min(maxEnergy(), s.energy + 3); // Carry energy forward; active beast lowers the cap.
       s.beastReacted = false;
       s.usedSpell = false;
       s.weaponStreak = 0;
