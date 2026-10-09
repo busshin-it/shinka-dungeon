@@ -110,3 +110,89 @@ body.pilot-mode { background:#101d27; color:var(--paper); }
   .pilot-mode .pilot-setup-head img { height:50px; width:50px; }
   .pilot-mode .pilot-choices .origin, .pilot-mode .pilot-choices .pilot-start-card { min-height:103px; }
 }
+
+/* The inherited planning.css assigns .stage/.table to named grid areas on
+   landscape screens. Those area names must not auto-place into implicit
+   columns inside the nested 12-battle pilot (the reported blank-left/hand-right
+   layout). Define areas explicitly at BOTH nesting levels. */
+.pilot-mode .pilot-game {
+  grid-template-columns:minmax(0,1fr);
+  grid-template-areas:"pilot-header" "pilot-progress" "pilot-content";
+}
+.pilot-mode .pilot-game > .masthead { grid-area:pilot-header; }
+.pilot-mode .pilot-game > .journey { grid-area:pilot-progress; }
+.pilot-mode #setupPanel,
+.pilot-mode #playScreen { grid-area:pilot-content; width:100%; min-width:0; }
+.pilot-mode #playScreen {
+  grid-template-columns:minmax(0,1fr);
+  grid-template-areas:"pilot-arena" "pilot-hand";
+}
+.pilot-mode #playScreen > .stage {
+  grid-area:pilot-arena;
+  width:100%;
+  min-width:0;
+  min-height:175px;
+  height:100%;
+}
+.pilot-mode #playScreen > .table {
+  grid-area:pilot-hand;
+  width:100%;
+  min-width:0;
+}
+/* Existing licensed/checked-in illustrations serve as the temporary
+   art for the small six-path card pool. No changes to engine or save. */
+.pilot-mode .pilot-card { position:relative; overflow:hidden; padding:0; }
+.pilot-mode .pilot-card .pilot-card-art {
+  display:block; flex:0 0 66px; width:100%; height:66px;
+  object-fit:cover; object-position:center 38%;
+  background:linear-gradient(130deg,#28405c,#141e32);
+  filter:saturate(.87);
+}
+.pilot-mode .pilot-card .pilot-card-copy {
+  display:block; flex:1; min-height:0; overflow:hidden;
+  padding:7px 9px 8px;
+}
+.pilot-mode .pilot-card .cost {
+  top:6px; left:7px; z-index:1; width:26px; height:26px;
+  font-size:13px; line-height:1; display:grid; place-items:center;
+}
+.pilot-mode .pilot-card .type {
+  position:absolute; top:6px; right:7px; z-index:1;
+  align-self:auto; margin:0; max-width:calc(100% - 43px);
+  overflow:hidden; text-overflow:ellipsis; white-space:nowrap;
+  padding:3px 5px; border-radius:3px;
+  color:#e7eff3; background:#132d42dd; font-size:10px;
+}
+.pilot-mode .pilot-card strong { font-size:13px; line-height:1.23; margin:0 0 3px; }
+.pilot-mode .pilot-card .desc {
+  font-size:10px; line-height:1.35;
+  -webkit-line-clamp:2; line-clamp:2;
+}
+.pilot-mode .hand { height:168px; }
+.pilot-mode .hand .pilot-card { height:155px; }
+.pilot-mode .pilot-choices .pilot-start-card {
+  display:flex; flex-direction:column;
+  min-height:204px; height:auto; padding:0;
+}
+.pilot-mode .pilot-choices .pilot-start-card .pilot-card-art {
+  height:100px; flex-basis:100px;
+}
+.pilot-mode .pilot-choices .pilot-start-card .pilot-card-copy { padding:12px; }
+.pilot-mode .pilot-choices .pilot-start-card .type { margin:0; font-size:11px; }
+.pilot-mode .pilot-rewards .pilot-card {
+  display:flex; flex-direction:column; height:auto; padding:0; min-height:210px;
+}
+.pilot-mode .pilot-rewards .pilot-card .pilot-card-art {
+  height:105px; flex-basis:105px;
+}
+.pilot-mode .pilot-rewards .pilot-card .pilot-card-copy { padding:12px; }
+.pilot-mode .pilot-rewards .pilot-card .type { margin:0; font-size:10px; }
+@media (max-height:540px) {
+  .pilot-mode .hand { height:118px; }
+  .pilot-mode .hand .pilot-card { height:110px; }
+  .pilot-mode .hand .pilot-card-art { height:38px; flex-basis:38px; }
+  .pilot-mode .hand .pilot-card-copy { padding:5px 8px; }
+  .pilot-mode .hand .pilot-card .desc { -webkit-line-clamp:1; line-clamp:1; }
+  .pilot-mode .pilot-choices .pilot-start-card { min-height:144px; }
+  .pilot-mode .pilot-choices .pilot-start-card .pilot-card-art { height:54px; flex-basis:54px; }
+}
