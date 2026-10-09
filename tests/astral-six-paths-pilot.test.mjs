@@ -22,7 +22,7 @@ test("text-only pilot defines a small set across six tactical directions",()=>{
   assert.doesNotMatch(html,/<img\b/i);
 });
 test("non-attacking turns retain mirror protection, ice weakness and poison but expire ordinary guard",()=>{
-  const g=pilot(["mirror","guard","poison","frost","bolt"],[rest(),attack(6,2)]);
+  const g=pilot(["mirror","guard","poison","frost","bolt"],[rest(),attack(6,2)],{initialEnergy:4});
   play(g,"mirror");play(g,"guard");play(g,"poison");play(g,"frost");
   let s=g.snapshot();
   assert.equal(s.mirrorGuard,6);
@@ -46,7 +46,7 @@ test("non-attacking turns retain mirror protection, ice weakness and poison but 
   assert.equal(s.poison,2);
 });
 test("multiple mirror cards add defense but reflect only once and discard unused defense",()=>{
-  const g=pilot(["mirror","mirror","guard","poison","strike"],[attack(4,2)]);
+  const g=pilot(["mirror","mirror","guard","poison","strike"],[attack(4,2)],{initialEnergy:4});
   play(g,"mirror");play(g,"mirror");play(g,"guard");play(g,"poison");
   g.endTurn();
   const s=g.snapshot();
@@ -139,7 +139,7 @@ test("sacrifice requires active beast, consumes it, and is independent of reacti
   assert.equal(g.snapshot().enemyHp,81); // wolf attack7 + sacrifice12
 });
 test("burst spends current guards for high spell damage; no lingering mirror reflection",()=>{
-  const g=pilot(["mirror","guard","burst","strike","poison"],[attack(8)]);
+  const g=pilot(["mirror","guard","burst","strike","poison"],[attack(8)],{initialEnergy:4});
   play(g,"mirror");play(g,"guard");
   play(g,"burst");
   const s=g.snapshot();
