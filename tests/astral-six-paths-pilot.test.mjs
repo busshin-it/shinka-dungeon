@@ -271,3 +271,33 @@ test("pilot browser flow wires four-option rewards, next fight and namespaced au
   assert.match(html,/game\.restoreSave\(/);
   assert.doesNotMatch(html,/shinka-planning-v5|ShinkaV43/);
 });
+
+test("three encounters can finish using rewards, with a complete state and deterministic saved replay",()=>{
+  const options={journey:true,battles:3,initialEnergy:5,enemy:{maxHp:1,physicalResist:0,magicResist:0}};
+  const deck=["bolt","strike","burst","guard","heal"];
+  const g=pilot(deck,[rest()],options);
+  play(g,"bolt");
+  assert.equal(g.snapshot().phase,"victory");
+  g.openReward();
+  assert(g.rewardOptions().includes("bolt"));
+  assert(g.chooseReward("bolt"));
+  assert(g.nextBattle());
+  assert.equal(g.snapshot().enemyMaxHp,11);
+  play(g,"burst");
+  assert.equal(g.snapshot().phase,"victory");
+  g.openReward();
+  assert(g.rewardOptions().includes("mirror"));
+  g.chooseReward("mirror");
+  assert(g.nextBattle());
+  assert.equal(g.snapshot().enemyMaxHp,21);
+  play(g,"burst"); // 15
+  play(g,"bolt");  // +6
+  assert.equal(g.snapshot().phase,"victory");
+  assert.equal(g.openReward(),true);
+  assert.equal(g.snapshot().phase,"complete");
+  assert.equal(g.openReward(),false);
+  assert.equal(g.nextBattle(),false);
+  const restored=pilot(deck,[rest()],options);
+  assert.equal(restored.restoreSave(g.exportSave()),true);
+  assert.deepEqual(restored.exportSave(),g.exportSave());
+});
