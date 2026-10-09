@@ -66,12 +66,43 @@
     const i=inspectedIndex; inspectedIndex=null; inspectedId=null; renderSelection();
     if(returnFocus && i!==null){const b=$('#hand').querySelector(`[data-card="${i}"]`);if(window.ShinkaFan)window.ShinkaFan.focusBack(b);else b?.focus({preventScroll:true});}
   }
+  // The illustrated six-battle screen remains available, but new journeys should
+  // enter the independent twelve-battle forge without a second Start button.
+  const FORGE_ENTRY_URL = './six-paths-pilot.html?mode=long-journey&pace=quick&setup=forge';
+  const FORGE_ENTRY_TALISMANS = Object.freeze([
+    ['sun', '朝日の護符', '各戦闘の開始魔力＋1。', '☀'],
+    ['moon', '月鏡の護符', '各戦闘開始時に鏡術防御4。', '◇'],
+    ['frost', '氷紋の護符', '各戦闘開始時に敵の次の攻撃を3弱体化。', '❄'],
+    ['venom', '毒花の護符', '各戦闘開始時に毒2を蓄積。', '✿'],
+    ['wolf', '魔狼の護符', '各戦闘開始時に魔狼を召喚（魔力上限－1）。', '✦'],
+    ['stone', '岩守の護符', '各戦闘開始時にゴーレムを召喚（魔力上限－1）。', '▣'],
+    ['shield', '白盾の護符', '各戦闘開始時に通常防御5。', '⬡'],
+    ['wind', '追い風の護符', '各戦闘の最初の手札を6枚にする。', '➶']
+  ]);
+  function rollForgeEntryOptions() {
+    const ids = [...FORGE_ENTRY_TALISMANS];
+    for (let i = ids.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [ids[i], ids[j]] = [ids[j], ids[i]];
+    }
+    return ids.slice(0, 4);
+  }
+  let forgeEntryOptions = rollForgeEntryOptions(), legacyIntro = false;
   function storyContent(s) {
     ENEMIES = enemiesFor(s);
     const growth = isGrowthRun(s);
     const inJourney = !['intro', 'complete', 'defeat'].includes(s.phase);
     const relicOption=growth && [2,4].includes(s.battle)?`<button class="choice" type="button" data-sanctuary="remove" ${s.deck.length<=5?'disabled':''}><span class="symbol">◇</span><strong>カードを1枚外す</strong><span>役割の重なる1枚を除く。回復・進化はしない。</span><small>薄くして報酬を引きやすくするか、基本札を育てて残すか。</small></button>`:s.battle===2?`<button class="choice" type="button" data-sanctuary="relic" ${s.hp<=6?'disabled':''}><span class="symbol">✧</span><strong>折れた天球儀</strong><span>HP6を投資して、各戦闘1回のレリックを1つ選ぶ。</span><small>${s.hp<=6?'HP7以上で選べます。':'選ぶ画面で取消できます。'} 次は連撃・詠唱16の守護者。</small></button>`:s.battle===4?`<button class="choice" type="button" data-sanctuary="remove" ${s.deck.length<=5?'disabled':''}><span class="symbol">◇</span><strong>白紙の書庫</strong><span>カードを1枚除く。回復・進化はしない。</span><small>残り2戦へ、役割が重なる札を整理する。</small></button>`:'';
     const wrap = (label, title, body, actions = '') => `<div class="dialog-inner"><span class="eyebrow">${label}</span><h2 id="storyTitle">${title}</h2>${['route','chapter','ready'].includes(s.phase)?ShinkaJourney.map(s,ENEMIES):''}${body}<div class="actions">${actions}</div></div>`;
+    if (s.phase === 'intro' && s.flags?.charmTrial && !legacyIntro) {
+      const options = forgeEntryOptions.map(([id, name, effect, symbol]) =>
+        `<button class="origin" type="button" data-forge-talisman="${id}"><span class="symbol" aria-hidden="true">${symbol}</span><strong>${name}</strong><small>${effect}</small><em>これを選んでカード3択へ →</em></button>`).join('');
+      return wrap('NEW 12-BATTLE JOURNEY', '護符を選んで、出発',
+        `<p class="lead">護符を押すだけでカード選択に進みます。8種類からランダムに4つを表示。</p><p>続いて <strong>3枚から1枚を選ぶ操作を3回</strong> 行い、そのまま全12戦の冒険が始まります。</p><div class="origin-grid">${options}</div><p class="muted">護符は毎戦闘の開始時に発動します。カードは基本2枚と合わせて初手5枚、デッキ計10枚です。従来6戦版の保存は変更しません。</p>`,
+        `<button type="button" class="quiet" data-action="rerollForge">別の護符を見る</button>` +
+        `<button type="button" class="quiet" data-action="legacyIntro">従来の6戦版へ</button>` +
+        (pendingSave ? `<button type="button" class="primary" data-action="resume">以前の6戦を続きから</button>` : ''));
+    }
     if (s.phase === 'intro') return wrap('CHOOSE YOUR CHARM · 04.27', '蒼い星の、その先へ。', `<p class="lead">2章・全6戦。61種類のカードを混ぜて、小さな組合せを育てる。</p><p>先読み61枚・護符3種の試作。${s.flags.charmTrial ? '新しい旅では既存3種と試作3種からランダムな3候補を選びます。' : 'この保存の護符候補は従来の3種を保持しています。'}新しい旅は「小さな魔弾」5枚と「薄い守り」5枚から出発。新しい旅の第1・第2戦後は3枚から1枚、または取らない選択。次の敵とHPを見て、小さな組合せを試します。第2戦後に休息・進化・1枚除去を選べます。新しい旅の第4戦、書庫には星秤の衛兵が待ちます。魔力を2残して刃を軽く受けるか、合計12ダメージで次の詠唱を崩すか。効果先行4枚に加え、霜鏡と霜刻の予告が基本1コストの旅の第2戦後から登場します。霜渡り・星霜の便り・静鏡・余熱の結界・蓄星の刃も第2戦後から登場。魔力を使い切るか残すか、今守るか次を準備するかを選べます。既存アートを共有するため名前と効果で見分けます。保存中の冒険は以前のデッキ・相手・ルールを維持します。24枚版とは別保存です。</p><div class="origin-grid">${game.originOptions().map(id => { const o=originsFor(s)[id]; return  `<button class="origin ${s.origin === id ? 'selected' : ''}" type="button" data-origin="${id}" aria-pressed="${s.origin === id}"><span class="symbol" aria-hidden="true">${o.symbol}</span><strong>${o.name} / ${o.short}</strong><small>${o.effect}</small><em>${s.origin === id ? '選択中' : '選ぶ'}</em></button>`; }).join('')}</div><p class="muted">${growth ? `この旅の基本2種は魔力${card('basicStrike').cost}。` : 'この旅は以前の護符別デッキです。'}魔力は開始2、2ターン目から＋${manaRegenFor(s)}、上限5。戦闘中は持ち越し、戦闘が変わると2に戻ります。星渡りの回廊では第4〜6戦の開始魔力が3になります。カードをタップで確認→「使う」。横向きがおすすめです。</p>${migrationRaw ? '<p class="journey-note">以前の先読み版を引き継げます。続ける時に保存形式を更新し、直前の保存1件を端末内に控えます。選択済みの相手は変えません。V4.3の控えがある場合は別に残します。古い形式にない記録は引継ぎ後から始まります。</p>' : ''}${pendingSave ? `<p class="journey-note">この先読み版の前回は第${pendingSave.engine.state.battle}戦。新しい旅を始めると保存を上書きします。</p>` : ''}${hadStoredSave && !pendingSave ? '<p class="journey-note">保存を読み込めません。新しい旅を始めると、その保存を置き換えます。</p>' : ''}`, (pendingSave ? button('resume','続きから') : '') + button('start', pendingSave ? '新しい旅を始める' : 'この護符で出発 →'));
     if (s.phase === 'victory') return wrap('A LIGHT AHEAD', `${ENEMIES[s.enemyId].name}を越えた。`, `<p>${s.battle === 3 ? '第1章を踏破。星の回廊は、さらに奥へ続いている。' : '足元の灯りが、次の道を照らしている。'}</p><div class="result-stat"><span>${s.turn}ターン</span><span>残りHP ${s.hp}/${s.maxHp}</span><span>デッキ ${s.deck.length}枚</span></div>`, button('reward', s.battle === RUN_LENGTH ? '旅の記録を見る →' : '報酬を選ぶ →'));
     if (s.phase === 'reward') return wrap('TAKE A PAGE · OR PASS', '足すことも、足さないことも。', `${ShinkaJourney.hp(s.hp,s.maxHp,'旅人のHP')}<p>♥ 最大8回復 · 取った1枚は次の初手へ</p><p class="journey-note">${growth && s.battle === 1 ? 'まず1枚。魔弾→連鎖雷、守り→鏡撃のように順番でも強さが変わります。' : s.battle < 3 ? '第1章ボスは連撃と詠唱強打。魔力を残す準備も役に立つ。' : '最終ボスは三連撃・詠唱21・回復。14ダメージで詠唱を崩せる。'}</p>${ShinkaJourney.rewardPreview(s,ENEMIES,id=>enemyPattern(id,s))}<div class="reward-grid four">${game.rewardOptions().map(id => choiceCard(id, `data-reward="${id}"`)).join('')}</div>`,button('skipReward','今回は取らない','quiet'));
@@ -178,6 +209,15 @@
   story.addEventListener('cancel', ev => ev.preventDefault());
   story.addEventListener('click', ev => {
     const b = ev.target.closest('button'); if (!b || b.disabled) return;
+    const forgeTalisman = b.dataset.forgeTalisman;
+    if (forgeTalisman !== undefined) {
+      if (!FORGE_ENTRY_TALISMANS.some(([id]) => id === forgeTalisman)) return;
+      const destination = FORGE_ENTRY_URL + '&fresh=1&talisman=' + encodeURIComponent(forgeTalisman);
+      window.location.assign(destination);
+      return;
+    }
+    if (b.dataset.action === 'rerollForge') { forgeEntryOptions = rollForgeEntryOptions(); modalKey = ''; render(); return; }
+    if (b.dataset.action === 'legacyIntro') { legacyIntro = true; modalKey = ''; render(); return; }
     for (const [key, fn] of [['origin', game.selectOrigin], ['reward', game.chooseReward], ['route', game.chooseRoute], ['sanctuary', game.chooseSanctuary], ['relic',game.chooseRelic], ['evolve', game.evolve], ['chapter',game.chooseChapter],['camp',game.chooseCamp],['remove',game.removeCard]]) {
       if (b.dataset[key] !== undefined) { act(() => fn(b.dataset[key])); return; }
     }
