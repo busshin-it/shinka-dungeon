@@ -33,7 +33,7 @@ export function createPilotGame(options = {}) {
   const encounterSetId = options.encounterSetId || null;
   const journey = options.journey === true;
   const maxBattles = journey ? (options.battles ?? (encounterSet ? encounterSet.length : 3)) : 1;
-  if (!Number.isInteger(maxBattles) || maxBattles < 1 || maxBattles > 6) throw new Error("Invalid journey length");
+  if (!Number.isInteger(maxBattles) || maxBattles < 1 || maxBattles > 12) throw new Error("Invalid journey length");
   if (!deck.length || deck.some(id => !CARDS[id])) throw new Error("Invalid pilot deck");
   if (encounterSet && (encounterSet.length !== maxBattles || typeof encounterSetId !== "string" || !encounterSetId || encounterSetId.length>80 ||
     encounterSet.some(row=>!row || !row.enemy || typeof row.enemy.name !== "string" ||
