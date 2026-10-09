@@ -145,7 +145,7 @@ test("sacrifice requires active beast, consumes it, and is independent of reacti
   assert.equal(g.snapshot().enemyHp,81); // wolf attack7 + sacrifice12
 });
 test("burst spends current guards for high spell damage; no lingering mirror reflection",()=>{
-  const g=pilot(["mirror","guard","burst","strike","poison"],[attack(8)],{initialEnergy:4});
+  const g=pilot(["mirror","guard","burst","strike","poison"],[attack(8)],{initialEnergy:5});
   play(g,"mirror");play(g,"guard");
   play(g,"burst");
   const s=g.snapshot();
@@ -297,7 +297,9 @@ test("three encounters can finish using rewards, with a complete state and deter
   g.chooseReward("mirror");
   assert(g.nextBattle());
   assert.equal(g.snapshot().enemyMaxHp,21);
-  play(g,"burst"); // 15
+  play(g,"burst"); // 15 damage for 3 energy
+  assert.equal(g.snapshot().energy,0);
+  g.endTurn(); // the test enemy rests, giving enough energy for the final 6
   play(g,"bolt");  // +6
   assert.equal(g.snapshot().phase,"victory");
   assert.equal(g.openReward(),true);
@@ -362,7 +364,7 @@ test("legacy encounter condition rules use attack damage, best single hit, attac
     intents:[{kind:"attack",label:"魔力貯蔵",perHit:14,hits:1,manaCondition:"bank",manaReduction:8}]});
   assert.equal(spent.snapshot().nextIntent.perHit,6);
   play(spent,"burst");
-  assert.equal(spent.snapshot().energy,1);
+  assert.equal(spent.snapshot().energy,0);
   assert.equal(spent.snapshot().nextIntent.perHit,14);
 });
 test("six-encounter mode and three-fight pilot do not accept each other's saves",()=>{
