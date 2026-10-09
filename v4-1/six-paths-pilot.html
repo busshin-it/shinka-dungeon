@@ -85,7 +85,7 @@ const modeIsIntegrated = new URLSearchParams(location.search).get("mode")==="leg
 const encounterSet = modeIsIntegrated ? classicSixEncounters(globalThis.ShinkaV43) : null;
 const SAVE_KEY = modeIsIntegrated ? "shinka-six-paths-legacy-enemies-v1" : "shinka-six-paths-journey-v1";
 const makeGame = () => modeIsIntegrated ?
-  createPilotGame({journey:true,battles:6,encounters:encounterSet,encounterSetId:"canonical-enemies-v1"}) :
+  createPilotGame({journey:true,battles:6,hp:60,encounters:encounterSet,encounterSetId:"canonical-enemies-v1"}) :
   createPilotGame({journey:true,battles:3});
 document.getElementById("modeDescription").textContent=modeIsIntegrated ?
   "本編の敵データで6戦を遊ぶ実験モード。カード効果は新6系統、敵のHP・行動・詠唱条件は既存版から読み込みます。旧保存は使用しません。" :
