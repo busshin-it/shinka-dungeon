@@ -1,7 +1,7 @@
 // Standalone, opt-in effects pilot. Does not replace the shipped planning engine or saves.
 // All damage, energy and card numbers are temporary playtest values.
 export const CARDS = Object.freeze({
-  bolt:    { name: "魔弾", cost: 1, kind: "spell", description: "魔法6ダメージ。", damage: 6, damageType: "magic" },
+  bolt:    { name: "魔弾", cost: 1, kind: "spell", description: "4ダメージ。", damage: 4, damageType: "magic" },
   frost:   { name: "氷の矢", cost: 1, kind: "spell", description: "氷の弱体3。次の敵の攻撃行動の合計威力を3下げる。", weaken: 3 },
   poison:  { name: "毒の印", cost: 1, kind: "spell", description: "毒を2蓄積。敵の攻撃行動後に一度だけ発動し、減らない。", poison: 2 },
   strike:  { name: "踏み込み", cost: 0, kind: "pureWeapon", description: "物理4。純物理武器を連続使用した2枚目以降は+2。", damage: 4, damageType: "physical" },
@@ -9,7 +9,7 @@ export const CARDS = Object.freeze({
   guard:   { name: "守り", cost: 1, kind: "guard", description: "防御5。このターンだけ有効。", guard: 5 },
   mirror:  { name: "鏡の結界", cost: 1, kind: "mirror", description: "鏡術防御6。次の敵の攻撃まで持続し、実防御を等倍反射。", mirrorGuard: 6 },
   heal:    { name: "聖癒", cost: 1, kind: "spell", description: "HPを5回復。", heal: 5 },
-  burst:   { name: "破滅の魔弾", cost: 2, kind: "spell", description: "全防御と鏡術待機を捨て、魔法15ダメージ。", damage: 15, damageType: "magic", sacrificesGuard: true },
+  burst:   { name: "破滅の魔弾", cost: 3, kind: "spell", description: "12ダメージ。次の敵攻撃で受けるダメージ2倍。", damage: 12, damageType: "magic", exposes: true },
   wolf:    { name: "魔狼召喚", cost: 1, kind: "summon", description: "魔狼を召喚。各ターン最初の攻撃に+3。維持中魔力上限-1。", beast: "wolf" },
   stone:   { name: "石のゴーレム召喚", cost: 1, kind: "summon", description: "守りを使うと各ターン最初の1回だけ防御+4。維持中魔力上限-1。", beast: "stone" },
   sacrifice:{ name: "生贄の儀", cost: 1, kind: "sacrifice", description: "魔獣が必要。魔狼なら物理12、ゴーレムなら防御10。", beastCost: true }
@@ -64,7 +64,7 @@ export function createPilotGame(options = {}) {
     turn: 1, hp: options.hp ?? 30, maxHp: options.hp ?? 30, enemyHp: baseEnemy.maxHp, enemyMaxHp: baseEnemy.maxHp,
     energy: Math.max(0, Math.min(5, options.initialEnergy ?? 3)), guard: 0, mirrorGuard: 0, mirrorReady: false,
     weaken: 0, poison: 0, beast: null, beastReacted: false,
-    usedSpell: false, weaponStreak: 0, turnDamage: 0, turnMaxHit: 0, turnAttackCards: 0, phase: "battle",
+    usedSpell: false, exposed: false, weaponStreak: 0, turnDamage: 0, turnMaxHit: 0, turnAttackCards: 0, phase: "battle",
     hand: [], draw: [...deck], discard: [], log: ["効果だけの試作です。数値は仮設定。"]
   };
   function maxEnergy() { return s.beast ? 4 : 5; }
@@ -130,7 +130,7 @@ export function createPilotGame(options = {}) {
     s.energy -= c.cost;
     if (c.kind !== "pureWeapon") s.weaponStreak = 0;
     if (c.kind === "spell") s.usedSpell = true;
-    if (c.sacrificesGuard) { s.guard = 0; s.mirrorGuard = 0; s.mirrorReady = false; }
+    if (c.exposes) s.exposed = true; // High power carries risk until the next enemy action.
     if (c.weaken) s.weaken += c.weaken;
     if (c.poison) s.poison += c.poison;
     if (c.guard) s.guard += c.guard;
@@ -183,7 +183,7 @@ export function createPilotGame(options = {}) {
       const normalUsed = Math.min(s.guard, total);
       const mirrorUsed = Math.min(s.mirrorGuard, total - normalUsed);
       const blocked = normalUsed + mirrorUsed;
-      const damage = total - blocked;
+      const damage = (total - blocked) * (s.exposed ? 2 : 1);
       s.hp = Math.max(0, s.hp - damage);
       s.weaken = 0;
       s.guard = Math.max(0, s.guard - normalUsed);
@@ -206,6 +206,7 @@ export function createPilotGame(options = {}) {
         s.log.unshift("敵の" + action.label + "：防御" + blocked + "、被害" + damage + "、反射" + reflectHit + "、毒" + poisonHit + "。");
       }
     }
+    if(action.kind === "attack") s.exposed = false; // Enemy actions, not rests, consume the downside.
     s.guard = 0; // Ordinary guard expires each turn; mirror guard survives only nonattacks.
     s.discard.push(...s.hand.splice(0));
     if (s.phase === "battle") {
@@ -261,7 +262,7 @@ export function createPilotGame(options = {}) {
     s.energy = 3;
     s.guard = s.mirrorGuard = s.weaken = s.poison = s.weaponStreak = 0;
     s.turnDamage = s.turnMaxHit = s.turnAttackCards = 0;
-    s.mirrorReady = s.beastReacted = s.usedSpell = false;
+    s.mirrorReady = s.beastReacted = s.usedSpell = s.exposed = false;
     s.beast = null;
     s.hand = [];
     s.discard = [];
@@ -287,7 +288,9 @@ export function createPilotGame(options = {}) {
       (encounterSet ? save.encounterSetId !== encounterSetId : Object.hasOwn(save,"encounterSetId")) ||
       (talismanId ? save.talismanId !== talismanId : Object.hasOwn(save,"talismanId"))) return false;
     try {
-      const x = save.state;
+      const x = copy(save.state);
+      // Old pilot saves did not persist exposure; preserve them on balance updates.
+      if(x && typeof x === "object" && !Array.isArray(x) && !Object.hasOwn(x,"exposed")) x.exposed=false;
       if (!x || typeof x !== "object" || Array.isArray(x)) return false;
       if (Object.keys(x).sort().join("|") !== Object.keys(s).sort().join("|")) return false;
       const integer=(v,min,max)=>Number.isInteger(v) && v>=min && v<=max;
@@ -301,7 +304,7 @@ export function createPilotGame(options = {}) {
           !integer(x.turnDamage,0,99999) || !integer(x.turnMaxHit,0,99999) ||
           !integer(x.turnAttackCards,0,9999)) return false;
       if (typeof x.mirrorReady !== "boolean" || typeof x.beastReacted !== "boolean" ||
-          typeof x.usedSpell !== "boolean" || ![null,"wolf","stone"].includes(x.beast) ||
+          typeof x.usedSpell !== "boolean" || typeof x.exposed !== "boolean" || ![null,"wolf","stone"].includes(x.beast) ||
           !["battle","victory","reward","ready","defeat","complete"].includes(x.phase)) return false;
       if (![x.deck,x.hand,x.draw,x.discard,x.rewardOffers,x.log].every(Array.isArray) ||
           x.deck.length < 1 || x.deck.length > 150 || x.rewardOffers.length > 4 ||
