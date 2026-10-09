@@ -4,7 +4,7 @@ import fs from "node:fs";
 import vm from "node:vm";
 import {talismanCandidates,starterChoices,forgeDeck,FORGE_DRAFT_ROUNDS,FORGE_PICK_COUNT} from "../v4-1/six-paths-forge.mjs";
 import {classicSixEncounters,CLASSIC_ENCOUNTER_IDS,longTwelveEncounters,quickTwelveEncounters,QUICK_ENEMY_HP_PERCENT,TWELVE_ENCOUNTER_IDS,EXTRA_SIX} from "../v4-1/six-paths-enemy-bridge.mjs";
-import { createPilotGame, CARDS, STARTER_DECK, TALISMANS } from "../v4-1/six-paths-pilot.mjs";
+import { createPilotGame, CARDS, STARTER_DECK, TALISMANS, REWARD_POOL } from "../v4-1/six-paths-pilot.mjs";
 
 const attack = (perHit,hits=1,damageType="physical") => ({kind:"attack",label:"試験攻撃",perHit,hits,damageType});
 const rest = () => ({kind:"rest",label:"準備",heal:0});
@@ -639,4 +639,34 @@ test("a previously started four-pick forged journey stays restorable after chang
   assert.equal(newEngine.restoreSave(saved),true);
   assert.deepEqual(newEngine.exportSave(),saved);
   assert.equal(saved.state.deck.length,10);
+});
+
+test("burst is a situational three-energy finisher, not the strongest cheap starter",()=>{
+  assert.equal(CARDS.burst.cost,3);
+  assert.equal(CARDS.burst.damage,15);
+  assert.equal(CARDS.bolt.cost,1);
+  assert.equal(CARDS.bolt.damage,6);
+  assert(CARDS.burst.damage/CARDS.burst.cost<CARDS.bolt.damage/CARDS.bolt.cost);
+  assert.equal(FORGE_DRAFT_ROUNDS[0].includes("burst"),false);
+  assert(REWARD_POOL.includes("burst"),"the high-damage option remains available as a later reward");
+  const g=pilot(["burst","bolt","strike","guard","heal"],[rest()],{initialEnergy:2});
+  assert.equal(g.canPlay("burst"),false);
+  assert.equal(g.canPlay("bolt"),true);
+  assert.equal(g.play(0),false,"not enough energy must not consume a card");
+  assert.equal(g.snapshot().hand[0],"burst");
+  const withMana=pilot(["burst","bolt","strike","guard","heal"],[rest()],{initialEnergy:3});
+  play(withMana,"burst");
+  assert.equal(withMana.snapshot().enemyHp,85);
+  assert.equal(withMana.snapshot().energy,0);
+});
+
+test("the small pilot cards use concise one-line descriptions without altering their distinct mechanics",()=>{
+  for(const [id,card] of Object.entries(CARDS)){
+    assert(card.description.length<=45,id+" should be easy to scan on a small card");
+    assert(!card.description.includes("維持中"),id);
+  }
+  assert.match(CARDS.mirror.description,/反射/);
+  assert.match(CARDS.poison.description,/毒2/);
+  assert.match(CARDS.wolf.description,/魔力上限-1/);
+  assert.match(CARDS.burst.description,/防御が消える/);
 });
