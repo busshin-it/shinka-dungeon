@@ -297,7 +297,9 @@ test("three encounters can finish using rewards, with a complete state and deter
   assert.equal(g.snapshot().phase,"complete");
   assert.equal(g.openReward(),false);
   assert.equal(g.nextBattle(),false);
+  const saved=g.exportSave();
+  assert.deepEqual([...saved.state.hand,...saved.state.draw,...saved.state.discard].sort(),[...saved.state.deck].sort(),"deck zones must match on completion");
   const restored=pilot(deck,[rest()],options);
-  assert.equal(restored.restoreSave(g.exportSave()),true);
+  assert.equal(restored.restoreSave(saved),true);
   assert.deepEqual(restored.exportSave(),g.exportSave());
 });
