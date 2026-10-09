@@ -170,6 +170,7 @@ export function createPilotGame(options = {}) {
     if (s.battle === maxBattles) {
       s.phase = "complete";
       s.log.unshift("試作の冒険を最後まで進めました。");
+      s.log = s.log.slice(0,8);
       return true;
     }
     const start = (s.battle * 3 + s.deck.length) % REWARD_POOL.length;
@@ -188,6 +189,7 @@ export function createPilotGame(options = {}) {
     s.rewardOffers = [];
     s.phase = "ready";
     s.log.unshift(id === null ? "報酬を見送り、HPを回復。" : CARDS[id].name + "を報酬に選び、HPを回復。");
+    s.log = s.log.slice(0,8);
     return true;
   }
   function nextBattle() {
