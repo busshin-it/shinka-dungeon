@@ -32,7 +32,7 @@ export function createPilotGame(options = {}) {
   if (!intents.length || intents.some(i => !["attack","rest"].includes(i.kind))) throw new Error("Invalid pilot intents");
   const s = {
     turn: 1, hp: options.hp ?? 30, maxHp: options.hp ?? 30, enemyHp: enemy.maxHp,
-    energy: 3, guard: 0, mirrorGuard: 0, mirrorReady: false,
+    energy: Math.max(0, Math.min(5, options.initialEnergy ?? 3)), guard: 0, mirrorGuard: 0, mirrorReady: false,
     weaken: 0, poison: 0, beast: null, beastReacted: false,
     usedSpell: false, weaponStreak: 0, phase: "battle",
     hand: [], draw: [...deck], discard: [], log: ["効果だけの試作です。数値は仮設定。"]
