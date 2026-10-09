@@ -166,3 +166,107 @@ test("release app stays untouched while README links to standalone effects playt
   assert.match(pilot,/<a href="\.\/planning\.html">従来のゲームへ<\/a>/);
   assert.doesNotMatch(pilot,/localStorage|sessionStorage|planning-game\.js/);
 });
+
+test("opt-in three-battle journey offers four deterministic choices or skip after victory",()=>{
+  const g=pilot(["bolt","strike","burst","guard","heal"],[rest()],{
+    journey:true,battles:3,initialEnergy:5,enemy:{maxHp:1,physicalResist:0,magicResist:0}
+  });
+  assert.equal(g.snapshot().maxBattles,3);
+  assert.equal(g.rewardOptions().length,0);
+  assert.equal(g.openReward(),false);
+  play(g,"bolt");
+  assert.equal(g.snapshot().phase,"victory");
+  assert.equal(g.endTurn(),false);
+  assert.equal(g.openReward(),true);
+  assert.equal(g.snapshot().phase,"reward");
+  const offers=g.rewardOptions();
+  assert.equal(offers.length,4);
+  assert.equal(new Set(offers).size,4);
+  assert.deepEqual(g.rewardOptions(),offers);
+  assert.equal(g.chooseReward("not-a-card"),false);
+  assert.equal(g.snapshot().phase,"reward");
+  const choice=offers[0];
+  assert.equal(g.chooseReward(choice),true);
+  assert.equal(g.snapshot().phase,"ready");
+  assert.equal(g.snapshot().deck.length,6);
+  assert.equal(g.rewardOptions().length,0);
+  assert.equal(g.nextBattle(),true);
+  let s=g.snapshot();
+  assert.equal(s.battle,2);
+  assert.equal(s.enemyMaxHp,11);
+  assert.equal(s.phase,"battle");
+  assert.equal(s.hand[0],choice,"chosen card is guaranteed in the next opening hand");
+  assert.equal(s.weaken,0);
+  assert.equal(s.poison,0);
+  assert.equal(s.mirrorGuard,0);
+  assert.equal(s.beast,null);
+});
+test("reward skip preserves deck but recovers hp, and invalid transitions do not mutate state",()=>{
+  const options={journey:true,battles:3,initialEnergy:5,enemy:{maxHp:1,physicalResist:0,magicResist:0}};
+  const g=pilot(["bolt","strike","burst","guard","heal"],[rest()],options);
+  play(g,"bolt");
+  g.openReward();
+  const before=g.snapshot(),save=g.exportSave();
+  assert.equal(g.nextBattle(),false);
+  assert.equal(g.chooseReward("missing"),false);
+  assert.deepEqual(g.snapshot(),before);
+  assert.deepEqual(g.exportSave(),save);
+  assert.equal(g.chooseReward(null),true);
+  assert.equal(g.snapshot().deck.length,5);
+  assert.equal(g.snapshot().lastReward,null);
+  assert.equal(g.snapshot().hp,g.snapshot().maxHp);
+  assert.equal(g.nextBattle(),true);
+  assert.equal(g.snapshot().deck.length,5);
+});
+test("pilot journey saves round trip across battle, reward, ready and next battle",()=>{
+  const options={journey:true,battles:3,enemy:{maxHp:1,physicalResist:0,magicResist:0},initialEnergy:5};
+  const deck=["bolt","strike","burst","guard","heal"];
+  const g=pilot(deck,[rest()],options);
+  const restore=()=>{const c=pilot(deck,[rest()],options);assert.equal(c.restoreSave(g.exportSave()),true);assert.deepEqual(c.exportSave(),g.exportSave());return c;};
+  let c=restore();
+  assert.equal(c.snapshot().phase,"battle");
+  play(g,"bolt");
+  restore();
+  g.openReward();
+  restore();
+  g.chooseReward(g.rewardOptions()[0]);
+  restore();
+  g.nextBattle();
+  restore();
+});
+test("journey rejects foreign, malformed and inconsistent save without state mutation",()=>{
+  const g=pilot(["bolt","strike","burst","guard","heal"],[rest()],{
+    journey:true,battles:3,enemy:{maxHp:1,physicalResist:0,magicResist:0}
+  });
+  const original=g.exportSave();
+  const invalid=[];
+  invalid.push({...original,version:5});
+  invalid.push({...original,mode:"legacy-planning"});
+  invalid.push({...original,battles:2});
+  for(const patch of [
+    {battle:8}, {hp:-1}, {phase:"custom"}, {energy:999},
+    {deck:["bolt"]},{hand:["stone","wolf"]},{mirrorReady:"yes"},
+    {enemyMaxHp:999},{rewardOffers:["mirror"]},{log:["<x>".repeat(1000)]}
+  ])invalid.push({...original,state:{...original.state,...patch}});
+  for(const candidate of invalid){
+    assert.equal(g.restoreSave(candidate),false,JSON.stringify(candidate).slice(0,110));
+    assert.deepEqual(g.exportSave(),original);
+  }
+  const legacy=pilot(["bolt","strike","burst","guard","heal"],[rest()]);
+  assert.equal(legacy.restoreSave(original),false);
+  assert.equal(legacy.exportSave(),null);
+});
+test("pilot browser flow wires four-option rewards, next fight and namespaced autosave",()=>{
+  const html=fs.readFileSync(new URL("../v4-1/six-paths-pilot.html",import.meta.url),"utf8");
+  assert.match(html,/createPilotGame\(\{journey:true,battles:3\}\)/);
+  assert.match(html,/shinka-six-paths-journey-v1/);
+  assert.match(html,/id="journeyPanel"/);
+  assert.match(html,/id="rewardCards"/);
+  assert.match(html,/game\.rewardOptions\(\)/);
+  assert.match(html,/game\.chooseReward\(id\)/);
+  assert.match(html,/game\.chooseReward\(null\)/);
+  assert.match(html,/game\.nextBattle\(\)/);
+  assert.match(html,/game\.exportSave\(\)/);
+  assert.match(html,/game\.restoreSave\(/);
+  assert.doesNotMatch(html,/shinka-planning-v5|ShinkaV43/);
+});
