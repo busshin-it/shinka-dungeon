@@ -110,7 +110,7 @@ const stat = (name,value) => '<div class="stat"><small>'+name+'</small><strong>'
 const typeNames = {spell:"呪文",pureWeapon:"純物理武器",guard:"防御",mirror:"鏡術",summon:"魔獣",sacrifice:"生贄"};
 function render() {
   const s=game.snapshot();
-  el("stats").innerHTML = stat("自分HP",s.hp+" / "+s.maxHp)+stat("敵HP",s.enemyHp+" / "+s.enemy.maxHp)+stat("魔力",s.energy+" / "+s.maxEnergy)+stat("ターン",s.turn)+stat("戦闘",s.battle+" / "+s.maxBattles);
+  el("stats").innerHTML = stat("自分HP",s.hp+" / "+s.maxHp)+stat("敵HP",s.enemyHp+" / "+s.enemy.maxHp)+stat("魔力",s.energy+" / "+s.maxEnergy)+stat("ターン",s.turn)+stat("戦闘",s.battle+" / "+s.maxBattles)+stat("デッキ",s.deck.length+"枚")+(modeIsLong?stat("獲得札",Math.max(0,s.deck.length-10)+"枚"):"");
   const status=el("status");
   status.className="status"+(s.phase==="defeat"?" warn":s.phase==="victory"?" win":"");
   status.textContent=s.phase==="victory"?"勝利！ 次は報酬選択です。":s.phase==="complete"?s.maxBattles+"戦の試作冒険をクリアしました！":s.phase==="reward"?"4枚から1枚選ぶか、見送れます。":s.phase==="ready"?"報酬を選びました。次の戦闘へ進めます。":s.phase==="defeat"?"HPが0になり敗北しました。":"カードの使用順で効果が変わります。ターン終了で敵が行動します。";
