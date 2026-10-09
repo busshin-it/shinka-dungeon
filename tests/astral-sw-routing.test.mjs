@@ -21,8 +21,9 @@ function runFetch(path, { mode = 'navigate', method = 'GET' } = {}) {
       async open() {
         return {
           async match(url) {
-            cached.push(url);
-            return 'cached:' + url;
+            const key = typeof url === 'string' ? url : url.url;
+            cached.push(key);
+            return 'cached:' + key;
           }
         };
       }
