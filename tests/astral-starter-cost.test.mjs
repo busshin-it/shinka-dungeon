@@ -239,7 +239,7 @@ test('active-save UI logic renders v3/v4/v5 card costs and mana text consistentl
   const html=read('v4-1/planning.html');
   for(const marker of ['data-starter-rule','data-mana-rule'])assert.equal(html.split(marker).length-1,1,marker+' source anchor is unique');
   assert(!html.includes('id="starterRuleText"'));assert(!html.includes('id="manaRuleText"'));
-  const fresh=uiHarness();assert(fresh.node('#storyBody').innerHTML.includes('この旅の基本2種は魔力1。'));
+  const fresh=uiHarness();assert(fresh.node('#storyBody').innerHTML.includes('カード選択に進みます'));fresh.click('#storyDialog',{action:'legacyIntro'});assert(fresh.node('#storyBody').innerHTML.includes('この旅の基本2種は魔力1。'));
   fresh.click('#storyDialog',{action:'start'});assert.equal(fresh.saved().version,6);assert.equal(fresh.saved().state.energy,2);
 for(const version of [3,4,5])for(const phase of ['intro','battle','evolve','remove']) {
  if(version===3&&!['intro','battle'].includes(phase))continue;
