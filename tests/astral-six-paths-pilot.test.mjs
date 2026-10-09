@@ -399,7 +399,7 @@ test("twelve-battle mode inserts six distinct experimental enemies before existi
   assert(twelve.every(x=>x.intents.length>=2));
   assert.equal(twelve[9].enemy.magicResist,25);
   assert.equal(twelve[10].enemy.physicalResist,25);
-  assert.equal(twelve[8].intents[1].singleThreshold,13);
+  assert.equal(twelve[8].intents[1].threshold,13);
 });
 test("twelve battles create eleven card-reward windows and persistent deck growth",()=>{
   const ctx={};
