@@ -82,3 +82,13 @@ Draft PRで停止。マージ・公開・後続実装は禁止。
 - 3戦・6戦・12戦のモードはそれぞれ別保存キーで、12戦は `shinka-six-paths-long-journey-v1` と `encounterSetId:long-twelve-enemies-v1` で識別。旧3戦/6戦/本編のセーブは読み書きしない。デッキ成長・12戦クリア・中途再開・他モード保存の拒否を追加テストで検証。
 - **保護範囲:** 現行の `planning.html`、`planning-engine.js`、`planning-game.js`、従来61カード、既存セーブ、配布用メタデータ/サービスワーカーに変更なし。PR #31はDraft・未マージ・未公開。絵も生成していない。
 - **残課題:** プレイヤーが実際に12戦完走できる難易度か、長編で報酬が偏らないか、カードの削除・進化やルート分岐が必要か、ブラウザ/実機操作と実際の楽しさは未確認。自動テストが成功しても人間の試遊とバランス判断を代替しない。
+
+## 2026-10-09｜12戦の試遊ページを公開（PR #31統合）
+
+- ユーザーの「今の進化ダンジョンはそのままで、別URLで試遊できるようにしてほしい」という依頼に対応。PR #31 を Ready for review に変更し、**squash merge** で main に統合（コミット `18e4623e244ed9a7b271e8f7c3ccdc37195e1e18`）。
+- **GitHub Pages試遊URL:** https://busshin-it.github.io/shinka-dungeon/v4-1/six-paths-pilot.html?mode=long-journey
+- 3戦/6戦も同一ページのモード切替で選択可能。12戦は試作用の新敵6体＋元の敵6体、最大11回の4択報酬、独立の端末保存。
+- [GitHub Pages workflow #37874258233](https://github.com/busshin-it/shinka-dungeon/actions/runs/37874258233) の検証・デプロイとも **success**。デプロイログの Pages URL は `https://busshin-it.github.io/shinka-dungeon/`。GitHub上の最新mainには `v4-1/six-paths-pilot.html` が存在。
+- **変更していないもの:** `planning.html`、`planning-engine.js`、`planning-game.js`、既存61カード、既存セーブ、`release.json`、`sw.js`。以前の「未公開/PR Draft」記録は当時の履歴であり、ここからの**現在地は試遊版公開済み**。
+- **未検証:** 専用ブラウザ操作によるページへの直接アクセス・タッチ試験、12戦の難易度・コンボの楽しさ。CI通過とPagesの公開成功は確認したが、実機で遊べることを人間が目視確認したわけではない。イラスト制作は後回し。
+- **次:** ユーザーの試遊フィードバックを受け、カードの強さ・報酬の出方・12戦のテンポを調整。旧本編への混合実装は別段階で検討。
