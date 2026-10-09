@@ -93,3 +93,16 @@ export function longTwelveEncounters(gameData) {
   }
   return result;
 }
+
+
+// Optional reward-focused pace. Never mutate canonical encounters or original 12-run.
+export const QUICK_ENEMY_HP_PERCENT = 60;
+export function quickTwelveEncounters(gameData) {
+  return longTwelveEncounters(gameData).map(row=>Object.freeze({
+    ...row,
+    enemy:Object.freeze({
+      ...row.enemy,
+      maxHp:Math.max(1,Math.floor((row.enemy.maxHp * QUICK_ENEMY_HP_PERCENT + 50)/100))
+    })
+  }));
+}
