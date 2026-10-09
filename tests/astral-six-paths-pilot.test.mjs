@@ -2,7 +2,7 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import fs from "node:fs";
 import vm from "node:vm";
-import {classicSixEncounters,CLASSIC_ENCOUNTER_IDS,longTwelveEncounters,TWELVE_ENCOUNTER_IDS,EXTRA_SIX} from "../v4-1/six-paths-enemy-bridge.mjs";
+import {classicSixEncounters,CLASSIC_ENCOUNTER_IDS,longTwelveEncounters,quickTwelveEncounters,QUICK_ENEMY_HP_PERCENT,TWELVE_ENCOUNTER_IDS,EXTRA_SIX} from "../v4-1/six-paths-enemy-bridge.mjs";
 import { createPilotGame, CARDS, STARTER_DECK } from "../v4-1/six-paths-pilot.mjs";
 
 const attack = (perHit,hits=1,damageType="physical") => ({kind:"attack",label:"試験攻撃",perHit,hits,damageType});
@@ -377,7 +377,7 @@ test("experimental browser mode is selected only by a query parameter and uses a
   const html=fs.readFileSync(new URL("../v4-1/six-paths-pilot.html",import.meta.url),"utf8");
   assert.match(html,/mode=legacy-enemies/);
   assert.match(html,/src="\.\/planning-engine\.js"/);
-  assert.match(html,/import \{ classicSixEncounters, longTwelveEncounters \}/);
+  assert.match(html,/import \{ classicSixEncounters, longTwelveEncounters, quickTwelveEncounters \}/);
   assert.match(html,/shinka-six-paths-legacy-enemies-v1/);
   assert.match(html,/shinka-six-paths-journey-v1/);
   assert.match(html,/encounterSetId:"canonical-enemies-v1"/);
@@ -478,5 +478,55 @@ test("browser enables 12-fight mode with its own save key and shows reward growt
   assert.match(html,/long-twelve-enemies-v1/);
   assert.match(html,/stat\("獲得札"/);
   assert.match(html,/modeIsIntegrated \? "shinka-six-paths-legacy-enemies-v1"/);
+  assert.doesNotMatch(html,/shinka-astral-planning-save-v1/);
+});
+
+test("quick journey lowers only enemy HP while keeping every attack, resistance and card reward rule",()=>{
+  const ctx={};
+  vm.runInNewContext(fs.readFileSync(new URL("../v4-1/planning-engine.js",import.meta.url),"utf8"),ctx);
+  const normal=longTwelveEncounters(ctx.ShinkaV43);
+  const fast=quickTwelveEncounters(ctx.ShinkaV43);
+  assert.equal(QUICK_ENEMY_HP_PERCENT,60);
+  assert.equal(fast.length,12);
+  assert.deepEqual(fast.map(row=>row.id),normal.map(row=>row.id));
+  for(let i=0;i<12;i++){
+    const a=normal[i], b=fast[i];
+    assert.equal(b.enemy.maxHp,Math.max(1,Math.floor((a.enemy.maxHp*60+50)/100)));
+    assert(b.enemy.maxHp<a.enemy.maxHp);
+    assert.equal(b.enemy.name,a.enemy.name);
+    assert.equal(b.enemy.physicalResist,a.enemy.physicalResist);
+    assert.equal(b.enemy.magicResist,a.enemy.magicResist);
+    assert.deepEqual(b.intents,a.intents);
+  }
+  assert.deepEqual(normal.map(x=>x.enemy.maxHp),[15,23,36,32,52,43,68,57,82,70,85,112],"normal mode unchanged");
+  assert.deepEqual(fast.map(x=>x.enemy.maxHp),[9,14,22,19,31,26,41,34,49,42,51,67]);
+});
+test("quick twelve-fight saves are separate from original twelve fights and older games",()=>{
+  const ctx={};vm.runInNewContext(fs.readFileSync(new URL("../v4-1/planning-engine.js",import.meta.url),"utf8"),ctx);
+  const fast=quickTwelveEncounters(ctx.ShinkaV43), normal=longTwelveEncounters(ctx.ShinkaV43);
+  const opts={journey:true,battles:12,hp:60,deck:["bolt","strike","guard","mirror","poison","frost","heal","strike","guard","bolt"]};
+  const faster=createPilotGame({...opts,encounters:fast,encounterSetId:"quick-twelve-enemies-v1"});
+  const normalGame=createPilotGame({...opts,encounters:normal,encounterSetId:"long-twelve-enemies-v1"});
+  assert.equal(faster.snapshot().enemyHp,9);
+  assert.equal(normalGame.snapshot().enemyHp,15);
+  assert.equal(faster.restoreSave(normalGame.exportSave()),false);
+  assert.equal(normalGame.restoreSave(faster.exportSave()),false);
+  const restored=createPilotGame({...opts,encounters:fast,encounterSetId:"quick-twelve-enemies-v1"});
+  assert.equal(restored.restoreSave(faster.exportSave()),true);
+  assert.deepEqual(restored.exportSave(),faster.exportSave());
+  assert.equal(faster.play(0),true);
+  assert.equal(faster.snapshot().enemyHp,3);
+  const saved=faster.exportSave();
+  assert.equal(restored.restoreSave(saved),true);
+  assert.deepEqual(restored.exportSave(),saved);
+});
+test("quick mode is selectable from web navigation and uses a unique storage key",()=>{
+  const html=fs.readFileSync(new URL("../v4-1/six-paths-pilot.html",import.meta.url),"utf8");
+  assert.match(html,/mode=long-journey&pace=quick/);
+  assert.match(html,/quickTwelveEncounters\(globalThis\.ShinkaV43\)/);
+  assert.match(html,/shinka-six-paths-quick-journey-v1/);
+  assert.match(html,/encounterSetId:modeIsQuick\?"quick-twelve-enemies-v1":"long-twelve-enemies-v1"/);
+  assert.match(html,/敵HPだけを通常版の約60％/);
+  assert.match(html,/stat\("獲得札"/);
   assert.doesNotMatch(html,/shinka-astral-planning-save-v1/);
 });
