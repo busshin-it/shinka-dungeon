@@ -1,0 +1,112 @@
+/* Six-paths pilot adopts the existing Astral Corridor game stage and artwork.
+   This stylesheet is scoped to the isolated pilot: original planning.* remains untouched. */
+[hidden] { display:none !important; }
+body.pilot-mode { background:#101d27; color:var(--paper); }
+.pilot-mode .pilot-game {
+  height:100dvh; min-height:420px; max-width:none;
+  display:grid; grid-template-rows:40px 23px minmax(0,1fr);
+  padding:4px max(6px,env(safe-area-inset-right)) max(4px,env(safe-area-inset-bottom)) max(6px,env(safe-area-inset-left));
+}
+.pilot-mode .masthead { margin:0; min-height:0; display:flex; align-items:center; }
+.pilot-mode .masthead h1 { font-size:19px; margin:0; }
+.pilot-mode .pilot-menu { position:relative; z-index:15; font-size:12px; }
+.pilot-mode .pilot-menu summary { cursor:pointer; padding:8px; background:#1b2b36; border:1px solid var(--line); border-radius:5px; list-style:none; }
+.pilot-mode .pilot-menu summary::after { content:' ⋯'; }
+.pilot-mode .pilot-menu[open] .pilot-menu-links { position:absolute; right:0; top:100%; width:min(320px,90vw); background:#142735; border:1px solid var(--gold); padding:13px; display:grid; gap:10px; box-shadow:0 10px 30px #0009; }
+.pilot-mode .pilot-menu a { color:var(--paper); font-size:12px; }
+.pilot-mode .journey { padding:0 12px; height:23px; gap:16px; }
+.pilot-mode .journey span, .pilot-mode .journey small { font-size:11px; color:var(--cyan); }
+.pilot-mode .pilot-play { display:grid; grid-template-rows:minmax(175px,1fr) auto; min-height:0; grid-row:3; }
+.pilot-mode .stage { min-height:175px; height:auto; width:100%; }
+.pilot-mode .hero-hud { left:12px; width:min(19%,190px); }
+.pilot-mode .enemy-hud { right:12px; width:min(23%,235px); }
+.pilot-mode .hud { top:9px; }
+.pilot-mode .hud h2 { font-size:14px; margin:2px 0 8px; }
+.pilot-mode .hud .charm { margin-top:5px; font-size:10px; line-height:1.35; }
+.pilot-mode .hero-puppet { left:23%; width:21%; max-width:264px; height:calc(100% - 28px); bottom:20px; }
+.pilot-mode .enemy-puppet { right:24%; width:23%; max-width:290px; height:calc(100% - 28px); bottom:20px; }
+.pilot-mode .intent { padding:7px 9px; margin-top:9px; }
+.pilot-mode .intent>strong { font-size:18px; }
+.pilot-mode .intent>span { font-size:11px; }
+.pilot-mode .battle-log { padding:4px 12px; min-height:25px; font-size:11px; height:25px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.pilot-mode .table { min-height:0; display:grid; grid-template-rows:39px 24px auto; padding:6px 9px 4px; }
+.pilot-mode .controls { flex-wrap:nowrap; gap:10px; }
+.pilot-mode .controls .quiet, .pilot-mode .controls .primary { min-height:35px; padding:7px 12px; font-size:11px; }
+.pilot-mode .energy>b { width:32px; height:32px; font-size:19px; }
+.pilot-mode .energy small { font-size:9px; }
+.pilot-mode .piles { gap:10px; font-size:10px; }
+.pilot-mode .hand-label { margin:0; align-items:center; }
+.pilot-mode .hand-label h2 { font-size:12px; }
+.pilot-mode .hand { display:flex; align-items:stretch; min-height:0; height:133px; gap:8px; overflow-x:auto; overflow-y:hidden; padding:3px 2px 4px; scroll-snap-type:x proximity; }
+.pilot-mode .hand .pilot-card {
+  display:flex; flex:0 0 152px; flex-direction:column; position:relative;
+  width:152px; min-width:152px; height:124px; min-height:0;
+  padding:11px 10px 8px; text-align:left; border-radius:7px;
+  background:#e8dfcb; color:#152838; border:1px solid #72818c;
+  scroll-snap-align:start; box-shadow:0 2px 7px #0006;
+}
+.pilot-mode .pilot-card .cost { width:25px; height:25px; top:5px; left:6px; font-size:13px; }
+.pilot-mode .pilot-card .type { display:block; align-self:flex-end; font-size:9px; color:#4b6677; margin:0 0 12px 24px; }
+.pilot-mode .pilot-card strong { display:block; font-size:14px; line-height:1.25; margin:0 0 6px; }
+.pilot-mode .pilot-card .desc { display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:3; line-clamp:3; overflow:hidden; font-size:11px; line-height:1.45; color:#314b55; }
+.pilot-mode .pilot-card:disabled { opacity:.42; }
+.pilot-mode .pilot-chips { display:flex; gap:7px; align-items:center; justify-content:flex-end; white-space:nowrap; overflow:auto; }
+.pilot-mode .pilot-chip { border:1px solid #66808a; border-radius:12px; padding:2px 7px; background:#142e3e; color:#deebef; font-size:11px; }
+.pilot-mode .pilot-chip strong { color:var(--gold); }
+.pilot-mode .pilot-setup { grid-row:3; display:grid; place-items:center; overflow:auto; background:#182d3e url('./assets/background.webp') center/cover; padding:14px; }
+.pilot-mode .pilot-setup-content { width:min(940px,100%); padding:18px; background:#102330ed; border:1px solid #587482; border-radius:12px; box-shadow:0 20px 50px #000b; }
+.pilot-mode .pilot-setup-head { display:flex; gap:12px; align-items:center; margin-bottom:12px; }
+.pilot-mode .pilot-setup-head img { height:75px; width:75px; object-fit:contain; }
+.pilot-mode .pilot-setup-head h2 { margin:0 0 4px; font-size:19px; }
+.pilot-mode #setupHint { font-size:12px; line-height:1.5; color:var(--muted); margin:0; }
+.pilot-mode .pilot-choices { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:10px; margin-top:12px; }
+.pilot-mode .pilot-choices .origin { min-width:0; height:auto; min-height:154px; padding:14px; gap:7px; border-radius:8px; cursor:pointer; }
+.pilot-mode .pilot-choices .origin strong { font-size:15px; }
+.pilot-mode .pilot-choices .origin small { font-size:11px; }
+.pilot-mode .pilot-choices .origin .symbol { font-size:30px; }
+.pilot-mode .pilot-choices .pilot-start-card { width:auto; min-width:0; min-height:152px; padding:16px; cursor:pointer; }
+.pilot-mode .pilot-choices .pilot-start-card .type { font-size:12px; margin-bottom:24px; }
+.pilot-mode .pilot-choices .pilot-start-card strong { font-size:17px; }
+.pilot-mode .pilot-choices .pilot-start-card .desc { -webkit-line-clamp:3; line-clamp:3; font-size:12px; }
+.pilot-mode .pilot-setup-actions { display:flex; justify-content:flex-end; margin-top:10px; }
+.pilot-mode .pilot-setup-actions .quiet { padding:8px 15px; }
+.pilot-mode .pilot-overlay { position:fixed; z-index:12; inset:0; display:grid; place-items:center; background:#041019c9; padding:14px; }
+.pilot-mode .pilot-overlay-window { width:min(910px,98vw); max-height:92dvh; overflow:auto; padding:20px; background:#142735; border:1px solid #758786; border-radius:10px; box-shadow:0 25px 80px #000b; }
+.pilot-mode .pilot-overlay-window h2 { font-size:24px; margin:4px 0 10px; }
+.pilot-mode .pilot-overlay-window p { color:var(--muted); font-size:12px; line-height:1.5; }
+.pilot-mode .pilot-rewards { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:10px; margin:13px 0; }
+.pilot-mode .pilot-rewards .pilot-card { display:block; width:100%; min-height:138px; height:auto; padding:12px 11px; background:#e8dfcb; color:#142a35; text-align:left; border-radius:7px; cursor:pointer; }
+.pilot-mode .pilot-rewards .pilot-card .type { display:block; text-align:right; color:#52616a; font-size:10px; margin:0 0 22px; }
+.pilot-mode .pilot-rewards .pilot-card .desc { -webkit-line-clamp:4; line-clamp:4; font-size:12px; }
+.pilot-mode .pilot-overlay-actions { display:flex; justify-content:flex-end; flex-wrap:wrap; gap:8px; }
+.pilot-mode .pilot-overlay-actions button { min-height:42px; padding:10px 16px; }
+.pilot-mode .pilot-help { position:fixed; right:12px; bottom:12px; z-index:16; border:1px solid #607788; border-radius:8px; background:#142735; padding:6px 10px; font-size:12px; }
+.pilot-mode .pilot-help summary { cursor:pointer; }
+.pilot-mode .pilot-help-content { width:min(330px,85vw); max-height:55vh; overflow:auto; display:grid; gap:9px; padding:10px 0; font-size:12px; line-height:1.5; }
+.pilot-mode .pilot-help-content a { color:var(--cyan); }
+@media(max-width:760px) {
+  .pilot-mode .pilot-game { min-height:420px; }
+  .pilot-mode .masthead h1 { font-size:16px; }
+  .pilot-mode .hero-hud { width:28%; left:7px; }
+  .pilot-mode .enemy-hud { width:31%; right:7px; }
+  .pilot-mode .hud h2 { font-size:11px; }
+  .pilot-mode .hp-line { font-size:9px; }
+  .pilot-mode .hero-puppet { left:24%; width:21%; }
+  .pilot-mode .enemy-puppet { right:25%; width:22%; }
+  .pilot-mode .intent>strong { font-size:12px; }
+  .pilot-mode .pilot-choices { grid-template-columns:repeat(2,minmax(0,1fr)); }
+  .pilot-mode .pilot-choices .origin { min-height:116px; }
+  .pilot-mode .pilot-rewards { grid-template-columns:repeat(2,minmax(0,1fr)); }
+  .pilot-mode .piles span:nth-child(2) { display:none; }
+}
+@media(max-height:540px) {
+  .pilot-mode .pilot-game { min-height:370px; grid-template-rows:34px 19px minmax(0,1fr); }
+  .pilot-mode .journey { height:19px; }
+  .pilot-mode .pilot-play { grid-template-rows:minmax(150px,1fr) auto; }
+  .pilot-mode .table { grid-template-rows:36px 18px auto; padding:3px 7px; }
+  .pilot-mode .hand { height:111px; }
+  .pilot-mode .hand .pilot-card { height:104px; }
+  .pilot-mode .pilot-card .desc { -webkit-line-clamp:2; line-clamp:2; }
+  .pilot-mode .pilot-setup-head img { height:50px; width:50px; }
+  .pilot-mode .pilot-choices .origin, .pilot-mode .pilot-choices .pilot-start-card { min-height:103px; }
+}

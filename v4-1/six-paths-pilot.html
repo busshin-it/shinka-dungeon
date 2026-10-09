@@ -1,94 +1,49 @@
 <!doctype html>
-<html lang="ja">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#181d29">
-<title>進化ダンジョン｜カード効果の試作</title>
-<style>
-:root { color-scheme:dark; font-family:system-ui,"Hiragino Kaku Gothic ProN","Yu Gothic",sans-serif; background:#141924; color:#f3f2e9; }
-*{box-sizing:border-box}
-body{margin:0;padding:20px}
-main{max-width:1070px;margin:auto}
-a{color:#c9d9ff}
-header{display:flex;align-items:flex-start;justify-content:space-between;gap:18px;flex-wrap:wrap;margin-bottom:18px}
-h1{font-size:clamp(22px,3vw,29px);margin:4px 0}
-h2{font-size:17px;margin:0 0 14px}
-p{line-height:1.65;margin:6px 0;color:#c8cedc}
-small,.muted{color:#aeb7c8}
-.panel{background:#202839;border:1px solid #3d4a61;border-radius:13px;padding:17px;margin-bottom:13px}
-.layout{display:grid;grid-template-columns:1fr 1fr;gap:13px}
-.stats{display:flex;flex-wrap:wrap;gap:8px}
-.stat{background:#111827;padding:9px 12px;border-radius:9px;min-width:115px}
-.stat strong{display:block;font-size:19px;margin-top:3px}
-.status{border-radius:9px;padding:9px 12px;background:#142b37;border:1px solid #3b606e;margin-top:13px}
-.status.warn{background:#352422;border-color:#85564a}
-.status.win{background:#213729;border-color:#5f8b66}
-.hand{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
-.card{background:#2b3548;border:1px solid #6b7893;color:#f3f2e9;text-align:left;padding:14px;border-radius:10px;min-height:140px;cursor:pointer}
-.card:hover:not(:disabled),.card:focus-visible{border-color:#f5d688;background:#35445d}
-.card:disabled{opacity:.42;cursor:not-allowed}
-.card strong{font-size:16px;display:block;margin:6px 0}
-.card .cost{background:#4c5a81;border-radius:5px;display:inline-block;padding:2px 8px;font-weight:700}
-.card .type{float:right;color:#d4dfef;font-size:12px}
-.card .desc{font-size:13px;line-height:1.5;color:#d0d7e5;display:block}
-.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
-button.control{background:#e0a954;border:0;border-radius:9px;padding:11px 20px;color:#1b1b22;font-weight:700;cursor:pointer;font-size:15px}
-button.control.secondary{background:#394760;color:#faf9f4}
-button:disabled{cursor:not-allowed;opacity:.45}
-pre{font-family:inherit;white-space:pre-wrap;line-height:1.8;margin:0;color:#d0d7e5}
-footer{padding-bottom:30px;color:#bbc1cd;font-size:13px}
-@media(max-width:720px){body{padding:12px}.layout{grid-template-columns:1fr}.hand{grid-template-columns:repeat(2,minmax(0,1fr))}.panel{padding:12px}.card{min-height:165px}}
-</style>
-</head>
-<body>
-<main>
-<header>
-  <div><small>進化ダンジョン / SIX PATHS PILOT</small><h1>効果だけの試作ダンジョン</h1><p id="modeDescription">カードのイラストは後回し。新6系統の動きとコンボを試せます。</p></div>
-  <nav aria-label="ゲームモード">
-    <a href="./planning.html">従来のゲームへ</a> ·
-    <a href="./six-paths-pilot.html">新6系統：3戦試作</a> ·
-    <a href="./six-paths-pilot.html?mode=legacy-enemies">新6系統：本編の敵6戦</a> ·
-    <a href="./six-paths-pilot.html?mode=long-journey">新6系統：12戦の長い冒険</a> ·
-    <a href="./six-paths-pilot.html?mode=long-journey&pace=quick">12戦・テンポ重視</a> ·
-    <a href="./six-paths-pilot.html?mode=long-journey&pace=quick&setup=forge">12戦・護符と初期手札を選ぶ</a>
-  </nav>
-</header>
-<section id="setupPanel" class="panel" hidden>
-  <h2 id="setupHeading">護符を選ぶ</h2>
-  <p id="setupHint"></p>
-  <div id="setupChoices" class="hand"></div>
-  <div class="actions"><button type="button" id="setupReroll" class="control secondary">候補を引き直す</button></div>
-</section>
-<div id="playScreen" hidden>
-<div class="panel">
-  <div id="stats" class="stats" aria-live="polite"></div>
-  <div id="status" class="status"></div>
-</div>
-<div class="layout">
-  <section class="panel"><h2>敵の行動予告</h2><div id="enemy" aria-live="polite"></div></section>
-  <section class="panel"><h2>プレイヤーの効果</h2><div id="effects" aria-live="polite"></div></section>
-</div>
-<section class="panel">
-  <h2>手札（クリックするとすぐ使用）</h2>
-  <div id="hand" class="hand"></div>
-  <div class="actions"><button id="endTurn" class="control">ターン終了 →</button><button id="restart" class="control secondary">もう一度試す</button></div>
-</section>
-<section id="journeyPanel" class="panel" hidden>
-  <h2 id="journeyTitle">戦闘の結果</h2>
-  <p id="journeyHint"></p>
-  <div id="rewardCards" class="hand"></div>
-  <div class="actions"><button id="advance" class="control">次へ進む →</button><button id="skipReward" class="control secondary" hidden>報酬を見送る</button></div>
-</section>
-<section class="panel"><h2>戦闘ログ</h2><pre id="log" aria-live="polite"></pre></section>
-</div>
-<footer>
-  <p>護符＋初期手札のランダム選択は「12戦・護符と初期手札を選ぶ」専用です。保存済みの通常12戦には変更しません。</p>
-  <p>3戦・本編の敵6戦・新敵を加えた12戦に対応。各戦後の4択報酬（見送り可）とモード別の自動保存があります。数値・カード名・敵は調整用の仮設定です。公開中の61枚や既存のセーブには影響しません。敵の物理耐性・魔法耐性の数値はカードの攻撃にだけ適用し、鏡術反射は無属性です。</p>
-  <p>攻撃呪文／氷と毒／純物理武器／回復と鏡術／大技／魔獣召喚。魔獣は同時に1体、カードに反応するのは各ターン1回です。</p>
-  <p>「12戦・テンポ重視」は敵HPだけを約60％に調整します。敵の行動・カードの効果・4択報酬の内容は通常12戦と同じです。モードごとに保存を分けるため、途中からの切り替えは別の冒険になります。</p>
-  <p>本編由来の敵6体は名前・HP・行動順・詠唱崩し条件を本編データから読み込みます。12戦モードではさらに実験用の新敵6体を交互に加えます。本編由来の敵に攻撃属性や耐性データはないため試作では未分類・0%として扱い、新敵だけ暫定耐性を設定しています。報酬とプレイヤーのカードは新6系統専用で、本編のデッキ・ルート・セーブを移行するものではありません。</p>
-</footer>
+<html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#0d1821">
+<title>蒼星の回廊｜進化ダンジョン 12戦</title><link rel="stylesheet" href="./planning.css"><link rel="stylesheet" href="./six-paths-stage.css"></head>
+<body class="planning-mode pilot-mode"><main class="game pilot-game">
+<header class="masthead"><div><h1>蒼星の回廊 <small>進化ダンジョン</small></h1></div><div class="header-actions">
+<button id="restart" class="quiet" type="button">最初から</button>
+<details class="pilot-menu"><summary>メニュー</summary><div class="pilot-menu-links">
+<a href="./planning.html">以前の6戦版</a>
+<a href="./six-paths-pilot.html?mode=long-journey&pace=quick&setup=forge&fresh=1">12戦・新しい旅</a>
+<a href="./six-paths-pilot.html?mode=long-journey">通常12戦</a>
+<a href="./six-paths-pilot.html?mode=legacy-enemies">敵6戦・新カード</a>
+<a href="./six-paths-pilot.html">3戦の試作</a></div></details></div></header>
+<nav class="journey" aria-label="冒険の進み具合"><span>✦</span><span id="turnNum"></span></nav>
+<section id="setupPanel" class="stage pilot-setup" hidden><div class="pilot-setup-content">
+<div class="pilot-setup-head"><img src="./assets/hero.webp" alt="蒼星の魔法師"><div><h2 id="setupHeading">護符を選ぶ</h2><p id="setupHint"></p></div></div>
+<div id="setupChoices" class="pilot-choices"></div><div class="pilot-setup-actions"><button id="setupReroll" class="quiet" type="button">↻ 別の候補</button></div>
+</div></section>
+<div id="playScreen" class="pilot-play" hidden>
+  <section class="stage" aria-label="戦闘画面">
+    <div class="stage-shade"></div>
+    <div class="hud hero-hud"><span class="eyebrow">THE WANDERER</span><h2>蒼星の魔法師</h2><div class="hp-line"><span>HP</span><strong id="heroHp">60 / 60</strong></div><div id="heroMeter" class="hp-bar" role="meter" aria-label="旅人のHP" aria-valuemin="0" aria-valuemax="60"><i id="heroFill"></i></div><p id="heroStatus">ブロック 0</p><p id="planningStatus" class="planning-status"></p><p id="charm" class="charm"></p></div>
+    <div id="heroPuppet" class="puppet hero-puppet"><i class="orb-glow" aria-hidden="true"></i><img src="./assets/hero.webp" alt="銀髪と藍紫の帽子、青い球の杖を持つ魔法師"></div>
+    <div class="stage-title"><span id="roomName">忘れられた門</span><small id="round">第1章 · 第1/6戦</small></div>
+    <div id="enemyPuppet" class="puppet enemy-puppet"><img id="enemyArt" src="./assets/gatekeeper.webp" alt="蒼鎧の門番"></div>
+    <div class="hud enemy-hud"><span class="eyebrow">IN YOUR PATH</span><h2 id="enemyName">蒼鎧の門番</h2><div class="hp-line"><span>HP</span><strong id="enemyHp">48 / 48</strong></div><div id="enemyMeter" class="hp-bar" role="meter" aria-label="敵のHP" aria-valuemin="0" aria-valuemax="48"><i id="enemyFill"></i></div><div id="intent" class="intent"><small>このターン終了時</small><strong id="intentName">剣のひと振り 7</strong><span id="intentText"></span><div id="breakTrack" class="break-track" hidden><i id="breakFill"></i></div></div></div>
+    
+    <div id="battleLog" class="battle-log" role="status" aria-live="polite">護符を選んで、蒼星の回廊へ。</div>
+  </section>
+
+  <section class="table" aria-label="カード操作">
+    <div class="controls"><div class="energy"><b id="energy">2</b><span>魔力<small id="energyRule">次＋3 / 上限5</small></span></div><div class="piles"><span>山札 <b id="drawCount">0</b></span><span>捨て札 <b id="discardCount">0</b></span><span>消滅 <b id="exhaustCount">0</b></span></div><button id="deckButton" class="quiet" type="button" disabled>デッキ 10枚</button><button id="endTurn" class="primary" type="button">ターン終了 <span>→</span></button></div>
+    <div class="hand-label"><h2>あなたの手札</h2><span id="relicStatus" class="relic-status" hidden></span><div id="effectBadges" class="pilot-chips" aria-label="状態効果"></div></div><div id="hand" class="hand"></div><div id="handPanelHome" class="hand-panel-home"><section id="cardPanel" class="card-panel" aria-label="選んだカードの効果" hidden><div id="cardReview" class="panel-content" aria-live="polite"></div><div class="panel-actions"><button id="playCard" class="primary" type="button" disabled>カードを選んでください</button><button id="cancelCard" class="quiet" type="button" aria-label="カードの選択を解除">×</button></div></section></div>
+  </section>
+
+
+<section id="journeyPanel" class="pilot-overlay" hidden><div class="pilot-overlay-window">
+<h2 id="journeyTitle"></h2><p id="journeyHint"></p><div id="rewardCards" class="pilot-rewards" hidden></div>
+<div class="pilot-overlay-actions"><button id="skipReward" class="quiet" type="button" hidden>見送る</button>
+<button id="overlayRestart" class="quiet" type="button" hidden>もう一度</button><button id="advance" class="primary" type="button">次へ →</button></div>
+</div></section>
+<div id="stats" hidden></div><div id="status" hidden></div><div id="enemy" hidden></div><div id="effects" hidden></div><pre id="log" hidden></pre></div>
+<span id="modeDescription" hidden></span>
+<details class="pilot-help"><summary>？</summary><div class="pilot-help-content"><strong>遊び方</strong>
+<span>護符を1つ選び、カードを3択から1枚ずつ3回選んで出発。</span>
+<span>カードを押すと使用。ターン終了で敵が行動。</span><span>絵のないカードと仮の敵イラストがあります。数値は試作用。</span>
+<a href="./planning.html">以前の進化ダンジョンを開く</a></div></details>
 </main>
 <script src="./planning-engine.js"></script>
 <script type="module">
@@ -157,10 +112,11 @@ function renderForge() {
   const target=document.getElementById("setupChoices");target.replaceChildren();
   choices.forEach(id=>{
     const t=atTalisman?TALISMANS[id]:CARDS[id], btn=document.createElement("button");
-    btn.type="button";btn.className="card";
+    btn.type="button";btn.className=atTalisman?"origin pilot-origin":"card pilot-start-card pilot-card";
     const name=document.createElement("strong");name.textContent=t.name;
     const desc=document.createElement("span");desc.className="desc";desc.textContent=atTalisman?t.description:t.description+"（魔力"+t.cost+"）";
-    btn.append(name,desc);
+    const glyph=document.createElement("span");glyph.className=atTalisman?"symbol":"type";glyph.textContent=atTalisman?({sun:"☀",moon:"◇",frost:"❄",venom:"✿",wolf:"✦",stone:"▣",shield:"⬡",wind:"➶"}[id]||"✧"):(typeNames[t.kind]||t.kind)+"・"+t.cost+"魔力";
+    btn.append(glyph,name,desc);
     btn.onclick=()=>{
       if(atTalisman){forgeTalisman=id;forgeCards=null;}
       else{
@@ -180,6 +136,33 @@ function renderForge() {
     render();
   };
 }
+const PILOT_ART={skeleton:"gatekeeper.webp",mistRogue:"wraith.webp",wraith:"wraith.webp",mossSentinel:"gatekeeper.webp",trial:"bell-spirit.webp",ashLancer:"tide-star-sentinel.webp",archive:"bow-watcher.webp",frostDancer:"bell-spirit.webp",elite:"tide-star-sentinel.webp",shadowScribe:"wraith.webp",bellWarden:"gatekeeper.webp",moth:"boss.webp"};
+function renderStage(s,next,incoming){
+  const e=id=>document.getElementById(id);
+  const pct=(a,b)=>Math.max(0,Math.min(100,Math.round(a*100/Math.max(1,b))))+"%";
+  e("heroHp").textContent=s.hp+" / "+s.maxHp;e("enemyHp").textContent=s.enemyHp+" / "+s.enemy.maxHp;
+  e("heroFill").style.width=pct(s.hp,s.maxHp);e("enemyFill").style.width=pct(s.enemyHp,s.enemy.maxHp);
+  e("heroMeter").setAttribute("aria-valuemax",s.maxHp);e("heroMeter").setAttribute("aria-valuenow",s.hp);
+  e("enemyMeter").setAttribute("aria-valuemax",s.enemy.maxHp);e("enemyMeter").setAttribute("aria-valuenow",s.enemyHp);
+  e("enemyName").textContent=s.enemy.name;
+  e("enemyArt").src="./assets/"+(PILOT_ART[encounterSet?.[s.battle-1]?.id]||"gatekeeper.webp");
+  e("enemyArt").alt=s.enemy.name+"（既存イラストを仮使用）";
+  e("charm").textContent=s.talismanId?"✧ "+TALISMANS[s.talismanId].name:"";
+  e("round").textContent="第"+s.battle+" / "+s.maxBattles+"戦";
+  e("turnNum").textContent="TURN "+s.turn;
+  e("energy").textContent=s.energy;e("energyRule").textContent="上限"+s.maxEnergy;
+  e("drawCount").textContent=s.draw.length;e("discardCount").textContent=s.discard.length;
+  e("deckButton").textContent="デッキ "+s.deck.length+"枚";
+  e("battleLog").textContent=s.log[0]||"";
+  e("intent").classList.toggle("calm",next.kind!=="attack");
+  e("intentName").textContent=next.kind==="attack"?"⚔ "+incoming:"✧ "+next.label;
+  e("intentText").textContent=next.kind==="attack"?(next.hits>1?"×"+next.hits+" / ":"")+next.label:"";
+  e("heroStatus").textContent="";
+  const badges=e("effectBadges");badges.replaceChildren();
+  const vals=[["🛡",s.guard,"通常防御"],["◇",s.mirrorGuard,"鏡術防御"],["❄",s.weaken,"弱体"],["☠",s.poison,"毒"],["⚔",s.weaponStreak,"連撃"]];
+  if(s.beast) vals.push([s.beast==="wolf"?"🐺":"▣","●",s.beast==="wolf"?"魔狼":"ゴーレム"]);
+  vals.filter(([,n])=>n>0).forEach(([symbol,n,label])=>{const chip=document.createElement("span");chip.className="pilot-chip";chip.title=label;chip.textContent=symbol+" "+n;badges.append(chip)});
+}
 function render() {
   document.getElementById("setupPanel").hidden=!!game;
   document.getElementById("playScreen").hidden=!game;
@@ -192,11 +175,12 @@ function render() {
   const next=s.nextIntent;
   const incoming=next.kind==="attack"?Math.max(0,next.perHit*next.hits-s.weaken):0;
   el("enemy").innerHTML='<p><strong>'+s.enemy.name+'</strong>（物理耐性'+s.enemy.physicalResist+'％ / 魔法耐性'+s.enemy.magicResist+'％）</p><p>次の行動：<strong>'+next.label+'</strong> / '+(next.kind==="attack"?"威力"+next.perHit+"×"+next.hits+"、弱体適用後の合計"+incoming:"攻撃しない")+'</p>';
+  renderStage(s,next,incoming);
   el("effects").textContent=(s.talismanId?"護符："+TALISMANS[s.talismanId].name+" / ":"")+"通常防御 "+s.guard+" / 鏡術防御 "+s.mirrorGuard+"（待機 "+(s.mirrorReady?"あり":"なし")+"） / 氷の弱体 "+s.weaken+" / 毒 "+s.poison+" / 魔獣 "+(s.beast==="wolf"?"魔狼":s.beast==="stone"?"ゴーレム":"なし")+" / 純物理連撃 "+s.weaponStreak+(s.usedSpell?"（呪文使用により停止）":"");
   const hand=el("hand");hand.hidden = s.phase !== "battle"; hand.replaceChildren();
   s.hand.forEach((id,index)=>{
     const c=CARDS[id],button=document.createElement("button");
-    button.type="button";button.className="card";button.disabled=!game.canPlay(id);
+    button.type="button";button.className="card pilot-card";button.disabled=!game.canPlay(id);
     button.innerHTML='<span class="cost">'+c.cost+'魔力</span><span class="type">'+(typeNames[c.kind]||c.kind)+'</span><strong>'+c.name+'</strong><span class="desc">'+c.description+'</span>';
     button.setAttribute("aria-label",c.name+"、魔力"+c.cost+"。"+c.description);
     button.onclick=()=>{if(game.play(index)){persist();render();}};
@@ -206,8 +190,9 @@ function render() {
   el("endTurn").disabled=s.phase!=="battle";
   const journey=el("journeyPanel"),rewards=el("rewardCards"),advance=el("advance"),skip=el("skipReward");
   const hasNext=["victory","reward","ready"].includes(s.phase);
-  journey.hidden=!hasNext && s.phase!=="complete";
-  advance.hidden=s.phase==="reward" || s.phase==="complete";
+  journey.hidden=!hasNext && s.phase!=="complete" && s.phase!=="defeat";
+  el("overlayRestart").hidden=s.phase!=="defeat";
+  advance.hidden=s.phase==="reward" || s.phase==="complete" || s.phase==="defeat";
   skip.hidden=s.phase!=="reward";
   rewards.hidden=s.phase!=="reward";
   rewards.replaceChildren();
@@ -220,7 +205,7 @@ function render() {
     el("journeyHint").textContent="今のデッキに1枚加えます。見送ってもHPを最大8回復。選んだカードは次戦の初手に入ります。";
     game.rewardOptions().forEach(id=>{
       const c=CARDS[id],button=document.createElement("button");
-      button.type="button";button.className="card";
+      button.type="button";button.className="card pilot-card";
       button.innerHTML='<span class="cost">'+c.cost+'魔力</span><span class="type">'+(typeNames[c.kind]||c.kind)+'</span><strong>'+c.name+'</strong><span class="desc">'+c.description+'</span>';
       button.onclick=()=>{if(game.chooseReward(id)){persist();render();}};
       rewards.append(button);
@@ -233,9 +218,11 @@ function render() {
     el("journeyTitle").textContent=s.maxBattles+"戦の試作冒険クリア";
     el("journeyHint").textContent="効果が成立するかを確かめるための試作です。数値や実際の面白さは後で調整します。";
   }
+  if(s.phase==="defeat"){el("journeyTitle").textContent="冒険終了";el("journeyHint").textContent="別の護符で再挑戦しよう。";}
   el("log").textContent=s.log.join("\n");
 }
 el("endTurn").onclick=()=>{if(game.endTurn()){persist();render();}};
+el("overlayRestart").onclick=()=>el("restart").click();
 el("advance").onclick=()=>{
   const phase=game.snapshot().phase;
   const ok=phase==="victory"?game.openReward():phase==="ready"?game.nextBattle():false;
