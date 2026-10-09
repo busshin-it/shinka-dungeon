@@ -104,7 +104,7 @@ function render() {
   el("stats").innerHTML = stat("自分HP",s.hp+" / "+s.maxHp)+stat("敵HP",s.enemyHp+" / "+s.enemy.maxHp)+stat("魔力",s.energy+" / "+s.maxEnergy)+stat("ターン",s.turn)+stat("戦闘",s.battle+" / "+s.maxBattles);
   const status=el("status");
   status.className="status"+(s.phase==="defeat"?" warn":s.phase==="victory"?" win":"");
-  status.textContent=s.phase==="victory"?"勝利！ 次は報酬選択です。":s.phase==="complete"?"3戦の試作冒険をクリアしました！":s.phase==="reward"?"4枚から1枚選ぶか、見送れます。":s.phase==="ready"?"報酬を選びました。次の戦闘へ進めます。":s.phase==="defeat"?"HPが0になり敗北しました。":"カードの使用順で効果が変わります。ターン終了で敵が行動します。";
+  status.textContent=s.phase==="victory"?"勝利！ 次は報酬選択です。":s.phase==="complete"?s.maxBattles+"戦の試作冒険をクリアしました！":s.phase==="reward"?"4枚から1枚選ぶか、見送れます。":s.phase==="ready"?"報酬を選びました。次の戦闘へ進めます。":s.phase==="defeat"?"HPが0になり敗北しました。":"カードの使用順で効果が変わります。ターン終了で敵が行動します。";
   const next=s.nextIntent;
   const incoming=next.kind==="attack"?Math.max(0,next.perHit*next.hits-s.weaken):0;
   el("enemy").innerHTML='<p><strong>'+s.enemy.name+'</strong>（物理耐性'+s.enemy.physicalResist+'％ / 魔法耐性'+s.enemy.magicResist+'％）</p><p>次の行動：<strong>'+next.label+'</strong> / '+(next.kind==="attack"?"威力"+next.perHit+"×"+next.hits+"、弱体適用後の合計"+incoming:"攻撃しない")+'</p>';
@@ -146,7 +146,7 @@ function render() {
     el("journeyHint").textContent="HPを回復しました。毒・鏡術・召喚状態は戦闘ごとにリセットされます。";
     advance.textContent="第"+(s.battle+1)+"戦へ →";
   }else if(s.phase==="complete"){
-    el("journeyTitle").textContent="3戦の試作冒険クリア";
+    el("journeyTitle").textContent=s.maxBattles+"戦の試作冒険クリア";
     el("journeyHint").textContent="効果が成立するかを確かめるための試作です。数値や実際の面白さは後で調整します。";
   }
   el("log").textContent=s.log.join("\n");
