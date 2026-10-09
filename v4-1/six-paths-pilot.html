@@ -42,7 +42,7 @@
 <span id="modeDescription" hidden></span>
 <details class="pilot-help"><summary>？</summary><div class="pilot-help-content"><strong>遊び方</strong>
 <span>護符を1つ選び、カードを3択から1枚ずつ3回選んで出発。</span>
-<span>カードを押すと使用。ターン終了で敵が行動。</span><span>絵のないカードと仮の敵イラストがあります。数値は試作用。</span>
+<span>カードを押すと使用。ターン終了で敵が行動。</span><span>カードと新敵には以前のイラストを一時的に流用しています。数値は試作用。</span>
 <a href="./planning.html">以前の進化ダンジョンを開く</a></div></details>
 </main>
 <script src="./planning-engine.js"></script>
@@ -101,6 +101,33 @@ const persist = () => { if(!game)return;try { localStorage.setItem(SAVE_KEY, JSO
 const el = id => document.getElementById(id);
 const stat = (name,value) => '<div class="stat"><small>'+name+'</small><strong>'+value+'</strong></div>';
 const typeNames = {spell:"呪文",pureWeapon:"純物理武器",guard:"防御",mirror:"鏡術",summon:"魔獣",sacrifice:"生贄"};
+// Reuse checked-in Astral Corridor illustrations until dedicated cards exist.
+const PILOT_CARD_ART=Object.freeze({
+  bolt:"star-relay.webp",frost:"frost-pierce.webp",poison:"wraith.webp",
+  strike:"shield-strike.webp",lunge:"ebb-arrow.webp",
+  guard:"chant-ward.webp",mirror:"moon-mirror.webp",heal:"star-bookmark.webp",
+  burst:"quiet-comet.webp",wolf:"bell-spirit.webp",stone:"tide-star-sentinel.webp",
+  sacrifice:"shatter.webp"
+});
+function illustratedCard(id){
+  const c=CARDS[id],btn=document.createElement("button");
+  btn.type="button";btn.className="card pilot-card";
+  const image=document.createElement("img");
+  image.className="pilot-card-art";image.alt="";image.loading="eager";
+  image.src="./assets/"+(PILOT_CARD_ART[id]||"star-relay.webp");
+  image.addEventListener("error",()=>{
+    if(image.dataset.fallback==="true"){image.style.visibility="hidden";return;}
+    image.dataset.fallback="true";image.src="./assets/star-relay.webp";
+  });
+  const cost=document.createElement("span");cost.className="cost";cost.textContent=c.cost;
+  const type=document.createElement("span");type.className="type";type.textContent=typeNames[c.kind]||c.kind;
+  const copy=document.createElement("span");copy.className="pilot-card-copy";
+  const name=document.createElement("strong");name.textContent=c.name;
+  const description=document.createElement("span");description.className="desc";description.textContent=c.description;
+  copy.append(name,description);btn.append(image,cost,type,copy);
+  btn.setAttribute("aria-label",c.name+"、魔力"+c.cost+"。"+c.description);
+  return btn;
+}
 function renderForge() {
   const atTalisman=forgeTalisman===null, round=forgePicks.length;
   const choices=atTalisman?forgeTalismans:(forgeCards ||= starterChoices(round));
@@ -111,12 +138,16 @@ function renderForge() {
     TALISMANS[forgeTalisman].name+"を選択済み。3候補から1枚を3回選びます。選んだ3枚＋魔弾・踏み込みの計5枚が最初の手札です。";
   const target=document.getElementById("setupChoices");target.replaceChildren();
   choices.forEach(id=>{
-    const t=atTalisman?TALISMANS[id]:CARDS[id], btn=document.createElement("button");
-    btn.type="button";btn.className=atTalisman?"origin pilot-origin":"card pilot-start-card pilot-card";
-    const name=document.createElement("strong");name.textContent=t.name;
-    const desc=document.createElement("span");desc.className="desc";desc.textContent=atTalisman?t.description:t.description+"（魔力"+t.cost+"）";
-    const glyph=document.createElement("span");glyph.className=atTalisman?"symbol":"type";glyph.textContent=atTalisman?({sun:"☀",moon:"◇",frost:"❄",venom:"✿",wolf:"✦",stone:"▣",shield:"⬡",wind:"➶"}[id]||"✧"):(typeNames[t.kind]||t.kind)+"・"+t.cost+"魔力";
-    btn.append(glyph,name,desc);
+    const btn=atTalisman?document.createElement("button"):illustratedCard(id);
+    if(atTalisman){
+      const t=TALISMANS[id];
+      btn.type="button";btn.className="origin pilot-origin";
+      const name=document.createElement("strong");name.textContent=t.name;
+      const desc=document.createElement("span");desc.className="desc";desc.textContent=t.description;
+      const glyph=document.createElement("span");glyph.className="symbol";
+      glyph.textContent=({sun:"☀",moon:"◇",frost:"❄",venom:"✿",wolf:"✦",stone:"▣",shield:"⬡",wind:"➶"}[id]||"✧");
+      btn.append(glyph,name,desc);
+    }else btn.classList.add("pilot-start-card");
     btn.onclick=()=>{
       if(atTalisman){forgeTalisman=id;forgeCards=null;}
       else{
@@ -179,10 +210,7 @@ function render() {
   el("effects").textContent=(s.talismanId?"護符："+TALISMANS[s.talismanId].name+" / ":"")+"通常防御 "+s.guard+" / 鏡術防御 "+s.mirrorGuard+"（待機 "+(s.mirrorReady?"あり":"なし")+"） / 氷の弱体 "+s.weaken+" / 毒 "+s.poison+" / 魔獣 "+(s.beast==="wolf"?"魔狼":s.beast==="stone"?"ゴーレム":"なし")+" / 純物理連撃 "+s.weaponStreak+(s.usedSpell?"（呪文使用により停止）":"");
   const hand=el("hand");hand.hidden = s.phase !== "battle"; hand.replaceChildren();
   s.hand.forEach((id,index)=>{
-    const c=CARDS[id],button=document.createElement("button");
-    button.type="button";button.className="card pilot-card";button.disabled=!game.canPlay(id);
-    button.innerHTML='<span class="cost">'+c.cost+'魔力</span><span class="type">'+(typeNames[c.kind]||c.kind)+'</span><strong>'+c.name+'</strong><span class="desc">'+c.description+'</span>';
-    button.setAttribute("aria-label",c.name+"、魔力"+c.cost+"。"+c.description);
+    const button=illustratedCard(id);button.disabled=!game.canPlay(id);
     button.onclick=()=>{if(game.play(index)){persist();render();}};
     hand.append(button);
   });
@@ -204,9 +232,7 @@ function render() {
     el("journeyTitle").textContent="次の戦闘へ追加するカード";
     el("journeyHint").textContent="今のデッキに1枚加えます。見送ってもHPを最大8回復。選んだカードは次戦の初手に入ります。";
     game.rewardOptions().forEach(id=>{
-      const c=CARDS[id],button=document.createElement("button");
-      button.type="button";button.className="card pilot-card";
-      button.innerHTML='<span class="cost">'+c.cost+'魔力</span><span class="type">'+(typeNames[c.kind]||c.kind)+'</span><strong>'+c.name+'</strong><span class="desc">'+c.description+'</span>';
+      const button=illustratedCard(id);
       button.onclick=()=>{if(game.chooseReward(id)){persist();render();}};
       rewards.append(button);
     });
