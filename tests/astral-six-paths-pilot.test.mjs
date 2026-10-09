@@ -2,7 +2,7 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import fs from "node:fs";
 import vm from "node:vm";
-import {classicSixEncounters,CLASSIC_ENCOUNTER_IDS} from "../v4-1/six-paths-enemy-bridge.mjs";
+import {classicSixEncounters,CLASSIC_ENCOUNTER_IDS,longTwelveEncounters,TWELVE_ENCOUNTER_IDS,EXTRA_SIX} from "../v4-1/six-paths-enemy-bridge.mjs";
 import { createPilotGame, CARDS, STARTER_DECK } from "../v4-1/six-paths-pilot.mjs";
 
 const attack = (perHit,hits=1,damageType="physical") => ({kind:"attack",label:"試験攻撃",perHit,hits,damageType});
@@ -381,5 +381,102 @@ test("experimental browser mode is selected only by a query parameter and uses a
   assert.match(html,/shinka-six-paths-legacy-enemies-v1/);
   assert.match(html,/shinka-six-paths-journey-v1/);
   assert.match(html,/encounterSetId:"canonical-enemies-v1"/);
+  assert.doesNotMatch(html,/shinka-astral-planning-save-v1/);
+});
+
+test("twelve-battle mode inserts six distinct experimental enemies before existing milestones",()=>{
+  const ctx={};
+  vm.runInNewContext(fs.readFileSync(new URL("../v4-1/planning-engine.js",import.meta.url),"utf8"),ctx);
+  const six=classicSixEncounters(ctx.ShinkaV43);
+  const twelve=longTwelveEncounters(ctx.ShinkaV43);
+  assert.equal(twelve.length,12);
+  assert.equal(EXTRA_SIX.length,6);
+  assert.equal(new Set(twelve.map(x=>x.id)).size,12);
+  assert.deepEqual(twelve.map(x=>x.id), [...TWELVE_ENCOUNTER_IDS]);
+  assert.deepEqual(twelve.filter((_,i)=>[0,2,4,6,8,11].includes(i)).map(x=>x.id),
+    six.map(x=>x.id),"canonical old enemy order remains intact");
+  assert.deepEqual(twelve.map(x=>x.enemy.maxHp),[15,23,36,32,52,43,68,57,82,70,85,112]);
+  assert(twelve.every(x=>x.intents.length>=2));
+  assert.equal(twelve[9].enemy.magicResist,25);
+  assert.equal(twelve[10].enemy.physicalResist,25);
+  assert.equal(twelve[8].intents[1].singleThreshold,13);
+});
+test("twelve battles create eleven card-reward windows and persistent deck growth",()=>{
+  const ctx={};
+  vm.runInNewContext(fs.readFileSync(new URL("../v4-1/planning-engine.js",import.meta.url),"utf8"),ctx);
+  const twelve=longTwelveEncounters(ctx.ShinkaV43);
+  const easy=twelve.map(x=>({...x,enemy:{...x.enemy,maxHp:1,physicalResist:0,magicResist:0}}));
+  const deck=["bolt","strike","guard","mirror","poison","frost","heal","strike","guard","bolt"];
+  const config={journey:true,battles:12,hp:60,deck,encounters:easy,encounterSetId:"long-twelve-easy-test"};
+  const g=createPilotGame(config);
+  assert.equal(g.snapshot().maxBattles,12);
+  let picks=0;
+  for(let battle=1;battle<=12;battle++){
+    const state=g.snapshot();
+    assert.equal(state.battle,battle);
+    assert.equal(state.phase,"battle");
+    const index=state.hand.indexOf("bolt");
+    assert(index>=0,"stage "+battle+" should draw an attack");
+    assert.equal(g.play(index),true);
+    assert.equal(g.snapshot().phase,"victory");
+    if(battle<12){
+      assert.equal(g.openReward(),true);
+      const offers=g.rewardOptions();
+      assert.equal(offers.length,4);
+      assert.equal(new Set(offers).size,4);
+      const id=offers[0];
+      assert.equal(g.chooseReward(id),true);
+      picks++;
+      assert.equal(g.snapshot().deck.length,deck.length+picks);
+      assert.equal(g.nextBattle(),true);
+      if(battle===6){
+        const clone=createPilotGame(config);
+        assert.equal(clone.restoreSave(g.exportSave()),true);
+        assert.deepEqual(clone.exportSave(),g.exportSave());
+      }
+    }else{
+      assert.equal(g.openReward(),true);
+      assert.equal(g.snapshot().phase,"complete");
+      assert.equal(g.openReward(),false);
+      assert.equal(g.nextBattle(),false);
+    }
+  }
+  assert.equal(picks,11);
+  assert.equal(g.snapshot().deck.length,21);
+  const save=g.exportSave();
+  assert.equal(save.encounterSetId,"long-twelve-easy-test");
+  const clone=createPilotGame(config);
+  assert.equal(clone.restoreSave(save),true);
+  assert.deepEqual(clone.exportSave(),save);
+});
+test("twelve mode stores separately and cannot restore six/three battle saves",()=>{
+  const ctx={};
+  vm.runInNewContext(fs.readFileSync(new URL("../v4-1/planning-engine.js",import.meta.url),"utf8"),ctx);
+  const twelve=longTwelveEncounters(ctx.ShinkaV43);
+  const six=classicSixEncounters(ctx.ShinkaV43);
+  const long=createPilotGame({journey:true,battles:12,hp:60,encounters:twelve,encounterSetId:"long-twelve-enemies-v1"});
+  const short=createPilotGame({journey:true,battles:6,hp:60,encounters:six,encounterSetId:"canonical-enemies-v1"});
+  const three=createPilotGame({journey:true,battles:3});
+  const longSave=long.exportSave();
+  assert.equal(short.restoreSave(longSave),false);
+  assert.equal(three.restoreSave(longSave),false);
+  assert.equal(long.restoreSave(short.exportSave()),false);
+  assert.equal(long.restoreSave(three.exportSave()),false);
+  const wrong=createPilotGame({journey:true,battles:12,hp:60,encounters:twelve,encounterSetId:"other-twelve"});
+  assert.equal(wrong.restoreSave(longSave),false);
+  const correct=createPilotGame({journey:true,battles:12,hp:60,encounters:twelve,encounterSetId:"long-twelve-enemies-v1"});
+  assert.equal(correct.restoreSave(longSave),true);
+  assert.deepEqual(correct.exportSave(),longSave);
+  assert.throws(()=>createPilotGame({journey:true,battles:13}));
+});
+test("browser enables 12-fight mode with its own save key and shows reward growth",()=>{
+  const html=fs.readFileSync(new URL("../v4-1/six-paths-pilot.html",import.meta.url),"utf8");
+  assert.match(html,/mode=long-journey/);
+  assert.match(html,/longTwelveEncounters\(globalThis\.ShinkaV43\)/);
+  assert.match(html,/shinka-six-paths-long-journey-v1/);
+  assert.match(html,/battles:12,hp:60/);
+  assert.match(html,/long-twelve-enemies-v1/);
+  assert.match(html,/stat\("獲得札"/);
+  assert.match(html,/modeIsIntegrated \? "shinka-six-paths-legacy-enemies-v1"/);
   assert.doesNotMatch(html,/shinka-astral-planning-save-v1/);
 });
