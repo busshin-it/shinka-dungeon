@@ -1,18 +1,18 @@
 // Standalone, opt-in effects pilot. Does not replace the shipped planning engine or saves.
 // All damage, energy and card numbers are temporary playtest values.
 export const CARDS = Object.freeze({
-  bolt:    { name: "魔弾", cost: 1, kind: "spell", description: "魔法6ダメージ。", damage: 6, damageType: "magic" },
-  frost:   { name: "氷の矢", cost: 1, kind: "spell", description: "氷の弱体3。次の敵の攻撃行動の合計威力を3下げる。", weaken: 3 },
-  poison:  { name: "毒の印", cost: 1, kind: "spell", description: "毒を2蓄積。敵の攻撃行動後に一度だけ発動し、減らない。", poison: 2 },
-  strike:  { name: "踏み込み", cost: 0, kind: "pureWeapon", description: "物理4。純物理武器を連続使用した2枚目以降は+2。", damage: 4, damageType: "physical" },
-  lunge:   { name: "追い刃", cost: 1, kind: "pureWeapon", description: "物理7。純物理武器の連続使用で+2。", damage: 7, damageType: "physical" },
-  guard:   { name: "守り", cost: 1, kind: "guard", description: "防御5。このターンだけ有効。", guard: 5 },
-  mirror:  { name: "鏡の結界", cost: 1, kind: "mirror", description: "鏡術防御6。次の敵の攻撃まで持続し、実防御を等倍反射。", mirrorGuard: 6 },
-  heal:    { name: "聖癒", cost: 1, kind: "spell", description: "HPを5回復。", heal: 5 },
-  burst:   { name: "破滅の魔弾", cost: 2, kind: "spell", description: "全防御と鏡術待機を捨て、魔法15ダメージ。", damage: 15, damageType: "magic", sacrificesGuard: true },
-  wolf:    { name: "魔狼召喚", cost: 1, kind: "summon", description: "魔狼を召喚。各ターン最初の攻撃に+3。維持中魔力上限-1。", beast: "wolf" },
-  stone:   { name: "石のゴーレム召喚", cost: 1, kind: "summon", description: "守りを使うと各ターン最初の1回だけ防御+4。維持中魔力上限-1。", beast: "stone" },
-  sacrifice:{ name: "生贄の儀", cost: 1, kind: "sacrifice", description: "魔獣が必要。魔狼なら物理12、ゴーレムなら防御10。", beastCost: true }
+  bolt:    { name: "魔弾", cost: 1, kind: "spell", description: "6ダメージ。", damage: 6, damageType: "magic" },
+  frost:   { name: "氷の矢", cost: 1, kind: "spell", description: "敵の次の攻撃を3弱くする。", weaken: 3 },
+  poison:  { name: "毒の印", cost: 1, kind: "spell", description: "毒2。敵が攻撃するたび2ダメージ。", poison: 2 },
+  strike:  { name: "踏み込み", cost: 0, kind: "pureWeapon", description: "4ダメージ。武器を続けると+2。", damage: 4, damageType: "physical" },
+  lunge:   { name: "追い刃", cost: 1, kind: "pureWeapon", description: "7ダメージ。武器を続けると+2。", damage: 7, damageType: "physical" },
+  guard:   { name: "守り", cost: 1, kind: "guard", description: "防御5。", guard: 5 },
+  mirror:  { name: "鏡の結界", cost: 1, kind: "mirror", description: "防御6。次の敵の攻撃を防いだ分を反射。", mirrorGuard: 6 },
+  heal:    { name: "聖癒", cost: 1, kind: "spell", description: "HP5回復。", heal: 5 },
+  burst:   { name: "破滅の魔弾", cost: 3, kind: "spell", description: "15ダメージ。防御が消える。", damage: 15, damageType: "magic", sacrificesGuard: true },
+  wolf:    { name: "魔狼召喚", cost: 1, kind: "summon", description: "魔狼を召喚。最初の攻撃+3。魔力上限-1。", beast: "wolf" },
+  stone:   { name: "石のゴーレム召喚", cost: 1, kind: "summon", description: "ゴーレムを召喚。最初の防御+4。魔力上限-1。", beast: "stone" },
+  sacrifice:{ name: "生贄の儀", cost: 1, kind: "sacrifice", description: "魔獣を生贄にする。魔狼は12ダメージ、ゴーレムは防御10。", beastCost: true }
 });
 export const TALISMANS = Object.freeze({
   sun: {name:"朝日の護符",description:"各戦闘の開始魔力+1。",effect:"energy"},
