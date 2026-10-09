@@ -29,21 +29,48 @@ export function createPilotGame(options = {}) {
   const deck = options.deck ? [...options.deck] : [...STARTER_DECK];
   const intents = options.intents || INTENTS;
   const enemy = { ...ENEMY, ...(options.enemy || {}) };
+  const encounterSet = options.encounters ? copy(options.encounters) : null;
+  const encounterSetId = options.encounterSetId || null;
   const journey = options.journey === true;
-  const maxBattles = journey ? (options.battles ?? 3) : 1;
+  const maxBattles = journey ? (options.battles ?? (encounterSet ? encounterSet.length : 3)) : 1;
   if (!Number.isInteger(maxBattles) || maxBattles < 1 || maxBattles > 6) throw new Error("Invalid journey length");
   if (!deck.length || deck.some(id => !CARDS[id])) throw new Error("Invalid pilot deck");
+  if (encounterSet && (encounterSet.length !== maxBattles || typeof encounterSetId !== "string" || !encounterSetId || encounterSetId.length>80 ||
+    encounterSet.some(row=>!row || !row.enemy || typeof row.enemy.name !== "string" ||
+      !Number.isInteger(row.enemy.maxHp) || row.enemy.maxHp < 1 || row.enemy.maxHp > 999 ||
+      !Number.isInteger(row.enemy.physicalResist) || !Number.isInteger(row.enemy.magicResist) ||
+      row.enemy.physicalResist<0 || row.enemy.physicalResist>100 || row.enemy.magicResist<0 || row.enemy.magicResist>100 ||
+      !Array.isArray(row.intents) || !row.intents.length ||
+      row.intents.some(a=>!a || !["attack","rest"].includes(a.kind) ||
+        (a.kind==="attack" && (!Number.isInteger(a.perHit) || a.perHit < 0 || !Number.isInteger(a.hits) || a.hits < 1)))))) {
+    throw new Error("Invalid experimental encounter roster");
+  }
   if (!intents.length || intents.some(i => !["attack","rest"].includes(i.kind))) throw new Error("Invalid pilot intents");
+  const baseEnemy = encounterSet ? encounterSet[0].enemy : enemy;
   const s = {
     battle: 1, deck: [...deck], rewardOffers: [], lastReward: null,
-    turn: 1, hp: options.hp ?? 30, maxHp: options.hp ?? 30, enemyHp: enemy.maxHp, enemyMaxHp: enemy.maxHp,
+    turn: 1, hp: options.hp ?? 30, maxHp: options.hp ?? 30, enemyHp: baseEnemy.maxHp, enemyMaxHp: baseEnemy.maxHp,
     energy: Math.max(0, Math.min(5, options.initialEnergy ?? 3)), guard: 0, mirrorGuard: 0, mirrorReady: false,
     weaken: 0, poison: 0, beast: null, beastReacted: false,
-    usedSpell: false, weaponStreak: 0, phase: "battle",
+    usedSpell: false, weaponStreak: 0, turnDamage: 0, turnMaxHit: 0, turnAttackCards: 0, phase: "battle",
     hand: [], draw: [...deck], discard: [], log: ["効果だけの試作です。数値は仮設定。"]
   };
   function maxEnergy() { return s.beast ? 4 : 5; }
-  function intent() { return intents[(s.turn - 1) % intents.length]; }
+  function activeEnemy(battle=s.battle) { return encounterSet ? encounterSet[battle-1].enemy : {...enemy,maxHp:enemy.maxHp+10*(battle-1)}; }
+  function activeIntents() { return encounterSet ? encounterSet[s.battle-1].intents : intents; }
+  function intent() {
+    const moves = activeIntents(), action=moves[(s.turn-1)%moves.length];
+    if(action.kind!=="attack") return {...action};
+    let reduction=0;
+    if(action.manaCondition==="bank" && s.energy>=2 || action.manaCondition==="empty" && s.energy===0){
+      reduction=action.manaReduction||0;
+    } else if(!action.manaCondition){
+      if(action.attackCountThreshold) reduction=Math.min(action.attackCountThreshold,s.turnAttackCards)*(action.stepReduction||0);
+      else if(action.singleThreshold && s.turnMaxHit >= action.singleThreshold) reduction=action.reduction||0;
+      else if(action.threshold && s.turnDamage >= action.threshold) reduction=action.reduction||0;
+    }
+    return {...action,perHit:Math.max(0,action.perHit-reduction),basePerHit:action.perHit,appliedReduction:reduction};
+  }
   function refill() {
     while (s.hand.length < 5) {
       if (!s.draw.length) {
@@ -54,7 +81,8 @@ export function createPilotGame(options = {}) {
     }
   }
   function deal(raw, type) {
-    const resist = type === "physical" ? enemy.physicalResist : type === "magic" ? enemy.magicResist : 0;
+    const e=activeEnemy();
+    const resist = type === "physical" ? e.physicalResist : type === "magic" ? e.magicResist : 0;
     const damage = round(Math.max(0, raw) * (1 - resist / 100));
     const actual = Math.min(s.enemyHp, damage);
     s.enemyHp -= actual;
@@ -89,6 +117,9 @@ export function createPilotGame(options = {}) {
       }
       if (s.beast === "wolf" && !s.beastReacted) { extra += 3; s.beastReacted = true; }
       const n = deal(c.damage + extra, c.damageType);
+      s.turnDamage += n;
+      s.turnMaxHit = Math.max(s.turnMaxHit,n);
+      s.turnAttackCards++;
       s.log.unshift(c.name + "：敵に" + n + "ダメージ。");
     } else if (c.beastCost) {
       const sacrificed = s.beast;
@@ -155,6 +186,7 @@ export function createPilotGame(options = {}) {
       s.beastReacted = false;
       s.usedSpell = false;
       s.weaponStreak = 0;
+      s.turnDamage = s.turnMaxHit = s.turnAttackCards = 0;
       refill();
     } else {
       s.mirrorGuard = 0; s.mirrorReady = false;
@@ -196,10 +228,11 @@ export function createPilotGame(options = {}) {
     if (!journey || s.phase !== "ready" || s.battle >= maxBattles) return false;
     s.battle++;
     s.turn = 1;
-    s.enemyMaxHp = enemy.maxHp + 10 * (s.battle - 1); // temporary challenge scaling
+    s.enemyMaxHp = activeEnemy().maxHp; // existing game encounter HP if roster bridge is enabled
     s.enemyHp = s.enemyMaxHp;
     s.energy = 3;
     s.guard = s.mirrorGuard = s.weaken = s.poison = s.weaponStreak = 0;
+    s.turnDamage = s.turnMaxHit = s.turnAttackCards = 0;
     s.mirrorReady = s.beastReacted = s.usedSpell = false;
     s.beast = null;
     s.hand = [];
@@ -217,10 +250,11 @@ export function createPilotGame(options = {}) {
   }
   // Save is isolated from the shipped planning-game saves; never restore a legacy save.
   function exportSave() {
-    return journey ? copy({version: 1, mode: "six-paths-journey", battles: maxBattles, state: s}) : null;
+    return journey ? copy({version: 1, mode: "six-paths-journey", battles: maxBattles, ...(encounterSet ? {encounterSetId} : {}), state: s}) : null;
   }
   function restoreSave(save) {
-    if (!journey || !save || save.version !== 1 || save.mode !== "six-paths-journey" || save.battles !== maxBattles) return false;
+    if (!journey || !save || save.version !== 1 || save.mode !== "six-paths-journey" || save.battles !== maxBattles ||
+      (encounterSet ? save.encounterSetId !== encounterSetId : Object.hasOwn(save,"encounterSetId"))) return false;
     try {
       const x = save.state;
       if (!x || typeof x !== "object" || Array.isArray(x)) return false;
@@ -228,11 +262,13 @@ export function createPilotGame(options = {}) {
       const integer=(v,min,max)=>Number.isInteger(v) && v>=min && v<=max;
       if (!integer(x.battle,1,maxBattles) || !integer(x.turn,1,10000) || !integer(x.hp,0,x.maxHp) ||
           !integer(x.maxHp,1,999) || !integer(x.enemyMaxHp,1,999) ||
-          x.enemyMaxHp !== enemy.maxHp + 10 * (x.battle - 1) ||
+          x.enemyMaxHp !== activeEnemy(x.battle).maxHp ||
           !integer(x.enemyHp,0,x.enemyMaxHp) || !integer(x.energy,0,5) ||
           !integer(x.guard,0,99999) || !integer(x.mirrorGuard,0,99999) ||
           !integer(x.weaken,0,99999) || !integer(x.poison,0,99999) ||
-          !integer(x.weaponStreak,0,9999)) return false;
+          !integer(x.weaponStreak,0,9999) ||
+          !integer(x.turnDamage,0,99999) || !integer(x.turnMaxHit,0,99999) ||
+          !integer(x.turnAttackCards,0,9999)) return false;
       if (typeof x.mirrorReady !== "boolean" || typeof x.beastReacted !== "boolean" ||
           typeof x.usedSpell !== "boolean" || ![null,"wolf","stone"].includes(x.beast) ||
           !["battle","victory","reward","ready","defeat","complete"].includes(x.phase)) return false;
@@ -255,7 +291,7 @@ export function createPilotGame(options = {}) {
   }
   refill();
   return {
-    snapshot: () => copy({ ...s, enemy: { ...enemy, maxHp: s.enemyMaxHp }, nextIntent: { ...intent() }, maxEnergy: maxEnergy(), journey, maxBattles }),
+    snapshot: () => copy({ ...s, enemy: { ...activeEnemy() }, nextIntent: { ...intent() }, maxEnergy: maxEnergy(), journey, maxBattles }),
     card: id => CARDS[id] ? { ...CARDS[id], id } : null,
     canPlay, play, endTurn, rewardOptions, openReward, chooseReward, nextBattle, exportSave, restoreSave
   };
