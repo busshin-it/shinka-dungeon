@@ -39,3 +39,16 @@
 .pilot-mode .b1-rest-upgrades{margin-top:10px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;max-height:30dvh;overflow:auto}
 .pilot-mode .b1-rest-upgrade-card{padding:10px;border-radius:7px;text-align:left;background:#1d3747;border:1px solid #658091;color:#f4e6d0;cursor:pointer;font-size:12px}
 .pilot-mode .b1-rest-option:focus-visible,.pilot-mode .b1-rest-upgrade-card:focus-visible{outline:3px solid #e7cb80;outline-offset:2px}
+
+/* Rest is displayed over the ORIGINAL mage arena, not as a replacement full-screen window. */
+.pilot-mode .b1-campfire[hidden]{display:none}
+.pilot-mode .b1-rest-active .enemy-puppet{display:none}
+.pilot-mode .b1-rest-active .enemy-hud,.pilot-mode .b1-rest-active .b1-enemy-lineup,.pilot-mode .b1-rest-active .b1-targets{visibility:hidden}
+.pilot-mode .b1-campfire{position:absolute;right:21%;bottom:24px;width:29%;height:70%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;z-index:4;color:#f4d9a5;text-shadow:0 2px 8px #080e14;pointer-events:none}
+.pilot-mode .b1-camp-flame{font-size:clamp(62px,12vw,120px);line-height:1.1;filter:drop-shadow(0 0 18px #dc742f)}
+.pilot-mode .b1-rest-active #journeyPanel{background:transparent;pointer-events:none;display:flex;align-items:flex-end;justify-content:center;padding:0 12px 12px;z-index:10}
+.pilot-mode .b1-rest-active #journeyPanel .pilot-overlay-window{pointer-events:auto;width:min(780px,96vw);max-height:min(47dvh,320px);overflow:auto;padding:12px 18px;background:#142735f5}
+.pilot-mode .b1-rest-active #journeyPanel .pilot-overlay-window h2{font-size:17px;margin:0 0 3px}
+.pilot-mode .b1-rest-active #journeyPanel .pilot-overlay-window p{margin:4px 0 8px}
+.pilot-mode .b1-rest-active .b1-rest-option{min-height:64px}
+@media(max-width:660px){.pilot-mode .b1-campfire{right:16%;width:30%;bottom:12px;height:65%}.pilot-mode .b1-camp-flame{font-size:55px}.pilot-mode .b1-rest-active #journeyPanel .pilot-overlay-window{max-height:50dvh;padding:9px}}
