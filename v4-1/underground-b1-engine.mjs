@@ -28,6 +28,9 @@ export const STAGES = Object.freeze([
  {name:"B1・強敵",hint:"強敵が大技と連続攻撃を使う。大技の予告を見て防御を合わせよう。",enemies:[{id:"brute",name:"深層の番兵",maxHp:82,role:"elite"}],rewards:["strength","focus","charge","double","flare","ward","drain","fragile"]},
  {name:"B1・最深部",hint:"護衛2体と長期戦。護衛の守りを崩し、溜めた大技を乗り切ろう。",enemies:[{id:"left",name:"盾の小鬼・左",maxHp:24,role:"guard"},{id:"boss",name:"地底の祭司",maxHp:135,role:"boss"},{id:"right",name:"盾の小鬼・右",maxHp:24,role:"guard"}],rewards:[]}
 ]);
+// Reachable in principle: one starter pick (scatter) + one reward from each of four prior fights.
+export const IDEAL_B1_BOSS_DECK=Object.freeze([...STARTER,"scatter","ward","focus","strength","charge"]);
+export const B1_BOSS_CHANNEL_THRESHOLD=24;
 const clone=x=>JSON.parse(JSON.stringify(x));
 export function createB1Game(options={}){
  let seed=(Number(options.seed)>>>0)||20261010;
@@ -40,11 +43,16 @@ export function createB1Game(options={}){
  const find=id=>s.enemies.find(e=>e.id===id&&e.hp>0);
  function drawCards(n){for(let i=0;i<n&&s.hand.length<10;i++){if(!s.draw.length){if(!s.discard.length)break;s.draw=shuffle(s.discard.splice(0));}s.hand.push(s.draw.pop());}}
  function start(){
-  const stage=STAGES[s.stage];s.enemies=stage.enemies.map(e=>({...clone(e),hp:e.maxHp,weaken:0,poison:0,vulnerable:0,block:0,strength:0}));s.turn=1;s.block=0;s.energy=3;s.attacksThisTurn=0;s.powerDraw=0;s.strength=0;
+  const stage=STAGES[s.stage];s.enemies=stage.enemies.map(e=>({...clone(e),hp:e.maxHp,weaken:0,poison:0,vulnerable:0,block:0,strength:0,channelDamage:0,channelBroken:false}));s.turn=1;s.block=0;s.energy=3;s.attacksThisTurn=0;s.powerDraw=0;s.strength=0;
   s.hand=[];s.discard=[];s.exhaust=[];s.powers=[];s.draw=shuffle([...s.deck]);s.selected=s.enemies.find(e=>e.role!=="boss")?.id||s.enemies[0].id;s.phase="battle";drawCards(5);note(stage.name+"：戦闘開始。");
  }
  function selectStarter(id){if(s.phase!=="starter"||!["lightning","scatter","flow"].includes(id))return false;s.deck.push(id);start();return true;}
  function protectors(){return s.stage===STAGES.length-1?alive().filter(e=>e.role==="guard").length:0;}
+ function recordBossDamage(e,n){
+  if(e.role!=="boss"||n<=0||e.channelBroken||(s.turn-1)%4===3)return;
+  e.channelDamage+=n;
+  if(e.channelDamage>=B1_BOSS_CHANNEL_THRESHOLD){e.channelBroken=true;note("地底の祭司の詠唱が崩れた！ 地鳴りを阻止。");}
+ }
  function hit(target,base,hits=1){
   if(!target||target.hp<=0)return 0;
   let total=0;
@@ -54,7 +62,7 @@ export function createB1Game(options={}){
    const raw=Math.max(0,boosted-armor);
    const blocked=Math.min(target.block||0,raw);target.block-=blocked;
    const actual=Math.min(target.hp,raw-blocked);
-   target.hp-=actual;total+=actual;
+   target.hp-=actual;total+=actual;recordBossDamage(target,actual);
   }
   note(target.name+"に合計"+total+"ダメージ"+(hits>1?"（"+hits+"回攻撃）":"")+"。");
   return total;
@@ -86,7 +94,7 @@ export function createB1Game(options={}){
     const raw=Math.max(0,base-(e.role==="boss"?armor:0));
     const blocked=Math.min(e.block,raw);e.block-=blocked;
     const n=Math.min(e.hp,raw-blocked);
-    e.hp-=n;note(e.name+"に"+n+"ダメージ。");
+    e.hp-=n;recordBossDamage(e,n);note(e.name+"に"+n+"ダメージ。");
    }
    s.attacksThisTurn++;
   }else if(card.kind==="heal"){
@@ -106,7 +114,10 @@ export function createB1Game(options={}){
   const t=s.turn;
   if(e.role==="boss"){
    const n=(t-1)%4;
-   return n===0?{kind:"rest",label:"溜め 1/2"}:n===1?{kind:"rest",label:"溜め 2/2"}:n===2?{kind:"attack",label:"地鳴り 21",damage:21}:{kind:"rest",label:"疲労・隙"};
+   return n===0?{kind:"rest",label:"溜め 1/2"}:
+    n===1?{kind:"rest",label:"溜め 2/2"}:
+    n===2?(e.channelBroken?{kind:"rest",label:"詠唱崩れ・地鳴り中断"}:{kind:"attack",label:"地鳴り 21",damage:21}):
+    {kind:"rest",label:"疲労・隙"};
   }
   if(e.role==="rat"){
    const n=(t-1)%3;
@@ -137,7 +148,7 @@ export function createB1Game(options={}){
    if(e.hp<=0)continue;
    // Poison hits before the enemy acts, even if charging, then weakens by 1.
    if(e.poison>0){
-    const n=Math.min(e.poison,e.hp);e.hp-=n;e.poison=Math.max(0,e.poison-1);
+    const n=Math.min(e.poison,e.hp);e.hp-=n;recordBossDamage(e,n);e.poison=Math.max(0,e.poison-1);
     note(e.name+"は毒で"+n+"ダメージ。");
    }
    if(e.hp<=0)continue;
@@ -161,6 +172,7 @@ export function createB1Game(options={}){
     note(e.name+"："+action.label+"。");
    }else note(e.name+"："+action.label+"。");
    if(action.ritualGain)e.strength+=action.ritualGain;
+   if(e.role==="boss"&&(s.turn-1)%4===3){e.channelDamage=0;e.channelBroken=false;}
    e.weaken=Math.max(0,e.weaken-1);
    e.vulnerable=Math.max(0,e.vulnerable-1);
   }
@@ -177,5 +189,14 @@ export function createB1Game(options={}){
  }
  function nextBattle(){if(s.phase!=="between"||s.stage>=STAGES.length-1)return false;s.stage++;start();return true;}
  function snapshot(){return clone({...s,intents:s.enemies.map(e=>({id:e.id,...intent(e)})),stageName:STAGES[s.stage].name,stageHint:STAGES[s.stage].hint});}
- return {snapshot,selectStarter,play,endTurn,chooseReward,nextBattle};
+ function startBossPractice(mode="ideal"){
+  if(s.phase!=="starter"||!["ideal","baseline"].includes(mode))return false;
+  s.practiceMode=mode;
+  s.stage=STAGES.length-1;
+  s.deck=mode==="ideal"?[...IDEAL_B1_BOSS_DECK]:[...STARTER,"scatter"];
+  s.hp=Math.min(s.maxHp,58);
+  start();note("練習モード："+(mode==="ideal"?"理想の14枚デッキ":"基本の10枚デッキ")+"でボスに挑戦。");
+  return true;
+ }
+ return {snapshot,selectStarter,startBossPractice,play,endTurn,chooseReward,nextBattle};
 }
