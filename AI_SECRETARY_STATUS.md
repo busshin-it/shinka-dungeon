@@ -1,8 +1,8 @@
 # AI_SECRETARY_STATUS
 
-## 2026-10-11 B1独立PWAの導入（PR候補）
+## 2026-10-11 B1独立PWAの導入（PR #71、main統合済み）
 
-Android ChromeでB1の長いURLが表示されるという要望。B1ページ専用の b1-manifest.webmanifest と b1-install.mjs、ヘッダーの「アプリにする」ボタンを実装。旧v4-1のPWAとは独立したid／起動先で、standalone／横向き。ホーム画面からの起動で対応端末はURLバーなし。旧SW・配布キャッシュ・ゲーム内効果・保存は変更しない。オフラインB1は非対応。CI確認・実機インストール検証は未完了。
+Android ChromeでB1の長いURLが表示されるという要望。B1ページ専用の b1-manifest.webmanifest と b1-install.mjs、ヘッダーの「アプリにする」ボタンを実装。旧v4-1のPWAとは独立したid／起動先で、standalone／横向き。ホーム画面からの起動で対応端末はURLバーなし。旧SW・配布キャッシュ・ゲーム内効果・保存は変更しない。オフラインB1は非対応。PR #71 の自動テスト合格を確認し、main 2fc54458 に統合。GitHub Pagesでの配信確認とAndroid実機インストール検証は未完了。
 
 
 
