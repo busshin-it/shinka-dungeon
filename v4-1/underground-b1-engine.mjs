@@ -30,14 +30,14 @@ export function createB1Game(options={}){
  const random=()=>{seed=(Math.imul(seed,1664525)+1013904223)>>>0;return seed/4294967296;};
  const shuffle=a=>{for(let i=a.length-1;i>0;i--){const j=Math.floor(random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;};
  const testMaxHp=Number.isInteger(options.maxHp)&&options.maxHp>=1&&options.maxHp<=999?options.maxHp:48;
- let s={phase:"starter",stage:0,turn:1,hp:testMaxHp,maxHp:testMaxHp,energy:3,block:0,attacksThisTurn:0,powerDraw:0,selected:null,deck:[...STARTER],hand:[],draw:[],discard:[],exhaust:[],enemies:[],rewards:[],log:["最初に得意な魔法を1枚選んで地下迷宮へ。"]};
+ let s={phase:"starter",stage:0,turn:1,hp:testMaxHp,maxHp:testMaxHp,energy:3,block:0,attacksThisTurn:0,powerDraw:0,selected:null,deck:Array.isArray(options.testDeck)&&options.testDeck.length>0&&options.testDeck.length<=30&&options.testDeck.every(id=>Object.hasOwn(CARDS,id))?[...options.testDeck]:[...STARTER],hand:[],draw:[],discard:[],exhaust:[],powers:[],enemies:[],rewards:[],log:["最初に得意な魔法を1枚選んで地下迷宮へ。"]};
  function note(t){s.log.unshift(t);s.log=s.log.slice(0,18);}
  const alive=()=>s.enemies.filter(e=>e.hp>0);
  const find=id=>s.enemies.find(e=>e.id===id&&e.hp>0);
  function drawCards(n){for(let i=0;i<n&&s.hand.length<10;i++){if(!s.draw.length){if(!s.discard.length)break;s.draw=shuffle(s.discard.splice(0));}s.hand.push(s.draw.pop());}}
  function start(){
   const stage=STAGES[s.stage];s.enemies=stage.enemies.map(e=>({...clone(e),hp:e.maxHp,weaken:0,poison:0,vulnerable:0}));s.turn=1;s.block=0;s.energy=3;s.attacksThisTurn=0;s.powerDraw=0;
-  s.hand=[];s.discard=[];s.exhaust=[];s.draw=shuffle([...s.deck]);s.selected=s.enemies.find(e=>e.role!=="boss")?.id||s.enemies[0].id;s.phase="battle";drawCards(5);note(stage.name+"：戦闘開始。");
+  s.hand=[];s.discard=[];s.exhaust=[];s.powers=[];s.draw=shuffle([...s.deck]);s.selected=s.enemies.find(e=>e.role!=="boss")?.id||s.enemies[0].id;s.phase="battle";drawCards(5);note(stage.name+"：戦闘開始。");
  }
  function selectStarter(id){if(s.phase!=="starter"||!["lightning","scatter","flow"].includes(id))return false;s.deck.push(id);start();return true;}
  function protectors(){return s.stage===2?alive().filter(e=>e.role==="guard").length:0;}
@@ -67,7 +67,7 @@ export function createB1Game(options={}){
   if(targeted&&!target)return false;
   s.hand.splice(index,1);
   s.energy-=card.cost;
-  if(card.exhaust||card.kind==="power")s.exhaust.push(id);else s.discard.push(id);
+  if(card.kind==="power")s.powers.push(id);else if(card.exhaust)s.exhaust.push(id);else s.discard.push(id);
   if(card.kind==="attack"||card.kind==="multi"){
    const base=card.damage+(card.chain&&s.attacksThisTurn>0?6:0)+(card.poisonBonus&&target.poison>0?card.poisonBonus:0);
    hit(target,base,card.hits||1);s.attacksThisTurn+=(card.hits||1);
