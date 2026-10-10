@@ -30,6 +30,8 @@ export const STAGES = Object.freeze([
 ]);
 // Reachable in principle: one starter pick (scatter) + one reward from each of four prior fights.
 export const IDEAL_B1_BOSS_DECK=Object.freeze([...STARTER,"scatter","ward","focus","strength","charge"]);
+// Alternate reachable 14-card benchmark: set up attack power, draw the combo, sweep guards, finish with chain lightning.
+export const COMBO_B1_BOSS_DECK=Object.freeze([...STARTER,"scatter","flow","chain","strength","charge"]);
 export const B1_BOSS_CHANNEL_THRESHOLD=24;
 const clone=x=>JSON.parse(JSON.stringify(x));
 export function createB1Game(options={}){
@@ -190,12 +192,12 @@ export function createB1Game(options={}){
  function nextBattle(){if(s.phase!=="between"||s.stage>=STAGES.length-1)return false;s.stage++;start();return true;}
  function snapshot(){return clone({...s,intents:s.enemies.map(e=>({id:e.id,...intent(e)})),stageName:STAGES[s.stage].name,stageHint:STAGES[s.stage].hint});}
  function startBossPractice(mode="ideal"){
-  if(s.phase!=="starter"||!(["ideal","baseline"].includes(mode)||(mode==="test"&&Array.isArray(options.testDeck))))return false;
+  if(s.phase!=="starter"||!(["ideal","baseline","combo"].includes(mode)||(mode==="test"&&Array.isArray(options.testDeck))))return false;
   s.practiceMode=mode;
   s.stage=STAGES.length-1;
-  s.deck=mode==="ideal"?[...IDEAL_B1_BOSS_DECK]:mode==="test"?[...options.testDeck]:[...STARTER,"scatter"];
+  s.deck=mode==="ideal"?[...IDEAL_B1_BOSS_DECK]:mode==="combo"?[...COMBO_B1_BOSS_DECK]:mode==="test"?[...options.testDeck]:[...STARTER,"scatter"];
   s.hp=Math.min(s.maxHp,58);
-  start();note("練習モード："+(mode==="ideal"?"理想の14枚デッキ":"基本の10枚デッキ")+"でボスに挑戦。");
+  start();note("練習モード："+(mode==="combo"?"連鎖コンボ14枚":mode==="ideal"?"安定型14枚":mode==="test"?"検証用デッキ":"基本の10枚")+"でボスに挑戦。");
   return true;
  }
  return {snapshot,selectStarter,startBossPractice,play,endTurn,chooseReward,nextBattle};
