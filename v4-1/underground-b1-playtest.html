@@ -10,7 +10,8 @@
 .pilot-mode .b1-targets button[aria-pressed="true"]{border-color:var(--gold);color:var(--paper);background:#5d4b33}
 .pilot-mode .b1-targets button:disabled{opacity:.4}
 .pilot-mode .pilot-card.b1-text-card .pilot-card-copy{padding:37px 10px 10px;flex:1}
-.pilot-mode .pilot-choices,.pilot-mode .pilot-rewards{grid-template-columns:repeat(3,minmax(0,1fr))}
+.pilot-mode .pilot-choices{grid-template-columns:repeat(4,minmax(0,1fr))}
+.pilot-mode .pilot-rewards{grid-template-columns:repeat(3,minmax(0,1fr))}
 .pilot-mode .pilot-choices .pilot-start-card{min-height:158px}
 .pilot-mode .pilot-rewards .pilot-card{min-height:155px}
 .pilot-mode #setupReroll{display:none}
@@ -26,6 +27,47 @@
 .pilot-mode .b1-targets{max-width:min(380px,57vw);gap:3px}
 .pilot-mode .b1-targets button{font-size:9px;padding:4px;max-width:98px}
 .pilot-mode .pilot-choices,.pilot-mode .pilot-rewards{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+
+/* Four starter cards on desktop; card illustration stays above the description. */
+.pilot-mode .pilot-setup{box-sizing:border-box;overflow-x:hidden}
+.pilot-mode .pilot-setup-content{box-sizing:border-box;width:min(1000px,100%);max-width:calc(100vw - 30px);min-width:0}
+.pilot-mode .pilot-choices{width:100%;max-width:100%;gap:12px}
+.pilot-mode .pilot-choices .pilot-start-card{
+ box-sizing:border-box;min-width:0;width:100%;min-height:218px;height:218px;
+ display:flex;flex-direction:column;overflow:hidden;padding:0;
+}
+.pilot-mode .pilot-choices .pilot-start-card.b1-art-card .b1-dragon-card-art{
+ display:block;position:static;inset:auto;width:100%;height:112px;flex:0 0 112px;
+ object-fit:cover;object-position:center 44%;border-radius:0;
+ filter:none;background:#142838;pointer-events:none;
+}
+.pilot-mode .pilot-choices .pilot-start-card.b1-art-card .pilot-card-copy{
+ display:block;box-sizing:border-box;flex:1 1 auto;min-height:0;overflow:hidden;
+ padding:11px 12px 10px;color:#193143;
+}
+.pilot-mode .pilot-choices .pilot-start-card.b1-art-card .pilot-card-copy strong{
+ color:#142a35;font-size:15px;margin:0 0 5px;
+}
+.pilot-mode .pilot-choices .pilot-start-card.b1-art-card .pilot-card-copy .desc{
+ color:#314b55;font-size:11px;line-height:1.43;-webkit-line-clamp:3;line-clamp:3;
+}
+.pilot-mode .pilot-choices .pilot-start-card.b1-art-card .type{
+ z-index:3;margin:0;max-width:calc(100% - 52px);
+}
+.pilot-mode .pilot-choices .pilot-start-card.b1-art-card .cost{z-index:3}
+@media(max-width:850px){
+ .pilot-mode .pilot-choices{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+ .pilot-mode .pilot-choices .pilot-start-card{height:198px;min-height:198px}
+ .pilot-mode .pilot-choices .pilot-start-card.b1-art-card .b1-dragon-card-art{height:90px;flex-basis:90px}
+}
+@media(max-width:420px){
+ .pilot-mode .pilot-setup-content{padding:12px;max-width:calc(100vw - 16px)}
+ .pilot-mode .pilot-choices .pilot-start-card{height:185px;min-height:185px}
+ .pilot-mode .pilot-choices .pilot-start-card.b1-art-card .b1-dragon-card-art{height:76px;flex-basis:76px}
+ .pilot-mode .pilot-choices .pilot-start-card.b1-art-card .pilot-card-copy{padding:7px 9px}
+ .pilot-mode .pilot-choices .pilot-start-card.b1-art-card .pilot-card-copy strong{font-size:13px}
+ .pilot-mode .pilot-choices .pilot-start-card.b1-art-card .pilot-card-copy .desc{font-size:10px}
 }
 </style>
 </head>
@@ -118,10 +160,14 @@ function current(s){
 }
 function renderSetup(){
  el("setupHeading").textContent="最初の魔法を選ぶ";
- el("setupHint").textContent="通常はB1を5戦で冒険。コンボ特化の14枚と安定型14枚を比べるなら、練習モードでボスから開始。どちらもHP58で挑戦できます。";
+ el("setupHint").textContent="魔法を選んでB1の5戦へ。竜の卵を選ぶと召喚・育成・竜息の3枚で開始。ボス練習は下のボタンから。";
  const target=el("setupChoices");target.replaceChildren();
  for(const id of ["lightning","scatter","flow","dragonEgg"]){
    const b=cardButton(id);b.classList.add("pilot-start-card");
+    const artFile={lightning:"star-relay.webp",scatter:"pilot-doom-bullet.webp",flow:"star-bookmark.webp"}[id];
+    if(artFile){const img=document.createElement("img");img.className="b1-dragon-card-art";
+      img.src="./assets/"+artFile;img.alt="";img.loading="lazy";
+      b.classList.add("b1-art-card");b.insertBefore(img,b.querySelector(".pilot-card-copy"));}
    b.addEventListener("click",()=>{if(game.selectStarter(id)){targetId=null;render();}});
    target.append(b);
  }
