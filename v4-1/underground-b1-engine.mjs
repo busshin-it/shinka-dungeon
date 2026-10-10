@@ -62,28 +62,33 @@ export function createB1Game(options={}){
  function play(index,targetId){
   if(s.phase!=="battle"||!Number.isInteger(index)||index<0||index>=s.hand.length)return false;
   const id=s.hand[index],card=CARDS[id];if(!card||s.energy<card.cost)return false;
-  const targeted=["attack","weaken","poison","fragile"].includes(card.kind);
+  const targeted=["attack","multi","poison","fragile"].includes(card.kind);
   const target=targeted?find(targetId||s.selected):null;
   if(targeted&&!target)return false;
-  s.hand.splice(index,1);s.discard.push(id);s.energy-=card.cost;
-  const priorSpell=s.usedSpell;if(card.kind!=="guard")s.usedSpell=true;
-  if(card.kind==="attack"){
-   hit(target,card.damage+(card.chain&&priorSpell?4:0));
-   if(card.heal){const old=s.hp;s.hp=Math.min(s.maxHp,s.hp+card.heal);note("吸命でHPを"+(s.hp-old)+"回復。");}
+  s.hand.splice(index,1);
+  s.energy-=card.cost;
+  if(card.exhaust||card.kind==="power")s.exhaust.push(id);else s.discard.push(id);
+  if(card.kind==="attack"||card.kind==="multi"){
+   const base=card.damage+(card.chain&&s.attacksThisTurn>0?6:0)+(card.poisonBonus&&target.poison>0?card.poisonBonus:0);
+   hit(target,base,card.hits||1);s.attacksThisTurn+=(card.hits||1);
+   if(card.weaken&&target.hp>0){target.weaken+=card.weaken;note(target.name+"に弱体＋"+card.weaken+"。");}
+   if(card.heal){const n=Math.min(card.heal,s.maxHp-s.hp);s.hp+=n;note("HPを"+n+"回復。");}
   }else if(card.kind==="all"){
-   // Simultaneous hit: protector count is based on living guards at start.
-   const armor=protectors()*2;const targets=alive();
-   for(const e of targets){
-    const val=Math.max(0,card.damage+e.fragile-(e.role==="boss"?armor:0));
-    e.hp=Math.max(0,e.hp-val);e.fragile=0;
-    note(e.name+"へ"+val+"ダメージ"+(e.role==="boss"&&armor?"（護衛軽減 "+armor+"）":"")+"。");
+   const armor=protectors()*2;
+   for(const e of alive()){
+    const base=e.vulnerable>0?Math.floor(card.damage*1.5):card.damage;
+    const n=Math.min(e.hp,Math.max(0,base-(e.role==="boss"?armor:0)));
+    e.hp-=n;note(e.name+"に"+n+"ダメージ。");
    }
+   s.attacksThisTurn++;
   }else if(card.kind==="heal"){
-   const old=s.hp;s.hp=Math.min(s.maxHp,s.hp+card.heal);note("HPを"+(s.hp-old)+"回復。");
+   const n=Math.min(card.heal,s.maxHp-s.hp);s.hp+=n;note("HPを"+n+"回復。");
   }else if(card.kind==="guard"){s.block+=card.block;note("防御＋"+card.block+"。");}
-  else if(card.kind==="weaken"){target.weaken+=card.weaken;note(target.name+"の次の攻撃−"+card.weaken+"。");}
   else if(card.kind==="poison"){target.poison+=card.poison;note(target.name+"に毒＋"+card.poison+"。");}
-  else if(card.kind==="fragile"){target.fragile+=card.fragile;note(target.name+"に脆弱＋"+card.fragile+"。");}
+  else if(card.kind==="fragile"){target.vulnerable+=card.vulnerable;note(target.name+"に脆弱＋"+card.vulnerable+"。");}
+  else if(card.kind==="energy"){s.energy+=card.energyGain;note("魔力＋"+card.energyGain+"。");}
+  else if(card.kind==="power"){s.powerDraw+=card.powerDraw;note("この戦闘中、毎ターンのドロー＋"+card.powerDraw+"。");}
+  if(card.draw){drawCards(card.draw);note("カードを"+card.draw+"枚引いた。");}
   checkVictory();return true;
  }
  function intent(e){
