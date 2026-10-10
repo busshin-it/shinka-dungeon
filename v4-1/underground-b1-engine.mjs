@@ -48,14 +48,14 @@ export function createB1Game(options={}){
  const random=()=>{seed=(Math.imul(seed,1664525)+1013904223)>>>0;return seed/4294967296;};
  const shuffle=a=>{for(let i=a.length-1;i>0;i--){const j=Math.floor(random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;};
  const testMaxHp=Number.isInteger(options.maxHp)&&options.maxHp>=1&&options.maxHp<=999?options.maxHp:75;
- let s={phase:"starter",stage:0,turn:1,hp:testMaxHp,maxHp:testMaxHp,energy:3,block:0,attacksThisTurn:0,powerDraw:0,strength:0,selected:null,deck:Array.isArray(options.testDeck)&&options.testDeck.length>0&&options.testDeck.length<=30&&options.testDeck.every(id=>Object.hasOwn(CARDS,id))?[...options.testDeck]:[...STARTER],hand:[],draw:[],discard:[],exhaust:[],powers:[],enemies:[],rewards:[],gold:0,shopPending:false,shopUsed:false,shopPurchases:[],restPending:false,restUsed:false,restChoice:null,selectedPath:null,routeHistory:[],log:["最初に得意な魔法を1枚選んで地下迷宮へ。"]};
+ let s={lastSynergy:null,phase:"starter",stage:0,turn:1,hp:testMaxHp,maxHp:testMaxHp,energy:3,block:0,attacksThisTurn:0,powerDraw:0,strength:0,selected:null,deck:Array.isArray(options.testDeck)&&options.testDeck.length>0&&options.testDeck.length<=30&&options.testDeck.every(id=>Object.hasOwn(CARDS,id))?[...options.testDeck]:[...STARTER],hand:[],draw:[],discard:[],exhaust:[],powers:[],enemies:[],rewards:[],gold:0,shopPending:false,shopUsed:false,shopPurchases:[],restPending:false,restUsed:false,restChoice:null,selectedPath:null,routeHistory:[],log:["最初に得意な魔法を1枚選んで地下迷宮へ。"]};
  function note(t){s.log.unshift(t);s.log=s.log.slice(0,18);}
  const alive=()=>s.enemies.filter(e=>e.hp>0);
  const find=id=>s.enemies.find(e=>e.id===id&&e.hp>0);
- function drawCards(n){for(let i=0;i<n&&s.hand.length<10;i++){if(!s.draw.length){if(!s.discard.length)break;s.draw=shuffle(s.discard.splice(0));}s.hand.push(s.draw.pop());}}
+ function drawCards(n){let drawn=0;for(let i=0;i<n&&s.hand.length<10;i++){if(!s.draw.length){if(!s.discard.length)break;s.draw=shuffle(s.discard.splice(0));}s.hand.push(s.draw.pop());drawn++;}return drawn;}
  function start(){
   const stage=s.stage===1?B1_FORK_ROUTES[s.selectedPath||"pack"]:STAGES[s.stage];s.enemies=stage.enemies.map(e=>({...clone(e),hp:e.maxHp,weaken:0,poison:0,vulnerable:0,block:0,strength:0,channelDamage:0,channelBroken:false}));s.turn=1;s.block=0;s.energy=3;s.attacksThisTurn=0;s.powerDraw=0;s.strength=0;
-  s.hand=[];s.discard=[];s.exhaust=[];s.powers=[];s.draw=shuffle([...s.deck]);s.selected=s.enemies.find(e=>e.role!=="boss")?.id||s.enemies[0].id;s.phase="battle";drawCards(5);note(stage.name+"：戦闘開始。");
+  s.lastSynergy=null;s.hand=[];s.discard=[];s.exhaust=[];s.powers=[];s.draw=shuffle([...s.deck]);s.selected=s.enemies.find(e=>e.role!=="boss")?.id||s.enemies[0].id;s.phase="battle";drawCards(5);note(stage.name+"：戦闘開始。");
  }
  function selectStarter(id){if(s.phase!=="starter"||!["lightning","scatter","flow"].includes(id))return false;s.deck.push(id);start();return true;}
  function protectors(){return s.stage===STAGES.length-1?alive().filter(e=>e.role==="guard").length:0;}
@@ -90,11 +90,19 @@ export function createB1Game(options={}){
   const targeted=["attack","multi","poison","fragile"].includes(card.kind);
   const target=targeted?find(targetId||s.selected):null;
   if(targeted&&!target)return false;
+  s.lastSynergy=null;
+  const synergy=(title,detail)=>{s.lastSynergy={cardId:id,title,detail};};
   s.hand.splice(index,1);
   s.energy-=card.cost;
   if(card.kind==="attack"||card.kind==="multi"){
-   const base=card.damage+s.strength+(card.chain&&s.attacksThisTurn>0?6:0)+(card.poisonBonus&&target.poison>0?card.poisonBonus:0)+(card.weakBonus&&target.weaken>0?card.weakBonus:0);
+   const chainReady=Boolean(card.chain&&s.attacksThisTurn>0);
+   const poisonReady=Boolean(card.poisonBonus&&target.poison>0);
+   const weakReady=Boolean(card.weakBonus&&target.weaken>0);
+   const base=card.damage+s.strength+(chainReady?6:0)+(poisonReady?card.poisonBonus:0)+(weakReady?card.weakBonus:0);
    hit(target,base,card.hits||1);s.attacksThisTurn+=(card.hits||1);
+   if(weakReady)synergy("霜砕き連携","弱体追撃：威力＋"+card.weakBonus);
+   else if(poisonReady)synergy("毒炎連携","毒の敵へ：威力＋"+card.poisonBonus);
+   else if(chainReady)synergy("連鎖雷連携","攻撃後：威力＋6");
    if(card.weaken&&target.hp>0){target.weaken+=card.weaken;note(target.name+"に弱体＋"+card.weaken+"。");}
    if(card.vulnerable&&target.hp>0){target.vulnerable+=card.vulnerable;note(target.name+"に脆弱＋"+card.vulnerable+"。");}
    if(card.heal){const n=Math.min(card.heal,s.maxHp-s.hp);s.hp+=n;note("HPを"+n+"回復。");}
@@ -110,8 +118,8 @@ export function createB1Game(options={}){
    s.attacksThisTurn++;
   }else if(card.kind==="heal"){
    const n=Math.min(card.heal,s.maxHp-s.hp);s.hp+=n;note("HPを"+n+"回復。");
-  }else if(card.kind==="guard"){s.block+=card.block;note("防御＋"+card.block+"。");if(card.afterAttackDraw&&s.attacksThisTurn>0){drawCards(card.afterAttackDraw);note("連携：カードを"+card.afterAttackDraw+"枚引いた。");}}
-  else if(card.kind==="poison"){const alreadyPoisoned=target.poison>0;target.poison+=card.poison;note(target.name+"に毒＋"+card.poison+"。");if(card.poisonDraw&&alreadyPoisoned){drawCards(card.poisonDraw);note("連携：カードを"+card.poisonDraw+"枚引いた。");}}
+  }else if(card.kind==="guard"){s.block+=card.block;note("防御＋"+card.block+"。");if(card.afterAttackDraw&&s.attacksThisTurn>0){const count=drawCards(card.afterAttackDraw);note("連携：カードを"+count+"枚引いた。");synergy("返響の盾連携","攻撃後：実際に"+count+"枚ドロー");}}
+  else if(card.kind==="poison"){const alreadyPoisoned=target.poison>0;target.poison+=card.poison;note(target.name+"に毒＋"+card.poison+"。");if(card.poisonDraw&&alreadyPoisoned){const count=drawCards(card.poisonDraw);note("連携：カードを"+count+"枚引いた。");synergy("余毒の頁連携","毒の敵から：実際に"+count+"枚ドロー");}}
   else if(card.kind==="fragile"){target.vulnerable+=card.vulnerable;note(target.name+"に脆弱＋"+card.vulnerable+"。");}
   else if(card.kind==="energy"){s.energy+=card.energyGain;note("魔力＋"+card.energyGain+"。");}
   else if(card.kind==="power"){if(card.powerDraw){s.powerDraw+=card.powerDraw;note("毎ターンのドロー＋"+card.powerDraw+"。");}
@@ -161,6 +169,7 @@ export function createB1Game(options={}){
  }
  function endTurn(){
   if(s.phase!=="battle")return false;
+  s.lastSynergy=null;
   for(const e of [...s.enemies]){
    if(e.hp<=0)continue;
    // Poison hits before the enemy acts, even if charging, then weakens by 1.
