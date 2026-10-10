@@ -8,15 +8,18 @@ test("B1 uses a ten-card starter and a five-card, three-energy turn",()=>{
  assert.equal(g.selectStarter("lightning"),true);
  const s=g.snapshot();assert.equal(s.deck.length,10);assert.equal(s.hand.length,5);assert.equal(s.energy,3);
 });
-test("draw, temporary energy and guard+draw use shared deck/discard logic",()=>{
- const g=begin(["flow","ward","charge","bolt"]);
- const energy=g.snapshot().energy;
- use(g,"charge");assert.equal(g.snapshot().energy,energy+1);
- assert.equal(g.snapshot().exhaust.includes("charge"),true);
+test("zero-cost energy card is exhausted and grants one extra energy",()=>{
+ const g=begin(["charge","charge","charge"]);
+ use(g,"charge");assert.equal(g.snapshot().energy,4);
+ assert.equal(g.snapshot().exhaust.length,1);
+});
+test("draw cards draw during the turn, and block+draw grants both effects",()=>{
+ const g=begin(Array(7).fill("flow"));
  const before=g.snapshot().hand.length;
- use(g,"flow");assert.ok(g.snapshot().hand.length>=before);
- use(g,"ward");assert.equal(g.snapshot().block,7);
- assert.ok(g.snapshot().hand.length>0);
+ use(g,"flow");assert.equal(g.snapshot().hand.length,before+1);
+ const h=begin(Array(7).fill("ward"));
+ use(h,"ward");assert.equal(h.snapshot().block,7);
+ assert.equal(h.snapshot().hand.length,5);
 });
 test("attacks combo with chain magic, not with healing or cards merely played",()=>{
  const g=begin(["bolt","chain"]);
@@ -43,13 +46,17 @@ test("weak reduces enemy attack, retains a second turn, then expires",()=>{
  assert.equal(g.snapshot().enemies[0].weaken,1);
  g.endTurn();assert.equal(g.snapshot().enemies[0].weaken,0);
 });
-test("power is persistent, and heal exhausts for this combat",()=>{
- const g=begin(["focus","heal","guard","guard","bolt","guard"]);
+test("persistent power increases next turn draw by one",()=>{
+ const g=begin(Array(8).fill("focus"));
  use(g,"focus");assert.equal(g.snapshot().powerDraw,1);
  assert.deepEqual(g.snapshot().powers,["focus"]);
+ g.endTurn();assert.equal(g.snapshot().hand.length,6);
+});
+test("healing cards exhaust but remain in the permanent deck",()=>{
+ const g=begin(Array(4).fill("heal"));const size=g.snapshot().deck.length;
  use(g,"heal");assert.equal(g.snapshot().exhaust.includes("heal"),true);
  assert.equal(g.snapshot().discard.includes("heal"),false);
- g.endTurn();assert.equal(g.snapshot().hand.length,6);
+ assert.equal(g.snapshot().deck.length,size);
 });
 test("multihit is distinct from one heavy attack",()=>{
  const g=begin(["double"]);
