@@ -46,7 +46,7 @@ function findCard(g,id,maxTurns=20){
 
 test('card pool and initial deck are independent from original pilot',()=>{
  assert.equal(STARTER.length,9);
- assert.equal(Object.keys(CARDS).length,22);
+ assert.equal(Object.keys(CARDS).length,25);
  assert.equal(STAGES.length,5);
  assert.equal(CARDS.scatter.kind,'all');
 });
