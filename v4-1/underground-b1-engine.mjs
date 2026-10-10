@@ -22,7 +22,8 @@ export function createB1Game(options={}){
  let seed=(Number(options.seed)>>>0)||20261010;
  const random=()=>{seed=(Math.imul(seed,1664525)+1013904223)>>>0;return seed/4294967296;};
  const shuffle=a=>{for(let i=a.length-1;i>0;i--){const j=Math.floor(random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;};
- let s={phase:"starter",stage:0,turn:1,hp:48,maxHp:48,energy:3,block:0,usedSpell:false,selected:null,deck:[...STARTER],hand:[],draw:[],discard:[],enemies:[],rewards:[],log:["最初に得意な魔法を1枚選んで地下迷宮へ。"]};
+ const testMaxHp=Number.isInteger(options.maxHp)&&options.maxHp>=1&&options.maxHp<=999?options.maxHp:48;
+ let s={phase:"starter",stage:0,turn:1,hp:testMaxHp,maxHp:testMaxHp,energy:3,block:0,usedSpell:false,selected:null,deck:[...STARTER],hand:[],draw:[],discard:[],enemies:[],rewards:[],log:["最初に得意な魔法を1枚選んで地下迷宮へ。"]};
  function note(t){s.log.unshift(t);s.log=s.log.slice(0,18);}
  const alive=()=>s.enemies.filter(e=>e.hp>0);
  const find=id=>s.enemies.find(e=>e.id===id&&e.hp>0);
