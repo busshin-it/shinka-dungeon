@@ -1,0 +1,32 @@
+/* B1 first-fork map (isolated from the 12-fight pilot).
+   Current environment art provides atmosphere; no new binary assets or borrowed game graphics. */
+.pilot-mode .b1-route-map{margin:18px 0 8px;border:1px solid #76654a;border-radius:13px;padding:15px 17px 18px;background:radial-gradient(ellipse at 50% 28%,#335064,#172b38 73%);box-shadow:inset 0 0 30px #050e17aa;color:#f1e9d7}
+.pilot-mode .b1-route-map[hidden]{display:none}
+.pilot-mode .b1-map-header{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;font-size:12px;color:#e8d29e}
+.pilot-mode .b1-map-progress{border:1px solid #a38a5d;background:#102430;border-radius:99px;padding:4px 11px;font-weight:750}
+.pilot-mode .b1-map-branch{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(12px,3vw,35px);position:relative;margin:22px auto 15px;max-width:660px}
+.pilot-mode .b1-map-branch::before{content:"";position:absolute;left:50%;top:-17px;height:15px;width:1px;background:#b99e71}
+.pilot-mode .b1-map-path{position:relative;display:flex;align-items:center;gap:11px;padding:12px;border:1px solid #648695;border-radius:12px;background:linear-gradient(150deg,#2e4352,#172b3c);color:#f4e9d6;text-align:left;cursor:pointer;min-height:128px;transition:border-color .13s,background .13s,transform .13s}
+.pilot-mode .b1-map-path::before{content:"";position:absolute;top:-16px;left:50%;height:15px;border-left:2px dashed #b99e71}
+.pilot-mode .b1-map-path:hover,.pilot-mode .b1-map-path:focus-visible{border-color:#efce7f;background:linear-gradient(150deg,#3c5964,#284252);transform:translateY(-3px);outline-offset:3px}
+.pilot-mode .b1-map-path img{object-fit:contain;width:78px;height:97px;flex:0 0 auto;filter:drop-shadow(0 5px 5px #050a10);pointer-events:none}
+.pilot-mode .b1-map-path .b1-map-path-copy{display:flex;flex-direction:column;gap:3px;min-width:0}
+.pilot-mode .b1-map-path strong{font-size:14px;color:#ffdfa6}
+.pilot-mode .b1-map-path .b1-map-path-kind{font-size:10px;letter-spacing:.02em;color:#89d8c9;font-weight:800}
+.pilot-mode .b1-map-path .b1-map-path-desc{font-size:11px;line-height:1.45;color:#e0e5e3}
+.pilot-mode .b1-map-nodes{display:flex;gap:7px;align-items:center;justify-content:center;flex-wrap:wrap;margin:4px 0}
+.pilot-mode .b1-map-node{display:inline-flex;align-items:center;gap:6px;padding:6px 12px;border:1px solid #607480;border-radius:99px;background:#102634dd;font-size:11px}
+.pilot-mode .b1-map-node.done{border-color:#9cd4ae;background:#214738;color:#d1ffdf}
+.pilot-mode .b1-map-node.future{color:#d8dfdf}
+.pilot-mode .b1-map-arrow{color:#d8bb85;opacity:.9}
+.pilot-mode .b1-map-hint{font-size:11px;color:#bbcfd0;text-align:center;margin-top:9px}
+@media(max-width:660px){
+ .pilot-mode .b1-route-map{padding:10px}
+ .pilot-mode .b1-map-branch{gap:8px;margin-top:18px}
+ .pilot-mode .b1-map-path{padding:9px;min-height:138px;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;text-align:center;gap:3px}
+ .pilot-mode .b1-map-path img{width:65px;height:52px}
+ .pilot-mode .b1-map-path strong{font-size:12px}
+ .pilot-mode .b1-map-path .b1-map-path-desc{font-size:10px}
+ .pilot-mode .b1-map-node{padding:4px 8px;font-size:10px}
+}
+@media(prefers-reduced-motion:reduce){.pilot-mode .b1-map-path{transition:none}.pilot-mode .b1-map-path:hover{transform:none}}
