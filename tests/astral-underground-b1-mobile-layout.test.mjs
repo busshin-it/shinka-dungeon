@@ -13,7 +13,9 @@ function styles(){
 }
 test("B1 uses its own last-loaded mobile stylesheet and preserves wizard game HTML",()=>{
  const refs=styles();
- assert.equal(refs.at(-1),"underground-b1-mobile.css");
+ assert.equal(refs.at(-1),"underground-b1-fire.css");
+ assert.equal(refs.at(-2),"underground-b1-mobile.css");
+ assert.ok(refs.indexOf("underground-b1-mobile.css")<refs.indexOf("underground-b1-fire.css"));
  assert.ok(refs.indexOf("six-paths-stage.css")<refs.indexOf("underground-b1-mobile.css"));
  assert.ok(refs.indexOf("underground-b1-dragon-visuals.css")<refs.indexOf("underground-b1-mobile.css"));
  assert.match(html,/class="planning-mode pilot-mode" data-b1-mobile="true"/);
