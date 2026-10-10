@@ -42,3 +42,9 @@
  .pilot-mode .b1-actor-figure{min-height:32px}
 }
 @media(prefers-reduced-motion:reduce){.pilot-mode .b1-enemy-actor,.pilot-mode .b1-actor-hpbar i{transition:none}}
+
+/* Brief, noninteractive magical strike that originates at the unchanged wizard sprite. */
+.pilot-mode .b1-spell-trail{position:absolute;z-index:7;pointer-events:none;height:4px;transform-origin:0 50%;border-radius:99px;
+ background:linear-gradient(90deg,#62bbc800 0%,#8beeffaa 25%,#ffeda9 65%,#fffbed 100%);
+ box-shadow:0 0 8px #8beaff,0 0 16px #96dcfba8}
+@media(prefers-reduced-motion:reduce){.pilot-mode .b1-spell-trail{display:none}}
