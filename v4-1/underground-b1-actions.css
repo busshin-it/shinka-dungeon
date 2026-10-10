@@ -111,7 +111,7 @@
  from{opacity:.08;transform:translateY(20px) rotate(0deg)}
  to{opacity:1;transform:translateY(var(--b1-fan-drop)) rotate(var(--b1-fan-angle))}
 }
-.pilot-mode .hand .pilot-card.b1-dealt{animation:b1FanDeal 240ms cubic-bezier(.18,.76,.3,1) both}
+.pilot-mode .hand .pilot-card.b1-dealt{animation:b1FanDeal 240ms cubic-bezier(.18,.76,.3,1) backwards}
 @media(max-height:540px){
  .pilot-mode .hand .pilot-card.b1-hand-focus:not(:disabled),
  .pilot-mode .hand .pilot-card:not(:disabled):hover,
