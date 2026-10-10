@@ -1,7 +1,26 @@
 // B1-only visual feedback; never changes HP, card state, or turn order.
+export function showB1SynergyCue(stage,event,{reduced=false}={}){
+ if(!stage||!event||!event.title||!event.detail)return false;
+ for(const old of stage.querySelectorAll?.(".b1-synergy-toast")||[])old.remove();
+ const cue=document.createElement("div");cue.className="b1-synergy-toast";
+ cue.setAttribute("role","status");cue.setAttribute("aria-live","polite");
+ const heading=document.createElement("strong");heading.textContent="連携！ "+event.title;
+ const detail=document.createElement("span");detail.textContent=event.detail;
+ cue.append(heading,detail);stage.append(cue);
+ if(reduced||!cue.animate){setTimeout(()=>cue.remove(),1350);return true;}
+ const motion=cue.animate([
+  {opacity:0,transform:"translate(-50%,10px) scale(.92)"},
+  {opacity:1,transform:"translate(-50%,0) scale(1.04)",offset:.20},
+  {opacity:1,transform:"translate(-50%,0) scale(1)",offset:.68},
+  {opacity:0,transform:"translate(-50%,-12px) scale(.98)"}
+ ],{duration:1350,easing:"ease-out"});
+ motion.onfinish=()=>cue.remove();
+ return true;
+}
 export function showB1Feedback({stage,hero,enemy,choices,before,after,card,targetId,sourceRect,turnEnded=false}){
  if(!before||!after)return;
  const reduced=!!window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches;
+ if(card&&after.lastSynergy)showB1SynergyCue(stage,after.lastSynergy,{reduced});
  const result=new Map(after.enemies.map(e=>[e.id,e]));
  const buttonFor=id=>[...choices.querySelectorAll("[data-b1-enemy]")].find(b=>b.dataset.b1Enemy===id);
  const anchorFor=id=>buttonFor(id)||enemy;
