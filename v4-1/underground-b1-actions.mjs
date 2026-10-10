@@ -18,7 +18,7 @@ export function attachB1Actions({hand,stage,enemyPuppet,choices,cards,read,selec
  function mark(){
   hand.querySelectorAll("[data-b1-hand]").forEach(b=>{const on=Number(b.dataset.b1Hand)===picked;b.classList.toggle("b1-picked",on);b.setAttribute("aria-pressed",String(on));});
   choices.querySelectorAll("[data-b1-enemy]").forEach(b=>b.classList.toggle("b1-pending-target",picked!==null&&b.dataset.b1Enemy===selectedTarget()));
-  enemyPuppet.classList.toggle("b1-pending-target",picked!==null);
+  enemyPuppet.classList.toggle("b1-pending-target",picked!==null&&!stage.classList.contains("b1-multi"));
  }
  function cancel(){picked=null;message("");mark();}
  function select(index){picked=index;message("敵の名前か姿を押して攻撃。ドラッグでも使えます。Escで解除。");mark();}
@@ -29,8 +29,10 @@ export function attachB1Actions({hand,stage,enemyPuppet,choices,cards,read,selec
  function fire(index,target,source){
   const info=usable(index);if(!info)return false;
   if(needsB1Target(info.card.kind)&&!target){message("攻撃する敵を選んでください");return false;}
+  // Clear pending selection before render() runs inside cast(), preventing stale highlights.
+  const previous=picked;picked=null;
   const ok=cast(index,target,info.id,source||rect(index),read());
-  if(ok){picked=null;message("");}else message("このカードはまだ使えません");
+  if(ok){message("");mark();}else{picked=previous;message("このカードはまだ使えません");mark();}
   return ok;
  }
  function handleCardClick(index){
@@ -57,7 +59,7 @@ export function attachB1Actions({hand,stage,enemyPuppet,choices,cards,read,selec
   if(hovered===id)return;
   choices.querySelectorAll(".b1-drop-target").forEach(b=>b.classList.remove("b1-drop-target"));enemyPuppet.classList.remove("b1-drop-target");
   hovered=id;
-  if(id){targetElement(id)?.classList.add("b1-drop-target");if(id===selectedTarget())enemyPuppet.classList.add("b1-drop-target");}
+  if(id){targetElement(id)?.classList.add("b1-drop-target");if(id===selectedTarget()&&!stage.classList.contains("b1-multi"))enemyPuppet.classList.add("b1-drop-target");}
  }
  function ghostAt(e){
   if(!active?.moved)return;
