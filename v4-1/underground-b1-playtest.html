@@ -46,7 +46,7 @@
 <div id="playScreen" class="pilot-play" hidden>
   <section class="stage" aria-label="戦闘画面">
     <div class="stage-shade"></div>
-    <div class="hud hero-hud"><span class="eyebrow">THE WANDERER</span><h2>蒼星の魔法師</h2><div class="hp-line"><span>HP</span><strong id="heroHp">60 / 60</strong></div><div id="heroMeter" class="hp-bar" role="meter" aria-label="旅人のHP" aria-valuemin="0" aria-valuemax="60"><i id="heroFill"></i></div><p id="heroStatus">ブロック 0</p><p id="planningStatus" class="planning-status"></p><p id="charm" class="charm"></p></div>
+    <div class="hud hero-hud"><span class="eyebrow">THE WANDERER</span><h2>蒼星の魔法師</h2><div class="hp-line"><span>HP</span><strong id="heroHp">60 / 60</strong></div><div id="heroMeter" class="hp-bar" role="meter" aria-label="旅人のHP" aria-valuemin="0" aria-valuemax="60"><i id="heroFill"></i></div><p id="heroStatus">ブロック 0</p><p id="dragonHud" class="b1-dragon-hud" hidden aria-live="polite"></p><p id="planningStatus" class="planning-status"></p><p id="charm" class="charm"></p></div>
     <div id="heroPuppet" class="puppet hero-puppet"><i class="orb-glow" aria-hidden="true"></i><img src="./assets/hero.webp" alt="銀髪と藍紫の帽子、青い球の杖を持つ魔法師"></div>
     <div class="stage-title"><span id="roomName">地下迷宮 B1</span><small id="round">第1/3戦</small><div id="targetChoices" class="b1-targets" aria-label="攻撃する敵を選ぶ"></div></div>
     <div id="b1Campfire" class="b1-campfire" hidden aria-label="休憩所の焚き火"><span class="b1-camp-flame" aria-hidden="true">🔥</span><strong>旅路の休息</strong></div><div id="enemyPuppet" class="puppet enemy-puppet"><img id="enemyArt" src="./assets/gatekeeper.webp" alt="蒼鎧の門番"></div>
@@ -95,7 +95,7 @@ import {attachB1Actions} from "./underground-b1-actions.mjs";
 import {showB1Feedback} from "./underground-b1-feedback.mjs";
 const el=id=>document.getElementById(id);
 let game=createB1Game({seed:Date.now()}),targetId=null;
-const typeNames={attack:"攻撃",multi:"連撃",all:"全体攻撃",heal:"回復",poison:"状態異常",fragile:"状態異常",guard:"防御",draw:"ドロー",energy:"魔力",power:"能力"};
+const typeNames={attack:"攻撃",multi:"連撃",all:"全体攻撃",heal:"回復",poison:"状態異常",fragile:"状態異常",guard:"防御",draw:"ドロー",energy:"魔力",power:"能力",dragon:"召喚",dragonFeed:"育成",dragonBreath:"全体攻撃"};
 const art={rat:"wraith.webp",wolf:"bell-spirit.webp",imp:"gatekeeper.webp",guard:"gatekeeper.webp",carapace:"gatekeeper.webp",ritual:"wraith.webp",elite:"gatekeeper.webp",boss:"boss.webp"};
 const percent=(n,max)=>Math.max(0,Math.min(100,Math.round(n*100/Math.max(1,max))))+"%";
 function cardButton(id){
@@ -105,7 +105,9 @@ function cardButton(id){
  const copy=document.createElement("span");copy.className="pilot-card-copy";
  const name=document.createElement("strong");name.textContent=c.name;
  const desc=document.createElement("span");desc.className="desc";desc.textContent=c.text;
- copy.append(name,desc);btn.append(cost,type,copy);
+ copy.append(name,desc);btn.append(cost,type);
+ if(c.art){const img=document.createElement("img");img.className="b1-dragon-card-art";img.src="./assets/"+c.art;img.alt="";img.loading="lazy";btn.classList.add("b1-art-card");btn.append(img);}
+ btn.append(copy);
  btn.setAttribute("aria-label",c.name+"、魔力"+c.cost+"。"+c.text);
  return btn;
 }
@@ -118,7 +120,7 @@ function renderSetup(){
  el("setupHeading").textContent="最初の魔法を選ぶ";
  el("setupHint").textContent="通常はB1を5戦で冒険。コンボ特化の14枚と安定型14枚を比べるなら、練習モードでボスから開始。どちらもHP58で挑戦できます。";
  const target=el("setupChoices");target.replaceChildren();
- for(const id of ["lightning","scatter","flow"]){
+ for(const id of ["lightning","scatter","flow","dragonEgg"]){
    const b=cardButton(id);b.classList.add("pilot-start-card");
    b.addEventListener("click",()=>{if(game.selectStarter(id)){targetId=null;render();}});
    target.append(b);
@@ -188,6 +190,8 @@ function renderStage(s){
  el("battleLog").textContent=s.log[0]||s.stageHint;
  el("charm").textContent=s.practiceMode==="combo"?"コンボ：闘魔の印 → 散弾 → 連鎖雷。術式循環・魔力点火で手数を増やす。":(s.practiceMode?"ボス練習 · ":"地下迷宮 B1 · ")+s.stageHint;
  el("heroStatus").textContent="防御 "+s.block;
+ const dragon=el("dragonHud");dragon.hidden=s.dragonStage<0;
+ dragon.textContent=s.dragonStage<0?"":"🐉 竜："+s.dragonName+"（"+(s.dragonStage+1)+"/9） · ターン終了で進化";
  el("planningStatus").textContent=s.energy<=0?"魔力がないのでターン終了しよう。":"敵を選び、カードを使おう。";
  const next=s.intents.find(i=>i.id===enemy.id);
  el("intent").classList.toggle("calm",next?.kind!=="attack");
@@ -257,7 +261,7 @@ function render(){
  renderStage(s);renderOverlay(s);
  const hand=el("hand");hand.replaceChildren();hand.hidden=s.phase!=="battle";
  if(s.phase==="battle")s.hand.forEach((id,index)=>{
-  const c=getB1Card(id),b=cardButton(id);b.disabled=c.cost>s.energy;
+  const c=getB1Card(id),b=cardButton(id);b.disabled=c.cost>s.energy||(c.kind==="dragonFeed"&&(s.dragonStage<0||s.hand.length<2));
   actions.bindHandCard(b,index);hand.append(b);
   if(newTurn){b.classList.add("b1-dealt");b.style.animationDelay=(index*45)+"ms";}
  });
@@ -265,10 +269,25 @@ function render(){
  el("log").textContent=s.log.join("\n");actions.sync();
 }
 const gameStage=document.querySelector("#playScreen .stage");
+const feedDialog=document.createElement("dialog");feedDialog.className="b1-deck-dialog b1-feed-dialog";document.body.append(feedDialog);
+function showDragonFeedChoice(index,cardId,sourceRect){
+ const before=game.snapshot();if(before.dragonStage<0)return false;
+ const eligible=before.hand.map((id,i)=>({id,i})).filter(x=>x.i!==index);
+ if(!eligible.length)return false;
+ feedDialog.replaceChildren();
+ const title=document.createElement("h2");title.textContent="竜の餌｜捨てるカードを選ぶ";
+ const hint=document.createElement("p");hint.textContent="この1枚を捨てて、竜を"+getB1Card(cardId).dragonGrowth+"段階成長させます。";
+ const row=document.createElement("div");row.className="b1-feed-choices";
+ for(const option of eligible){const b=document.createElement("button");b.type="button";b.className="b1-feed-choice";b.textContent=getB1Card(option.id).name+" を捨てる";
+ b.addEventListener("click",()=>{if(!game.play(index,option.i))return;feedDialog.close();render();showB1Feedback({stage:gameStage,hero:el("heroPuppet"),enemy:el("enemyPuppet"),choices:el("enemyLineup"),before,after:game.snapshot(),card:getB1Card(cardId),sourceRect});});row.append(b);}
+ const cancel=document.createElement("button");cancel.type="button";cancel.className="quiet";cancel.textContent="キャンセル";cancel.addEventListener("click",()=>feedDialog.close());
+ feedDialog.append(title,hint,row,cancel);feedDialog.showModal();return true;
+}
 const actions=attachB1Actions({
  hand:el("hand"),stage:gameStage,enemyPuppet:el("enemyPuppet"),choices:el("enemyLineup"),cards:new Proxy(CARDS,{get:(_,id)=>getB1Card(id)}),
  read:()=>game.snapshot(),selectedTarget:()=>targetId,
  cast:(index,id,cardId,sourceRect,before)=>{
+  if(cardId.replace(/~$/,"")==="dragonFeed")return showDragonFeedChoice(index,cardId,sourceRect);
   if(!game.play(index,id))return false;
   render();
   showB1Feedback({stage:gameStage,hero:el("heroPuppet"),enemy:el("enemyPuppet"),choices:el("enemyLineup"),before,after:game.snapshot(),card:getB1Card(cardId),targetId:id,sourceRect});
