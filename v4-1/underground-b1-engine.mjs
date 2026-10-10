@@ -41,15 +41,17 @@ export function createB1Game(options={}){
  }
  function selectStarter(id){if(s.phase!=="starter"||!["lightning","scatter","flow"].includes(id))return false;s.deck.push(id);start();return true;}
  function protectors(){return s.stage===2?alive().filter(e=>e.role==="guard").length:0;}
- function hit(target,base){
+ function hit(target,base,hits=1){
   if(!target||target.hp<=0)return 0;
-  const armor=target.role==="boss"?protectors()*2:0;
-  const actual=Math.max(0,base+(target.fragile||0)-armor);
-  const usedFragile=target.fragile>0;
-  target.fragile=0;
-  target.hp=Math.max(0,target.hp-actual);
-  note(target.name+"に"+actual+"ダメージ"+(armor?"（護衛軽減 "+armor+"）":"")+(usedFragile?"（脆弱）":"")+"。");
-  return actual;
+  let total=0;
+  for(let i=0;i<hits&&target.hp>0;i++){
+   const armor=target.role==="boss"?protectors()*2:0;
+   const boosted=target.vulnerable>0?Math.floor(base*1.5):base;
+   const actual=Math.min(target.hp,Math.max(0,boosted-armor));
+   target.hp-=actual;total+=actual;
+  }
+  note(target.name+"に合計"+total+"ダメージ"+(hits>1?"（"+hits+"回攻撃）":"")+"。");
+  return total;
  }
  function checkVictory(){
   if(alive().length>0)return false;
