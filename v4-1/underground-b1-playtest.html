@@ -356,7 +356,7 @@ function render(){
  const hand=el("hand");hand.replaceChildren();hand.hidden=s.phase!=="battle";
  if(s.phase==="battle")s.hand.forEach((id,index)=>{
   const c=getB1Card(id),b=cardButton(id);b.disabled=c.cost>s.energy||(c.kind==="dragonFeed"&&(s.dragonStage<0||s.hand.length<2));
-  actions.bindHandCard(b,index);hand.append(b);
+  actions.bindHandCard(b,index,s.hand.length);hand.append(b);
   if(newTurn){b.classList.add("b1-dealt");b.style.animationDelay=(index*45)+"ms";}
  });
  el("endTurn").hidden=s.phase!=="battle";el("endTurn").disabled=s.phase!=="battle";
