@@ -78,7 +78,7 @@
  <div class="b1-map-nodes"><span class="b1-map-node future">第3戦・祭壇</span><span class="b1-map-arrow">→</span><span class="b1-map-node future">第4戦・強敵</span><span class="b1-map-arrow">→</span><span class="b1-map-node future">第5戦・ラスボス</span></div>
  <p class="b1-map-hint">どちらを選んでも次は祭壇へ合流。今回は1か所だけの分岐を試す。</p>
 </div>
-<div id="restSite" class="b1-rest-site" hidden><p>焚き火のそばで、次の戦いに備えよう。</p><div class="b1-rest-options"><button id="restHeal" type="button" class="b1-rest-option"><strong>HPを15回復</strong><small>失ったHPだけ回復</small></button><button id="restUpgrade" type="button" class="b1-rest-option"><strong>カードを1枚強化</strong><small>デッキから選ぶ</small></button></div><div id="restUpgradeCards" class="b1-rest-upgrades" hidden></div><button id="restBack" type="button" class="quiet" hidden>戻る</button></div><div id="rewardCards" class="pilot-rewards" hidden></div>
+<div id="restSite" class="b1-rest-site" hidden><p>焚き火のそばで、次の戦いに備えよう。</p><div class="b1-rest-options"><button id="restHeal" type="button" class="b1-rest-option"><strong>HPを15回復</strong><small>失ったHPだけ回復</small></button><button id="restUpgrade" type="button" class="b1-rest-option"><strong>カードを1枚強化</strong><small>デッキから選ぶ</small></button></div><div id="restUpgradeCards" class="b1-rest-upgrades" hidden></div><button id="restBack" type="button" class="quiet" hidden>戻る</button></div><div id="shopSite" class="b1-shop-site" hidden><p id="shopBalance"></p><div id="shopItems" class="b1-shop-items"></div><button type="button" id="shopLeave" class="quiet">商店を出る →</button></div><div id="rewardCards" class="pilot-rewards" hidden></div>
 <div class="pilot-overlay-actions"><button id="skipReward" class="quiet" type="button" hidden>見送る</button>
 <button id="overlayRestart" class="quiet" type="button" hidden>もう一度</button><button id="advance" class="primary" type="button">次へ →</button></div>
 </div></section>
@@ -209,7 +209,7 @@ function renderOverlay(s){
  if(!show)return;
  const rewards=el("rewardCards");rewards.replaceChildren();
  const advance=el("advance"),skip=el("skipReward"),again=el("overlayRestart");
- advance.hidden=true;skip.hidden=true;again.hidden=true;rewards.hidden=true;el("routeMap").hidden=true;el("restSite").hidden=true;el("restUpgradeCards").hidden=true;el("restBack").hidden=true;
+ advance.hidden=true;skip.hidden=true;again.hidden=true;rewards.hidden=true;el("routeMap").hidden=true;el("restSite").hidden=true;el("shopSite").hidden=true;el("restUpgradeCards").hidden=true;el("restBack").hidden=true;
  if(s.phase==="reward"){
   el("journeyTitle").textContent="第"+(s.stage+1)+"戦に勝利";
   el("journeyHint").textContent="戦闘後にHPを最大6回復。次の敵に備えて3枚から1枚選ぶか、見送ろう。";
@@ -218,7 +218,14 @@ function renderOverlay(s){
     const btn=cardButton(id);btn.addEventListener("click",()=>{if(game.chooseReward(id))render();});rewards.append(btn);
   }
   }else if(s.phase==="between"){
-  if(s.restAvailable){el("journeyTitle").textContent="休憩所｜第3戦の前";el("journeyHint").textContent="回復か強化、どちらか一つだけ選べます。";el("restSite").hidden=false;el("restHeal").disabled=s.hp>=s.maxHp;}else if(s.stage===0&&!s.practiceMode){
+  if(s.shopAvailable){
+   el("journeyTitle").textContent="地下迷宮の商店";
+   el("journeyHint").textContent="戦闘で集めたゴールドでカードを買おう。購入せずに進むこともできます。";
+   el("shopSite").hidden=false;el("shopBalance").textContent="所持金："+s.gold+" G";
+   const items=el("shopItems");items.replaceChildren();
+   s.shopStock.forEach(item=>{const card=getB1Card(item.id),b=document.createElement("button");b.type="button";b.className="b1-shop-item";b.disabled=s.gold<item.price;
+    b.textContent=card.name+"｜"+card.text+"｜"+item.price+" G";b.addEventListener("click",()=>{if(game.buyShop(item.id))render();});items.append(b);});
+  }else if(s.restAvailable){el("journeyTitle").textContent="休憩所｜第3戦の前";el("journeyHint").textContent="回復か強化、どちらか一つだけ選べます。";el("restSite").hidden=false;el("restHeal").disabled=s.hp>=s.maxHp;}else if(s.stage===0&&!s.practiceMode){
    el("journeyTitle").textContent="次に進む道を選ぼう";
    el("journeyHint").textContent="敵の数が違う2つの道。HPとデッキを引き継ぎ、選んだ敵と第2戦を戦います。";
    el("routeMap").hidden=false;
@@ -297,6 +304,7 @@ el("routeMap").addEventListener("click",event=>{
  actions.cancel();
  if(game.nextBattle()){targetId=null;render();}
 });
+el("shopLeave").addEventListener("click",()=>{if(game.leaveShop())render();});
 el("restHeal").addEventListener("click",()=>{if(game.chooseRest("heal"))render();});
 el("restUpgrade").addEventListener("click",()=>{const s=game.snapshot();if(!s.restAvailable)return;const box=el("restUpgradeCards");box.replaceChildren();box.hidden=false;el("restBack").hidden=false;s.deck.forEach((id,index)=>{const card=getB1Card(id);const btn=document.createElement("button");btn.type="button";btn.className="b1-rest-upgrade-card";btn.disabled=id.endsWith("~");const future=getB1Card(id.endsWith("~")?id:id+"~");btn.classList.toggle("b1-rest-already-upgraded",id.endsWith("~"));const title=document.createElement("strong");title.textContent=card.name;const before=document.createElement("span");before.textContent="現在："+card.text+"（魔力"+card.cost+"）";const arrow=document.createElement("span");arrow.className="b1-upgrade-arrow";arrow.textContent="↓";const after=document.createElement("span");after.className="b1-upgrade-after";after.textContent=id.endsWith("~")?"強化済み":"強化後："+future.text+"（魔力"+future.cost+"）";btn.append(title,before,arrow,after);btn.addEventListener("click",()=>{if(game.chooseRest("upgrade",index))render();});box.append(btn);});});
 el("restBack").addEventListener("click",()=>{el("restUpgradeCards").hidden=true;el("restBack").hidden=true;});
