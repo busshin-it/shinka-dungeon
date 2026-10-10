@@ -56,7 +56,7 @@ export function createB1Game(options={}){
   const target=targeted?find(targetId||s.selected):null;
   if(targeted&&!target)return false;
   s.hand.splice(index,1);s.discard.push(id);s.energy-=card.cost;
-  const priorSpell=s.usedSpell;s.usedSpell=true;
+  const priorSpell=s.usedSpell;if(card.kind!=="guard")s.usedSpell=true;
   if(card.kind==="attack"){
    hit(target,card.damage+(card.chain&&priorSpell?4:0));
    if(card.heal){const old=s.hp;s.hp=Math.min(s.maxHp,s.hp+card.heal);note("吸命でHPを"+(s.hp-old)+"回復。");}
