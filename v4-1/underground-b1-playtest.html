@@ -57,7 +57,7 @@ main{max-width:1240px;margin:0 auto;padding:22px 22px 36px}
 import {CARDS,STAGES,createB1Game} from "./underground-b1-engine.mjs";
 const qs=new URLSearchParams(location.search);
 const seed=Number(qs.get("seed"))||Date.now();
-let game=createB1Game({seed});let s=game.snapshot();
+let game=createB1Game({seed});let s=game.snapshot();let targetId=null;
 const $=id=>document.getElementById(id);
 const icon={bolt:"✦",lightning:"⚡",scatter:"❇",chain:"⚡",heal:"✚",drain:"♧",frost:"❄",poison:"☣",fragile:"✧",guard:"⬡"};
 const enemyIcon={rat:"🐀",wolf:"🐺",imp:"🛡️",guard:"🛡️",boss:"🪨"};
@@ -73,11 +73,11 @@ function cardButton(id,index){
 function renderEnemies(){
  const list=$("enemies");list.replaceChildren();
  s.enemies.forEach(e=>{
-  const alive=e.hp>0,b=document.createElement("button");b.type="button";b.className="enemy"+(e.role==="boss"?" boss":"");b.disabled=!alive;b.dataset.enemy=e.id;b.setAttribute("aria-pressed",String(s.selected===e.id));b.setAttribute("aria-label",e.name+" HP"+e.hp+"。選択して攻撃");
+  const alive=e.hp>0,b=document.createElement("button");b.type="button";b.className="enemy"+(e.role==="boss"?" boss":"");b.disabled=!alive;b.dataset.enemy=e.id;b.setAttribute("aria-pressed",String(targetId===e.id));b.setAttribute("aria-label",e.name+" HP"+e.hp+"。選択して攻撃");
   const it=s.intents.find(x=>x.id===e.id);
   let tags=[];if(e.weaken)tags.push("弱体 "+e.weaken);if(e.poison)tags.push("毒 "+e.poison);if(e.fragile)tags.push("脆弱 "+e.fragile);
   b.innerHTML='<span class="selected"></span><span class="creature" aria-hidden="true"></span><span class="name"></span><span class="hp"></span><span class="intent"></span><span class="status"></span>';
-  b.querySelector(".selected").textContent=s.selected===e.id&&alive?"標的 ✓":"";
+  b.querySelector(".selected").textContent=targetId===e.id&&alive?"標的 ✓":"";
   b.querySelector(".creature").textContent=enemyIcon[e.role]||"👹";b.querySelector(".name").textContent=e.name;
   b.querySelector(".hp").textContent="HP "+e.hp+" / "+e.maxHp;
   b.querySelector(".intent").textContent=alive?(it?.label||"様子を見る"):"撃破";
@@ -94,7 +94,7 @@ function panel(title,description,choices,actions={}){
  if(actions.skip){const b=document.createElement("button");b.type="button";b.className="btn ghost";b.dataset.action="skip";text(b,"今回は覚えない");overlay.appendChild(b);}
 }
 function render(){
- s=game.snapshot();$("battleArea").hidden=s.phase!=="battle";$("overlay").hidden=s.phase==="battle";
+ s=game.snapshot();if(!s.enemies.some(e=>e.id===targetId&&e.hp>0))targetId=s.enemies.find(e=>e.hp>0)?.id||null;$("battleArea").hidden=s.phase!=="battle";$("overlay").hidden=s.phase==="battle";
  text($("where"),s.stageName);text($("progress"),"第"+(s.stage+1)+"戦 / "+STAGES.length);
  if(s.phase==="starter"){panel("魔法使い、地下迷宮へ","最初に覚える魔法を1枚選んでください。途中でさらにカードを獲得できます。",["lightning","scatter","chain"]);return;}
  if(s.phase==="reward"){panel("勝利！魔法を1枚習得する？","次の敵に備えて強い技を増やすか、デッキを少なく保つか。",s.rewards,{skip:true});return;}
@@ -109,8 +109,8 @@ function render(){
  text($("handHint"),"敵を選んでカードを押す。回復・防御・全体攻撃は標的選択不要。カードを使い終えたらターン終了。");
  text($("log"),s.log.join("\n"));$("endTurn").disabled=s.phase!=="battle";
 }
-$("enemies").addEventListener("click",e=>{const b=e.target.closest("[data-enemy]");if(!b)return;s.selected=b.dataset.enemy;render();});
-$("hand").addEventListener("click",e=>{const b=e.target.closest("[data-card]");if(!b)return;if(game.play(Number(b.dataset.card),s.selected))render();});
+$("enemies").addEventListener("click",e=>{const b=e.target.closest("[data-enemy]");if(!b)return;targetId=b.dataset.enemy;render();});
+$("hand").addEventListener("click",e=>{const b=e.target.closest("[data-card]");if(!b)return;if(game.play(Number(b.dataset.card),targetId))render();});
 $("overlay").addEventListener("click",e=>{const b=e.target.closest("[data-choice],[data-action]");if(!b)return;
  if(b.dataset.choice){if(s.phase==="starter")game.selectStarter(b.dataset.choice);else if(s.phase==="reward")game.chooseReward(b.dataset.choice);}
  else if(b.dataset.action==="skip")game.chooseReward(null);
@@ -118,7 +118,7 @@ $("overlay").addEventListener("click",e=>{const b=e.target.closest("[data-choice
  else if(b.dataset.action==="restart")restart();
  render();
 });
-function restart(){game=createB1Game({seed:Date.now()});}
+function restart(){game=createB1Game({seed:Date.now()});targetId=null;}
 $("restart").addEventListener("click",()=>{if(confirm("最初からやり直しますか？")){restart();render();}});
 $("endTurn").addEventListener("click",()=>{if(game.endTurn())render();});
 render();
