@@ -67,7 +67,6 @@ export function createB1Game(options={}){
   if(targeted&&!target)return false;
   s.hand.splice(index,1);
   s.energy-=card.cost;
-  if(card.kind==="power")s.powers.push(id);else if(card.exhaust)s.exhaust.push(id);else s.discard.push(id);
   if(card.kind==="attack"||card.kind==="multi"){
    const base=card.damage+(card.chain&&s.attacksThisTurn>0?6:0)+(card.poisonBonus&&target.poison>0?card.poisonBonus:0);
    hit(target,base,card.hits||1);s.attacksThisTurn+=(card.hits||1);
@@ -89,6 +88,7 @@ export function createB1Game(options={}){
   else if(card.kind==="energy"){s.energy+=card.energyGain;note("魔力＋"+card.energyGain+"。");}
   else if(card.kind==="power"){s.powerDraw+=card.powerDraw;note("この戦闘中、毎ターンのドロー＋"+card.powerDraw+"。");}
   if(card.draw){drawCards(card.draw);note("カードを"+card.draw+"枚引いた。");}
+  if(card.kind==="power")s.powers.push(id);else if(card.exhaust)s.exhaust.push(id);else s.discard.push(id);
   checkVictory();return true;
  }
  function intent(e){
