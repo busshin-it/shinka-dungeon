@@ -224,7 +224,9 @@ export function createB1Game(options={}){
   if(s.phase!=="battle")return false;
   s.lastSynergy=null;s.lastDragonEvolution=null;
   if(s.dragonStage>=0){
-   growDragon(1);
+   // The final divine dragon retains its original every-turn breath at cap.
+   if(!growDragon(1)&&s.dragonStage===DRAGON_STAGES.length-1)
+    dragonStrike(DRAGON_EVOLUTION_DAMAGE[s.dragonStage],true,"神龍の炎");
    if(checkVictory())return true;
   }
   for(const e of [...s.enemies]){
