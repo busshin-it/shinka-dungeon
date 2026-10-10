@@ -78,7 +78,7 @@
  <div class="b1-map-nodes"><span class="b1-map-node future">第3戦・祭壇</span><span class="b1-map-arrow">→</span><span class="b1-map-node future">第4戦・強敵</span><span class="b1-map-arrow">→</span><span class="b1-map-node future">第5戦・ラスボス</span></div>
  <p class="b1-map-hint">どちらを選んでも次は祭壇へ合流。今回は1か所だけの分岐を試す。</p>
 </div>
-<div id="rewardCards" class="pilot-rewards" hidden></div>
+<div id="restSite" class="b1-rest-site" hidden><p>焚き火のそばで、次の戦いに備えよう。</p><div class="b1-rest-options"><button id="restHeal" type="button" class="b1-rest-option"><strong>HPを15回復</strong><small>失ったHPだけ回復</small></button><button id="restUpgrade" type="button" class="b1-rest-option"><strong>カードを1枚強化</strong><small>デッキから選ぶ</small></button></div><div id="restUpgradeCards" class="b1-rest-upgrades" hidden></div><button id="restBack" type="button" class="quiet" hidden>戻る</button></div><div id="rewardCards" class="pilot-rewards" hidden></div>
 <div class="pilot-overlay-actions"><button id="skipReward" class="quiet" type="button" hidden>見送る</button>
 <button id="overlayRestart" class="quiet" type="button" hidden>もう一度</button><button id="advance" class="primary" type="button">次へ →</button></div>
 </div></section>
@@ -90,7 +90,7 @@
 <a href="./planning.html">以前の進化ダンジョンを開く</a></div></details>
 </main>
 <script type="module">
-import {CARDS,STAGES,createB1Game,IDEAL_B1_BOSS_DECK,COMBO_B1_BOSS_DECK,B1_BOSS_CHANNEL_THRESHOLD} from "./underground-b1-engine.mjs";
+import {CARDS,STAGES,createB1Game,getB1Card,IDEAL_B1_BOSS_DECK,COMBO_B1_BOSS_DECK,B1_BOSS_CHANNEL_THRESHOLD} from "./underground-b1-engine.mjs";
 import {attachB1Actions} from "./underground-b1-actions.mjs";
 import {showB1Feedback} from "./underground-b1-feedback.mjs";
 const el=id=>document.getElementById(id);
@@ -99,7 +99,7 @@ const typeNames={attack:"攻撃",multi:"連撃",all:"全体攻撃",heal:"回復"
 const art={rat:"wraith.webp",wolf:"bell-spirit.webp",imp:"gatekeeper.webp",guard:"gatekeeper.webp",carapace:"gatekeeper.webp",ritual:"wraith.webp",elite:"gatekeeper.webp",boss:"boss.webp"};
 const percent=(n,max)=>Math.max(0,Math.min(100,Math.round(n*100/Math.max(1,max))))+"%";
 function cardButton(id){
- const c=CARDS[id],btn=document.createElement("button");btn.type="button";btn.className="card pilot-card b1-text-card";
+ const c=getB1Card(id),btn=document.createElement("button");btn.type="button";btn.className="card pilot-card b1-text-card";
  const cost=document.createElement("span");cost.className="cost";cost.textContent=c.cost;
  const type=document.createElement("span");type.className="type";type.textContent=typeNames[c.kind]||c.kind;
  const copy=document.createElement("span");copy.className="pilot-card-copy";
@@ -209,7 +209,7 @@ function renderOverlay(s){
  if(!show)return;
  const rewards=el("rewardCards");rewards.replaceChildren();
  const advance=el("advance"),skip=el("skipReward"),again=el("overlayRestart");
- advance.hidden=true;skip.hidden=true;again.hidden=true;rewards.hidden=true;el("routeMap").hidden=true;
+ advance.hidden=true;skip.hidden=true;again.hidden=true;rewards.hidden=true;el("routeMap").hidden=true;el("restSite").hidden=true;el("restUpgradeCards").hidden=true;el("restBack").hidden=true;
  if(s.phase==="reward"){
   el("journeyTitle").textContent="第"+(s.stage+1)+"戦に勝利";
   el("journeyHint").textContent="戦闘後にHPを最大6回復。次の敵に備えて3枚から1枚選ぶか、見送ろう。";
@@ -218,7 +218,7 @@ function renderOverlay(s){
     const btn=cardButton(id);btn.addEventListener("click",()=>{if(game.chooseReward(id))render();});rewards.append(btn);
   }
   }else if(s.phase==="between"){
-  if(s.stage===0&&!s.practiceMode){
+  if(s.restAvailable){el("journeyTitle").textContent="休憩所｜第3戦の前";el("journeyHint").textContent="回復か強化、どちらか一つだけ選べます。";el("restSite").hidden=false;el("restHeal").disabled=s.hp>=s.maxHp;}else if(s.stage===0&&!s.practiceMode){
    el("journeyTitle").textContent="次に進む道を選ぼう";
    el("journeyHint").textContent="敵の数が違う2つの道。HPとデッキを引き継ぎ、選んだ敵と第2戦を戦います。";
    el("routeMap").hidden=false;
@@ -248,7 +248,7 @@ function render(){
  renderStage(s);renderOverlay(s);
  const hand=el("hand");hand.replaceChildren();hand.hidden=s.phase!=="battle";
  if(s.phase==="battle")s.hand.forEach((id,index)=>{
-  const c=CARDS[id],b=cardButton(id);b.disabled=c.cost>s.energy;
+  const c=getB1Card(id),b=cardButton(id);b.disabled=c.cost>s.energy;
   actions.bindHandCard(b,index);hand.append(b);
   if(newTurn){b.classList.add("b1-dealt");b.style.animationDelay=(index*45)+"ms";}
  });
@@ -262,7 +262,7 @@ const actions=attachB1Actions({
  cast:(index,id,cardId,sourceRect,before)=>{
   if(!game.play(index,id))return false;
   render();
-  showB1Feedback({stage:gameStage,hero:el("heroPuppet"),enemy:el("enemyPuppet"),choices:el("enemyLineup"),before,after:game.snapshot(),card:CARDS[cardId],targetId:id,sourceRect});
+  showB1Feedback({stage:gameStage,hero:el("heroPuppet"),enemy:el("enemyPuppet"),choices:el("enemyLineup"),before,after:game.snapshot(),card:getB1Card(cardId),targetId:id,sourceRect});
   return true;
  },
  inspectTarget:id=>{targetId=id;render();}
@@ -281,7 +281,7 @@ el("deckButton").addEventListener("click",()=>{
  const hint=document.createElement("p");hint.textContent=s.practiceMode==="combo"?"連鎖コンボ14枚：闘魔の印で火力を強化→散弾で3体へ攻撃→連鎖雷で追加6。術式循環で必要な札を引き、魔力点火で使える枚数を増やす。":s.practiceMode==="ideal"?"安定型14枚：散弾で護衛を処理し、氷の結界・魔導の研究で守りと継続ドローを重視。":s.practiceMode==="baseline"?"基本カードだけでボスを攻略できるか比べる構成。":"戦闘の進行に応じて手に入れたカードの一覧。";deckModal.append(hint);
  const list=document.createElement("ul");
  for(const [id,n] of counts){
-  const item=document.createElement("li");item.textContent=CARDS[id].name+" ×"+n+"  ─  "+CARDS[id].text;
+  const item=document.createElement("li");item.textContent=getB1Card(id).name+" ×"+n+"  ─  "+getB1Card(id).text;
   list.append(item);
  }
  deckModal.append(list);
@@ -295,6 +295,9 @@ el("routeMap").addEventListener("click",event=>{
  actions.cancel();
  if(game.nextBattle()){targetId=null;render();}
 });
+el("restHeal").addEventListener("click",()=>{if(game.chooseRest("heal"))render();});
+el("restUpgrade").addEventListener("click",()=>{const s=game.snapshot();if(!s.restAvailable)return;const box=el("restUpgradeCards");box.replaceChildren();box.hidden=false;el("restBack").hidden=false;s.deck.forEach((id,index)=>{const card=getB1Card(id);const btn=document.createElement("button");btn.type="button";btn.className="b1-rest-upgrade-card";btn.disabled=id.endsWith("~");btn.textContent=card.name+"｜"+card.text+(id.endsWith("~")?"（強化済み）":" → 強化");btn.addEventListener("click",()=>{if(game.chooseRest("upgrade",index))render();});box.append(btn);});});
+el("restBack").addEventListener("click",()=>{el("restUpgradeCards").hidden=true;el("restBack").hidden=true;});
 el("advance").addEventListener("click",()=>{if(game.nextBattle()){targetId=null;render();}});
 el("skipReward").addEventListener("click",()=>{if(game.chooseReward(null))render();});
 el("overlayRestart").addEventListener("click",reset);
