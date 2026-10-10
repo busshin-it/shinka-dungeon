@@ -100,6 +100,7 @@
 <link rel="stylesheet" href="./underground-b1-dragon-visuals.css">
 <link rel="stylesheet" href="./underground-b1-mobile.css">
 <link rel="stylesheet" href="./underground-b1-fire.css">
+<link rel="stylesheet" href="./underground-b1-hand-fan.css">
 </head>
 <body class="planning-mode pilot-mode" data-b1-mobile="true"><main class="game pilot-game">
 <header class="masthead"><div><h1>蒼星の回廊 <small>進化ダンジョン</small></h1></div><div class="header-actions">
@@ -305,7 +306,7 @@ function renderStage(s){
  el("charm").textContent=s.practiceMode==="combo"?"コンボ：闘魔の印 → 散弾 → 連鎖雷。術式循環・魔力点火で手数を増やす。":(s.practiceMode?"ボス練習 · ":"地下迷宮 B1 · ")+s.stageHint;
  el("heroStatus").textContent="防御 "+s.block;
  const dragon=el("dragonHud");dragon.hidden=s.dragonStage<0;
- dragon.textContent=s.dragonStage<0?"":"🐉 竜："+s.dragonName+"（"+(s.dragonStage+1)+"/9） · ターン終了で進化";
+ dragon.textContent=s.dragonStage<0?"":"🐉 竜："+s.dragonName+"（"+(s.dragonStage+1)+"/9） · 進化で攻撃・戦闘ごとに卵から";
  const dragonVisual=getB1DragonVisual(s.dragonStage);
  const companion=el("b1DragonCompanion");companion.hidden=!dragonVisual;
  if(dragonVisual){
@@ -402,7 +403,7 @@ function showDragonFeedChoice(index,cardId,sourceRect){
  if(!eligible.length)return false;
  feedDialog.replaceChildren();
  const title=document.createElement("h2");title.textContent="竜の餌｜捨てるカードを選ぶ";
- const hint=document.createElement("p");hint.textContent="この1枚を捨てて、竜を"+getB1Card(cardId).dragonGrowth+"段階成長させます。";
+ const hint=document.createElement("p");hint.textContent="この1枚を捨てて、竜を"+getB1Card(cardId).dragonGrowth+"段階進化。進化先に応じて敵へ攻撃します。";
  const row=document.createElement("div");row.className="b1-feed-choices";
  for(const option of eligible){const b=document.createElement("button");b.type="button";b.className="b1-feed-choice";b.textContent=getB1Card(option.id).name+" を捨てる";
  b.addEventListener("click",()=>{if(!game.play(index,option.i))return;feedDialog.close();render();showB1Feedback({stage:gameStage,hero:el("heroPuppet"),enemy:el("enemyPuppet"),choices:el("enemyLineup"),before,after:game.snapshot(),card:getB1Card(cardId),sourceRect});});row.append(b);}

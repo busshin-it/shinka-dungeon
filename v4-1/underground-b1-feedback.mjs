@@ -54,9 +54,9 @@ export function showB1Feedback({stage,hero,enemy,choices,before,after,card,targe
   const m=node.animate([{transform:"translate(0,0) scale(1)",opacity:.95},{transform:"translate("+dx+"px,"+dy+"px) scale(.25)",opacity:.12}],{duration:300,easing:"ease-in"});
   m.onfinish=()=>node.remove();
  }
- function spellImpact(target,delay=0){
+ function spellImpact(target,delay=0,originNode=hero){
   if(reduced||!target)return;
-  const origin=hero.getBoundingClientRect(),goal=target.getBoundingClientRect(),board=stage.getBoundingClientRect();
+  const origin=originNode.getBoundingClientRect(),goal=target.getBoundingClientRect(),board=stage.getBoundingClientRect();
   const x1=origin.left+origin.width*.58-board.left,y1=origin.top+origin.height*.5-board.top;
   const x2=goal.left+goal.width*.5-board.left,y2=goal.top+goal.height*.43-board.top;
   const length=Math.hypot(x2-x1,y2-y1),angle=Math.atan2(y2-y1,x2-x1)*180/Math.PI;
@@ -84,6 +84,19 @@ export function showB1Feedback({stage,hero,enemy,choices,before,after,card,targe
    ],{duration:350+power*100,delay,easing:"ease-out"});
    effect.onfinish=()=>burst.remove();
   }
+ }
+ const evolution=after.lastDragonEvolution;
+ if(evolution?.targetIds?.length){
+  const dragon=stage.querySelector?.("#b1DragonCompanion")||hero;
+  evolution.targetIds.forEach((id,i)=>spellImpact(anchorFor(id),i*70,dragon));
+ }
+ if(evolution){
+  const cue=document.createElement("div");cue.className="b1-dragon-rise-cue";
+  cue.setAttribute("role","status");
+  cue.textContent="🐉 "+evolution.name+"に進化"+(evolution.power>0?"・進化の炎 "+evolution.power:"・防御+2");
+  stage.append(cue);
+  if(reduced||!cue.animate)setTimeout(()=>cue.remove(),700);
+  else {const a=cue.animate([{opacity:0,transform:"translate(-50%,6px)"},{opacity:1,transform:"translate(-50%,0)",offset:.25},{opacity:0,transform:"translate(-50%,-16px)"}],{duration:1050,easing:"ease-out"});a.onfinish=()=>cue.remove();}
  }
  const harmful=card&&["attack","multi","all","poison","fragile","dragonBreath"].includes(card.kind);
  if(card)fly(harmful?(targetId?anchorFor(targetId):(multi?choices:enemy)):hero);

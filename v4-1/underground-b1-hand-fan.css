@@ -1,0 +1,76 @@
+/* B1 hand tactile fan: inspired by deck-builders, not a copy of their artwork.
+   Preserve the existing cards, tap/drag/keyboard controls and phone horizontal scrolling. */
+.pilot-mode #hand.hand {
+ box-sizing:border-box;
+ justify-content:safe center;
+ align-items:flex-end;
+ gap:0;
+ padding:13px clamp(8px,2vw,20px) 3px;
+ scroll-padding-inline:14px;
+ scrollbar-width:thin;
+}
+.pilot-mode #hand.hand .pilot-card{
+ box-sizing:border-box;
+ position:relative;
+ flex-shrink:0;
+ transform-origin:50% 95%;
+ transform:translateY(var(--b1-fan-drop,0px)) rotate(var(--b1-fan-angle,0deg));
+ transition:transform 200ms cubic-bezier(.18,1.35,.32,1),border-color 140ms ease,box-shadow 160ms ease,opacity 160ms ease;
+ will-change:transform;
+}
+.pilot-mode #hand.hand .pilot-card + .pilot-card {
+ margin-inline-start:calc(-1 * clamp(12px,1.9vw,25px));
+}
+.pilot-mode #hand.hand .pilot-card:not(:disabled):hover,
+.pilot-mode #hand.hand .pilot-card:not(:disabled):focus-visible{
+ transform:perspective(650px) translateY(-12px) rotateX(var(--b1-tilt-x,0deg)) rotateY(var(--b1-tilt-y,0deg)) scale(1.075);
+ z-index:20;
+ border-color:#ffdd95;
+ box-shadow:0 15px 31px #000b,0 0 0 2px #efcd88;
+ filter:brightness(1.065);
+}
+.pilot-mode #hand.hand .pilot-card.b1-picked:not(:disabled){
+ transform:translateY(-12px) rotate(0deg) scale(1.08);
+ z-index:25;border-color:#ffcf74;
+ box-shadow:0 16px 30px #000c,0 0 0 2px #f3bc72;
+}
+.pilot-mode #hand.hand .pilot-card.b1-pressing:not(:disabled),
+.pilot-mode #hand.hand .pilot-card.b1-pressing:not(:disabled):hover{
+ transform:translateY(-13px) rotate(0deg) scale(1.07);
+ transition-duration:85ms;z-index:30;
+}
+.pilot-mode #hand.hand .pilot-card.b1-drag-source {
+ opacity:.24!important;transform:translateY(0) rotate(0deg)!important;
+}
+@keyframes b1HandFanDeal{
+ from{opacity:.06;transform:translateY(21px) rotate(0deg) scale(.93)}
+ to{opacity:1;transform:translateY(var(--b1-fan-drop,0px)) rotate(var(--b1-fan-angle,0deg)) scale(1)}
+}
+.pilot-mode #hand.hand .pilot-card.b1-dealt {
+ animation:b1HandFanDeal 270ms cubic-bezier(.18,.8,.28,1) backwards;
+}
+/* Small screens: keep a safe readable hand height and retain swipe-to-scroll. */
+@media (orientation:landscape) and (max-width:1100px) and (max-height:620px){
+ .pilot-mode[data-b1-mobile] #hand.hand{
+  box-sizing:border-box;justify-content:safe center;align-items:flex-end;
+  padding:12px 8px 3px;overflow-x:auto;overflow-y:hidden;touch-action:pan-x;
+ }
+ .pilot-mode[data-b1-mobile] #hand.hand .pilot-card{
+  height:calc(100% - 5px);
+  flex-shrink:0;
+ }
+ .pilot-mode[data-b1-mobile] #hand.hand .pilot-card + .pilot-card{
+  margin-inline-start:-15px;
+ }
+ .pilot-mode[data-b1-mobile] #hand.hand .pilot-card.b1-picked:not(:disabled){
+  transform:translateY(-9px) rotate(0deg) scale(1.05);
+ }
+}
+@media (orientation:portrait) and (max-width:900px){
+ .pilot-mode[data-b1-mobile] #hand.hand{justify-content:safe center;padding-top:14px;}
+ .pilot-mode[data-b1-mobile] #hand.hand .pilot-card{height:calc(100% - 6px);}
+}
+@media (prefers-reduced-motion:reduce){
+ .pilot-mode #hand.hand .pilot-card {transition:none!important;filter:none}
+ .pilot-mode #hand.hand .pilot-card.b1-dealt{animation:none!important}
+}

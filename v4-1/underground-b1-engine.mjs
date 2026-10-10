@@ -53,21 +53,21 @@ export const IDEAL_B1_BOSS_DECK=Object.freeze([...STARTER,"scatter","ward","focu
 export const COMBO_B1_BOSS_DECK=Object.freeze([...STARTER,"scatter","flow","chain","strength","charge"]);
 export const B1_BOSS_CHANNEL_THRESHOLD=24;
 export const DRAGON_STAGES=Object.freeze(["卵","孵化","幼竜","成長期","小型竜","中型竜","大型竜","巨竜","神龍"]);
-const DRAGON_TURN_DAMAGE=Object.freeze([0,0,2,4,6,9,13,12,20]);
+export const DRAGON_EVOLUTION_DAMAGE=Object.freeze([0,0,2,4,6,9,13,16,20]);
 const clone=x=>JSON.parse(JSON.stringify(x));
 export function createB1Game(options={}){
  let seed=(Number(options.seed)>>>0)||20261010;
  const random=()=>{seed=(Math.imul(seed,1664525)+1013904223)>>>0;return seed/4294967296;};
  const shuffle=a=>{for(let i=a.length-1;i>0;i--){const j=Math.floor(random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;};
  const testMaxHp=Number.isInteger(options.maxHp)&&options.maxHp>=1&&options.maxHp<=999?options.maxHp:75;
- let s={dragonStage:-1,lastSynergy:null,phase:"starter",stage:0,turn:1,hp:testMaxHp,maxHp:testMaxHp,energy:3,block:0,attacksThisTurn:0,powerDraw:0,strength:0,selected:null,deck:Array.isArray(options.testDeck)&&options.testDeck.length>0&&options.testDeck.length<=30&&options.testDeck.every(id=>Object.hasOwn(CARDS,id))?[...options.testDeck]:[...STARTER],hand:[],draw:[],discard:[],exhaust:[],powers:[],enemies:[],rewards:[],gold:0,shopPending:false,shopUsed:false,shopPurchases:[],shopPurged:false,restPending:false,restUsed:false,restChoice:null,selectedPath:null,routeHistory:[],log:["最初に得意な魔法を1枚選んで地下迷宮へ。"]};
+ let s={dragonStage:-1,lastDragonEvolution:null,lastSynergy:null,phase:"starter",stage:0,turn:1,hp:testMaxHp,maxHp:testMaxHp,energy:3,block:0,attacksThisTurn:0,powerDraw:0,strength:0,selected:null,deck:Array.isArray(options.testDeck)&&options.testDeck.length>0&&options.testDeck.length<=30&&options.testDeck.every(id=>Object.hasOwn(CARDS,id))?[...options.testDeck]:[...STARTER],hand:[],draw:[],discard:[],exhaust:[],powers:[],enemies:[],rewards:[],gold:0,shopPending:false,shopUsed:false,shopPurchases:[],shopPurged:false,restPending:false,restUsed:false,restChoice:null,selectedPath:null,routeHistory:[],log:["最初に得意な魔法を1枚選んで地下迷宮へ。"]};
  function note(t){s.log.unshift(t);s.log=s.log.slice(0,18);}
  const alive=()=>s.enemies.filter(e=>e.hp>0);
  const find=id=>s.enemies.find(e=>e.id===id&&e.hp>0);
  function drawCards(n){let drawn=0;for(let i=0;i<n&&s.hand.length<10;i++){if(!s.draw.length){if(!s.discard.length)break;s.draw=shuffle(s.discard.splice(0));}s.hand.push(s.draw.pop());drawn++;}return drawn;}
  function start(){
   const stage=s.stage===1?B1_FORK_ROUTES[s.selectedPath||"pack"]:STAGES[s.stage];s.enemies=stage.enemies.map(e=>({...clone(e),hp:e.maxHp,weaken:0,poison:0,vulnerable:0,block:0,strength:0,channelDamage:0,channelBroken:false}));s.turn=1;s.block=0;s.energy=3;s.attacksThisTurn=0;s.powerDraw=0;s.strength=0;
-  s.lastSynergy=null;s.hand=[];s.discard=[];s.exhaust=[];s.powers=[];s.draw=shuffle([...s.deck]);s.selected=s.enemies.find(e=>e.role!=="boss")?.id||s.enemies[0].id;s.phase="battle";drawCards(5);note(stage.name+"：戦闘開始。");
+  s.dragonStage=-1;s.lastDragonEvolution=null;s.lastSynergy=null;s.hand=[];s.discard=[];s.exhaust=[];s.powers=[];s.draw=shuffle([...s.deck]);s.selected=s.enemies.find(e=>e.role!=="boss")?.id||s.enemies[0].id;s.phase="battle";drawCards(5);note(stage.name+"：戦闘開始。");
  }
  function selectStarter(id){if(s.phase!=="starter"||!["lightning","scatter","flow","dragonEgg","fireSmall","fireMedium","fireLarge"].includes(id))return false;
   if(id==="dragonEgg")s.deck.push("dragonEgg","dragonFeed","dragonBreath");else s.deck.push(id);
@@ -96,22 +96,28 @@ export function createB1Game(options={}){
   if(s.dragonStage<0)return false;
   const before=s.dragonStage;
   s.dragonStage=Math.min(DRAGON_STAGES.length-1,before+n);
-  if(s.dragonStage>before)note("竜が成長："+DRAGON_STAGES[s.dragonStage]+"！");
-  return s.dragonStage>before;
+  if(s.dragonStage===before)return false;
+  const stage=s.dragonStage,power=DRAGON_EVOLUTION_DAMAGE[stage];
+  note("竜が成長："+DRAGON_STAGES[stage]+"！");
+  if(stage===1){s.block+=2;note("孵化した竜が防御2を与えた。");}
+  const targetIds=power>0?dragonStrike(power,stage>=7,"進化の炎"):[];
+  s.lastDragonEvolution={stage,name:DRAGON_STAGES[stage],power,targetIds};
+  return true;
  }
- function dragonStrike(base,all){
+ function dragonStrike(base,all,label="竜息"){
   const enemies=alive();
-  if(!enemies.length)return;
+  if(!enemies.length)return [];
   const chosen=all?enemies:[enemies.find(e=>e.role!=="boss")||enemies[0]];
   const guardArmor=protectors()*2;
   for(const e of chosen){
-    const boosted=e.vulnerable>0?Math.floor(base*1.5):base;
-    const raw=Math.max(0,boosted-(e.role==="boss"?guardArmor:0));
-    const blocked=Math.min(e.block,raw);e.block-=blocked;
-    const dealt=Math.min(e.hp,raw-blocked);e.hp-=dealt;
-    recordBossDamage(e,dealt);
-    note("竜息："+e.name+"に"+dealt+"ダメージ。");
+   const boosted=e.vulnerable>0?Math.floor(base*1.5):base;
+   const raw=Math.max(0,boosted-(e.role==="boss"?guardArmor:0));
+   const blocked=Math.min(e.block,raw);e.block-=blocked;
+   const dealt=Math.min(e.hp,raw-blocked);e.hp-=dealt;
+   recordBossDamage(e,dealt);
+   note(label+"："+e.name+"に"+dealt+"ダメージ。");
   }
+  return chosen.map(e=>e.id);
  }
  function checkVictory(){
   if(alive().length>0)return false;
@@ -126,7 +132,7 @@ export function createB1Game(options={}){
   if(card.kind==="dragonFeed"&&(s.dragonStage<0||!Number.isInteger(targetId)||targetId===index||targetId<0||targetId>=s.hand.length))return false;
   const target=targeted?find(targetId||s.selected):null;
   if(targeted&&!target)return false;
-  s.lastSynergy=null;
+  s.lastSynergy=null;s.lastDragonEvolution=null;
   const synergy=(title,detail)=>{s.lastSynergy={cardId:id,title,detail};};
   s.hand.splice(index,1);
   s.energy-=card.cost;
@@ -216,14 +222,12 @@ export function createB1Game(options={}){
  }
  function endTurn(){
   if(s.phase!=="battle")return false;
-  s.lastSynergy=null;
+  s.lastSynergy=null;s.lastDragonEvolution=null;
   if(s.dragonStage>=0){
-    growDragon(1);
-    if(s.dragonStage===1){s.block+=2;note("孵化した竜が防御2を与えた。");}
-    else if(s.dragonStage>=2){
-      dragonStrike(DRAGON_TURN_DAMAGE[s.dragonStage],s.dragonStage>=7);
-      if(checkVictory())return true;
-    }
+   // The final divine dragon retains its original every-turn breath at cap.
+   if(!growDragon(1)&&s.dragonStage===DRAGON_STAGES.length-1)
+    dragonStrike(DRAGON_EVOLUTION_DAMAGE[s.dragonStage],true,"神龍の炎");
+   if(checkVictory())return true;
   }
   for(const e of [...s.enemies]){
    if(e.hp<=0)continue;
