@@ -92,3 +92,12 @@ test("B1 page uses the same mage stage with three art URLs and a proper feeding 
  const syntax=spawnSync(process.execPath,["--check","--input-type=module"],{input:inline,encoding:"utf8"});
  assert.equal(syntax.status,0,syntax.stderr);
 });
+
+test("all three generated dragon card illustrations are committed as usable WebP assets",()=>{
+ for(const id of ["dragonEgg","dragonFeed","dragonBreath"]){
+  const bytes=readFileSync(new URL("../v4-1/assets/"+CARDS[id].art,import.meta.url));
+  assert.ok(bytes.length>1000,id+" image should contain real data");
+  assert.equal(bytes.toString("ascii",0,4),"RIFF");
+  assert.equal(bytes.toString("ascii",8,12),"WEBP");
+ }
+});
