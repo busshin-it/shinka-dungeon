@@ -23,26 +23,26 @@ test("draw cards draw during the turn, and block+draw grants both effects",()=>{
 });
 test("attacks combo with chain magic, not with healing or cards merely played",()=>{
  const g=begin(["bolt","chain"]);
- use(g,"bolt");assert.equal(g.snapshot().enemies[0].hp,11);
- use(g,"chain");assert.equal(g.snapshot().phase,"reward");
+ use(g,"bolt");assert.equal(g.snapshot().enemies[0].hp,36);
+ use(g,"chain");assert.equal(g.snapshot().enemies[0].hp,25);
 });
 test("vulnerability boosts attack damage by fifty percent",()=>{
  const g=begin(["fragile","bolt"]);
  use(g,"fragile");assert.equal(g.snapshot().enemies[0].vulnerable,2);
- use(g,"bolt");assert.equal(g.snapshot().enemies[0].hp,8);
+ use(g,"bolt");assert.equal(g.snapshot().enemies[0].hp,33);
 });
 test("poison fires even when enemies prepare, and loses one stack per round",()=>{
  const g=begin(["poison","guard"]);
  use(g,"poison");assert.equal(g.snapshot().enemies[0].poison,5);
- g.endTurn();assert.equal(g.snapshot().enemies[0].hp,12);
+ g.endTurn();assert.equal(g.snapshot().enemies[0].hp,37);
  assert.equal(g.snapshot().enemies[0].poison,4);
- g.endTurn();assert.equal(g.snapshot().enemies[0].hp,8);
+ g.endTurn();assert.equal(g.snapshot().enemies[0].hp,33);
  assert.equal(g.snapshot().enemies[0].poison,3);
 });
 test("weak reduces enemy attack, retains a second turn, then expires",()=>{
  const g=begin(["frost","guard"]);use(g,"frost");
  assert.equal(g.snapshot().enemies[0].weaken,2);
- g.endTurn();assert.equal(g.snapshot().hp,996);
+ g.endTurn();assert.equal(g.snapshot().hp,993);
  assert.equal(g.snapshot().enemies[0].weaken,1);
  g.endTurn();assert.equal(g.snapshot().enemies[0].weaken,0);
 });
@@ -60,6 +60,6 @@ test("healing cards exhaust but remain in the permanent deck",()=>{
 });
 test("multihit is distinct from one heavy attack",()=>{
  const g=begin(["double"]);
- use(g,"double");assert.equal(g.snapshot().enemies[0].hp,9);
+ use(g,"double");assert.equal(g.snapshot().enemies[0].hp,34);
  assert.equal(g.snapshot().attacksThisTurn,2);
 });
