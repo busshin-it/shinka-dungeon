@@ -56,6 +56,25 @@
  z-index:3;margin:0;max-width:calc(100% - 52px);
 }
 .pilot-mode .pilot-choices .pilot-start-card.b1-art-card .cost{z-index:3}
+
+/* Apply the same non-overlapping art/text split in hand and reward cards. */
+.pilot-mode .hand .pilot-card.b1-art-card,
+.pilot-mode .pilot-rewards .pilot-card.b1-art-card{display:flex;flex-direction:column}
+.pilot-mode .hand .pilot-card.b1-art-card .b1-dragon-card-art,
+.pilot-mode .pilot-rewards .pilot-card.b1-art-card .b1-dragon-card-art{
+ display:block;position:static;inset:auto;box-sizing:border-box;
+ width:100%;height:70px;flex:0 0 70px;object-fit:cover;object-position:center 46%;
+ border-radius:0;filter:none;
+}
+.pilot-mode .hand .pilot-card.b1-art-card .pilot-card-copy,
+.pilot-mode .pilot-rewards .pilot-card.b1-art-card .pilot-card-copy{
+ display:block;position:static;min-height:0;flex:1 1 auto;padding:8px 9px;
+ overflow:hidden;color:#172e3d;
+}
+.pilot-mode .hand .pilot-card.b1-art-card .pilot-card-copy strong,
+.pilot-mode .pilot-rewards .pilot-card.b1-art-card .pilot-card-copy strong{color:#172e3d;font-size:12px}
+.pilot-mode .hand .pilot-card.b1-art-card .pilot-card-copy .desc,
+.pilot-mode .pilot-rewards .pilot-card.b1-art-card .pilot-card-copy .desc{color:#314b55}
 @media(max-width:850px){
  .pilot-mode .pilot-choices{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
  .pilot-mode .pilot-choices .pilot-start-card{height:198px;min-height:198px}
