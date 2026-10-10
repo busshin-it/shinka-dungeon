@@ -141,14 +141,26 @@ export function createB1Game(options={}){
     note(e.name+"は毒で"+n+"ダメージ。");
    }
    if(e.hp<=0)continue;
+   // Enemy block is available during the player's turn; it expires on enemy action.
+   e.block=0;
    const action=intent(e);
    if(action.kind==="attack"){
-    const raw=e.weaken>0?Math.floor(action.damage*0.75):action.damage;
-    const blocked=Math.min(s.block,raw);s.block-=blocked;
-    s.hp=Math.max(0,s.hp-(raw-blocked));
-    note(e.name+"の"+action.label+"：防御"+blocked+"、HP被害"+(raw-blocked)+"。");
+    let total=0,totalBlocked=0;
+    for(let hitNo=0;hitNo<(action.hits||1);hitNo++){
+     const raw=e.weaken>0?Math.floor(action.damage*.75):action.damage;
+     const blocked=Math.min(s.block,raw);s.block-=blocked;
+     const harm=raw-blocked;s.hp=Math.max(0,s.hp-harm);
+     total+=harm;totalBlocked+=blocked;
+     if(s.hp<=0)break;
+    }
+    note(e.name+"の"+action.label+"：防御"+totalBlocked+"、HP被害"+total+"。");
     if(s.hp<=0){s.phase="lost";note("HPが0になった。再挑戦してみよう。");break;}
+   }else if(action.kind==="buff"){
+    if(action.blockGain)e.block+=action.blockGain;
+    if(action.strengthGain)e.strength+=action.strengthGain;
+    note(e.name+"："+action.label+"。");
    }else note(e.name+"："+action.label+"。");
+   if(action.ritualGain)e.strength+=action.ritualGain;
    e.weaken=Math.max(0,e.weaken-1);
    e.vulnerable=Math.max(0,e.vulnerable-1);
   }
