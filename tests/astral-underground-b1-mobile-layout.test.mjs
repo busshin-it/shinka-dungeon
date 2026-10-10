@@ -16,7 +16,7 @@ test("B1 uses its own last-loaded mobile stylesheet and preserves wizard game HT
  assert.equal(refs.at(-1),"underground-b1-mobile.css");
  assert.ok(refs.indexOf("six-paths-stage.css")<refs.indexOf("underground-b1-mobile.css"));
  assert.ok(refs.indexOf("underground-b1-dragon-visuals.css")<refs.indexOf("underground-b1-mobile.css"));
- assert.match(html,/class="planning-mode pilot-mode b1-mobile"/);
+ assert.match(html,/class="planning-mode pilot-mode" data-b1-mobile="true"/);
  for(const id of ["playScreen","heroPuppet","enemyPuppet","heroHp","enemyHp","hand","endTurn","deckButton","enemyLineup","setupPanel"]){
   assert.ok(html.includes('id="'+id+'"'),id);
  }
@@ -28,14 +28,14 @@ test("landscape has bounded viewport grid with non-overlapping battle and cards"
  assert.match(css,/height:100dvh/);
  assert.match(css,/min-height:0;max-width:none;overflow:hidden/);
  assert.match(css,/grid-template-rows:30px 15px minmax\(0,1fr\)/);
- assert.match(css,/grid-template-rows:minmax\(116px,1fr\) clamp\(128px,42dvh,168px\)/);
+ assert.match(css,/grid-template-rows:minmax\(116px,1fr\) clamp\(144px,42dvh,168px\)/);
  assert.match(css,/grid-template-rows:36px 15px minmax\(0,1fr\)/);
  assert.match(css,/#playScreen > \.stage/);
  assert.match(css,/#playScreen > \.table/);
  assert.match(css,/#hand/);
  assert.match(css,/height:calc\(100% - 2px\)/);
  for(const vh of [346,360,390,420,500,620]){
-  const header=30+15,table=Math.max(128,Math.min(vh*.42,168));
+  const header=30+15,table=Math.max(144,Math.min(vh*.42,168));
   const arena=vh-header-table;
   assert.ok(arena>=116, "arena should not collapse at "+vh);
   const cardRoom=table-36-15-3-2-4-3-2;
@@ -48,8 +48,8 @@ test("touch targeting, overlays, safe areas, portrait and tiny screens remain us
  assert.match(css,/env\(safe-area-inset-bottom\)/);
  assert.match(css,/@media \(orientation:portrait\) and \(max-width:900px\)/);
  assert.match(css,/overflow-x:hidden; overflow-y:auto/);
- assert.match(css,/@media \(orientation:landscape\) and \(max-width:1100px\) and \(max-height:345px\)/);
- assert.match(css,/min-height:365px;overflow:visible/);
+ assert.match(css,/@media \(orientation:landscape\) and \(max-width:1100px\) and \(max-height:305px\)/);
+ assert.match(css,/min-height:360px;overflow:visible/);
  assert.match(css,/max-height:calc\(100dvh - 16px\)/);
  assert.match(css,/\.b1-enemy-lineup/);
  assert.match(css,/#dragonHud/);
