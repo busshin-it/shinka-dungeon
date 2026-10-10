@@ -18,7 +18,7 @@ test('B1 reuses the original wizard stage rather than an approximate new UI',()=
 test('B1 differs only for the required multi-enemy target picker and art-free cards',()=>{
  assert.match(b1,/id="targetChoices"/);
  assert.match(b1,/b1-text-card/);
- assert.match(b1,/import \{CARDS,STAGES,createB1Game\} from "\.\/underground-b1-engine\.mjs"/);
+ assert.match(b1,/import \{CARDS,STAGES,createB1Game(?:,[A-Za-z_][A-Za-z0-9_]*)*\} from "\.\/underground-b1-engine\.mjs"/);
  assert.doesNotMatch(b1,/<div class="enemies" id="enemies"/);
  assert.doesNotMatch(b1,/style="color:var\(--gold\)"/);
 });

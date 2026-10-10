@@ -14,6 +14,14 @@
 .pilot-mode .pilot-choices .pilot-start-card{min-height:158px}
 .pilot-mode .pilot-rewards .pilot-card{min-height:155px}
 .pilot-mode #setupReroll{display:none}
+.pilot-mode .pilot-setup-actions{justify-content:center;flex-wrap:wrap;gap:9px;margin-top:16px}
+.b1-deck-dialog{background:#172d3b;color:#efe5cb;border:1px solid #a89e82;border-radius:12px;padding:21px 25px;width:min(550px,92vw);max-height:84dvh;overflow:auto;box-shadow:0 14px 50px #000b}
+.b1-deck-dialog::backdrop{background:#000a}
+.b1-deck-dialog h2{margin:0 0 8px}
+.b1-deck-dialog p{color:#c4d3ce;font-size:12px}
+.b1-deck-dialog ul{list-style:none;padding:0;display:grid;gap:8px;font-size:12px;margin:16px 0}
+.b1-deck-dialog li{border-bottom:1px solid #53646e;padding-bottom:7px}
+
 @media(max-width:760px){
 .pilot-mode .b1-targets{max-width:min(380px,57vw);gap:3px}
 .pilot-mode .b1-targets button{font-size:9px;padding:4px;max-width:98px}
@@ -33,7 +41,7 @@
 <nav class="journey" aria-label="冒険の進み具合"><span>✦</span><span id="turnNum"></span></nav>
 <section id="setupPanel" class="stage pilot-setup" hidden><div class="pilot-setup-content">
 <div class="pilot-setup-head"><img src="./assets/hero.webp" alt="蒼星の魔法師"><div><h2 id="setupHeading">護符を選ぶ</h2><p id="setupHint"></p></div></div>
-<div id="setupChoices" class="pilot-choices"></div><div class="pilot-setup-actions"><button id="setupReroll" class="quiet" type="button">↻ 別の候補</button></div>
+<div id="setupChoices" class="pilot-choices"></div><div class="pilot-setup-actions"><button id="bossPractice" class="primary" type="button">理想14枚でラスボス練習</button><button id="bossBasicPractice" class="quiet" type="button">基本10枚で練習</button><button id="setupReroll" class="quiet" type="button">↻ 別の候補</button></div>
 </div></section>
 <div id="playScreen" class="pilot-play" hidden>
   <section class="stage" aria-label="戦闘画面">
@@ -66,7 +74,7 @@
 <a href="./planning.html">以前の進化ダンジョンを開く</a></div></details>
 </main>
 <script type="module">
-import {CARDS,STAGES,createB1Game} from "./underground-b1-engine.mjs";
+import {CARDS,STAGES,createB1Game,IDEAL_B1_BOSS_DECK,B1_BOSS_CHANNEL_THRESHOLD} from "./underground-b1-engine.mjs";
 import {attachB1Actions} from "./underground-b1-actions.mjs";
 import {showB1Feedback} from "./underground-b1-feedback.mjs";
 const el=id=>document.getElementById(id);
@@ -92,7 +100,7 @@ function current(s){
 }
 function renderSetup(){
  el("setupHeading").textContent="最初の魔法を選ぶ";
- el("setupHint").textContent="B1は5戦。基本の魔弾4・守り4・破魔雷1枚に、選んだ魔法1枚を追加して開始。敵が強いので行動予告を見て戦おう。";
+ el("setupHint").textContent="通常はB1を5戦で冒険。ラスボスだけ試したい場合は下の「理想14枚で練習」か「基本10枚で練習」から選べます。";
  const target=el("setupChoices");target.replaceChildren();
  for(const id of ["lightning","scatter","flow"]){
    const b=cardButton(id);b.classList.add("pilot-start-card");
@@ -106,7 +114,7 @@ function renderTargets(s){
  for(const e of s.enemies){
   const b=document.createElement("button");b.type="button";b.disabled=e.hp<=0;b.dataset.b1Enemy=e.id;
   b.setAttribute("aria-pressed",String(e.id===targetId));const it=s.intents.find(i=>i.id===e.id);const hit=it?.kind==="attack"?(e.weaken?Math.floor(it.damage*.75):it.damage):0;b.textContent=e.name+" "+e.hp+"｜"+(it?.kind==="attack"?"⚔"+hit+(it.hits>1?"×"+it.hits:""):it?.label||"準備");
-  b.title="攻撃対象: "+e.name+" HP "+e.hp+"/"+e.maxHp;
+  b.title="攻撃対象: "+e.name+" HP "+e.hp+"/"+e.maxHp+(e.role==="boss"?" 詠唱阻止 "+e.channelDamage+"/"+B1_BOSS_CHANNEL_THRESHOLD:"");
   b.addEventListener("click",()=>actions.handleTargetClick(e.id));items.append(b);
  }
 }
@@ -124,9 +132,9 @@ function renderStage(s){
  el("turnNum").textContent="TURN "+s.turn;
  el("energy").textContent=s.energy;el("energyRule").textContent="毎ターン3";
  el("drawCount").textContent=s.draw.length;el("discardCount").textContent=s.discard.length;
- el("deckButton").textContent="デッキ "+s.deck.length+"枚";el("exhaustCount").textContent=s.exhaust.length;
+ el("deckButton").textContent="デッキ "+s.deck.length+"枚";el("deckButton").disabled=false;el("exhaustCount").textContent=s.exhaust.length;
  el("battleLog").textContent=s.log[0]||s.stageHint;
- el("charm").textContent="地下迷宮 B1 · "+s.stageHint;
+ el("charm").textContent=(s.practiceMode?"ボス練習 · ":"地下迷宮 B1 · ")+s.stageHint;
  el("heroStatus").textContent="防御 "+s.block;
  el("planningStatus").textContent=s.energy<=0?"魔力がないのでターン終了しよう。":"敵を選び、カードを使おう。";
  const next=s.intents.find(i=>i.id===enemy.id);
@@ -134,6 +142,10 @@ function renderStage(s){
  const reduced=next?.kind==="attack"?(enemy.weaken>0?Math.floor(next.damage*.75):next.damage):0;
  el("intentName").textContent=next?.kind==="attack"?"⚔ "+reduced+(next.hits>1?" × "+next.hits:""): "✧ "+(next?.label||"次は準備");
  el("intentText").textContent=next?.label||"";
+ const casting=enemy.role==="boss"&&(s.turn-1)%4<3;
+ el("breakTrack").hidden=!casting;
+ el("breakFill").style.width=casting?percent(Math.min(enemy.channelDamage,B1_BOSS_CHANNEL_THRESHOLD),B1_BOSS_CHANNEL_THRESHOLD):"0%";
+ if(casting)el("intentText").textContent=(enemy.channelBroken?"詠唱中断済み":"詠唱阻止 "+enemy.channelDamage+"/"+B1_BOSS_CHANNEL_THRESHOLD)+" · "+(next?.label||"");
  const effects=el("effectBadges");effects.replaceChildren();
  const chips=[["🛡",s.block],["敵防御",enemy.block],["敵強化",enemy.strength],["自強化",s.strength],["❄",enemy.weaken],["☠",enemy.poison],["✧",enemy.vulnerable],["📖",s.powerDraw]];
  if(enemy.role==="boss"){const n=s.enemies.filter(e=>e.role==="guard"&&e.hp>0).length;if(n)chips.push(["護衛",n*2]);}
@@ -158,7 +170,7 @@ function renderOverlay(s){
   el("journeyHint").textContent="HPは引き継がれます。デッキを確認して次へ進もう。";
   advance.hidden=false;advance.textContent="第"+(s.stage+2)+"戦へ →";
  }else if(s.phase==="won"){
-  el("journeyTitle").textContent="地下迷宮 B1 踏破！";
+  el("journeyTitle").textContent=s.practiceMode?"ラスボス撃破！ 練習成功":"地下迷宮 B1 踏破！";
   el("journeyHint").textContent="護衛を先に倒した？ ボスに直接攻撃した？ 最初の魔法を変えて再挑戦しよう。";
   again.hidden=false;again.textContent="もう一度";
  }else{
@@ -196,6 +208,26 @@ const actions=attachB1Actions({
   return true;
  },
  inspectTarget:id=>{targetId=id;render();}
+});
+el("bossPractice").addEventListener("click",()=>{if(game.startBossPractice("ideal")){targetId="boss";render();}});
+el("bossBasicPractice").addEventListener("click",()=>{if(game.startBossPractice("baseline")){targetId="boss";render();}});
+const deckModal=document.createElement("dialog");
+deckModal.className="b1-deck-dialog";
+document.body.append(deckModal);
+el("deckButton").addEventListener("click",()=>{
+ const s=game.snapshot(),counts=new Map();
+ for(const id of s.deck)counts.set(id,(counts.get(id)||0)+1);
+ deckModal.replaceChildren();
+ const title=document.createElement("h2");title.textContent="現在のデッキ（"+s.deck.length+"枚）";deckModal.append(title);
+ const hint=document.createElement("p");hint.textContent=s.practiceMode==="ideal"?"護衛を散弾で処理し、ドロー・闘魔の印・追加魔力で本体に攻撃を集中する構成。":s.practiceMode==="baseline"?"基本カードだけでボスを攻略できるか比べる構成。":"戦闘の進行に応じて手に入れたカードの一覧。";deckModal.append(hint);
+ const list=document.createElement("ul");
+ for(const [id,n] of counts){
+  const item=document.createElement("li");item.textContent=CARDS[id].name+" ×"+n+"  ─  "+CARDS[id].text;
+  list.append(item);
+ }
+ deckModal.append(list);
+ const close=document.createElement("button");close.type="button";close.className="quiet";close.textContent="閉じる";close.addEventListener("click",()=>deckModal.close());deckModal.append(close);
+ deckModal.showModal();
 });
 el("endTurn").addEventListener("click",()=>{const before=game.snapshot();actions.cancel();if(game.endTurn()){render();showB1Feedback({stage:gameStage,hero:el("heroPuppet"),enemy:el("enemyPuppet"),choices:el("targetChoices"),before,after:game.snapshot(),turnEnded:true});}});
 el("advance").addEventListener("click",()=>{if(game.nextBattle()){targetId=null;render();}});
