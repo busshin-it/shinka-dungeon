@@ -18,7 +18,10 @@ export const CARDS = Object.freeze({
  charge:{name:"魔力点火",cost:0,kind:"energy",text:"魔力＋1。廃棄",energyGain:1,exhaust:true},
  double:{name:"双雷",cost:1,kind:"multi",text:"4ダメージを2回",damage:4,hits:2},
  focus:{name:"魔導の研究",cost:1,kind:"power",text:"この戦闘中、毎ターンのドロー＋1",powerDraw:1},
- flare:{name:"毒炎",cost:1,kind:"attack",text:"6ダメージ。毒の敵なら＋6",damage:6,poisonBonus:6}
+ flare:{name:"毒炎",cost:1,kind:"attack",text:"6ダメージ。毒の敵なら＋6",damage:6,poisonBonus:6},
+ frostBreak:{name:"霜砕き",cost:1,kind:"attack",text:"5ダメージ。弱体の敵には＋7",damage:5,weakBonus:7},
+ echoGuard:{name:"返響の盾",cost:1,kind:"guard",text:"防御4。先に攻撃していれば2枚引く",block:4,afterAttackDraw:2},
+ lingeringPoison:{name:"余毒の頁",cost:1,kind:"poison",text:"毒2を付与。対象がすでに毒なら2枚引く",poison:2,poisonDraw:2}
 });
 export function getB1Card(id){const up=typeof id==="string"&&id.endsWith("~"),base=up?id.slice(0,-1):id;const card=CARDS[base];if(!card)return null;if(!up)return card;const next={...card,name:card.name+"＋"};const stat=["damage","block","heal","poison","weaken","vulnerable","energyGain","draw","strengthGain","powerDraw"].find(k=>Number.isFinite(card[k])&&card[k]>0);if(stat){const bonus=["damage","block","heal"].includes(stat)?3:1;next[stat]+=bonus;next.text=card.text+"（"+stat+"＋"+bonus+"）";}else{next.cost=Math.max(0,card.cost-1);next.text=card.text+"（魔力－1）";}return next;}
 export const STARTER = Object.freeze(["bolt","bolt","bolt","bolt","guard","guard","guard","guard","break"]);
@@ -90,7 +93,7 @@ export function createB1Game(options={}){
   s.hand.splice(index,1);
   s.energy-=card.cost;
   if(card.kind==="attack"||card.kind==="multi"){
-   const base=card.damage+s.strength+(card.chain&&s.attacksThisTurn>0?6:0)+(card.poisonBonus&&target.poison>0?card.poisonBonus:0);
+   const base=card.damage+s.strength+(card.chain&&s.attacksThisTurn>0?6:0)+(card.poisonBonus&&target.poison>0?card.poisonBonus:0)+(card.weakBonus&&target.weaken>0?card.weakBonus:0);
    hit(target,base,card.hits||1);s.attacksThisTurn+=(card.hits||1);
    if(card.weaken&&target.hp>0){target.weaken+=card.weaken;note(target.name+"に弱体＋"+card.weaken+"。");}
    if(card.vulnerable&&target.hp>0){target.vulnerable+=card.vulnerable;note(target.name+"に脆弱＋"+card.vulnerable+"。");}
@@ -107,8 +110,8 @@ export function createB1Game(options={}){
    s.attacksThisTurn++;
   }else if(card.kind==="heal"){
    const n=Math.min(card.heal,s.maxHp-s.hp);s.hp+=n;note("HPを"+n+"回復。");
-  }else if(card.kind==="guard"){s.block+=card.block;note("防御＋"+card.block+"。");}
-  else if(card.kind==="poison"){target.poison+=card.poison;note(target.name+"に毒＋"+card.poison+"。");}
+  }else if(card.kind==="guard"){s.block+=card.block;note("防御＋"+card.block+"。");if(card.afterAttackDraw&&s.attacksThisTurn>0){drawCards(card.afterAttackDraw);note("連携：カードを"+card.afterAttackDraw+"枚引いた。");}}
+  else if(card.kind==="poison"){const alreadyPoisoned=target.poison>0;target.poison+=card.poison;note(target.name+"に毒＋"+card.poison+"。");if(card.poisonDraw&&alreadyPoisoned){drawCards(card.poisonDraw);note("連携：カードを"+card.poisonDraw+"枚引いた。");}}
   else if(card.kind==="fragile"){target.vulnerable+=card.vulnerable;note(target.name+"に脆弱＋"+card.vulnerable+"。");}
   else if(card.kind==="energy"){s.energy+=card.energyGain;note("魔力＋"+card.energyGain+"。");}
   else if(card.kind==="power"){if(card.powerDraw){s.powerDraw+=card.powerDraw;note("毎ターンのドロー＋"+card.powerDraw+"。");}
@@ -207,7 +210,7 @@ export function createB1Game(options={}){
  else if(kind==="upgrade"){if(!Number.isInteger(index)||index<0||index>=s.deck.length||s.deck[index].endsWith("~"))return false;const id=s.deck[index];s.deck[index]=id+"~";note("休憩所："+getB1Card(id).name+"を強化。");}
  else return false;s.restPending=false;s.restUsed=true;s.restChoice=kind;return true;
 }
-const SHOP_STOCK=Object.freeze([{id:"ward",price:35},{id:"chain",price:40}]);
+const SHOP_STOCK=Object.freeze([{id:"ward",price:35},{id:"chain",price:40},{id:"frostBreak",price:35},{id:"echoGuard",price:30},{id:"lingeringPoison",price:30}]);
 function buyShop(id){
  if(s.phase!=="between"||s.stage!==2||!s.shopPending||s.shopUsed||s.practiceMode)return false;
  const item=SHOP_STOCK.find(item=>item.id===id);
