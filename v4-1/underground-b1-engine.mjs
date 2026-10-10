@@ -10,6 +10,8 @@ export const CARDS = Object.freeze({
  poison:{name:"毒の印",cost:1,kind:"poison",text:"毒5を付与（敵ターンに発動・毎回−1）",poison:5},
  fragile:{name:"脆弱の印",cost:1,kind:"fragile",text:"脆弱2を付与（攻撃被害＋50％）",vulnerable:2},
  guard:{name:"守り",cost:1,kind:"guard",text:"防御5",block:5},
+ break:{name:"破魔雷",cost:2,kind:"attack",text:"8ダメージ。脆弱2を付与",damage:8,vulnerable:2},
+ strength:{name:"闘魔の印",cost:1,kind:"power",text:"この戦闘中、攻撃威力＋2",strengthGain:2},
  spark:{name:"火花",cost:0,kind:"attack",text:"3ダメージ",damage:3},
  flow:{name:"術式循環",cost:1,kind:"draw",text:"カードを2枚引く",draw:2},
  ward:{name:"氷の結界",cost:1,kind:"guard",text:"防御7。カードを1枚引く",block:7,draw:1},
@@ -18,25 +20,27 @@ export const CARDS = Object.freeze({
  focus:{name:"魔導の研究",cost:1,kind:"power",text:"この戦闘中、毎ターンのドロー＋1",powerDraw:1},
  flare:{name:"毒炎",cost:1,kind:"attack",text:"6ダメージ。毒の敵なら＋6",damage:6,poisonBonus:6}
 });
-export const STARTER = Object.freeze(["bolt","bolt","bolt","bolt","guard","guard","guard","guard","frost"]);
+export const STARTER = Object.freeze(["bolt","bolt","bolt","bolt","guard","guard","guard","guard","break"]);
 export const STAGES = Object.freeze([
- {name:"B1・入口",hint:"敵の行動を見ながら、攻めるか守るかを選ぼう。",enemies:[{id:"rat",name:"洞穴ねずみ",maxHp:17,role:"rat"}],rewards:["ward","double","poison","spark","flow","heal"]},
- {name:"B1・中層",hint:"2体の敵。倒す順番を考えよう。",enemies:[{id:"wolf",name:"洞穴の狼",maxHp:14,role:"wolf"},{id:"imp",name:"盾の小鬼",maxHp:14,role:"imp"}],rewards:["charge","chain","fragile","focus","flare","lightning","drain"]},
- {name:"B1・最深部",hint:"護衛2体がボスを守る。溜め2回の後、地鳴りが来る。",enemies:[{id:"left",name:"盾の小鬼・左",maxHp:11,role:"guard"},{id:"boss",name:"地底の祭司",maxHp:40,role:"boss"},{id:"right",name:"盾の小鬼・右",maxHp:11,role:"guard"}],rewards:[]}
+ {name:"B1・入口",hint:"硬い敵を相手に攻撃するか防御するか。次の攻撃を予測しよう。",enemies:[{id:"rat",name:"石牙獣",maxHp:42,role:"rat"}],rewards:["ward","double","poison","spark","flow","heal","frost"]},
+ {name:"B1・群れ",hint:"小型2体の同時攻撃。片方を先に倒すか、全体攻撃で削るか。",enemies:[{id:"wolf",name:"洞穴の狼",maxHp:17,role:"wolf"},{id:"imp",name:"盾の小鬼",maxHp:16,role:"imp"}],rewards:["charge","chain","fragile","focus","flare","lightning","drain","scatter"]},
+ {name:"B1・祭壇",hint:"呪術師は初手で力を溜め、毎ターン強くなる。長期戦は危険。",enemies:[{id:"priest",name:"洞窟の呪術師",maxHp:52,role:"ritual"}],rewards:["flow","strength","double","poison","ward","flare","heal","lightning"]},
+ {name:"B1・強敵",hint:"強敵が大技と連続攻撃を使う。大技の予告を見て防御を合わせよう。",enemies:[{id:"brute",name:"深層の番兵",maxHp:82,role:"elite"}],rewards:["strength","focus","charge","double","flare","ward","drain","fragile"]},
+ {name:"B1・最深部",hint:"護衛2体と長期戦。護衛の守りを崩し、溜めた大技を乗り切ろう。",enemies:[{id:"left",name:"盾の小鬼・左",maxHp:24,role:"guard"},{id:"boss",name:"地底の祭司",maxHp:135,role:"boss"},{id:"right",name:"盾の小鬼・右",maxHp:24,role:"guard"}],rewards:[]}
 ]);
 const clone=x=>JSON.parse(JSON.stringify(x));
 export function createB1Game(options={}){
  let seed=(Number(options.seed)>>>0)||20261010;
  const random=()=>{seed=(Math.imul(seed,1664525)+1013904223)>>>0;return seed/4294967296;};
  const shuffle=a=>{for(let i=a.length-1;i>0;i--){const j=Math.floor(random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;};
- const testMaxHp=Number.isInteger(options.maxHp)&&options.maxHp>=1&&options.maxHp<=999?options.maxHp:48;
- let s={phase:"starter",stage:0,turn:1,hp:testMaxHp,maxHp:testMaxHp,energy:3,block:0,attacksThisTurn:0,powerDraw:0,selected:null,deck:Array.isArray(options.testDeck)&&options.testDeck.length>0&&options.testDeck.length<=30&&options.testDeck.every(id=>Object.hasOwn(CARDS,id))?[...options.testDeck]:[...STARTER],hand:[],draw:[],discard:[],exhaust:[],powers:[],enemies:[],rewards:[],log:["最初に得意な魔法を1枚選んで地下迷宮へ。"]};
+ const testMaxHp=Number.isInteger(options.maxHp)&&options.maxHp>=1&&options.maxHp<=999?options.maxHp:75;
+ let s={phase:"starter",stage:0,turn:1,hp:testMaxHp,maxHp:testMaxHp,energy:3,block:0,attacksThisTurn:0,powerDraw:0,strength:0,selected:null,deck:Array.isArray(options.testDeck)&&options.testDeck.length>0&&options.testDeck.length<=30&&options.testDeck.every(id=>Object.hasOwn(CARDS,id))?[...options.testDeck]:[...STARTER],hand:[],draw:[],discard:[],exhaust:[],powers:[],enemies:[],rewards:[],log:["最初に得意な魔法を1枚選んで地下迷宮へ。"]};
  function note(t){s.log.unshift(t);s.log=s.log.slice(0,18);}
  const alive=()=>s.enemies.filter(e=>e.hp>0);
  const find=id=>s.enemies.find(e=>e.id===id&&e.hp>0);
  function drawCards(n){for(let i=0;i<n&&s.hand.length<10;i++){if(!s.draw.length){if(!s.discard.length)break;s.draw=shuffle(s.discard.splice(0));}s.hand.push(s.draw.pop());}}
  function start(){
-  const stage=STAGES[s.stage];s.enemies=stage.enemies.map(e=>({...clone(e),hp:e.maxHp,weaken:0,poison:0,vulnerable:0}));s.turn=1;s.block=0;s.energy=3;s.attacksThisTurn=0;s.powerDraw=0;
+  const stage=STAGES[s.stage];s.enemies=stage.enemies.map(e=>({...clone(e),hp:e.maxHp,weaken:0,poison:0,vulnerable:0,block:0,strength:0}));s.turn=1;s.block=0;s.energy=3;s.attacksThisTurn=0;s.powerDraw=0;s.strength=0;
   s.hand=[];s.discard=[];s.exhaust=[];s.powers=[];s.draw=shuffle([...s.deck]);s.selected=s.enemies.find(e=>e.role!=="boss")?.id||s.enemies[0].id;s.phase="battle";drawCards(5);note(stage.name+"：戦闘開始。");
  }
  function selectStarter(id){if(s.phase!=="starter"||!["lightning","scatter","flow"].includes(id))return false;s.deck.push(id);start();return true;}
