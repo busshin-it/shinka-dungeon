@@ -1,15 +1,22 @@
 // Isolated B1 playtest. Never reads or changes existing game saves.
 export const CARDS = Object.freeze({
- bolt:{name:"魔弾",cost:1,kind:"attack",text:"敵1体に5ダメージ",damage:5},
- lightning:{name:"雷撃",cost:2,kind:"attack",text:"敵1体に11ダメージ",damage:11},
- scatter:{name:"散弾",cost:2,kind:"all",text:"敵全体に4ダメージ",damage:4},
- chain:{name:"連鎖雷",cost:1,kind:"attack",text:"4ダメージ。先に呪文を使っていれば＋4",damage:4,chain:true},
- heal:{name:"小治癒",cost:1,kind:"heal",text:"自分のHPを5回復",heal:5},
- drain:{name:"吸命",cost:2,kind:"attack",text:"6ダメージ。自分のHPを3回復",damage:6,heal:3},
- frost:{name:"氷の矢",cost:1,kind:"weaken",text:"敵の次の攻撃を3弱める",weaken:3},
- poison:{name:"毒の印",cost:1,kind:"poison",text:"敵に毒2（攻撃後に発動・減らない）",poison:2},
- fragile:{name:"脆弱の印",cost:1,kind:"fragile",text:"敵が次に受ける攻撃ダメージ＋3",fragile:3},
- guard:{name:"守り",cost:1,kind:"guard",text:"このターン防御5",block:5}
+ bolt:{name:"魔弾",cost:1,kind:"attack",text:"6ダメージ",damage:6},
+ lightning:{name:"雷撃",cost:2,kind:"attack",text:"13ダメージ",damage:13},
+ scatter:{name:"散弾",cost:1,kind:"all",text:"敵全体に6ダメージ",damage:6},
+ chain:{name:"連鎖雷",cost:1,kind:"attack",text:"5ダメージ。先に攻撃していれば＋6",damage:5,chain:true},
+ heal:{name:"小治癒",cost:1,kind:"heal",text:"HP6回復。廃棄",heal:6,exhaust:true},
+ drain:{name:"吸命",cost:2,kind:"attack",text:"8ダメージ。HP3回復。廃棄",damage:8,heal:3,exhaust:true},
+ frost:{name:"氷の矢",cost:1,kind:"attack",text:"3ダメージ。弱体2を付与",damage:3,weaken:2},
+ poison:{name:"毒の印",cost:1,kind:"poison",text:"毒5を付与（敵ターンに発動・毎回−1）",poison:5},
+ fragile:{name:"脆弱の印",cost:1,kind:"fragile",text:"脆弱2を付与（攻撃被害＋50％）",vulnerable:2},
+ guard:{name:"守り",cost:1,kind:"guard",text:"防御5",block:5},
+ spark:{name:"火花",cost:0,kind:"attack",text:"3ダメージ",damage:3},
+ flow:{name:"術式循環",cost:1,kind:"draw",text:"カードを2枚引く",draw:2},
+ ward:{name:"氷の結界",cost:1,kind:"guard",text:"防御7。カードを1枚引く",block:7,draw:1},
+ charge:{name:"魔力点火",cost:0,kind:"energy",text:"魔力＋1。廃棄",energyGain:1,exhaust:true},
+ double:{name:"双雷",cost:1,kind:"multi",text:"4ダメージを2回",damage:4,hits:2},
+ focus:{name:"魔導の研究",cost:1,kind:"power",text:"この戦闘中、毎ターンのドロー＋1",powerDraw:1},
+ flare:{name:"毒炎",cost:1,kind:"attack",text:"6ダメージ。毒の敵なら＋6",damage:6,poisonBonus:6}
 });
 export const STARTER = Object.freeze(["bolt","bolt","bolt","guard","guard","heal","frost","poison"]);
 export const STAGES = Object.freeze([
