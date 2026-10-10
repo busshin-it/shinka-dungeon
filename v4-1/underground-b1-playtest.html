@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#0d1821">
-<title>地下迷宮 B1｜魔法使いの試遊</title><link rel="stylesheet" href="./planning.css"><link rel="stylesheet" href="./six-paths-stage.css"><link rel="stylesheet" href="./underground-b1-actions.css"><link rel="stylesheet" href="./underground-b1-actors.css">
+<title>地下迷宮 B1｜魔法使いの試遊</title><link rel="stylesheet" href="./planning.css"><link rel="stylesheet" href="./six-paths-stage.css"><link rel="stylesheet" href="./underground-b1-actions.css"><link rel="stylesheet" href="./underground-b1-actors.css"><link rel="stylesheet" href="./underground-b1-map.css">
 <style>
 /* B1 uses the SAME original Astral/pilot arena and hand stylesheets.
    Extra chrome here is only the multi-target control and text-only cards. */
@@ -63,7 +63,22 @@
 
 
 <section id="journeyPanel" class="pilot-overlay" hidden><div class="pilot-overlay-window">
-<h2 id="journeyTitle"></h2><p id="journeyHint"></p><div id="rewardCards" class="pilot-rewards" hidden></div>
+<h2 id="journeyTitle"></h2><p id="journeyHint"></p>
+<div id="routeMap" class="b1-route-map" hidden aria-label="B1の分岐マップ">
+ <div class="b1-map-header"><span>地下迷宮 B1｜最初の分かれ道</span><span class="b1-map-progress">現在地：入口を突破</span></div>
+ <div class="b1-map-nodes"><span class="b1-map-node done">✓ 第1戦・入口</span><span class="b1-map-arrow">↓ どちらか選ぶ</span></div>
+ <div class="b1-map-branch">
+  <button type="button" class="b1-map-path" data-route="pack" aria-label="群れの坑道へ進む。洞穴の狼と盾の小鬼、2体との戦い">
+   <img src="./assets/bell-spirit.webp" alt="" draggable="false"><span class="b1-map-path-copy"><span class="b1-map-path-kind">左ルート｜複数の敵</span><strong>群れの坑道</strong><span class="b1-map-path-desc">狼＋盾の小鬼。2体の攻撃をどうしのぐ？</span></span>
+  </button>
+  <button type="button" class="b1-map-path" data-route="stone" aria-label="石甲の回廊へ進む。硬い防御を持つ石甲の番獣、1体との戦い">
+   <img src="./assets/gatekeeper.webp" alt="" draggable="false"><span class="b1-map-path-copy"><span class="b1-map-path-kind">右ルート｜硬い敵</span><strong>石甲の回廊</strong><span class="b1-map-path-desc">石甲の番獣。防御8と重い攻撃に対処。</span></span>
+  </button>
+ </div>
+ <div class="b1-map-nodes"><span class="b1-map-node future">第3戦・祭壇</span><span class="b1-map-arrow">→</span><span class="b1-map-node future">第4戦・強敵</span><span class="b1-map-arrow">→</span><span class="b1-map-node future">第5戦・ラスボス</span></div>
+ <p class="b1-map-hint">どちらを選んでも次は祭壇へ合流。今回は1か所だけの分岐を試す。</p>
+</div>
+<div id="rewardCards" class="pilot-rewards" hidden></div>
 <div class="pilot-overlay-actions"><button id="skipReward" class="quiet" type="button" hidden>見送る</button>
 <button id="overlayRestart" class="quiet" type="button" hidden>もう一度</button><button id="advance" class="primary" type="button">次へ →</button></div>
 </div></section>
@@ -81,7 +96,7 @@ import {showB1Feedback} from "./underground-b1-feedback.mjs";
 const el=id=>document.getElementById(id);
 let game=createB1Game({seed:Date.now()}),targetId=null;
 const typeNames={attack:"攻撃",multi:"連撃",all:"全体攻撃",heal:"回復",poison:"状態異常",fragile:"状態異常",guard:"防御",draw:"ドロー",energy:"魔力",power:"能力"};
-const art={rat:"wraith.webp",wolf:"bell-spirit.webp",imp:"gatekeeper.webp",guard:"gatekeeper.webp",ritual:"wraith.webp",elite:"gatekeeper.webp",boss:"boss.webp"};
+const art={rat:"wraith.webp",wolf:"bell-spirit.webp",imp:"gatekeeper.webp",guard:"gatekeeper.webp",carapace:"gatekeeper.webp",ritual:"wraith.webp",elite:"gatekeeper.webp",boss:"boss.webp"};
 const percent=(n,max)=>Math.max(0,Math.min(100,Math.round(n*100/Math.max(1,max))))+"%";
 function cardButton(id){
  const c=CARDS[id],btn=document.createElement("button");btn.type="button";btn.className="card pilot-card b1-text-card";
@@ -194,7 +209,7 @@ function renderOverlay(s){
  if(!show)return;
  const rewards=el("rewardCards");rewards.replaceChildren();
  const advance=el("advance"),skip=el("skipReward"),again=el("overlayRestart");
- advance.hidden=true;skip.hidden=true;again.hidden=true;rewards.hidden=true;
+ advance.hidden=true;skip.hidden=true;again.hidden=true;rewards.hidden=true;el("routeMap").hidden=true;
  if(s.phase==="reward"){
   el("journeyTitle").textContent="第"+(s.stage+1)+"戦に勝利";
   el("journeyHint").textContent="戦闘後にHPを最大6回復。次の敵に備えて3枚から1枚選ぶか、見送ろう。";
@@ -202,10 +217,16 @@ function renderOverlay(s){
   for(const id of s.rewards){
     const btn=cardButton(id);btn.addEventListener("click",()=>{if(game.chooseReward(id))render();});rewards.append(btn);
   }
- }else if(s.phase==="between"){
-  el("journeyTitle").textContent="次の戦いへ";
-  el("journeyHint").textContent="HPは引き継がれます。デッキを確認して次へ進もう。";
-  advance.hidden=false;advance.textContent="第"+(s.stage+2)+"戦へ →";
+  }else if(s.phase==="between"){
+  if(s.stage===0&&!s.practiceMode){
+   el("journeyTitle").textContent="次に進む道を選ぼう";
+   el("journeyHint").textContent="敵の数が違う2つの道。HPとデッキを引き継ぎ、選んだ敵と第2戦を戦います。";
+   el("routeMap").hidden=false;
+  }else{
+   el("journeyTitle").textContent="次の戦いへ";
+   el("journeyHint").textContent="HPは引き継がれます。デッキを確認して次へ進もう。";
+   advance.hidden=false;advance.textContent="第"+(s.stage+2)+"戦へ →";
+  }
  }else if(s.phase==="won"){
   el("journeyTitle").textContent=s.practiceMode?"ラスボス撃破！ 練習成功":"地下迷宮 B1 踏破！";
   el("journeyHint").textContent="護衛を先に倒した？ ボスに直接攻撃した？ 最初の魔法を変えて再挑戦しよう。";
@@ -268,6 +289,12 @@ el("deckButton").addEventListener("click",()=>{
  deckModal.showModal();
 });
 el("endTurn").addEventListener("click",()=>{const before=game.snapshot();actions.cancel();if(game.endTurn()){render();showB1Feedback({stage:gameStage,hero:el("heroPuppet"),enemy:el("enemyPuppet"),choices:el("enemyLineup"),before,after:game.snapshot(),turnEnded:true});}});
+el("routeMap").addEventListener("click",event=>{
+ const chosen=event.target.closest("button[data-route]");
+ if(!chosen||!game.choosePath(chosen.dataset.route))return;
+ actions.cancel();
+ if(game.nextBattle()){targetId=null;render();}
+});
 el("advance").addEventListener("click",()=>{if(game.nextBattle()){targetId=null;render();}});
 el("skipReward").addEventListener("click",()=>{if(game.chooseReward(null))render();});
 el("overlayRestart").addEventListener("click",reset);

@@ -28,6 +28,11 @@ export const STAGES = Object.freeze([
  {name:"B1・強敵",hint:"強敵が大技と連続攻撃を使う。大技の予告を見て防御を合わせよう。",enemies:[{id:"brute",name:"深層の番兵",maxHp:82,role:"elite"}],rewards:["strength","focus","charge","double","flare","ward","drain","fragile"]},
  {name:"B1・最深部",hint:"護衛2体と長期戦。護衛の守りを崩し、溜めた大技を乗り切ろう。",enemies:[{id:"left",name:"盾の小鬼・左",maxHp:24,role:"guard"},{id:"boss",name:"地底の祭司",maxHp:135,role:"boss"},{id:"right",name:"盾の小鬼・右",maxHp:24,role:"guard"}],rewards:[]}
 ]);
+// First small map experiment: both routes rejoin the unchanged third fight.
+export const B1_FORK_ROUTES=Object.freeze({
+ pack:{name:"群れの坑道",hint:"洞穴の狼＋盾の小鬼。攻撃対象を選び、2体の動きを読む。",enemies:STAGES[1].enemies},
+ stone:{name:"石甲の回廊",hint:"石甲の番獣1体。硬い防御を破るタイミングを考える。",enemies:[{id:"carapace",name:"石甲の番獣",maxHp:40,role:"carapace"}]}
+});
 // Reachable in principle: one starter pick (scatter) + one reward from each of four prior fights.
 export const IDEAL_B1_BOSS_DECK=Object.freeze([...STARTER,"scatter","ward","focus","strength","charge"]);
 // Alternate reachable 14-card benchmark: set up attack power, draw the combo, sweep guards, finish with chain lightning.
@@ -39,13 +44,13 @@ export function createB1Game(options={}){
  const random=()=>{seed=(Math.imul(seed,1664525)+1013904223)>>>0;return seed/4294967296;};
  const shuffle=a=>{for(let i=a.length-1;i>0;i--){const j=Math.floor(random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;};
  const testMaxHp=Number.isInteger(options.maxHp)&&options.maxHp>=1&&options.maxHp<=999?options.maxHp:75;
- let s={phase:"starter",stage:0,turn:1,hp:testMaxHp,maxHp:testMaxHp,energy:3,block:0,attacksThisTurn:0,powerDraw:0,strength:0,selected:null,deck:Array.isArray(options.testDeck)&&options.testDeck.length>0&&options.testDeck.length<=30&&options.testDeck.every(id=>Object.hasOwn(CARDS,id))?[...options.testDeck]:[...STARTER],hand:[],draw:[],discard:[],exhaust:[],powers:[],enemies:[],rewards:[],log:["最初に得意な魔法を1枚選んで地下迷宮へ。"]};
+ let s={phase:"starter",stage:0,turn:1,hp:testMaxHp,maxHp:testMaxHp,energy:3,block:0,attacksThisTurn:0,powerDraw:0,strength:0,selected:null,deck:Array.isArray(options.testDeck)&&options.testDeck.length>0&&options.testDeck.length<=30&&options.testDeck.every(id=>Object.hasOwn(CARDS,id))?[...options.testDeck]:[...STARTER],hand:[],draw:[],discard:[],exhaust:[],powers:[],enemies:[],rewards:[],selectedPath:null,routeHistory:[],log:["最初に得意な魔法を1枚選んで地下迷宮へ。"]};
  function note(t){s.log.unshift(t);s.log=s.log.slice(0,18);}
  const alive=()=>s.enemies.filter(e=>e.hp>0);
  const find=id=>s.enemies.find(e=>e.id===id&&e.hp>0);
  function drawCards(n){for(let i=0;i<n&&s.hand.length<10;i++){if(!s.draw.length){if(!s.discard.length)break;s.draw=shuffle(s.discard.splice(0));}s.hand.push(s.draw.pop());}}
  function start(){
-  const stage=STAGES[s.stage];s.enemies=stage.enemies.map(e=>({...clone(e),hp:e.maxHp,weaken:0,poison:0,vulnerable:0,block:0,strength:0,channelDamage:0,channelBroken:false}));s.turn=1;s.block=0;s.energy=3;s.attacksThisTurn=0;s.powerDraw=0;s.strength=0;
+  const stage=s.stage===1?B1_FORK_ROUTES[s.selectedPath||"pack"]:STAGES[s.stage];s.enemies=stage.enemies.map(e=>({...clone(e),hp:e.maxHp,weaken:0,poison:0,vulnerable:0,block:0,strength:0,channelDamage:0,channelBroken:false}));s.turn=1;s.block=0;s.energy=3;s.attacksThisTurn=0;s.powerDraw=0;s.strength=0;
   s.hand=[];s.discard=[];s.exhaust=[];s.powers=[];s.draw=shuffle([...s.deck]);s.selected=s.enemies.find(e=>e.role!=="boss")?.id||s.enemies[0].id;s.phase="battle";drawCards(5);note(stage.name+"：戦闘開始。");
  }
  function selectStarter(id){if(s.phase!=="starter"||!["lightning","scatter","flow"].includes(id))return false;s.deck.push(id);start();return true;}
@@ -127,7 +132,13 @@ export function createB1Game(options={}){
     n===1?{kind:"buff",label:"殻を固める（防御6・攻撃＋2）",blockGain:6,strengthGain:2}:
     {kind:"attack",label:"強打 "+(7+e.strength),damage:7+e.strength};
   }
-  if(e.role==="wolf")return t===2?{kind:"buff",label:"遠吠え（攻撃＋2）",strengthGain:2}:
+  if(e.role==="carapace"){
+    const n=(t-1)%3;
+    return n===0?{kind:"buff",label:"石の外殻（防御8）",blockGain:8}:
+      n===1?{kind:"attack",label:"岩の突進 11",damage:11}:
+      {kind:"attack",label:"重い一撃 8",damage:8};
+   }
+   if(e.role==="wolf")return t===2?{kind:"buff",label:"遠吠え（攻撃＋2）",strengthGain:2}:
     {kind:"attack",label:"飛びかかり "+(6+e.strength),damage:6+e.strength};
   if(e.role==="imp"||e.role==="guard"){
    const busy=(t+(e.id==="right"?1:0))%2===0;
@@ -189,8 +200,24 @@ export function createB1Game(options={}){
   if(id){s.deck.push(id);note(CARDS[id].name+"を習得。");}else note("報酬は見送った。");
   s.phase="between";return true;
  }
- function nextBattle(){if(s.phase!=="between"||s.stage>=STAGES.length-1)return false;s.stage++;start();return true;}
- function snapshot(){return clone({...s,intents:s.enemies.map(e=>({id:e.id,...intent(e)})),stageName:STAGES[s.stage].name,stageHint:STAGES[s.stage].hint});}
+ function choosePath(id){
+   if(s.phase!=="between"||s.stage!==0||s.selectedPath!==null||!Object.hasOwn(B1_FORK_ROUTES,id))return false;
+   s.selectedPath=id;s.routeHistory.push(id);
+   note("分岐を選択："+B1_FORK_ROUTES[id].name+"。");
+   return true;
+  }
+  function nextBattle(){
+   if(s.phase!=="between"||s.stage>=STAGES.length-1)return false;
+   // Old scripted journeys still take the original encounter if no route was supplied.
+   if(s.stage===0&&s.selectedPath===null)choosePath("pack");
+   s.stage++;start();return true;
+  }
+ function snapshot(){
+   const stage=s.stage===1?B1_FORK_ROUTES[s.selectedPath||"pack"]:STAGES[s.stage];
+   return clone({...s,intents:s.enemies.map(e=>({id:e.id,...intent(e)})),
+     stageName:s.stage===1?"B1・"+stage.name:stage.name,stageHint:stage.hint,
+     availablePaths:s.phase==="between"&&s.stage===0&&s.selectedPath===null?Object.keys(B1_FORK_ROUTES):[]});
+  }
  function startBossPractice(mode="ideal"){
   if(s.phase!=="starter"||!(["ideal","baseline","combo"].includes(mode)||(mode==="test"&&Array.isArray(options.testDeck))))return false;
   s.practiceMode=mode;
@@ -200,5 +227,5 @@ export function createB1Game(options={}){
   start();note("練習モード："+(mode==="combo"?"連鎖コンボ14枚":mode==="ideal"?"安定型14枚":mode==="test"?"検証用デッキ":"基本の10枚")+"でボスに挑戦。");
   return true;
  }
- return {snapshot,selectStarter,startBossPractice,play,endTurn,chooseReward,nextBattle};
+ return {snapshot,selectStarter,startBossPractice,play,endTurn,chooseReward,choosePath,nextBattle};
 }
