@@ -44,14 +44,16 @@ export function createB1Game(options={}){
   s.hand=[];s.discard=[];s.exhaust=[];s.powers=[];s.draw=shuffle([...s.deck]);s.selected=s.enemies.find(e=>e.role!=="boss")?.id||s.enemies[0].id;s.phase="battle";drawCards(5);note(stage.name+"：戦闘開始。");
  }
  function selectStarter(id){if(s.phase!=="starter"||!["lightning","scatter","flow"].includes(id))return false;s.deck.push(id);start();return true;}
- function protectors(){return s.stage===2?alive().filter(e=>e.role==="guard").length:0;}
+ function protectors(){return s.stage===STAGES.length-1?alive().filter(e=>e.role==="guard").length:0;}
  function hit(target,base,hits=1){
   if(!target||target.hp<=0)return 0;
   let total=0;
   for(let i=0;i<hits&&target.hp>0;i++){
    const armor=target.role==="boss"?protectors()*2:0;
    const boosted=target.vulnerable>0?Math.floor(base*1.5):base;
-   const actual=Math.min(target.hp,Math.max(0,boosted-armor));
+   const raw=Math.max(0,boosted-armor);
+   const blocked=Math.min(target.block||0,raw);target.block-=blocked;
+   const actual=Math.min(target.hp,raw-blocked);
    target.hp-=actual;total+=actual;
   }
   note(target.name+"に合計"+total+"ダメージ"+(hits>1?"（"+hits+"回攻撃）":"")+"。");
@@ -60,7 +62,7 @@ export function createB1Game(options={}){
  function checkVictory(){
   if(alive().length>0)return false;
   if(s.stage===STAGES.length-1){s.phase="won";note("地下迷宮B1を突破！");}
-  else{s.phase="reward";s.rewards=shuffle([...STAGES[s.stage].rewards]).slice(0,3);note("勝利！技を1枚覚えるか、見送ろう。");}
+  else{const healed=Math.min(6,s.maxHp-s.hp);s.hp+=healed;s.phase="reward";s.rewards=shuffle([...STAGES[s.stage].rewards]).slice(0,3);note("勝利！HPを"+healed+"回復。技を1枚覚えるか、見送ろう。");}
   return true;
  }
  function play(index,targetId){
@@ -72,15 +74,18 @@ export function createB1Game(options={}){
   s.hand.splice(index,1);
   s.energy-=card.cost;
   if(card.kind==="attack"||card.kind==="multi"){
-   const base=card.damage+(card.chain&&s.attacksThisTurn>0?6:0)+(card.poisonBonus&&target.poison>0?card.poisonBonus:0);
+   const base=card.damage+s.strength+(card.chain&&s.attacksThisTurn>0?6:0)+(card.poisonBonus&&target.poison>0?card.poisonBonus:0);
    hit(target,base,card.hits||1);s.attacksThisTurn+=(card.hits||1);
    if(card.weaken&&target.hp>0){target.weaken+=card.weaken;note(target.name+"に弱体＋"+card.weaken+"。");}
+   if(card.vulnerable&&target.hp>0){target.vulnerable+=card.vulnerable;note(target.name+"に脆弱＋"+card.vulnerable+"。");}
    if(card.heal){const n=Math.min(card.heal,s.maxHp-s.hp);s.hp+=n;note("HPを"+n+"回復。");}
   }else if(card.kind==="all"){
    const armor=protectors()*2;
    for(const e of alive()){
-    const base=e.vulnerable>0?Math.floor(card.damage*1.5):card.damage;
-    const n=Math.min(e.hp,Math.max(0,base-(e.role==="boss"?armor:0)));
+    const base=e.vulnerable>0?Math.floor((card.damage+s.strength)*1.5):card.damage+s.strength;
+    const raw=Math.max(0,base-(e.role==="boss"?armor:0));
+    const blocked=Math.min(e.block,raw);e.block-=blocked;
+    const n=Math.min(e.hp,raw-blocked);
     e.hp-=n;note(e.name+"に"+n+"ダメージ。");
    }
    s.attacksThisTurn++;
@@ -90,7 +95,8 @@ export function createB1Game(options={}){
   else if(card.kind==="poison"){target.poison+=card.poison;note(target.name+"に毒＋"+card.poison+"。");}
   else if(card.kind==="fragile"){target.vulnerable+=card.vulnerable;note(target.name+"に脆弱＋"+card.vulnerable+"。");}
   else if(card.kind==="energy"){s.energy+=card.energyGain;note("魔力＋"+card.energyGain+"。");}
-  else if(card.kind==="power"){s.powerDraw+=card.powerDraw;note("この戦闘中、毎ターンのドロー＋"+card.powerDraw+"。");}
+  else if(card.kind==="power"){if(card.powerDraw){s.powerDraw+=card.powerDraw;note("毎ターンのドロー＋"+card.powerDraw+"。");}
+   if(card.strengthGain){s.strength+=card.strengthGain;note("この戦闘中、攻撃威力＋"+card.strengthGain+"。");}}
   if(card.draw){drawCards(card.draw);note("カードを"+card.draw+"枚引いた。");}
   if(card.kind==="power")s.powers.push(id);else if(card.exhaust)s.exhaust.push(id);else s.discard.push(id);
   checkVictory();return true;
