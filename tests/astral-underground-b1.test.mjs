@@ -25,9 +25,9 @@ function runBattle(g){
 }
 function reachBoss(g,starter='lightning'){
  assert.equal(g.selectStarter(starter),true);
- for(let wave=0;wave<2;wave++){
+ for(let wave=0;wave<STAGES.length-1;wave++){
   runBattle(g);const s=g.snapshot();assert.equal(s.phase,'reward');
-  const preferred=wave===0?'double':'chain';
+  const preferred=wave%2===0?'double':'chain';
   assert.equal(g.chooseReward(s.rewards.includes(preferred)?preferred:s.rewards[0]),true);
   assert.equal(g.nextBattle(),true);
  }
@@ -46,8 +46,8 @@ function findCard(g,id,maxTurns=20){
 
 test('card pool and initial deck are independent from original pilot',()=>{
  assert.equal(STARTER.length,9);
- assert.equal(Object.keys(CARDS).length,17);
- assert.equal(STAGES.length,3);
+ assert.equal(Object.keys(CARDS).length,19);
+ assert.equal(STAGES.length,5);
  assert.equal(CARDS.scatter.kind,'all');
 });
 test('starter, targeting, magic spending and combat log',()=>{
@@ -56,7 +56,7 @@ test('starter, targeting, magic spending and combat log',()=>{
  assert.equal(g.selectStarter('wrong'),false);
  assert.equal(g.selectStarter('lightning'),true);
  assert.equal(g.selectStarter('scatter'),false);
- let s=g.snapshot();assert.equal(s.phase,'battle');assert.equal(s.deck.length,10);
+ let s=g.snapshot();assert.equal(s.phase,'battle');assert.equal(s.deck.length,10);assert.equal(s.hp,250);
  const i=findCard(g,'bolt');
  s=g.snapshot();const before=s.enemies[0].hp,energy=s.energy;
  assert.equal(g.play(i,'no-enemy'),false);
@@ -66,7 +66,7 @@ test('starter, targeting, magic spending and combat log',()=>{
  assert.ok(s.log[0].includes('ダメージ'));
 });
 test('frost waits until next attack and then clears',()=>{
- const g=createB1Game({seed:100,maxHp:220});g.selectStarter('lightning');
+ const g=createB1Game({seed:100,maxHp:220,testDeck:['frost','guard','bolt','bolt','bolt']});g.selectStarter('lightning');
  const i=findCard(g,'frost');
  assert.equal(g.play(i,'rat'),true);
  assert.equal(g.snapshot().enemies[0].weaken,2);
@@ -77,7 +77,7 @@ test('frost waits until next attack and then clears',()=>{
 test('a run can advance through two rewards and beat the protected B1 boss',()=>{
  const g=createB1Game({seed:20261010,maxHp:999});
  let s=reachBoss(g);
- assert.equal(s.stage,2);assert.equal(s.enemies.length,3);
+ assert.equal(s.stage,4);assert.equal(s.enemies.length,3);
  assert.equal(s.enemies.filter(e=>e.role==='guard').length,2);
  runBattle(g);s=g.snapshot();assert.equal(s.phase,'won');
  assert.ok(s.hp>0);

@@ -70,7 +70,7 @@ import {CARDS,STAGES,createB1Game} from "./underground-b1-engine.mjs";
 const el=id=>document.getElementById(id);
 let game=createB1Game({seed:Date.now()}),targetId=null;
 const typeNames={attack:"攻撃",multi:"連撃",all:"全体攻撃",heal:"回復",poison:"状態異常",fragile:"状態異常",guard:"防御",draw:"ドロー",energy:"魔力",power:"能力"};
-const art={rat:"wraith.webp",wolf:"bell-spirit.webp",imp:"gatekeeper.webp",guard:"gatekeeper.webp",boss:"boss.webp"};
+const art={rat:"wraith.webp",wolf:"bell-spirit.webp",imp:"gatekeeper.webp",guard:"gatekeeper.webp",ritual:"wraith.webp",elite:"gatekeeper.webp",boss:"boss.webp"};
 const percent=(n,max)=>Math.max(0,Math.min(100,Math.round(n*100/Math.max(1,max))))+"%";
 function cardButton(id){
  const c=CARDS[id],btn=document.createElement("button");btn.type="button";btn.className="card pilot-card b1-text-card";
@@ -90,7 +90,7 @@ function current(s){
 }
 function renderSetup(){
  el("setupHeading").textContent="最初の魔法を選ぶ";
- el("setupHint").textContent="これまでの魔法使いと同じ画面で、B1のカード効果を試します。初期カード9枚＋選んだ1枚で出発。";
+ el("setupHint").textContent="B1は5戦。基本の魔弾4・守り4・破魔雷1枚に、選んだ魔法1枚を追加して開始。敵が強いので行動予告を見て戦おう。";
  const target=el("setupChoices");target.replaceChildren();
  for(const id of ["lightning","scatter","flow"]){
    const b=cardButton(id);b.classList.add("pilot-start-card");
@@ -103,7 +103,7 @@ function renderTargets(s){
  if(s.enemies.length<=1)return;
  for(const e of s.enemies){
   const b=document.createElement("button");b.type="button";b.disabled=e.hp<=0;
-  b.setAttribute("aria-pressed",String(e.id===targetId));const it=s.intents.find(i=>i.id===e.id);b.textContent=e.name+" "+e.hp+"｜"+(it?.kind==="attack"?"⚔"+(e.weaken?Math.floor(it.damage*.75):it.damage):it?.label||"準備");
+  b.setAttribute("aria-pressed",String(e.id===targetId));const it=s.intents.find(i=>i.id===e.id);const hit=it?.kind==="attack"?(e.weaken?Math.floor(it.damage*.75):it.damage):0;b.textContent=e.name+" "+e.hp+"｜"+(it?.kind==="attack"?"⚔"+hit+(it.hits>1?"×"+it.hits:""):it?.label||"準備");
   b.title="攻撃対象: "+e.name+" HP "+e.hp+"/"+e.maxHp;
   b.addEventListener("click",()=>{targetId=e.id;render();});items.append(b);
  }
@@ -130,10 +130,10 @@ function renderStage(s){
  const next=s.intents.find(i=>i.id===enemy.id);
  el("intent").classList.toggle("calm",next?.kind!=="attack");
  const reduced=next?.kind==="attack"?(enemy.weaken>0?Math.floor(next.damage*.75):next.damage):0;
- el("intentName").textContent=next?.kind==="attack"?"⚔ "+reduced: "✧ "+(next?.label||"次は準備");
+ el("intentName").textContent=next?.kind==="attack"?"⚔ "+reduced+(next.hits>1?" × "+next.hits:""): "✧ "+(next?.label||"次は準備");
  el("intentText").textContent=next?.label||"";
  const effects=el("effectBadges");effects.replaceChildren();
- const chips=[["🛡",s.block],["❄",enemy.weaken],["☠",enemy.poison],["✧",enemy.vulnerable],["📖",s.powerDraw]];
+ const chips=[["🛡",s.block],["敵防御",enemy.block],["敵強化",enemy.strength],["自強化",s.strength],["❄",enemy.weaken],["☠",enemy.poison],["✧",enemy.vulnerable],["📖",s.powerDraw]];
  if(enemy.role==="boss"){const n=s.enemies.filter(e=>e.role==="guard"&&e.hp>0).length;if(n)chips.push(["護衛",n*2]);}
  for(const [name,n] of chips){if(n<=0)continue;const chip=document.createElement("span");chip.className="pilot-chip";chip.textContent=name+" "+n;effects.append(chip);}
  el("relicStatus").hidden=true;
@@ -146,7 +146,7 @@ function renderOverlay(s){
  advance.hidden=true;skip.hidden=true;again.hidden=true;rewards.hidden=true;
  if(s.phase==="reward"){
   el("journeyTitle").textContent="第"+(s.stage+1)+"戦に勝利";
-  el("journeyHint").textContent="次の戦いへ追加する魔法を1枚選ぶか、見送ろう。";
+  el("journeyHint").textContent="戦闘後にHPを最大6回復。次の敵に備えて3枚から1枚選ぶか、見送ろう。";
   rewards.hidden=false;skip.hidden=false;
   for(const id of s.rewards){
     const btn=cardButton(id);btn.addEventListener("click",()=>{if(game.chooseReward(id))render();});rewards.append(btn);
