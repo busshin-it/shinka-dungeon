@@ -184,11 +184,13 @@ function renderSetup(){
  const target=el("setupChoices");target.replaceChildren();
  for(const id of ["lightning","scatter","flow","dragonEgg"]){
    const b=cardButton(id);b.classList.add("pilot-start-card");
-    if(id==="dragonEgg")b.querySelector(".b1-dragon-card-art").src="./assets/b1-starter-dragon-egg.webp";
-    const artFile={lightning:"b1-starter-lightning.webp",scatter:"b1-starter-scatter.webp",flow:"b1-starter-flow.webp"}[id];
-    if(artFile){const img=document.createElement("img");img.className="b1-dragon-card-art";
-      img.src="./assets/"+artFile;img.alt="";img.loading="lazy";
-      b.classList.add("b1-art-card");b.insertBefore(img,b.querySelector(".pilot-card-copy"));}
+    // Each card shows its own section of the approved reference artwork.
+    b.querySelector(".b1-dragon-card-art")?.remove();
+    const artPanel=document.createElement("span");
+    artPanel.className="b1-starter-card-art b1-starter-card-art--"+id;
+    artPanel.setAttribute("aria-hidden","true");
+    b.classList.add("b1-art-card");
+    b.insertBefore(artPanel,b.querySelector(".pilot-card-copy"));
    b.addEventListener("click",()=>{if(game.selectStarter(id)){targetId=null;render();}});
    target.append(b);
  }
