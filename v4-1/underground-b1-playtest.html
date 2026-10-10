@@ -257,7 +257,7 @@ function render(){
 }
 const gameStage=document.querySelector("#playScreen .stage");
 const actions=attachB1Actions({
- hand:el("hand"),stage:gameStage,enemyPuppet:el("enemyPuppet"),choices:el("enemyLineup"),cards:CARDS,
+ hand:el("hand"),stage:gameStage,enemyPuppet:el("enemyPuppet"),choices:el("enemyLineup"),cards:new Proxy(CARDS,{get:(_,id)=>getB1Card(id)}),
  read:()=>game.snapshot(),selectedTarget:()=>targetId,
  cast:(index,id,cardId,sourceRect,before)=>{
   if(!game.play(index,id))return false;
