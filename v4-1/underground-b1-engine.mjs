@@ -21,9 +21,12 @@ export const CARDS = Object.freeze({
  flare:{name:"毒炎",cost:1,kind:"attack",text:"6ダメージ。毒の敵なら＋6",damage:6,poisonBonus:6},
  frostBreak:{name:"霜砕き",cost:1,kind:"attack",text:"5ダメージ。弱体の敵には＋7",damage:5,weakBonus:7},
  echoGuard:{name:"返響の盾",cost:1,kind:"guard",text:"防御4。先に攻撃していれば2枚引く",block:4,afterAttackDraw:2},
- lingeringPoison:{name:"余毒の頁",cost:1,kind:"poison",text:"毒2を付与。対象がすでに毒なら2枚引く",poison:2,poisonDraw:2}
+ lingeringPoison:{name:"余毒の頁",cost:1,kind:"poison",text:"毒2を付与。対象がすでに毒なら2枚引く",poison:2,poisonDraw:2},
+ dragonEgg:{name:"竜の卵",cost:1,kind:"dragon",text:"竜を召喚。既にいるなら1段階成長。",art:"b1-dragon-egg.webp"},
+ dragonFeed:{name:"竜の餌",cost:0,kind:"dragonFeed",text:"竜を1段階成長。手札を1枚選んで捨てる。廃棄",dragonGrowth:1,exhaust:true,art:"b1-dragon-feed.webp"},
+ dragonBreath:{name:"竜息",cost:1,kind:"dragonBreath",text:"敵全体に4＋竜の段階×3ダメージ。",damage:4,dragonPowerPerStage:3,art:"b1-dragon-breath.webp"}
 });
-export function getB1Card(id){const up=typeof id==="string"&&id.endsWith("~"),base=up?id.slice(0,-1):id;const card=CARDS[base];if(!card)return null;if(!up)return card;const next={...card,name:card.name+"＋"};const stat=["damage","block","heal","poison","weaken","vulnerable","energyGain","draw","strengthGain","powerDraw"].find(k=>Number.isFinite(card[k])&&card[k]>0);if(stat){const bonus=["damage","block","heal"].includes(stat)?3:1;next[stat]+=bonus;next.text=card.text+"（"+stat+"＋"+bonus+"）";}else{next.cost=Math.max(0,card.cost-1);next.text=card.text+"（魔力－1）";}return next;}
+export function getB1Card(id){const up=typeof id==="string"&&id.endsWith("~"),base=up?id.slice(0,-1):id;const card=CARDS[base];if(!card)return null;if(!up)return card;const next={...card,name:card.name+"＋"};if(base==="dragonFeed"){next.dragonGrowth=2;next.text="竜を2段階成長。手札を1枚選んで捨てる。廃棄";return next;}const stat=["damage","block","heal","poison","weaken","vulnerable","energyGain","draw","strengthGain","powerDraw"].find(k=>Number.isFinite(card[k])&&card[k]>0);if(stat){const bonus=["damage","block","heal"].includes(stat)?3:1;next[stat]+=bonus;next.text=card.text+"（"+stat+"＋"+bonus+"）";}else{next.cost=Math.max(0,card.cost-1);next.text=card.text+"（魔力－1）";}return next;}
 export const STARTER = Object.freeze(["bolt","bolt","bolt","bolt","guard","guard","guard","guard","break"]);
 export const STAGES = Object.freeze([
  {name:"B1・入口",hint:"硬い敵を相手に攻撃するか防御するか。次の攻撃を予測しよう。",enemies:[{id:"rat",name:"石牙獣",maxHp:42,role:"rat"}],rewards:["ward","double","poison","spark","flow","heal","frost"]},
@@ -42,13 +45,15 @@ export const IDEAL_B1_BOSS_DECK=Object.freeze([...STARTER,"scatter","ward","focu
 // Alternate reachable 14-card benchmark: set up attack power, draw the combo, sweep guards, finish with chain lightning.
 export const COMBO_B1_BOSS_DECK=Object.freeze([...STARTER,"scatter","flow","chain","strength","charge"]);
 export const B1_BOSS_CHANNEL_THRESHOLD=24;
+export const DRAGON_STAGES=Object.freeze(["卵","孵化","幼竜","成長期","小型竜","中型竜","大型竜","巨竜","神龍"]);
+const DRAGON_TURN_DAMAGE=Object.freeze([0,0,2,4,6,9,13,12,20]);
 const clone=x=>JSON.parse(JSON.stringify(x));
 export function createB1Game(options={}){
  let seed=(Number(options.seed)>>>0)||20261010;
  const random=()=>{seed=(Math.imul(seed,1664525)+1013904223)>>>0;return seed/4294967296;};
  const shuffle=a=>{for(let i=a.length-1;i>0;i--){const j=Math.floor(random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;};
  const testMaxHp=Number.isInteger(options.maxHp)&&options.maxHp>=1&&options.maxHp<=999?options.maxHp:75;
- let s={lastSynergy:null,phase:"starter",stage:0,turn:1,hp:testMaxHp,maxHp:testMaxHp,energy:3,block:0,attacksThisTurn:0,powerDraw:0,strength:0,selected:null,deck:Array.isArray(options.testDeck)&&options.testDeck.length>0&&options.testDeck.length<=30&&options.testDeck.every(id=>Object.hasOwn(CARDS,id))?[...options.testDeck]:[...STARTER],hand:[],draw:[],discard:[],exhaust:[],powers:[],enemies:[],rewards:[],gold:0,shopPending:false,shopUsed:false,shopPurchases:[],restPending:false,restUsed:false,restChoice:null,selectedPath:null,routeHistory:[],log:["最初に得意な魔法を1枚選んで地下迷宮へ。"]};
+ let s={dragonStage:-1,lastSynergy:null,phase:"starter",stage:0,turn:1,hp:testMaxHp,maxHp:testMaxHp,energy:3,block:0,attacksThisTurn:0,powerDraw:0,strength:0,selected:null,deck:Array.isArray(options.testDeck)&&options.testDeck.length>0&&options.testDeck.length<=30&&options.testDeck.every(id=>Object.hasOwn(CARDS,id))?[...options.testDeck]:[...STARTER],hand:[],draw:[],discard:[],exhaust:[],powers:[],enemies:[],rewards:[],gold:0,shopPending:false,shopUsed:false,shopPurchases:[],restPending:false,restUsed:false,restChoice:null,selectedPath:null,routeHistory:[],log:["最初に得意な魔法を1枚選んで地下迷宮へ。"]};
  function note(t){s.log.unshift(t);s.log=s.log.slice(0,18);}
  const alive=()=>s.enemies.filter(e=>e.hp>0);
  const find=id=>s.enemies.find(e=>e.id===id&&e.hp>0);
@@ -57,7 +62,9 @@ export function createB1Game(options={}){
   const stage=s.stage===1?B1_FORK_ROUTES[s.selectedPath||"pack"]:STAGES[s.stage];s.enemies=stage.enemies.map(e=>({...clone(e),hp:e.maxHp,weaken:0,poison:0,vulnerable:0,block:0,strength:0,channelDamage:0,channelBroken:false}));s.turn=1;s.block=0;s.energy=3;s.attacksThisTurn=0;s.powerDraw=0;s.strength=0;
   s.lastSynergy=null;s.hand=[];s.discard=[];s.exhaust=[];s.powers=[];s.draw=shuffle([...s.deck]);s.selected=s.enemies.find(e=>e.role!=="boss")?.id||s.enemies[0].id;s.phase="battle";drawCards(5);note(stage.name+"：戦闘開始。");
  }
- function selectStarter(id){if(s.phase!=="starter"||!["lightning","scatter","flow"].includes(id))return false;s.deck.push(id);start();return true;}
+ function selectStarter(id){if(s.phase!=="starter"||!["lightning","scatter","flow","dragonEgg"].includes(id))return false;
+  if(id==="dragonEgg")s.deck.push("dragonEgg","dragonFeed","dragonBreath");else s.deck.push(id);
+  start();return true;}
  function protectors(){return s.stage===STAGES.length-1?alive().filter(e=>e.role==="guard").length:0;}
  function recordBossDamage(e,n){
   if(e.role!=="boss"||n<=0||e.channelBroken||(s.turn-1)%4===3)return;
@@ -78,6 +85,27 @@ export function createB1Game(options={}){
   note(target.name+"に合計"+total+"ダメージ"+(hits>1?"（"+hits+"回攻撃）":"")+"。");
   return total;
  }
+ function growDragon(n=1){
+  if(s.dragonStage<0)return false;
+  const before=s.dragonStage;
+  s.dragonStage=Math.min(DRAGON_STAGES.length-1,before+n);
+  if(s.dragonStage>before)note("竜が成長："+DRAGON_STAGES[s.dragonStage]+"！");
+  return s.dragonStage>before;
+ }
+ function dragonStrike(base,all){
+  const enemies=alive();
+  if(!enemies.length)return;
+  const chosen=all?enemies:[enemies.find(e=>e.role!=="boss")||enemies[0]];
+  const guardArmor=protectors()*2;
+  for(const e of chosen){
+    const boosted=e.vulnerable>0?Math.floor(base*1.5):base;
+    const raw=Math.max(0,boosted-(e.role==="boss"?guardArmor:0));
+    const blocked=Math.min(e.block,raw);e.block-=blocked;
+    const dealt=Math.min(e.hp,raw-blocked);e.hp-=dealt;
+    recordBossDamage(e,dealt);
+    note("竜息："+e.name+"に"+dealt+"ダメージ。");
+  }
+ }
  function checkVictory(){
   if(alive().length>0)return false;
   if(s.stage===STAGES.length-1){s.phase="won";note("地下迷宮B1を突破！");}
@@ -88,13 +116,25 @@ export function createB1Game(options={}){
   if(s.phase!=="battle"||!Number.isInteger(index)||index<0||index>=s.hand.length)return false;
   const id=s.hand[index],card=getB1Card(id);if(!card||s.energy<card.cost)return false;
   const targeted=["attack","multi","poison","fragile"].includes(card.kind);
+  if(card.kind==="dragonFeed"&&(s.dragonStage<0||!Number.isInteger(targetId)||targetId===index||targetId<0||targetId>=s.hand.length))return false;
   const target=targeted?find(targetId||s.selected):null;
   if(targeted&&!target)return false;
   s.lastSynergy=null;
   const synergy=(title,detail)=>{s.lastSynergy={cardId:id,title,detail};};
   s.hand.splice(index,1);
   s.energy-=card.cost;
-  if(card.kind==="attack"||card.kind==="multi"){
+  if(card.kind==="dragon"){
+    if(s.dragonStage<0){s.dragonStage=0;note("竜の卵を召喚した。");}
+    else growDragon(1);
+   }else if(card.kind==="dragonFeed"){
+    const removed=s.hand.splice(targetId>index?targetId-1:targetId,1)[0];
+    s.discard.push(removed);
+    growDragon(card.dragonGrowth);
+    note("竜の餌："+getB1Card(removed).name+"を捨てた。");
+   }else if(card.kind==="dragonBreath"){
+    dragonStrike(card.damage+Math.max(0,s.dragonStage)*card.dragonPowerPerStage,true);
+    s.attacksThisTurn++;
+   }else if(card.kind==="attack"||card.kind==="multi"){
    const chainReady=Boolean(card.chain&&s.attacksThisTurn>0);
    const poisonReady=Boolean(card.poisonBonus&&target.poison>0);
    const weakReady=Boolean(card.weakBonus&&target.weaken>0);
@@ -170,6 +210,14 @@ export function createB1Game(options={}){
  function endTurn(){
   if(s.phase!=="battle")return false;
   s.lastSynergy=null;
+  if(s.dragonStage>=0){
+    growDragon(1);
+    if(s.dragonStage===1){s.block+=2;note("孵化した竜が防御2を与えた。");}
+    else if(s.dragonStage>=2){
+      dragonStrike(DRAGON_TURN_DAMAGE[s.dragonStage],s.dragonStage>=7);
+      if(checkVictory())return true;
+    }
+  }
   for(const e of [...s.enemies]){
    if(e.hp<=0)continue;
    // Poison hits before the enemy acts, even if charging, then weakens by 1.
@@ -250,6 +298,7 @@ function choosePath(id){
      shopAvailable:s.phase==="between"&&s.stage===2&&s.shopPending&&!s.practiceMode,
      shopStock:SHOP_STOCK,
      restAvailable:s.phase==="between"&&s.stage===1&&s.restPending&&!s.practiceMode,
+      dragonName:s.dragonStage<0?null:DRAGON_STAGES[s.dragonStage],
       availablePaths:s.phase==="between"&&s.stage===0&&s.selectedPath===null?Object.keys(B1_FORK_ROUTES):[]});
   }
  function startBossPractice(mode="ideal"){
