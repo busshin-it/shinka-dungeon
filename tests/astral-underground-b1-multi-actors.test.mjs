@@ -31,7 +31,7 @@ test("other simultaneous battles also expose two different roles rather than one
 });
 test("lineup renders a targetable actor for every combatant with sprite, HP bar, intent and status",()=>{
  assert.match(html,/id="enemyLineup" class="b1-enemy-lineup"/);
- for(const p of ["data-b1-enemy","b1-enemy-actor","b1-actor-figure","b1-actor-name","b1-actor-hpbar","b1-actor-intent","b1-actor-status","b1-actor-cast","channelDamage","B1_BOSS_CHANNEL_THRESHOLD"])
+ for(const p of ["b.dataset.b1Enemy=e.id","b1-enemy-actor","b1-actor-figure","b1-actor-name","b1-actor-hpbar","b1-actor-intent","b1-actor-status","b1-actor-cast","channelDamage","B1_BOSS_CHANNEL_THRESHOLD"])
   assert.ok(html.includes(p),"missing actor UI: "+p);
  assert.match(html,/b\.addEventListener\("click",\(\)=>actions\.handleTargetClick\(e\.id\)\)/);
  assert.match(html,/b\.disabled=e\.hp<=0/);
