@@ -41,11 +41,11 @@
 .pilot-mode .b1-fire-starter-choices .b1-fire-card-art{
  width:100%;height:146px;flex:0 0 146px;
 }
-.pilot-mode .b1-fire-starter-choices .pilot-card-copy{
+.pilot-mode .b1-fire-starter-choices .pilot-card.b1-fire-starter-card .pilot-card-copy{
  display:flex;flex-direction:column;padding:8px 10px;gap:4px;min-height:0;
 }
-.pilot-mode .b1-fire-starter-choices .pilot-card-copy strong{font-size:15px;margin:0}
-.pilot-mode .b1-fire-starter-choices .pilot-card-copy .desc{font-size:11px;line-height:1.3}
+.pilot-mode .b1-fire-starter-choices .pilot-card.b1-fire-starter-card .pilot-card-copy strong{font-size:15px;margin:0}
+.pilot-mode .b1-fire-starter-choices .pilot-card.b1-fire-starter-card .pilot-card-copy .desc{font-size:11px;line-height:1.3}
 .pilot-mode .b1-fire-starter-card:focus-visible{outline:3px solid #f6d782;outline-offset:2px}
 .pilot-mode .b1-fire-starter-card:hover{border-color:#ffe0a2;filter:brightness(1.04)}
 .pilot-mode .b1-fire-shop-thumb{
