@@ -105,13 +105,31 @@ export function createB1Game(options={}){
   if(!e||e.hp<=0)return{kind:"none",label:"撃破"};
   const t=s.turn;
   if(e.role==="boss"){
-   const seq=(t-1)%4;
-   return seq===0?{kind:"rest",label:"溜め 1/2"}:seq===1?{kind:"rest",label:"溜め 2/2"}:seq===2?{kind:"attack",label:"地鳴り 12",damage:12}:{kind:"rest",label:"疲労・隙"};
+   const n=(t-1)%4;
+   return n===0?{kind:"rest",label:"溜め 1/2"}:n===1?{kind:"rest",label:"溜め 2/2"}:n===2?{kind:"attack",label:"地鳴り 21",damage:21}:{kind:"rest",label:"疲労・隙"};
   }
-  if(e.role==="guard"||e.role==="imp")return (t+(e.id==="right"?1:0))%2===0?{kind:"rest",label:"防御態勢"}:{kind:"attack",label:"小突き 3",damage:3};
-  if(e.role==="rat")return t%3===2?{kind:"rest",label:"様子を見る"}:{kind:"attack",label:"噛みつき 4",damage:4};
-  if(e.role==="wolf")return t%3===2?{kind:"rest",label:"身構える"}:{kind:"attack",label:"飛びかかり 5",damage:5};
-  return{kind:"attack",label:"攻撃 4",damage:4};
+  if(e.role==="rat"){
+   const n=(t-1)%3;
+   return n===0?{kind:"attack",label:"噛み砕く "+(9+e.strength),damage:9+e.strength}:
+    n===1?{kind:"buff",label:"殻を固める（防御6・攻撃＋2）",blockGain:6,strengthGain:2}:
+    {kind:"attack",label:"強打 "+(7+e.strength),damage:7+e.strength};
+  }
+  if(e.role==="wolf")return t===2?{kind:"buff",label:"遠吠え（攻撃＋2）",strengthGain:2}:
+    {kind:"attack",label:"飛びかかり "+(6+e.strength),damage:6+e.strength};
+  if(e.role==="imp"||e.role==="guard"){
+   const busy=(t+(e.id==="right"?1:0))%2===0;
+   return busy?{kind:"buff",label:"盾を構える（防御4）",blockGain:4}:
+    {kind:"attack",label:"小突き 5",damage:5};
+  }
+  if(e.role==="ritual")return t===1?{kind:"buff",label:"闇の詠唱（毎ターン攻撃＋3）",ritualGain:3}:
+    {kind:"attack",label:"呪詛 "+(6+e.strength),damage:6+e.strength,ritualGain:3};
+  if(e.role==="elite"){
+   const n=(t-1)%3;
+   return n===0?{kind:"attack",label:"二連斬り "+(7+e.strength)+"×2",damage:7+e.strength,hits:2}:
+    n===1?{kind:"buff",label:"武装強化（防御9・攻撃＋2）",blockGain:9,strengthGain:2}:
+    {kind:"attack",label:"渾身の一撃 "+(16+e.strength),damage:16+e.strength};
+  }
+  return{kind:"attack",label:"攻撃 6",damage:6};
  }
  function endTurn(){
   if(s.phase!=="battle")return false;
