@@ -90,6 +90,7 @@
 }
 </style>
 <link rel="stylesheet" href="./underground-b1-starter-art.css">
+<link rel="stylesheet" href="./underground-b1-dragon-visuals.css">
 </head>
 <body class="planning-mode pilot-mode"><main class="game pilot-game">
 <header class="masthead"><div><h1>蒼星の回廊 <small>進化ダンジョン</small></h1></div><div class="header-actions">
@@ -110,6 +111,10 @@
     <div class="stage-shade"></div>
     <div class="hud hero-hud"><span class="eyebrow">THE WANDERER</span><h2>蒼星の魔法師</h2><div class="hp-line"><span>HP</span><strong id="heroHp">60 / 60</strong></div><div id="heroMeter" class="hp-bar" role="meter" aria-label="旅人のHP" aria-valuemin="0" aria-valuemax="60"><i id="heroFill"></i></div><p id="heroStatus">ブロック 0</p><p id="dragonHud" class="b1-dragon-hud" hidden aria-live="polite"></p><p id="planningStatus" class="planning-status"></p><p id="charm" class="charm"></p></div>
     <div id="heroPuppet" class="puppet hero-puppet"><i class="orb-glow" aria-hidden="true"></i><img src="./assets/hero.webp" alt="銀髪と藍紫の帽子、青い球の杖を持つ魔法師"></div>
+    <aside id="b1DragonCompanion" class="b1-dragon-companion" hidden aria-label="召喚したドラゴン">
+      <div id="b1DragonPortrait" class="b1-dragon-portrait" role="img"></div>
+      <div class="b1-dragon-caption"><strong id="b1DragonTitle"></strong><span id="b1DragonGrowth"></span></div>
+    </aside>
     <div class="stage-title"><span id="roomName">地下迷宮 B1</span><small id="round">第1/3戦</small><div id="targetChoices" class="b1-targets" aria-label="攻撃する敵を選ぶ"></div></div>
     <div id="b1Campfire" class="b1-campfire" hidden aria-label="休憩所の焚き火"><span class="b1-camp-flame" aria-hidden="true">🔥</span><strong>旅路の休息</strong></div><div id="enemyPuppet" class="puppet enemy-puppet"><img id="enemyArt" src="./assets/gatekeeper.webp" alt="蒼鎧の門番"></div>
     <div class="hud enemy-hud"><span class="eyebrow">IN YOUR PATH</span><h2 id="enemyName">蒼鎧の門番</h2><div class="hp-line"><span>HP</span><strong id="enemyHp">48 / 48</strong></div><div id="enemyMeter" class="hp-bar" role="meter" aria-label="敵のHP" aria-valuemin="0" aria-valuemax="48"><i id="enemyFill"></i></div><div id="intent" class="intent"><small>このターン終了時</small><strong id="intentName">剣のひと振り 7</strong><span id="intentText"></span><div id="breakTrack" class="break-track" hidden><i id="breakFill"></i></div></div></div>
@@ -155,6 +160,7 @@
 import {CARDS,STAGES,createB1Game,getB1Card,IDEAL_B1_BOSS_DECK,COMBO_B1_BOSS_DECK,B1_BOSS_CHANNEL_THRESHOLD} from "./underground-b1-engine.mjs";
 import {attachB1Actions} from "./underground-b1-actions.mjs";
 import {showB1Feedback} from "./underground-b1-feedback.mjs";
+import {getB1DragonVisual} from "./underground-b1-dragon-visuals.mjs";
 const el=id=>document.getElementById(id);
 let game=createB1Game({seed:Date.now()}),targetId=null;
 const typeNames={attack:"攻撃",multi:"連撃",all:"全体攻撃",heal:"回復",poison:"状態異常",fragile:"状態異常",guard:"防御",draw:"ドロー",energy:"魔力",power:"能力",dragon:"召喚",dragonFeed:"育成",dragonBreath:"全体攻撃"};
@@ -168,7 +174,18 @@ function cardButton(id){
  const name=document.createElement("strong");name.textContent=c.name;
  const desc=document.createElement("span");desc.className="desc";desc.textContent=c.text;
  copy.append(name,desc);btn.append(cost,type);
- if(c.art){const img=document.createElement("img");img.className="b1-dragon-card-art";img.src="./assets/"+c.art;img.alt="";img.loading="lazy";btn.classList.add("b1-art-card");btn.append(img);}
+ if(c.art){
+   const stage=c.kind==="dragon"?0:c.kind==="dragonFeed"?1:Math.max(2,game.snapshot().dragonStage);
+   const visual=getB1DragonVisual(stage);
+   if(visual){
+     const sprite=document.createElement("span");sprite.className="b1-dragon-card-art b1-dragon-card-sprite";
+     sprite.style.backgroundPosition=visual.position;sprite.setAttribute("aria-hidden","true");
+     btn.classList.add("b1-art-card");btn.append(sprite);
+   }else{
+     const img=document.createElement("img");img.className="b1-dragon-card-art";img.src="./assets/"+c.art;
+     img.alt="";img.loading="lazy";btn.classList.add("b1-art-card");btn.append(img);
+   }
+ }
  btn.append(copy);
  btn.setAttribute("aria-label",c.name+"、魔力"+c.cost+"。"+c.text);
  return btn;
@@ -261,6 +278,14 @@ function renderStage(s){
  el("heroStatus").textContent="防御 "+s.block;
  const dragon=el("dragonHud");dragon.hidden=s.dragonStage<0;
  dragon.textContent=s.dragonStage<0?"":"🐉 竜："+s.dragonName+"（"+(s.dragonStage+1)+"/9） · ターン終了で進化";
+ const dragonVisual=getB1DragonVisual(s.dragonStage);
+ const companion=el("b1DragonCompanion");companion.hidden=!dragonVisual;
+ if(dragonVisual){
+   const portrait=el("b1DragonPortrait");portrait.style.backgroundPosition=dragonVisual.position;
+   portrait.setAttribute("aria-label",dragonVisual.label+"の姿");
+   el("b1DragonTitle").textContent=dragonVisual.label;
+   el("b1DragonGrowth").textContent="進化 "+(s.dragonStage+1)+"/9 · "+s.dragonName;
+ }
  el("planningStatus").textContent=s.energy<=0?"魔力がないのでターン終了しよう。":"敵を選び、カードを使おう。";
  const next=s.intents.find(i=>i.id===enemy.id);
  el("intent").classList.toggle("calm",next?.kind!=="attack");
