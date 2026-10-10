@@ -37,6 +37,7 @@ function createFixture(cardKind="attack"){
  const wrap=element(),stage=element("section",rect(0,0,600,400)),hand=element(),choices=element(),enemyPuppet=element();
  stage.parentElement=wrap;
  const button=element("button",rect(70,440,110,140));button.isHand=true;
+ hand.querySelector=selector=>selector.startsWith('[data-b1-hand="')?button:null;
  hand.querySelectorAll=selector=>selector.includes("[data-b1-hand]")?[button]:selector.includes("b1-pressing")||selector.includes("b1-drag-source")?(button.classList.contains("b1-pressing")||button.classList.contains("b1-drag-source")?[button]:[]):[];
  const enemy=element("button",rect(350,120,110,145));enemy.isEnemy=true;enemy.dataset.b1Enemy="rat";
  choices.querySelectorAll=selector=>selector.includes("[data-b1-enemy]")?[enemy]:selector.includes("b1-drop-target")?(enemy.classList.contains("b1-drop-target")?[enemy]:[]):[];
