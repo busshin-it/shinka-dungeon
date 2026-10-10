@@ -109,9 +109,6 @@ test("starting magic selector fits four cards and keeps artwork separate from de
  assert.match(html,/max-width:850px[\s\S]*?grid-template-columns:repeat\(2,minmax\(0,1fr\)\)/);
  assert.match(html,/\.pilot-start-card\.b1-art-card \.b1-dragon-card-art[\s\S]*?position:static/);
  assert.match(html,/\.pilot-start-card\.b1-art-card \.pilot-card-copy[\s\S]*?padding:11px 12px 10px/);
- for(const id of ["lightning","scatter","flow"]){
-  assert.ok(html.includes(id+':"')===false || html.includes(id+':"'));
- }
  for(const asset of ["star-relay.webp","pilot-doom-bullet.webp","star-bookmark.webp"]){
   const bytes=readFileSync(new URL("../v4-1/assets/"+asset,import.meta.url));
   assert.ok(bytes.length>100,asset+" must exist");
