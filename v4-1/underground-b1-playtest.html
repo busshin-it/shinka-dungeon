@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#101a26">
+<title>地下迷宮 B1｜魔法使いの試遊</title>
+<style>
+:root{color-scheme:dark;--bg:#101a26;--panel:#1a2939;--panel2:#203549;--line:#466077;--ink:#ecf2ee;--muted:#aebdc6;--gold:#ead29a;--red:#ee937e;--mint:#86dfca;--blue:#9ac8f7}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 50% -10%,#294051 0%,#101a26 60%);color:var(--ink);font:15px/1.55 system-ui,-apple-system,"Hiragino Kaku Gothic ProN","Yu Gothic",sans-serif;min-height:100vh}
+button{font:inherit;cursor:pointer}button:disabled{cursor:not-allowed;opacity:.48}button:focus-visible{outline:3px solid #f3d796;outline-offset:3px}
+main{max-width:1240px;margin:0 auto;padding:22px 22px 36px}
+.top{display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap;border-bottom:1px solid #4c607570;padding-bottom:14px}
+.eyebrow{font-size:.72rem;font-weight:750;letter-spacing:.16em;color:var(--mint)}h1{margin:0;font-size:clamp(1.5rem,3vw,2.3rem);letter-spacing:.07em}h2{font-size:1.25rem;line-height:1.35;margin:0 0 9px}h3{font-size:1rem;margin:0 0 9px}p{margin:6px 0 10px}.subtitle,.dim{color:var(--muted)}.small{font-size:.84rem}.topactions{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.btn{border:1px solid #648093;background:#284157;color:#f3f7f4;border-radius:12px;padding:10px 16px;font-weight:700;transition:background .16s}.btn:hover:not(:disabled){background:#33516a}.btn.primary{background:#d9b977;border-color:#e6ca91;color:#192635}.btn.primary:hover{background:#efd49b}.btn.ghost{background:transparent}
+.pills{display:flex;gap:7px;flex-wrap:wrap;margin:14px 0}.pill{background:#243647;border:1px solid #445b6f;padding:5px 12px;border-radius:99px;color:#d0dfe2;font-size:.8rem}
+.stage{border:1px solid #455b70;border-radius:20px;background:linear-gradient(145deg,#1b3043,#172636);box-shadow:0 18px 50px #040a1280;padding:18px}
+.stageHead{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap;margin-bottom:14px}.stageHead p{margin:3px 0;color:var(--muted)}.board{display:grid;grid-template-columns:220px minmax(0,1fr) 220px;gap:13px}
+.panel{border:1px solid #3e5668;background:#122131b8;border-radius:15px;padding:14px}.heroSymbol{font-size:2.7rem;line-height:1.1}.stat{display:flex;justify-content:space-between;align-items:baseline;margin-top:7px;font-size:.91rem}.stat strong{font-size:1.1rem}
+.meter{height:10px;background:#3b4852;border-radius:99px;overflow:hidden;margin-top:4px}.meter i{display:block;height:100%;background:linear-gradient(90deg,#b65e61,#e59b8d)}.shieldStat{color:var(--mint)}.energyStat{color:var(--gold)}.enemies{display:flex;align-items:stretch;justify-content:center;gap:12px;flex-wrap:wrap;min-height:230px}
+.enemy{flex:1 1 140px;min-width:125px;max-width:195px;text-align:center;border:2px solid #3d576b;border-radius:16px;background:#172a3c;padding:14px 9px 10px;color:var(--ink);position:relative;display:flex;flex-direction:column;align-items:center;gap:5px;justify-content:flex-start}
+.enemy[aria-pressed="true"]{border-color:#efd294;box-shadow:0 0 0 2px #ab8f4d54;background:#283c49}
+.enemy:disabled{opacity:.33}.enemy .creature{font-size:3.15rem;line-height:1.1;padding:6px 0 0}.enemy.boss{max-width:215px;background:linear-gradient(#283447,#192d42)}
+.enemy .name{font-weight:800;font-size:.92rem}.enemy .hp{color:#ffbdab;font-size:.85rem}.enemy .intent{background:#2c4152;border:1px solid #556c7d;border-radius:8px;padding:5px 7px;font-size:.75rem;line-height:1.4;min-height:31px;color:#fff2d5}.enemy .status{color:#b3e5de;min-height:20px;font-size:.76rem}.enemy .selected{position:absolute;top:3px;right:7px;color:#efd294;font-size:.63rem;font-weight:800}
+.advice{margin:0;padding-left:18px;color:#c8d7da;font-size:.86rem}.advice li{padding:0 0 9px}
+.handArea{margin-top:13px;border-top:1px solid #4a607170;padding-top:15px}.handTop{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:10px}.handTitle{font-size:1rem;font-weight:780}.hand{display:flex;gap:9px;flex-wrap:wrap;justify-content:flex-start}
+.card{width:153px;min-height:187px;display:flex;flex-direction:column;align-items:stretch;gap:7px;padding:11px;border-radius:13px;border:2px solid #59758b;color:var(--ink);text-align:left;background:linear-gradient(160deg,#2e465e,#1b2f45);box-shadow:0 5px 15px #050c15a9;position:relative}
+.card.attack{border-color:#bd8885}.card.all{border-color:#d5ad83}.card.heal{border-color:#72a995}.card.weaken,.card.poison,.card.fragile{border-color:#8b9fbe}.card.guard{border-color:#82aeb2}
+.card:hover:not(:disabled){transform:translateY(-3px);filter:brightness(1.12)}.cardName{font-weight:850;padding-right:29px}.cost{position:absolute;top:8px;right:8px;background:#0e2336;color:#e7d299;border:1px solid #b9a16b;border-radius:100px;width:29px;height:29px;display:grid;place-items:center;font-weight:800}
+.cardSymbol{font-size:2.05rem;text-align:center;line-height:1.3;margin:9px 0 5px}.cardText{font-size:.81rem;line-height:1.38;color:#f1e9de;flex:1}.cardType{color:#b2c7d3;font-size:.68rem}
+.log{max-height:146px;overflow:auto;padding:10px 12px;border:1px solid #354c5e;border-radius:10px;background:#0f1c2b;color:#bbcbd2;font-size:.78rem;white-space:pre-line}
+.controls{display:flex;align-items:center;gap:10px;flex-wrap:wrap}.help{margin:12px 0 0;color:#bdc9ce;font-size:.8rem}
+.overlay{padding:24px;max-width:740px;margin:22px auto 0;text-align:center;border:1px solid #526d79;border-radius:21px;background:linear-gradient(160deg,#203a49,#182a3b);box-shadow:0 20px 65px #040b1395}
+.overlay h2{font-size:1.55rem;margin-bottom:12px}.optionGrid{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin:16px 0}.choice{width:195px;min-height:140px;border-radius:14px;border:1px solid #7a8c9a;color:var(--ink);background:#253b4d;padding:16px;text-align:left}.choice:hover{border-color:#edce90;background:#304c5d}.choice .name{font-weight:800;font-size:1.05rem}.choice .desc{font-size:.82rem;line-height:1.5;color:#c6d8d9;margin-top:7px}.choice .mana{color:var(--gold);font-size:.82rem;margin-top:6px}
+.notice{color:#efcf91}.footer{font-size:.76rem;color:#a2b2bd;margin:15px 2px 0}
+@media(max-width:930px){.board{grid-template-columns:190px 1fr}.tips{grid-column:1/-1}.enemies{min-height:170px}.enemy{max-width:200px}}@media(max-width:630px){main{padding:13px 10px}.stage{padding:12px}.board{grid-template-columns:1fr}.hero{display:flex;align-items:center;gap:14px}.heroSymbol{font-size:2rem}.heroStats{flex:1}.enemies{gap:6px}.enemy{flex:1 1 95px;min-width:95px;padding:8px 4px}.enemy .creature{font-size:2.1rem}.enemy .name{font-size:.78rem}.enemy .intent{font-size:.68rem}.hand{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.card{width:100%;min-height:154px}.cardSymbol{margin:3px 0;font-size:1.5rem}.optionGrid .choice{width:100%}.overlay{padding:18px}}
+</style>
+</head>
+<body>
+<main>
+<header class="top"><div><div class="eyebrow">SHINKA DUNGEON · SMALL PLAYTEST</div><h1>地下迷宮 <span style="color:var(--gold)">B1</span></h1><div class="subtitle small">魔法使いの選択を確かめる、独立した試遊版</div></div><div class="topactions"><button class="btn ghost" id="restart">最初から</button><a class="btn ghost" href="./six-paths-pilot.html?mode=long-journey&amp;pace=quick&amp;setup=forge">従来の12戦へ</a></div></header>
+<div class="pills" aria-label="試遊状況"><span class="pill" id="where">入口</span><span class="pill" id="progress">第1戦 / 3</span><span class="pill">試作：仲間・店は未実装</span></div>
+<section id="battleArea" class="stage" hidden>
+ <div class="stageHead"><div><h2 id="stageTitle"></h2><p id="stageHint"></p></div><span class="pill" id="turn">ターン 1</span></div>
+ <div class="board">
+  <div class="panel hero" aria-label="主人公"><div class="heroSymbol" aria-hidden="true">🧙</div><div class="heroStats"><h3>魔法使い</h3><div class="stat"><span>HP</span><strong id="hp"></strong></div><div class="meter" aria-hidden="true"><i id="hpMeter"></i></div><div class="stat shieldStat"><span>防御</span><strong id="block"></strong></div><div class="stat energyStat"><span>魔力</span><strong id="energy"></strong></div></div></div>
+  <div class="enemies" id="enemies" aria-label="敵と攻撃対象"></div>
+  <aside class="panel tips"><h3>この戦闘のヒント</h3><ul class="advice"><li>敵をクリックして攻撃対象を選べる。</li><li>敵の次の行動は毎ターン表示。</li><li>盾の小鬼がいるとボスの直接被害が小さくなる。</li><li>攻撃か、弱体か、回復か。魔力3をどう使う？</li></ul></aside>
+ </div>
+ <div class="handArea"><div class="handTop"><span class="handTitle">手札 <span id="handCount"></span></span><div class="controls"><span class="dim small" id="deckCount"></span><button class="btn primary" id="endTurn">ターン終了 →</button></div></div><div id="hand" class="hand" aria-label="使えるカード"></div><p id="handHint" class="help" role="status"></p></div>
+ <details style="margin-top:15px"><summary class="small" style="cursor:pointer;color:var(--muted)">戦闘ログを見る</summary><div class="log" id="log"></div></details>
+</section>
+<section id="overlay" class="overlay" aria-live="polite"></section>
+<p class="footer">B1の数値とカード性能は試遊用の仮設定。進化ダンジョンの既存版やセーブには影響しません。ページ更新で試遊がリセットされます。</p>
+</main>
+<script type="module">
+import {CARDS,STAGES,createB1Game} from "./underground-b1-engine.mjs";
+const qs=new URLSearchParams(location.search);
+const seed=Number(qs.get("seed"))||Date.now();
+let game=createB1Game({seed});let s=game.snapshot();
+const $=id=>document.getElementById(id);
+const icon={bolt:"✦",lightning:"⚡",scatter:"❇",chain:"⚡",heal:"✚",drain:"♧",frost:"❄",poison:"☣",fragile:"✧",guard:"⬡"};
+const enemyIcon={rat:"🐀",wolf:"🐺",imp:"🛡️",guard:"🛡️",boss:"🪨"};
+function text(el,t){el.textContent=t;}
+function cardButton(id,index){
+ const c=CARDS[id],b=document.createElement("button");b.type="button";b.className="card "+c.kind;b.disabled=s.energy<c.cost;b.dataset.card=String(index);b.title=c.name+"："+c.text;
+ b.innerHTML='<span class="cardName"></span><span class="cost"></span><span class="cardSymbol"></span><span class="cardText"></span><span class="cardType"></span>';
+ b.querySelector(".cardName").textContent=c.name;b.querySelector(".cost").textContent=c.cost;
+ b.querySelector(".cardSymbol").textContent=icon[id];b.querySelector(".cardText").textContent=c.text;
+ b.querySelector(".cardType").textContent=({attack:"単体攻撃",all:"全体攻撃",heal:"回復",weaken:"弱体",poison:"状態異常",fragile:"状態異常",guard:"防御"})[c.kind];
+ return b;
+}
+function renderEnemies(){
+ const list=$("enemies");list.replaceChildren();
+ s.enemies.forEach(e=>{
+  const alive=e.hp>0,b=document.createElement("button");b.type="button";b.className="enemy"+(e.role==="boss"?" boss":"");b.disabled=!alive;b.dataset.enemy=e.id;b.setAttribute("aria-pressed",String(s.selected===e.id));b.setAttribute("aria-label",e.name+" HP"+e.hp+"。選択して攻撃");
+  const it=s.intents.find(x=>x.id===e.id);
+  let tags=[];if(e.weaken)tags.push("弱体 "+e.weaken);if(e.poison)tags.push("毒 "+e.poison);if(e.fragile)tags.push("脆弱 "+e.fragile);
+  b.innerHTML='<span class="selected"></span><span class="creature" aria-hidden="true"></span><span class="name"></span><span class="hp"></span><span class="intent"></span><span class="status"></span>';
+  b.querySelector(".selected").textContent=s.selected===e.id&&alive?"標的 ✓":"";
+  b.querySelector(".creature").textContent=enemyIcon[e.role]||"👹";b.querySelector(".name").textContent=e.name;
+  b.querySelector(".hp").textContent="HP "+e.hp+" / "+e.maxHp;
+  b.querySelector(".intent").textContent=alive?(it?.label||"様子を見る"):"撃破";
+  b.querySelector(".status").textContent=tags.join(" · ")||" ";
+  list.appendChild(b);
+ });
+}
+function choiceButton(id){const c=CARDS[id];const b=document.createElement("button");b.type="button";b.className="choice";b.dataset.choice=id;b.innerHTML='<div class="name"></div><div class="mana"></div><div class="desc"></div>';b.querySelector(".name").textContent=(icon[id]||"✦")+" "+c.name;b.querySelector(".mana").textContent="魔力 "+c.cost;b.querySelector(".desc").textContent=c.text;return b;}
+function panel(title,description,choices,actions={}){
+ const overlay=$("overlay");overlay.replaceChildren();const hd=document.createElement("h2");text(hd,title);overlay.appendChild(hd);
+ const info=document.createElement("p");info.className="dim";text(info,description);overlay.appendChild(info);
+ if(choices?.length){const row=document.createElement("div");row.className="optionGrid";choices.forEach(id=>row.appendChild(choiceButton(id)));overlay.appendChild(row);}
+ if(actions.label){const b=document.createElement("button");b.type="button";b.className="btn primary";b.dataset.action=actions.action;text(b,actions.label);overlay.appendChild(b);}
+ if(actions.skip){const b=document.createElement("button");b.type="button";b.className="btn ghost";b.dataset.action="skip";text(b,"今回は覚えない");overlay.appendChild(b);}
+}
+function render(){
+ s=game.snapshot();$("battleArea").hidden=s.phase!=="battle";$("overlay").hidden=s.phase==="battle";
+ text($("where"),s.stageName);text($("progress"),"第"+(s.stage+1)+"戦 / "+STAGES.length);
+ if(s.phase==="starter"){panel("魔法使い、地下迷宮へ","最初に覚える魔法を1枚選んでください。途中でさらにカードを獲得できます。",["lightning","scatter","chain"]);return;}
+ if(s.phase==="reward"){panel("勝利！魔法を1枚習得する？","次の敵に備えて強い技を増やすか、デッキを少なく保つか。",s.rewards,{skip:true});return;}
+ if(s.phase==="between"){panel("次の階層へ","HPは次の戦闘にも引き継ぎます。カードは山札へ戻ります。",[],{label:"次の戦いへ →",action:"next"});return;}
+ if(s.phase==="won"){panel("地下迷宮 B1 踏破！","護衛を倒した？ ボスを直接攻めた？ 別の魔法を選んで試せます。",[],{label:"もう一度遊ぶ",action:"restart"});return;}
+ if(s.phase==="lost"){panel("冒険終了","負けた理由は敵の行動順？ 魔力の使い方？ 違う初期魔法で挑戦してみよう。",[],{label:"再挑戦",action:"restart"});return;}
+ text($("stageTitle"),s.stageName);text($("stageHint"),s.stageHint);text($("turn"),"ターン "+s.turn);
+ text($("hp"),s.hp+" / "+s.maxHp);$("hpMeter").style.width=(100*s.hp/s.maxHp).toFixed(1)+"%";
+ text($("block"),s.block);text($("energy"),s.energy+" / 3");renderEnemies();
+ text($("handCount"),"("+s.hand.length+"枚)");text($("deckCount"),"山札 "+s.draw.length+" ／ 捨札 "+s.discard.length);
+ const hand=$("hand");hand.replaceChildren();s.hand.forEach((id,i)=>hand.appendChild(cardButton(id,i)));
+ text($("handHint"),"敵を選んでカードを押す。回復・防御・全体攻撃は標的選択不要。カードを使い終えたらターン終了。");
+ text($("log"),s.log.join("\n"));$("endTurn").disabled=s.phase!=="battle";
+}
+$("enemies").addEventListener("click",e=>{const b=e.target.closest("[data-enemy]");if(!b)return;s.selected=b.dataset.enemy;render();});
+$("hand").addEventListener("click",e=>{const b=e.target.closest("[data-card]");if(!b)return;if(game.play(Number(b.dataset.card),s.selected))render();});
+$("overlay").addEventListener("click",e=>{const b=e.target.closest("[data-choice],[data-action]");if(!b)return;
+ if(b.dataset.choice){if(s.phase==="starter")game.selectStarter(b.dataset.choice);else if(s.phase==="reward")game.chooseReward(b.dataset.choice);}
+ else if(b.dataset.action==="skip")game.chooseReward(null);
+ else if(b.dataset.action==="next")game.nextBattle();
+ else if(b.dataset.action==="restart")restart();
+ render();
+});
+function restart(){game=createB1Game({seed:Date.now()});}
+$("restart").addEventListener("click",()=>{if(confirm("最初からやり直しますか？")){restart();render();}});
+$("endTurn").addEventListener("click",()=>{if(game.endTurn())render();});
+render();
+</script>
+</body>
+</html>
