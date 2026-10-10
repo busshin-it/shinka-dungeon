@@ -41,7 +41,7 @@
 <nav class="journey" aria-label="冒険の進み具合"><span>✦</span><span id="turnNum"></span></nav>
 <section id="setupPanel" class="stage pilot-setup" hidden><div class="pilot-setup-content">
 <div class="pilot-setup-head"><img src="./assets/hero.webp" alt="蒼星の魔法師"><div><h2 id="setupHeading">護符を選ぶ</h2><p id="setupHint"></p></div></div>
-<div id="setupChoices" class="pilot-choices"></div><div class="pilot-setup-actions"><button id="bossPractice" class="primary" type="button">理想14枚でラスボス練習</button><button id="bossBasicPractice" class="quiet" type="button">基本10枚で練習</button><button id="setupReroll" class="quiet" type="button">↻ 別の候補</button></div>
+<div id="setupChoices" class="pilot-choices"></div><div class="pilot-setup-actions"><button id="bossComboPractice" class="primary" type="button">連鎖コンボ14枚で練習</button><button id="bossPractice" class="quiet" type="button">安定型14枚で練習</button><button id="bossBasicPractice" class="quiet" type="button">基本10枚で練習</button><button id="setupReroll" class="quiet" type="button">↻ 別の候補</button></div>
 </div></section>
 <div id="playScreen" class="pilot-play" hidden>
   <section class="stage" aria-label="戦闘画面">
@@ -75,7 +75,7 @@
 <a href="./planning.html">以前の進化ダンジョンを開く</a></div></details>
 </main>
 <script type="module">
-import {CARDS,STAGES,createB1Game,IDEAL_B1_BOSS_DECK,B1_BOSS_CHANNEL_THRESHOLD} from "./underground-b1-engine.mjs";
+import {CARDS,STAGES,createB1Game,IDEAL_B1_BOSS_DECK,COMBO_B1_BOSS_DECK,B1_BOSS_CHANNEL_THRESHOLD} from "./underground-b1-engine.mjs";
 import {attachB1Actions} from "./underground-b1-actions.mjs";
 import {showB1Feedback} from "./underground-b1-feedback.mjs";
 const el=id=>document.getElementById(id);
@@ -101,7 +101,7 @@ function current(s){
 }
 function renderSetup(){
  el("setupHeading").textContent="最初の魔法を選ぶ";
- el("setupHint").textContent="通常はB1を5戦で冒険。ラスボスだけ試したい場合は下の「理想14枚で練習」か「基本10枚で練習」から選べます。";
+ el("setupHint").textContent="通常はB1を5戦で冒険。コンボ特化の14枚と安定型14枚を比べるなら、練習モードでボスから開始。どちらもHP58で挑戦できます。";
  const target=el("setupChoices");target.replaceChildren();
  for(const id of ["lightning","scatter","flow"]){
    const b=cardButton(id);b.classList.add("pilot-start-card");
@@ -171,7 +171,7 @@ function renderStage(s){
  el("drawCount").textContent=s.draw.length;el("discardCount").textContent=s.discard.length;
  el("deckButton").textContent="デッキ "+s.deck.length+"枚";el("deckButton").disabled=false;el("exhaustCount").textContent=s.exhaust.length;
  el("battleLog").textContent=s.log[0]||s.stageHint;
- el("charm").textContent=(s.practiceMode?"ボス練習 · ":"地下迷宮 B1 · ")+s.stageHint;
+ el("charm").textContent=s.practiceMode==="combo"?"コンボ：闘魔の印 → 散弾 → 連鎖雷。術式循環・魔力点火で手数を増やす。":(s.practiceMode?"ボス練習 · ":"地下迷宮 B1 · ")+s.stageHint;
  el("heroStatus").textContent="防御 "+s.block;
  el("planningStatus").textContent=s.energy<=0?"魔力がないのでターン終了しよう。":"敵を選び、カードを使おう。";
  const next=s.intents.find(i=>i.id===enemy.id);
@@ -246,6 +246,7 @@ const actions=attachB1Actions({
  },
  inspectTarget:id=>{targetId=id;render();}
 });
+el("bossComboPractice").addEventListener("click",()=>{if(game.startBossPractice("combo")){targetId="boss";render();}});
 el("bossPractice").addEventListener("click",()=>{if(game.startBossPractice("ideal")){targetId="boss";render();}});
 el("bossBasicPractice").addEventListener("click",()=>{if(game.startBossPractice("baseline")){targetId="boss";render();}});
 const deckModal=document.createElement("dialog");
@@ -256,7 +257,7 @@ el("deckButton").addEventListener("click",()=>{
  for(const id of s.deck)counts.set(id,(counts.get(id)||0)+1);
  deckModal.replaceChildren();
  const title=document.createElement("h2");title.textContent="現在のデッキ（"+s.deck.length+"枚）";deckModal.append(title);
- const hint=document.createElement("p");hint.textContent=s.practiceMode==="ideal"?"護衛を散弾で処理し、ドロー・闘魔の印・追加魔力で本体に攻撃を集中する構成。":s.practiceMode==="baseline"?"基本カードだけでボスを攻略できるか比べる構成。":"戦闘の進行に応じて手に入れたカードの一覧。";deckModal.append(hint);
+ const hint=document.createElement("p");hint.textContent=s.practiceMode==="combo"?"連鎖コンボ14枚：闘魔の印で火力を強化→散弾で3体へ攻撃→連鎖雷で追加6。術式循環で必要な札を引き、魔力点火で使える枚数を増やす。":s.practiceMode==="ideal"?"安定型14枚：散弾で護衛を処理し、氷の結界・魔導の研究で守りと継続ドローを重視。":s.practiceMode==="baseline"?"基本カードだけでボスを攻略できるか比べる構成。":"戦闘の進行に応じて手に入れたカードの一覧。";deckModal.append(hint);
  const list=document.createElement("ul");
  for(const [id,n] of counts){
   const item=document.createElement("li");item.textContent=CARDS[id].name+" ×"+n+"  ─  "+CARDS[id].text;
