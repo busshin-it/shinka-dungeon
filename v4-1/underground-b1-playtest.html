@@ -89,6 +89,7 @@
  .pilot-mode .pilot-choices .pilot-start-card.b1-art-card .pilot-card-copy .desc{font-size:10px}
 }
 </style>
+<link rel="stylesheet" href="./underground-b1-starter-art.css">
 </head>
 <body class="planning-mode pilot-mode"><main class="game pilot-game">
 <header class="masthead"><div><h1>蒼星の回廊 <small>進化ダンジョン</small></h1></div><div class="header-actions">
@@ -100,8 +101,8 @@
 <a href="./six-paths-pilot.html?mode=legacy-enemies">敵6戦・新カード</a>
 <a href="./six-paths-pilot.html">3戦の試作</a></div></details></div></header>
 <nav class="journey" aria-label="冒険の進み具合"><span>✦</span><span id="turnNum"></span></nav>
-<section id="setupPanel" class="stage pilot-setup" hidden><div class="pilot-setup-content">
-<div class="pilot-setup-head"><img src="./assets/hero.webp" alt="蒼星の魔法師"><div><h2 id="setupHeading">護符を選ぶ</h2><p id="setupHint"></p></div></div>
+<section id="setupPanel" class="stage pilot-setup b1-ref-setup" hidden><div class="pilot-setup-content b1-ref-panel">
+<div class="pilot-setup-head b1-ref-head"><img src="./assets/hero.webp" alt="蒼星の魔法師"><div><h2 id="setupHeading">護符を選ぶ</h2><span class="b1-ref-title-rule" aria-hidden="true"></span><p id="setupHint"></p></div></div>
 <div id="setupChoices" class="pilot-choices"></div><div class="pilot-setup-actions"><button id="bossComboPractice" class="primary" type="button">連鎖コンボ14枚で練習</button><button id="bossPractice" class="quiet" type="button">安定型14枚で練習</button><button id="bossBasicPractice" class="quiet" type="button">基本10枚で練習</button><button id="setupReroll" class="quiet" type="button">↻ 別の候補</button></div>
 </div></section>
 <div id="playScreen" class="pilot-play" hidden>
@@ -183,10 +184,13 @@ function renderSetup(){
  const target=el("setupChoices");target.replaceChildren();
  for(const id of ["lightning","scatter","flow","dragonEgg"]){
    const b=cardButton(id);b.classList.add("pilot-start-card");
-    const artFile={lightning:"star-relay.webp",scatter:"pilot-doom-bullet.webp",flow:"star-bookmark.webp"}[id];
-    if(artFile){const img=document.createElement("img");img.className="b1-dragon-card-art";
-      img.src="./assets/"+artFile;img.alt="";img.loading="lazy";
-      b.classList.add("b1-art-card");b.insertBefore(img,b.querySelector(".pilot-card-copy"));}
+    // Each card shows its own section of the approved reference artwork.
+    b.querySelector(".b1-dragon-card-art")?.remove();
+    const artPanel=document.createElement("span");
+    artPanel.className="b1-starter-card-art b1-starter-card-art--"+id;
+    artPanel.setAttribute("aria-hidden","true");
+    b.classList.add("b1-art-card");
+    b.insertBefore(artPanel,b.querySelector(".pilot-card-copy"));
    b.addEventListener("click",()=>{if(game.selectStarter(id)){targetId=null;render();}});
    target.append(b);
  }

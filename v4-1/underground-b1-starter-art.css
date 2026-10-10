@@ -1,0 +1,180 @@
+/* B1 starter-only, referenced to the 2026-10-10 approved 4-card mockup.
+   No overlays of a screenshot: all four cards remain accessible working buttons. */
+.pilot-mode #setupPanel.b1-ref-setup{
+ display:flex;grid-row:3;align-items:center;justify-content:center;
+ padding:clamp(10px,2.5vw,30px);overflow:auto;
+ background:linear-gradient(90deg,#08142166,#071d35a6 52%,#07152374),
+ url("./assets/background.webp") center/cover no-repeat;
+}
+.pilot-mode #setupPanel .b1-ref-panel{
+ box-sizing:border-box;position:relative;width:min(1550px,100%);max-width:100%;
+ max-height:100%;overflow:auto;overscroll-behavior:contain;
+ padding:clamp(15px,2.2vw,33px);
+ border:1px solid #b59a64;border-radius:15px;
+ background:linear-gradient(135deg,#0c1c30ed,#0e2338f5 55%,#071828f0);
+ box-shadow:0 20px 60px #020811c9,inset 0 0 0 2px #081b2e,inset 0 0 0 3px #c9a77542;
+}
+.pilot-mode #setupPanel .b1-ref-panel::before,
+.pilot-mode #setupPanel .b1-ref-panel::after{
+ content:"✧";position:absolute;z-index:1;color:#c8a56d;font-size:19px;
+ line-height:1;pointer-events:none;
+}
+.pilot-mode #setupPanel .b1-ref-panel::before{top:7px;left:10px}
+.pilot-mode #setupPanel .b1-ref-panel::after{right:10px;bottom:7px}
+.pilot-mode #setupPanel .b1-ref-head{
+ display:flex;align-items:center;gap:clamp(12px,2.4vw,27px);margin:0 0 clamp(12px,1.5vw,21px);
+}
+.pilot-mode #setupPanel .b1-ref-head>img{
+ width:clamp(66px,10vh,118px);height:clamp(72px,12vh,128px);flex:0 0 auto;
+ object-fit:contain;filter:drop-shadow(0 7px 12px #090619b5);
+}
+.pilot-mode #setupPanel .b1-ref-head>div{flex:1;min-width:0}
+.pilot-mode #setupPanel #setupHeading{
+ margin:0 0 5px;color:#f7e4b5;font-family:"Yu Mincho","Hiragino Mincho ProN",Georgia,serif;
+ font-size:clamp(23px,2.7vw,47px);font-weight:700;letter-spacing:.07em;
+ text-shadow:0 3px 5px #000a;line-height:1.2;
+}
+.pilot-mode #setupPanel .b1-ref-title-rule{
+ display:block;height:1px;max-width:880px;margin:7px 0 10px;
+ background:linear-gradient(90deg,#c9ad74,#9f8055 75%,transparent);position:relative;
+}
+.pilot-mode #setupPanel .b1-ref-title-rule::after{
+ content:"✦";position:absolute;left:52%;top:50%;transform:translate(-50%,-50%);font-size:14px;
+ color:#c8a56d;background:#122437;padding:0 6px;
+}
+.pilot-mode #setupPanel #setupHint{
+ margin:0;color:#e5e5e8;font-family:"Yu Mincho",Georgia,serif;
+ font-size:clamp(11px,1.25vw,18px);line-height:1.65;max-width:1140px;
+}
+.pilot-mode #setupPanel .b1-ref-panel .pilot-choices{
+ display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(8px,1.15vw,18px);
+ width:100%;max-width:100%;margin:0;
+}
+.pilot-mode #setupPanel .b1-ref-panel .pilot-choices .pilot-start-card{
+ display:flex;flex-direction:column;position:relative;overflow:hidden;
+ width:100%;max-width:100%;min-width:0;padding:6px;
+ height:clamp(275px,47vh,465px);min-height:0;
+ color:#14293a;background:linear-gradient(110deg,#fff3d9,#f2e7cf 70%,#e9d7b5);
+ border:3px solid #c4a06c;border-radius:15px;
+ box-shadow:inset 0 0 0 2px #fff2d4,inset 0 0 0 4px #a9804b66,0 6px 15px #0007;
+ text-align:center;gap:0;transition:transform .15s ease,border-color .15s ease,box-shadow .15s ease;
+}
+.pilot-mode #setupPanel .b1-ref-panel .pilot-choices .pilot-start-card:hover{
+ transform:translateY(-4px);border-color:#ffe7a0;
+ box-shadow:0 9px 20px #0009,inset 0 0 0 2px #fff5dd;
+}
+.pilot-mode #setupPanel .b1-ref-panel .pilot-choices .pilot-start-card:focus-visible{
+ outline:3px solid #c6e9f3;outline-offset:3px;
+}
+.pilot-mode #setupPanel .b1-ref-panel .pilot-choices .pilot-start-card .b1-dragon-card-art{
+ position:static;inset:auto;display:block;width:100%;height:58%;min-height:0;flex:0 0 58%;
+ object-fit:cover;object-position:center 44%;
+ border-radius:9px 9px 4px 4px;background:#152b3b;
+ filter:none;pointer-events:none;
+}
+.pilot-mode #setupPanel .b1-ref-panel .pilot-choices .pilot-start-card .pilot-card-copy{
+ flex:1;display:flex;flex-direction:column;min-height:0;align-items:center;
+ width:100%;padding:clamp(9px,1.1vw,17px) 8px 9px;
+ color:#102436;position:static;overflow:hidden;z-index:auto;
+}
+.pilot-mode #setupPanel .b1-ref-panel .pilot-choices .pilot-start-card .pilot-card-copy strong{
+ display:block;width:100%;margin:0 0 12px;
+ padding:0 0 clamp(6px,0.85vw,11px);
+ font-size:clamp(16px,1.8vw,27px);line-height:1.25;letter-spacing:.05em;
+ border-bottom:1px solid #cfb484;color:#11263c;
+ font-family:"Yu Mincho","Hiragino Mincho ProN",Georgia,serif;
+}
+.pilot-mode #setupPanel .b1-ref-panel .pilot-choices .pilot-start-card .pilot-card-copy .desc{
+ display:block;line-clamp:unset;-webkit-line-clamp:unset;overflow:visible;
+ color:#192c3c;font-family:"Yu Mincho",Georgia,serif;
+ font-size:clamp(11px,1.16vw,18px);line-height:1.45;text-align:center;
+}
+.pilot-mode #setupPanel .b1-ref-panel .pilot-choices .pilot-start-card .cost{
+ position:absolute;top:9px;left:9px;z-index:4;
+ width:clamp(35px,3.9vw,59px);height:clamp(35px,3.9vw,59px);
+ border:3px solid #ccae74;box-shadow:0 2px 8px #000c;
+ display:grid;place-items:center;color:#fff5df;background:#0d425a;
+ border-radius:100%;font-size:clamp(17px,2.1vw,34px);
+ font-family:Georgia,serif;
+}
+.pilot-mode #setupPanel .b1-ref-panel .pilot-choices .pilot-start-card .type{
+ position:absolute;top:10px;right:10px;z-index:4;max-width:calc(100% - 62px);
+ display:block;margin:0;padding:5px 9px;color:#fff7e2;background:#142d45;
+ border:1px solid #bd9c69;border-radius:4px;
+ font-family:"Yu Mincho",Georgia,serif;font-size:clamp(10px,1.2vw,17px);
+ white-space:nowrap;line-height:1.35;
+}
+.pilot-mode #setupPanel .b1-ref-panel .pilot-setup-actions{
+ display:flex;justify-content:center;align-items:center;gap:clamp(8px,1.8vw,24px);
+ margin:clamp(14px,2vw,30px) 0 0;flex-wrap:wrap;
+}
+.pilot-mode #setupPanel .b1-ref-panel .pilot-setup-actions button:not(#setupReroll){
+ min-height:clamp(42px,6vh,66px);padding:10px clamp(12px,2.3vw,37px);
+ border:1px solid #bf9b63;border-radius:6px;
+ color:#fff0d7;background:#102338;
+ font-family:"Yu Mincho",Georgia,serif;
+ font-size:clamp(12px,1.45vw,21px);font-weight:650;
+ box-shadow:0 4px 13px #0007;
+}
+.pilot-mode #setupPanel .b1-ref-panel .pilot-setup-actions button.primary{
+ border-color:#e1c17f;
+ background:linear-gradient(135deg,#546ad2,#2d3a83);
+ color:#fff4ef;
+}
+.pilot-mode #setupPanel .b1-ref-panel .pilot-setup-actions button:hover{filter:brightness(1.17)}
+@media(max-height:720px) and (min-width:851px){
+ .pilot-mode #setupPanel .b1-ref-head>img{height:62px;width:66px}
+ .pilot-mode #setupPanel .b1-ref-head{margin-bottom:10px}
+ .pilot-mode #setupPanel .b1-ref-panel .pilot-choices .pilot-start-card{height:clamp(235px,43vh,330px)}
+ .pilot-mode #setupPanel .b1-ref-panel{padding:14px 21px}
+ .pilot-mode #setupPanel .b1-ref-panel .pilot-setup-actions{margin-top:11px}
+}
+@media(max-width:850px){
+ .pilot-mode #setupPanel .b1-ref-panel .pilot-choices{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .pilot-mode #setupPanel .b1-ref-panel .pilot-choices .pilot-start-card{height:clamp(245px,46vw,365px)}
+ .pilot-mode #setupPanel .b1-ref-head>img{width:65px;height:76px}
+ .pilot-mode #setupPanel .b1-ref-panel .pilot-choices .pilot-start-card .pilot-card-copy strong{margin-bottom:6px}
+}
+@media(max-width:450px){
+ .pilot-mode #setupPanel.b1-ref-setup{padding:5px;align-items:flex-start}
+ .pilot-mode #setupPanel .b1-ref-panel{max-height:none;padding:12px 10px}
+ .pilot-mode #setupPanel #setupHeading{font-size:22px}
+ .pilot-mode #setupPanel #setupHint{font-size:11px}
+ .pilot-mode #setupPanel .b1-ref-head>img{width:48px;height:64px}
+ .pilot-mode #setupPanel .b1-ref-panel .pilot-choices{gap:8px}
+ .pilot-mode #setupPanel .b1-ref-panel .pilot-choices .pilot-start-card{height:clamp(225px,71vw,300px);border-width:2px}
+ .pilot-mode #setupPanel .b1-ref-panel .pilot-choices .pilot-start-card .b1-dragon-card-art{height:52%;flex-basis:52%}
+ .pilot-mode #setupPanel .b1-ref-panel .pilot-choices .pilot-start-card .pilot-card-copy{padding:8px 4px}
+ .pilot-mode #setupPanel .b1-ref-panel .pilot-choices .pilot-start-card .pilot-card-copy strong{font-size:15px}
+ .pilot-mode #setupPanel .b1-ref-panel .pilot-choices .pilot-start-card .pilot-card-copy .desc{font-size:10.5px}
+ .pilot-mode #setupPanel .b1-ref-panel .pilot-choices .pilot-start-card .cost{width:32px;height:32px;font-size:18px;left:5px;top:5px}
+ .pilot-mode #setupPanel .b1-ref-panel .pilot-choices .pilot-start-card .type{top:5px;right:5px;padding:4px 5px;font-size:10px;max-width:calc(100% - 40px)}
+ .pilot-mode #setupPanel .b1-ref-panel .pilot-setup-actions button:not(#setupReroll){width:100%}
+}
+@media(prefers-reduced-motion:reduce){
+ .pilot-mode #setupPanel .b1-ref-panel .pilot-choices .pilot-start-card{transition:none}
+}
+
+/* Each card remains a real button with its own checked-in game illustration.
+   This is a temporary art fallback until the approved crops are uploaded. */
+.pilot-mode #setupPanel .b1-ref-panel .pilot-choices .pilot-start-card .b1-starter-card-art{
+ display:block;box-sizing:border-box;position:static;inset:auto;width:100%;
+ height:58%;min-height:0;flex:0 0 58%;border-radius:9px 9px 4px 4px;
+ background-repeat:no-repeat;background-size:cover;background-position:center;
+ background-color:#14283b;pointer-events:none;
+}
+.pilot-mode #setupPanel .b1-ref-panel .pilot-choices .pilot-start-card .b1-starter-card-art--lightning{
+ background-image:url("./assets/star-relay.webp");
+}
+.pilot-mode #setupPanel .b1-ref-panel .pilot-choices .pilot-start-card .b1-starter-card-art--scatter{
+ background-image:url("./assets/pilot-doom-bullet.webp");
+}
+.pilot-mode #setupPanel .b1-ref-panel .pilot-choices .pilot-start-card .b1-starter-card-art--flow{
+ background-image:url("./assets/star-bookmark.webp");
+}
+.pilot-mode #setupPanel .b1-ref-panel .pilot-choices .pilot-start-card .b1-starter-card-art--dragonEgg{
+ background-image:url("./assets/b1-dragon-egg.webp");
+}
+@media(max-width:450px){
+ .pilot-mode #setupPanel .b1-ref-panel .pilot-choices .pilot-start-card .b1-starter-card-art{height:52%;flex-basis:52%}
+}
