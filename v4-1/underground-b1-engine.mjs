@@ -20,6 +20,7 @@ export const CARDS = Object.freeze({
  focus:{name:"魔導の研究",cost:1,kind:"power",text:"この戦闘中、毎ターンのドロー＋1",powerDraw:1},
  flare:{name:"毒炎",cost:1,kind:"attack",text:"6ダメージ。毒の敵なら＋6",damage:6,poisonBonus:6}
 });
+export function getB1Card(id){const up=typeof id==="string"&&id.endsWith("~"),base=up?id.slice(0,-1):id;const card=CARDS[base];if(!card)return null;if(!up)return card;const next={...card,name:card.name+"＋"};const stat=["damage","block","heal","poison","weaken","vulnerable","energyGain","draw","strengthGain","powerDraw"].find(k=>Number.isFinite(card[k])&&card[k]>0);if(stat){const bonus=["damage","block","heal"].includes(stat)?3:1;next[stat]+=bonus;next.text=card.text+"（"+stat+"＋"+bonus+"）";}else{next.cost=Math.max(0,card.cost-1);next.text=card.text+"（魔力－1）";}return next;}
 export const STARTER = Object.freeze(["bolt","bolt","bolt","bolt","guard","guard","guard","guard","break"]);
 export const STAGES = Object.freeze([
  {name:"B1・入口",hint:"硬い敵を相手に攻撃するか防御するか。次の攻撃を予測しよう。",enemies:[{id:"rat",name:"石牙獣",maxHp:42,role:"rat"}],rewards:["ward","double","poison","spark","flow","heal","frost"]},
@@ -44,7 +45,7 @@ export function createB1Game(options={}){
  const random=()=>{seed=(Math.imul(seed,1664525)+1013904223)>>>0;return seed/4294967296;};
  const shuffle=a=>{for(let i=a.length-1;i>0;i--){const j=Math.floor(random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;};
  const testMaxHp=Number.isInteger(options.maxHp)&&options.maxHp>=1&&options.maxHp<=999?options.maxHp:75;
- let s={phase:"starter",stage:0,turn:1,hp:testMaxHp,maxHp:testMaxHp,energy:3,block:0,attacksThisTurn:0,powerDraw:0,strength:0,selected:null,deck:Array.isArray(options.testDeck)&&options.testDeck.length>0&&options.testDeck.length<=30&&options.testDeck.every(id=>Object.hasOwn(CARDS,id))?[...options.testDeck]:[...STARTER],hand:[],draw:[],discard:[],exhaust:[],powers:[],enemies:[],rewards:[],selectedPath:null,routeHistory:[],log:["最初に得意な魔法を1枚選んで地下迷宮へ。"]};
+ let s={phase:"starter",stage:0,turn:1,hp:testMaxHp,maxHp:testMaxHp,energy:3,block:0,attacksThisTurn:0,powerDraw:0,strength:0,selected:null,deck:Array.isArray(options.testDeck)&&options.testDeck.length>0&&options.testDeck.length<=30&&options.testDeck.every(id=>Object.hasOwn(CARDS,id))?[...options.testDeck]:[...STARTER],hand:[],draw:[],discard:[],exhaust:[],powers:[],enemies:[],rewards:[],restPending:false,restUsed:false,restChoice:null,selectedPath:null,routeHistory:[],log:["最初に得意な魔法を1枚選んで地下迷宮へ。"]};
  function note(t){s.log.unshift(t);s.log=s.log.slice(0,18);}
  const alive=()=>s.enemies.filter(e=>e.hp>0);
  const find=id=>s.enemies.find(e=>e.id===id&&e.hp>0);
@@ -82,7 +83,7 @@ export function createB1Game(options={}){
  }
  function play(index,targetId){
   if(s.phase!=="battle"||!Number.isInteger(index)||index<0||index>=s.hand.length)return false;
-  const id=s.hand[index],card=CARDS[id];if(!card||s.energy<card.cost)return false;
+  const id=s.hand[index],card=getB1Card(id);if(!card||s.energy<card.cost)return false;
   const targeted=["attack","multi","poison","fragile"].includes(card.kind);
   const target=targeted?find(targetId||s.selected):null;
   if(targeted&&!target)return false;
@@ -197,10 +198,16 @@ export function createB1Game(options={}){
  }
  function chooseReward(id){
   if(s.phase!=="reward"||(id!==null&&!s.rewards.includes(id)))return false;
-  if(id){s.deck.push(id);note(CARDS[id].name+"を習得。");}else note("報酬は見送った。");
-  s.phase="between";return true;
+  if(id){s.deck.push(id);note(getB1Card(id).name+"を習得。");}else note("報酬は見送った。");
+  s.phase="between";if(s.stage===1&&!s.practiceMode)s.restPending=true;return true;
  }
- function choosePath(id){
+ function chooseRest(kind,index=null){
+ if(s.phase!=="between"||s.stage!==1||!s.restPending||s.restUsed||s.practiceMode)return false;
+ if(kind==="heal"){const amount=Math.min(15,s.maxHp-s.hp);s.hp+=amount;note("休憩所：HPを"+amount+"回復。");}
+ else if(kind==="upgrade"){if(!Number.isInteger(index)||index<0||index>=s.deck.length||s.deck[index].endsWith("~"))return false;const id=s.deck[index];s.deck[index]=id+"~";note("休憩所："+getB1Card(id).name+"を強化。");}
+ else return false;s.restPending=false;s.restUsed=true;s.restChoice=kind;return true;
+}
+function choosePath(id){
    if(s.phase!=="between"||s.stage!==0||s.selectedPath!==null||!Object.hasOwn(B1_FORK_ROUTES,id))return false;
    s.selectedPath=id;s.routeHistory.push(id);
    note("分岐を選択："+B1_FORK_ROUTES[id].name+"。");
@@ -210,13 +217,14 @@ export function createB1Game(options={}){
    if(s.phase!=="between"||s.stage>=STAGES.length-1)return false;
    // Old scripted journeys still take the original encounter if no route was supplied.
    if(s.stage===0&&s.selectedPath===null)choosePath("pack");
-   s.stage++;start();return true;
+   if(s.restPending){s.restPending=false;s.restUsed=true;s.restChoice="skipped";}s.stage++;start();return true;
   }
  function snapshot(){
    const stage=s.stage===1?B1_FORK_ROUTES[s.selectedPath||"pack"]:STAGES[s.stage];
    return clone({...s,intents:s.enemies.map(e=>({id:e.id,...intent(e)})),
      stageName:s.stage===1?"B1・"+stage.name:stage.name,stageHint:stage.hint,
-     availablePaths:s.phase==="between"&&s.stage===0&&s.selectedPath===null?Object.keys(B1_FORK_ROUTES):[]});
+     restAvailable:s.phase==="between"&&s.stage===1&&s.restPending&&!s.practiceMode,
+      availablePaths:s.phase==="between"&&s.stage===0&&s.selectedPath===null?Object.keys(B1_FORK_ROUTES):[]});
   }
  function startBossPractice(mode="ideal"){
   if(s.phase!=="starter"||!(["ideal","baseline","combo"].includes(mode)||(mode==="test"&&Array.isArray(options.testDeck))))return false;
@@ -227,5 +235,5 @@ export function createB1Game(options={}){
   start();note("練習モード："+(mode==="combo"?"連鎖コンボ14枚":mode==="ideal"?"安定型14枚":mode==="test"?"検証用デッキ":"基本の10枚")+"でボスに挑戦。");
   return true;
  }
- return {snapshot,selectStarter,startBossPractice,play,endTurn,chooseReward,choosePath,nextBattle};
+ return {snapshot,selectStarter,startBossPractice,play,endTurn,chooseReward,chooseRest,choosePath,nextBattle};
 }
