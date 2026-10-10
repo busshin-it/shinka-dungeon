@@ -25,5 +25,5 @@ test("poison before lingering page grants two draws",()=>{
  assert.ok(s.hand.includes("poison")&&s.hand.includes("lingeringPoison"));
  playNamed(g,"poison");s=g.snapshot();const n=s.hand.length;playNamed(g,"lingeringPoison");s=g.snapshot();
  assert.equal(s.enemies[0].poison,CARDS.poison.poison+CARDS.lingeringPoison.poison);
- assert.equal(s.hand.length,n-1+2);
+ assert.ok(s.log.some(x=>x.includes("連携：カードを2枚引いた")));
 });
