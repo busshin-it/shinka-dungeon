@@ -27,7 +27,7 @@ export function getB1Card(id){const up=typeof id==="string"&&id.endsWith("~"),ba
 export const STARTER = Object.freeze(["bolt","bolt","bolt","bolt","guard","guard","guard","guard","break"]);
 export const STAGES = Object.freeze([
  {name:"B1・入口",hint:"硬い敵を相手に攻撃するか防御するか。次の攻撃を予測しよう。",enemies:[{id:"rat",name:"石牙獣",maxHp:42,role:"rat"}],rewards:["ward","double","poison","spark","flow","heal","frost"]},
- {name:"B1・群れ",hint:"小型2体の同時攻撃。片方を先に倒すか、全体攻撃で削るか。",enemies:[{id:"wolf",name:"洞穴の狼",maxHp:17,role:"wolf"},{id:"imp",name:"盾の小鬼",maxHp:16,role:"imp"}],rewards:["charge","chain","fragile","focus","flare","lightning","drain""scatter"]},
+ {name:"B1・群れ",hint:"小型2体の同時攻撃。片方を先に倒すか、全体攻撃で削るか。",enemies:[{id:"wolf",name:"洞穴の狼",maxHp:17,role:"wolf"},{id:"imp",name:"盾の小鬼",maxHp:16,role:"imp"}],rewards:["charge","chain","fragile","focus","flare","lightning","drain","scatter"]},
  {name:"B1・祭壇",hint:"呪術師は初手で力を溜め、毎ターン強くなる。長期戦は危険。",enemies:[{id:"priest",name:"洞窟の呪術師",maxHp:52,role:"ritual"}],rewards:["flow","strength","double","poison","ward","flare","heal","lightning"]},
  {name:"B1・強敵",hint:"強敵が大技と連続攻撃を使う。大技の予告を見て防御を合わせよう。",enemies:[{id:"brute",name:"深層の番兵",maxHp:82,role:"elite"}],rewards:["strength","focus","charge","double","flare","ward","drain","fragile"]},
  {name:"B1・最深部",hint:"護衛2体と長期戦。護衛の守りを崩し、溜めた大技を乗り切ろう。",enemies:[{id:"left",name:"盾の小鬼・左",maxHp:24,role:"guard"},{id:"boss",name:"地底の祭司",maxHp:135,role:"boss"},{id:"right",name:"盾の小鬼・右",maxHp:24,role:"guard"}],rewards:[]}
