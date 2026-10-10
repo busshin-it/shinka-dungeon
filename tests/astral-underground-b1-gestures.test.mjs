@@ -17,7 +17,7 @@ test("B1 imports its isolated interaction layer without modifying the legacy gam
  assert.match(html,/underground-b1-actions\.css/);
  assert.match(html,/import \{attachB1Actions\} from "\.\/underground-b1-actions\.mjs"/);
  assert.match(html,/import \{showB1Feedback\} from "\.\/underground-b1-feedback\.mjs"/);
- assert.match(html,/actions\.bindHandCard\(b,index\)/);
+ assert.match(html,/actions\.bindHandCard\(b,index(?:,s\.hand\.length)?\)/);
  assert.match(html,/actions\.handleTargetClick\(e\.id\)/);
  assert.match(html,/showB1Feedback\(\{stage:gameStage/);
  assert.match(html,/href="\.\/six-paths-stage\.css"/);
