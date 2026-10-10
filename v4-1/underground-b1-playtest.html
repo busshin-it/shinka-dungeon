@@ -223,8 +223,8 @@ function renderOverlay(s){
    el("journeyHint").textContent="戦闘で集めたゴールドでカードを買おう。購入せずに進むこともできます。";
    el("shopSite").hidden=false;el("shopBalance").textContent="所持金："+s.gold+" G";
    const items=el("shopItems");items.replaceChildren();
-   s.shopStock.forEach(item=>{const card=getB1Card(item.id),b=document.createElement("button");b.type="button";b.className="b1-shop-item";b.disabled=s.gold<item.price;
-    b.textContent=card.name+"｜"+card.text+"｜"+item.price+" G";b.addEventListener("click",()=>{if(game.buyShop(item.id))render();});items.append(b);});
+   s.shopStock.forEach(item=>{const card=getB1Card(item.id),b=document.createElement("button");b.type="button";b.className="b1-shop-item";b.disabled=s.gold<item.price||s.shopPurchases.includes(item.id);
+    b.textContent=card.name+"｜"+card.text+"｜"+item.price+" G"+(s.shopPurchases.includes(item.id)?"（購入済み）":"");b.addEventListener("click",()=>{if(game.buyShop(item.id))render();});items.append(b);});
   }else if(s.restAvailable){el("journeyTitle").textContent="休憩所｜第3戦の前";el("journeyHint").textContent="回復か強化、どちらか一つだけ選べます。";el("restSite").hidden=false;el("restHeal").disabled=s.hp>=s.maxHp;}else if(s.stage===0&&!s.practiceMode){
    el("journeyTitle").textContent="次に進む道を選ぼう";
    el("journeyHint").textContent="敵の数が違う2つの道。HPとデッキを引き継ぎ、選んだ敵と第2戦を戦います。";
