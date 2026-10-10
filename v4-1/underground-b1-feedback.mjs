@@ -61,7 +61,8 @@ export function showB1Feedback({stage,hero,enemy,choices,before,after,card,targe
   const x2=goal.left+goal.width*.5-board.left,y2=goal.top+goal.height*.43-board.top;
   const length=Math.hypot(x2-x1,y2-y1),angle=Math.atan2(y2-y1,x2-x1)*180/Math.PI;
   if(length<5)return;
-  const beam=document.createElement("i");beam.className="b1-spell-trail";
+  const beam=document.createElement("i");beam.className="b1-spell-trail"+(card?.firePower?" b1-fire-trail":"");
+  if(card?.firePower)beam.style.setProperty("--fire-power",card.firePower);
   beam.style.left=x1+"px";beam.style.top=y1+"px";
   beam.style.width=length+"px";beam.style.transform="rotate("+angle+"deg)";
   stage.append(beam);
@@ -70,6 +71,19 @@ export function showB1Feedback({stage,hero,enemy,choices,before,after,card,targe
    {opacity:0,clipPath:"inset(0 0 0 0)"}
   ],{duration:480,delay,easing:"ease-out"});
   anim.onfinish=()=>beam.remove();
+  if(card?.firePower){
+   const burst=document.createElement("i");burst.className="b1-fire-impact";
+   const power=Math.max(1,Math.min(3,card.firePower)),size=26+power*23;
+   burst.style.left=x2+"px";burst.style.top=y2+"px";
+   burst.style.width=size+"px";burst.style.height=size+"px";stage.append(burst);
+   if(!burst.animate){setTimeout(()=>burst.remove(),350);return;}
+   const effect=burst.animate([
+    {opacity:.1,transform:"translate(-50%,-50%) scale(.3)"},
+    {opacity:.9,transform:"translate(-50%,-50%) scale(1.05)",offset:.38},
+    {opacity:0,transform:"translate(-50%,-50%) scale(1.6)"}
+   ],{duration:350+power*100,delay,easing:"ease-out"});
+   effect.onfinish=()=>burst.remove();
+  }
  }
  const harmful=card&&["attack","multi","all","poison","fragile","dragonBreath"].includes(card.kind);
  if(card)fly(harmful?(targetId?anchorFor(targetId):(multi?choices:enemy)):hero);
