@@ -4,30 +4,30 @@
 
 /* B1 portrait stays scrollable: a very tall game cannot fit a narrow screen. */
 @media (orientation:portrait) and (max-width:900px) {
- body.pilot-mode.b1-mobile { height:auto; overflow-x:hidden; overflow-y:auto; }
- .pilot-mode.b1-mobile .pilot-game {
+ body.pilot-mode[data-b1-mobile] { height:auto; overflow-x:hidden; overflow-y:auto; }
+ .pilot-mode[data-b1-mobile] .pilot-game {
   height:auto; min-height:100dvh; grid-template-rows:38px 20px auto;
   overflow:visible; padding-bottom:max(10px,env(safe-area-inset-bottom));
  }
- .pilot-mode.b1-mobile #playScreen {
+ .pilot-mode[data-b1-mobile] #playScreen {
   min-height:0; grid-template-rows:minmax(235px,46dvh) auto;
  }
- .pilot-mode.b1-mobile #playScreen > .stage {min-height:235px;height:100%}
- .pilot-mode.b1-mobile #playScreen > .table {
+ .pilot-mode[data-b1-mobile] #playScreen > .stage {min-height:235px;height:100%}
+ .pilot-mode[data-b1-mobile] #playScreen > .table {
   grid-template-rows:40px 18px auto; height:auto; padding:7px 9px 12px;
  }
- .pilot-mode.b1-mobile #hand {height:156px; min-height:0;overflow-x:auto;overflow-y:hidden;display:flex}
- .pilot-mode.b1-mobile #hand .pilot-card {height:143px;flex:0 0 148px;min-width:148px}
+ .pilot-mode[data-b1-mobile] #hand {height:156px; min-height:0;overflow-x:auto;overflow-y:hidden;display:flex}
+ .pilot-mode[data-b1-mobile] #hand .pilot-card {height:143px;flex:0 0 148px;min-width:148px}
 }
 
 /* Small-landscape viewport, including Android Chrome and installed PWA.
    The hand gets its own fixed proportion instead of being pushed below the screen. */
 @media (orientation:landscape) and (max-width:1100px) and (max-height:620px) {
- html:has(body.b1-mobile) {height:100%;overflow:hidden}
- body.pilot-mode.b1-mobile {
+ html:has(body[data-b1-mobile]) {height:100%;overflow:hidden}
+ body.pilot-mode[data-b1-mobile] {
   height:100%; overflow:hidden; overscroll-behavior:none;
  }
- .pilot-mode.b1-mobile .pilot-game {
+ .pilot-mode[data-b1-mobile] .pilot-game {
   box-sizing:border-box;height:100vh;height:100dvh;
   min-height:0;max-width:none;overflow:hidden;
   display:grid;grid-template-rows:30px 15px minmax(0,1fr);
@@ -35,44 +35,44 @@
           max(4px,env(safe-area-inset-bottom))
           max(6px,env(safe-area-inset-left));
  }
- .pilot-mode.b1-mobile .masthead {min-height:0;gap:6px}
- .pilot-mode.b1-mobile .masthead h1 {font-size:clamp(12px,2.3vw,16px);line-height:1.1;white-space:nowrap}
- .pilot-mode.b1-mobile .masthead h1 small {font-size:8px;margin-left:5px}
- .pilot-mode.b1-mobile .header-actions {gap:5px}
- .pilot-mode.b1-mobile .header-actions button,
- .pilot-mode.b1-mobile .pilot-menu summary {
+ .pilot-mode[data-b1-mobile] .masthead {min-height:0;gap:6px}
+ .pilot-mode[data-b1-mobile] .masthead h1 {font-size:clamp(12px,2.3vw,16px);line-height:1.1;white-space:nowrap}
+ .pilot-mode[data-b1-mobile] .masthead h1 small {font-size:8px;margin-left:5px}
+ .pilot-mode[data-b1-mobile] .header-actions {gap:5px}
+ .pilot-mode[data-b1-mobile] .header-actions button,
+ .pilot-mode[data-b1-mobile] .pilot-menu summary {
   min-height:28px;padding:3px 9px;font-size:10px;line-height:18px;
  }
- .pilot-mode.b1-mobile .journey {height:15px;padding:0 6px;gap:6px}
- .pilot-mode.b1-mobile .journey span {font-size:9px}
- .pilot-mode.b1-mobile #playScreen {
+ .pilot-mode[data-b1-mobile] .journey {height:15px;padding:0 6px;gap:6px}
+ .pilot-mode[data-b1-mobile] .journey span {font-size:9px}
+ .pilot-mode[data-b1-mobile] #playScreen {
   min-height:0;overflow:hidden;
-  grid-template-rows:minmax(116px,1fr) clamp(128px,42dvh,168px);
+  grid-template-rows:minmax(116px,1fr) clamp(144px,42dvh,168px);
  }
- .pilot-mode.b1-mobile #playScreen > .stage {
+ .pilot-mode[data-b1-mobile] #playScreen > .stage {
   min-height:0;height:100%;overflow:hidden;
  }
- .pilot-mode.b1-mobile #playScreen > .table {
+ .pilot-mode[data-b1-mobile] #playScreen > .table {
   min-height:0;height:100%;overflow:hidden;
   display:grid;grid-template-rows:36px 15px minmax(0,1fr);
   padding:3px 6px 2px;
  }
- .pilot-mode.b1-mobile .controls {height:36px;flex-wrap:nowrap;gap:5px;min-width:0}
- .pilot-mode.b1-mobile .energy {gap:5px;font-size:10px;white-space:nowrap;margin-right:0}
- .pilot-mode.b1-mobile .energy>b {width:29px;height:29px;font-size:18px}
- .pilot-mode.b1-mobile .energy small {font-size:8px;margin-top:0}
- .pilot-mode.b1-mobile .piles {gap:7px;margin-left:auto;font-size:9px;white-space:nowrap}
- .pilot-mode.b1-mobile .piles b {font-size:10px;margin-left:2px}
- .pilot-mode.b1-mobile #deckButton {
+ .pilot-mode[data-b1-mobile] .controls {height:36px;flex-wrap:nowrap;gap:5px;min-width:0}
+ .pilot-mode[data-b1-mobile] .energy {gap:5px;font-size:10px;white-space:nowrap;margin-right:0}
+ .pilot-mode[data-b1-mobile] .energy>b {width:29px;height:29px;font-size:18px}
+ .pilot-mode[data-b1-mobile] .energy small {font-size:8px;margin-top:0}
+ .pilot-mode[data-b1-mobile] .piles {gap:7px;margin-left:auto;font-size:9px;white-space:nowrap}
+ .pilot-mode[data-b1-mobile] .piles b {font-size:10px;margin-left:2px}
+ .pilot-mode[data-b1-mobile] #deckButton {
   min-height:32px;padding:4px 7px;white-space:nowrap;font-size:10px;
  }
- .pilot-mode.b1-mobile #endTurn {
+ .pilot-mode[data-b1-mobile] #endTurn {
   min-height:34px;padding:6px 10px;white-space:nowrap;font-size:11px;margin-left:0;
  }
- .pilot-mode.b1-mobile #endTurn span {margin-left:4px}
- .pilot-mode.b1-mobile .hand-label {height:15px;min-height:0;margin:0;align-items:center}
- .pilot-mode.b1-mobile .hand-label h2 {font-size:9px}
- .pilot-mode.b1-mobile #hand {
+ .pilot-mode[data-b1-mobile] #endTurn span {margin-left:4px}
+ .pilot-mode[data-b1-mobile] .hand-label {height:15px;min-height:0;margin:0;align-items:center}
+ .pilot-mode[data-b1-mobile] .hand-label h2 {font-size:9px}
+ .pilot-mode[data-b1-mobile] #hand {
   min-height:0;height:100%;width:100%;
   display:flex;align-items:stretch;gap:6px;
   overflow-x:auto;overflow-y:hidden;
@@ -80,95 +80,95 @@
   overscroll-behavior-x:contain;scroll-snap-type:x proximity;
   touch-action:pan-x;
  }
- .pilot-mode.b1-mobile #hand .pilot-card {
+ .pilot-mode[data-b1-mobile] #hand .pilot-card {
   flex:0 0 clamp(105px,16vw,122px);
   width:clamp(105px,16vw,122px);
   min-width:clamp(105px,16vw,122px);
   height:calc(100% - 2px);min-height:0;
   scroll-snap-align:start;overflow:hidden;border-radius:6px;
  }
- .pilot-mode.b1-mobile #hand .pilot-card .cost {
+ .pilot-mode[data-b1-mobile] #hand .pilot-card .cost {
   width:21px;height:21px;left:4px;top:4px;font-size:12px;
  }
- .pilot-mode.b1-mobile #hand .pilot-card .type {
+ .pilot-mode[data-b1-mobile] #hand .pilot-card .type {
   top:4px;right:4px;font-size:9px;max-width:calc(100% - 31px);padding:2px 4px;
  }
- .pilot-mode.b1-mobile #hand .pilot-card.b1-text-card .pilot-card-copy {
+ .pilot-mode[data-b1-mobile] #hand .pilot-card.b1-text-card .pilot-card-copy {
   padding:30px 6px 4px;
  }
- .pilot-mode.b1-mobile #hand .pilot-card strong {
+ .pilot-mode[data-b1-mobile] #hand .pilot-card strong {
   font-size:11px;line-height:1.16;margin-bottom:2px;
  }
- .pilot-mode.b1-mobile #hand .pilot-card .desc {
+ .pilot-mode[data-b1-mobile] #hand .pilot-card .desc {
   font-size:9px;line-height:1.26;-webkit-line-clamp:2;line-clamp:2;
  }
- .pilot-mode.b1-mobile #hand .pilot-card.b1-art-card .b1-dragon-card-art,
- .pilot-mode.b1-mobile #hand .pilot-card.b1-art-card .b1-dragon-card-sprite {
+ .pilot-mode[data-b1-mobile] #hand .pilot-card.b1-art-card .b1-dragon-card-art,
+ .pilot-mode[data-b1-mobile] #hand .pilot-card.b1-art-card .b1-dragon-card-sprite {
   height:39px;flex:0 0 39px;width:100%;
  }
- .pilot-mode.b1-mobile #hand .pilot-card.b1-art-card .pilot-card-copy {
+ .pilot-mode[data-b1-mobile] #hand .pilot-card.b1-art-card .pilot-card-copy {
   padding:5px 6px 3px;overflow:hidden;
  }
- .pilot-mode.b1-mobile .hud {top:4px}
- .pilot-mode.b1-mobile .hero-hud {left:6px;width:clamp(110px,25%,185px)}
- .pilot-mode.b1-mobile .enemy-hud {right:6px;width:clamp(128px,29%,205px)}
- .pilot-mode.b1-mobile .hud h2 {font-size:11px;margin:0 0 3px}
- .pilot-mode.b1-mobile .hp-line {font-size:9px;margin-bottom:2px}
- .pilot-mode.b1-mobile .hp-line strong {font-size:10px}
- .pilot-mode.b1-mobile .hp-bar {height:5px}
- .pilot-mode.b1-mobile .hud p {margin-top:3px;font-size:9px;line-height:1.2}
- .pilot-mode.b1-mobile #planningStatus,
- .pilot-mode.b1-mobile #charm {display:none}
- .pilot-mode.b1-mobile #dragonHud {
+ .pilot-mode[data-b1-mobile] .hud {top:4px}
+ .pilot-mode[data-b1-mobile] .hero-hud {left:6px;width:clamp(110px,25%,185px)}
+ .pilot-mode[data-b1-mobile] .enemy-hud {right:6px;width:clamp(128px,29%,205px)}
+ .pilot-mode[data-b1-mobile] .hud h2 {font-size:11px;margin:0 0 3px}
+ .pilot-mode[data-b1-mobile] .hp-line {font-size:9px;margin-bottom:2px}
+ .pilot-mode[data-b1-mobile] .hp-line strong {font-size:10px}
+ .pilot-mode[data-b1-mobile] .hp-bar {height:5px}
+ .pilot-mode[data-b1-mobile] .hud p {margin-top:3px;font-size:9px;line-height:1.2}
+ .pilot-mode[data-b1-mobile] #planningStatus,
+ .pilot-mode[data-b1-mobile] #charm {display:none}
+ .pilot-mode[data-b1-mobile] #dragonHud {
   display:block;font-size:9px;line-height:1.22;
   padding:3px 5px;max-width:170px;
  }
- .pilot-mode.b1-mobile #dragonHud[hidden] {display:none}
- .pilot-mode.b1-mobile .intent {padding:4px 6px;margin-top:4px;gap:2px}
- .pilot-mode.b1-mobile .intent>strong {font-size:12px}
- .pilot-mode.b1-mobile .intent>small,
- .pilot-mode.b1-mobile .intent>span {font-size:9px;line-height:1.1}
- .pilot-mode.b1-mobile .hero-puppet {
+ .pilot-mode[data-b1-mobile] #dragonHud[hidden] {display:none}
+ .pilot-mode[data-b1-mobile] .intent {padding:4px 6px;margin-top:4px;gap:2px}
+ .pilot-mode[data-b1-mobile] .intent>strong {font-size:12px}
+ .pilot-mode[data-b1-mobile] .intent>small,
+ .pilot-mode[data-b1-mobile] .intent>span {font-size:9px;line-height:1.1}
+ .pilot-mode[data-b1-mobile] .hero-puppet {
   bottom:16px;height:calc(100% - 20px);width:21%;left:23%;
  }
- .pilot-mode.b1-mobile .enemy-puppet {
+ .pilot-mode[data-b1-mobile] .enemy-puppet {
   bottom:16px;height:calc(100% - 20px);width:23%;right:24%;
  }
- .pilot-mode.b1-mobile .stage.b1-multi .hero-puppet {left:19%;width:17%}
- .pilot-mode.b1-mobile .b1-enemy-lineup,
- .pilot-mode.b1-mobile .b1-enemy-lineup.b1-two {
+ .pilot-mode[data-b1-mobile] .stage.b1-multi .hero-puppet {left:19%;width:17%}
+ .pilot-mode[data-b1-mobile] .b1-enemy-lineup,
+ .pilot-mode[data-b1-mobile] .b1-enemy-lineup.b1-two {
   top:28px;bottom:19px;
  }
- .pilot-mode.b1-mobile .b1-enemy-lineup {left:41%;right:2%;column-gap:clamp(5px,2vw,20px)}
- .pilot-mode.b1-mobile .b1-enemy-lineup.b1-two {left:43%;right:3%;column-gap:clamp(8px,3vw,30px)}
- .pilot-mode.b1-mobile .b1-actor-intent {font-size:9px;min-height:17px;padding:1px}
- .pilot-mode.b1-mobile .b1-actor-name {font-size:9px}
- .pilot-mode.b1-mobile .b1-actor-status {min-height:10px;font-size:8px}
- .pilot-mode.b1-mobile .b1-actor-hpbar {height:5px}
- .pilot-mode.b1-mobile .b1-dragon-companion {width:clamp(46px,7vw,75px);left:38%;bottom:6%;gap:1px}
- .pilot-mode.b1-mobile .b1-dragon-caption {padding:2px}
- .pilot-mode.b1-mobile .b1-dragon-caption strong,
- .pilot-mode.b1-mobile .b1-dragon-caption span {font-size:8px;line-height:1.05}
- .pilot-mode.b1-mobile .battle-log {
+ .pilot-mode[data-b1-mobile] .b1-enemy-lineup {left:41%;right:2%;column-gap:clamp(5px,2vw,20px)}
+ .pilot-mode[data-b1-mobile] .b1-enemy-lineup.b1-two {left:43%;right:3%;column-gap:clamp(8px,3vw,30px)}
+ .pilot-mode[data-b1-mobile] .b1-actor-intent {font-size:9px;min-height:17px;padding:1px}
+ .pilot-mode[data-b1-mobile] .b1-actor-name {font-size:9px}
+ .pilot-mode[data-b1-mobile] .b1-actor-status {min-height:10px;font-size:8px}
+ .pilot-mode[data-b1-mobile] .b1-actor-hpbar {height:5px}
+ .pilot-mode[data-b1-mobile] .b1-dragon-companion {width:clamp(46px,7vw,75px);left:38%;bottom:6%;gap:1px}
+ .pilot-mode[data-b1-mobile] .b1-dragon-caption {padding:2px}
+ .pilot-mode[data-b1-mobile] .b1-dragon-caption strong,
+ .pilot-mode[data-b1-mobile] .b1-dragon-caption span {font-size:8px;line-height:1.05}
+ .pilot-mode[data-b1-mobile] .battle-log {
   min-height:17px;height:17px;padding:1px 6px;font-size:9px;line-height:14px;
  }
- .pilot-mode.b1-mobile .stage-title {top:4px;font-size:9px}
- .pilot-mode.b1-mobile .stage-title small {font-size:8px;margin-top:2px}
- .pilot-mode.b1-mobile .b1-hand-help {bottom:calc(clamp(128px,42dvh,168px) + 5px)}
- .pilot-mode.b1-mobile .b1-synergy-toast {top:48%;padding:5px 8px}
- .pilot-mode.b1-mobile #setupPanel {min-height:0;overflow:auto}
- .pilot-mode.b1-mobile #setupPanel .b1-ref-panel {max-height:100%;overflow:auto}
- .pilot-mode.b1-mobile #setupPanel .b1-ref-panel .pilot-choices .pilot-start-card {height:clamp(168px,36dvh,236px)}
- .pilot-mode.b1-mobile .pilot-overlay-window {max-height:calc(100dvh - 16px);padding:10px}
- .pilot-mode.b1-mobile .pilot-overlay-window h2 {font-size:18px}
- .pilot-mode.b1-mobile .pilot-rewards .pilot-card {min-height:125px}
+ .pilot-mode[data-b1-mobile] .stage-title {top:4px;font-size:9px}
+ .pilot-mode[data-b1-mobile] .stage-title small {font-size:8px;margin-top:2px}
+ .pilot-mode[data-b1-mobile] .b1-hand-help {bottom:calc(clamp(144px,42dvh,168px) + 5px)}
+ .pilot-mode[data-b1-mobile] .b1-synergy-toast {top:48%;padding:5px 8px}
+ .pilot-mode[data-b1-mobile] #setupPanel {min-height:0;overflow:auto}
+ .pilot-mode[data-b1-mobile] #setupPanel .b1-ref-panel {max-height:100%;overflow:auto}
+ .pilot-mode[data-b1-mobile] #setupPanel .b1-ref-panel .pilot-choices .pilot-start-card {height:clamp(168px,36dvh,236px)}
+ .pilot-mode[data-b1-mobile] .pilot-overlay-window {max-height:calc(100dvh - 16px);padding:10px}
+ .pilot-mode[data-b1-mobile] .pilot-overlay-window h2 {font-size:18px}
+ .pilot-mode[data-b1-mobile] .pilot-rewards .pilot-card {min-height:125px}
 }
 /* Short viewport escape hatch: never cut off vital controls on a tiny screen. */
-@media (orientation:landscape) and (max-width:1100px) and (max-height:345px) {
- html:has(body.b1-mobile),body.pilot-mode.b1-mobile {height:auto;overflow-y:auto}
- .pilot-mode.b1-mobile .pilot-game {height:auto;min-height:365px;overflow:visible}
- .pilot-mode.b1-mobile #playScreen {min-height:315px}
+@media (orientation:landscape) and (max-width:1100px) and (max-height:305px) {
+ html:has(body[data-b1-mobile]),body.pilot-mode[data-b1-mobile] {height:auto;overflow-y:auto}
+ .pilot-mode[data-b1-mobile] .pilot-game {height:auto;min-height:360px;overflow:visible}
+ .pilot-mode[data-b1-mobile] #playScreen {min-height:310px}
 }
 @media (prefers-reduced-motion:reduce) {
- .pilot-mode.b1-mobile #hand .pilot-card {scroll-behavior:auto}
+ .pilot-mode[data-b1-mobile] #hand .pilot-card {scroll-behavior:auto}
 }
