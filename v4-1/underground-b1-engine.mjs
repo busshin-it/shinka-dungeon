@@ -13,6 +13,9 @@ export const CARDS = Object.freeze({
  break:{name:"破魔雷",cost:2,kind:"attack",text:"8ダメージ。脆弱2を付与",damage:8,vulnerable:2},
  strength:{name:"闘魔の印",cost:1,kind:"power",text:"この戦闘中、攻撃威力＋2",strengthGain:2},
  spark:{name:"火花",cost:0,kind:"attack",text:"3ダメージ",damage:3},
+ fireSmall:{name:"火弾",cost:1,kind:"attack",text:"敵1体に6ダメージ",damage:6,fireArt:"small",firePower:1},
+ fireMedium:{name:"灼流",cost:2,kind:"attack",text:"敵1体に10ダメージ",damage:10,fireArt:"medium",firePower:2},
+ fireLarge:{name:"獄炎砲",cost:3,kind:"attack",text:"敵1体に16ダメージ",damage:16,fireArt:"large",firePower:3},
  flow:{name:"術式循環",cost:1,kind:"draw",text:"カードを2枚引く",draw:2},
  ward:{name:"氷の結界",cost:1,kind:"guard",text:"防御7。カードを1枚引く",block:7,draw:1},
  charge:{name:"魔力点火",cost:0,kind:"energy",text:"魔力＋1。廃棄",energyGain:1,exhaust:true},
@@ -26,7 +29,11 @@ export const CARDS = Object.freeze({
  dragonFeed:{name:"竜の餌",cost:0,kind:"dragonFeed",text:"竜を1段階成長。手札を1枚選んで捨てる。廃棄",dragonGrowth:1,exhaust:true,art:"b1-dragon-feed.webp"},
  dragonBreath:{name:"竜息",cost:1,kind:"dragonBreath",text:"敵全体に4＋竜の段階×3ダメージ。",damage:4,dragonPowerPerStage:3,art:"b1-dragon-breath.webp"}
 });
-export function getB1Card(id){const up=typeof id==="string"&&id.endsWith("~"),base=up?id.slice(0,-1):id;const card=CARDS[base];if(!card)return null;if(!up)return card;const next={...card,name:card.name+"＋"};if(base==="dragonFeed"){next.dragonGrowth=2;next.text="竜を2段階成長。手札を1枚選んで捨てる。廃棄";return next;}const stat=["damage","block","heal","poison","weaken","vulnerable","energyGain","draw","strengthGain","powerDraw"].find(k=>Number.isFinite(card[k])&&card[k]>0);if(stat){const bonus=["damage","block","heal"].includes(stat)?3:1;next[stat]+=bonus;next.text=card.text+"（"+stat+"＋"+bonus+"）";}else{next.cost=Math.max(0,card.cost-1);next.text=card.text+"（魔力－1）";}return next;}
+export function getB1Card(id){const up=typeof id==="string"&&id.endsWith("~"),base=up?id.slice(0,-1):id;const card=CARDS[base];if(!card)return null;if(!up)return card;const next={...card,name:card.name+"＋"};if(Object.hasOwn({fireSmall:3,fireMedium:4,fireLarge:6},base)){
+ const bonus={fireSmall:3,fireMedium:4,fireLarge:6}[base];
+ next.damage+=bonus;next.text="敵1体に"+next.damage+"ダメージ";return next;
+ }
+ if(base==="dragonFeed"){next.dragonGrowth=2;next.text="竜を2段階成長。手札を1枚選んで捨てる。廃棄";return next;}const stat=["damage","block","heal","poison","weaken","vulnerable","energyGain","draw","strengthGain","powerDraw"].find(k=>Number.isFinite(card[k])&&card[k]>0);if(stat){const bonus=["damage","block","heal"].includes(stat)?3:1;next[stat]+=bonus;next.text=card.text+"（"+stat+"＋"+bonus+"）";}else{next.cost=Math.max(0,card.cost-1);next.text=card.text+"（魔力－1）";}return next;}
 export const STARTER = Object.freeze(["bolt","bolt","bolt","bolt","guard","guard","guard","guard","break"]);
 export const STAGES = Object.freeze([
  {name:"B1・入口",hint:"硬い敵を相手に攻撃するか防御するか。次の攻撃を予測しよう。",enemies:[{id:"rat",name:"石牙獣",maxHp:42,role:"rat"}],rewards:["ward","double","poison","spark","flow","heal","frost"]},
@@ -53,7 +60,7 @@ export function createB1Game(options={}){
  const random=()=>{seed=(Math.imul(seed,1664525)+1013904223)>>>0;return seed/4294967296;};
  const shuffle=a=>{for(let i=a.length-1;i>0;i--){const j=Math.floor(random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;};
  const testMaxHp=Number.isInteger(options.maxHp)&&options.maxHp>=1&&options.maxHp<=999?options.maxHp:75;
- let s={dragonStage:-1,lastSynergy:null,phase:"starter",stage:0,turn:1,hp:testMaxHp,maxHp:testMaxHp,energy:3,block:0,attacksThisTurn:0,powerDraw:0,strength:0,selected:null,deck:Array.isArray(options.testDeck)&&options.testDeck.length>0&&options.testDeck.length<=30&&options.testDeck.every(id=>Object.hasOwn(CARDS,id))?[...options.testDeck]:[...STARTER],hand:[],draw:[],discard:[],exhaust:[],powers:[],enemies:[],rewards:[],gold:0,shopPending:false,shopUsed:false,shopPurchases:[],restPending:false,restUsed:false,restChoice:null,selectedPath:null,routeHistory:[],log:["最初に得意な魔法を1枚選んで地下迷宮へ。"]};
+ let s={dragonStage:-1,lastSynergy:null,phase:"starter",stage:0,turn:1,hp:testMaxHp,maxHp:testMaxHp,energy:3,block:0,attacksThisTurn:0,powerDraw:0,strength:0,selected:null,deck:Array.isArray(options.testDeck)&&options.testDeck.length>0&&options.testDeck.length<=30&&options.testDeck.every(id=>Object.hasOwn(CARDS,id))?[...options.testDeck]:[...STARTER],hand:[],draw:[],discard:[],exhaust:[],powers:[],enemies:[],rewards:[],gold:0,shopPending:false,shopUsed:false,shopPurchases:[],shopPurged:false,restPending:false,restUsed:false,restChoice:null,selectedPath:null,routeHistory:[],log:["最初に得意な魔法を1枚選んで地下迷宮へ。"]};
  function note(t){s.log.unshift(t);s.log=s.log.slice(0,18);}
  const alive=()=>s.enemies.filter(e=>e.hp>0);
  const find=id=>s.enemies.find(e=>e.id===id&&e.hp>0);
@@ -62,7 +69,7 @@ export function createB1Game(options={}){
   const stage=s.stage===1?B1_FORK_ROUTES[s.selectedPath||"pack"]:STAGES[s.stage];s.enemies=stage.enemies.map(e=>({...clone(e),hp:e.maxHp,weaken:0,poison:0,vulnerable:0,block:0,strength:0,channelDamage:0,channelBroken:false}));s.turn=1;s.block=0;s.energy=3;s.attacksThisTurn=0;s.powerDraw=0;s.strength=0;
   s.lastSynergy=null;s.hand=[];s.discard=[];s.exhaust=[];s.powers=[];s.draw=shuffle([...s.deck]);s.selected=s.enemies.find(e=>e.role!=="boss")?.id||s.enemies[0].id;s.phase="battle";drawCards(5);note(stage.name+"：戦闘開始。");
  }
- function selectStarter(id){if(s.phase!=="starter"||!["lightning","scatter","flow","dragonEgg"].includes(id))return false;
+ function selectStarter(id){if(s.phase!=="starter"||!["lightning","scatter","flow","dragonEgg","fireSmall","fireMedium","fireLarge"].includes(id))return false;
   if(id==="dragonEgg")s.deck.push("dragonEgg","dragonFeed","dragonBreath");else s.deck.push(id);
   start();return true;}
  function protectors(){return s.stage===STAGES.length-1?alive().filter(e=>e.role==="guard").length:0;}
@@ -267,13 +274,19 @@ export function createB1Game(options={}){
  else if(kind==="upgrade"){if(!Number.isInteger(index)||index<0||index>=s.deck.length||s.deck[index].endsWith("~"))return false;const id=s.deck[index];s.deck[index]=id+"~";note("休憩所："+getB1Card(id).name+"を強化。");}
  else return false;s.restPending=false;s.restUsed=true;s.restChoice=kind;return true;
 }
-const SHOP_STOCK=Object.freeze([{id:"ward",price:35},{id:"chain",price:40},{id:"frostBreak",price:35},{id:"echoGuard",price:30},{id:"lingeringPoison",price:30}]);
+const SHOP_STOCK=Object.freeze([{id:"ward",price:35},{id:"chain",price:40},{id:"frostBreak",price:35},{id:"echoGuard",price:30},{id:"lingeringPoison",price:30},{id:"fireSmall",price:25},{id:"fireMedium",price:40},{id:"fireLarge",price:55}]);
 function buyShop(id){
  if(s.phase!=="between"||s.stage!==2||!s.shopPending||s.shopUsed||s.practiceMode)return false;
  const item=SHOP_STOCK.find(item=>item.id===id);
  if(!item||s.gold<item.price||s.shopPurchases.includes(id))return false;
  s.gold-=item.price;s.deck.push(item.id);s.shopPurchases.push(item.id);
  note("商店："+getB1Card(item.id).name+"を"+item.price+"Gで購入。");return true;
+}
+function purgeShopCard(index){
+ if(s.phase!=="between"||s.stage!==2||!s.shopPending||s.shopUsed||s.practiceMode||s.shopPurged||s.gold<30)return false;
+ if(!Number.isInteger(index)||index<0||index>=s.deck.length||s.deck.length<=1)return false;
+ const id=s.deck.splice(index,1)[0];s.gold-=30;s.shopPurged=true;
+ note("商店："+getB1Card(id).name+"を削除（30G）。");return true;
 }
 function leaveShop(){
  if(s.phase!=="between"||s.stage!==2||!s.shopPending||s.shopUsed||s.practiceMode)return false;
@@ -310,5 +323,5 @@ function choosePath(id){
   start();note("練習モード："+(mode==="combo"?"連鎖コンボ14枚":mode==="ideal"?"安定型14枚":mode==="test"?"検証用デッキ":"基本の10枚")+"でボスに挑戦。");
   return true;
  }
- return {snapshot,selectStarter,startBossPractice,play,endTurn,chooseReward,chooseRest,buyShop,leaveShop,choosePath,nextBattle};
+ return {snapshot,selectStarter,startBossPractice,play,endTurn,chooseReward,chooseRest,buyShop,purgeShopCard,leaveShop,choosePath,nextBattle};
 }
