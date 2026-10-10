@@ -52,3 +52,12 @@
 .pilot-mode.b1-rest-active #journeyPanel .pilot-overlay-window p{margin:4px 0 8px}
 .pilot-mode.b1-rest-active .b1-rest-option{min-height:64px}
 @media(max-width:660px){.pilot-mode .b1-campfire{right:16%;width:30%;bottom:12px;height:65%}.pilot-mode .b1-camp-flame{font-size:55px}.pilot-mode.b1-rest-active #journeyPanel .pilot-overlay-window{max-height:50dvh;padding:9px}}
+
+/* Clear, per-card before/after comparison in the existing mage rest overlay. */
+.pilot-mode .b1-rest-upgrades{grid-template-columns:repeat(2,minmax(0,1fr));max-height:37dvh}
+.pilot-mode .b1-rest-upgrade-card{display:flex;flex-direction:column;gap:5px;line-height:1.45;min-height:115px}
+.pilot-mode .b1-rest-upgrade-card strong{color:#f9e1ac;font-size:13px}
+.pilot-mode .b1-rest-upgrade-card span{font-size:11px}
+.pilot-mode .b1-rest-upgrade-card .b1-upgrade-arrow{color:#c4d1d5;line-height:1;text-align:center}
+.pilot-mode .b1-rest-upgrade-card .b1-upgrade-after{color:#9fe5be;font-weight:750}
+@media(max-width:600px){.pilot-mode .b1-rest-upgrades{grid-template-columns:minmax(0,1fr);max-height:34dvh}}
