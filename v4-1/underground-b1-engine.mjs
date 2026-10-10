@@ -107,20 +107,28 @@ export function createB1Game(options={}){
   if(s.phase!=="battle")return false;
   for(const e of [...s.enemies]){
    if(e.hp<=0)continue;
-   const a=intent(e);
-   if(a.kind==="attack"){
-    const raw=Math.max(0,a.damage-e.weaken);e.weaken=0;
-    const absorbed=Math.min(s.block,raw);s.block-=absorbed;
-    const harm=raw-absorbed;s.hp=Math.max(0,s.hp-harm);
-    note(e.name+"の"+a.label+"：防御"+absorbed+"、HP被害"+harm+"。");
+   // Poison hits before the enemy acts, even if charging, then weakens by 1.
+   if(e.poison>0){
+    const n=Math.min(e.poison,e.hp);e.hp-=n;e.poison=Math.max(0,e.poison-1);
+    note(e.name+"は毒で"+n+"ダメージ。");
+   }
+   if(e.hp<=0)continue;
+   const action=intent(e);
+   if(action.kind==="attack"){
+    const raw=e.weaken>0?Math.floor(action.damage*0.75):action.damage;
+    const blocked=Math.min(s.block,raw);s.block-=blocked;
+    s.hp=Math.max(0,s.hp-(raw-blocked));
+    note(e.name+"の"+action.label+"：防御"+blocked+"、HP被害"+(raw-blocked)+"。");
     if(s.hp<=0){s.phase="lost";note("HPが0になった。再挑戦してみよう。");break;}
-    if(e.poison>0){e.hp=Math.max(0,e.hp-e.poison);note(e.name+"の攻撃後に毒"+e.poison+"ダメージ。");}
-   }else note(e.name+"： "+a.label+"。");
+   }else note(e.name+"："+action.label+"。");
+   e.weaken=Math.max(0,e.weaken-1);
+   e.vulnerable=Math.max(0,e.vulnerable-1);
   }
   s.block=0;
   if(s.phase==="lost")return true;
   if(checkVictory())return true;
-  s.discard.push(...s.hand.splice(0));s.turn++;s.energy=3;s.usedSpell=false;refill();return true;
+  s.discard.push(...s.hand.splice(0));s.turn++;s.energy=3;s.attacksThisTurn=0;
+  drawCards(5+s.powerDraw);return true;
  }
  function chooseReward(id){
   if(s.phase!=="reward"||(id!==null&&!s.rewards.includes(id)))return false;
