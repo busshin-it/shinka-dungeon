@@ -165,3 +165,14 @@
 - PR [#69](https://github.com/busshin-it/shinka-dungeon/pull/69) は全自動テスト合格後、main `4609a9c0` にsquash merge済み。
 - B1の手札操作レイヤーのみ変更。横スワイプをドラッグと誤認しないためのジェスチャー分類、ミスドロップ時の戻り、タップ／Esc操作とモーション軽減をテスト。
 - GitHub Pagesの実配信確認と、実機タッチの気持ちよさは未検証。次はスマホでの横スクロール・持ち上げ・攻撃指定の挙動を確認し調整する。
+
+
+## 第11歩：B1専用のインストール可能なPWA（2026-10-11／PR候補）
+
+- Android Chromeで長いURLバーが見える問題を解決するため、B1専用Web App Manifestを新設。短い表示名「進化B1」、アプリ名「進化ダンジョン｜地下迷宮B1」。
+- start_url と id を既存のB1試遊ページにし、scopeをその単独ページへ限定。旧6戦PWAとは別のアプリとして登録される。
+- display=standalone、orientation=landscape。インストール後にホーム画面のアイコンから起動すると、対応ブラウザではURLバーを表示しない。
+- インストールボタンは通常のブラウザで表示し、Chromiumが beforeinstallprompt を提供したらユーザーのクリックでネイティブインストールダイアログを開く。それ以外はAndroid Chrome／iOS Safariの手順を案内。
+- 既存アイコン192/512とApple touch iconを再利用。新画像はまだ制作しない。
+- 旧v4-1 manifest、署名済み配布用sw.js、PWAのキャッシュ仕様、ゲームの進行・カード・画像・保存に変更なし。**B1オフラインプレイは今回の保証対象外。**
+- Web App Manifest・アイコン・HTML・インストールの操作をNodeテストで確認。公開後のAndroid実機インストール・Chromeメニュー表記・ブラウザUIの有無はユーザー端末で確認。

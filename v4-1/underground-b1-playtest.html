@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#0d1821">
-<title>地下迷宮 B1｜魔法使いの試遊</title><link rel="stylesheet" href="./planning.css"><link rel="stylesheet" href="./six-paths-stage.css"><link rel="stylesheet" href="./underground-b1-actions.css"><link rel="stylesheet" href="./underground-b1-actors.css"><link rel="stylesheet" href="./underground-b1-map.css">
+<title>地下迷宮 B1｜魔法使いの試遊</title><link rel="manifest" href="./b1-manifest.webmanifest"><link rel="apple-touch-icon" href="./icons/apple-touch-icon.png"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><link rel="stylesheet" href="./planning.css"><link rel="stylesheet" href="./six-paths-stage.css"><link rel="stylesheet" href="./underground-b1-actions.css"><link rel="stylesheet" href="./underground-b1-actors.css"><link rel="stylesheet" href="./underground-b1-map.css">
 <style>
 /* B1 uses the SAME original Astral/pilot arena and hand stylesheets.
    Extra chrome here is only the multi-target control and text-only cards. */
@@ -88,12 +88,20 @@
  .pilot-mode .pilot-choices .pilot-start-card.b1-art-card .pilot-card-copy strong{font-size:13px}
  .pilot-mode .pilot-choices .pilot-start-card.b1-art-card .pilot-card-copy .desc{font-size:10px}
 }
+.b1-install-guide{background:#172d3b;color:#f0e7d7;border:1px solid #b3a17b;border-radius:12px;
+ padding:20px;max-width:min(480px,calc(100vw - 36px));max-height:80dvh;overflow:auto;box-shadow:0 15px 50px #000c}
+.b1-install-guide::backdrop{background:#050b16bd}
+.b1-install-guide h2{font-size:19px;margin:0 0 10px}
+.b1-install-guide p{font-size:13px;line-height:1.65;margin:0 0 12px}
+.b1-install-guide .b1-install-disclaimer{color:#a7bbbf;font-size:11px}
+[hidden]#b1Install{display:none!important}
 </style>
 <link rel="stylesheet" href="./underground-b1-starter-art.css">
 <link rel="stylesheet" href="./underground-b1-dragon-visuals.css">
 </head>
 <body class="planning-mode pilot-mode"><main class="game pilot-game">
 <header class="masthead"><div><h1>蒼星の回廊 <small>進化ダンジョン</small></h1></div><div class="header-actions">
+<button id="b1Install" class="quiet" type="button" hidden>アプリにする</button>
 <button id="restart" class="quiet" type="button">最初から</button>
 <details class="pilot-menu"><summary>メニュー</summary><div class="pilot-menu-links">
 <a href="./planning.html">以前の6戦版</a>
@@ -101,6 +109,13 @@
 <a href="./six-paths-pilot.html?mode=long-journey">通常12戦</a>
 <a href="./six-paths-pilot.html?mode=legacy-enemies">敵6戦・新カード</a>
 <a href="./six-paths-pilot.html">3戦の試作</a></div></details></div></header>
+<dialog id="b1InstallGuide" class="b1-install-guide" aria-labelledby="b1InstallGuideTitle">
+<h2 id="b1InstallGuideTitle">アプリとしてホーム画面に追加</h2>
+<p>AndroidのChromeなら、右上の「︙」を押して「アプリをインストール」または「ホーム画面に追加」を選んでください。</p>
+<p>追加したアイコンから開くと、対応端末ではアドレスバーのないアプリ画面になります。iPhoneはSafariの共有メニューから「ホーム画面に追加」を選んでください。</p>
+<p class="b1-install-disclaimer">インストール操作は端末側で行います。オフラインでのB1プレイには対応していません。</p>
+<button type="button" id="b1InstallGuideClose" class="primary">閉じる</button>
+</dialog>
 <nav class="journey" aria-label="冒険の進み具合"><span>✦</span><span id="turnNum"></span></nav>
 <section id="setupPanel" class="stage pilot-setup b1-ref-setup" hidden><div class="pilot-setup-content b1-ref-panel">
 <div class="pilot-setup-head b1-ref-head"><img src="./assets/hero.webp" alt="蒼星の魔法師"><div><h2 id="setupHeading">護符を選ぶ</h2><span class="b1-ref-title-rule" aria-hidden="true"></span><p id="setupHint"></p></div></div>
@@ -156,6 +171,7 @@
 <span>クリックなら攻撃カードを選ぶ→敵の姿を押す。防御・補助は画面に出すか1回押す。Escで解除。</span><span>B1専用の効果と仮数値を試せます。仲間と商店は未実装です。</span>
 <a href="./planning.html">以前の進化ダンジョンを開く</a></div></details>
 </main>
+<script type="module" src="./b1-install.mjs"></script>
 <script type="module">
 import {CARDS,STAGES,createB1Game,getB1Card,IDEAL_B1_BOSS_DECK,COMBO_B1_BOSS_DECK,B1_BOSS_CHANNEL_THRESHOLD} from "./underground-b1-engine.mjs";
 import {attachB1Actions} from "./underground-b1-actions.mjs";

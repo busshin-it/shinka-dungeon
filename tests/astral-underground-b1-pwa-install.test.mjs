@@ -1,0 +1,84 @@
+import test from "node:test";
+import assert from "node:assert/strict";
+import {existsSync,readFileSync} from "node:fs";
+import {spawnSync} from "node:child_process";
+import {b1IsAppMode,initB1Install} from "../v4-1/b1-install.mjs";
+
+const base=new URL("../v4-1/",import.meta.url);
+const manifest=JSON.parse(readFileSync(new URL("b1-manifest.webmanifest",base),"utf8"));
+const html=readFileSync(new URL("underground-b1-playtest.html",base),"utf8");
+
+test("B1 installs as a distinct app opening the exact existing mage page",()=>{
+ assert.equal(manifest.id,"./underground-b1-playtest.html");
+ assert.equal(manifest.start_url,"./underground-b1-playtest.html");
+ assert.equal(manifest.scope,"./underground-b1-playtest.html");
+ assert.equal(manifest.display,"standalone");
+ assert.equal(manifest.orientation,"landscape");
+ assert.equal(manifest.prefer_related_applications,false);
+ assert.ok(manifest.name.includes("地下迷宮B1"));
+ assert.ok(manifest.icons.some(x=>x.sizes==="192x192"));
+ assert.ok(manifest.icons.some(x=>x.sizes==="512x512"));
+ for(const icon of manifest.icons)assert.ok(existsSync(new URL(icon.src,base)),icon.src+" must exist");
+ const legacy=JSON.parse(readFileSync(new URL("manifest.webmanifest",base),"utf8"));
+ assert.notEqual(legacy.id,manifest.id,"keep two separate app identities");
+ assert.notEqual(legacy.start_url,manifest.start_url);
+});
+test("HTML links only B1 manifest and keeps the existing hero and fight scene",()=>{
+ assert.match(html,/rel="manifest" href="\.\/b1-manifest\.webmanifest"/);
+ assert.match(html,/rel="apple-touch-icon" href="\.\/icons\/apple-touch-icon\.png"/);
+ assert.match(html,/id="b1Install"[^>]*hidden/);
+ assert.match(html,/src="\.\/b1-install\.mjs"/);
+ assert.match(html,/id="heroPuppet"/);
+ assert.match(html,/\.\/assets\/hero\.webp/);
+ assert.match(html,/id="enemyPuppet"/);
+ assert.match(html,/id="hand"/);
+ const inline=html.match(/<script type="module">([\s\S]*?)<\/script>/)?.[1];
+ assert.ok(inline);
+ const run=spawnSync(process.execPath,["--check","--input-type=module"],{input:inline,encoding:"utf8"});
+ assert.equal(run.status,0,run.stderr);
+});
+test("standalone mode hides install button while browser mode offers manual guide",()=>{
+ let handlers={},winHandlers={};
+ const button={hidden:true,textContent:"アプリにする",addEventListener:(k,fn)=>{handlers["button:"+k]=fn;}};
+ const guide={open:false,showModal(){this.open=true;},close(){this.open=false;}};
+ const close={addEventListener:(k,fn)=>{handlers["close:"+k]=fn;}};
+ const doc={getElementById(id){return {b1Install:button,b1InstallGuide:guide,b1InstallGuideClose:close}[id];}};
+ let installed=false;
+ const win={navigator:{},matchMedia:()=>({matches:installed}),addEventListener:(k,fn)=>{winHandlers[k]=fn;}};
+ assert.equal(b1IsAppMode(win),false);
+ assert.equal(initB1Install(win,doc),true);
+ assert.equal(button.hidden,false);
+ handlers["button:click"]();
+ assert.equal(guide.open,true);
+ handlers["close:click"]();
+ assert.equal(guide.open,false);
+ installed=true;
+ winHandlers.pageshow();
+ assert.equal(button.hidden,true);
+ assert.equal(b1IsAppMode(win),true);
+});
+test("supported Chromium prompt is called only after user clicks install",async()=>{
+ const handlers={},events={};
+ const button={hidden:true,textContent:"アプリにする",addEventListener:(k,fn)=>{handlers[k]=fn;}};
+ const guide={open:false,showModal(){this.open=true;},close(){this.open=false;}};
+ const doc={getElementById(id){return {b1Install:button,b1InstallGuide:guide,b1InstallGuideClose:{addEventListener(){}}}[id];}};
+ const win={navigator:{},matchMedia:()=>({matches:false}),addEventListener:(k,fn)=>{events[k]=fn;}};
+ initB1Install(win,doc);
+ let calls=0,cancelDefault=0;
+ events.beforeinstallprompt({preventDefault(){cancelDefault++;},prompt:async()=>{calls++;},userChoice:Promise.resolve({outcome:"accepted"})});
+ assert.equal(cancelDefault,1);
+ assert.equal(calls,0);
+ assert.equal(button.textContent,"インストール");
+ await handlers.click();
+ assert.equal(calls,1);
+ events.appinstalled();
+ assert.equal(button.hidden,true);
+ assert.equal(guide.open,false);
+});
+test("PWA install does not alter offline worker or original game manifest",()=>{
+ const script=readFileSync(new URL("b1-install.mjs",base),"utf8");
+ assert.doesNotMatch(script,/serviceWorker\.register|caches\.|skipWaiting|localStorage/);
+ const result=spawnSync(process.execPath,["--check",new URL("b1-install.mjs",base).pathname],{encoding:"utf8"});
+ assert.equal(result.status,0,result.stderr);
+ assert.ok(existsSync(new URL("sw.js",base)),"legacy offline bundle stays in place");
+});
