@@ -1,5 +1,12 @@
 // B1-only pointer/touch/keyboard controls. Game rules remain in underground-b1-engine.
 export const needsB1Target=kind=>["attack","multi","poison","fragile"].includes(kind);
+// Centered fan. Maximum 7 degrees; outer cards are lower than the center.
+export function b1HandFanPose(index,total){
+ const count=Math.max(1,Math.floor(Number(total)||1));
+ const i=Math.max(0,Math.min(count-1,Math.floor(Number(index)||0)));
+ const t=count===1?0:(i-(count-1)/2)/((count-1)/2);
+ return {angle:Math.round(t*7*10)/10,drop:Math.round(Math.abs(t)*6)};
+}
 // Let touch users swipe sideways through the hand while upward gestures lift cards.
 export function b1PointerIntent(dx,dy,pointerType="mouse"){
  const distance=Math.hypot(dx,dy);
@@ -160,9 +167,9 @@ export function attachB1Actions({hand,stage,enemyPuppet,choices,cards,read,selec
   if(read().phase!=="battle"||(picked!==null&&!usable(picked))){picked=null;message("");}
   const buttons=[...hand.querySelectorAll("[data-b1-hand]")];
   buttons.forEach((b,i)=>{
-   const maxAngle=Math.min(3.2,Math.max(0,(buttons.length-1)*.52));
-   const angle=buttons.length<=1?0:((i/(buttons.length-1)*2-1)*maxAngle);
-   b.style.setProperty("--b1-fan-angle",angle.toFixed(2)+"deg");
+   const pose=b1HandFanPose(i,buttons.length);
+   b.style.setProperty("--b1-fan-angle",pose.angle+"deg");
+   b.style.setProperty("--b1-fan-drop",pose.drop+"px");
   });
   mark();
  }
