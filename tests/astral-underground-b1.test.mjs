@@ -23,11 +23,12 @@ function runBattle(g){
  }
  assert.ok(count<130,'battle should finish with finite number of decisions');
 }
-function reachBoss(g){
- assert.equal(g.selectStarter('lightning'),true);
+function reachBoss(g,starter='lightning'){
+ assert.equal(g.selectStarter(starter),true);
  for(let wave=0;wave<2;wave++){
   runBattle(g);const s=g.snapshot();assert.equal(s.phase,'reward');
-  assert.equal(g.chooseReward(wave===0?'scatter':'chain'),true);
+  const preferred=wave===0?'double':'chain';
+  assert.equal(g.chooseReward(s.rewards.includes(preferred)?preferred:s.rewards[0]),true);
   assert.equal(g.nextBattle(),true);
  }
  return g.snapshot();
@@ -44,8 +45,8 @@ function findCard(g,id,maxTurns=20){
 }
 
 test('card pool and initial deck are independent from original pilot',()=>{
- assert.equal(STARTER.length,8);
- assert.equal(Object.keys(CARDS).length,10);
+ assert.equal(STARTER.length,9);
+ assert.equal(Object.keys(CARDS).length,17);
  assert.equal(STAGES.length,3);
  assert.equal(CARDS.scatter.kind,'all');
 });
@@ -55,20 +56,20 @@ test('starter, targeting, magic spending and combat log',()=>{
  assert.equal(g.selectStarter('wrong'),false);
  assert.equal(g.selectStarter('lightning'),true);
  assert.equal(g.selectStarter('scatter'),false);
- let s=g.snapshot();assert.equal(s.phase,'battle');assert.equal(s.deck.length,9);
+ let s=g.snapshot();assert.equal(s.phase,'battle');assert.equal(s.deck.length,10);
  const i=findCard(g,'bolt');
  s=g.snapshot();const before=s.enemies[0].hp,energy=s.energy;
  assert.equal(g.play(i,'no-enemy'),false);
  assert.equal(g.snapshot().energy,energy);
  assert.equal(g.play(i,'rat'),true);
- s=g.snapshot();assert.equal(s.enemies[0].hp,before-5);assert.equal(s.energy,energy-1);
+ s=g.snapshot();assert.equal(s.enemies[0].hp,before-6);assert.equal(s.energy,energy-1);
  assert.ok(s.log[0].includes('ダメージ'));
 });
 test('frost waits until next attack and then clears',()=>{
  const g=createB1Game({seed:100,maxHp:220});g.selectStarter('lightning');
  const i=findCard(g,'frost');
  assert.equal(g.play(i,'rat'),true);
- assert.equal(g.snapshot().enemies[0].weaken,3);
+ assert.equal(g.snapshot().enemies[0].weaken,2);
  // Rat intent depends on turn; an attack clears the effect.
  let guard=0;while(g.snapshot().phase==='battle'&&g.snapshot().enemies[0].weaken>0&&guard++<4)g.endTurn();
  assert.equal(g.snapshot().enemies[0].weaken,0);
@@ -86,15 +87,15 @@ test('two living guards mitigate individual boss hits by four, but not hits on g
  const i=findCard(g,'bolt');
  const s=g.snapshot();const boss=s.enemies.find(e=>e.role==='boss');
  assert.equal(g.play(i,'boss'),true);
- assert.equal(g.snapshot().enemies.find(e=>e.role==='boss').hp,boss.hp-1);
+ assert.equal(g.snapshot().enemies.find(e=>e.role==='boss').hp,boss.hp-2);
 });
 test('an AoE spell evaluates simultaneous guard damage (guard armor at cast start)',()=>{
- const g=createB1Game({seed:333,maxHp:999});reachBoss(g);
+ const g=createB1Game({seed:333,maxHp:999});reachBoss(g,'scatter');
  const i=findCard(g,'scatter');
  const s=g.snapshot(),initial=new Map(s.enemies.map(e=>[e.id,e.hp]));
  assert.equal(g.play(i),true);
  for(const e of g.snapshot().enemies){
-  assert.equal(e.hp,initial.get(e.id)-(e.role==='boss'?0:4));
+  assert.equal(e.hp,initial.get(e.id)-(e.role==='boss'?2:6));
  }
 });
 test('reward can be skipped and does not silently mutate deck',()=>{
