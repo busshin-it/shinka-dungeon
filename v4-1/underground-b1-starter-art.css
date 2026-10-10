@@ -154,3 +154,22 @@
 @media(prefers-reduced-motion:reduce){
  .pilot-mode #setupPanel .b1-ref-panel .pilot-choices .pilot-start-card{transition:none}
 }
+
+/* Four equally cropped original artworks from the approved mockup.
+   A sprite is used to avoid inconsistent mixing of unrelated art sources. */
+.pilot-mode #setupPanel .b1-ref-panel .pilot-choices .pilot-start-card .b1-starter-card-art{
+ display:block;box-sizing:border-box;position:static;inset:auto;width:100%;
+ height:58%;min-height:0;flex:0 0 58%;border-radius:9px 9px 4px 4px;
+ background-image:url("./assets/b1-starter-sprite.webp");
+ background-repeat:no-repeat;
+ background-size:400% 100%;
+ background-position:0% center;
+ background-color:#14283b;
+ pointer-events:none;
+}
+.pilot-mode #setupPanel .b1-ref-panel .pilot-choices .pilot-start-card .b1-starter-card-art--scatter{background-position:33.333% center}
+.pilot-mode #setupPanel .b1-ref-panel .pilot-choices .pilot-start-card .b1-starter-card-art--flow{background-position:66.667% center}
+.pilot-mode #setupPanel .b1-ref-panel .pilot-choices .pilot-start-card .b1-starter-card-art--dragonEgg{background-position:100% center}
+@media(max-width:450px){
+ .pilot-mode #setupPanel .b1-ref-panel .pilot-choices .pilot-start-card .b1-starter-card-art{height:52%;flex-basis:52%}
+}
