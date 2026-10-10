@@ -1,0 +1,37 @@
+/* B1-only interaction layer. Keep original pilot stage, art, HUD and card frame. */
+.pilot-mode .b1-gesture-stage{position:relative}
+.pilot-mode .b1-float-card{background:#e8dfcb;color:#152838;border:2px solid #d8ad63;border-radius:7px;display:flex;flex-direction:column;justify-content:center;padding:10px 12px;box-shadow:0 8px 26px #000c;font-size:13px}
+.pilot-mode .b1-float-card .type{align-self:flex-end;font-size:10px}
+.pilot-mode .b1-float-card .cost{display:block;position:absolute;left:6px;top:5px;font-weight:bold}
+.pilot-mode .b1-float-card .pilot-card-copy{display:block}
+.pilot-mode .b1-float-card .desc{display:block;font-size:11px}
+
+.pilot-mode .hand .pilot-card{cursor:grab;touch-action:pan-x;user-select:none;-webkit-user-select:none;transition:transform 130ms ease,border-color 130ms,box-shadow 130ms;will-change:transform}
+.pilot-mode .hand .pilot-card:not(:disabled):hover,
+.pilot-mode .hand .pilot-card:not(:disabled):focus-visible{transform:translateY(-7px) scale(1.055);z-index:5;box-shadow:0 9px 22px #000a;border-color:#c9a061}
+.pilot-mode .hand .pilot-card.b1-picked{border:2px solid #d5a24f;transform:translateY(-7px);z-index:7;box-shadow:0 0 0 2px #e3b56d80,0 6px 18px #0008}
+.pilot-mode .hand .pilot-card.b1-drag-source{opacity:.38;transform:translateY(0)}
+.pilot-mode .hand.b1-hand-dragging .pilot-card:not(.b1-drag-source){opacity:.63}
+.pilot-mode .b1-targets button.b1-drop-target,.pilot-mode .b1-targets button.b1-pending-target{background:#506d67;border-color:#f4d28a;color:#fff}
+.pilot-mode .b1-hand-help{position:absolute;bottom:142px;left:50%;transform:translateX(-50%);z-index:7;padding:4px 12px;border:1px solid #8b7855;border-radius:7px;background:#122c3af5;color:#e9ddbc;font-size:11px;pointer-events:none;max-width:85vw;text-align:center}
+.pilot-mode .b1-hand-help[hidden]{display:none}
+.pilot-mode .b1-cast-zone{position:absolute;z-index:8;top:36%;left:47%;transform:translate(-50%,-50%);width:min(250px,34vw);min-height:63px;border:2px dashed #bdad79;border-radius:20px;background:#102a3dcc;display:grid;place-items:center;text-align:center;font-size:13px;color:#f3e5b9;pointer-events:none;opacity:0;transition:opacity 100ms}
+.pilot-mode .stage.b1-casting .b1-cast-zone{opacity:1}
+.pilot-mode .stage.b1-casting .b1-cast-zone.b1-valid{background:#25473cca;border-color:#dfe4aa}
+.pilot-mode #enemyPuppet.b1-drop-target{filter:drop-shadow(0 0 21px #ffcf74);outline:2px solid #ffcf7490;outline-offset:-8px;border-radius:50%}
+.pilot-mode #enemyPuppet.b1-pending-target{filter:drop-shadow(0 0 15px #f8be64)}
+.pilot-mode .b1-arrow{position:fixed;inset:0;width:100vw;height:100dvh;pointer-events:none;z-index:105;overflow:visible;display:none}
+.pilot-mode .b1-arrow.b1-visible{display:block}
+.pilot-mode .b1-float-card{position:fixed;z-index:108;pointer-events:none;opacity:.94;transform-origin:center center;max-width:154px}
+.pilot-mode .b1-number{position:absolute;z-index:9;font-weight:900;font-size:29px;line-height:1;letter-spacing:.015em;text-shadow:1px 2px 2px #000,-1px -1px 2px #000;pointer-events:none;white-space:nowrap;color:#ffd0a0}
+.pilot-mode .b1-number.b1-block{color:#91e6e1}.pilot-mode .b1-number.b1-heal{color:#98e7aa}.pilot-mode .b1-number.b1-status{color:#d8b8ff}
+.pilot-mode .stage.b1-turn-flash::after{content:"";position:absolute;inset:0;background:#f8dc9160;pointer-events:none;z-index:8;animation:b1flash .36s ease-out both}
+@keyframes b1float{0%{opacity:0;transform:translate(-50%,0) scale(.7)}18%{opacity:1;transform:translate(-50%,-20px) scale(1.14)}100%{opacity:0;transform:translate(-50%,-65px) scale(.95)}}
+@keyframes b1deal{0%{opacity:.1;transform:translateY(24px) rotate(-3deg)}100%{opacity:1;transform:translateY(0) rotate(0)}}
+@keyframes b1flash{from{opacity:1}to{opacity:0}}
+.pilot-mode .hand .pilot-card.b1-dealt{animation:b1deal .28s ease-out both}
+@media(max-width:740px){.pilot-mode .b1-hand-help{bottom:137px;font-size:10px}.pilot-mode .b1-cast-zone{left:51%;top:45%;font-size:11px;min-height:50px}}
+@media(prefers-reduced-motion:reduce){
+ .pilot-mode .hand .pilot-card,.pilot-mode .b1-cast-zone{transition:none}
+ .pilot-mode .hand .pilot-card.b1-dealt,.pilot-mode .stage.b1-turn-flash::after{animation:none}
+}
