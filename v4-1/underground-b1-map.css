@@ -70,3 +70,24 @@
 .pilot-mode .b1-shop-item:disabled{opacity:.45;cursor:not-allowed}
 .pilot-mode .b1-shop-item:focus-visible{outline:3px solid #f0c878;outline-offset:2px}
 @media(max-width:600px){.pilot-mode .b1-shop-items{grid-template-columns:1fr}}
+
+/* Dragon prototype stays inside the existing mage layout. */
+.pilot-mode .b1-dragon-hud{display:inline-block;max-width:230px;margin:3px 0;padding:5px 9px;
+ border:1px solid #e6a45d;background:#40271edb;color:#ffe0a8;border-radius:8px;
+ font-size:11px;line-height:1.45;font-weight:750}
+.pilot-mode .b1-dragon-hud[hidden]{display:none}
+.pilot-mode .pilot-card.b1-art-card{overflow:hidden;position:relative}
+.pilot-mode .pilot-card.b1-art-card .b1-dragon-card-art{
+ display:block;position:absolute;top:25px;left:8px;width:calc(100% - 16px);height:44%;
+ border-radius:5px;object-fit:cover;object-position:50% 41%;pointer-events:none;filter:contrast(1.09);
+}
+.pilot-mode .pilot-card.b1-art-card .pilot-card-copy{padding-top:91px;position:relative;z-index:1}
+.pilot-mode .pilot-card.b1-art-card .pilot-card-copy strong{font-size:12px}
+.pilot-mode .pilot-card.b1-art-card .pilot-card-copy .desc{font-size:10px;line-height:1.28}
+.pilot-mode .b1-feed-choices{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin:14px 0}
+.pilot-mode .b1-feed-choice{border:1px solid #b29b72;color:#ffe1af;background:#253849;cursor:pointer;
+ padding:12px;border-radius:8px;text-align:left;min-height:50px}
+.pilot-mode .b1-feed-choice:focus-visible{outline:3px solid #f3cb82}
+@media(max-width:620px){.pilot-mode .b1-feed-choices{grid-template-columns:1fr}
+ .pilot-mode .pilot-card.b1-art-card .pilot-card-copy{padding-top:76px}
+ .pilot-mode .pilot-card.b1-art-card .b1-dragon-card-art{height:38%}}

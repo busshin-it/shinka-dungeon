@@ -71,10 +71,10 @@ export function showB1Feedback({stage,hero,enemy,choices,before,after,card,targe
   ],{duration:480,delay,easing:"ease-out"});
   anim.onfinish=()=>beam.remove();
  }
- const harmful=card&&["attack","multi","all","poison","fragile"].includes(card.kind);
+ const harmful=card&&["attack","multi","all","poison","fragile","dragonBreath"].includes(card.kind);
  if(card)fly(harmful?(targetId?anchorFor(targetId):(multi?choices:enemy)):hero);
  if(harmful){
-  const hits=card?.kind==="all"?before.enemies.filter(e=>e.hp>0).map(e=>e.id):[targetId].filter(Boolean);
+  const hits=(card?.kind==="all"||card?.kind==="dragonBreath")?before.enemies.filter(e=>e.hp>0).map(e=>e.id):[targetId].filter(Boolean);
   hits.forEach((id,i)=>spellImpact(anchorFor(id),i*75));
  }
  for(const old of before.enemies){
