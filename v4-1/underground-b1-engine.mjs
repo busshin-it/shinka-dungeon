@@ -211,7 +211,7 @@ const SHOP_STOCK=Object.freeze([{id:"ward",price:35},{id:"chain",price:40}]);
 function buyShop(id){
  if(s.phase!=="between"||s.stage!==2||!s.shopPending||s.shopUsed||s.practiceMode)return false;
  const item=SHOP_STOCK.find(item=>item.id===id);
- if(!item||s.gold<item.price)return false;
+ if(!item||s.gold<item.price||s.shopPurchases.includes(id))return false;
  s.gold-=item.price;s.deck.push(item.id);s.shopPurchases.push(item.id);
  note("商店："+getB1Card(item.id).name+"を"+item.price+"Gで購入。");return true;
 }
