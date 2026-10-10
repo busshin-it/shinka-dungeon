@@ -16,7 +16,7 @@ test("before/after preview reflects the effective card rules without mutating de
 test("rest UI uses canonical current and upgraded card effects and labels already upgraded copies",()=>{
  const html=readFileSync(new URL("../v4-1/underground-b1-playtest.html",import.meta.url),"utf8");
  const css=readFileSync(new URL("../v4-1/underground-b1-map.css",import.meta.url),"utf8");
- for(const s of ["getB1Card(id+\"~\")","現在：","強化後：","強化済み","b1-upgrade-after","b1-rest-already-upgraded"]){
+ for(const s of ["getB1Card(id.endsWith(\"~\")?id:id+\"~\")","現在：","強化後：","強化済み","b1-upgrade-after","b1-rest-already-upgraded"]){
   assert.ok(html.includes(s),"missing "+s);
  }
  assert.ok(css.includes(".b1-upgrade-after"));
