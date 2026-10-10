@@ -1,0 +1,50 @@
+/* B1-only enemy lineup: reuse the existing mage, stage background, card frame, and hand. */
+.pilot-mode .stage.b1-multi #enemyPuppet,.pilot-mode .stage.b1-multi .enemy-hud{display:none}
+.pilot-mode .stage.b1-multi #targetChoices{display:none}
+.pilot-mode .b1-enemy-lineup{position:absolute;z-index:5;left:47%;right:1.5%;top:43px;bottom:27px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));align-items:end;gap:clamp(2px,.65vw,11px);pointer-events:none}
+.pilot-mode .b1-enemy-lineup.b1-two{left:51%;right:4%;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px}
+.pilot-mode .b1-enemy-actor{--actor-glow:#d8b77d;position:relative;min-width:0;min-height:0;height:100%;border:2px solid transparent;border-radius:13px;display:flex;flex-direction:column;align-items:stretch;justify-content:flex-end;gap:3px;background:transparent;color:var(--paper);padding:2px 2px 5px;cursor:crosshair;pointer-events:auto;text-align:center;transition:background-color .15s,border-color .15s,filter .15s}
+.pilot-mode .b1-enemy-actor:hover:not(:disabled),.pilot-mode .b1-enemy-actor:focus-visible{border-color:#e3d3a5aa;background:#d3a96d18}
+.pilot-mode .b1-enemy-actor[aria-pressed=true]{border-color:#e3ba67;background:#ffce7828;box-shadow:0 0 14px #f2cb7445,inset 0 0 12px #f4ce7912}
+.pilot-mode .b1-enemy-actor.b1-drop-target{background:#bfeacd2e;border-color:#b3f4e5;box-shadow:0 0 22px #a5f9e28c}
+.pilot-mode .b1-enemy-actor.b1-pending-target{filter:brightness(1.18)}
+.pilot-mode .b1-enemy-actor:disabled{opacity:.43;filter:grayscale(1);cursor:default}
+.pilot-mode .b1-enemy-actor:disabled .b1-actor-figure img{transform:rotate(12deg) scale(.88)}
+.pilot-mode .b1-actor-intent{flex:none;display:flex;align-items:center;justify-content:center;min-height:24px;line-height:1.2;font-size:clamp(9px,.92vw,12px);font-weight:750;background:#112735ec;border:1px solid #68818baa;color:#dcece8;border-radius:8px;padding:3px 2px}
+.pilot-mode .b1-actor-intent.b1-hit-intent{border-color:#e5aa79;color:#ffd0a2}
+.pilot-mode .b1-actor-figure{flex:1;min-height:0;display:flex;align-items:flex-end;justify-content:center;position:relative;overflow:visible;width:100%}
+.pilot-mode .b1-actor-figure img{object-fit:contain;object-position:center bottom;width:100%;height:100%;max-height:100%;filter:drop-shadow(0 11px 10px #061421e9);pointer-events:none;user-select:none}
+.pilot-mode .b1-enemy-actor.b1-boss .b1-actor-figure img{filter:drop-shadow(0 13px 15px #061421f2) drop-shadow(0 0 11px #a18e9e62)}
+.pilot-mode .b1-enemy-actor.b1-boss{z-index:2}
+.pilot-mode .b1-actor-name{flex:none;font-size:clamp(9px,1.04vw,12px);font-weight:800;white-space:normal;line-height:1.18;text-shadow:1px 2px 4px #000}
+.pilot-mode .b1-actor-hp{flex:none;display:flex;justify-content:center;font-size:clamp(9px,.88vw,11px);font-weight:750;font-variant-numeric:tabular-nums;line-height:1}
+.pilot-mode .b1-actor-hpbar{flex:none;height:7px;background:#091520;border:1px solid #81919b;border-radius:10px;overflow:hidden}
+.pilot-mode .b1-actor-hpbar i{display:block;height:100%;background:linear-gradient(90deg,#e4735e,#f4b984);transition:width .2s}
+.pilot-mode .b1-actor-status{flex:none;min-height:14px;font-size:clamp(8px,.78vw,10px);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:#9ed9d4;line-height:1.2}
+.pilot-mode .b1-actor-cast{flex:none;font-size:9px;line-height:1.2;color:#f4dc9d}
+.pilot-mode .b1-actor-cast-bar{display:block;background:#0a1b25;border:1px solid #928768;height:4px;border-radius:7px;overflow:hidden}
+.pilot-mode .b1-actor-cast-bar i{display:block;height:100%;background:#ead08d}
+.pilot-mode .b1-enemy-actor.b1-cast-broken .b1-actor-cast{color:#7fe5bb}
+.pilot-mode .b1-actor-cast[hidden]{display:none}
+@media(max-width:760px){
+ .pilot-mode .b1-enemy-lineup{left:43%;right:1%;top:41px;bottom:27px;gap:2px}
+ .pilot-mode .b1-enemy-lineup.b1-two{left:46%;right:2%;gap:6px}
+ .pilot-mode .b1-enemy-actor{border-radius:7px;padding:1px 1px 4px;gap:2px}
+ .pilot-mode .b1-actor-intent{font-size:9px;min-height:19px;padding:2px 1px}
+ .pilot-mode .b1-actor-name{font-size:9px;line-height:1}
+ .pilot-mode .b1-actor-hp{font-size:9px}
+ .pilot-mode .b1-actor-status{font-size:8px}
+ .pilot-mode .b1-actor-cast{font-size:8px}
+}
+@media(max-width:430px){
+ .pilot-mode .b1-enemy-lineup{left:41%;right:1%;top:37px;bottom:25px}
+ .pilot-mode .b1-actor-intent{font-size:8px}
+ .pilot-mode .b1-actor-figure{min-height:32px}
+}
+@media(prefers-reduced-motion:reduce){.pilot-mode .b1-enemy-actor,.pilot-mode .b1-actor-hpbar i{transition:none}}
+
+/* Brief, noninteractive magical strike that originates at the unchanged wizard sprite. */
+.pilot-mode .b1-spell-trail{position:absolute;z-index:7;pointer-events:none;height:4px;transform-origin:0 50%;border-radius:99px;
+ background:linear-gradient(90deg,#62bbc800 0%,#8beeffaa 25%,#ffeda9 65%,#fffbed 100%);
+ box-shadow:0 0 8px #8beaff,0 0 16px #96dcfba8}
+@media(prefers-reduced-motion:reduce){.pilot-mode .b1-spell-trail{display:none}}
