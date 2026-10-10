@@ -55,3 +55,74 @@
 @media(prefers-reduced-motion:reduce){
  .pilot-mode .b1-synergy-toast{box-shadow:0 0 0 1px #f0cc79}
 }
+
+
+/* Tactile fan for B1 ONLY. Preserves hand size, scrolling and every hit target. */
+.pilot-mode .hand .pilot-card{
+ --b1-fan-angle:0deg;--b1-fan-drop:0px;--b1-hover-tilt:0deg;
+ transform:translateY(var(--b1-fan-drop)) rotate(var(--b1-fan-angle));
+ transform-origin:50% 88%;
+ transition:transform 165ms cubic-bezier(.21,.85,.34,1.18),box-shadow 130ms,border-color 130ms,filter 130ms,opacity 130ms;
+ backface-visibility:hidden;
+}
+.pilot-mode .hand .pilot-card.b1-hand-before:not(.b1-picked){transform:translateX(-4px) translateY(var(--b1-fan-drop)) rotate(var(--b1-fan-angle))}
+.pilot-mode .hand .pilot-card.b1-hand-after:not(.b1-picked){transform:translateX(4px) translateY(var(--b1-fan-drop)) rotate(var(--b1-fan-angle))}
+.pilot-mode .hand .pilot-card.b1-hand-focus:not(:disabled),
+.pilot-mode .hand .pilot-card:not(:disabled):hover,
+.pilot-mode .hand .pilot-card:not(:disabled):focus-visible{
+ transform:translateY(-6px) scale(1.052) rotate(var(--b1-hover-tilt));
+ border-color:#f0cb83;
+ box-shadow:0 2px 0 #f9dd97,0 8px 24px #070d1dc9,0 0 13px #f5ca7540;
+ filter:brightness(1.06);
+ z-index:8;
+}
+.pilot-mode .hand .pilot-card.b1-picked:not(:disabled){
+ transform:translateY(-7px) scale(1.05) rotate(0deg);
+ border-color:#edc471;
+ box-shadow:0 0 0 2px #eac5788c,0 6px 22px #070e1cc7;
+ z-index:9;
+}
+.pilot-mode .hand .pilot-card.b1-pressing:not(:disabled),
+.pilot-mode .hand .pilot-card.b1-pressing:not(:disabled):hover{
+ transform:translateY(2px) scale(.972) rotate(0deg);
+ filter:brightness(1.11);
+ box-shadow:0 1px 7px #0007;
+ transition-duration:75ms;
+}
+.pilot-mode .hand .pilot-card.b1-drag-source:not(:disabled){
+ transform:translateY(0) rotate(0deg);opacity:.28;filter:none
+}
+.pilot-mode .b1-float-card.b1-drag-ghost{
+ cursor:grabbing;
+ pointer-events:none;
+ border-color:#ecc477!important;
+ box-shadow:0 14px 35px #000d,0 0 0 2px #f1cf82c0,0 0 30px #e2ba5d3d;
+ opacity:.99;
+ transition:left 55ms linear,top 55ms linear,transform 105ms ease-out;
+ will-change:left,top,transform;
+}
+.pilot-mode .b1-float-card.b1-drag-ghost.b1-snapback{
+ transition:left 180ms cubic-bezier(.15,.85,.3,1),top 180ms cubic-bezier(.15,.85,.3,1),transform 180ms ease-out;
+ opacity:.75;
+}
+.pilot-mode .stage.b1-casting .b1-cast-zone.b1-valid{box-shadow:0 0 0 2px #f9d79180,0 0 30px #e0b65b60}
+.pilot-mode .b1-enemy-lineup .b1-drop-target{filter:drop-shadow(0 0 11px #f9cd77)}
+@keyframes b1FanDeal{
+ from{opacity:.08;transform:translateY(20px) rotate(0deg)}
+ to{opacity:1;transform:translateY(var(--b1-fan-drop)) rotate(var(--b1-fan-angle))}
+}
+.pilot-mode .hand .pilot-card.b1-dealt{animation:b1FanDeal 240ms cubic-bezier(.18,.76,.3,1) both}
+@media(max-height:540px){
+ .pilot-mode .hand .pilot-card.b1-hand-focus:not(:disabled),
+ .pilot-mode .hand .pilot-card:not(:disabled):hover,
+ .pilot-mode .hand .pilot-card.b1-picked:not(:disabled){transform:translateY(-3px) scale(1.025) rotate(0deg)}
+}
+@media(prefers-reduced-motion:reduce){
+ .pilot-mode .hand .pilot-card{transition:none!important}
+ .pilot-mode .hand .pilot-card.b1-dealt{animation:none!important}
+ .pilot-mode .hand .pilot-card.b1-hand-focus:not(:disabled),
+ .pilot-mode .hand .pilot-card:not(:disabled):hover,
+ .pilot-mode .hand .pilot-card.b1-picked:not(:disabled),
+ .pilot-mode .hand .pilot-card.b1-pressing:not(:disabled){transform:translateY(var(--b1-fan-drop)) rotate(var(--b1-fan-angle));filter:none}
+ .pilot-mode .b1-float-card.b1-drag-ghost{transition:none!important;transform:none!important}
+}
