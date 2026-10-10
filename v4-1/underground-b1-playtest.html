@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#0d1821">
-<title>地下迷宮 B1｜魔法使いの試遊</title><link rel="stylesheet" href="./planning.css"><link rel="stylesheet" href="./six-paths-stage.css"><link rel="stylesheet" href="./underground-b1-actions.css">
+<title>地下迷宮 B1｜魔法使いの試遊</title><link rel="stylesheet" href="./planning.css"><link rel="stylesheet" href="./six-paths-stage.css"><link rel="stylesheet" href="./underground-b1-actions.css"><link rel="stylesheet" href="./underground-b1-actors.css">
 <style>
 /* B1 uses the SAME original Astral/pilot arena and hand stylesheets.
    Extra chrome here is only the multi-target control and text-only cards. */
@@ -52,6 +52,7 @@
     <div id="enemyPuppet" class="puppet enemy-puppet"><img id="enemyArt" src="./assets/gatekeeper.webp" alt="蒼鎧の門番"></div>
     <div class="hud enemy-hud"><span class="eyebrow">IN YOUR PATH</span><h2 id="enemyName">蒼鎧の門番</h2><div class="hp-line"><span>HP</span><strong id="enemyHp">48 / 48</strong></div><div id="enemyMeter" class="hp-bar" role="meter" aria-label="敵のHP" aria-valuemin="0" aria-valuemax="48"><i id="enemyFill"></i></div><div id="intent" class="intent"><small>このターン終了時</small><strong id="intentName">剣のひと振り 7</strong><span id="intentText"></span><div id="breakTrack" class="break-track" hidden><i id="breakFill"></i></div></div></div>
     
+    <div id="enemyLineup" class="b1-enemy-lineup" aria-label="敵を選ぶ戦闘エリア" hidden></div>
     <div id="battleLog" class="battle-log" role="status" aria-live="polite">魔法を選んで地下迷宮へ。</div>
   </section>
 
@@ -69,8 +70,8 @@
 <div id="stats" hidden></div><div id="status" hidden></div><div id="enemy" hidden></div><div id="effects" hidden></div><pre id="log" hidden></pre></div>
 <span id="modeDescription" hidden></span>
 <details class="pilot-help"><summary>？</summary><div class="pilot-help-content"><strong>遊び方</strong>
-<span>攻撃カードを敵へドラッグして離す。防御・補助は戦闘画面で離して発動。</span>
-<span>クリックでもOK。攻撃カードを選ぶ→敵を押す。補助カードは1回押す。Escで解除。</span><span>B1専用の効果と仮数値を試せます。仲間と商店は未実装です。</span>
+<span>敵の姿と次の行動を見よう。攻撃カードを狙った敵の姿へドラッグして離す。</span>
+<span>クリックなら攻撃カードを選ぶ→敵の姿を押す。防御・補助は画面に出すか1回押す。Escで解除。</span><span>B1専用の効果と仮数値を試せます。仲間と商店は未実装です。</span>
 <a href="./planning.html">以前の進化ダンジョンを開く</a></div></details>
 </main>
 <script type="module">
@@ -108,14 +109,50 @@ function renderSetup(){
    target.append(b);
  }
 }
+// Enemy sprite buttons live on the original stage, not in a separate target list.
+// Every living enemy has its own clickable art, HP, intent and debuffs.
 function renderTargets(s){
- const items=el("targetChoices");items.replaceChildren();
- if(s.enemies.length<=1)return;
+ const many=s.enemies.length>1,stage=gameStage,lineup=el("enemyLineup");
+ stage.classList.toggle("b1-multi",many);
+ lineup.hidden=!many;
+ lineup.classList.toggle("b1-two",s.enemies.length===2);
+ el("targetChoices").replaceChildren();
+ lineup.replaceChildren();
+ if(!many)return;
  for(const e of s.enemies){
-  const b=document.createElement("button");b.type="button";b.disabled=e.hp<=0;b.dataset.b1Enemy=e.id;
-  b.setAttribute("aria-pressed",String(e.id===targetId));const it=s.intents.find(i=>i.id===e.id);const hit=it?.kind==="attack"?(e.weaken?Math.floor(it.damage*.75):it.damage):0;b.textContent=e.name+" "+e.hp+"｜"+(it?.kind==="attack"?"⚔"+hit+(it.hits>1?"×"+it.hits:""):it?.label||"準備");
-  b.title="攻撃対象: "+e.name+" HP "+e.hp+"/"+e.maxHp+(e.role==="boss"?" 詠唱阻止 "+e.channelDamage+"/"+B1_BOSS_CHANNEL_THRESHOLD:"");
-  b.addEventListener("click",()=>actions.handleTargetClick(e.id));items.append(b);
+  const move=s.intents.find(i=>i.id===e.id);
+  const attack=move?.kind==="attack";
+  const predicted=attack?(e.weaken>0?Math.floor(move.damage*.75):move.damage):0;
+  const intent=attack?"⚔ "+predicted+(move.hits>1?" × "+move.hits:""):
+    move?.kind==="buff"?"✦ "+move.label:"✧ "+(move?.label||"準備");
+  const b=document.createElement("button");
+  b.type="button";b.dataset.b1Enemy=e.id;b.className="b1-enemy-actor"+(e.role==="boss"?" b1-boss":"");
+  b.disabled=e.hp<=0;b.setAttribute("aria-pressed",String(targetId===e.id));
+  if(e.channelBroken)b.classList.add("b1-cast-broken");
+  b.setAttribute("aria-label",e.name+"、HP "+e.hp+" / "+e.maxHp+"。次の行動："+(move?.label||"撃破")+"。"+(targetId===e.id?"現在の標的。":"攻撃対象に選べる。"));
+  b.title=e.name+"　"+(move?.label||"撃破");
+  const intentEl=document.createElement("span");intentEl.className="b1-actor-intent"+(attack?" b1-hit-intent":"");intentEl.textContent=e.hp>0?intent:"撃破";
+  const figure=document.createElement("span");figure.className="b1-actor-figure";
+  const image=document.createElement("img");image.src="./assets/"+(art[e.role]||"gatekeeper.webp");image.alt="";image.draggable=false;figure.append(image);
+  const name=document.createElement("span");name.className="b1-actor-name";name.textContent=e.name;
+  const hp=document.createElement("span");hp.className="b1-actor-hp";hp.textContent="HP "+e.hp+" / "+e.maxHp;
+  const meter=document.createElement("span");meter.className="b1-actor-hpbar";
+  const fill=document.createElement("i");fill.style.width=percent(e.hp,e.maxHp);meter.append(fill);
+  const status=document.createElement("span");status.className="b1-actor-status";
+  const parts=[];if(e.block>0)parts.push("盾"+e.block);if(e.weaken>0)parts.push("弱"+e.weaken);
+  if(e.poison>0)parts.push("毒"+e.poison);if(e.vulnerable>0)parts.push("脆"+e.vulnerable);
+  if(e.role==="boss"){const n=s.enemies.filter(x=>x.role==="guard"&&x.hp>0).length;if(n)parts.push("護衛"+n);}
+  status.textContent=parts.join(" · ")||" ";
+  b.append(intentEl,figure,name,hp,meter,status);
+  if(e.role==="boss"&&e.hp>0&&(s.turn-1)%4<3){
+   const channel=document.createElement("span");channel.className="b1-actor-cast";
+   channel.textContent=e.channelBroken?"詠唱中断！":"詠唱阻止 "+e.channelDamage+"/"+B1_BOSS_CHANNEL_THRESHOLD;
+   const bar=document.createElement("span");bar.className="b1-actor-cast-bar";
+   const i=document.createElement("i");i.style.width=percent(Math.min(e.channelDamage,B1_BOSS_CHANNEL_THRESHOLD),B1_BOSS_CHANNEL_THRESHOLD);bar.append(i);
+   channel.append(bar);b.append(channel);
+  }
+  b.addEventListener("click",()=>actions.handleTargetClick(e.id));
+  lineup.append(b);
  }
 }
 function renderStage(s){
@@ -199,12 +236,12 @@ function render(){
 }
 const gameStage=document.querySelector("#playScreen .stage");
 const actions=attachB1Actions({
- hand:el("hand"),stage:gameStage,enemyPuppet:el("enemyPuppet"),choices:el("targetChoices"),cards:CARDS,
+ hand:el("hand"),stage:gameStage,enemyPuppet:el("enemyPuppet"),choices:el("enemyLineup"),cards:CARDS,
  read:()=>game.snapshot(),selectedTarget:()=>targetId,
  cast:(index,id,cardId,sourceRect,before)=>{
   if(!game.play(index,id))return false;
   render();
-  showB1Feedback({stage:gameStage,hero:el("heroPuppet"),enemy:el("enemyPuppet"),choices:el("targetChoices"),before,after:game.snapshot(),card:CARDS[cardId],targetId:id,sourceRect});
+  showB1Feedback({stage:gameStage,hero:el("heroPuppet"),enemy:el("enemyPuppet"),choices:el("enemyLineup"),before,after:game.snapshot(),card:CARDS[cardId],targetId:id,sourceRect});
   return true;
  },
  inspectTarget:id=>{targetId=id;render();}
@@ -229,7 +266,7 @@ el("deckButton").addEventListener("click",()=>{
  const close=document.createElement("button");close.type="button";close.className="quiet";close.textContent="閉じる";close.addEventListener("click",()=>deckModal.close());deckModal.append(close);
  deckModal.showModal();
 });
-el("endTurn").addEventListener("click",()=>{const before=game.snapshot();actions.cancel();if(game.endTurn()){render();showB1Feedback({stage:gameStage,hero:el("heroPuppet"),enemy:el("enemyPuppet"),choices:el("targetChoices"),before,after:game.snapshot(),turnEnded:true});}});
+el("endTurn").addEventListener("click",()=>{const before=game.snapshot();actions.cancel();if(game.endTurn()){render();showB1Feedback({stage:gameStage,hero:el("heroPuppet"),enemy:el("enemyPuppet"),choices:el("enemyLineup"),before,after:game.snapshot(),turnEnded:true});}});
 el("advance").addEventListener("click",()=>{if(game.nextBattle()){targetId=null;render();}});
 el("skipReward").addEventListener("click",()=>{if(game.chooseReward(null))render();});
 el("overlayRestart").addEventListener("click",reset);
