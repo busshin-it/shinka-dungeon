@@ -49,7 +49,7 @@
     <div class="hud hero-hud"><span class="eyebrow">THE WANDERER</span><h2>蒼星の魔法師</h2><div class="hp-line"><span>HP</span><strong id="heroHp">60 / 60</strong></div><div id="heroMeter" class="hp-bar" role="meter" aria-label="旅人のHP" aria-valuemin="0" aria-valuemax="60"><i id="heroFill"></i></div><p id="heroStatus">ブロック 0</p><p id="planningStatus" class="planning-status"></p><p id="charm" class="charm"></p></div>
     <div id="heroPuppet" class="puppet hero-puppet"><i class="orb-glow" aria-hidden="true"></i><img src="./assets/hero.webp" alt="銀髪と藍紫の帽子、青い球の杖を持つ魔法師"></div>
     <div class="stage-title"><span id="roomName">地下迷宮 B1</span><small id="round">第1/3戦</small><div id="targetChoices" class="b1-targets" aria-label="攻撃する敵を選ぶ"></div></div>
-    <div id="enemyPuppet" class="puppet enemy-puppet"><img id="enemyArt" src="./assets/gatekeeper.webp" alt="蒼鎧の門番"></div>
+    <div id="b1Campfire" class="b1-campfire" hidden aria-label="休憩所の焚き火"><span class="b1-camp-flame" aria-hidden="true">🔥</span><strong>旅路の休息</strong></div><div id="enemyPuppet" class="puppet enemy-puppet"><img id="enemyArt" src="./assets/gatekeeper.webp" alt="蒼鎧の門番"></div>
     <div class="hud enemy-hud"><span class="eyebrow">IN YOUR PATH</span><h2 id="enemyName">蒼鎧の門番</h2><div class="hp-line"><span>HP</span><strong id="enemyHp">48 / 48</strong></div><div id="enemyMeter" class="hp-bar" role="meter" aria-label="敵のHP" aria-valuemin="0" aria-valuemax="48"><i id="enemyFill"></i></div><div id="intent" class="intent"><small>このターン終了時</small><strong id="intentName">剣のひと振り 7</strong><span id="intentText"></span><div id="breakTrack" class="break-track" hidden><i id="breakFill"></i></div></div></div>
     
     <div id="enemyLineup" class="b1-enemy-lineup" aria-label="敵を選ぶ戦闘エリア" hidden></div>
@@ -240,6 +240,8 @@ function renderOverlay(s){
 let lastTurnKey=null;
 function render(){
  const s=game.snapshot();
+ document.body.classList.toggle("b1-rest-active",Boolean(s.restAvailable));
+ el("b1Campfire").hidden=!s.restAvailable;
  const turnKey=s.stage+":"+s.turn+":"+s.phase;
  const newTurn=turnKey!==lastTurnKey;
  lastTurnKey=turnKey;
