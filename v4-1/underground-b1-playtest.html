@@ -190,22 +190,30 @@ let game=createB1Game({seed:Date.now()}),targetId=null;
 if(new URLSearchParams(window.location.search).get("start")==="physical")game.selectStarter("physical");
 const typeNames={attack:"攻撃",multi:"連撃",all:"全体攻撃",heal:"回復",poison:"状態異常",fragile:"状態異常",confuse:"混乱",curse:"呪い",hallucinate:"幻覚",guard:"防御",draw:"ドロー",energy:"魔力",power:"能力",dragon:"召喚",dragonFeed:"育成",dragonBreath:"全体攻撃",physicalPower:"強化",adversity:"反撃準備"};
 const art={rat:"wraith.webp",wolf:"bell-spirit.webp",imp:"gatekeeper.webp",guard:"gatekeeper.webp",carapace:"gatekeeper.webp",ritual:"wraith.webp",elite:"gatekeeper.webp",boss:"boss.webp"};
-// B1 artwork mapping. If an image has not yet been uploaded, keep the CSS
-// placeholder rather than showing a broken image or changing card effects.
-const B1_ELEMENTAL_ART=Object.freeze({
+// Single source for B1 original artwork across hand, shop and starter cards.
+// Any missing file falls back to the existing CSS placeholder without affecting play.
+const B1_CARD_ART=Object.freeze({
  "fire-rain-small":"fire-aoe-small.webp",
  "fire-rain-medium":"fire-aoe-medium.webp",
  "fire-rain-large":"fire-aoe-large.webp",
  "thunder-small":"thunder-single-small.webp",
  "thunder-medium":"thunder-single-medium.webp",
- "thunder-large":"thunder-single-large.webp"
+ "thunder-large":"thunder-single-large.webp",
+ "physical-bludgeon":"b1-physical-bludgeon.avif",
+ "physical-rapid":"b1-physical-rapid.avif",
+ "physical-heavy":"b1-physical-heavy.avif",
+ "physical-sneak":"b1-physical-sneak.avif",
+ "physical-hammer":"b1-physical-hammer.avif",
+ "physical-doping":"b1-physical-doping.avif",
+ "physical-adversity":"b1-physical-adversity.avif",
+ "physical-rage":"b1-physical-rage.avif"
 });
 const unavailableB1Art=new Set();
 function attachB1OriginalArt(parent,artKey){
- const filename=B1_ELEMENTAL_ART[artKey];
+ const filename=B1_CARD_ART[artKey];
  if(!filename||unavailableB1Art.has(filename))return;
  const img=document.createElement("img");
- img.className="b1-original-elemental-img";
+ img.className="b1-original-elemental-img b1-original-card-img";
  img.alt="";img.decoding="async";img.draggable=false;
  img.addEventListener("error",()=>{unavailableB1Art.add(filename);img.remove();},{once:true});
  img.src="./assets/"+filename;
