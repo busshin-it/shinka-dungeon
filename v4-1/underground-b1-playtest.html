@@ -184,7 +184,7 @@ import {showB1Feedback} from "./underground-b1-feedback.mjs";
 import {getB1DragonVisual} from "./underground-b1-dragon-visuals.mjs";
 const el=id=>document.getElementById(id);
 let game=createB1Game({seed:Date.now()}),targetId=null;
-const typeNames={attack:"攻撃",multi:"連撃",all:"全体攻撃",heal:"回復",poison:"状態異常",fragile:"状態異常",guard:"防御",draw:"ドロー",energy:"魔力",power:"能力",dragon:"召喚",dragonFeed:"育成",dragonBreath:"全体攻撃"};
+const typeNames={attack:"攻撃",multi:"連撃",all:"全体攻撃",heal:"回復",poison:"状態異常",fragile:"状態異常",confuse:"混乱",curse:"呪い",hallucinate:"幻覚",guard:"防御",draw:"ドロー",energy:"魔力",power:"能力",dragon:"召喚",dragonFeed:"育成",dragonBreath:"全体攻撃"};
 const art={rat:"wraith.webp",wolf:"bell-spirit.webp",imp:"gatekeeper.webp",guard:"gatekeeper.webp",carapace:"gatekeeper.webp",ritual:"wraith.webp",elite:"gatekeeper.webp",boss:"boss.webp"};
 // B1 artwork mapping. If an image has not yet been uploaded, keep the CSS
 // placeholder rather than showing a broken image or changing card effects.
@@ -304,6 +304,9 @@ function renderTargets(s){
   const status=document.createElement("span");status.className="b1-actor-status";
   const parts=[];if(e.block>0)parts.push("盾"+e.block);if(e.weaken>0)parts.push("弱"+e.weaken);
   if(e.poison>0)parts.push("毒"+e.poison);if(e.vulnerable>0)parts.push("脆"+e.vulnerable);
+   if(e.confusionAttacks>0)parts.push("混"+e.confusionAttacks);
+   if(e.hallucinationAttacks>0)parts.push("幻"+e.hallucinationAttacks);
+   if(e.curses?.length)parts.push("呪"+e.curses.reduce((total,curse)=>total+curse.next,0)+"("+e.curses.length+"重)");
   if(e.role==="boss"){const n=s.enemies.filter(x=>x.role==="guard"&&x.hp>0).length;if(n)parts.push("護衛"+n);}
   status.textContent=parts.join(" · ")||" ";
   b.append(intentEl,figure,name,hp,meter,status);
@@ -357,7 +360,7 @@ function renderStage(s){
  el("breakFill").style.width=casting?percent(Math.min(enemy.channelDamage,B1_BOSS_CHANNEL_THRESHOLD),B1_BOSS_CHANNEL_THRESHOLD):"0%";
  if(casting)el("intentText").textContent=(enemy.channelBroken?"詠唱中断済み":"詠唱阻止 "+enemy.channelDamage+"/"+B1_BOSS_CHANNEL_THRESHOLD)+" · "+(next?.label||"");
  const effects=el("effectBadges");effects.replaceChildren();
- const chips=[["🛡",s.block],["敵防御",enemy.block],["敵強化",enemy.strength],["自強化",s.strength],["❄",enemy.weaken],["☠",enemy.poison],["✧",enemy.vulnerable],["📖",s.powerDraw]];
+ const chips=[["🛡",s.block],["敵防御",enemy.block],["敵強化",enemy.strength],["自強化",s.strength],["❄",enemy.weaken],["☠",enemy.poison],["✧",enemy.vulnerable],["混乱",enemy.confusionAttacks],["幻覚",enemy.hallucinationAttacks],["呪い",enemy.curses?.reduce((sum,curse)=>sum+curse.next,0)||0],["📖",s.powerDraw]];
  if(enemy.role==="boss"){const n=s.enemies.filter(e=>e.role==="guard"&&e.hp>0).length;if(n)chips.push(["護衛",n*2]);}
  for(const [name,n] of chips){if(n<=0)continue;const chip=document.createElement("span");chip.className="pilot-chip";chip.textContent=name+" "+n;effects.append(chip);}
  el("relicStatus").hidden=true;
