@@ -221,7 +221,7 @@ export function attachB1Actions({hand,stage,enemyPuppet,choices,cards,read,selec
   button.style.setProperty("--b1-tilt-y",(x*8).toFixed(1)+"deg");
  });
  function sync(){
-  if(read().phase!=="battle"||(picked!==null&&!usable(picked))){picked=null;message("");}
+  if(read().phase!=="battle"||(picked!==null&&!usable(picked))){picked=null;hidePreview();message("");}
   const buttons=[...hand.querySelectorAll("[data-b1-hand]")];
   buttons.forEach((b,i)=>{
    const pose=b1HandFanPose(i,buttons.length);
