@@ -34,7 +34,7 @@ export function attachB1Actions({hand,stage,enemyPuppet,choices,cards,read,selec
  const preview=document.createElement("div");
  preview.className="b1-card-preview";preview.hidden=true;
  preview.setAttribute("aria-hidden","true");document.body.append(preview);
- function hidePreview(){preview.hidden=true;previewIndex=null;preview.replaceChildren();}
+ function hidePreview(){preview.hidden=true;previewIndex=null;preview.textContent="";}
  function showPreview(button){
   if(!button||button.disabled||active?.moved)return;
   const index=Number(button.dataset.b1Hand);
@@ -53,7 +53,7 @@ export function attachB1Actions({hand,stage,enemyPuppet,choices,cards,read,selec
    copy.disabled=false;copy.setAttribute("tabindex","-1");
    copy.style.setProperty("--b1-fan-angle","0deg");
    copy.style.setProperty("--b1-fan-drop","0px");
-   preview.replaceChildren(copy);previewIndex=index;
+   preview.textContent="";preview.append(copy);previewIndex=index;
   }
   preview.hidden=false;
  }
