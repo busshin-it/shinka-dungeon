@@ -224,6 +224,15 @@
  transform:translate(-50%,-50%) rotate(-54deg);box-shadow:none;
 }
 
+/* Original B1 elemental artwork fills the existing illustrated card area when
+   corresponding WebP assets are available. The CSS illustration remains a safe
+   fallback if a file is unavailable. Existing touch hitboxes and layout stay put. */
+.pilot-mode .b1-magic-card-art,.pilot-mode .b1-fire-shop-thumb{position:relative;overflow:hidden;}
+.pilot-mode .b1-original-elemental-img{
+ display:block;position:absolute;inset:0;width:100%;height:100%;
+ object-fit:cover;object-position:center 48%;z-index:2;
+ pointer-events:none;user-select:none;-webkit-user-drag:none;
+}
 /* Six B1 elemental practice cards: resolution-independent temporary CSS art.
    Intentionally separate from the supplied 3-card single-fire illustration atlas.
    Small/medium/large differ in both shape and intensity; no external art is claimed. */
