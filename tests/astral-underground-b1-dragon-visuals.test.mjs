@@ -23,12 +23,17 @@ test("eight provided illustrations cover every existing nine-stage dragon step",
  assert.equal(getB1DragonVisual(8).position,"100.000% 100%");
 });
 test("all eight frames exist in a real optimized AVIF image with no extra network requests",()=>{
- assert.equal(DRAGON_VISUAL_SPRITE,"./assets/b1-dragon-evolution.avif");
- const path=new URL("../v4-1/assets/b1-dragon-evolution.avif",import.meta.url);
+ assert.equal(DRAGON_VISUAL_SPRITE,"./assets/b1-dragon-evolution-hd.avif");
+ const path=new URL("../v4-1/assets/b1-dragon-evolution-hd.avif",import.meta.url);
  assert.equal(existsSync(path),true);
  const bytes=readFileSync(path);
- assert.ok(bytes.length>10000&&bytes.length<100000);
+ assert.ok(bytes.length>150000&&bytes.length<350000);
  assert.equal(bytes.toString("ascii",4,12),"ftypavif");
+ const box=bytes.indexOf(Buffer.from("ispe"));
+ assert.ok(box>0,"AVIF should declare rendered frame resolution");
+ assert.deepEqual([bytes.readUInt32BE(box+8),bytes.readUInt32BE(box+12)],[1440,960]);
+ // All eight original illustrations are 360x480px rather than 170x226px.
+ assert.ok(bytes.readUInt32BE(box+8)/4>=360);
 });
 test("the same art is visible as a companion, on cards and on the egg starter without changing combat logic",()=>{
  const html=readFileSync(new URL("../v4-1/underground-b1-playtest.html",import.meta.url),"utf8");
