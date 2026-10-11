@@ -16,6 +16,7 @@ export function b1PointerIntent(dx,dy,pointerType="mouse"){
 }
 export function attachB1Actions({hand,stage,enemyPuppet,choices,cards,read,selectedTarget,cast,inspectTarget}){
  let picked=null,active=null,ghost=null,hovered=null,suppressUntil=0;
+ let ghostFrame=0,ghostX=0,ghostY=0,desiredX=0,desiredY=0,previewIndex=null;
  const wrap=stage.parentElement;wrap.classList.add("b1-gesture-stage");
  const hint=document.createElement("div");
  hint.className="b1-hand-help";hint.hidden=true;hint.setAttribute("role","status");hint.setAttribute("aria-live","polite");wrap.append(hint);
@@ -28,14 +29,42 @@ export function attachB1Actions({hand,stage,enemyPuppet,choices,cards,read,selec
  const curve=document.createElementNS(ns,"path");curve.setAttribute("stroke","#f9d48a");curve.setAttribute("stroke-width","3");curve.setAttribute("stroke-linecap","round");curve.setAttribute("fill","none");curve.setAttribute("stroke-dasharray","7 5");curve.setAttribute("marker-end","url(#b1-aim-tip)");
  arrow.append(defs,curve);document.body.append(arrow);
  const targetElement=id=>[...choices.querySelectorAll("[data-b1-enemy]")].find(x=>x.dataset.b1Enemy===id);
+ // Real card previews live OUTSIDE the clipped hand scroll area.
+ // They do not steal pointer events, so touch scrolling and aiming continue to work.
+ const preview=document.createElement("div");
+ preview.className="b1-card-preview";preview.hidden=true;
+ preview.setAttribute("aria-hidden","true");document.body.append(preview);
+ function hidePreview(){preview.hidden=true;previewIndex=null;preview.replaceChildren();}
+ function showPreview(button){
+  if(!button||button.disabled||active?.moved)return;
+  const index=Number(button.dataset.b1Hand);
+  if(!usable(index))return;
+  const r=button.getBoundingClientRect();
+  const width=Math.round(Math.min(window.innerHeight<450?168:224,Math.max(136,window.innerWidth*.195)));
+  const height=Math.round(width*1.39);
+  const left=Math.max(6,Math.min(window.innerWidth-width-6,r.left+r.width/2-width/2));
+  const top=Math.max(5,r.top-height-12);
+  preview.style.width=width+"px";preview.style.height=height+"px";
+  preview.style.left=left+"px";preview.style.top=top+"px";
+  if(previewIndex!==index||preview.hidden){
+   const copy=button.cloneNode(true);
+   copy.classList.remove("b1-picked","b1-pressing","b1-dealt","b1-drag-source");
+   copy.removeAttribute?.("data-b1-hand");
+   copy.disabled=false;copy.setAttribute("tabindex","-1");
+   copy.style.setProperty("--b1-fan-angle","0deg");
+   copy.style.setProperty("--b1-fan-drop","0px");
+   preview.replaceChildren(copy);previewIndex=index;
+  }
+  preview.hidden=false;
+ }
  function message(t){hint.textContent=t;hint.hidden=!t;}
  function mark(){
   hand.querySelectorAll("[data-b1-hand]").forEach(b=>{const on=Number(b.dataset.b1Hand)===picked;b.classList.toggle("b1-picked",on);b.setAttribute("aria-pressed",String(on));});
   choices.querySelectorAll("[data-b1-enemy]").forEach(b=>b.classList.toggle("b1-pending-target",picked!==null&&b.dataset.b1Enemy===selectedTarget()));
   enemyPuppet.classList.toggle("b1-pending-target",picked!==null&&!stage.classList.contains("b1-multi"));
  }
- function cancel(){picked=null;message("");mark();}
- function select(index){picked=index;message("敵の名前か姿を押して攻撃。ドラッグでも使えます。Escで解除。");mark();}
+ function cancel(){picked=null;hidePreview();message("");mark();}
+ function select(index){picked=index;showPreview(hand.querySelector('[data-b1-hand="'+index+'"]'));message("敵の名前か姿を押して攻撃。ドラッグでも使えます。Escで解除。");mark();}
  function usable(index){
   const s=read(),id=s.hand[index];return s.phase==="battle"&&id&&cards[id]&&cards[id].cost<=s.energy?{id,card:cards[id]}:null;
  }
@@ -46,7 +75,7 @@ export function attachB1Actions({hand,stage,enemyPuppet,choices,cards,read,selec
   // Clear pending selection before render() runs inside cast(), preventing stale highlights.
   const previous=picked;picked=null;
   const ok=cast(index,target,info.id,source||rect(index),read());
-  if(ok){message("");mark();}else{picked=previous;message("このカードはまだ使えません");mark();}
+  if(ok){hidePreview();message("");mark();}else{picked=previous;message("このカードはまだ使えません");mark();}
   return ok;
  }
  function handleCardClick(index){
@@ -75,10 +104,22 @@ export function attachB1Actions({hand,stage,enemyPuppet,choices,cards,read,selec
   hovered=id;
   if(id){targetElement(id)?.classList.add("b1-drop-target");if(id===selectedTarget()&&!stage.classList.contains("b1-multi"))enemyPuppet.classList.add("b1-drop-target");}
  }
+ function glideGhost(){
+  ghostFrame=0;
+  if(!ghost)return;
+  ghostX+=(desiredX-ghostX)*.44;
+  ghostY+=(desiredY-ghostY)*.44;
+  ghost.style.left=ghostX+"px";ghost.style.top=ghostY+"px";
+  if(Math.abs(desiredX-ghostX)+Math.abs(desiredY-ghostY)>1.2)
+   ghostFrame=window.requestAnimationFrame?.(glideGhost)||0;
+ }
  function ghostAt(e){
   if(!active?.moved||!ghost)return;
-  ghost.style.left=(e.clientX-active.rect.width/2)+"px";ghost.style.top=(e.clientY-active.rect.height*.65)+"px";
-  const tilt=Math.max(-8,Math.min(8,(e.clientX-active.x)*.055));
+  desiredX=e.clientX-active.rect.width/2;desiredY=e.clientY-active.rect.height*.65;
+  if(window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches||!window.requestAnimationFrame){
+   ghostX=desiredX;ghostY=desiredY;ghost.style.left=ghostX+"px";ghost.style.top=ghostY+"px";
+  }else if(!ghostFrame)ghostFrame=window.requestAnimationFrame(glideGhost);
+  const tilt=Math.max(-10,Math.min(10,(e.clientX-active.x)*.065));
   ghost.style.transform="rotate("+tilt+"deg) scale(1.09)";
   const r=stage.getBoundingClientRect(),inside=e.clientX>=r.left&&e.clientX<=r.right&&e.clientY>=r.top&&e.clientY<=r.bottom;
   zone.classList.toggle("b1-valid",inside&&!active.targeted);
@@ -91,19 +132,25 @@ export function attachB1Actions({hand,stage,enemyPuppet,choices,cards,read,selec
   }
  }
  function beginGhost(e){
-  ghost=active.button.cloneNode(true);ghost.classList.remove("b1-pressing","b1-picked");ghost.classList.add("b1-float-card");ghost.style.width=active.rect.width+"px";ghost.style.height=active.rect.height+"px";
+  hidePreview();
+  ghost=active.button.cloneNode(true);ghost.classList.remove("b1-pressing","b1-picked");ghost.classList.add("b1-float-card");
+  ghost.style.width=active.rect.width+"px";ghost.style.height=active.rect.height+"px";
+  ghostX=desiredX=active.rect.left;ghostY=desiredY=active.rect.top;
+  ghost.style.left=ghostX+"px";ghost.style.top=ghostY+"px";
   active.button.classList.remove("b1-pressing");
   document.body.append(ghost);active.button.classList.add("b1-drag-source");hand.classList.add("b1-hand-dragging");stage.classList.add("b1-casting");
   zone.textContent=active.targeted?"敵の上でカードを離す":"戦闘画面でカードを離す";
   arrow.classList.toggle("b1-visible",active.targeted);ghostAt(e);
  }
  function cleanup(returnHome=false){
+  if(ghostFrame)window.cancelAnimationFrame?.(ghostFrame);
+  ghostFrame=0;hidePreview();
   if(returnHome&&ghost&&active){
    const node=ghost,item=active,originalTransform=node.style.transform||"none";
    const dx=item.rect.left-parseFloat(node.style.left),dy=item.rect.top-parseFloat(node.style.top);
    const reduced=window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches;
    if(!reduced&&node.animate){
-    const motion=node.animate([{transform:originalTransform,opacity:.94},{transform:"translate("+dx+"px,"+dy+"px) rotate(0deg) scale(.92)",opacity:.25}],{duration:190,easing:"cubic-bezier(.22,1,.36,1)"});
+    const motion=node.animate([{transform:originalTransform,opacity:.95},{transform:"translate("+dx+"px,"+dy+"px) rotate(0deg) scale(1)",opacity:.12}],{duration:240,easing:"cubic-bezier(.18,.8,.22,1)"});
     motion.onfinish=()=>node.remove();motion.oncancel=()=>node.remove();
    }else node.remove();
   }else ghost?.remove();
@@ -119,6 +166,7 @@ export function attachB1Actions({hand,stage,enemyPuppet,choices,cards,read,selec
   const index=Number(b.dataset.b1Hand),info=usable(index);if(!info)return;
   active={pointerId:e.pointerId,pointerType:e.pointerType,x:e.clientX,y:e.clientY,index,rect:b.getBoundingClientRect(),button:b,moved:false,scrolling:false,targeted:needsB1Target(info.card.kind)};
   b.classList.add("b1-pressing");
+  if(e.pointerType!=="mouse")showPreview(b);
   try{b.setPointerCapture(e.pointerId);}catch{}
  });
  window.addEventListener("pointermove",e=>{
@@ -126,7 +174,7 @@ export function attachB1Actions({hand,stage,enemyPuppet,choices,cards,read,selec
   if(!active.moved){
    const intent=b1PointerIntent(e.clientX-active.x,e.clientY-active.y,active.pointerType);
    if(intent==="scroll"){
-    active.scrolling=true;active.button.classList.remove("b1-pressing");
+    active.scrolling=true;active.button.classList.remove("b1-pressing");hidePreview();
     try{active.button.releasePointerCapture(e.pointerId);}catch{}
     return;
    }
@@ -140,6 +188,7 @@ export function attachB1Actions({hand,stage,enemyPuppet,choices,cards,read,selec
   if(!item.moved){
    item.button.classList.remove("b1-pressing");
    active=null;
+   if(picked===null)hidePreview();
    return;
   }
   suppressUntil=performance.now()+420;
@@ -153,7 +202,15 @@ export function attachB1Actions({hand,stage,enemyPuppet,choices,cards,read,selec
  window.addEventListener("pointercancel",e=>{if(active&&e.pointerId===active.pointerId){cleanup(!active.scrolling);cancel();}});
  document.addEventListener("keydown",e=>{if(e.key==="Escape"){cleanup(true);cancel();}});
  enemyPuppet.addEventListener("click",()=>handleTargetClick(selectedTarget()));
- function bindHandCard(button,index){button.dataset.b1Hand=String(index);button.draggable=false;button.addEventListener("click",()=>handleCardClick(index));}
+ function bindHandCard(button,index){
+  button.dataset.b1Hand=String(index);button.draggable=false;
+  button.addEventListener("click",()=>handleCardClick(index));
+  button.addEventListener("pointerenter",e=>{if(e.pointerType==="mouse"&&!active)showPreview(button);});
+  button.addEventListener("pointerleave",()=>{if(picked!==index&&!active)hidePreview();});
+  button.addEventListener("focus",()=>showPreview(button));
+  button.addEventListener("blur",()=>{if(picked!==index&&!active)hidePreview();});
+ }
+ hand.addEventListener("scroll",()=>{if(!active?.moved)hidePreview();},{passive:true});
  hand.addEventListener("pointermove",e=>{
   if(e.pointerType!=="mouse"||active)return;
   const button=e.target.closest?.("[data-b1-hand]");if(!button||button.disabled)return;
@@ -172,6 +229,10 @@ export function attachB1Actions({hand,stage,enemyPuppet,choices,cards,read,selec
    b.style.setProperty("--b1-fan-drop",pose.drop+"px");
   });
   mark();
+  if(picked!==null){
+   const selected=hand.querySelector('[data-b1-hand="'+picked+'"]');
+   if(selected)showPreview(selected);
+  }
  }
  return{bindHandCard,handleTargetClick,sync,cancel};
 }
