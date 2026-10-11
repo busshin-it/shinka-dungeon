@@ -16,7 +16,7 @@ function play(g,id,target){
 }
 function enemy(g,id){return g.snapshot().enemies.find(x=>x.id===id);}
 test("new black magic is distinct, has approved trial descriptions and upgrades",()=>{
- assert.equal(Object.keys(CARDS).length,47);
+ assert.equal(Object.keys(CARDS).length,55);
  const kinds={mentalCollapse:"confuse",curse:"curse",deathSong:"all",hallucination:"hallucinate"};
  for(const id of ids){
   assert.equal(CARDS[id].kind,kinds[id]);
