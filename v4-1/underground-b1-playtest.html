@@ -209,15 +209,40 @@ const B1_CARD_ART=Object.freeze({
  "physical-adversity":"b1-physical-adversity.avif",
  "physical-rage":"b1-physical-rage.avif"
 });
+/* 768x1024 originals are preferred when installed. The existing tiny AVIF or
+   CSS fallback stays active until the corresponding WebP really exists.
+   This mapping is shared by the hand, enlarged preview, shop and starter. */
+const B1_HQ_CARD_ART=Object.freeze({
+ "physical-bludgeon":"b1-physical-bludgeon.webp",
+ "physical-rapid":"b1-physical-rapid.webp",
+ "physical-heavy":"b1-physical-heavy.webp",
+ "physical-sneak":"b1-physical-sneak.webp",
+ "physical-hammer":"b1-physical-hammer.webp",
+ "physical-doping":"b1-physical-doping.webp",
+ "physical-adversity":"b1-physical-adversity.webp",
+ "physical-rage":"b1-physical-rage.webp",
+ "mental-collapse":"b1-dark-mental-collapse.webp",
+ "curse":"b1-dark-curse.webp",
+ "death-song":"b1-dark-death-song.webp",
+ "hallucination":"b1-dark-hallucination.webp"
+});
 const unavailableB1Art=new Set();
 function attachB1OriginalArt(parent,artKey){
- const filename=B1_CARD_ART[artKey];
- if(!filename||unavailableB1Art.has(filename))return;
+ const lowRes=B1_CARD_ART[artKey],highRes=B1_HQ_CARD_ART[artKey];
+ const candidates=[highRes,lowRes].filter(Boolean).filter(filename=>!unavailableB1Art.has(filename));
+ if(!candidates.length)return;
  const img=document.createElement("img");
  img.className="b1-original-elemental-img b1-original-card-img";
  img.alt="";img.decoding="async";img.draggable=false;
- img.addEventListener("error",()=>{unavailableB1Art.add(filename);img.remove();},{once:true});
- img.src="./assets/"+filename;
+ img.loading="lazy";
+ let index=0;
+ img.addEventListener("error",()=>{
+  unavailableB1Art.add(candidates[index]);
+  index++;
+  if(index<candidates.length)img.src="./assets/"+candidates[index];
+  else img.remove(); // Existing CSS fallback remains visible.
+ });
+ img.src="./assets/"+candidates[index];
  parent.append(img);
 }
 /* Hand-only short labels: the full engine text remains in accessible labels and
