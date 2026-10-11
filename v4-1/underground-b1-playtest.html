@@ -186,6 +186,27 @@ const el=id=>document.getElementById(id);
 let game=createB1Game({seed:Date.now()}),targetId=null;
 const typeNames={attack:"攻撃",multi:"連撃",all:"全体攻撃",heal:"回復",poison:"状態異常",fragile:"状態異常",guard:"防御",draw:"ドロー",energy:"魔力",power:"能力",dragon:"召喚",dragonFeed:"育成",dragonBreath:"全体攻撃"};
 const art={rat:"wraith.webp",wolf:"bell-spirit.webp",imp:"gatekeeper.webp",guard:"gatekeeper.webp",carapace:"gatekeeper.webp",ritual:"wraith.webp",elite:"gatekeeper.webp",boss:"boss.webp"};
+// B1 artwork mapping. If an image has not yet been uploaded, keep the CSS
+// placeholder rather than showing a broken image or changing card effects.
+const B1_ELEMENTAL_ART=Object.freeze({
+ "fire-rain-small":"fire-aoe-small.webp",
+ "fire-rain-medium":"fire-aoe-medium.webp",
+ "fire-rain-large":"fire-aoe-large.webp",
+ "thunder-small":"thunder-single-small.webp",
+ "thunder-medium":"thunder-single-medium.webp",
+ "thunder-large":"thunder-single-large.webp"
+});
+const unavailableB1Art=new Set();
+function attachB1OriginalArt(parent,artKey){
+ const filename=B1_ELEMENTAL_ART[artKey];
+ if(!filename||unavailableB1Art.has(filename))return;
+ const img=document.createElement("img");
+ img.className="b1-original-elemental-img";
+ img.alt="";img.decoding="async";img.draggable=false;
+ img.addEventListener("error",()=>{unavailableB1Art.add(filename);img.remove();},{once:true});
+ img.src="./assets/"+filename;
+ parent.append(img);
+}
 const percent=(n,max)=>Math.max(0,Math.min(100,Math.round(n*100/Math.max(1,max))))+"%";
 function cardButton(id){
  const c=getB1Card(id),btn=document.createElement("button");btn.type="button";btn.className="card pilot-card b1-text-card";
@@ -200,7 +221,7 @@ function cardButton(id){
    picture.setAttribute("aria-hidden","true");btn.classList.add("b1-art-card","b1-fire-card");btn.append(picture);
  }else if(c.magicArt){
    const picture=document.createElement("span");picture.className="b1-magic-card-art b1-magic-art--"+c.magicArt;
-   picture.setAttribute("aria-hidden","true");btn.classList.add("b1-art-card","b1-magic-card");btn.append(picture);
+   picture.setAttribute("aria-hidden","true");attachB1OriginalArt(picture,c.magicArt);btn.classList.add("b1-art-card","b1-magic-card");btn.append(picture);
  }else if(c.art){
    const stage=c.kind==="dragon"?0:c.kind==="dragonFeed"?1:Math.max(2,game.snapshot().dragonStage);
    const visual=getB1DragonVisual(stage);
@@ -365,7 +386,7 @@ function renderOverlay(s){
      if(card.fireArt||card.magicArt){
      const thumb=document.createElement("span");
      thumb.className=card.fireArt?"b1-fire-shop-thumb b1-fire-art--"+card.fireArt:"b1-fire-shop-thumb b1-magic-card-art b1-magic-art--"+card.magicArt;
-     thumb.setAttribute("aria-hidden","true");b.prepend(thumb);
+     thumb.setAttribute("aria-hidden","true");if(card.magicArt)attachB1OriginalArt(thumb,card.magicArt);b.prepend(thumb);
     }
      b.addEventListener("click",()=>{if(game.buyShop(item.id))render();});items.append(b);});
    const purge=el("shopPurgeOpen");purge.disabled=s.shopPurged||s.gold<30||s.deck.length<=1;
