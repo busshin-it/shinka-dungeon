@@ -128,6 +128,9 @@
  background:linear-gradient(115deg,transparent 32%,#d8beffcc 34%,transparent 38%,transparent 57%,#a982dacc 61%,transparent 63%);
  transform:rotate(-20deg);opacity:.9;
 }
+.pilot-mode .b1-magic-art--dark{
+ background-image:radial-gradient(ellipse at 55% 48%,#d3bbfb 0%,#6e3da7 9%,#40145b 21%,#140f30 49%,#090f24 100%);
+}
 .pilot-mode .b1-magic-art--abyss{
  background-image:radial-gradient(ellipse at 50% 49%,#f9b8eb 0%,#831a70 14%,#1a0625 32%,#0a071b 65%,#070a17 100%);
 }
