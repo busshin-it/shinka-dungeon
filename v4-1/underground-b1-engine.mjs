@@ -25,10 +25,15 @@ export const CARDS = Object.freeze({
  frostBreak:{name:"霜砕き",cost:1,kind:"attack",text:"5ダメージ。弱体の敵には＋7",damage:5,weakBonus:7},
  echoGuard:{name:"返響の盾",cost:1,kind:"guard",text:"防御4。先に攻撃していれば2枚引く",block:4,afterAttackDraw:2},
  lingeringPoison:{name:"余毒の頁",cost:1,kind:"poison",text:"毒2を付与。対象がすでに毒なら2枚引く",poison:2,poisonDraw:2},
- darkBolt:{name:"闇弾",cost:1,kind:"attack",text:"5ダメージ。1枚引く",damage:5,draw:1,magicArt:"dark"},
- abyssBolt:{name:"奈落弾",cost:2,kind:"attack",text:"敵1体に12ダメージ",damage:12,magicArt:"abyss"},
+ darkBolt:{name:"闇弾",cost:1,kind:"attack",text:"5ダメージ。1枚引く",damage:5,draw:1,magicArt:"dark",school:"dark"},
+ abyssBolt:{name:"奈落弾",cost:2,kind:"attack",text:"敵1体に12ダメージ",damage:12,magicArt:"abyss",school:"dark"},
  iceSpear:{name:"氷槍",cost:2,kind:"attack",text:"10ダメージ。弱体2を付与",damage:10,weaken:2,magicArt:"ice"},
  arcaneLance:{name:"魔力槍",cost:1,kind:"attack",text:"敵1体に8ダメージ",damage:8,magicArt:"arcane"},
+ shadowEcho:{name:"影の反響",cost:1,kind:"attack",text:"4ダメージ。先に闇魔法を使っていれば2枚引く",damage:4,drawAfterDark:2,school:"dark",magicArt:"shadow"},
+ blizzard:{name:"吹雪",cost:2,kind:"all",text:"敵全体に5ダメージ。弱体1を付与",damage:5,weaken:1,magicArt:"blizzard"},
+ thunderSurge:{name:"雷の奔流",cost:2,kind:"all",text:"敵全体に4ダメージ。先に使った攻撃1回につき＋3（最大3回）",damage:4,perAttack:3,maxPriorAttacks:3,magicArt:"surge"},
+ guideThrust:{name:"導魔突き",cost:1,kind:"attack",text:"5ダメージ。次の魔法攻撃＋4",damage:5,nextMagicBonus:4,weapon:true,magicArt:"guide"},
+ spellblade:{name:"魔装斬",cost:1,kind:"attack",text:"7ダメージ。先に呪文を使っていれば防御4",damage:7,blockAfterSpell:4,weapon:true,magicArt:"spellblade"},
  dragonEgg:{name:"竜の卵",cost:1,kind:"dragon",text:"竜を召喚。既にいるなら1段階成長。",art:"b1-dragon-egg.webp"},
  dragonFeed:{name:"竜の餌",cost:0,kind:"dragonFeed",text:"竜を1段階成長。手札を1枚選んで捨てる。廃棄",dragonGrowth:1,exhaust:true,art:"b1-dragon-feed.webp"},
  dragonBreath:{name:"竜息",cost:1,kind:"dragonBreath",text:"敵全体に4＋竜の段階×3ダメージ。",damage:4,dragonPowerPerStage:3,art:"b1-dragon-breath.webp"}
@@ -37,13 +42,23 @@ export function getB1Card(id){const up=typeof id==="string"&&id.endsWith("~"),ba
  const bonus={fireSmall:3,fireMedium:4,fireLarge:6,darkBolt:3,abyssBolt:4,iceSpear:3,arcaneLance:3}[base];
  next.damage+=bonus;next.text=(base==="darkBolt"?next.damage+"ダメージ。1枚引く":base==="iceSpear"?next.damage+"ダメージ。弱体2を付与":"敵1体に"+next.damage+"ダメージ");return next;
  }
+ if(Object.hasOwn({shadowEcho:3,blizzard:2,thunderSurge:2,guideThrust:3,spellblade:3},base)){
+  const bonus={shadowEcho:3,blizzard:2,thunderSurge:2,guideThrust:3,spellblade:3}[base];
+  next.damage+=bonus;
+  next.text=base==="shadowEcho"?next.damage+"ダメージ。先に闇魔法を使っていれば2枚引く":
+    base==="blizzard"?"敵全体に"+next.damage+"ダメージ。弱体1を付与":
+    base==="thunderSurge"?"敵全体に"+next.damage+"ダメージ。先に使った攻撃1回につき＋3（最大3回）":
+    base==="guideThrust"?next.damage+"ダメージ。次の魔法攻撃＋4":
+    next.damage+"ダメージ。先に呪文を使っていれば防御4";
+  return next;
+ }
  if(base==="dragonFeed"){next.dragonGrowth=2;next.text="竜を2段階成長。手札を1枚選んで捨てる。廃棄";return next;}const stat=["damage","block","heal","poison","weaken","vulnerable","energyGain","draw","strengthGain","powerDraw"].find(k=>Number.isFinite(card[k])&&card[k]>0);if(stat){const bonus=["damage","block","heal"].includes(stat)?3:1;next[stat]+=bonus;next.text=card.text+"（"+stat+"＋"+bonus+"）";}else{next.cost=Math.max(0,card.cost-1);next.text=card.text+"（魔力－1）";}return next;}
 export const STARTER = Object.freeze(["bolt","bolt","bolt","bolt","guard","guard","guard","guard","break"]);
 export const STAGES = Object.freeze([
- {name:"B1・入口",hint:"硬い敵を相手に攻撃するか防御するか。次の攻撃を予測しよう。",enemies:[{id:"rat",name:"石牙獣",maxHp:42,role:"rat"}],rewards:["ward","double","poison","spark","flow","heal","frost"]},
- {name:"B1・群れ",hint:"小型2体の同時攻撃。片方を先に倒すか、全体攻撃で削るか。",enemies:[{id:"wolf",name:"洞穴の狼",maxHp:17,role:"wolf"},{id:"imp",name:"盾の小鬼",maxHp:16,role:"imp"}],rewards:["charge","chain","fragile","focus","flare","lightning","drain","scatter"]},
- {name:"B1・祭壇",hint:"呪術師は初手で力を溜め、毎ターン強くなる。長期戦は危険。",enemies:[{id:"priest",name:"洞窟の呪術師",maxHp:52,role:"ritual"}],rewards:["flow","strength","double","poison","ward","flare","heal","lightning"]},
- {name:"B1・強敵",hint:"強敵が大技と連続攻撃を使う。大技の予告を見て防御を合わせよう。",enemies:[{id:"brute",name:"深層の番兵",maxHp:82,role:"elite"}],rewards:["strength","focus","charge","double","flare","ward","drain","fragile"]},
+ {name:"B1・入口",hint:"硬い敵を相手に攻撃するか防御するか。次の攻撃を予測しよう。",enemies:[{id:"rat",name:"石牙獣",maxHp:42,role:"rat"}],rewards:["ward","double","poison","spark","flow","heal","frost","shadowEcho","guideThrust"]},
+ {name:"B1・群れ",hint:"小型2体の同時攻撃。片方を先に倒すか、全体攻撃で削るか。",enemies:[{id:"wolf",name:"洞穴の狼",maxHp:17,role:"wolf"},{id:"imp",name:"盾の小鬼",maxHp:16,role:"imp"}],rewards:["charge","chain","fragile","focus","flare","lightning","drain","scatter","blizzard"]},
+ {name:"B1・祭壇",hint:"呪術師は初手で力を溜め、毎ターン強くなる。長期戦は危険。",enemies:[{id:"priest",name:"洞窟の呪術師",maxHp:52,role:"ritual"}],rewards:["flow","strength","double","poison","ward","flare","heal","lightning","spellblade"]},
+ {name:"B1・強敵",hint:"強敵が大技と連続攻撃を使う。大技の予告を見て防御を合わせよう。",enemies:[{id:"brute",name:"深層の番兵",maxHp:82,role:"elite"}],rewards:["strength","focus","charge","double","flare","ward","drain","fragile","thunderSurge"]},
  {name:"B1・最深部",hint:"護衛2体と長期戦。護衛の守りを崩し、溜めた大技を乗り切ろう。",enemies:[{id:"left",name:"盾の小鬼・左",maxHp:24,role:"guard"},{id:"boss",name:"地底の祭司",maxHp:135,role:"boss"},{id:"right",name:"盾の小鬼・右",maxHp:24,role:"guard"}],rewards:[]}
 ]);
 // First small map experiment: both routes rejoin the unchanged third fight.
@@ -64,16 +79,16 @@ export function createB1Game(options={}){
  const random=()=>{seed=(Math.imul(seed,1664525)+1013904223)>>>0;return seed/4294967296;};
  const shuffle=a=>{for(let i=a.length-1;i>0;i--){const j=Math.floor(random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;};
  const testMaxHp=Number.isInteger(options.maxHp)&&options.maxHp>=1&&options.maxHp<=999?options.maxHp:75;
- let s={dragonStage:-1,lastDragonEvolution:null,lastSynergy:null,phase:"starter",stage:0,turn:1,hp:testMaxHp,maxHp:testMaxHp,energy:3,block:0,attacksThisTurn:0,powerDraw:0,strength:0,selected:null,deck:Array.isArray(options.testDeck)&&options.testDeck.length>0&&options.testDeck.length<=30&&options.testDeck.every(id=>Object.hasOwn(CARDS,id))?[...options.testDeck]:[...STARTER],hand:[],draw:[],discard:[],exhaust:[],powers:[],enemies:[],rewards:[],gold:0,shopPending:false,shopUsed:false,shopPurchases:[],shopPurged:false,restPending:false,restUsed:false,restChoice:null,selectedPath:null,routeHistory:[],log:["最初に得意な魔法を1枚選んで地下迷宮へ。"]};
+ let s={dragonStage:-1,lastDragonEvolution:null,lastSynergy:null,phase:"starter",stage:0,turn:1,hp:testMaxHp,maxHp:testMaxHp,energy:3,block:0,attacksThisTurn:0,attackCardsThisTurn:0,darkCastsThisTurn:0,spellsThisTurn:0,pendingMagicAttackBonus:0,powerDraw:0,strength:0,selected:null,deck:Array.isArray(options.testDeck)&&options.testDeck.length>0&&options.testDeck.length<=30&&options.testDeck.every(id=>Object.hasOwn(CARDS,id))?[...options.testDeck]:[...STARTER],hand:[],draw:[],discard:[],exhaust:[],powers:[],enemies:[],rewards:[],gold:0,shopPending:false,shopUsed:false,shopPurchases:[],shopPurged:false,restPending:false,restUsed:false,restChoice:null,selectedPath:null,routeHistory:[],log:["最初に得意な魔法を1枚選んで地下迷宮へ。"]};
  function note(t){s.log.unshift(t);s.log=s.log.slice(0,18);}
  const alive=()=>s.enemies.filter(e=>e.hp>0);
  const find=id=>s.enemies.find(e=>e.id===id&&e.hp>0);
  function drawCards(n){let drawn=0;for(let i=0;i<n&&s.hand.length<10;i++){if(!s.draw.length){if(!s.discard.length)break;s.draw=shuffle(s.discard.splice(0));}s.hand.push(s.draw.pop());drawn++;}return drawn;}
  function start(){
-  const stage=s.stage===1?B1_FORK_ROUTES[s.selectedPath||"pack"]:STAGES[s.stage];s.enemies=stage.enemies.map(e=>({...clone(e),hp:e.maxHp,weaken:0,poison:0,vulnerable:0,block:0,strength:0,channelDamage:0,channelBroken:false}));s.turn=1;s.block=0;s.energy=3;s.attacksThisTurn=0;s.powerDraw=0;s.strength=0;
+  const stage=s.stage===1?B1_FORK_ROUTES[s.selectedPath||"pack"]:STAGES[s.stage];s.enemies=stage.enemies.map(e=>({...clone(e),hp:e.maxHp,weaken:0,poison:0,vulnerable:0,block:0,strength:0,channelDamage:0,channelBroken:false}));s.turn=1;s.block=0;s.energy=3;s.attacksThisTurn=0;s.attackCardsThisTurn=0;s.darkCastsThisTurn=0;s.spellsThisTurn=0;s.pendingMagicAttackBonus=0;s.powerDraw=0;s.strength=0;
   s.dragonStage=-1;s.lastDragonEvolution=null;s.lastSynergy=null;s.hand=[];s.discard=[];s.exhaust=[];s.powers=[];s.draw=shuffle([...s.deck]);s.selected=s.enemies.find(e=>e.role!=="boss")?.id||s.enemies[0].id;s.phase="battle";drawCards(5);note(stage.name+"：戦闘開始。");
  }
- function selectStarter(id){if(s.phase!=="starter"||!["lightning","scatter","flow","dragonEgg","fireSmall","fireMedium","fireLarge","darkBolt","abyssBolt","iceSpear","arcaneLance"].includes(id))return false;
+ function selectStarter(id){if(s.phase!=="starter"||!["lightning","scatter","flow","dragonEgg","fireSmall","fireMedium","fireLarge","darkBolt","abyssBolt","iceSpear","arcaneLance","shadowEcho","blizzard","thunderSurge","guideThrust","spellblade"].includes(id))return false;
   if(id==="dragonEgg")s.deck.push("dragonEgg","dragonFeed","dragonBreath");else s.deck.push(id);
   start();return true;}
  function protectors(){return s.stage===STAGES.length-1?alive().filter(e=>e.role==="guard").length:0;}
@@ -155,24 +170,38 @@ export function createB1Game(options={}){
    const chainReady=Boolean(card.chain&&s.attacksThisTurn>0);
    const poisonReady=Boolean(card.poisonBonus&&target.poison>0);
    const weakReady=Boolean(card.weakBonus&&target.weaken>0);
-   const base=card.damage+s.strength+(chainReady?6:0)+(poisonReady?card.poisonBonus:0)+(weakReady?card.weakBonus:0);
-   hit(target,base,card.hits||1);s.attacksThisTurn+=(card.hits||1);
+   const magicBonus=card.weapon?0:s.pendingMagicAttackBonus;
+    if(magicBonus){s.pendingMagicAttackBonus=0;synergy("導魔突き連携","次の魔法攻撃：威力＋"+magicBonus);}
+    const base=card.damage+s.strength+magicBonus+(chainReady?6:0)+(poisonReady?card.poisonBonus:0)+(weakReady?card.weakBonus:0);
+   hit(target,base,card.hits||1);s.attacksThisTurn+=(card.hits||1);s.attackCardsThisTurn++;
    if(weakReady)synergy("霜砕き連携","弱体追撃：威力＋"+card.weakBonus);
    else if(poisonReady)synergy("毒炎連携","毒の敵へ：威力＋"+card.poisonBonus);
    else if(chainReady)synergy("連鎖雷連携","攻撃後：威力＋6");
+    if(card.blockAfterSpell&&s.spellsThisTurn>0){s.block+=card.blockAfterSpell;note("魔装斬：防御＋"+card.blockAfterSpell+"。");synergy("魔装斬連携","先に呪文：防御＋"+card.blockAfterSpell);}
+    if(card.nextMagicBonus){s.pendingMagicAttackBonus+=card.nextMagicBonus;note("次の魔法攻撃＋"+card.nextMagicBonus+"。");}
+    if(card.drawAfterDark&&s.darkCastsThisTurn>0){
+      const count=drawCards(card.drawAfterDark);
+      note("影の反響：カードを"+count+"枚引いた。");
+      synergy("闇魔法連携","闇の後：実際に"+count+"枚ドロー");
+    }
    if(card.weaken&&target.hp>0){target.weaken+=card.weaken;note(target.name+"に弱体＋"+card.weaken+"。");}
    if(card.vulnerable&&target.hp>0){target.vulnerable+=card.vulnerable;note(target.name+"に脆弱＋"+card.vulnerable+"。");}
    if(card.heal){const n=Math.min(card.heal,s.maxHp-s.hp);s.hp+=n;note("HPを"+n+"回復。");}
   }else if(card.kind==="all"){
    const armor=protectors()*2;
+   const priorBonus=card.perAttack?Math.min(s.attackCardsThisTurn,card.maxPriorAttacks||3)*card.perAttack:0;
+   const magicBonus=s.pendingMagicAttackBonus;
+   if(magicBonus){s.pendingMagicAttackBonus=0;synergy("導魔突き連携","次の全体魔法：威力＋"+magicBonus);}
+   if(priorBonus)synergy("雷の奔流連携","先行攻撃："+priorBonus+"ダメージ増");
    for(const e of alive()){
-    const base=e.vulnerable>0?Math.floor((card.damage+s.strength)*1.5):card.damage+s.strength;
+    const base=e.vulnerable>0?Math.floor((card.damage+s.strength+priorBonus+magicBonus)*1.5):card.damage+s.strength+priorBonus+magicBonus;
     const raw=Math.max(0,base-(e.role==="boss"?armor:0));
     const blocked=Math.min(e.block,raw);e.block-=blocked;
     const n=Math.min(e.hp,raw-blocked);
     e.hp-=n;recordBossDamage(e,n);note(e.name+"に"+n+"ダメージ。");
+    if(card.weaken&&e.hp>0){e.weaken+=card.weaken;note(e.name+"に弱体＋"+card.weaken+"。");}
    }
-   s.attacksThisTurn++;
+   s.attacksThisTurn++;s.attackCardsThisTurn++;
   }else if(card.kind==="heal"){
    const n=Math.min(card.heal,s.maxHp-s.hp);s.hp+=n;note("HPを"+n+"回復。");
   }else if(card.kind==="guard"){s.block+=card.block;note("防御＋"+card.block+"。");if(card.afterAttackDraw&&s.attacksThisTurn>0){const count=drawCards(card.afterAttackDraw);note("連携：カードを"+count+"枚引いた。");synergy("返響の盾連携","攻撃後：実際に"+count+"枚ドロー");}}
@@ -182,6 +211,8 @@ export function createB1Game(options={}){
   else if(card.kind==="power"){if(card.powerDraw){s.powerDraw+=card.powerDraw;note("毎ターンのドロー＋"+card.powerDraw+"。");}
    if(card.strengthGain){s.strength+=card.strengthGain;note("この戦闘中、攻撃威力＋"+card.strengthGain+"。");}}
   if(card.draw){drawCards(card.draw);note("カードを"+card.draw+"枚引いた。");}
+  if(card.school==="dark")s.darkCastsThisTurn++;
+  if(!card.weapon)s.spellsThisTurn++;
   if(card.kind==="power")s.powers.push(id);else if(card.exhaust)s.exhaust.push(id);else s.discard.push(id);
   checkVictory();return true;
  }
@@ -268,7 +299,7 @@ export function createB1Game(options={}){
   s.block=0;
   if(s.phase==="lost")return true;
   if(checkVictory())return true;
-  s.discard.push(...s.hand.splice(0));s.turn++;s.energy=3;s.attacksThisTurn=0;
+  s.discard.push(...s.hand.splice(0));s.turn++;s.energy=3;s.attacksThisTurn=0;s.attackCardsThisTurn=0;s.darkCastsThisTurn=0;s.spellsThisTurn=0;s.pendingMagicAttackBonus=0;
   drawCards(5+s.powerDraw);return true;
  }
  function chooseReward(id){
@@ -282,7 +313,7 @@ export function createB1Game(options={}){
  else if(kind==="upgrade"){if(!Number.isInteger(index)||index<0||index>=s.deck.length||s.deck[index].endsWith("~"))return false;const id=s.deck[index];s.deck[index]=id+"~";note("休憩所："+getB1Card(id).name+"を強化。");}
  else return false;s.restPending=false;s.restUsed=true;s.restChoice=kind;return true;
 }
-const SHOP_STOCK=Object.freeze([{id:"ward",price:35},{id:"chain",price:40},{id:"frostBreak",price:35},{id:"echoGuard",price:30},{id:"lingeringPoison",price:30},{id:"fireSmall",price:25},{id:"fireMedium",price:40},{id:"fireLarge",price:55},{id:"darkBolt",price:35},{id:"abyssBolt",price:45},{id:"iceSpear",price:40},{id:"arcaneLance",price:35}]);
+const SHOP_STOCK=Object.freeze([{id:"ward",price:35},{id:"chain",price:40},{id:"frostBreak",price:35},{id:"echoGuard",price:30},{id:"lingeringPoison",price:30},{id:"fireSmall",price:25},{id:"fireMedium",price:40},{id:"fireLarge",price:55},{id:"darkBolt",price:35},{id:"abyssBolt",price:45},{id:"iceSpear",price:40},{id:"arcaneLance",price:35},{id:"shadowEcho",price:35},{id:"blizzard",price:45},{id:"thunderSurge",price:50},{id:"guideThrust",price:35},{id:"spellblade",price:35}]);
 function buyShop(id){
  if(s.phase!=="between"||s.stage!==2||!s.shopPending||s.shopUsed||s.practiceMode)return false;
  const item=SHOP_STOCK.find(item=>item.id===id);

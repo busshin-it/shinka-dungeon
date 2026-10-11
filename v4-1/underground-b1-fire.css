@@ -179,3 +179,47 @@
 @media(max-width:480px){
  .pilot-mode .b1-fire-starter-choices .b1-magic-card-art{width:92px;height:136px;flex-basis:92px}
 }
+
+/* B1 prototype spell illustrations (CSS only; final images have not been authored).
+   Distinct cues keep the five new spells readable even on small landscape cards. */
+.pilot-mode .b1-magic-art--shadow{
+ background-image:radial-gradient(ellipse at 49% 42%,#b8a4e8 0%,#663d9a 13%,#241437 39%,#0b0c20 80%);
+}
+.pilot-mode .b1-magic-art--shadow::before{
+ border-style:dotted;transform:translate(-50%,-50%) rotate(35deg);
+ box-shadow:0 0 0 12px #785cc74a,0 0 25px #c69cff,inset 0 0 18px #f0d6ff;
+}
+.pilot-mode .b1-magic-art--blizzard{
+ background-image:repeating-linear-gradient(124deg,#b5f4ff16 0 3px,transparent 3px 15px),radial-gradient(ellipse at 50% 58%,#ddffff,#388bba 31%,#183c61 65%,#0b142d 96%);
+}
+.pilot-mode .b1-magic-art--blizzard::before{
+ border-color:#e9fcff;border-radius:0;transform:translate(-50%,-50%) rotate(45deg);
+ box-shadow:0 0 20px #b6efff,inset 0 0 18px #b0f9ff;
+}
+.pilot-mode .b1-magic-art--surge{
+ background-image:linear-gradient(120deg,transparent 42%,#ffffbb 47%,#8ce9ff 49%,transparent 53%),radial-gradient(circle at 50% 50%,#a7e6fc,#3363c9 27%,#141a54 52%,#070d25 100%);
+}
+.pilot-mode .b1-magic-art--surge::before{
+ border:0;border-radius:0;width:58%;height:85%;aspect-ratio:auto;
+ background:linear-gradient(100deg,#f8faff,#a6f5ff 60%,#6ab9ee);
+ clip-path:polygon(42% 0,80% 0,48% 43%,77% 43%,18% 100%,38% 50%,24% 50%);
+ box-shadow:none;
+}
+.pilot-mode .b1-magic-art--guide{
+ background-image:radial-gradient(ellipse at 50% 52%,#fde9c3 0%,#bb96cc 20%,#56377b 48%,#15172f 93%);
+}
+.pilot-mode .b1-magic-art--guide::before{
+ border:0;border-radius:0;width:27%;height:90%;aspect-ratio:auto;
+ background:linear-gradient(90deg,#bcb5db,#fff9d8 49%,#a6ccff);
+ clip-path:polygon(50% 0,100% 65%,66% 100%,34% 100%,0 65%);
+ transform:translate(-50%,-50%) rotate(-34deg);box-shadow:none;
+}
+.pilot-mode .b1-magic-art--spellblade{
+ background-image:linear-gradient(140deg,transparent 24%,#ebd7ae8c 43%,transparent 46%),radial-gradient(ellipse at 48% 58%,#ffd8b2 0%,#bd6781 25%,#44335c 52%,#0d1329 92%);
+}
+.pilot-mode .b1-magic-art--spellblade::before{
+ border:0;border-radius:0;width:28%;height:91%;aspect-ratio:auto;
+ background:linear-gradient(90deg,#b897bd,#f7f6ec 45%,#ffd0bb);
+ clip-path:polygon(48% 0,95% 58%,63% 93%,40% 100%,2% 55%);
+ transform:translate(-50%,-50%) rotate(-54deg);box-shadow:none;
+}
