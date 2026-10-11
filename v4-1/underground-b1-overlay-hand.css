@@ -1,0 +1,219 @@
+/* B1 only: use the arena as the whole play surface and float cards on top.
+   Original wizard, enemies, HUD, engine and other game modes are unchanged. */
+.pilot-mode #playScreen{
+  --b1-hand-dock:clamp(154px,26dvh,224px);
+  position:relative;
+  display:block;
+  height:100%;
+  min-height:0;
+  overflow:hidden;
+  isolation:isolate;
+}
+.pilot-mode #playScreen > .stage{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  min-height:0;
+  grid-area:auto;
+  border-radius:8px;
+}
+.pilot-mode #playScreen > .table{
+  position:absolute;
+  z-index:10;
+  left:0;
+  right:0;
+  bottom:0;
+  width:100%;
+  height:var(--b1-hand-dock);
+  min-height:0;
+  box-sizing:border-box;
+  display:grid;
+  grid-template-columns:minmax(0,1fr);
+  grid-template-rows:39px 14px minmax(0,1fr);
+  grid-area:auto;
+  padding:2px clamp(6px,1vw,15px) max(2px,env(safe-area-inset-bottom));
+  margin:0;
+  background:none;
+  border:0;
+  border-radius:0;
+  box-shadow:none;
+  pointer-events:none;
+  overflow:visible;
+}
+.pilot-mode #playScreen > .table .controls,
+.pilot-mode #playScreen > .table .controls button,
+.pilot-mode #playScreen > .table #hand,
+.pilot-mode #playScreen > .table .hand-label .pilot-chips{
+  pointer-events:auto;
+}
+.pilot-mode #playScreen > .table .controls{
+  background:transparent;
+  height:37px;
+  align-items:center;
+  padding:0 2px;
+  text-shadow:0 1px 4px #03101ad9;
+}
+.pilot-mode #playScreen .controls .energy,
+.pilot-mode #playScreen .controls .piles{
+  background:#0a1d2bb5;
+  border-radius:9px;
+  padding:2px 7px;
+  backdrop-filter:blur(2px);
+}
+.pilot-mode #playScreen .controls #deckButton,
+.pilot-mode #playScreen .controls #endTurn{
+  box-shadow:0 2px 10px #0008;
+}
+.pilot-mode #playScreen .hand-label{
+  min-height:0;
+  height:14px;
+  margin:0;
+  background:transparent;
+  justify-content:flex-end;
+}
+.pilot-mode #playScreen .hand-label h2{display:none;}
+.pilot-mode #playScreen #hand.hand{
+  width:100%;
+  height:100%;
+  min-height:0;
+  box-sizing:border-box;
+  padding:10px 10px 3px;
+  background:transparent;
+  border:0;
+  box-shadow:none;
+  overflow-x:auto;
+  overflow-y:hidden;
+  scrollbar-width:none;
+  touch-action:pan-x;
+  scroll-snap-type:x proximity;
+  overscroll-behavior-x:contain;
+  justify-content:safe center;
+  align-items:flex-end;
+  pointer-events:auto;
+}
+.pilot-mode #playScreen #hand::-webkit-scrollbar{display:none;}
+.pilot-mode #playScreen #hand .pilot-card{
+  height:calc(100% - 7px);
+  min-height:0;
+  flex-shrink:0;
+  scroll-snap-align:none;
+}
+.pilot-mode #playScreen > .stage #battleLog{
+  position:absolute;
+  left:50%;
+  right:auto;
+  bottom:calc(var(--b1-hand-dock) + 2px);
+  transform:translateX(-50%);
+  width:max-content;
+  max-width:calc(100% - 30px);
+  min-height:0;
+  height:auto;
+  padding:4px 12px;
+  font-size:clamp(10px,1.1vw,12px);
+  background:#081622bc;
+  border:1px solid #72818c55;
+  border-radius:12px;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  pointer-events:none;
+}
+.pilot-mode #playScreen .b1-hand-help{
+  bottom:calc(var(--b1-hand-dock) + 28px);
+  max-width:70vw;
+}
+.pilot-mode #playScreen .pilot-card.b1-picked{
+  z-index:22;
+}
+/* During rewards, rest and the shop, use the full screen for choices. */
+.pilot-mode #playScreen:has(#journeyPanel:not([hidden])) > .table{
+ visibility:hidden;
+ pointer-events:none;
+}
+/* The deck and action bar remain visible; the hand itself has no solid slab. */
+@media (orientation:landscape) and (max-height:600px){
+ .pilot-mode #playScreen{--b1-hand-dock:clamp(132px,34dvh,169px);}
+ .pilot-mode #playScreen > .table{
+   grid-template-rows:34px 9px minmax(0,1fr);
+   padding:0 5px max(1px,env(safe-area-inset-bottom));
+ }
+ .pilot-mode #playScreen > .table .controls{height:32px;}
+ .pilot-mode #playScreen .hand-label{height:9px;}
+ .pilot-mode #playScreen #hand.hand{padding:7px 7px 2px;}
+ .pilot-mode #playScreen #hand .pilot-card{height:calc(100% - 5px);}
+ .pilot-mode #playScreen > .stage #battleLog{font-size:10px;padding:3px 8px;}
+}
+/* Landscape Android Chrome/PWA overrides the former two-row mobile layout. */
+@media (orientation:landscape) and (max-width:1100px) and (max-height:620px){
+ .pilot-mode[data-b1-mobile] #playScreen{
+  display:block;
+  grid-template-rows:none;
+  min-height:0;
+  overflow:hidden;
+ }
+ .pilot-mode[data-b1-mobile] #playScreen > .stage{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  min-height:0;
+ }
+ .pilot-mode[data-b1-mobile] #playScreen > .table{
+  position:absolute;
+  bottom:0;
+  left:0;
+  height:var(--b1-hand-dock);
+  display:grid;
+  grid-template-rows:34px 9px minmax(0,1fr);
+  background:transparent;
+  border:0;
+  overflow:visible;
+  padding:0 5px max(1px,env(safe-area-inset-bottom));
+ }
+ .pilot-mode[data-b1-mobile] #hand.hand{
+  height:100%;
+  min-height:0;
+  width:100%;
+  padding:7px 7px 2px;
+  align-items:flex-end;
+  background:transparent;
+  overflow-x:auto;
+  overflow-y:hidden;
+ }
+ .pilot-mode[data-b1-mobile] #hand .pilot-card{
+  height:calc(100% - 5px);
+  flex-shrink:0;
+ }
+ .pilot-mode[data-b1-mobile] .b1-hand-help{bottom:calc(var(--b1-hand-dock) + 18px);}
+}
+/* Narrow portrait: retain a scrollable complete game instead of covering the mage. */
+@media (orientation:portrait) and (max-width:900px){
+ .pilot-mode[data-b1-mobile] #playScreen{
+  --b1-hand-dock:182px;
+  min-height:490px;
+  height:clamp(490px,85dvh,720px);
+  display:block;
+  grid-template-rows:none;
+  overflow:hidden;
+ }
+ .pilot-mode[data-b1-mobile] #playScreen > .stage{
+  position:absolute;inset:0;height:100%;width:100%;min-height:0;
+ }
+ .pilot-mode[data-b1-mobile] #playScreen > .table{
+  position:absolute;bottom:0;left:0;
+  height:var(--b1-hand-dock);
+  grid-template-rows:37px 13px minmax(0,1fr);
+  padding:2px 5px 4px;
+  background:transparent;
+  overflow:visible;
+ }
+ .pilot-mode[data-b1-mobile] #hand.hand{
+  height:100%;padding:9px 6px 3px;
+  background:transparent;
+ }
+ .pilot-mode[data-b1-mobile] #hand .pilot-card{height:calc(100% - 6px);}
+}
+@media(prefers-reduced-motion:reduce){
+ .pilot-mode #playScreen #hand .pilot-card{scroll-behavior:auto}
+}
