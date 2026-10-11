@@ -102,6 +102,7 @@
 <link rel="stylesheet" href="./underground-b1-fire.css">
 <link rel="stylesheet" href="./underground-b1-hand-fan.css">
 <link rel="stylesheet" href="./underground-b1-overlay-hand.css">
+<link rel="stylesheet" href="./underground-b1-card-visibility.css">
 </head>
 <body class="planning-mode pilot-mode" data-b1-mobile="true"><main class="game pilot-game">
 <header class="masthead"><div><h1>蒼星の回廊 <small>進化ダンジョン</small></h1></div><div class="header-actions">
@@ -218,6 +219,30 @@ function attachB1OriginalArt(parent,artKey){
  img.addEventListener("error",()=>{unavailableB1Art.add(filename);img.remove();},{once:true});
  img.src="./assets/"+filename;
  parent.append(img);
+}
+/* Hand-only short labels: the full engine text remains in accessible labels and
+   the enlarged, full-description preview. Nothing here changes card mechanics. */
+function b1HandSummary(id,card){
+ const bare=id.replace(/~$/,"");
+ switch(bare){
+  case "bludgeon":return card.damage+"ダメージ / 魔法なし"+card.noMagicDamage;
+  case "rapidPunch":return card.damage+"×2 / 魔法なし"+card.noMagicDamage+"×2";
+  case "heavyBlow":return card.damage+"ダメージ / 魔法なし"+card.noMagicDamage;
+  case "sneakHit":return card.damage+"ダメージ / 魔法なし＋1枚";
+  case "ironHammer":return card.damage+"ダメージ / デッキに魔法があると不可";
+  case "doping":return "物理攻撃＋"+card.doping+" / 魔法で消失";
+  case "adversity":return "前ターンの被害分＋ / 魔法で消失";
+  case "rage":return "全体"+card.damage+" / HP1/3以下で"+card.lowHpDamage;
+  case "mentalCollapse":return "敵味方ランダム攻撃 ×"+card.confusionAttacks;
+  case "curse":return "呪い：1→2→3"+(card.curseTurns>3?"→4":"")+" / 重複可";
+  case "deathSong":return "全体"+card.damage+" / 混乱中＋"+card.confusionBonus;
+  case "hallucination":return "命中50％（次"+card.hallucinationAttacks+"攻撃）";
+  case "fireWaveSmall":case "fireWaveMedium":case "fireWaveLarge":
+   return "全体"+card.damage+"ダメージ";
+  case "thunderSmall":case "thunderLarge":return "単体"+card.damage+"ダメージ";
+  case "thunderMedium":return "単体"+card.damage+"×"+card.hits;
+  default:return card.text;
+ }
 }
 const percent=(n,max)=>Math.max(0,Math.min(100,Math.round(n*100/Math.max(1,max))))+"%";
 function cardButton(id){
@@ -439,7 +464,14 @@ function render(){
  renderStage(s);renderOverlay(s);
  const hand=el("hand");hand.replaceChildren();hand.hidden=s.phase!=="battle";
  if(s.phase==="battle")s.hand.forEach((id,index)=>{
-  const c=getB1Card(id),b=cardButton(id);b.disabled=c.cost>s.energy||(c.requiresPureDeck&&s.deck.some(id=>getB1Card(id)?.weapon!==true))||(c.kind==="dragonFeed"&&(s.dragonStage<0||s.hand.length<2));
+  const c=getB1Card(id),b=cardButton(id);
+  const handDesc=b.querySelector(".desc");
+  if(handDesc){
+   handDesc.dataset.b1FullDesc=c.text;
+   handDesc.textContent=b1HandSummary(id,c);
+  }
+  b.setAttribute("aria-label",c.name+"、魔力"+c.cost+"、"+c.text);
+  b.disabled=c.cost>s.energy||(c.requiresPureDeck&&s.deck.some(id=>getB1Card(id)?.weapon!==true))||(c.kind==="dragonFeed"&&(s.dragonStage<0||s.hand.length<2));
   actions.bindHandCard(b,index);hand.append(b);
   if(newTurn){b.classList.add("b1-dealt");b.style.animationDelay=(index*45)+"ms";}
  });
