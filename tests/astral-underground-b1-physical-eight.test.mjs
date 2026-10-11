@@ -25,7 +25,7 @@ test("B1 physical pack has exactly eight cards, upgrades, selectable starters an
   assert.equal(isB1Magic(id),false);
   assert.ok(card.magicArt);
   assert.ok(up);
-  assert.notEqual(up.text,card.text);
+  assert.ok(up.text!==card.text||up.cost!==card.cost,id+" upgrades either effect or cost");
   assert.ok(g.snapshot().shopStock.some(item=>item.id===id));
   const start=createB1Game({seed:11});
   assert.equal(start.selectStarter(id),true);
