@@ -35,10 +35,10 @@ export const CARDS = Object.freeze({
  abyssBolt:{name:"奈落弾",cost:2,kind:"attack",text:"敵1体に12ダメージ",damage:12,magicArt:"abyss",school:"dark"},
  iceSpear:{name:"氷槍",cost:2,kind:"attack",text:"10ダメージ。弱体2を付与",damage:10,weaken:2,magicArt:"ice"},
  arcaneLance:{name:"魔力槍",cost:1,kind:"attack",text:"敵1体に8ダメージ",damage:8,magicArt:"arcane"},
- mentalCollapse:{name:"精神崩壊",cost:2,kind:"attack",text:"8ダメージ。状態異常の敵には＋7。弱体1を付与",damage:8,afflictionBonus:7,weaken:1,school:"dark",magicArt:"mental-collapse"},
- curse:{name:"呪い",cost:1,kind:"poison",text:"敵1体に毒3と脆弱1を付与",poison:3,vulnerable:1,school:"dark",magicArt:"curse"},
- deathSong:{name:"死の歌声",cost:3,kind:"all",text:"敵全体に7ダメージ。状態異常の敵には＋6",damage:7,afflictionBonus:6,school:"dark",magicArt:"death-song"},
- hallucination:{name:"幻覚",cost:1,kind:"fragile",text:"敵1体に弱体2。カードを1枚引く",weaken:2,draw:1,school:"dark",magicArt:"hallucination"},
+ mentalCollapse:{name:"精神崩壊",cost:2,kind:"confuse",text:"敵1体が次の2回の攻撃で敵味方をランダムに狙う",confusionAttacks:2,school:"dark",magicArt:"mental-collapse"},
+ curse:{name:"呪い",cost:1,kind:"curse",text:"敵1体に呪いを付与。1→2→3ダメージ（3ターン）。重ねがけ可",curseTurns:3,school:"dark",magicArt:"curse"},
+ deathSong:{name:"死の歌声",cost:3,kind:"all",text:"敵全体に7ダメージ。混乱中の敵には＋6",damage:7,confusionBonus:6,school:"dark",magicArt:"death-song"},
+ hallucination:{name:"幻覚",cost:1,kind:"hallucinate",text:"敵1体の次の2回の攻撃が50％で失敗",hallucinationAttacks:2,school:"dark",magicArt:"hallucination"},
  shadowEcho:{name:"影の反響",cost:1,kind:"attack",text:"4ダメージ。先に闇魔法を使っていれば2枚引く",damage:4,drawAfterDark:2,school:"dark",magicArt:"shadow"},
  blizzard:{name:"吹雪",cost:2,kind:"all",text:"敵全体に5ダメージ。弱体1を付与",damage:5,weaken:1,magicArt:"blizzard"},
  thunderSurge:{name:"雷の奔流",cost:2,kind:"all",text:"敵全体に4ダメージ。先に使った攻撃1回につき＋3（最大3回）",damage:4,perAttack:3,maxPriorAttacks:3,magicArt:"surge"},
@@ -67,10 +67,10 @@ export function getB1Card(id){const up=typeof id==="string"&&id.endsWith("~"),ba
   next.text=(card.kind==="all"?"敵全体に":"敵1体に")+next.damage+"ダメージ";return next;
  }
  if(base==="thunderMedium"){next.damage=9;next.text="敵1体に9ダメージを2回";return next;}
- if(base==="mentalCollapse"){next.damage=11;next.text="11ダメージ。状態異常の敵には＋7。弱体1を付与";return next;}
- if(base==="curse"){next.poison=4;next.vulnerable=2;next.text="敵1体に毒4と脆弱2を付与";return next;}
- if(base==="deathSong"){next.damage=10;next.text="敵全体に10ダメージ。状態異常の敵には＋6";return next;}
- if(base==="hallucination"){next.weaken=3;next.text="敵1体に弱体3。カードを1枚引く";return next;}
+ if(base==="mentalCollapse"){next.confusionAttacks=3;next.text="敵1体が次の3回の攻撃で敵味方をランダムに狙う";return next;}
+ if(base==="curse"){next.curseTurns=4;next.text="敵1体に呪いを付与。1→2→3→4ダメージ（4ターン）。重ねがけ可";return next;}
+ if(base==="deathSong"){next.damage=10;next.text="敵全体に10ダメージ。混乱中の敵には＋6";return next;}
+ if(base==="hallucination"){next.hallucinationAttacks=3;next.text="敵1体の次の3回の攻撃が50％で失敗";return next;}
  if(base==="dragonFeed"){next.dragonGrowth=2;next.text="竜を2段階成長。手札を1枚選んで捨てる。廃棄";return next;}const stat=["damage","block","heal","poison","weaken","vulnerable","energyGain","draw","strengthGain","powerDraw"].find(k=>Number.isFinite(card[k])&&card[k]>0);if(stat){const bonus=["damage","block","heal"].includes(stat)?3:1;next[stat]+=bonus;next.text=card.text+"（"+stat+"＋"+bonus+"）";}else{next.cost=Math.max(0,card.cost-1);next.text=card.text+"（魔力－1）";}return next;}
 export const STARTER = Object.freeze(["bolt","bolt","bolt","bolt","guard","guard","guard","guard","break"]);
 export const STAGES = Object.freeze([
@@ -104,7 +104,7 @@ export function createB1Game(options={}){
  const find=id=>s.enemies.find(e=>e.id===id&&e.hp>0);
  function drawCards(n){let drawn=0;for(let i=0;i<n&&s.hand.length<10;i++){if(!s.draw.length){if(!s.discard.length)break;s.draw=shuffle(s.discard.splice(0));}s.hand.push(s.draw.pop());drawn++;}return drawn;}
  function start(){
-  const stage=s.stage===1?B1_FORK_ROUTES[s.selectedPath||"pack"]:STAGES[s.stage];s.enemies=stage.enemies.map(e=>({...clone(e),hp:e.maxHp,weaken:0,poison:0,vulnerable:0,block:0,strength:0,channelDamage:0,channelBroken:false}));s.turn=1;s.block=0;s.energy=3;s.attacksThisTurn=0;s.attackCardsThisTurn=0;s.darkCastsThisTurn=0;s.spellsThisTurn=0;s.pendingMagicAttackBonus=0;s.powerDraw=0;s.strength=0;
+  const stage=s.stage===1?B1_FORK_ROUTES[s.selectedPath||"pack"]:STAGES[s.stage];s.enemies=stage.enemies.map(e=>({...clone(e),hp:e.maxHp,weaken:0,poison:0,vulnerable:0,block:0,strength:0,channelDamage:0,channelBroken:false,confusionAttacks:0,hallucinationAttacks:0,curses:[]}));s.turn=1;s.block=0;s.energy=3;s.attacksThisTurn=0;s.attackCardsThisTurn=0;s.darkCastsThisTurn=0;s.spellsThisTurn=0;s.pendingMagicAttackBonus=0;s.powerDraw=0;s.strength=0;
   s.dragonStage=-1;s.lastDragonEvolution=null;s.lastSynergy=null;s.hand=[];s.discard=[];s.exhaust=[];s.powers=[];s.draw=shuffle([...s.deck]);s.selected=s.enemies.find(e=>e.role!=="boss")?.id||s.enemies[0].id;s.phase="battle";drawCards(5);note(stage.name+"：戦闘開始。");
  }
  function selectStarter(id){if(s.phase!=="starter"||!["lightning","scatter","flow","dragonEgg","fireSmall","fireMedium","fireLarge","fireWaveSmall","fireWaveMedium","fireWaveLarge","thunderSmall","thunderMedium","thunderLarge","darkBolt","abyssBolt","mentalCollapse","curse","deathSong","hallucination","iceSpear","arcaneLance","shadowEcho","blizzard","thunderSurge","guideThrust","spellblade"].includes(id))return false;
@@ -166,7 +166,7 @@ export function createB1Game(options={}){
  function play(index,targetId){
   if(s.phase!=="battle"||!Number.isInteger(index)||index<0||index>=s.hand.length)return false;
   const id=s.hand[index],card=getB1Card(id);if(!card||s.energy<card.cost)return false;
-  const targeted=["attack","multi","poison","fragile"].includes(card.kind);
+  const targeted=["attack","multi","poison","fragile","confuse","curse","hallucinate"].includes(card.kind);
   if(card.kind==="dragonFeed"&&(s.dragonStage<0||!Number.isInteger(targetId)||targetId===index||targetId<0||targetId>=s.hand.length))return false;
   const target=targeted?find(targetId||s.selected):null;
   if(targeted&&!target)return false;
@@ -189,13 +189,11 @@ export function createB1Game(options={}){
    const chainReady=Boolean(card.chain&&s.attacksThisTurn>0);
    const poisonReady=Boolean(card.poisonBonus&&target.poison>0);
    const weakReady=Boolean(card.weakBonus&&target.weaken>0);
-   const afflictionReady=Boolean(card.afflictionBonus&&(target.poison>0||target.weaken>0||target.vulnerable>0));
    const magicBonus=card.weapon?0:s.pendingMagicAttackBonus;
     if(magicBonus){s.pendingMagicAttackBonus=0;synergy("導魔突き連携","次の魔法攻撃：威力＋"+magicBonus);}
-    const base=card.damage+s.strength+magicBonus+(chainReady?6:0)+(poisonReady?card.poisonBonus:0)+(weakReady?card.weakBonus:0)+(afflictionReady?card.afflictionBonus:0);
+    const base=card.damage+s.strength+magicBonus+(chainReady?6:0)+(poisonReady?card.poisonBonus:0)+(weakReady?card.weakBonus:0);
    hit(target,base,card.hits||1);s.attacksThisTurn+=(card.hits||1);s.attackCardsThisTurn++;
-   if(afflictionReady)synergy("精神崩壊連携","状態異常の敵へ：威力＋"+card.afflictionBonus);
-   else if(weakReady)synergy("霜砕き連携","弱体追撃：威力＋"+card.weakBonus);
+   if(weakReady)synergy("霜砕き連携","弱体追撃：威力＋"+card.weakBonus);
    else if(poisonReady)synergy("毒炎連携","毒の敵へ：威力＋"+card.poisonBonus);
    else if(chainReady)synergy("連鎖雷連携","攻撃後：威力＋6");
     if(card.blockAfterSpell&&s.spellsThisTurn>0){s.block+=card.blockAfterSpell;note("魔装斬：防御＋"+card.blockAfterSpell+"。");synergy("魔装斬連携","先に呪文：防御＋"+card.blockAfterSpell);}
@@ -215,8 +213,8 @@ export function createB1Game(options={}){
    if(magicBonus){s.pendingMagicAttackBonus=0;synergy("導魔突き連携","次の全体魔法：威力＋"+magicBonus);}
    if(priorBonus)synergy("雷の奔流連携","先行攻撃："+priorBonus+"ダメージ増");
    for(const e of alive()){
-    const afflicted=card.afflictionBonus&&(e.poison>0||e.weaken>0||e.vulnerable>0)?card.afflictionBonus:0;
-    const power=card.damage+s.strength+priorBonus+magicBonus+afflicted;
+    const bonus=card.confusionBonus&&e.confusionAttacks>0?card.confusionBonus:0;
+    const power=card.damage+s.strength+priorBonus+magicBonus+bonus;
     const base=e.vulnerable>0?Math.floor(power*1.5):power;
     const raw=Math.max(0,base-(e.role==="boss"?armor:0));
     const blocked=Math.min(e.block,raw);e.block-=blocked;
@@ -225,7 +223,15 @@ export function createB1Game(options={}){
     if(card.weaken&&e.hp>0){e.weaken+=card.weaken;note(e.name+"に弱体＋"+card.weaken+"。");}
    }
    s.attacksThisTurn++;s.attackCardsThisTurn++;
-  }else if(card.kind==="heal"){
+  }else if(card.kind==="confuse"){
+    target.confusionAttacks+=card.confusionAttacks;note(target.name+"は混乱した（攻撃"+target.confusionAttacks+"回分）。");
+   }else if(card.kind==="curse"){
+    target.curses.push({next:1,turns:card.curseTurns});
+    note(target.name+"に呪い（"+target.curses.length+"重）。");
+   }else if(card.kind==="hallucinate"){
+    target.hallucinationAttacks+=card.hallucinationAttacks;
+    note(target.name+"は幻覚を見た（攻撃"+target.hallucinationAttacks+"回分、命中50％）。");
+   }else if(card.kind==="heal"){
    const n=Math.min(card.heal,s.maxHp-s.hp);s.hp+=n;note("HPを"+n+"回復。");
   }else if(card.kind==="guard"){s.block+=card.block;note("防御＋"+card.block+"。");if(card.afterAttackDraw&&s.attacksThisTurn>0){const count=drawCards(card.afterAttackDraw);note("連携：カードを"+count+"枚引いた。");synergy("返響の盾連携","攻撃後：実際に"+count+"枚ドロー");}}
   else if(card.kind==="poison"){const alreadyPoisoned=target.poison>0;target.poison+=card.poison;note(target.name+"に毒＋"+card.poison+"。");if(card.vulnerable){target.vulnerable+=card.vulnerable;note(target.name+"に脆弱＋"+card.vulnerable+"。");}if(card.poisonDraw&&alreadyPoisoned){const count=drawCards(card.poisonDraw);note("連携：カードを"+count+"枚引いた。");synergy("余毒の頁連携","毒の敵から：実際に"+count+"枚ドロー");}}
@@ -295,20 +301,44 @@ export function createB1Game(options={}){
     note(e.name+"は毒で"+n+"ダメージ。");
    }
    if(e.hp<=0)continue;
+   // Independent curse stacks tick 1,2,3 damage (upgraded: 1..4) before enemy action.
+   if(e.curses.length){
+    const damage=e.curses.reduce((sum,curse)=>sum+curse.next,0);
+    const dealt=Math.min(e.hp,damage);e.hp-=dealt;recordBossDamage(e,dealt);
+    e.curses=e.curses.map(curse=>({next:curse.next+1,turns:curse.turns-1})).filter(curse=>curse.turns>0);
+    note(e.name+"は呪いで"+dealt+"ダメージ。");
+   }
+   if(e.hp<=0)continue;
    // Enemy block is available during the player's turn; it expires on enemy action.
    e.block=0;
    const action=intent(e);
    if(action.kind==="attack"){
-    let total=0,totalBlocked=0;
-    for(let hitNo=0;hitNo<(action.hits||1);hitNo++){
+    // Confusion lasts for attack actions, including charged/buff rounds. Random choices
+    // happen only for newly afflicted enemies, preserving old encounter RNG sequences.
+    const hallucinating=e.hallucinationAttacks>0;
+    if(hallucinating)e.hallucinationAttacks--;
+    const confused=e.confusionAttacks>0;
+    if(confused)e.confusionAttacks--;
+    const candidates=confused?[null,...alive().filter(other=>other.id!==e.id)]:[null];
+    const victim=confused?candidates[Math.floor(random()*candidates.length)]:null;
+    const missed=hallucinating&&random()<.5; // once per action, including all multi-hits
+    if(missed){note(e.name+"の"+action.label+"は幻覚で失敗した。");}
+    else if(victim){
      const raw=e.weaken>0?Math.floor(action.damage*.75):action.damage;
-     const blocked=Math.min(s.block,raw);s.block-=blocked;
-     const harm=raw-blocked;s.hp=Math.max(0,s.hp-harm);
-     total+=harm;totalBlocked+=blocked;
-     if(s.hp<=0)break;
+     const dealt=hit(victim,raw,action.hits||1);
+     note("混乱した"+e.name+"は味方の"+victim.name+"を攻撃（"+dealt+"ダメージ）。");
+    }else{
+     let total=0,totalBlocked=0;
+     for(let hitNo=0;hitNo<(action.hits||1);hitNo++){
+      const raw=e.weaken>0?Math.floor(action.damage*.75):action.damage;
+      const blocked=Math.min(s.block,raw);s.block-=blocked;
+      const harm=raw-blocked;s.hp=Math.max(0,s.hp-harm);
+      total+=harm;totalBlocked+=blocked;
+      if(s.hp<=0)break;
+     }
+     note(e.name+"の"+action.label+"：防御"+totalBlocked+"、HP被害"+total+(confused?"（混乱の矛先はあなた）":"")+"。");
+     if(s.hp<=0){s.phase="lost";note("HPが0になった。再挑戦してみよう。");break;}
     }
-    note(e.name+"の"+action.label+"：防御"+totalBlocked+"、HP被害"+total+"。");
-    if(s.hp<=0){s.phase="lost";note("HPが0になった。再挑戦してみよう。");break;}
    }else if(action.kind==="buff"){
     if(action.blockGain)e.block+=action.blockGain;
     if(action.strengthGain)e.strength+=action.strengthGain;
