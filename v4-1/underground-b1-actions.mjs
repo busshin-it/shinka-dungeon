@@ -10,7 +10,7 @@ export function b1HandFanPose(index,total){
 // Let touch users swipe sideways through the hand while upward gestures lift cards.
 export function b1PointerIntent(dx,dy,pointerType="mouse"){
  const distance=Math.hypot(dx,dy);
- if(distance<12)return "wait";
+ if(distance<8)return "wait";
  // Upward diagonals are intentional casts, even if the thumb moves sideways.
  // Near-horizontal swipes still scroll the hand.
  if(pointerType!=="mouse"&&dy<-17&&Math.abs(dy)>=Math.abs(dx)*.32)return "drag";
@@ -191,6 +191,8 @@ export function attachB1Actions({hand,stage,enemyPuppet,choices,cards,read,selec
   choices.querySelectorAll(".b1-drop-target").forEach(b=>b.classList.remove("b1-drop-target"));
   enemyPuppet.classList.remove("b1-drop-target");active=null;
  }
+ // Never allow a nested card image to initiate browser-native dragging.
+ hand.addEventListener("dragstart",e=>e.preventDefault());
  hand.addEventListener("pointerdown",e=>{
   const b=e.target.closest("[data-b1-hand]");
   if(!b||b.disabled||read().phase!=="battle"||(e.pointerType==="mouse"&&e.button!==0))return;
