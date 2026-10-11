@@ -102,3 +102,16 @@
  .pilot-mode .b1-dragon-portrait::before,
  .pilot-mode .pilot-card.b1-art-card .b1-dragon-card-sprite::before{transition:none}
 }
+
+/* The dragon egg shown in the starter selection follows the same aspect-preserving crop. */
+.pilot-mode #setupPanel .b1-starter-card-art--dragonEgg{
+ container-type:size;position:relative;overflow:hidden;
+ background-image:none;background-color:#251b21;isolation:isolate;
+}
+.pilot-mode #setupPanel .b1-starter-card-art--dragonEgg::before{
+ content:"";display:block;position:absolute;left:50%;top:46%;
+ transform:translate(-50%,-50%);
+ width:max(100cqw,75cqh);aspect-ratio:3 / 4;
+ background-image:url("./assets/b1-dragon-evolution-hd.avif");
+ background-size:400% 200%;background-position:0% 0%;background-repeat:no-repeat;
+}
