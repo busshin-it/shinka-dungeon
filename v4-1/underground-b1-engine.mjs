@@ -79,13 +79,13 @@ export function createB1Game(options={}){
  const random=()=>{seed=(Math.imul(seed,1664525)+1013904223)>>>0;return seed/4294967296;};
  const shuffle=a=>{for(let i=a.length-1;i>0;i--){const j=Math.floor(random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;};
  const testMaxHp=Number.isInteger(options.maxHp)&&options.maxHp>=1&&options.maxHp<=999?options.maxHp:75;
- let s={dragonStage:-1,lastDragonEvolution:null,lastSynergy:null,phase:"starter",stage:0,turn:1,hp:testMaxHp,maxHp:testMaxHp,energy:3,block:0,attacksThisTurn:0,darkCastsThisTurn:0,spellsThisTurn:0,pendingMagicAttackBonus:0,powerDraw:0,strength:0,selected:null,deck:Array.isArray(options.testDeck)&&options.testDeck.length>0&&options.testDeck.length<=30&&options.testDeck.every(id=>Object.hasOwn(CARDS,id))?[...options.testDeck]:[...STARTER],hand:[],draw:[],discard:[],exhaust:[],powers:[],enemies:[],rewards:[],gold:0,shopPending:false,shopUsed:false,shopPurchases:[],shopPurged:false,restPending:false,restUsed:false,restChoice:null,selectedPath:null,routeHistory:[],log:["最初に得意な魔法を1枚選んで地下迷宮へ。"]};
+ let s={dragonStage:-1,lastDragonEvolution:null,lastSynergy:null,phase:"starter",stage:0,turn:1,hp:testMaxHp,maxHp:testMaxHp,energy:3,block:0,attacksThisTurn:0,attackCardsThisTurn:0,darkCastsThisTurn:0,spellsThisTurn:0,pendingMagicAttackBonus:0,powerDraw:0,strength:0,selected:null,deck:Array.isArray(options.testDeck)&&options.testDeck.length>0&&options.testDeck.length<=30&&options.testDeck.every(id=>Object.hasOwn(CARDS,id))?[...options.testDeck]:[...STARTER],hand:[],draw:[],discard:[],exhaust:[],powers:[],enemies:[],rewards:[],gold:0,shopPending:false,shopUsed:false,shopPurchases:[],shopPurged:false,restPending:false,restUsed:false,restChoice:null,selectedPath:null,routeHistory:[],log:["最初に得意な魔法を1枚選んで地下迷宮へ。"]};
  function note(t){s.log.unshift(t);s.log=s.log.slice(0,18);}
  const alive=()=>s.enemies.filter(e=>e.hp>0);
  const find=id=>s.enemies.find(e=>e.id===id&&e.hp>0);
  function drawCards(n){let drawn=0;for(let i=0;i<n&&s.hand.length<10;i++){if(!s.draw.length){if(!s.discard.length)break;s.draw=shuffle(s.discard.splice(0));}s.hand.push(s.draw.pop());drawn++;}return drawn;}
  function start(){
-  const stage=s.stage===1?B1_FORK_ROUTES[s.selectedPath||"pack"]:STAGES[s.stage];s.enemies=stage.enemies.map(e=>({...clone(e),hp:e.maxHp,weaken:0,poison:0,vulnerable:0,block:0,strength:0,channelDamage:0,channelBroken:false}));s.turn=1;s.block=0;s.energy=3;s.attacksThisTurn=0;s.darkCastsThisTurn=0;s.spellsThisTurn=0;s.pendingMagicAttackBonus=0;s.powerDraw=0;s.strength=0;
+  const stage=s.stage===1?B1_FORK_ROUTES[s.selectedPath||"pack"]:STAGES[s.stage];s.enemies=stage.enemies.map(e=>({...clone(e),hp:e.maxHp,weaken:0,poison:0,vulnerable:0,block:0,strength:0,channelDamage:0,channelBroken:false}));s.turn=1;s.block=0;s.energy=3;s.attacksThisTurn=0;s.attackCardsThisTurn=0;s.darkCastsThisTurn=0;s.spellsThisTurn=0;s.pendingMagicAttackBonus=0;s.powerDraw=0;s.strength=0;
   s.dragonStage=-1;s.lastDragonEvolution=null;s.lastSynergy=null;s.hand=[];s.discard=[];s.exhaust=[];s.powers=[];s.draw=shuffle([...s.deck]);s.selected=s.enemies.find(e=>e.role!=="boss")?.id||s.enemies[0].id;s.phase="battle";drawCards(5);note(stage.name+"：戦闘開始。");
  }
  function selectStarter(id){if(s.phase!=="starter"||!["lightning","scatter","flow","dragonEgg","fireSmall","fireMedium","fireLarge","darkBolt","abyssBolt","iceSpear","arcaneLance","shadowEcho","blizzard","thunderSurge","guideThrust","spellblade"].includes(id))return false;
@@ -173,7 +173,7 @@ export function createB1Game(options={}){
    const magicBonus=card.weapon?0:s.pendingMagicAttackBonus;
     if(magicBonus){s.pendingMagicAttackBonus=0;synergy("導魔突き連携","次の魔法攻撃：威力＋"+magicBonus);}
     const base=card.damage+s.strength+magicBonus+(chainReady?6:0)+(poisonReady?card.poisonBonus:0)+(weakReady?card.weakBonus:0);
-   hit(target,base,card.hits||1);s.attacksThisTurn+=(card.hits||1);
+   hit(target,base,card.hits||1);s.attacksThisTurn+=(card.hits||1);s.attackCardsThisTurn++;
    if(weakReady)synergy("霜砕き連携","弱体追撃：威力＋"+card.weakBonus);
    else if(poisonReady)synergy("毒炎連携","毒の敵へ：威力＋"+card.poisonBonus);
    else if(chainReady)synergy("連鎖雷連携","攻撃後：威力＋6");
@@ -189,7 +189,7 @@ export function createB1Game(options={}){
    if(card.heal){const n=Math.min(card.heal,s.maxHp-s.hp);s.hp+=n;note("HPを"+n+"回復。");}
   }else if(card.kind==="all"){
    const armor=protectors()*2;
-   const priorBonus=card.perAttack?Math.min(s.attacksThisTurn,card.maxPriorAttacks||3)*card.perAttack:0;
+   const priorBonus=card.perAttack?Math.min(s.attackCardsThisTurn,card.maxPriorAttacks||3)*card.perAttack:0;
    const magicBonus=s.pendingMagicAttackBonus;
    if(magicBonus){s.pendingMagicAttackBonus=0;synergy("導魔突き連携","次の全体魔法：威力＋"+magicBonus);}
    if(priorBonus)synergy("雷の奔流連携","先行攻撃："+priorBonus+"ダメージ増");
@@ -201,7 +201,7 @@ export function createB1Game(options={}){
     e.hp-=n;recordBossDamage(e,n);note(e.name+"に"+n+"ダメージ。");
     if(card.weaken&&e.hp>0){e.weaken+=card.weaken;note(e.name+"に弱体＋"+card.weaken+"。");}
    }
-   s.attacksThisTurn++;
+   s.attacksThisTurn++;s.attackCardsThisTurn++;
   }else if(card.kind==="heal"){
    const n=Math.min(card.heal,s.maxHp-s.hp);s.hp+=n;note("HPを"+n+"回復。");
   }else if(card.kind==="guard"){s.block+=card.block;note("防御＋"+card.block+"。");if(card.afterAttackDraw&&s.attacksThisTurn>0){const count=drawCards(card.afterAttackDraw);note("連携：カードを"+count+"枚引いた。");synergy("返響の盾連携","攻撃後：実際に"+count+"枚ドロー");}}
@@ -299,7 +299,7 @@ export function createB1Game(options={}){
   s.block=0;
   if(s.phase==="lost")return true;
   if(checkVictory())return true;
-  s.discard.push(...s.hand.splice(0));s.turn++;s.energy=3;s.attacksThisTurn=0;s.darkCastsThisTurn=0;s.spellsThisTurn=0;s.pendingMagicAttackBonus=0;
+  s.discard.push(...s.hand.splice(0));s.turn++;s.energy=3;s.attacksThisTurn=0;s.attackCardsThisTurn=0;s.darkCastsThisTurn=0;s.spellsThisTurn=0;s.pendingMagicAttackBonus=0;
   drawCards(5+s.powerDraw);return true;
  }
  function chooseReward(id){
