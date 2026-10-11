@@ -66,3 +66,39 @@
 @media(prefers-reduced-motion:reduce){
  .pilot-mode .b1-dragon-rise-cue{box-shadow:none}
 }
+
+/* Stage-preserving dragon crop, not forced stretching.
+   A single sprite cell is always 3:4. We expand/crop it within each art frame
+   rather than scaling the dragon sideways to a wide card art slot. */
+.pilot-mode .b1-dragon-portrait,
+.pilot-mode .pilot-card.b1-art-card .b1-dragon-card-sprite{
+ container-type:size;
+ position:relative;
+ overflow:hidden;
+ background-image:none;
+ background-color:#241c22;
+ isolation:isolate;
+}
+.pilot-mode .b1-dragon-portrait::before,
+.pilot-mode .pilot-card.b1-art-card .b1-dragon-card-sprite::before{
+ content:"";display:block;position:absolute;
+ left:50%;top:46%;
+ transform:translate(-50%,-50%);
+ width:max(100cqw,75cqh);
+ aspect-ratio:3 / 4;
+ background-image:url("./assets/b1-dragon-evolution-hd.avif");
+ background-size:400% 200%;
+ background-repeat:no-repeat;
+ background-position:inherit;
+ pointer-events:none;
+}
+.pilot-mode .b1-dragon-portrait::before{width:104cqw;top:50%}
+.pilot-mode .pilot-card.b1-art-card .b1-dragon-card-sprite::before{top:44%}
+/* Card preview portrait remains tall enough to show the face, no distortion. */
+.pilot-mode .b1-card-preview .pilot-card.b1-art-card .b1-dragon-card-sprite::before{
+ width:max(100cqw,75cqh);top:48%;
+}
+@media (prefers-reduced-motion:reduce){
+ .pilot-mode .b1-dragon-portrait::before,
+ .pilot-mode .pilot-card.b1-art-card .b1-dragon-card-sprite::before{transition:none}
+}
