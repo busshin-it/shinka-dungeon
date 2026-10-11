@@ -11,12 +11,13 @@ function styles(){
  const refs=[...html.matchAll(/<link[^>]+rel="stylesheet"[^>]+href="\.\/([^"]+)"/g)].map(x=>x[1]);
  return refs;
 }
-test("B1 uses its own last-loaded mobile stylesheet and preserves wizard game HTML",()=>{
+test("B1 keeps mobile and gesture CSS order, then loads the final illustrated-hand override",()=>{
  const refs=styles();
- assert.equal(refs.at(-1),"underground-b1-overlay-hand.css");
- assert.equal(refs.at(-2),"underground-b1-hand-fan.css");
- assert.equal(refs.at(-3),"underground-b1-fire.css");
- assert.equal(refs.at(-4),"underground-b1-mobile.css");
+ assert.equal(refs.at(-1),"underground-b1-card-visibility.css");
+ assert.equal(refs.at(-2),"underground-b1-overlay-hand.css");
+ assert.equal(refs.at(-3),"underground-b1-hand-fan.css");
+ assert.equal(refs.at(-4),"underground-b1-fire.css");
+ assert.equal(refs.at(-5),"underground-b1-mobile.css");
  assert.ok(refs.indexOf("underground-b1-mobile.css")<refs.indexOf("underground-b1-fire.css"));
  assert.ok(refs.indexOf("underground-b1-fire.css")<refs.indexOf("underground-b1-hand-fan.css"));
  assert.ok(refs.indexOf("six-paths-stage.css")<refs.indexOf("underground-b1-mobile.css"));
