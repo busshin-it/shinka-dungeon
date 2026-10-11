@@ -120,7 +120,7 @@
 <p class="b1-install-disclaimer">インストール操作は端末側で行います。オフラインでのB1プレイには対応していません。</p>
 <button type="button" id="b1InstallGuideClose" class="primary">閉じる</button>
 </dialog>
-<dialog id="fireStarterDialog" class="b1-fire-dialog" aria-labelledby="fireStarterTitle"><h2 id="fireStarterTitle">火・雷・闇・攻撃魔法から選ぶ</h2><p>属性魔法を1枚選び、初期デッキに加えて開始します。</p><div id="fireStarterChoices" class="b1-fire-starter-choices"></div><button id="fireStarterClose" type="button" class="quiet">戻る</button></dialog>
+<dialog id="fireStarterDialog" class="b1-fire-dialog" aria-labelledby="fireStarterTitle"><h2 id="fireStarterTitle">火・雷・黒魔法・攻撃魔法から選ぶ</h2><p>属性魔法を1枚選び、初期デッキに加えて開始します。</p><div id="fireStarterChoices" class="b1-fire-starter-choices"></div><button id="fireStarterClose" type="button" class="quiet">戻る</button></dialog>
 <nav class="journey" aria-label="冒険の進み具合"><span>✦</span><span id="turnNum"></span></nav>
 <section id="setupPanel" class="stage pilot-setup b1-ref-setup" hidden><div class="pilot-setup-content b1-ref-panel">
 <div class="pilot-setup-head b1-ref-head"><img src="./assets/hero.webp" alt="蒼星の魔法師"><div><h2 id="setupHeading">護符を選ぶ</h2><span class="b1-ref-title-rule" aria-hidden="true"></span><p id="setupHint"></p></div></div>
@@ -184,7 +184,7 @@ import {showB1Feedback} from "./underground-b1-feedback.mjs";
 import {getB1DragonVisual} from "./underground-b1-dragon-visuals.mjs";
 const el=id=>document.getElementById(id);
 let game=createB1Game({seed:Date.now()}),targetId=null;
-const typeNames={attack:"攻撃",multi:"連撃",all:"全体攻撃",heal:"回復",poison:"状態異常",fragile:"状態異常",guard:"防御",draw:"ドロー",energy:"魔力",power:"能力",dragon:"召喚",dragonFeed:"育成",dragonBreath:"全体攻撃"};
+const typeNames={attack:"攻撃",multi:"連撃",all:"全体攻撃",heal:"回復",poison:"状態異常",fragile:"状態異常",confuse:"混乱",curse:"呪い",hallucinate:"幻覚",guard:"防御",draw:"ドロー",energy:"魔力",power:"能力",dragon:"召喚",dragonFeed:"育成",dragonBreath:"全体攻撃"};
 const art={rat:"wraith.webp",wolf:"bell-spirit.webp",imp:"gatekeeper.webp",guard:"gatekeeper.webp",carapace:"gatekeeper.webp",ritual:"wraith.webp",elite:"gatekeeper.webp",boss:"boss.webp"};
 // B1 artwork mapping. If an image has not yet been uploaded, keep the CSS
 // placeholder rather than showing a broken image or changing card effects.
@@ -266,7 +266,7 @@ function renderSetup(){
    target.append(b);
  }
  const fireChoices=el("fireStarterChoices");fireChoices.replaceChildren();
- for(const id of ["fireSmall","fireMedium","fireLarge","fireWaveSmall","fireWaveMedium","fireWaveLarge","thunderSmall","thunderMedium","thunderLarge","darkBolt","abyssBolt","iceSpear","arcaneLance","shadowEcho","blizzard","thunderSurge","guideThrust","spellblade"]){
+ for(const id of ["fireSmall","fireMedium","fireLarge","fireWaveSmall","fireWaveMedium","fireWaveLarge","thunderSmall","thunderMedium","thunderLarge","darkBolt","abyssBolt","mentalCollapse","curse","deathSong","hallucination","iceSpear","arcaneLance","shadowEcho","blizzard","thunderSurge","guideThrust","spellblade"]){
   const b=cardButton(id);b.classList.add("b1-fire-starter-card");
   b.addEventListener("click",()=>{if(game.selectStarter(id)){el("fireStarterDialog").close();targetId=null;render();}});
   fireChoices.append(b);
@@ -286,13 +286,13 @@ function renderTargets(s){
   const move=s.intents.find(i=>i.id===e.id);
   const attack=move?.kind==="attack";
   const predicted=attack?(e.weaken>0?Math.floor(move.damage*.75):move.damage):0;
-  const intent=attack?"⚔ "+predicted+(move.hits>1?" × "+move.hits:""):
+  const intent=attack?(e.confusionAttacks>0?"🎲 ":"⚔ ")+predicted+(move.hits>1?" × "+move.hits:""):
     move?.kind==="buff"?"✦ "+move.label:"✧ "+(move?.label||"準備");
   const b=document.createElement("button");
   b.type="button";b.dataset.b1Enemy=e.id;b.className="b1-enemy-actor"+(e.role==="boss"?" b1-boss":"");
   b.disabled=e.hp<=0;b.setAttribute("aria-pressed",String(targetId===e.id));
   if(e.channelBroken)b.classList.add("b1-cast-broken");
-  b.setAttribute("aria-label",e.name+"、HP "+e.hp+" / "+e.maxHp+"。次の行動："+(move?.label||"撃破")+"。"+(targetId===e.id?"現在の標的。":"攻撃対象に選べる。"));
+  b.setAttribute("aria-label",e.name+"、HP "+e.hp+" / "+e.maxHp+"。次の行動："+(move?.label||"撃破")+"。"+(e.confusionAttacks>0?"混乱で攻撃対象はランダム。":"")+(e.hallucinationAttacks>0?"幻覚で命中率50%。":"")+(targetId===e.id?"現在の標的。":"攻撃対象に選べる。"));
   b.title=e.name+"　"+(move?.label||"撃破");
   const intentEl=document.createElement("span");intentEl.className="b1-actor-intent"+(attack?" b1-hit-intent":"");intentEl.textContent=e.hp>0?intent:"撃破";
   const figure=document.createElement("span");figure.className="b1-actor-figure";
@@ -304,6 +304,9 @@ function renderTargets(s){
   const status=document.createElement("span");status.className="b1-actor-status";
   const parts=[];if(e.block>0)parts.push("盾"+e.block);if(e.weaken>0)parts.push("弱"+e.weaken);
   if(e.poison>0)parts.push("毒"+e.poison);if(e.vulnerable>0)parts.push("脆"+e.vulnerable);
+   if(e.confusionAttacks>0)parts.push("混"+e.confusionAttacks);
+   if(e.hallucinationAttacks>0)parts.push("幻"+e.hallucinationAttacks);
+   if(e.curses?.length)parts.push("呪"+e.curses.reduce((total,curse)=>total+curse.next,0)+"("+e.curses.length+"重)");
   if(e.role==="boss"){const n=s.enemies.filter(x=>x.role==="guard"&&x.hp>0).length;if(n)parts.push("護衛"+n);}
   status.textContent=parts.join(" · ")||" ";
   b.append(intentEl,figure,name,hp,meter,status);
@@ -350,14 +353,15 @@ function renderStage(s){
  const next=s.intents.find(i=>i.id===enemy.id);
  el("intent").classList.toggle("calm",next?.kind!=="attack");
  const reduced=next?.kind==="attack"?(enemy.weaken>0?Math.floor(next.damage*.75):next.damage):0;
- el("intentName").textContent=next?.kind==="attack"?"⚔ "+reduced+(next.hits>1?" × "+next.hits:""): "✧ "+(next?.label||"次は準備");
+ el("intentName").textContent=next?.kind==="attack"?(enemy.confusionAttacks>0?"🎲 ":"⚔ ")+reduced+(next.hits>1?" × "+next.hits:""): "✧ "+(next?.label||"次は準備");
  el("intentText").textContent=next?.label||"";
  const casting=enemy.role==="boss"&&(s.turn-1)%4<3;
  el("breakTrack").hidden=!casting;
  el("breakFill").style.width=casting?percent(Math.min(enemy.channelDamage,B1_BOSS_CHANNEL_THRESHOLD),B1_BOSS_CHANNEL_THRESHOLD):"0%";
  if(casting)el("intentText").textContent=(enemy.channelBroken?"詠唱中断済み":"詠唱阻止 "+enemy.channelDamage+"/"+B1_BOSS_CHANNEL_THRESHOLD)+" · "+(next?.label||"");
+ if(next?.kind==="attack")el("intentText").textContent+=(enemy.confusionAttacks>0?" · 狙いランダム":"")+(enemy.hallucinationAttacks>0?" · 命中50％":"");
  const effects=el("effectBadges");effects.replaceChildren();
- const chips=[["🛡",s.block],["敵防御",enemy.block],["敵強化",enemy.strength],["自強化",s.strength],["❄",enemy.weaken],["☠",enemy.poison],["✧",enemy.vulnerable],["📖",s.powerDraw]];
+ const chips=[["🛡",s.block],["敵防御",enemy.block],["敵強化",enemy.strength],["自強化",s.strength],["❄",enemy.weaken],["☠",enemy.poison],["✧",enemy.vulnerable],["混乱",enemy.confusionAttacks],["幻覚",enemy.hallucinationAttacks],["呪い",enemy.curses?.reduce((sum,curse)=>sum+curse.next,0)||0],["📖",s.powerDraw]];
  if(enemy.role==="boss"){const n=s.enemies.filter(e=>e.role==="guard"&&e.hp>0).length;if(n)chips.push(["護衛",n*2]);}
  for(const [name,n] of chips){if(n<=0)continue;const chip=document.createElement("span");chip.className="pilot-chip";chip.textContent=name+" "+n;effects.append(chip);}
  el("relicStatus").hidden=true;
