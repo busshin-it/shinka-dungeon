@@ -41,7 +41,7 @@ test("all five new cards have playable stats, upgrade previews, and shop availab
   const shop=g.snapshot().shopStock.find(x=>x.id===id);
   assert.deepEqual(shop,{id,price});
  }
- assert.equal(Object.keys(CARDS).length,47);
+ assert.equal(Object.keys(CARDS).length,55);
 });
 test("shadow echo draws two only after a prior dark spell, not merely by being dark itself",()=>{
  const noDark=practice(["shadowEcho","bolt"]);
