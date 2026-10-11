@@ -18,7 +18,7 @@ test("hand keeps its symmetric fan, mobile swipe and attack targeting",()=>{
 test("large card preview is outside scrolling hand and never intercepts touches",()=>{
  assert.match(js,/const preview=document\.createElement\("div"\)/);
  assert.match(js,/document\.body\.append\(preview\)/);
- assert.match(js,/preview\.replaceChildren\(copy\)/);
+ assert.ok(js.includes('preview.textContent="";preview.append(copy);'));
  assert.match(js,/copy\.removeAttribute\?\.\("data-b1-hand"\)/);
  assert.match(js,/preview\.setAttribute\("aria-hidden","true"\)/);
  assert.match(css,/\.b1-card-preview\{[\s\S]*?position:fixed;z-index:140;pointer-events:none/);
