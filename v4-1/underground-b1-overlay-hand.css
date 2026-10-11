@@ -217,3 +217,104 @@
 @media(prefers-reduced-motion:reduce){
  .pilot-mode #playScreen #hand .pilot-card{scroll-behavior:auto}
 }
+
+
+/* Bigger Slay-inspired fanned cards. Only B1 uses this stylesheet.
+   No backdrop slab: enemy and mage scenery remains visible behind the cards. */
+.pilot-mode #playScreen {
+ --b1-hand-dock:clamp(220px,33dvh,285px);
+}
+.pilot-mode #playScreen #hand.hand{
+ padding:12px 14px 4px;
+ scroll-padding-inline:16px;
+}
+.pilot-mode #playScreen #hand.hand .pilot-card{
+ flex:0 0 clamp(180px,12vw,220px);
+ width:clamp(180px,12vw,220px);
+ min-width:clamp(180px,12vw,220px);
+ height:calc(100% - 5px);
+ border-radius:9px;
+ /* The browser must NOT cancel the first touch drag to perform native panning.
+    Horizontal hand scrolling from a card is handled in actions.mjs instead. */
+ touch-action:none;
+ -webkit-user-select:none;
+ user-select:none;
+ -webkit-touch-callout:none;
+ cursor:grab;
+}
+.pilot-mode #playScreen #hand.hand .pilot-card :is(img,span,strong,small){
+ touch-action:none;
+ -webkit-user-drag:none;
+}
+.pilot-mode #playScreen #hand.hand .pilot-card.b1-drag-source{cursor:grabbing;}
+.pilot-mode #playScreen #hand.hand .pilot-card + .pilot-card{
+ margin-inline-start:calc(-1 * clamp(24px,2.6vw,44px));
+}
+.pilot-mode #playScreen #hand.hand .pilot-card strong{font-size:clamp(14px,1.05vw,17px);}
+.pilot-mode #playScreen #hand.hand .pilot-card .desc{font-size:clamp(11px,.79vw,13px);}
+.pilot-mode #playScreen #hand.hand .pilot-card .pilot-card-art,
+.pilot-mode #playScreen #hand.hand .pilot-card .b1-fire-card-art,
+.pilot-mode #playScreen #hand.hand .pilot-card .b1-magic-card-art{
+ height:clamp(57px,10dvh,82px);flex-basis:clamp(57px,10dvh,82px);
+}
+.pilot-mode #playScreen #hand.hand .pilot-card .b1-dragon-card-sprite{
+ height:clamp(57px,10dvh,82px);flex-basis:clamp(57px,10dvh,82px);
+}
+.pilot-mode #playScreen #hand.hand .pilot-card:not(:disabled):hover,
+.pilot-mode #playScreen #hand.hand .pilot-card.b1-picked:not(:disabled){
+ z-index:35;
+}
+@media (orientation:landscape) and (max-height:600px){
+ .pilot-mode #playScreen{--b1-hand-dock:clamp(154px,42dvh,203px);}
+ .pilot-mode #playScreen #hand.hand{
+  padding:8px 9px 3px;
+ }
+ .pilot-mode #playScreen #hand.hand .pilot-card{
+  flex:0 0 clamp(128px,16vw,161px);
+  width:clamp(128px,16vw,161px);
+  min-width:clamp(128px,16vw,161px);
+  height:calc(100% - 4px);
+ }
+ .pilot-mode #playScreen #hand.hand .pilot-card + .pilot-card{
+  margin-inline-start:-23px;
+ }
+ .pilot-mode #playScreen #hand.hand .pilot-card strong{font-size:12px;}
+ .pilot-mode #playScreen #hand.hand .pilot-card .desc{font-size:10px;}
+ .pilot-mode #playScreen #hand.hand .pilot-card .pilot-card-art,
+ .pilot-mode #playScreen #hand.hand .pilot-card .b1-fire-card-art,
+ .pilot-mode #playScreen #hand.hand .pilot-card .b1-magic-card-art,
+ .pilot-mode #playScreen #hand.hand .pilot-card .b1-dragon-card-sprite{
+  height:46px;flex-basis:46px;
+ }
+}
+@media (orientation:landscape) and (max-width:1100px) and (max-height:620px){
+ .pilot-mode[data-b1-mobile] #playScreen{
+  --b1-hand-dock:clamp(154px,42dvh,203px);
+ }
+ .pilot-mode[data-b1-mobile] #playScreen #hand.hand .pilot-card{
+  flex:0 0 clamp(128px,16vw,161px);
+  width:clamp(128px,16vw,161px);
+  min-width:clamp(128px,16vw,161px);
+  height:calc(100% - 4px);
+  touch-action:none;
+ }
+ .pilot-mode[data-b1-mobile] #playScreen #hand.hand .pilot-card + .pilot-card{
+  margin-inline-start:-23px;
+ }
+}
+@media (orientation:portrait) and (max-width:900px){
+ .pilot-mode[data-b1-mobile] #playScreen{
+  --b1-hand-dock:215px;
+ }
+ .pilot-mode[data-b1-mobile] #playScreen #hand.hand .pilot-card{
+  flex:0 0 162px;width:162px;min-width:162px;
+  height:calc(100% - 5px);
+  touch-action:none;
+ }
+ .pilot-mode[data-b1-mobile] #playScreen #hand.hand .pilot-card + .pilot-card{
+  margin-inline-start:-20px;
+ }
+}
+@media (prefers-reduced-motion:reduce){
+ .pilot-mode #playScreen #hand.hand .pilot-card{transition:none!important}
+}
