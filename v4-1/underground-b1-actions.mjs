@@ -195,18 +195,27 @@ export function attachB1Actions({hand,stage,enemyPuppet,choices,cards,read,selec
   const b=e.target.closest("[data-b1-hand]");
   if(!b||b.disabled||read().phase!=="battle"||(e.pointerType==="mouse"&&e.button!==0))return;
   const index=Number(b.dataset.b1Hand),info=usable(index);if(!info)return;
-  active={pointerId:e.pointerId,pointerType:e.pointerType,x:e.clientX,y:e.clientY,index,rect:b.getBoundingClientRect(),button:b,moved:false,scrolling:false,targeted:needsB1Target(info.card.kind)};
+  active={pointerId:e.pointerId,pointerType:e.pointerType,x:e.clientX,y:e.clientY,index,rect:b.getBoundingClientRect(),button:b,moved:false,scrolling:false,scrollOrigin:Number(hand.scrollLeft)||0,targeted:needsB1Target(info.card.kind)};
   b.classList.add("b1-pressing");
   if(e.pointerType!=="mouse")showPreview(b);
+  // Capture immediately, before the finger travels: no first tap or double click.
   try{b.setPointerCapture(e.pointerId);}catch{}
  });
  window.addEventListener("pointermove",e=>{
-  if(!active||e.pointerId!==active.pointerId||active.scrolling)return;
+  if(!active||e.pointerId!==active.pointerId)return;
+  // The card captures touch input from the FIRST press. Horizontal swipes
+  // scroll the hand manually instead of letting the browser cancel the pointer.
+  if(active.scrolling){
+   hand.scrollLeft=active.scrollOrigin-(e.clientX-active.x);
+   if(e.cancelable)e.preventDefault();
+   return;
+  }
   if(!active.moved){
    const intent=b1PointerIntent(e.clientX-active.x,e.clientY-active.y,active.pointerType);
    if(intent==="scroll"){
     active.scrolling=true;active.button.classList.remove("b1-pressing");hidePreview();
-    try{active.button.releasePointerCapture(e.pointerId);}catch{}
+    hand.scrollLeft=active.scrollOrigin-(e.clientX-active.x);
+    if(e.cancelable)e.preventDefault();
     return;
    }
    if(intent==="drag"){active.moved=true;beginGhost(e);}
@@ -216,6 +225,12 @@ export function attachB1Actions({hand,stage,enemyPuppet,choices,cards,read,selec
  window.addEventListener("pointerup",e=>{
   if(!active||e.pointerId!==active.pointerId)return;
   const item=active;
+  if(item.scrolling){
+   item.button.classList.remove("b1-pressing");
+   suppressUntil=performance.now()+420;
+   active=null;hidePreview();
+   return;
+  }
   if(!item.moved){
    item.button.classList.remove("b1-pressing");
    active=null;
