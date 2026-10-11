@@ -74,3 +74,76 @@
  .pilot-mode #hand.hand .pilot-card {transition:none!important;filter:none}
  .pilot-mode #hand.hand .pilot-card.b1-dealt{animation:none!important}
 }
+
+/* True elevated card view: a copy floats above clipped mobile hand without stealing touches. */
+.pilot-mode .b1-card-preview[hidden]{display:none!important}
+.pilot-mode .b1-card-preview{
+ position:fixed;z-index:140;pointer-events:none;isolation:isolate;
+ filter:drop-shadow(0 15px 19px #060d17c7);
+ animation:b1CardPreviewIn 155ms cubic-bezier(.16,.8,.24,1) both;
+ transform-origin:center bottom;
+}
+.pilot-mode .b1-card-preview .pilot-card{
+ position:relative;display:flex;flex-direction:column;box-sizing:border-box;
+ width:100%!important;height:100%!important;min-width:0!important;min-height:0!important;
+ margin:0!important;padding:0!important;opacity:1!important;
+ background:#e8dfcb;color:#142a35;border:2px solid #f2cb82;
+ border-radius:10px;overflow:hidden;
+ transform:none!important;animation:none!important;filter:none!important;
+ box-shadow:inset 0 0 0 1px #f7e5b5,0 0 0 2px #dda95e;
+}
+.pilot-mode .b1-card-preview .pilot-card .cost{
+ width:32px;height:32px;top:7px;left:7px;font-size:20px;z-index:3;
+}
+.pilot-mode .b1-card-preview .pilot-card .type{
+ font-size:12px;top:7px;right:7px;padding:4px 7px;z-index:2;
+}
+.pilot-mode .b1-card-preview .pilot-card .pilot-card-copy{
+ display:flex!important;flex-direction:column;gap:6px;
+ padding:clamp(14px,2.8dvh,26px) 13px 11px;min-height:0;flex:1;justify-content:flex-end;
+}
+.pilot-mode .b1-card-preview .pilot-card.b1-art-card .pilot-card-copy{padding:9px 12px 12px;justify-content:flex-start}
+.pilot-mode .b1-card-preview .pilot-card .pilot-card-copy strong{
+ display:block;font-size:clamp(16px,3.5dvh,22px);line-height:1.25;
+ margin:0;color:#172c3a;overflow:visible;
+}
+.pilot-mode .b1-card-preview .pilot-card .desc{
+ display:block;overflow:visible;-webkit-line-clamp:unset;line-clamp:unset;
+ font-size:clamp(12px,2.7dvh,16px);line-height:1.4;color:#263d48;
+}
+.pilot-mode .b1-card-preview .pilot-card .b1-dragon-card-sprite,
+.pilot-mode .b1-card-preview .pilot-card .b1-fire-card-art{
+ display:block;flex:1 1 auto;height:55%!important;min-height:0;width:100%;
+ background-repeat:no-repeat;position:static;inset:auto;border-radius:0;
+}
+.pilot-mode .b1-card-preview .pilot-card.b1-text-card .pilot-card-copy{padding:44px 13px 12px}
+@keyframes b1CardPreviewIn{
+ from{opacity:0;transform:translateY(15px) scale(.92)}
+ to{opacity:1;transform:translateY(0) scale(1)}
+}
+/* Card target feedback and stronger physical pick-up effect. */
+.pilot-mode #hand.hand .pilot-card.b1-pressing:not(:disabled){
+ filter:brightness(1.10);box-shadow:0 18px 30px #000a,0 0 0 2px #ffe2ac;
+}
+.pilot-mode .b1-float-card{box-shadow:0 22px 30px #05101ce0,0 0 0 2px #f7d58d;border-color:#ffe2aa;filter:drop-shadow(0 0 17px #eec36d38)}
+.pilot-mode .b1-enemy-lineup .b1-drop-target,
+.pilot-mode .b1-targets .b1-drop-target,
+.pilot-mode #enemyPuppet.b1-drop-target{
+ outline:3px solid #ffce72;outline-offset:0;
+ filter:drop-shadow(0 0 15px #ffc66c);
+ animation:b1TargetPulse .7s ease-in-out infinite alternate;
+}
+@keyframes b1TargetPulse{from{filter:drop-shadow(0 0 8px #ffca72)}to{filter:drop-shadow(0 0 24px #ffc063)}}
+@media(orientation:landscape) and (max-height:450px){
+ .pilot-mode .b1-card-preview .pilot-card .pilot-card-copy{gap:2px;padding:7px 9px}
+ .pilot-mode .b1-card-preview .pilot-card .pilot-card-copy strong{font-size:15px}
+ .pilot-mode .b1-card-preview .pilot-card .desc{font-size:11px;line-height:1.25}
+ .pilot-mode .b1-card-preview .pilot-card .cost{width:24px;height:24px;font-size:14px}
+ .pilot-mode .b1-card-preview .pilot-card .type{font-size:10px;padding:3px}
+}
+@media(prefers-reduced-motion:reduce){
+ .pilot-mode .b1-card-preview{animation:none!important}
+ .pilot-mode .b1-enemy-lineup .b1-drop-target,
+ .pilot-mode .b1-targets .b1-drop-target,
+ .pilot-mode #enemyPuppet.b1-drop-target{animation:none!important}
+}
