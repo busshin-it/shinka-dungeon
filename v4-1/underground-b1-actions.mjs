@@ -64,7 +64,11 @@ export function attachB1Actions({hand,stage,enemyPuppet,choices,cards,read,selec
   enemyPuppet.classList.toggle("b1-pending-target",picked!==null&&!stage.classList.contains("b1-multi"));
  }
  function cancel(){picked=null;hidePreview();message("");mark();}
- function select(index){picked=index;showPreview(hand.querySelector('[data-b1-hand="'+index+'"]'));message("敵の名前か姿を押して攻撃。ドラッグでも使えます。Escで解除。");mark();}
+ function select(index){
+  picked=index;showPreview(hand.querySelector('[data-b1-hand="'+index+'"]'));
+  message(needsB1Target(usable(index)?.card?.kind)?"敵を1回タップして発動。ドラッグでも使えます。":"戦闘画面を1回タップして発動。ドラッグでも使えます。");
+  mark();
+ }
  function usable(index){
   const s=read(),id=s.hand[index];return s.phase==="battle"&&id&&cards[id]&&cards[id].cost<=s.energy?{id,card:cards[id]}:null;
  }
@@ -80,12 +84,17 @@ export function attachB1Actions({hand,stage,enemyPuppet,choices,cards,read,selec
  }
  function handleCardClick(index){
   if(performance.now()<suppressUntil)return;
-  const info=usable(index);if(!info)return;
-  if(needsB1Target(info.card.kind)){
-   if(picked===index)fire(index,selectedTarget(),rect(index));
-   else select(index);
-  }else fire(index,null,rect(index));
+  if(!usable(index))return;
+  // First click lifts the card. The next click on the same card cancels it.
+  if(picked===index)cancel();else select(index);
  }
+ // Non-targeted spells cast by tapping the arena after one card selection.
+ stage.addEventListener("click",e=>{
+  if(picked===null)return;
+  const info=usable(picked);
+  if(!info||needsB1Target(info.card.kind)||e.target.closest?.("button,[data-b1-enemy]"))return;
+  fire(picked,null,rect(picked));
+ });
  function handleTargetClick(id){
   const s=read();
   if(s.phase!=="battle"||!s.enemies.some(e=>e.id===id&&e.hp>0))return;
@@ -188,6 +197,10 @@ export function attachB1Actions({hand,stage,enemyPuppet,choices,cards,read,selec
   if(!item.moved){
    item.button.classList.remove("b1-pressing");
    active=null;
+   if(item.pointerType!=="mouse"){
+    handleCardClick(item.index);
+    suppressUntil=performance.now()+240;
+   }
    if(picked===null)hidePreview();
    return;
   }
@@ -205,7 +218,7 @@ export function attachB1Actions({hand,stage,enemyPuppet,choices,cards,read,selec
  function bindHandCard(button,index){
   button.dataset.b1Hand=String(index);button.draggable=false;
   button.addEventListener("click",()=>handleCardClick(index));
-  button.addEventListener("pointerenter",e=>{if(e.pointerType==="mouse"&&!active)showPreview(button);});
+  // Hover tilts the hand card; one click selects and lifts its preview.
   button.addEventListener("pointerleave",()=>{if(picked!==index&&!active)hidePreview();});
   button.addEventListener("focus",()=>showPreview(button));
   button.addEventListener("blur",()=>{if(picked!==index&&!active)hidePreview();});
