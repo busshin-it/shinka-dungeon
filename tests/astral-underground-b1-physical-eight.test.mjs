@@ -126,4 +126,21 @@ test("eight cards are visible in the UI and shop art, while battle gestures rema
   assert.ok(css.includes(".b1-magic-art--physical-"+art));
  assert.ok(html.includes('game.selectStarter("physical")'));
  assert.ok(html.includes('c.requiresPureDeck&&s.deck.some'));
+ const setupIndex=html.indexOf('id="setupPanel"');
+ const quickStartIndex=html.indexOf('id="physicalStarterOpen"');
+ const choicesIndex=html.indexOf('id="setupChoices"');
+ assert.ok(setupIndex>=0&&quickStartIndex>setupIndex&&quickStartIndex<choicesIndex,
+   "physical-only start button must be in the initial visible area BEFORE the large grid");
+ assert.ok(html.includes('new URLSearchParams(window.location.search).get("start")==="physical"'),
+   "physical trial URL must directly enter the pure-physical deck");
+ assert.ok(html.includes('id="physicalStarterDialogOpen"'),
+   "people opening the spell dialog need a direct pure-physical option too");
+ assert.ok(html.includes('el("physicalStarterOpen").addEventListener("click"'));
+ assert.ok(html.includes('el("physicalStarterDialogOpen").addEventListener("click"'));
+ assert.ok(!html.includes('const physicalStart=cardButton("bludgeon")'),
+   "a fifth large card would be hidden in the next row on landscape phones");
+ const starterCSS=readFileSync(new URL("../v4-1/underground-b1-starter-art.css",import.meta.url),"utf8");
+ assert.ok(starterCSS.includes("#setupPanel .b1-physical-start-cta"));
+ assert.ok(starterCSS.includes("position:sticky;top:0;"),
+   "short landscape layout keeps the physical start route within sight");
 });

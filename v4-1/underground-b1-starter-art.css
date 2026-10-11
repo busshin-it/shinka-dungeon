@@ -256,3 +256,39 @@
   font-size:10px;line-height:1.24;
  }
 }
+
+
+/* The physical-only route must be visible without scrolling past the four
+   large artwork starter cards. Keep it above the setup heading and inside
+   the optional spell-selection dialog. Does not affect the battle hand. */
+.pilot-mode #setupPanel .b1-physical-start-cta,
+.pilot-mode .b1-fire-dialog .b1-physical-start-cta{
+ box-sizing:border-box;
+ display:flex;flex-direction:row;align-items:center;justify-content:center;
+ gap:clamp(6px,1.4vw,18px);flex-wrap:wrap;
+ width:100%;min-height:49px;margin:0 0 12px;
+ padding:10px 15px;cursor:pointer;
+ border:2px solid #f6c57b;border-radius:11px;
+ background:linear-gradient(120deg,#59301e,#2c3342 67%,#152d39);
+ color:#fff0cf;text-align:center;box-shadow:inset 0 0 17px #f6a74419,0 5px 17px #0005;
+}
+.pilot-mode #setupPanel .b1-physical-start-cta strong,
+.pilot-mode .b1-fire-dialog .b1-physical-start-cta strong{
+ font-size:clamp(14px,1.65vw,20px);line-height:1.3;white-space:normal;
+}
+.pilot-mode #setupPanel .b1-physical-start-cta small,
+.pilot-mode .b1-fire-dialog .b1-physical-start-cta small{
+ font-size:clamp(11px,1vw,14px);line-height:1.4;color:#f2dfc1;white-space:normal;
+}
+.pilot-mode #setupPanel .b1-physical-start-cta:focus-visible,
+.pilot-mode .b1-fire-dialog .b1-physical-start-cta:focus-visible{
+ outline:3px solid #fff1a9;outline-offset:2px;
+}
+@media(max-height:620px){
+ .pilot-mode #setupPanel .b1-physical-start-cta{
+  position:sticky;top:0;z-index:12;
+  padding:6px 10px;min-height:40px;margin-bottom:8px;
+ }
+ .pilot-mode #setupPanel .b1-physical-start-cta strong{font-size:13px}
+ .pilot-mode #setupPanel .b1-physical-start-cta small{font-size:10px}
+}
