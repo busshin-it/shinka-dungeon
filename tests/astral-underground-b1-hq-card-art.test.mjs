@@ -1,6 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import {readFileSync,existsSync,statSync} from "node:fs";
+import {createHash} from "node:crypto";
 
 const root=new URL("../v4-1/",import.meta.url);
 const html=readFileSync(new URL("underground-b1-playtest.html",root),"utf8");
@@ -43,15 +44,20 @@ test("HD images are preferred; any missing source safely falls back to tiny AVIF
  // the game keeps using the checked-in AVIF/CSS until the 12 WebP files are uploaded.
 });
 
-test("when HD assets are present, their container and size indicate real images",()=>{
- for(const filename of Object.values(cases)){
+test("registered 768x1024 WebP images match the approved export manifest exactly",()=>{
+ const manifest=JSON.parse(readFileSync(new URL("../design/b1-card-hq-expected-manifest.json",import.meta.url),"utf8"));
+ assert.equal(manifest.dimensions.join("x"),"768x1024");
+ assert.equal(manifest.assets.length,12);
+ assert.deepEqual(manifest.assets.map(x=>x.filename).sort(),Object.values(cases).sort());
+ for(const {filename,bytes,sha256} of manifest.assets){
   const f=new URL("assets/"+filename,root);
   if(!existsSync(f))continue;
   const buf=readFileSync(f);
-  assert.ok(buf.length>=30000&&buf.length<1500000,filename+" plausible 768x1024 art");
-  assert.equal(buf.toString("ascii",0,4),"RIFF");
-  assert.equal(buf.toString("ascii",8,12),"WEBP");
-  assert.equal(statSync(f).size,buf.length);
+  assert.equal(buf.length,bytes,filename+" expected generated size");
+  assert.equal(buf.toString("ascii",0,4),"RIFF",filename+" RIFF");
+  assert.equal(buf.toString("ascii",8,12),"WEBP",filename+" WebP");
+  assert.equal(createHash("sha256").update(buf).digest("hex"),sha256,filename+" unchanged image");
+  assert.equal(statSync(f).size,bytes);
  }
 });
 
