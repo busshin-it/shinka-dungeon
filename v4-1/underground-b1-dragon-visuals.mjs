@@ -1,6 +1,6 @@
 // Visual-only mapping: the B1 combat engine keeps its existing nine growth steps.
 // Eight supplied artworks are packed as one 4-by-2 sprite to avoid multiple heavy downloads.
-export const DRAGON_VISUAL_SPRITE="./assets/b1-dragon-evolution.avif";
+export const DRAGON_VISUAL_SPRITE="./assets/b1-dragon-evolution-hd.avif";
 export const DRAGON_VISUAL_LABELS=Object.freeze(["竜の卵","幼竜","小さな竜","成竜","中竜","大竜","巨竜","神龍"]);
 export const DRAGON_VISUAL_STAGE_MAP=Object.freeze([0,1,1,2,3,4,5,6,7]);
 export function getB1DragonVisual(stage){

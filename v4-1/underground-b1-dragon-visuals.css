@@ -7,7 +7,7 @@
 }
 .pilot-mode .b1-dragon-portrait{
  box-sizing:border-box;width:100%;aspect-ratio:3/4;
- background-image:url("./assets/b1-dragon-evolution.avif");
+ background-image:url("./assets/b1-dragon-evolution-hd.avif");
  background-repeat:no-repeat;background-size:400% 200%;
  background-color:#271c20;
  border:2px solid #c6925b;border-radius:11px;
@@ -22,7 +22,7 @@
 .pilot-mode .b1-dragon-caption strong{font-size:clamp(10px,1.12vw,15px);line-height:1.1}
 .pilot-mode .b1-dragon-caption span{font-size:clamp(9px,.85vw,11px);line-height:1.3;color:#e8cfab}
 .pilot-mode .pilot-card.b1-art-card .b1-dragon-card-sprite{
- background-image:url("./assets/b1-dragon-evolution.avif");
+ background-image:url("./assets/b1-dragon-evolution-hd.avif");
  background-size:400% 200%;background-repeat:no-repeat;
  background-color:#251b22;box-sizing:border-box;
 }
@@ -36,7 +36,7 @@
  width:100%;height:70px;border-radius:0;filter:none;
 }
 .pilot-mode #setupPanel .b1-ref-panel .pilot-choices .pilot-start-card .b1-starter-card-art--dragonEgg{
- background-image:url("./assets/b1-dragon-evolution.avif");
+ background-image:url("./assets/b1-dragon-evolution-hd.avif");
  background-size:400% 200%;background-position:0% 0%;
 }
 @media(max-width:850px){
