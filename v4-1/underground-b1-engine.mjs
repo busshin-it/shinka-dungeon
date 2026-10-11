@@ -189,12 +189,17 @@ export function createB1Game(options={}){
    if(card.heal){const n=Math.min(card.heal,s.maxHp-s.hp);s.hp+=n;note("HPを"+n+"回復。");}
   }else if(card.kind==="all"){
    const armor=protectors()*2;
+   const priorBonus=card.perAttack?Math.min(s.attacksThisTurn,card.maxPriorAttacks||3)*card.perAttack:0;
+   const magicBonus=s.pendingMagicAttackBonus;
+   if(magicBonus){s.pendingMagicAttackBonus=0;synergy("導魔突き連携","次の全体魔法：威力＋"+magicBonus);}
+   if(priorBonus)synergy("雷の奔流連携","先行攻撃："+priorBonus+"ダメージ増");
    for(const e of alive()){
-    const base=e.vulnerable>0?Math.floor((card.damage+s.strength)*1.5):card.damage+s.strength;
+    const base=e.vulnerable>0?Math.floor((card.damage+s.strength+priorBonus+magicBonus)*1.5):card.damage+s.strength+priorBonus+magicBonus;
     const raw=Math.max(0,base-(e.role==="boss"?armor:0));
     const blocked=Math.min(e.block,raw);e.block-=blocked;
     const n=Math.min(e.hp,raw-blocked);
     e.hp-=n;recordBossDamage(e,n);note(e.name+"に"+n+"ダメージ。");
+    if(card.weaken&&e.hp>0){e.weaken+=card.weaken;note(e.name+"に弱体＋"+card.weaken+"。");}
    }
    s.attacksThisTurn++;
   }else if(card.kind==="heal"){
@@ -206,6 +211,8 @@ export function createB1Game(options={}){
   else if(card.kind==="power"){if(card.powerDraw){s.powerDraw+=card.powerDraw;note("毎ターンのドロー＋"+card.powerDraw+"。");}
    if(card.strengthGain){s.strength+=card.strengthGain;note("この戦闘中、攻撃威力＋"+card.strengthGain+"。");}}
   if(card.draw){drawCards(card.draw);note("カードを"+card.draw+"枚引いた。");}
+  if(card.school==="dark")s.darkCastsThisTurn++;
+  if(!card.weapon)s.spellsThisTurn++;
   if(card.kind==="power")s.powers.push(id);else if(card.exhaust)s.exhaust.push(id);else s.discard.push(id);
   checkVictory();return true;
  }
@@ -292,7 +299,7 @@ export function createB1Game(options={}){
   s.block=0;
   if(s.phase==="lost")return true;
   if(checkVictory())return true;
-  s.discard.push(...s.hand.splice(0));s.turn++;s.energy=3;s.attacksThisTurn=0;
+  s.discard.push(...s.hand.splice(0));s.turn++;s.energy=3;s.attacksThisTurn=0;s.darkCastsThisTurn=0;s.spellsThisTurn=0;s.pendingMagicAttackBonus=0;
   drawCards(5+s.powerDraw);return true;
  }
  function chooseReward(id){
@@ -306,7 +313,7 @@ export function createB1Game(options={}){
  else if(kind==="upgrade"){if(!Number.isInteger(index)||index<0||index>=s.deck.length||s.deck[index].endsWith("~"))return false;const id=s.deck[index];s.deck[index]=id+"~";note("休憩所："+getB1Card(id).name+"を強化。");}
  else return false;s.restPending=false;s.restUsed=true;s.restChoice=kind;return true;
 }
-const SHOP_STOCK=Object.freeze([{id:"ward",price:35},{id:"chain",price:40},{id:"frostBreak",price:35},{id:"echoGuard",price:30},{id:"lingeringPoison",price:30},{id:"fireSmall",price:25},{id:"fireMedium",price:40},{id:"fireLarge",price:55},{id:"darkBolt",price:35},{id:"abyssBolt",price:45},{id:"iceSpear",price:40},{id:"arcaneLance",price:35}]);
+const SHOP_STOCK=Object.freeze([{id:"ward",price:35},{id:"chain",price:40},{id:"frostBreak",price:35},{id:"echoGuard",price:30},{id:"lingeringPoison",price:30},{id:"fireSmall",price:25},{id:"fireMedium",price:40},{id:"fireLarge",price:55},{id:"darkBolt",price:35},{id:"abyssBolt",price:45},{id:"iceSpear",price:40},{id:"arcaneLance",price:35},{id:"shadowEcho",price:35},{id:"blizzard",price:45},{id:"thunderSurge",price:50},{id:"guideThrust",price:35},{id:"spellblade",price:35}]);
 function buyShop(id){
  if(s.phase!=="between"||s.stage!==2||!s.shopPending||s.shopUsed||s.practiceMode)return false;
  const item=SHOP_STOCK.find(item=>item.id===id);
