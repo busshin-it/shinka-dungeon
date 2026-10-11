@@ -16,6 +16,12 @@ export const CARDS = Object.freeze({
  fireSmall:{name:"火弾",cost:1,kind:"attack",text:"敵1体に6ダメージ",damage:6,fireArt:"small",firePower:1},
  fireMedium:{name:"灼流",cost:2,kind:"attack",text:"敵1体に10ダメージ",damage:10,fireArt:"medium",firePower:2},
  fireLarge:{name:"獄炎砲",cost:3,kind:"attack",text:"敵1体に16ダメージ",damage:16,fireArt:"large",firePower:3},
+ fireWaveSmall:{name:"火の雨",cost:0,kind:"all",text:"敵全体に2ダメージ",damage:2,magicArt:"fire-rain-small"},
+ fireWaveMedium:{name:"炎の波",cost:2,kind:"all",text:"敵全体に9ダメージ",damage:9,magicArt:"fire-rain-medium"},
+ fireWaveLarge:{name:"業火の嵐",cost:3,kind:"all",text:"敵全体に15ダメージ",damage:15,magicArt:"fire-rain-large"},
+ thunderSmall:{name:"雷針",cost:1,kind:"attack",text:"敵1体に7ダメージ",damage:7,magicArt:"thunder-small"},
+ thunderMedium:{name:"双雷槍",cost:2,kind:"multi",text:"敵1体に7ダメージを2回",damage:7,hits:2,magicArt:"thunder-medium"},
+ thunderLarge:{name:"天雷",cost:3,kind:"attack",text:"敵1体に21ダメージ",damage:21,magicArt:"thunder-large"},
  flow:{name:"術式循環",cost:1,kind:"draw",text:"カードを2枚引く",draw:2},
  ward:{name:"氷の結界",cost:1,kind:"guard",text:"防御7。カードを1枚引く",block:7,draw:1},
  charge:{name:"魔力点火",cost:0,kind:"energy",text:"魔力＋1。廃棄",energyGain:1,exhaust:true},
@@ -52,6 +58,11 @@ export function getB1Card(id){const up=typeof id==="string"&&id.endsWith("~"),ba
     next.damage+"ダメージ。先に呪文を使っていれば防御4";
   return next;
  }
+ if(Object.hasOwn({fireWaveSmall:2,fireWaveMedium:3,fireWaveLarge:4,thunderSmall:3,thunderLarge:5},base)){
+  next.damage+=({fireWaveSmall:2,fireWaveMedium:3,fireWaveLarge:4,thunderSmall:3,thunderLarge:5})[base];
+  next.text=(card.kind==="all"?"敵全体に":"敵1体に")+next.damage+"ダメージ";return next;
+ }
+ if(base==="thunderMedium"){next.damage=9;next.text="敵1体に9ダメージを2回";return next;}
  if(base==="dragonFeed"){next.dragonGrowth=2;next.text="竜を2段階成長。手札を1枚選んで捨てる。廃棄";return next;}const stat=["damage","block","heal","poison","weaken","vulnerable","energyGain","draw","strengthGain","powerDraw"].find(k=>Number.isFinite(card[k])&&card[k]>0);if(stat){const bonus=["damage","block","heal"].includes(stat)?3:1;next[stat]+=bonus;next.text=card.text+"（"+stat+"＋"+bonus+"）";}else{next.cost=Math.max(0,card.cost-1);next.text=card.text+"（魔力－1）";}return next;}
 export const STARTER = Object.freeze(["bolt","bolt","bolt","bolt","guard","guard","guard","guard","break"]);
 export const STAGES = Object.freeze([
@@ -88,7 +99,7 @@ export function createB1Game(options={}){
   const stage=s.stage===1?B1_FORK_ROUTES[s.selectedPath||"pack"]:STAGES[s.stage];s.enemies=stage.enemies.map(e=>({...clone(e),hp:e.maxHp,weaken:0,poison:0,vulnerable:0,block:0,strength:0,channelDamage:0,channelBroken:false}));s.turn=1;s.block=0;s.energy=3;s.attacksThisTurn=0;s.attackCardsThisTurn=0;s.darkCastsThisTurn=0;s.spellsThisTurn=0;s.pendingMagicAttackBonus=0;s.powerDraw=0;s.strength=0;
   s.dragonStage=-1;s.lastDragonEvolution=null;s.lastSynergy=null;s.hand=[];s.discard=[];s.exhaust=[];s.powers=[];s.draw=shuffle([...s.deck]);s.selected=s.enemies.find(e=>e.role!=="boss")?.id||s.enemies[0].id;s.phase="battle";drawCards(5);note(stage.name+"：戦闘開始。");
  }
- function selectStarter(id){if(s.phase!=="starter"||!["lightning","scatter","flow","dragonEgg","fireSmall","fireMedium","fireLarge","darkBolt","abyssBolt","iceSpear","arcaneLance","shadowEcho","blizzard","thunderSurge","guideThrust","spellblade"].includes(id))return false;
+ function selectStarter(id){if(s.phase!=="starter"||!["lightning","scatter","flow","dragonEgg","fireSmall","fireMedium","fireLarge","fireWaveSmall","fireWaveMedium","fireWaveLarge","thunderSmall","thunderMedium","thunderLarge","darkBolt","abyssBolt","iceSpear","arcaneLance","shadowEcho","blizzard","thunderSurge","guideThrust","spellblade"].includes(id))return false;
   if(id==="dragonEgg")s.deck.push("dragonEgg","dragonFeed","dragonBreath");else s.deck.push(id);
   start();return true;}
  function protectors(){return s.stage===STAGES.length-1?alive().filter(e=>e.role==="guard").length:0;}
@@ -313,7 +324,7 @@ export function createB1Game(options={}){
  else if(kind==="upgrade"){if(!Number.isInteger(index)||index<0||index>=s.deck.length||s.deck[index].endsWith("~"))return false;const id=s.deck[index];s.deck[index]=id+"~";note("休憩所："+getB1Card(id).name+"を強化。");}
  else return false;s.restPending=false;s.restUsed=true;s.restChoice=kind;return true;
 }
-const SHOP_STOCK=Object.freeze([{id:"ward",price:35},{id:"chain",price:40},{id:"frostBreak",price:35},{id:"echoGuard",price:30},{id:"lingeringPoison",price:30},{id:"fireSmall",price:25},{id:"fireMedium",price:40},{id:"fireLarge",price:55},{id:"darkBolt",price:35},{id:"abyssBolt",price:45},{id:"iceSpear",price:40},{id:"arcaneLance",price:35},{id:"shadowEcho",price:35},{id:"blizzard",price:45},{id:"thunderSurge",price:50},{id:"guideThrust",price:35},{id:"spellblade",price:35}]);
+const SHOP_STOCK=Object.freeze([{id:"ward",price:35},{id:"chain",price:40},{id:"frostBreak",price:35},{id:"echoGuard",price:30},{id:"lingeringPoison",price:30},{id:"fireSmall",price:25},{id:"fireMedium",price:40},{id:"fireLarge",price:55},{id:"fireWaveSmall",price:30},{id:"fireWaveMedium",price:45},{id:"fireWaveLarge",price:60},{id:"thunderSmall",price:30},{id:"thunderMedium",price:45},{id:"thunderLarge",price:60},{id:"darkBolt",price:35},{id:"abyssBolt",price:45},{id:"iceSpear",price:40},{id:"arcaneLance",price:35},{id:"shadowEcho",price:35},{id:"blizzard",price:45},{id:"thunderSurge",price:50},{id:"guideThrust",price:35},{id:"spellblade",price:35}]);
 function buyShop(id){
  if(s.phase!=="between"||s.stage!==2||!s.shopPending||s.shopUsed||s.practiceMode)return false;
  const item=SHOP_STOCK.find(item=>item.id===id);
