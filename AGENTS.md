@@ -2,18 +2,16 @@
 
 このリポジトリで作業するAIは、実装・修正・設計の前にこのファイルを入口として確認すること。
 
-## 1. 共通ルール
-共通AI開発ルールは以下を参照する。
+## 1. 共通の開発原則（正本は1つ）
 
-- https://github.com/busshin-it/ai-development-brain
-- 共通ルール本体: `AI_EXTERNAL_BRAIN.md`
-- Work共通ルール: `WORK_RULES.md`
-- 秘書AI運用: `SECRETARY_AI_RULES.md`
+- [AI_EXTERNAL_BRAIN.md｜7つの共通原則](https://github.com/busshin-it/ai-development-brain/blob/main/AI_EXTERNAL_BRAIN.md)
+- [WORK_RULES.md｜安全な開発・テスト・引き継ぎ](https://github.com/busshin-it/ai-development-brain/blob/main/WORK_RULES.md)
+- 必要なときだけ：[自動化・他アプリ連携](https://github.com/busshin-it/ai-development-brain/blob/main/AUTOMATION_ENGINEERING_PLAYBOOK.md)／[ゴールまでの現在地](https://github.com/busshin-it/ai-development-brain/blob/main/GOAL_PROGRESS_REPORTING.md)／[秘書AIの共通ルール](https://github.com/busshin-it/ai-development-brain/blob/main/SECRETARY_AI_RULES.md)
 
-共通ルールが未作成・未参照の場合でも、このリポジトリ固有の既存ルールを優先して安全に作業すること。
+**すべてのアプリは同じ7原則を使い、このアプリの仕様・判断・進捗・履歴はこのリポジトリで独立して管理する。** 共通ルールを全文コピーしない。アプリ間に固定の仕事の優先順位を作らない。外部ルールを取得できなければ、未確認と記録し、安全を要する操作は保留する。
 
 ## 2. このプロジェクトで最初に読むもの
-1. `PROJECT_CONTEXT.md`
+1. `PROJECT_CONTEXT.md`（全体思想と背景。古い試作状態を現在の配信版と混同しない）
 2. `GAME_DESIGN.md`
 3. `GAME_LAB.md` の最新部分
 4. `ASTRAL_DEVELOPMENT.md`
@@ -31,11 +29,9 @@
 - 意味のある開発完了時は `AI_SECRETARY_STATUS.md` の現在地・次・ブロッカーも更新する。
 - 重要な変更・判断・残課題は該当するMDへ反映する。
 
-## 4. 情報の優先順位
-1. 今回の明示的な指示
-2. このリポジトリの最新ドキュメント
-3. 共通AI開発ルール
-4. 現在のコード
-5. 過去のチャット履歴
+## 4. 記憶・実稼働の照合
 
-チャット履歴だけを正式な仕様として扱わないこと。
+- これは**読む順と確認場所の案内**であり、アプリや機能の順位付けではない。個別の現在地は最新の日付・証拠を持つ引き継ぎ／秘書AI／開発記録から確認する。
+- GitHubに記録された**設計・実装候補・CI結果**と、稼働コード・配信版・実機の動作は区別し、必要に応じて照合する。
+- 新しい判断は案件固有のMD、具体的な修正は既存の変更履歴に記録する。既存のファイルを履歴の無限追記で肥大化させず、過去の記録を無断で消さない。
+- 共通ルールを修正するときは共通リポジトリの正本だけを変更し、ここは参照リンクを維持する。
