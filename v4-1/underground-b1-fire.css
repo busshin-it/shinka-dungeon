@@ -223,3 +223,55 @@
  clip-path:polygon(48% 0,95% 58%,63% 93%,40% 100%,2% 55%);
  transform:translate(-50%,-50%) rotate(-54deg);box-shadow:none;
 }
+
+/* Original B1 elemental artwork fills the existing illustrated card area when
+   corresponding WebP assets are available. The CSS illustration remains a safe
+   fallback if a file is unavailable. Existing touch hitboxes and layout stay put. */
+.pilot-mode .b1-magic-card-art,.pilot-mode .b1-fire-shop-thumb{position:relative;overflow:hidden;}
+.pilot-mode .b1-original-elemental-img{
+ display:block;position:absolute;inset:0;width:100%;height:100%;
+ object-fit:cover;object-position:center 48%;z-index:2;
+ pointer-events:none;user-select:none;-webkit-user-drag:none;
+}
+/* Six B1 elemental practice cards: resolution-independent temporary CSS art.
+   Intentionally separate from the supplied 3-card single-fire illustration atlas.
+   Small/medium/large differ in both shape and intensity; no external art is claimed. */
+.pilot-mode .b1-magic-art--fire-rain-small,
+.pilot-mode .b1-magic-art--fire-rain-medium,
+.pilot-mode .b1-magic-art--fire-rain-large {
+ background-image:radial-gradient(circle at 22% 69%,#fbb453 0 4%,transparent 16%),
+ radial-gradient(circle at 75% 36%,#ff9c30 0 5%,transparent 18%),
+ radial-gradient(ellipse at 52% 67%,#ffca68 0%,#df5f20 23%,#612125 54%,#160d23 95%);
+}
+.pilot-mode .b1-magic-art--fire-rain-small::before{
+ width:19%;height:39%;aspect-ratio:auto;border:0;border-radius:5% 90% 45% 90%;
+ background:linear-gradient(0deg,#ff5c26,#fff3a9);box-shadow:0 0 13px #ffaf39;
+ transform:translate(-50%,-50%) rotate(32deg);
+}
+.pilot-mode .b1-magic-art--fire-rain-medium::before{
+ width:42%;height:53%;aspect-ratio:auto;border:0;border-radius:10% 85% 30% 80%;
+ background:linear-gradient(0deg,#e94326,#ffd36b 70%,#fff2aa);
+ box-shadow:0 0 0 9px #f67b3230,0 0 27px #ff8e2d;
+ transform:translate(-50%,-50%) rotate(35deg);
+}
+.pilot-mode .b1-magic-art--fire-rain-large::before{
+ width:72%;height:78%;aspect-ratio:auto;border:0;border-radius:9% 85% 20% 70%;
+ background:radial-gradient(ellipse at 45% 65%,#fff7d7,#ffa932 40%,#be1826 82%);
+ box-shadow:0 0 0 13px #ff603641,0 0 34px #ffba44;
+ transform:translate(-50%,-50%) rotate(35deg);
+}
+.pilot-mode .b1-magic-art--thunder-small,
+.pilot-mode .b1-magic-art--thunder-medium,
+.pilot-mode .b1-magic-art--thunder-large{
+ background-image:radial-gradient(ellipse at 49% 48%,#defcff 0%,#4fbce9 17%,#2641a0 49%,#0b1028 97%);
+}
+.pilot-mode .b1-magic-art--thunder-small::before,
+.pilot-mode .b1-magic-art--thunder-medium::before,
+.pilot-mode .b1-magic-art--thunder-large::before{
+ height:80%;aspect-ratio:auto;border:0;border-radius:0;box-shadow:0 0 18px #8fe7fa;
+ background:linear-gradient(110deg,#fffde1,#8eebff 65%,#54a8f0);
+ clip-path:polygon(47% 0,87% 0,46% 41%,74% 41%,14% 100%,36% 51%,16% 51%);
+}
+.pilot-mode .b1-magic-art--thunder-small::before{width:24%;transform:translate(-50%,-50%) rotate(15deg)}
+.pilot-mode .b1-magic-art--thunder-medium::before{width:41%;transform:translate(-50%,-50%) rotate(-16deg);filter:drop-shadow(12px 2px 2px #b5f8ff)}
+.pilot-mode .b1-magic-art--thunder-large::before{width:76%;height:100%;transform:translate(-50%,-50%) rotate(13deg);filter:drop-shadow(-11px 1px 3px #e4faff)}

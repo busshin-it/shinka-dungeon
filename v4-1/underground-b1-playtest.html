@@ -120,7 +120,7 @@
 <p class="b1-install-disclaimer">インストール操作は端末側で行います。オフラインでのB1プレイには対応していません。</p>
 <button type="button" id="b1InstallGuideClose" class="primary">閉じる</button>
 </dialog>
-<dialog id="fireStarterDialog" class="b1-fire-dialog" aria-labelledby="fireStarterTitle"><h2 id="fireStarterTitle">火・闇・攻撃魔法から選ぶ</h2><p>属性魔法を1枚選び、初期デッキに加えて開始します。</p><div id="fireStarterChoices" class="b1-fire-starter-choices"></div><button id="fireStarterClose" type="button" class="quiet">戻る</button></dialog>
+<dialog id="fireStarterDialog" class="b1-fire-dialog" aria-labelledby="fireStarterTitle"><h2 id="fireStarterTitle">火・雷・闇・攻撃魔法から選ぶ</h2><p>属性魔法を1枚選び、初期デッキに加えて開始します。</p><div id="fireStarterChoices" class="b1-fire-starter-choices"></div><button id="fireStarterClose" type="button" class="quiet">戻る</button></dialog>
 <nav class="journey" aria-label="冒険の進み具合"><span>✦</span><span id="turnNum"></span></nav>
 <section id="setupPanel" class="stage pilot-setup b1-ref-setup" hidden><div class="pilot-setup-content b1-ref-panel">
 <div class="pilot-setup-head b1-ref-head"><img src="./assets/hero.webp" alt="蒼星の魔法師"><div><h2 id="setupHeading">護符を選ぶ</h2><span class="b1-ref-title-rule" aria-hidden="true"></span><p id="setupHint"></p></div></div>
@@ -186,6 +186,27 @@ const el=id=>document.getElementById(id);
 let game=createB1Game({seed:Date.now()}),targetId=null;
 const typeNames={attack:"攻撃",multi:"連撃",all:"全体攻撃",heal:"回復",poison:"状態異常",fragile:"状態異常",guard:"防御",draw:"ドロー",energy:"魔力",power:"能力",dragon:"召喚",dragonFeed:"育成",dragonBreath:"全体攻撃"};
 const art={rat:"wraith.webp",wolf:"bell-spirit.webp",imp:"gatekeeper.webp",guard:"gatekeeper.webp",carapace:"gatekeeper.webp",ritual:"wraith.webp",elite:"gatekeeper.webp",boss:"boss.webp"};
+// B1 artwork mapping. If an image has not yet been uploaded, keep the CSS
+// placeholder rather than showing a broken image or changing card effects.
+const B1_ELEMENTAL_ART=Object.freeze({
+ "fire-rain-small":"fire-aoe-small.webp",
+ "fire-rain-medium":"fire-aoe-medium.webp",
+ "fire-rain-large":"fire-aoe-large.webp",
+ "thunder-small":"thunder-single-small.webp",
+ "thunder-medium":"thunder-single-medium.webp",
+ "thunder-large":"thunder-single-large.webp"
+});
+const unavailableB1Art=new Set();
+function attachB1OriginalArt(parent,artKey){
+ const filename=B1_ELEMENTAL_ART[artKey];
+ if(!filename||unavailableB1Art.has(filename))return;
+ const img=document.createElement("img");
+ img.className="b1-original-elemental-img";
+ img.alt="";img.decoding="async";img.draggable=false;
+ img.addEventListener("error",()=>{unavailableB1Art.add(filename);img.remove();},{once:true});
+ img.src="./assets/"+filename;
+ parent.append(img);
+}
 const percent=(n,max)=>Math.max(0,Math.min(100,Math.round(n*100/Math.max(1,max))))+"%";
 function cardButton(id){
  const c=getB1Card(id),btn=document.createElement("button");btn.type="button";btn.className="card pilot-card b1-text-card";
@@ -200,7 +221,7 @@ function cardButton(id){
    picture.setAttribute("aria-hidden","true");btn.classList.add("b1-art-card","b1-fire-card");btn.append(picture);
  }else if(c.magicArt){
    const picture=document.createElement("span");picture.className="b1-magic-card-art b1-magic-art--"+c.magicArt;
-   picture.setAttribute("aria-hidden","true");btn.classList.add("b1-art-card","b1-magic-card");btn.append(picture);
+   picture.setAttribute("aria-hidden","true");attachB1OriginalArt(picture,c.magicArt);btn.classList.add("b1-art-card","b1-magic-card");btn.append(picture);
  }else if(c.art){
    const stage=c.kind==="dragon"?0:c.kind==="dragonFeed"?1:Math.max(2,game.snapshot().dragonStage);
    const visual=getB1DragonVisual(stage);
@@ -245,7 +266,7 @@ function renderSetup(){
    target.append(b);
  }
  const fireChoices=el("fireStarterChoices");fireChoices.replaceChildren();
- for(const id of ["fireSmall","fireMedium","fireLarge","darkBolt","abyssBolt","iceSpear","arcaneLance","shadowEcho","blizzard","thunderSurge","guideThrust","spellblade"]){
+ for(const id of ["fireSmall","fireMedium","fireLarge","fireWaveSmall","fireWaveMedium","fireWaveLarge","thunderSmall","thunderMedium","thunderLarge","darkBolt","abyssBolt","iceSpear","arcaneLance","shadowEcho","blizzard","thunderSurge","guideThrust","spellblade"]){
   const b=cardButton(id);b.classList.add("b1-fire-starter-card");
   b.addEventListener("click",()=>{if(game.selectStarter(id)){el("fireStarterDialog").close();targetId=null;render();}});
   fireChoices.append(b);
@@ -365,7 +386,7 @@ function renderOverlay(s){
      if(card.fireArt||card.magicArt){
      const thumb=document.createElement("span");
      thumb.className=card.fireArt?"b1-fire-shop-thumb b1-fire-art--"+card.fireArt:"b1-fire-shop-thumb b1-magic-card-art b1-magic-art--"+card.magicArt;
-     thumb.setAttribute("aria-hidden","true");b.prepend(thumb);
+     thumb.setAttribute("aria-hidden","true");if(card.magicArt)attachB1OriginalArt(thumb,card.magicArt);b.prepend(thumb);
     }
      b.addEventListener("click",()=>{if(game.buyShop(item.id))render();});items.append(b);});
    const purge=el("shopPurgeOpen");purge.disabled=s.shopPurged||s.gold<30||s.deck.length<=1;
