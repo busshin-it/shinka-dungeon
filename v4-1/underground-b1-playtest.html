@@ -228,6 +228,12 @@ function renderSetup(){
  const target=el("setupChoices");target.replaceChildren();
  for(const id of ["lightning","scatter","flow","dragonEgg"]){
    const b=cardButton(id);b.classList.add("pilot-start-card");
+   if(id==="dragonEgg"){
+    // The starter benefit is all three dragon cards; never leave an image-only option.
+    const description="召喚・育成・竜息の3枚で開始。進化すると攻撃。次の戦闘は卵から。";
+    b.querySelector(".desc").textContent=description;
+    b.setAttribute("aria-label","竜の卵、魔力1。"+description);
+   }
     // Each card shows its own section of the approved reference artwork.
     b.querySelector(".b1-dragon-card-art")?.remove();
     const artPanel=document.createElement("span");

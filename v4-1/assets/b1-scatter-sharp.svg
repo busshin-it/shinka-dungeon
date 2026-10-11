@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 768 768" role="img" aria-label="散弾の魔法、紫紅の魔弾が広範囲へ放たれる">
+<defs>
+ <radialGradient id="night"><stop stop-color="#37203f"/><stop offset=".55" stop-color="#171226"/><stop offset="1" stop-color="#080d1b"/></radialGradient>
+ <radialGradient id="burst"><stop stop-color="#fff2f9"/><stop offset=".12" stop-color="#f9a6ec"/><stop offset=".27" stop-color="#d449a7"/><stop offset=".52" stop-color="#7b296f" stop-opacity=".7"/><stop offset="1" stop-color="#310d45" stop-opacity="0"/></radialGradient>
+ <linearGradient id="flash"><stop stop-color="#ffe6ef"/><stop offset=".25" stop-color="#f9a2e7"/><stop offset=".67" stop-color="#bb4da3"/><stop offset="1" stop-color="#703679"/></linearGradient>
+ <linearGradient id="bolt"><stop stop-color="#8b325b" stop-opacity="0"/><stop offset=".42" stop-color="#e99fdd" stop-opacity=".6"/><stop offset=".5" stop-color="#fff7f9"/><stop offset=".62" stop-color="#ec6cc1" stop-opacity=".88"/><stop offset="1" stop-color="#6e2a5e" stop-opacity="0"/></linearGradient>
+ <filter id="glow" x="-120%" y="-120%" width="340%" height="340%"><feGaussianBlur stdDeviation="13"/></filter>
+ <filter id="soft" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="3.5"/></filter>
+ <pattern id="rune" width="86" height="86" patternUnits="userSpaceOnUse" patternTransform="rotate(13)"><path d="M43 0v86M0 43h86" stroke="#8c527b" stroke-width=".7" opacity=".35"/><circle cx="43" cy="43" r="17" fill="none" stroke="#bc609c" stroke-width=".65" opacity=".2"/></pattern>
+</defs>
+<rect width="768" height="768" fill="url(#night)"/>
+<path d="M-15 558q148-130 240-93t185-63 371-108v490H0Z" fill="#140d23" opacity=".7"/>
+<path d="M0 130q144-65 270 23t250-7 248-2v140q-196-81-295 5t-209-28Q135 169 0 230Z" fill="#3e1e49" opacity=".24"/>
+<rect width="768" height="768" fill="url(#rune)"/>
+<!-- Magenta magical blast with many sharply delineated projectiles -->
+<ellipse cx="340" cy="385" rx="380" ry="320" fill="url(#burst)" opacity=".85"/>
+<path d="M-30 468Q175 417 355 388T796 126" fill="none" stroke="#a43c86" stroke-width="47" opacity=".3" filter="url(#glow)"/>
+<path d="M-24 580Q160 468 360 377T788 350" fill="none" stroke="#bc4f98" stroke-width="37" opacity=".35" filter="url(#glow)"/>
+<path d="M-10 660Q212 472 392 397T790 544" fill="none" stroke="#c75a9d" stroke-width="33" opacity=".32" filter="url(#glow)"/>
+<g fill="none" stroke-linecap="round">
+ <path d="M-45 600Q194 449 402 376T798 150" stroke="url(#bolt)" stroke-width="19" opacity=".72"/>
+ <path d="M-45 605Q194 449 402 376T798 150" stroke="#ffe5f6" stroke-width="3" opacity=".85"/>
+ <path d="M-10 675Q174 510 392 399T802 395" stroke="url(#bolt)" stroke-width="15"/>
+ <path d="M-10 675Q174 510 392 399T802 395" stroke="#ffd9f2" stroke-width="2.5" opacity=".84"/>
+ <path d="M42 758Q230 555 386 391T807 618" stroke="url(#bolt)" stroke-width="18"/>
+ <path d="M42 758Q230 555 386 391T807 618" stroke="#efb7ee" stroke-width="2.5" opacity=".82"/>
+ <path d="M-20 270Q204 392 385 370T783 57" stroke="url(#bolt)" stroke-width="14"/>
+ <path d="M-20 270Q204 392 385 370T783 57" stroke="#ffd4ef" stroke-width="2" opacity=".75"/>
+ <path d="M-5 143Q197 364 369 381T788 770" stroke="url(#bolt)" stroke-width="13" opacity=".8"/>
+</g>
+<g fill="#160c2e" stroke="#e6a0d6" stroke-width="2">
+ <path d="M484 178l50-92 19 77-48 73z"/><path d="M577 331l76-36-43 81-58 19z"/>
+ <path d="M630 504l58-24-6 59-62 31-20-31z"/><path d="M431 623l53 12-9 79-51-20z"/>
+ <path d="M196 255l-46-75 13 96-34 30 82-2z"/><path d="M216 589l-67 34 54-3-11 57 55-51z"/>
+ <path d="M333 104l-18-42 43 37 20 48-34-13z"/><path d="M681 183l-15-59 54 29 22 36-48 27z"/>
+</g>
+<g stroke="#f6bfe8" stroke-linejoin="round" stroke-width="1.6" fill="url(#flash)" opacity=".9">
+ <path d="M344 325l40 36 104-35-78 74 31 95-71-65-111 32 77-77z"/>
+ <path d="M525 144l16 17 71-8-53 35 13 55-38-35-68 7 52-28z"/>
+ <path d="M618 349l30 12 61-28-29 51 25 40-48-13-37 40 3-61z"/>
+ <path d="M574 536l29 22 75 3-60 26-5 51-34-37-56 18 35-46z"/>
+ <path d="M206 536l23 20 65-9-44 36 5 43-38-23-53 27 32-47z"/>
+ <path d="M182 313l31 8 72-34-41 50 17 56-52-24-53 39 16-63z"/>
+ <path d="M395 159l12 18 55-17-36 32 18 35-39-16-35 32 14-47z"/>
+</g>
+<g filter="url(#soft)" opacity=".64" fill="#ffd6f5">
+ <circle cx="373" cy="384" r="42"/><circle cx="530" cy="188" r="24"/><circle cx="652" cy="395" r="28"/><circle cx="596" cy="566" r="22"/>
+</g>
+<g fill="#fff9ff"><circle cx="373" cy="384" r="13"/><circle cx="530" cy="188" r="8"/><circle cx="652" cy="395" r="8"/><circle cx="596" cy="566" r="7"/>
+<circle cx="219" cy="340" r="6"/><circle cx="231" cy="582" r="7"/><circle cx="411" cy="196" r="5"/></g>
+<g stroke="#f5b5e4" stroke-width="1" fill="none" opacity=".8">
+ <circle cx="373" cy="384" r="61" stroke-dasharray="2 18"/><circle cx="373" cy="384" r="91" opacity=".5"/><path d="M371 254v63M370 452v75M245 385h70M436 385h67"/>
+ <circle cx="530" cy="188" r="31" stroke-dasharray="5 8"/><circle cx="652" cy="395" r="37" stroke-dasharray="4 6"/>
+</g>
+<g fill="#f4c9eb" opacity=".8">
+ <circle cx="91" cy="211" r="2"/><circle cx="150" cy="105" r="1.5"/><circle cx="287" cy="152" r="2"/><circle cx="693" cy="87" r="2"/><circle cx="715" cy="682" r="2"/><circle cx="112" cy="705" r="1.5"/><circle cx="67" cy="424" r="2.5"/>
+</g>
+</svg>
