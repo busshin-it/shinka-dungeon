@@ -131,6 +131,8 @@ test("eight cards are visible in the UI and shop art, while battle gestures rema
  const choicesIndex=html.indexOf('id="setupChoices"');
  assert.ok(setupIndex>=0&&quickStartIndex>setupIndex&&quickStartIndex<choicesIndex,
    "physical-only start button must be in the initial visible area BEFORE the large grid");
+ assert.ok(html.includes('new URLSearchParams(window.location.search).get("start")==="physical"'),
+   "physical trial URL must directly enter the pure-physical deck");
  assert.ok(html.includes('id="physicalStarterDialogOpen"'),
    "people opening the spell dialog need a direct pure-physical option too");
  assert.ok(html.includes('el("physicalStarterOpen").addEventListener("click"'));
