@@ -1,5 +1,7 @@
 # 進化ダンジョン
 
+**新しいチャット・Workへの引き継ぎ：** [AI_HANDOFF.md](AI_HANDOFF.md)（読む順と安全境界）／[CURRENT_STATE.md](CURRENT_STATE.md)（短い現在地）。過去の履歴を毎回読み直す必要はありません。
+
 > **現在の開発状況・未確認・次の一手**は [CURRENT_STATE.md](CURRENT_STATE.md) を参照してください。AIの入口は [AGENTS.md](AGENTS.md)、全アプリ共通の約束は [7つの開発原則](https://github.com/busshin-it/ai-development-brain/blob/main/AI_EXTERNAL_BRAIN.md) です。README内の古い版名や当時の「次に作るもの」は**履歴・背景**として読み、最新の配信状態と混同しません。アプリ間に固定的な優先順位はありません。
 
 
