@@ -120,7 +120,7 @@
 <p class="b1-install-disclaimer">インストール操作は端末側で行います。オフラインでのB1プレイには対応していません。</p>
 <button type="button" id="b1InstallGuideClose" class="primary">閉じる</button>
 </dialog>
-<dialog id="fireStarterDialog" class="b1-fire-dialog" aria-labelledby="fireStarterTitle"><h2 id="fireStarterTitle">火・雷・黒魔法・攻撃魔法から選ぶ</h2><p>属性魔法を1枚選び、初期デッキに加えて開始します。</p><div id="fireStarterChoices" class="b1-fire-starter-choices"></div><button id="fireStarterClose" type="button" class="quiet">戻る</button></dialog>
+<dialog id="fireStarterDialog" class="b1-fire-dialog" aria-labelledby="fireStarterTitle"><h2 id="fireStarterTitle">火・雷・黒魔法・物理攻撃から選ぶ</h2><p>属性魔法を1枚選び、初期デッキに加えて開始します。</p><div id="fireStarterChoices" class="b1-fire-starter-choices"></div><button id="fireStarterClose" type="button" class="quiet">戻る</button></dialog>
 <nav class="journey" aria-label="冒険の進み具合"><span>✦</span><span id="turnNum"></span></nav>
 <section id="setupPanel" class="stage pilot-setup b1-ref-setup" hidden><div class="pilot-setup-content b1-ref-panel">
 <div class="pilot-setup-head b1-ref-head"><img src="./assets/hero.webp" alt="蒼星の魔法師"><div><h2 id="setupHeading">護符を選ぶ</h2><span class="b1-ref-title-rule" aria-hidden="true"></span><p id="setupHint"></p></div></div>
@@ -184,7 +184,7 @@ import {showB1Feedback} from "./underground-b1-feedback.mjs";
 import {getB1DragonVisual} from "./underground-b1-dragon-visuals.mjs";
 const el=id=>document.getElementById(id);
 let game=createB1Game({seed:Date.now()}),targetId=null;
-const typeNames={attack:"攻撃",multi:"連撃",all:"全体攻撃",heal:"回復",poison:"状態異常",fragile:"状態異常",confuse:"混乱",curse:"呪い",hallucinate:"幻覚",guard:"防御",draw:"ドロー",energy:"魔力",power:"能力",dragon:"召喚",dragonFeed:"育成",dragonBreath:"全体攻撃"};
+const typeNames={attack:"攻撃",multi:"連撃",all:"全体攻撃",heal:"回復",poison:"状態異常",fragile:"状態異常",confuse:"混乱",curse:"呪い",hallucinate:"幻覚",guard:"防御",draw:"ドロー",energy:"魔力",power:"能力",dragon:"召喚",dragonFeed:"育成",dragonBreath:"全体攻撃",physicalPower:"強化",adversity:"反撃準備"};
 const art={rat:"wraith.webp",wolf:"bell-spirit.webp",imp:"gatekeeper.webp",guard:"gatekeeper.webp",carapace:"gatekeeper.webp",ritual:"wraith.webp",elite:"gatekeeper.webp",boss:"boss.webp"};
 // B1 artwork mapping. If an image has not yet been uploaded, keep the CSS
 // placeholder rather than showing a broken image or changing card effects.
@@ -244,8 +244,8 @@ function current(s){
  return s.enemies.find(e=>e.id===targetId)||s.enemies[0];
 }
 function renderSetup(){
- el("setupHeading").textContent="最初の魔法を選ぶ";
- el("setupHint").textContent="魔法を選んでB1の5戦へ。竜の卵を選ぶと召喚・育成・竜息の3枚で開始。ボス練習は下のボタンから。";
+ el("setupHeading").textContent="最初の戦い方を選ぶ";
+ el("setupHint").textContent="魔法1枚を追加するか、物理だけの9枚で開始。魔法なしなら鉄槌が使える。竜の卵は召喚・育成・竜息の3枚で開始。";
  const target=el("setupChoices");target.replaceChildren();
  for(const id of ["lightning","scatter","flow","dragonEgg"]){
    const b=cardButton(id);b.classList.add("pilot-start-card");
@@ -265,8 +265,18 @@ function renderSetup(){
    b.addEventListener("click",()=>{if(game.selectStarter(id)){targetId=null;render();}});
    target.append(b);
  }
+ // Optional non-magic start makes 鉄槌 legitimately playable without changing existing mage decks.
+ const physicalStart=cardButton("bludgeon");
+ physicalStart.classList.add("pilot-start-card","b1-physical-starter-option");
+ physicalStart.querySelector(".cost").textContent="拳";
+ physicalStart.querySelector(".type").textContent="物理";
+ physicalStart.querySelector(".pilot-card-copy strong").textContent="物理デッキで開始";
+ physicalStart.querySelector(".desc").textContent="魔法0枚・物理9枚で開始。鉄槌も使用可能。";
+ physicalStart.setAttribute("aria-label","物理デッキで開始。魔法ゼロの9枚。鉄槌も使える。");
+ physicalStart.addEventListener("click",()=>{if(game.selectStarter("physical")){targetId=null;render();}});
+ target.append(physicalStart);
  const fireChoices=el("fireStarterChoices");fireChoices.replaceChildren();
- for(const id of ["fireSmall","fireMedium","fireLarge","fireWaveSmall","fireWaveMedium","fireWaveLarge","thunderSmall","thunderMedium","thunderLarge","darkBolt","abyssBolt","mentalCollapse","curse","deathSong","hallucination","iceSpear","arcaneLance","shadowEcho","blizzard","thunderSurge","guideThrust","spellblade"]){
+ for(const id of ["fireSmall","fireMedium","fireLarge","fireWaveSmall","fireWaveMedium","fireWaveLarge","thunderSmall","thunderMedium","thunderLarge","darkBolt","abyssBolt","mentalCollapse","curse","deathSong","hallucination","iceSpear","arcaneLance","shadowEcho","blizzard","thunderSurge","guideThrust","spellblade","bludgeon","rapidPunch","heavyBlow","sneakHit","ironHammer","doping","adversity","rage"]){
   const b=cardButton(id);b.classList.add("b1-fire-starter-card");
   b.addEventListener("click",()=>{if(game.selectStarter(id)){el("fireStarterDialog").close();targetId=null;render();}});
   fireChoices.append(b);
@@ -361,7 +371,7 @@ function renderStage(s){
  if(casting)el("intentText").textContent=(enemy.channelBroken?"詠唱中断済み":"詠唱阻止 "+enemy.channelDamage+"/"+B1_BOSS_CHANNEL_THRESHOLD)+" · "+(next?.label||"");
  if(next?.kind==="attack")el("intentText").textContent+=(enemy.confusionAttacks>0?" · 狙いランダム":"")+(enemy.hallucinationAttacks>0?" · 命中50％":"");
  const effects=el("effectBadges");effects.replaceChildren();
- const chips=[["🛡",s.block],["敵防御",enemy.block],["敵強化",enemy.strength],["自強化",s.strength],["❄",enemy.weaken],["☠",enemy.poison],["✧",enemy.vulnerable],["混乱",enemy.confusionAttacks],["幻覚",enemy.hallucinationAttacks],["呪い",enemy.curses?.reduce((sum,curse)=>sum+curse.next,0)||0],["📖",s.powerDraw]];
+ const chips=[["薬力",s.dopingBonus],["逆境",s.nextPhysicalAttackBonus],["前ターンHP被害",s.lastTurnHpLoss],["🛡",s.block],["敵防御",enemy.block],["敵強化",enemy.strength],["自強化",s.strength],["❄",enemy.weaken],["☠",enemy.poison],["✧",enemy.vulnerable],["混乱",enemy.confusionAttacks],["幻覚",enemy.hallucinationAttacks],["呪い",enemy.curses?.reduce((sum,curse)=>sum+curse.next,0)||0],["📖",s.powerDraw]];
  if(enemy.role==="boss"){const n=s.enemies.filter(e=>e.role==="guard"&&e.hp>0).length;if(n)chips.push(["護衛",n*2]);}
  for(const [name,n] of chips){if(n<=0)continue;const chip=document.createElement("span");chip.className="pilot-chip";chip.textContent=name+" "+n;effects.append(chip);}
  el("relicStatus").hidden=true;
@@ -427,7 +437,7 @@ function render(){
  renderStage(s);renderOverlay(s);
  const hand=el("hand");hand.replaceChildren();hand.hidden=s.phase!=="battle";
  if(s.phase==="battle")s.hand.forEach((id,index)=>{
-  const c=getB1Card(id),b=cardButton(id);b.disabled=c.cost>s.energy||(c.kind==="dragonFeed"&&(s.dragonStage<0||s.hand.length<2));
+  const c=getB1Card(id),b=cardButton(id);b.disabled=c.cost>s.energy||(c.requiresPureDeck&&s.deck.some(id=>getB1Card(id)?.weapon!==true))||(c.kind==="dragonFeed"&&(s.dragonStage<0||s.hand.length<2));
   actions.bindHandCard(b,index);hand.append(b);
   if(newTurn){b.classList.add("b1-dealt");b.style.animationDelay=(index*45)+"ms";}
  });
