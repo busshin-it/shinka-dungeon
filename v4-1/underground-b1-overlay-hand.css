@@ -126,6 +126,11 @@
 .pilot-mode #playScreen .pilot-card.b1-picked{
   z-index:22;
 }
+/* During rewards, rest and the shop, use the full screen for choices. */
+.pilot-mode #playScreen:has(#journeyPanel:not([hidden])) > .table{
+ visibility:hidden;
+ pointer-events:none;
+}
 /* The deck and action bar remain visible; the hand itself has no solid slab. */
 @media (orientation:landscape) and (max-height:600px){
  .pilot-mode #playScreen{--b1-hand-dock:clamp(132px,34dvh,169px);}
