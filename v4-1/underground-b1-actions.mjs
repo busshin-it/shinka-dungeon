@@ -117,7 +117,7 @@ export function attachB1Actions({hand,stage,enemyPuppet,choices,cards,read,selec
   // Enlarged but bounded target hit zones make a direct drag-release forgiving,
   // without selecting a different enemy across the room.
   for(const enemy of choices.querySelectorAll("[data-b1-enemy]")){
-   if(enemy.disabled)return null;
+   if(enemy.disabled)continue;
    const r=enemy.getBoundingClientRect();
    if(x>=r.left-18&&x<=r.right+18&&y>=r.top-18&&y<=r.bottom+18)
     return enemy.dataset.b1Enemy;
