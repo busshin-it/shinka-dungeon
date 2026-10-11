@@ -167,7 +167,7 @@
  background-image:url("./assets/star-relay.webp");
 }
 .pilot-mode #setupPanel .b1-ref-panel .pilot-choices .pilot-start-card .b1-starter-card-art--scatter{
- background-image:url("./assets/pilot-doom-bullet.webp");
+ background-image:url("./assets/b1-scatter-sharp.svg");
 }
 .pilot-mode #setupPanel .b1-ref-panel .pilot-choices .pilot-start-card .b1-starter-card-art--flow{
  background-image:url("./assets/star-bookmark.webp");
@@ -177,4 +177,82 @@
 }
 @media(max-width:450px){
  .pilot-mode #setupPanel .b1-ref-panel .pilot-choices .pilot-start-card .b1-starter-card-art{height:52%;flex-basis:52%}
+}
+
+/* Starter card image/text boundary: the egg illustration must never cover its effect.
+   These rules affect only the four B1 start choices, not the battle hand. */
+.pilot-mode #setupPanel .b1-ref-panel .pilot-choices .pilot-start-card{
+ display:grid;
+ grid-template-columns:minmax(0,1fr);
+ grid-template-rows:minmax(0,58%) minmax(0,42%);
+ align-items:stretch;
+}
+.pilot-mode #setupPanel .b1-ref-panel .pilot-choices .pilot-start-card .b1-starter-card-art{
+ grid-column:1;grid-row:1;
+ display:block;
+ box-sizing:border-box;
+ width:100%;height:100%;min-height:0;max-height:100%;
+ flex:none;overflow:hidden;
+ position:relative;isolation:isolate;
+ background-size:cover;background-position:center;
+}
+.pilot-mode #setupPanel .b1-ref-panel .pilot-choices .pilot-start-card .pilot-card-copy{
+ grid-column:1;grid-row:2;
+ box-sizing:border-box;
+ display:flex;flex-direction:column;justify-content:flex-start;
+ width:100%;height:100%;min-height:0;
+ flex:none;
+ overflow:hidden;
+ position:relative;
+ z-index:2;
+ background:linear-gradient(180deg,#f8ecd2,#f2e4ca);
+ padding:clamp(8px,1vw,13px) 7px 6px;
+}
+.pilot-mode #setupPanel .b1-ref-panel .pilot-choices .pilot-start-card .pilot-card-copy strong{
+ display:block;flex:0 0 auto;
+ width:100%;padding-bottom:6px;margin:0 0 7px;
+ font-size:clamp(15px,1.7vw,25px);
+}
+.pilot-mode #setupPanel .b1-ref-panel .pilot-choices .pilot-start-card .pilot-card-copy .desc{
+ display:block;min-height:0;overflow:auto;
+ -webkit-line-clamp:unset;line-clamp:unset;
+ font-size:clamp(11px,1.08vw,16px);line-height:1.35;
+}
+/* Contain the 3:4 dragon-atlas crop to the egg art frame; no pseudo-art
+   may overlap the independently painted cream-colored description area. */
+.pilot-mode #setupPanel .b1-ref-panel .pilot-choices .pilot-start-card .b1-starter-card-art--dragonEgg{
+ overflow:hidden;z-index:0;
+ background-image:none;
+}
+.pilot-mode #setupPanel .b1-ref-panel .pilot-choices .pilot-start-card .b1-starter-card-art--dragonEgg::before{
+ z-index:0;
+ pointer-events:none;
+}
+@media(max-height:720px) and (min-width:851px){
+ .pilot-mode #setupPanel .b1-ref-panel .pilot-choices .pilot-start-card{
+  grid-template-rows:minmax(0,53%) minmax(0,47%);
+ }
+ .pilot-mode #setupPanel .b1-ref-panel .pilot-choices .pilot-start-card .pilot-card-copy{
+  padding:7px 5px 5px;
+ }
+ .pilot-mode #setupPanel .b1-ref-panel .pilot-choices .pilot-start-card .pilot-card-copy strong{
+  font-size:clamp(14px,1.5vw,21px);margin-bottom:4px;padding-bottom:4px;
+ }
+ .pilot-mode #setupPanel .b1-ref-panel .pilot-choices .pilot-start-card .pilot-card-copy .desc{
+  font-size:clamp(10.5px,1vw,14px);line-height:1.25;
+ }
+}
+@media(max-width:450px){
+ .pilot-mode #setupPanel .b1-ref-panel .pilot-choices .pilot-start-card{
+  grid-template-rows:minmax(0,50%) minmax(0,50%);
+ }
+ .pilot-mode #setupPanel .b1-ref-panel .pilot-choices .pilot-start-card .pilot-card-copy{
+  padding:6px 4px 4px;
+ }
+ .pilot-mode #setupPanel .b1-ref-panel .pilot-choices .pilot-start-card .pilot-card-copy strong{
+  font-size:14px;
+ }
+ .pilot-mode #setupPanel .b1-ref-panel .pilot-choices .pilot-start-card .pilot-card-copy .desc{
+  font-size:10px;line-height:1.24;
+ }
 }
