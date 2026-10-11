@@ -18,13 +18,13 @@ test("browser cannot steal initial touch: card pan is disabled but swipe remains
  assert.equal(b1PointerIntent(10,-30,"touch"),"drag");
  assert.equal(b1PointerIntent(55,2,"touch"),"scroll");
 });
-test("card sizes are larger, and transparent fan stays on original full-height mage scene",()=>{
- assert.match(css,/--b1-hand-dock:clamp\(315px,45dvh,425px\)/);
- assert.match(css,/flex:0 0 clamp\(225px,15vw,275px\)/);
- assert.match(css, /margin-inline-start:calc\(-1 \* clamp\(36px,3\.3vw,56px\)\)/);
- assert.match(css,/--b1-hand-dock:clamp\(235px,62dvh,330px\)/);
- assert.match(css,/flex:0 0 clamp\(172px,19vw,210px\)/);
- assert.match(css, /--b1-hand-dock:275px/);
+test("card dimensions match the 25% downsize while the full-height mage scene remains",()=>{
+ assert.match(css,/--b1-hand-dock:clamp\(236px,33\.75dvh,319px\)/);
+ assert.match(css,/flex:0 0 clamp\(169px,11\.25vw,206px\)/);
+ assert.match(css, /margin-inline-start:calc\(-1 \* clamp\(27px,2\.475vw,42px\)\)/);
+ assert.match(css,/--b1-hand-dock:clamp\(176px,46\.5dvh,248px\)/);
+ assert.match(css,/flex:0 0 clamp\(129px,14\.25vw,158px\)/);
+ assert.match(css, /--b1-hand-dock:206px/);
  assert.match(css,/background:transparent/);
  assert.match(css,/#playScreen > \.stage\{[\s\S]*?height:100%/);
  for(const id of ["heroPuppet","enemyPuppet","hand","endTurn","enemyLineup"])
