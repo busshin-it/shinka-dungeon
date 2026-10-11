@@ -311,3 +311,59 @@
  box-shadow:0 0 0 14px #a1d6e944,0 0 21px #f6d8ff,inset 0 0 19px #d6b5ff;
  transform:translate(-50%,-50%) rotate(45deg);
 }
+
+
+/* B1 physical fighter prototypes. These CSS-only marks stay readable in shop,
+   selection, and the existing swipeable hand until individual illustrations arrive. */
+.pilot-mode .b1-magic-art--physical-bludgeon,
+.pilot-mode .b1-magic-art--physical-rapid,
+.pilot-mode .b1-magic-art--physical-heavy,
+.pilot-mode .b1-magic-art--physical-sneak,
+.pilot-mode .b1-magic-art--physical-hammer,
+.pilot-mode .b1-magic-art--physical-doping,
+.pilot-mode .b1-magic-art--physical-adversity,
+.pilot-mode .b1-magic-art--physical-rage{
+ background-image:radial-gradient(circle at 52% 55%,#f1d9b8 0%,#b5744b 19%,#573633 43%,#181927 85%);
+}
+.pilot-mode .b1-magic-art--physical-bludgeon::before,
+.pilot-mode .b1-magic-art--physical-rapid::before,
+.pilot-mode .b1-magic-art--physical-heavy::before{
+ border:0;border-radius:24% 30% 18% 35%;aspect-ratio:auto;
+ width:43%;height:68%;background:linear-gradient(135deg,#f8dfb5,#ab6670 52%,#573247);
+ box-shadow:0 0 0 9px #f9bd7244,0 0 22px #ffd38d;
+ transform:translate(-50%,-50%) rotate(-30deg);
+}
+.pilot-mode .b1-magic-art--physical-rapid::before{width:54%;height:49%;transform:translate(-50%,-50%) rotate(20deg);box-shadow:-17px -5px 0 #cd8e61,15px 9px 0 #f0bd7a}
+.pilot-mode .b1-magic-art--physical-heavy::before{width:67%;height:76%;transform:translate(-50%,-50%) rotate(-50deg);box-shadow:0 0 0 12px #d2714944,0 0 28px #ffd59d}
+.pilot-mode .b1-magic-art--physical-sneak{background-image:radial-gradient(ellipse at 40% 55%,#d2cfe5,#556382 35%,#172233 80%)}
+.pilot-mode .b1-magic-art--physical-sneak::before{
+ border:0;border-radius:0;width:24%;height:90%;aspect-ratio:auto;
+ background:linear-gradient(90deg,#cbddeb,#fef9d8 50%,#83949e);
+ clip-path:polygon(50% 0,85% 21%,60% 75%,35% 100%,15% 28%);
+ transform:translate(-50%,-50%) rotate(-46deg);box-shadow:none;
+}
+.pilot-mode .b1-magic-art--physical-hammer{background-image:radial-gradient(ellipse at 50% 55%,#fce1a9,#b56f45 27%,#382b36 68%,#111923 100%)}
+.pilot-mode .b1-magic-art--physical-hammer::before{
+ border:0;border-radius:9%;width:70%;height:53%;aspect-ratio:auto;
+ background:linear-gradient(135deg,#d8e3e7,#677b84 55%,#282d40);
+ transform:translate(-50%,-50%) rotate(-30deg);box-shadow:5px 12px 0 -1px #8d563e,0 0 23px #ffb777;
+}
+.pilot-mode .b1-magic-art--physical-doping{background-image:radial-gradient(ellipse at 50% 45%,#ffedb7,#ce6f48 26%,#4a2332 65%,#191825)}
+.pilot-mode .b1-magic-art--physical-doping::before{
+ border:3px solid #fff6c1;border-radius:12% 12% 32% 32%;width:38%;height:75%;
+ background:linear-gradient(to top,#ec5b2a 0 49%,#f6b995 50% 56%,transparent 56%);
+ box-shadow:0 0 17px #ffd08b;transform:translate(-50%,-50%) rotate(13deg);
+}
+.pilot-mode .b1-magic-art--physical-adversity{background-image:radial-gradient(ellipse,#ff8e78 4%,#8d3039 28%,#351b34 65%,#171928)}
+.pilot-mode .b1-magic-art--physical-adversity::before{
+ border:0;border-radius:50%;width:64%;height:64%;
+ background:conic-gradient(from 45deg,#f0aa85,#80324e,#f9e8c6,#a84a4d,#f0aa85);
+ box-shadow:0 0 0 9px #e9674e3e,0 0 25px #d85955;
+}
+.pilot-mode .b1-magic-art--physical-rage{background-image:radial-gradient(ellipse at 50% 64%,#fff0b9,#f77432 28%,#9d1723 56%,#261825 89%)}
+.pilot-mode .b1-magic-art--physical-rage::before{
+ border:0;border-radius:10% 86% 17% 70%;width:70%;height:85%;aspect-ratio:auto;
+ background:radial-gradient(ellipse at 55% 80%,#ffeac4,#ff9138 43%,#a90f31 87%);
+ box-shadow:0 0 0 12px #e746423a,0 0 31px #ff9445;
+ transform:translate(-50%,-50%) rotate(33deg);
+}
