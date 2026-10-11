@@ -50,7 +50,7 @@ test("B1 hides the original single-enemy puppet only when the full lineup is act
 });
 test("drag targeting and action feedback animate actual selected actor, not the old hidden puppet",()=>{
  assert.match(controls,/choices\.querySelectorAll\("\[data-b1-enemy\]"\)/);
- assert.match(controls,/node\.closest\("\[data-b1-enemy\]"\)/);
+ assert.match(controls,/node\?\.closest\?\.\("\[data-b1-enemy\]"\)/);
  assert.match(controls,/stage\.classList\.contains\("b1-multi"\)/);
  assert.match(fx,/const anchorFor=id=>buttonFor\(id\)\|\|enemy/);
  assert.match(fx,/shake\(anchorFor\(old\.id\)\)/);
