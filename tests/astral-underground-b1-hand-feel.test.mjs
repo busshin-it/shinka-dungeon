@@ -68,6 +68,36 @@ test("horizontal touch scrolling does not create a ghost or cast a card",()=>{
   assert.equal(f.casts.length,0);
  }finally{f.restore();}
 });
+test("one uninterrupted touch starts dragging from the very first press; no preliminary tap is needed",()=>{
+ const f=createFixture();
+ try{
+  f.touch("pointerdown",120,500);
+  assert.equal(f.button.captured,true,"capture begins on first pointerdown");
+  assert.equal(f.casts.length,0);
+  f.touch("pointermove",126,477);
+  assert.equal(f.stage.classList.contains("b1-casting"),true,"first upward swipe creates ghost");
+  f.touch("pointermove",360,190);
+  f.touch("pointerup",360,190);
+  assert.equal(f.casts.length,1,"releasing on enemy casts immediately");
+  assert.equal(f.casts[0][1],"rat");
+ }finally{f.restore();}
+});
+test("scrolling sideways on a card manually scrolls hand without selecting or casting",()=>{
+ const f=createFixture();
+ try{
+  f.hand.scrollLeft=68;
+  f.touch("pointerdown",120,500);
+  f.touch("pointermove",164,499);
+  assert.equal(f.hand.scrollLeft,24,"finger motion drives scrollLeft");
+  f.touch("pointermove",181,498);
+  assert.equal(f.hand.scrollLeft,7);
+  f.touch("pointerup",181,498);
+  assert.equal(f.casts.length,0);
+  assert.equal(f.button.classList.contains("b1-picked"),false);
+  f.button.emit("click",{});
+  assert.equal(f.button.classList.contains("b1-picked"),false,"suppress the synthetic click after scrolling");
+ }finally{f.restore();}
+});
 test("upward touch creates lift then casts at chosen enemy without duplicate click",()=>{
  const f=createFixture();
  try{
