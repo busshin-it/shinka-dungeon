@@ -59,6 +59,10 @@ export function attachB1Actions({hand,stage,enemyPuppet,choices,cards,read,selec
    const copy=button.cloneNode(true);
    copy.classList.remove("b1-picked","b1-pressing","b1-dealt","b1-drag-source");
    copy.removeAttribute?.("data-b1-hand");
+   // Expand the concise hand caption back to the complete effect in this
+   // floating preview. The real card stays short and is never re-rendered.
+   const fullDescription=copy.querySelector?.(".desc");
+   if(fullDescription?.dataset?.b1FullDesc)fullDescription.textContent=fullDescription.dataset.b1FullDesc;
    copy.disabled=false;copy.setAttribute("tabindex","-1");
    copy.style.setProperty("--b1-fan-angle","0deg");
    copy.style.setProperty("--b1-fan-drop","0px");
