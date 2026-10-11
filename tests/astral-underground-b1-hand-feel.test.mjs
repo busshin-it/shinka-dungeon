@@ -97,13 +97,28 @@ test("missed attack drop returns card for click targeting; Esc clears pending se
   assert.equal(f.button.classList.contains("b1-picked"),false);
  }finally{f.restore();}
 });
-test("quick tap retains original click and keyboard activation semantics",()=>{
+test("one quick tap lifts the guard card; arena tap casts once without synthetic double click",()=>{
  const f=createFixture("guard");
  try{
   f.touch("pointerdown",120,500);
   f.touch("pointerup",120,500);
+  assert.equal(f.button.classList.contains("b1-picked"),true);
+  assert.equal(f.casts.length,0);
   f.button.emit("click",{});
+  assert.equal(f.casts.length,0,"synthetic click after touch should not fire");
+  f.stage.emit("click",{target:{closest:()=>null}});
   assert.equal(f.casts.length,1);
   assert.equal(f.casts[0][1],null);
+ }finally{f.restore();}
+});
+test("mouse and keyboard click selects with a single activation; repeat click deselects",()=>{
+ const f=createFixture("attack");
+ try{
+  f.button.emit("click",{});
+  assert.equal(f.button.classList.contains("b1-picked"),true);
+  assert.equal(f.casts.length,0);
+  f.button.emit("click",{});
+  assert.equal(f.button.classList.contains("b1-picked"),false);
+  assert.equal(f.casts.length,0);
  }finally{f.restore();}
 });

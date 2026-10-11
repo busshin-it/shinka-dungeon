@@ -25,13 +25,17 @@ export const CARDS = Object.freeze({
  frostBreak:{name:"霜砕き",cost:1,kind:"attack",text:"5ダメージ。弱体の敵には＋7",damage:5,weakBonus:7},
  echoGuard:{name:"返響の盾",cost:1,kind:"guard",text:"防御4。先に攻撃していれば2枚引く",block:4,afterAttackDraw:2},
  lingeringPoison:{name:"余毒の頁",cost:1,kind:"poison",text:"毒2を付与。対象がすでに毒なら2枚引く",poison:2,poisonDraw:2},
+ darkBolt:{name:"闇弾",cost:1,kind:"attack",text:"5ダメージ。1枚引く",damage:5,draw:1,magicArt:"dark"},
+ abyssBolt:{name:"奈落弾",cost:2,kind:"attack",text:"敵1体に12ダメージ",damage:12,magicArt:"abyss"},
+ iceSpear:{name:"氷槍",cost:2,kind:"attack",text:"10ダメージ。弱体2を付与",damage:10,weaken:2,magicArt:"ice"},
+ arcaneLance:{name:"魔力槍",cost:1,kind:"attack",text:"敵1体に8ダメージ",damage:8,magicArt:"arcane"},
  dragonEgg:{name:"竜の卵",cost:1,kind:"dragon",text:"竜を召喚。既にいるなら1段階成長。",art:"b1-dragon-egg.webp"},
  dragonFeed:{name:"竜の餌",cost:0,kind:"dragonFeed",text:"竜を1段階成長。手札を1枚選んで捨てる。廃棄",dragonGrowth:1,exhaust:true,art:"b1-dragon-feed.webp"},
  dragonBreath:{name:"竜息",cost:1,kind:"dragonBreath",text:"敵全体に4＋竜の段階×3ダメージ。",damage:4,dragonPowerPerStage:3,art:"b1-dragon-breath.webp"}
 });
-export function getB1Card(id){const up=typeof id==="string"&&id.endsWith("~"),base=up?id.slice(0,-1):id;const card=CARDS[base];if(!card)return null;if(!up)return card;const next={...card,name:card.name+"＋"};if(Object.hasOwn({fireSmall:3,fireMedium:4,fireLarge:6},base)){
- const bonus={fireSmall:3,fireMedium:4,fireLarge:6}[base];
- next.damage+=bonus;next.text="敵1体に"+next.damage+"ダメージ";return next;
+export function getB1Card(id){const up=typeof id==="string"&&id.endsWith("~"),base=up?id.slice(0,-1):id;const card=CARDS[base];if(!card)return null;if(!up)return card;const next={...card,name:card.name+"＋"};if(Object.hasOwn({fireSmall:3,fireMedium:4,fireLarge:6,darkBolt:3,abyssBolt:4,iceSpear:3,arcaneLance:3},base)){
+ const bonus={fireSmall:3,fireMedium:4,fireLarge:6,darkBolt:3,abyssBolt:4,iceSpear:3,arcaneLance:3}[base];
+ next.damage+=bonus;next.text=(base==="darkBolt"?next.damage+"ダメージ。1枚引く":base==="iceSpear"?next.damage+"ダメージ。弱体2を付与":"敵1体に"+next.damage+"ダメージ");return next;
  }
  if(base==="dragonFeed"){next.dragonGrowth=2;next.text="竜を2段階成長。手札を1枚選んで捨てる。廃棄";return next;}const stat=["damage","block","heal","poison","weaken","vulnerable","energyGain","draw","strengthGain","powerDraw"].find(k=>Number.isFinite(card[k])&&card[k]>0);if(stat){const bonus=["damage","block","heal"].includes(stat)?3:1;next[stat]+=bonus;next.text=card.text+"（"+stat+"＋"+bonus+"）";}else{next.cost=Math.max(0,card.cost-1);next.text=card.text+"（魔力－1）";}return next;}
 export const STARTER = Object.freeze(["bolt","bolt","bolt","bolt","guard","guard","guard","guard","break"]);
@@ -69,7 +73,7 @@ export function createB1Game(options={}){
   const stage=s.stage===1?B1_FORK_ROUTES[s.selectedPath||"pack"]:STAGES[s.stage];s.enemies=stage.enemies.map(e=>({...clone(e),hp:e.maxHp,weaken:0,poison:0,vulnerable:0,block:0,strength:0,channelDamage:0,channelBroken:false}));s.turn=1;s.block=0;s.energy=3;s.attacksThisTurn=0;s.powerDraw=0;s.strength=0;
   s.dragonStage=-1;s.lastDragonEvolution=null;s.lastSynergy=null;s.hand=[];s.discard=[];s.exhaust=[];s.powers=[];s.draw=shuffle([...s.deck]);s.selected=s.enemies.find(e=>e.role!=="boss")?.id||s.enemies[0].id;s.phase="battle";drawCards(5);note(stage.name+"：戦闘開始。");
  }
- function selectStarter(id){if(s.phase!=="starter"||!["lightning","scatter","flow","dragonEgg","fireSmall","fireMedium","fireLarge"].includes(id))return false;
+ function selectStarter(id){if(s.phase!=="starter"||!["lightning","scatter","flow","dragonEgg","fireSmall","fireMedium","fireLarge","darkBolt","abyssBolt","iceSpear","arcaneLance"].includes(id))return false;
   if(id==="dragonEgg")s.deck.push("dragonEgg","dragonFeed","dragonBreath");else s.deck.push(id);
   start();return true;}
  function protectors(){return s.stage===STAGES.length-1?alive().filter(e=>e.role==="guard").length:0;}
@@ -278,7 +282,7 @@ export function createB1Game(options={}){
  else if(kind==="upgrade"){if(!Number.isInteger(index)||index<0||index>=s.deck.length||s.deck[index].endsWith("~"))return false;const id=s.deck[index];s.deck[index]=id+"~";note("休憩所："+getB1Card(id).name+"を強化。");}
  else return false;s.restPending=false;s.restUsed=true;s.restChoice=kind;return true;
 }
-const SHOP_STOCK=Object.freeze([{id:"ward",price:35},{id:"chain",price:40},{id:"frostBreak",price:35},{id:"echoGuard",price:30},{id:"lingeringPoison",price:30},{id:"fireSmall",price:25},{id:"fireMedium",price:40},{id:"fireLarge",price:55}]);
+const SHOP_STOCK=Object.freeze([{id:"ward",price:35},{id:"chain",price:40},{id:"frostBreak",price:35},{id:"echoGuard",price:30},{id:"lingeringPoison",price:30},{id:"fireSmall",price:25},{id:"fireMedium",price:40},{id:"fireLarge",price:55},{id:"darkBolt",price:35},{id:"abyssBolt",price:45},{id:"iceSpear",price:40},{id:"arcaneLance",price:35}]);
 function buyShop(id){
  if(s.phase!=="between"||s.stage!==2||!s.shopPending||s.shopUsed||s.practiceMode)return false;
  const item=SHOP_STOCK.find(item=>item.id===id);
