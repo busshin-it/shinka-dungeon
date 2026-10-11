@@ -5,44 +5,43 @@ import {b1PointerIntent} from "../v4-1/underground-b1-actions.mjs";
 
 const css=readFileSync(new URL("../v4-1/underground-b1-overlay-hand.css",import.meta.url),"utf8");
 const html=readFileSync(new URL("../v4-1/underground-b1-playtest.html",import.meta.url),"utf8");
-const lastSection=css.slice(css.indexOf("/* Bigger Slay-inspired"));
+const lastSection=css.slice(css.indexOf("/* B1 hand adjusted from oversized v20"));
 const clamp=(min,x,max)=>Math.min(max,Math.max(min,x));
-const cardMetrics=(vw,vh,orientation)=>{
- const isPortrait=orientation==="portrait"&&vw<=900;
- const isShort=orientation==="landscape"&&vh<=600;
- const mobileShort=isShort&&vw<=1100;
- const dock=isPortrait?275:isShort?clamp(235,vh*.62,330):clamp(315,vh*.45,425);
- const width=isPortrait?210:mobileShort?clamp(172,vw*.19,210):isShort?clamp(170,vw*.155,215):clamp(225,vw*.15,275);
- const chrome=isPortrait?37+13+2+4+9+3+5:isShort?34+9+9+4+4:39+14+2+15+5+5;
- return {dock,width,height:dock-chrome};
+const dimensions=(vw,vh,orientation,oversized=false)=>{
+ const portrait=orientation==="portrait"&&vw<=900;
+ const short=orientation==="landscape"&&vh<=600;
+ const mobileShort=short&&vw<=1100;
+ const dock=oversized?
+  (portrait?275:short?clamp(235,vh*.62,330):clamp(315,vh*.45,425)):
+  (portrait?206:short?clamp(176,vh*.465,248):clamp(236,vh*.3375,319));
+ const width=oversized?
+  (portrait?210:mobileShort?clamp(172,vw*.19,210):short?clamp(170,vw*.155,215):clamp(225,vw*.15,275)):
+  (portrait?158:mobileShort?clamp(129,vw*.1425,158):short?clamp(128,vw*.11625,161):clamp(169,vw*.1125,206));
+ return {dock,width};
 };
-test("fanned cards grow substantially from the prior 161px desktop-short / 128px mobile limits",()=>{
- let desktop=cardMetrics(1325,450,"landscape");
- assert.ok(desktop.width>=200&&desktop.width<=220);
- assert.ok(desktop.height>=200&&desktop.height<=250);
- assert.ok(desktop.width>=161*1.25);
- let android=cardMetrics(960,440,"landscape");
- assert.ok(android.width>=172,"landscape card is no longer only 128px");
- assert.ok(android.height>192,"card art/title/description remain visible");
- assert.ok(android.dock<440*.74,"retain a distinct upper combat target area");
- let tall=cardMetrics(1920,1080,"landscape");
- assert.ok(tall.width>=260&&tall.height>=325,"larger desktop cards");
- let portrait=cardMetrics(390,844,"portrait");
- assert.equal(portrait.width,210);
- assert.ok(portrait.height>195);
+test("cards and hand height are each about 25 percent smaller than the oversized previous build",()=>{
+ for(const [vw,vh,orientation] of [
+  [1325,450,"landscape"],[960,440,"landscape"],
+  [1920,1080,"landscape"],[390,844,"portrait"]
+ ]){
+  const old=dimensions(vw,vh,orientation,true);
+  const updated=dimensions(vw,vh,orientation,false);
+  assert.ok(updated.width/old.width>=.74&&updated.width/old.width<=.76,"width ratio "+vw+"x"+vh);
+  assert.ok(updated.dock/old.dock>=.74&&updated.dock/old.dock<=.76,"dock ratio "+vw+"x"+vh);
+ }
 });
-test("latest B1 card dimensions override earlier responsive values, with readable text",()=>{
+test("latest B1 card dimensions preserve full scene and readable text",()=>{
  for(const token of [
-  "--b1-hand-dock:clamp(315px,45dvh,425px)",
-  "clamp(225px,15vw,275px)",
-  "clamp(36px,3.3vw,56px)",
-  "clamp(78px,13dvh,125px)",
-  "--b1-hand-dock:clamp(235px,62dvh,330px)",
-  "clamp(172px,19vw,210px)",
-  "font-size:14px",
-  "--b1-hand-dock:275px",
-  "flex:0 0 210px",
-  "margin-inline-start:-32px",
+  "--b1-hand-dock:clamp(236px,33.75dvh,319px)",
+  "clamp(169px,11.25vw,206px)",
+  "clamp(27px,2.475vw,42px)",
+  "clamp(59px,9.75dvh,94px)",
+  "--b1-hand-dock:clamp(176px,46.5dvh,248px)",
+  "clamp(129px,14.25vw,158px)",
+  "font-size:12px",
+  "--b1-hand-dock:206px",
+  "flex:0 0 158px",
+  "margin-inline-start:-24px",
  ])assert.ok(lastSection.includes(token),token);
  assert.ok(lastSection.includes("height:calc(100% - 4px)"));
  assert.ok(lastSection.includes("touch-action:none"));
