@@ -11,8 +11,17 @@ export function b1HandFanPose(index,total){
 export function b1PointerIntent(dx,dy,pointerType="mouse"){
  const distance=Math.hypot(dx,dy);
  if(distance<12)return "wait";
- if(pointerType!=="mouse"&&Math.abs(dx)>Math.abs(dy)*1.2)return "scroll";
+ // Upward diagonals are intentional casts, even if the thumb moves sideways.
+ // Near-horizontal swipes still scroll the hand.
+ if(pointerType!=="mouse"&&dy<-17&&Math.abs(dy)>=Math.abs(dx)*.32)return "drag";
+ if(pointerType!=="mouse"&&Math.abs(dx)>Math.abs(dy)*1.35)return "scroll";
  return "drag";
+}
+export function b1IsBattleDrop(x,y,stageRect,handRect){
+ if(x<stageRect.left||x>stageRect.right||y<stageRect.top||y>stageRect.bottom)return false;
+ // In the overlaid hand layout, do not cast by dropping back on the hand dock.
+ const dockOverArena=handRect&&handRect.top>stageRect.top+(stageRect.bottom-stageRect.top)*.45;
+ return !dockOverArena||y<handRect.top-7;
 }
 export function attachB1Actions({hand,stage,enemyPuppet,choices,cards,read,selectedTarget,cast,inspectTarget}){
  let picked=null,active=null,ghost=null,hovered=null,suppressUntil=0;
@@ -102,9 +111,22 @@ export function attachB1Actions({hand,stage,enemyPuppet,choices,cards,read,selec
   else{inspectTarget(id);mark();}
  }
  function pointerTarget(x,y){
-  const node=document.elementFromPoint(x,y);if(!node)return null;
-  const b=node.closest("[data-b1-enemy]");if(b&&!b.disabled)return b.dataset.b1Enemy;
-  if(node.closest("#enemyPuppet,#enemyArt,.enemy-hud"))return selectedTarget();
+  const node=document.elementFromPoint(x,y);
+  const b=node?.closest?.("[data-b1-enemy]");if(b&&!b.disabled)return b.dataset.b1Enemy;
+  if(node?.closest?.("#enemyPuppet,#enemyArt,.enemy-hud"))return selectedTarget();
+  // Enlarged but bounded target hit zones make a direct drag-release forgiving,
+  // without selecting a different enemy across the room.
+  for(const enemy of choices.querySelectorAll("[data-b1-enemy]")){
+   if(enemy.disabled)return null;
+   const r=enemy.getBoundingClientRect();
+   if(x>=r.left-18&&x<=r.right+18&&y>=r.top-18&&y<=r.bottom+18)
+    return enemy.dataset.b1Enemy;
+  }
+  if(!stage.classList.contains("b1-multi")){
+   const r=enemyPuppet.getBoundingClientRect();
+   if(x>=r.left-18&&x<=r.right+18&&y>=r.top-18&&y<=r.bottom+18)
+    return selectedTarget();
+  }
   return null;
  }
  function highlight(id){
@@ -130,7 +152,7 @@ export function attachB1Actions({hand,stage,enemyPuppet,choices,cards,read,selec
   }else if(!ghostFrame)ghostFrame=window.requestAnimationFrame(glideGhost);
   const tilt=Math.max(-10,Math.min(10,(e.clientX-active.x)*.065));
   ghost.style.transform="rotate("+tilt+"deg) scale(1.09)";
-  const r=stage.getBoundingClientRect(),inside=e.clientX>=r.left&&e.clientX<=r.right&&e.clientY>=r.top&&e.clientY<=r.bottom;
+  const inside=b1IsBattleDrop(e.clientX,e.clientY,stage.getBoundingClientRect(),hand.getBoundingClientRect());
   zone.classList.toggle("b1-valid",inside&&!active.targeted);
   if(active.targeted){
    arrow.setAttribute("viewBox","0 0 "+window.innerWidth+" "+window.innerHeight);
@@ -148,7 +170,7 @@ export function attachB1Actions({hand,stage,enemyPuppet,choices,cards,read,selec
   ghost.style.left=ghostX+"px";ghost.style.top=ghostY+"px";
   active.button.classList.remove("b1-pressing");
   document.body.append(ghost);active.button.classList.add("b1-drag-source");hand.classList.add("b1-hand-dragging");stage.classList.add("b1-casting");
-  zone.textContent=active.targeted?"敵の上でカードを離す":"戦闘画面でカードを離す";
+  zone.textContent=active.targeted?"敵にドラッグして離すと発動":"戦闘画面へドラッグして離すと発動";
   arrow.classList.toggle("b1-visible",active.targeted);ghostAt(e);
  }
  function cleanup(returnHome=false){
@@ -206,11 +228,11 @@ export function attachB1Actions({hand,stage,enemyPuppet,choices,cards,read,selec
   }
   suppressUntil=performance.now()+420;
   const target=item.targeted?pointerTarget(e.clientX,e.clientY):null;
-  const r=stage.getBoundingClientRect(),inside=e.clientX>=r.left&&e.clientX<=r.right&&e.clientY>=r.top&&e.clientY<=r.bottom;
+  const inside=b1IsBattleDrop(e.clientX,e.clientY,stage.getBoundingClientRect(),hand.getBoundingClientRect());
   cleanup(item.targeted?!target:!inside);
-  if(item.targeted){if(target)fire(item.index,target,item.rect);else select(item.index);}
+  if(item.targeted){if(inside&&target)fire(item.index,target,item.rect);else{select(item.index);message("敵の上までカードを動かして離してください");}}
   else if(inside)fire(item.index,null,item.rect);
-  else{cancel();message("戦闘画面にカードをドラッグすると使えます");}
+  else{cancel();message("戦闘エリアまでカードをドラッグして離してください");}
  });
  window.addEventListener("pointercancel",e=>{if(active&&e.pointerId===active.pointerId){cleanup(!active.scrolling);cancel();}});
  document.addEventListener("keydown",e=>{if(e.key==="Escape"){cleanup(true);cancel();}});
