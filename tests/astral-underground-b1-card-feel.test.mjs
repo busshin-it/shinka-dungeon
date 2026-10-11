@@ -27,7 +27,7 @@ test("large card preview is outside scrolling hand and never intercepts touches"
  assert.match(css,/\.b1-card-preview .*?\.pilot-card \.desc/s);
  assert.match(js,/window\.innerHeight<450/);
  assert.match(js,/button\.addEventListener\("focus"/);
- assert.match(js,/button\.addEventListener\("pointerenter"/);
+ assert.match(js,/button\.addEventListener\("click",\(\)=>handleCardClick\(index\)\)/);
  assert.match(js,/button\.addEventListener\("blur"/);
  assert.match(js,/hand\.addEventListener\("scroll"/);
 });
