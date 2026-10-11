@@ -245,7 +245,7 @@ function renderSetup(){
    target.append(b);
  }
  const fireChoices=el("fireStarterChoices");fireChoices.replaceChildren();
- for(const id of ["fireSmall","fireMedium","fireLarge","darkBolt","abyssBolt","iceSpear","arcaneLance","shadowEcho","blizzard","thunderSurge","guideThrust","spellblade"]){
+ for(const id of ["fireSmall","fireMedium","fireLarge","fireWaveSmall","fireWaveMedium","fireWaveLarge","thunderSmall","thunderMedium","thunderLarge","darkBolt","abyssBolt","iceSpear","arcaneLance","shadowEcho","blizzard","thunderSurge","guideThrust","spellblade"]){
   const b=cardButton(id);b.classList.add("b1-fire-starter-card");
   b.addEventListener("click",()=>{if(game.selectStarter(id)){el("fireStarterDialog").close();targetId=null;render();}});
   fireChoices.append(b);
