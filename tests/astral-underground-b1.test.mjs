@@ -92,10 +92,16 @@ test('two living guards mitigate individual boss hits by four, but not hits on g
 test('an AoE spell evaluates simultaneous guard damage (guard armor at cast start)',()=>{
  const g=createB1Game({seed:333,maxHp:999});reachBoss(g,'scatter');
  const i=findCard(g,'scatter');
- const s=g.snapshot(),initial=new Map(s.enemies.map(e=>[e.id,e.hp]));
+ const s=g.snapshot(),initial=new Map(s.enemies.map(e=>[e.id,{hp:e.hp,block:e.block,vulnerable:e.vulnerable}]));
+ const guardCount=s.enemies.filter(e=>e.role==="guard"&&e.hp>0).length;
  assert.equal(g.play(i),true);
  for(const e of g.snapshot().enemies){
-  assert.equal(e.hp,initial.get(e.id)-(e.role==='boss'?2:6));
+  const before=initial.get(e.id);
+  // Delayed draws can let guards gain block. Boss mitigation is fixed at cast start.
+  const boosted=before.vulnerable>0?Math.floor(6*1.5):6;
+  const raw=Math.max(0,boosted-(e.role==="boss"?guardCount*2:0));
+  const dealt=Math.min(before.hp,raw-Math.min(before.block,raw));
+  assert.equal(e.hp,before.hp-dealt,e.id+" uses block and boss armor at cast start");
  }
 });
 test('reward can be skipped and does not silently mutate deck',()=>{
