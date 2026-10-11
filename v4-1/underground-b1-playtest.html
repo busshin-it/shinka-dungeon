@@ -286,13 +286,13 @@ function renderTargets(s){
   const move=s.intents.find(i=>i.id===e.id);
   const attack=move?.kind==="attack";
   const predicted=attack?(e.weaken>0?Math.floor(move.damage*.75):move.damage):0;
-  const intent=attack?"⚔ "+predicted+(move.hits>1?" × "+move.hits:""):
+  const intent=attack?(e.confusionAttacks>0?"🎲 ":"⚔ ")+predicted+(move.hits>1?" × "+move.hits:""):
     move?.kind==="buff"?"✦ "+move.label:"✧ "+(move?.label||"準備");
   const b=document.createElement("button");
   b.type="button";b.dataset.b1Enemy=e.id;b.className="b1-enemy-actor"+(e.role==="boss"?" b1-boss":"");
   b.disabled=e.hp<=0;b.setAttribute("aria-pressed",String(targetId===e.id));
   if(e.channelBroken)b.classList.add("b1-cast-broken");
-  b.setAttribute("aria-label",e.name+"、HP "+e.hp+" / "+e.maxHp+"。次の行動："+(move?.label||"撃破")+"。"+(targetId===e.id?"現在の標的。":"攻撃対象に選べる。"));
+  b.setAttribute("aria-label",e.name+"、HP "+e.hp+" / "+e.maxHp+"。次の行動："+(move?.label||"撃破")+"。"+(e.confusionAttacks>0?"混乱で攻撃対象はランダム。":"")+(e.hallucinationAttacks>0?"幻覚で命中率50%。":"")+(targetId===e.id?"現在の標的。":"攻撃対象に選べる。"));
   b.title=e.name+"　"+(move?.label||"撃破");
   const intentEl=document.createElement("span");intentEl.className="b1-actor-intent"+(attack?" b1-hit-intent":"");intentEl.textContent=e.hp>0?intent:"撃破";
   const figure=document.createElement("span");figure.className="b1-actor-figure";
@@ -353,12 +353,13 @@ function renderStage(s){
  const next=s.intents.find(i=>i.id===enemy.id);
  el("intent").classList.toggle("calm",next?.kind!=="attack");
  const reduced=next?.kind==="attack"?(enemy.weaken>0?Math.floor(next.damage*.75):next.damage):0;
- el("intentName").textContent=next?.kind==="attack"?"⚔ "+reduced+(next.hits>1?" × "+next.hits:""): "✧ "+(next?.label||"次は準備");
+ el("intentName").textContent=next?.kind==="attack"?(enemy.confusionAttacks>0?"🎲 ":"⚔ ")+reduced+(next.hits>1?" × "+next.hits:""): "✧ "+(next?.label||"次は準備");
  el("intentText").textContent=next?.label||"";
  const casting=enemy.role==="boss"&&(s.turn-1)%4<3;
  el("breakTrack").hidden=!casting;
  el("breakFill").style.width=casting?percent(Math.min(enemy.channelDamage,B1_BOSS_CHANNEL_THRESHOLD),B1_BOSS_CHANNEL_THRESHOLD):"0%";
  if(casting)el("intentText").textContent=(enemy.channelBroken?"詠唱中断済み":"詠唱阻止 "+enemy.channelDamage+"/"+B1_BOSS_CHANNEL_THRESHOLD)+" · "+(next?.label||"");
+ if(next?.kind==="attack")el("intentText").textContent+=(enemy.confusionAttacks>0?" · 狙いランダム":"")+(enemy.hallucinationAttacks>0?" · 命中50％":"");
  const effects=el("effectBadges");effects.replaceChildren();
  const chips=[["🛡",s.block],["敵防御",enemy.block],["敵強化",enemy.strength],["自強化",s.strength],["❄",enemy.weaken],["☠",enemy.poison],["✧",enemy.vulnerable],["混乱",enemy.confusionAttacks],["幻覚",enemy.hallucinationAttacks],["呪い",enemy.curses?.reduce((sum,curse)=>sum+curse.next,0)||0],["📖",s.powerDraw]];
  if(enemy.role==="boss"){const n=s.enemies.filter(e=>e.role==="guard"&&e.hp>0).length;if(n)chips.push(["護衛",n*2]);}
