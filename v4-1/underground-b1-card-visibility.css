@@ -1,0 +1,140 @@
+/* B1 hand-card presentation v28: Slay-the-Spire-like large illustrated hand,
+   Shadowverse-like strong art focal point. Original game art, gameplay and gestures unchanged.
+   Loaded AFTER overlay-hand.css so the art/text split has one authoritative override. */
+.pilot-mode #playScreen {
+ --b1-hand-dock:clamp(265px,38dvh,354px);
+ --b1-hand-art-share:67%;
+}
+.pilot-mode #playScreen #hand.hand {
+ padding:12px 14px 4px;
+}
+.pilot-mode #playScreen #hand.hand .pilot-card {
+ flex:0 0 clamp(190px,13vw,230px);
+ width:clamp(190px,13vw,230px);
+ min-width:clamp(190px,13vw,230px);
+ height:calc(100% - 7px);
+}
+.pilot-mode #playScreen #hand.hand .pilot-card + .pilot-card {
+ margin-inline-start:calc(-1 * clamp(27px,3vw,46px));
+}
+/* Both original images and CSS fallback art live above a distinct, compact caption.
+   A fixed percentage prevents a second CSS file shrinking artwork to 43px on phones. */
+.pilot-mode #playScreen #hand.hand .pilot-card.b1-art-card {
+ display:flex;flex-direction:column;
+}
+.pilot-mode #playScreen #hand.hand .pilot-card.b1-art-card > :is(
+ .pilot-card-art,.b1-fire-card-art,.b1-magic-card-art,
+ .b1-dragon-card-art,.b1-dragon-card-sprite
+) {
+ position:relative;inset:auto;display:block;
+ box-sizing:border-box;width:100%;
+ height:var(--b1-hand-art-share);
+ flex:0 0 var(--b1-hand-art-share);
+ min-height:0;max-height:none;
+ border-radius:0;
+}
+.pilot-mode #playScreen #hand.hand .pilot-card.b1-art-card > .pilot-card-copy {
+ position:relative;display:flex;flex-direction:column;justify-content:flex-start;
+ flex:1 1 0;min-height:0;max-height:none;
+ gap:3px;margin:0;padding:8px 9px 6px;
+ overflow:hidden;background:#e8dfcb;
+}
+.pilot-mode #playScreen #hand.hand .pilot-card.b1-art-card .pilot-card-copy strong {
+ display:block;flex:0 0 auto;margin:0;
+ font-size:clamp(14px,1.15vw,18px);line-height:1.12;
+ color:#172e3d;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+}
+.pilot-mode #playScreen #hand.hand .pilot-card.b1-art-card .pilot-card-copy .desc {
+ display:-webkit-box;-webkit-box-orient:vertical;
+ -webkit-line-clamp:2;line-clamp:2;
+ overflow:hidden;margin:0;min-height:0;
+ font-size:clamp(11px,.89vw,13px);line-height:1.24;color:#314956;
+ overflow-wrap:anywhere;
+}
+.pilot-mode #playScreen #hand.hand .pilot-card :is(.cost,.type) {z-index:5;}
+/* Slightly higher focal crop: more head, raised weapons and magical effects. */
+.pilot-mode #playScreen #hand.hand .pilot-card .b1-original-card-img,
+.pilot-mode .b1-card-preview .pilot-card .b1-original-card-img {
+ object-fit:cover;object-position:50% 32%;
+}
+.pilot-mode #playScreen #hand.hand .pilot-card.b1-art-card > .pilot-card-art,
+.pilot-mode #playScreen #hand.hand .pilot-card.b1-art-card > .b1-dragon-card-art:not(.b1-dragon-card-sprite){
+ object-fit:cover;object-position:50% 32%;
+}
+/* Holding/tapping a card reveals full effect text at readable size. */
+.pilot-mode .b1-card-preview .pilot-card.b1-art-card > :is(
+ .pilot-card-art,.b1-fire-card-art,.b1-magic-card-art,
+ .b1-dragon-card-art,.b1-dragon-card-sprite
+){
+ height:62%!important;flex:0 0 62%!important;min-height:0;max-height:none;
+}
+.pilot-mode .b1-card-preview .pilot-card.b1-art-card > .pilot-card-copy{
+ flex:1 1 0;min-height:0;max-height:none;
+ display:flex;flex-direction:column;gap:4px;
+ padding:8px 11px 10px;overflow:hidden;
+}
+.pilot-mode .b1-card-preview .pilot-card.b1-art-card .pilot-card-copy strong{font-size:clamp(15px,3.1dvh,20px);line-height:1.15;}
+.pilot-mode .b1-card-preview .pilot-card.b1-art-card .pilot-card-copy .desc{
+ font-size:clamp(11px,2.2dvh,15px);line-height:1.27;
+ display:block;overflow:auto;min-height:0;
+ -webkit-line-clamp:unset;line-clamp:unset;
+}
+/* Landscape on phone: retain bottom-dock approach, but use most of each card for art. */
+@media (orientation:landscape) and (max-height:600px){
+ .pilot-mode #playScreen{
+  --b1-hand-dock:clamp(182px,53dvh,270px);
+  --b1-hand-art-share:65%;
+ }
+ .pilot-mode #playScreen #hand.hand{padding:8px 9px 3px;}
+ .pilot-mode #playScreen #hand.hand .pilot-card{
+  flex:0 0 clamp(163px,14.6vw,190px);
+  width:clamp(163px,14.6vw,190px);
+  min-width:clamp(163px,14.6vw,190px);
+  height:calc(100% - 5px);
+ }
+ .pilot-mode #playScreen #hand.hand .pilot-card + .pilot-card{margin-inline-start:-28px;}
+ .pilot-mode #playScreen #hand.hand .pilot-card.b1-art-card > .pilot-card-copy{
+  gap:2px;padding:5px 7px 4px;
+ }
+ .pilot-mode #playScreen #hand.hand .pilot-card.b1-art-card .pilot-card-copy strong{font-size:13px;}
+ .pilot-mode #playScreen #hand.hand .pilot-card.b1-art-card .pilot-card-copy .desc{font-size:10.5px;line-height:1.18;}
+}
+@media (orientation:landscape) and (max-width:1100px) and (max-height:620px){
+ .pilot-mode[data-b1-mobile] #playScreen{
+  --b1-hand-dock:clamp(182px,53dvh,270px);
+  --b1-hand-art-share:65%;
+ }
+ .pilot-mode[data-b1-mobile] #playScreen #hand.hand .pilot-card{
+  flex:0 0 clamp(161px,19vw,198px);
+  width:clamp(161px,19vw,198px);
+  min-width:clamp(161px,19vw,198px);
+ }
+}
+/* Very short landscape devices keep enough space to see the battlefield. */
+@media (orientation:landscape) and (max-height:350px){
+ .pilot-mode #playScreen,
+ .pilot-mode[data-b1-mobile] #playScreen{
+  --b1-hand-dock:clamp(166px,55dvh,194px);
+  --b1-hand-art-share:63%;
+ }
+ .pilot-mode #playScreen #hand.hand .pilot-card.b1-art-card > .pilot-card-copy{
+  gap:1px;padding:4px 6px 3px;
+ }
+ .pilot-mode #playScreen #hand.hand .pilot-card.b1-art-card .pilot-card-copy strong{font-size:12px;}
+ .pilot-mode #playScreen #hand.hand .pilot-card.b1-art-card .pilot-card-copy .desc{font-size:10px;line-height:1.1;}
+}
+/* Portrait: a taller illustrated card, but horizontal hand scrolling remains. */
+@media (orientation:portrait) and (max-width:900px){
+ .pilot-mode[data-b1-mobile] #playScreen{
+  --b1-hand-dock:clamp(234px,32dvh,290px);
+  --b1-hand-art-share:66%;
+ }
+ .pilot-mode[data-b1-mobile] #playScreen #hand.hand .pilot-card{
+  flex:0 0 clamp(174px,46vw,198px);
+  width:clamp(174px,46vw,198px);
+  min-width:clamp(174px,46vw,198px);
+ }
+ .pilot-mode[data-b1-mobile] #playScreen #hand.hand .pilot-card + .pilot-card{
+  margin-inline-start:-26px;
+ }
+}
