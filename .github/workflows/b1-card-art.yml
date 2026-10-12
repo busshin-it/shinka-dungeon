@@ -1,5 +1,8 @@
 name: B1 Card Art Batch
 on:
+  push:
+    branches: [main]
+    paths: ['.b1-card-art-trigger']
   workflow_dispatch:
   schedule:
     - cron: '43 */6 * * *'
@@ -11,7 +14,7 @@ concurrency:
   cancel-in-progress: false
 jobs:
   generate:
-    if: ${{ vars.B1_CARD_ART_ENABLED == 'true' }}
+    if: ${{ vars.B1_CARD_ART_ENABLED == 'true' || (github.event_name == 'push' && github.event.head_commit.message == 'test: run one B1 card illustration') }}
     runs-on: ubuntu-latest
     timeout-minutes: 45
     env:
