@@ -110,3 +110,16 @@ body.pilot-mode .b1-catalog-status.b1-catalog-missing{color:#ffc58e}
  body.pilot-mode .b1-catalog-item>.pilot-card{height:205px}
  body.pilot-mode .b1-catalog-dialog h2{font-size:16px}
 }
+
+/* A simple first choice; specialized test builds remain collapsed. */
+body.pilot-mode .b1-basic-start{display:flex;flex-direction:column;gap:7px;align-items:center;justify-content:center;width:100%;padding:18px 12px;margin:12px 0;border-radius:14px;border:2px solid #dec68e;background:linear-gradient(125deg,#45321f,#8b632a);color:#fff5da;cursor:pointer;min-height:96px;box-shadow:0 6px 20px #0007}
+body.pilot-mode .b1-basic-start strong{font-size:23px}
+body.pilot-mode .b1-basic-start span{font-size:13px}
+body.pilot-mode .b1-advanced-start{color:#e4d4b4;text-align:left;margin:6px 0;}
+body.pilot-mode .b1-advanced-start summary{cursor:pointer;padding:9px;border:1px solid #937c5e;border-radius:8px}
+body.pilot-mode .b1-advanced-start[open]{background:#1e3442c9;border-radius:9px;padding:8px}
+@media(max-width:550px){body.pilot-mode .b1-basic-start{min-height:78px;padding:10px 7px}body.pilot-mode .b1-basic-start strong{font-size:19px}body.pilot-mode .b1-basic-start span{font-size:11px}}
+/* For future QA-generated art these backgrounds remain legible if an asset cannot load. */
+body.pilot-mode .b1-magic-art--basic-attack{background:linear-gradient(140deg,#402826,#f1b66b 48%,#533525)}
+body.pilot-mode .b1-magic-art--basic-defense{background:radial-gradient(ellipse at center,#e5efd9 0%,#7394b1 41%,#162b49 90%)}
+body.pilot-mode [class*="b1-magic-art--auto-"]{background:linear-gradient(145deg,#29364e,#5b487b 49%,#192d37)}

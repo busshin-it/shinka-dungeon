@@ -1,0 +1,236 @@
+{
+  "version": 1,
+  "project": "B1カード未実装原画のみ",
+  "enabled": true,
+  "max_total_attempts": 2,
+  "generated_count": 0,
+  "updated_at": "2026-10-12",
+  "art_direction": "高品質な日本のファンタジーゲーム2Dカードアート。丁寧で密度のある描き込みと小画面での明確なシルエットを両立。鮮やかな色彩、奥行きある光と影、発光・反射・逆光、迫力のある遠近構図。中心より少し上に主題を置きカード画像での上寄りトリミングに耐える。人や女の子やドラゴンは必須ではない。1枚につき1つの独立絵。文字・数字・カード枠・ロゴ・UI・透かしなし。",
+  "jobs": [
+    {
+      "card_id": "scatter",
+      "name": "散弾",
+      "subject": "複数の青白い魔力弾が3方向へ分裂し、敵群へ飛んでいく。広がる弾道を主役に。",
+      "filename": "b1-auto-scatter.webp",
+      "status": "waiting",
+      "attempts": 0,
+      "priority": 1
+    },
+    {
+      "card_id": "chain",
+      "name": "連鎖雷",
+      "subject": "一撃の雷撃が次の敵へ枝分かれする連鎖放電。雷の走る順序が見える。",
+      "filename": "b1-auto-chain.webp",
+      "status": "waiting",
+      "attempts": 0,
+      "priority": 2
+    },
+    {
+      "card_id": "heal",
+      "name": "小治癒",
+      "subject": "小さな聖なる治癒の光が傷ついた鎧の手に灯る。癒しの温かさ。",
+      "filename": "b1-auto-heal.webp",
+      "status": "waiting",
+      "attempts": 0,
+      "priority": 3
+    },
+    {
+      "card_id": "drain",
+      "name": "吸命",
+      "subject": "紫の生命力が敵の影から吸い出され、青黒い結晶へ集まる。",
+      "filename": "b1-auto-drain.webp",
+      "status": "waiting",
+      "attempts": 0,
+      "priority": 4
+    },
+    {
+      "card_id": "poison",
+      "name": "毒の印",
+      "subject": "蛇のように渦を描く暗緑色の毒呪紋が敵を絡め取る。",
+      "filename": "b1-auto-poison.webp",
+      "status": "waiting",
+      "attempts": 0,
+      "priority": 5
+    },
+    {
+      "card_id": "fragile",
+      "name": "脆弱の印",
+      "subject": "ひび割れる赤紫色の呪いの紋章が鋼の防壁に刻まれる。",
+      "filename": "b1-auto-fragile.webp",
+      "status": "waiting",
+      "attempts": 0,
+      "priority": 6
+    },
+    {
+      "card_id": "break",
+      "name": "破魔雷",
+      "subject": "護符を砕く金色の雷矢が青い結界を破る瞬間。",
+      "filename": "b1-auto-break.webp",
+      "status": "waiting",
+      "attempts": 0,
+      "priority": 7
+    },
+    {
+      "card_id": "strength",
+      "name": "闘魔の印",
+      "subject": "戦士の拳に力を宿す赤金の戦意紋章。",
+      "filename": "b1-auto-strength.webp",
+      "status": "waiting",
+      "attempts": 0,
+      "priority": 8
+    },
+    {
+      "card_id": "spark",
+      "name": "火花",
+      "subject": "指先から生まれた小さく鋭い火花が暗闇を一筋切り裂く。",
+      "filename": "b1-auto-spark.webp",
+      "status": "waiting",
+      "attempts": 0,
+      "priority": 9
+    },
+    {
+      "card_id": "flow",
+      "name": "術式循環",
+      "subject": "天球儀のような環状魔法陣を流れる青い魔力と回転する巻物。",
+      "filename": "b1-auto-flow.webp",
+      "status": "waiting",
+      "attempts": 0,
+      "priority": 10
+    },
+    {
+      "card_id": "ward",
+      "name": "氷の結界",
+      "subject": "半透明の氷晶が重なり厚い防御結界を築く瞬間。",
+      "filename": "b1-auto-ward.webp",
+      "status": "waiting",
+      "attempts": 0,
+      "priority": 11
+    },
+    {
+      "card_id": "charge",
+      "name": "魔力点火",
+      "subject": "光を集めて燃え上がる小さな魔力結晶。",
+      "filename": "b1-auto-charge.webp",
+      "status": "waiting",
+      "attempts": 0,
+      "priority": 12
+    },
+    {
+      "card_id": "double",
+      "name": "双雷",
+      "subject": "互いに異なる軌道を取る2本の明瞭な雷撃。",
+      "filename": "b1-auto-double.webp",
+      "status": "waiting",
+      "attempts": 0,
+      "priority": 13
+    },
+    {
+      "card_id": "focus",
+      "name": "魔導の研究",
+      "subject": "浮かぶ古代書物と星図の光、魔術を分析する研究室。",
+      "filename": "b1-auto-focus.webp",
+      "status": "waiting",
+      "attempts": 0,
+      "priority": 14
+    },
+    {
+      "card_id": "flare",
+      "name": "毒炎",
+      "subject": "緑の毒炎が暗い紋章を燃え移る、毒に反応する炎。",
+      "filename": "b1-auto-flare.webp",
+      "status": "waiting",
+      "attempts": 0,
+      "priority": 15
+    },
+    {
+      "card_id": "frostBreak",
+      "name": "霜砕き",
+      "subject": "凍った鎧に巨大な氷裂の衝撃が走り、霜片が弾ける。",
+      "filename": "b1-auto-frostBreak.webp",
+      "status": "waiting",
+      "attempts": 0,
+      "priority": 16
+    },
+    {
+      "card_id": "lingeringPoison",
+      "name": "余毒の頁",
+      "subject": "毒色に光る魔導書の頁から毒の滴が連なり溢れる。",
+      "filename": "b1-auto-lingeringPoison.webp",
+      "status": "waiting",
+      "attempts": 0,
+      "priority": 17
+    },
+    {
+      "card_id": "darkBolt",
+      "name": "闇弾",
+      "subject": "凝縮した暗紫の魔力弾が手前へ放たれ残光を引く。",
+      "filename": "b1-auto-darkBolt.webp",
+      "status": "waiting",
+      "attempts": 0,
+      "priority": 18
+    },
+    {
+      "card_id": "abyssBolt",
+      "name": "奈落弾",
+      "subject": "深淵色の大きな弾丸が黒い空間を引き裂き進む。",
+      "filename": "b1-auto-abyssBolt.webp",
+      "status": "waiting",
+      "attempts": 0,
+      "priority": 19
+    },
+    {
+      "card_id": "iceSpear",
+      "name": "氷槍",
+      "subject": "無数の霜片をまとった単体の巨大氷槍の突進。",
+      "filename": "b1-auto-iceSpear.webp",
+      "status": "waiting",
+      "attempts": 0,
+      "priority": 20
+    },
+    {
+      "card_id": "arcaneLance",
+      "name": "魔力槍",
+      "subject": "金と青の精密な魔力槍が遠近感の強い構図で突き抜ける。",
+      "filename": "b1-auto-arcaneLance.webp",
+      "status": "waiting",
+      "attempts": 0,
+      "priority": 21
+    },
+    {
+      "card_id": "shadowEcho",
+      "name": "影の反響",
+      "subject": "闇の魔法陣に重なる2層の紫色の波紋と残像。",
+      "filename": "b1-auto-shadowEcho.webp",
+      "status": "waiting",
+      "attempts": 0,
+      "priority": 22
+    },
+    {
+      "card_id": "blizzard",
+      "name": "吹雪",
+      "subject": "冷気の大渦が複数の敵の周囲に雪と氷を巻き上げる。",
+      "filename": "b1-auto-blizzard.webp",
+      "status": "waiting",
+      "attempts": 0,
+      "priority": 23
+    },
+    {
+      "card_id": "thunderSurge",
+      "name": "雷の奔流",
+      "subject": "複数の放電が奔流となり敵全体に横へ広がる。",
+      "filename": "b1-auto-thunderSurge.webp",
+      "status": "waiting",
+      "attempts": 0,
+      "priority": 24
+    },
+    {
+      "card_id": "guideThrust",
+      "name": "導魔突き",
+      "subject": "槍先に凝縮する蒼白い魔力、次の魔法への連携を示す一突き。",
+      "filename": "b1-auto-guideThrust.webp",
+      "status": "waiting",
+      "attempts": 0,
+      "priority": 25
+    }
+  ]
+}
