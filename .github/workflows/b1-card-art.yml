@@ -1,0 +1,41 @@
+name: B1 Card Art Batch
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '43 */6 * * *'
+permissions:
+  contents: write
+  pull-requests: write
+concurrency:
+  group: b1-card-art
+  cancel-in-progress: false
+jobs:
+  generate:
+    if: ${{ vars.B1_CARD_ART_ENABLED == 'true' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    env:
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+      ASSET_FACTORY_IMAGE_MODEL: ${{ vars.ASSET_FACTORY_IMAGE_MODEL || 'gpt-image-2' }}
+      CARD_ART_BATCH_LIMIT: '1'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm ci
+      - name: Generate at most one missing art item
+        run: node asset-factory/b1-card-batch.mjs
+      - name: Propose assets for review, never silently publish
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if [ -z "$(git status --porcelain v4-1/assets/)" ]; then exit 0; fi
+          BRANCH="bot/b1-card-art-${{ github.run_id }}"
+          git config user.name "b1-card-art[bot]"
+          git config user.email "b1-card-art[bot]@users.noreply.github.com"
+          git checkout -b "$BRANCH"
+          git add v4-1/assets/b1-auto-*.webp
+          git commit -m "art: generate next B1 card illustration"
+          git push origin "$BRANCH"
+          gh pr create --base main --head "$BRANCH" --title "B1 card art: automated illustration batch" --body "Generated card assets only. Do not merge until visual QA and card-ID mapping are verified. No gameplay changes."
