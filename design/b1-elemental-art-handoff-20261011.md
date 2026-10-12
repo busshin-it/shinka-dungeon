@@ -1,5 +1,14 @@
 # B1 全体火・単体雷カード画像｜原画の割当と公開前チェック
 
+## 2026-10-12 追補：第30歩・高画質化作業
+
+- **既存の元PNG原画6枚（1086×1448）を確認し、768×1024・WebP品質83へ直接変換した**。480×640の旧プレビューを引き伸ばしていない。
+- GitHub作業ブランチ `feat/b1-elemental-hq-six-20261012` に6点をGit blobとして保存し、ローカルから計算したblob SHAと6点すべて一致を確認。ゲームの画像マッピング `B1_CARD_ART` が以前から同名のWebPを参照しているため、戦闘処理や画面CSSを改修せず画像本体を追加するだけで有効になる。
+- 各原画と高画質画像の1対1対応、サイズ、SHA256：[`b1-elemental-hq-expected-manifest.json`](b1-elemental-hq-expected-manifest.json)。
+- 再生成スクリプト：[`scripts/build_b1_elemental_hq.py`](../scripts/build_b1_elemental_hq.py)。独立原画1枚→画像1枚のルールを維持。
+- 専用画像検査：[`tests/astral-underground-b1-elemental-hq.test.mjs`](../tests/astral-underground-b1-elemental-hq.test.mjs)。画像実体のサイズ・SHA256・WebP形式・768×1024と、ゲーム内マッピングを照合する。
+- この追補時点で **CI／main統合／Pages配信／実機表示は別々に確認が必要**。以下の「原画未アップロード」という記録は、2026-10-11時点の歴史的状態。
+
 記録日: 2026-10-11。対象は独立B1試作版のみ。**画像の元データは以前の会話で制作した独立6枚を確認した。**
 
 ## 各カードと原画
