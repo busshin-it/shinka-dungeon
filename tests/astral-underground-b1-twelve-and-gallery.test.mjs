@@ -43,7 +43,7 @@ test("a high-HP B1 trial can obtain a card after each of eleven battles and even
   assert.equal(s.rewards.length,3);
   assert.equal(g.chooseReward(s.rewards[0]),true);rewards++;
   const between=g.snapshot();
-  if(between.restAvailable){rests++;assert.equal(g.chooseRest("upgrade",0),true);}
+  if(between.restAvailable){rests++;const index=between.deck.findIndex(id=>!id.endsWith("~"));assert.ok(index>=0);assert.equal(g.chooseRest("upgrade",index),true);}
   if(between.shopAvailable){shops++;assert.equal(g.leaveShop(),true);}
   assert.equal(g.nextBattle(),true);
   assert.equal(g.snapshot().stage,level+1);
