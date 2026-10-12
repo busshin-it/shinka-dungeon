@@ -1,0 +1,65 @@
+name: Import approved B1 card art ZIP
+on:
+  issue_comment:
+    types: [created]
+
+permissions:
+  contents: write
+  issues: read
+  pull-requests: read
+
+jobs:
+  import:
+    if: ${{ github.event.issue.pull_request && github.event.issue.number == 99 && github.event.comment.user.login == github.repository_owner && contains(github.event.comment.body, 'b1-card-art-first-second-10-ready.zip') }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Check out pending card-art branch
+        uses: actions/checkout@v4
+        with:
+          ref: feat/b1-first-second-ten-art-20261013
+          persist-credentials: true
+
+      - name: Extract trusted GitHub comment attachment
+        id: attachment
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import json, os, re
+          with open(os.environ['GITHUB_EVENT_PATH'], encoding='utf-8') as f:
+              event = json.load(f)
+          body = event['comment']['body']
+          urls = re.findall(r'https://github\.com/user-attachments/(?:files/[0-9]+/[A-Za-z0-9_.%~-]+\.zip|assets/[0-9a-fA-F-]{36})', body)
+          if len(urls) != 1:
+              raise SystemExit('Expected exactly one GitHub ZIP attachment link')
+          with open(os.environ['GITHUB_OUTPUT'], 'a', encoding='utf-8') as out:
+              out.write('url=' + urls[0] + '\n')
+          PY
+
+      - name: Download ZIP from GitHub attachment
+        env:
+          ASSET_URL: ${{ steps.attachment.outputs.url }}
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          curl --fail --silent --show-error --location --max-time 90 --max-filesize 3500000 \
+            --header "Authorization: Bearer $GH_TOKEN" \
+            --output /tmp/b1-first-second-art.zip "$ASSET_URL"
+
+      - name: Check SHA256 and import only approved card images
+        run: python3 scripts/import-b1-first-second-art.py /tmp/b1-first-second-art.zip
+
+      - name: Commit to the existing draft PR only
+        run: |
+          if [ -z "$(git status --porcelain -- v4-1/assets/)" ]; then
+            echo "All expected approved assets were already imported."
+            exit 0
+          fi
+          git config user.name "b1-card-art[bot]"
+          git config user.email "b1-card-art[bot]@users.noreply.github.com"
+          git add v4-1/assets/b1-auto-scatter.webp v4-1/assets/b1-auto-chain.webp \
+            v4-1/assets/b1-auto-heal.webp v4-1/assets/b1-auto-drain.webp \
+            v4-1/assets/b1-auto-poison.webp v4-1/assets/b1-fragile.webp \
+            v4-1/assets/b1-power.webp v4-1/assets/b1-spark.webp \
+            v4-1/assets/b1-ice-barrier.webp v4-1/assets/b1-cycle.webp
+          git commit -m "art: import approved first and second batches of ten B1 card illustrations"
+          git push origin HEAD:feat/b1-first-second-ten-art-20261013
