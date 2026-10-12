@@ -47,7 +47,7 @@ function findCard(g,id,maxTurns=20){
 test('card pool and initial deck are independent from original pilot',()=>{
  assert.equal(STARTER.length,9);
  assert.equal(Object.keys(CARDS).length,55);
- assert.equal(STAGES.length,5);
+ assert.equal(STAGES.length,12);
  assert.equal(CARDS.scatter.kind,'all');
 });
 test('starter, targeting, magic spending and combat log',()=>{
@@ -77,7 +77,7 @@ test('frost waits until next attack and then clears',()=>{
 test('a run can advance through two rewards and beat the protected B1 boss',()=>{
  const g=createB1Game({seed:20261010,maxHp:999});
  let s=reachBoss(g);
- assert.equal(s.stage,4);assert.equal(s.enemies.length,3);
+ assert.equal(s.stage,STAGES.length-1);assert.equal(s.enemies.length,3);
  assert.equal(s.enemies.filter(e=>e.role==='guard').length,2);
  runBattle(g);s=g.snapshot();assert.equal(s.phase,'won');
  assert.ok(s.hp>0);
