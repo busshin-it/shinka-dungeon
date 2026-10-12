@@ -18,13 +18,13 @@ test("ideal deck is 14 cards and can be assembled from 10 starters and the four 
  assert.ok(["lightning","scatter","flow"].includes("scatter"));
  for(const [i,id] of ["ward","focus","strength","charge"].entries())assert.ok(STAGES[i].rewards.includes(id),"reward "+id+" not available on stage "+i);
 });
-test("boss practice starts at fifth fight, with matching HP, and never modifies the normal run",()=>{
+test("boss practice starts at the final (12th) encounter, with matching HP, and never modifies the normal run",()=>{
  const g=createB1Game({seed:12});
  assert.equal(g.startBossPractice("invalid"),false);
  assert.equal(g.startBossPractice("ideal"),true);
  const s=g.snapshot();
  assert.equal(s.phase,"battle");
- assert.equal(s.stage,4);assert.equal(s.hp,58);assert.equal(s.maxHp,75);assert.equal(s.practiceMode,"ideal");
+ assert.equal(s.stage,STAGES.length-1);assert.equal(s.hp,58);assert.equal(s.maxHp,75);assert.equal(s.practiceMode,"ideal");
  assert.deepEqual(s.deck,IDEAL_B1_BOSS_DECK);
  assert.equal(s.enemies.length,3);
  assert.equal(g.startBossPractice("ideal"),false);
