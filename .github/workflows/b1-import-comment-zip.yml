@@ -1,7 +1,7 @@
 name: Import approved B1 card art ZIP
 on:
   issue_comment:
-    types: [created]
+    types: [created, edited]
 
 permissions:
   contents: write
@@ -10,7 +10,7 @@ permissions:
 
 jobs:
   import:
-    if: ${{ github.event.issue.pull_request && github.event.issue.number == 99 && github.event.comment.user.login == github.repository_owner && contains(github.event.comment.body, 'b1-card-art-first-second-10-ready.zip') }}
+    if: ${{ github.event.issue.pull_request && github.event.issue.number == 99 && github.event.comment.user.login == github.repository_owner && contains(github.event.comment.body, 'b1-card-art-first-second-10-ready.zip') && contains(github.event.comment.body, 'https://github.com/user-attachments/') }}
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
