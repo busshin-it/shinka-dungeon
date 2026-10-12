@@ -1,6 +1,10 @@
 name: B1 Card Art Auto
 
 on:
+  push:
+    branches: [main]
+    paths:
+      - '.b1-card-art-trigger'
   # B1 cards only. One image per run, at most four daily runs.
   schedule:
     - cron: '11 1,7,13,19 * * *'
