@@ -33,7 +33,7 @@ test("the first fork has two routes with different numbers of real enemies",()=>
  assert.equal(B1_FORK_ROUTES.pack.enemies.length,2);
  assert.equal(B1_FORK_ROUTES.stone.enemies.length,1);
  assert.equal(B1_FORK_ROUTES.stone.enemies[0].role,"carapace");
- assert.equal(STAGES.length,5);
+ assert.equal(STAGES.length,12);
 });
 test("route selection is restricted to the exact stage-one junction and cannot be overwritten",()=>{
  const g=createB1Game({seed:18});
@@ -91,7 +91,7 @@ test("legacy scripted nextBattle without a path remains compatible with prior te
 test("boss practice remains independent of the new junction",()=>{
  const g=createB1Game({seed:12});
  assert.equal(g.startBossPractice("combo"),true);
- assert.equal(g.snapshot().stage,4);
+ assert.equal(g.snapshot().stage,STAGES.length-1);
  assert.deepEqual(g.snapshot().routeHistory,[]);
  assert.deepEqual(g.snapshot().availablePaths,[]);
  assert.equal(g.choosePath("stone"),false);
