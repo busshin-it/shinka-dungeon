@@ -16,10 +16,10 @@ test("before/after preview reflects the effective card rules without mutating de
 test("rest UI uses canonical current and upgraded card effects and labels already upgraded copies",()=>{
  const html=readFileSync(new URL("../v4-1/underground-b1-playtest.html",import.meta.url),"utf8");
  const css=readFileSync(new URL("../v4-1/underground-b1-map.css",import.meta.url),"utf8");
- for(const s of ["getB1Card(id.endsWith(\"~\")?id:id+\"~\")","現在：","強化後：","強化済み","b1-upgrade-after","b1-rest-already-upgraded"]){
+ for(const s of ["getB1Card(upgraded?id:id+\"~\")","進化後：","強化済み","b1-upgrade-effects","b1-upgrade-image-choice","cardButton(id)"]){
   assert.ok(html.includes(s),"missing "+s);
  }
- assert.ok(css.includes(".b1-upgrade-after"));
+ assert.ok(css.includes(".b1-upgrade-after"),"legacy upgrade preview fallback remains");\n const visual=readFileSync(new URL("../v4-1/underground-b1-depth-and-catalog.css",import.meta.url),"utf8");\n assert.ok(visual.includes(".b1-upgrade-image-choice"));
  const inline=html.match(/<script type="module">([\s\S]*?)<\/script>/)?.[1];
  assert.ok(inline);
  const check=spawnSync(process.execPath,["--check","--input-type=module"],{input:inline,encoding:"utf8"});
