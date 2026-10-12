@@ -1,5 +1,7 @@
 // Isolated B1 playtest. Never reads or changes existing game saves.
 export const CARDS = Object.freeze({
+ basicAttack:{name:"攻撃",cost:1,kind:"attack",text:"5ダメージ",damage:5,weapon:true,magicArt:"starter-basic-attack"},
+ basicDefense:{name:"防御",cost:1,kind:"guard",text:"防御5",block:5,weapon:true,magicArt:"starter-basic-defense"},
  bolt:{name:"魔弾",cost:1,kind:"attack",text:"6ダメージ",damage:6,magicArt:"starter-bolt"},
  lightning:{name:"雷撃",cost:2,kind:"attack",text:"13ダメージ",damage:13,magicArt:"starter-lightning"},
  scatter:{name:"散弾",cost:1,kind:"all",text:"敵全体に6ダメージ",damage:6},
@@ -98,6 +100,7 @@ export function getB1Card(id){const up=typeof id==="string"&&id.endsWith("~"),ba
 export const PHYSICAL_STARTER = Object.freeze(["bludgeon","bludgeon","bludgeon","bludgeon","rapidPunch","rapidPunch","sneakHit","doping","ironHammer"]);
 export const isB1Magic=id=>getB1Card(id)?.weapon!==true;
 export const STARTER = Object.freeze(["bolt","bolt","bolt","bolt","guard","guard","guard","guard","break"]);
+export const BASIC_B1_STARTER = Object.freeze([...Array(5).fill("basicAttack"),...Array(5).fill("basicDefense")]);
 export const STAGES = Object.freeze([
  {name:"B1・入口",hint:"硬い敵を相手に攻撃するか防御するか。次の攻撃を予測しよう。",enemies:[{id:"rat",name:"石牙獣",maxHp:42,role:"rat"}],rewards:["ward","double","poison","spark","flow","heal","frost","shadowEcho","guideThrust"]},
  {name:"B1・群れ",hint:"小型2体の同時攻撃。片方を先に倒すか、全体攻撃で削るか。",enemies:[{id:"wolf",name:"洞穴の狼",maxHp:17,role:"wolf"},{id:"imp",name:"盾の小鬼",maxHp:16,role:"imp"}],rewards:["charge","chain","fragile","focus","flare","lightning","drain","scatter","blizzard"]},
@@ -136,11 +139,12 @@ export function createB1Game(options={}){
  const find=id=>s.enemies.find(e=>e.id===id&&e.hp>0);
  function drawCards(n){let drawn=0;for(let i=0;i<n&&s.hand.length<10;i++){if(!s.draw.length){if(!s.discard.length)break;s.draw=shuffle(s.discard.splice(0));}s.hand.push(s.draw.pop());drawn++;}return drawn;}
  function start(){
-  const stage=s.stage===1?B1_FORK_ROUTES[s.selectedPath||"pack"]:STAGES[s.stage];s.enemies=stage.enemies.map(e=>({...clone(e),hp:e.maxHp,weaken:0,poison:0,vulnerable:0,block:0,strength:0,channelDamage:0,channelBroken:false,confusionAttacks:0,hallucinationAttacks:0,curses:[]}));s.turn=1;s.block=0;s.energy=3;s.attacksThisTurn=0;s.attackCardsThisTurn=0;s.darkCastsThisTurn=0;s.spellsThisTurn=0;s.pendingMagicAttackBonus=0;s.powerDraw=0;s.strength=0;s.dopingBonus=0;s.nextPhysicalAttackBonus=0;s.lastTurnHpLoss=0;
+  const stage=s.stage===1?B1_FORK_ROUTES[s.selectedPath||"pack"]:STAGES[s.stage];s.enemies=stage.enemies.map(e=>({...clone(e),maxHp:(!s.practiceMode&&s.deck.includes("basicAttack"))?Math.max(8,Math.round(e.maxHp*(s.stage<3?.66:s.stage<6?.82:s.stage===STAGES.length-1?.88:1))):e.maxHp,hp:(!s.practiceMode&&s.deck.includes("basicAttack"))?Math.max(8,Math.round(e.maxHp*(s.stage<3?.66:s.stage<6?.82:s.stage===STAGES.length-1?.88:1))):e.maxHp,weaken:0,poison:0,vulnerable:0,block:0,strength:0,channelDamage:0,channelBroken:false,confusionAttacks:0,hallucinationAttacks:0,curses:[]}));s.turn=1;s.block=0;s.energy=3;s.attacksThisTurn=0;s.attackCardsThisTurn=0;s.darkCastsThisTurn=0;s.spellsThisTurn=0;s.pendingMagicAttackBonus=0;s.powerDraw=0;s.strength=0;s.dopingBonus=0;s.nextPhysicalAttackBonus=0;s.lastTurnHpLoss=0;
   s.dragonStage=-1;s.lastDragonEvolution=null;s.lastSynergy=null;s.hand=[];s.discard=[];s.exhaust=[];s.powers=[];s.draw=shuffle([...s.deck]);s.selected=s.enemies.find(e=>e.role!=="boss")?.id||s.enemies[0].id;s.phase="battle";drawCards(5);note(stage.name+"：戦闘開始。");
  }
- function selectStarter(id){if(s.phase!=="starter"||!["physical","lightning","scatter","flow","dragonEgg","fireSmall","fireMedium","fireLarge","fireWaveSmall","fireWaveMedium","fireWaveLarge","thunderSmall","thunderMedium","thunderLarge","darkBolt","abyssBolt","mentalCollapse","curse","deathSong","hallucination","iceSpear","arcaneLance","shadowEcho","blizzard","thunderSurge","guideThrust","spellblade","bludgeon","rapidPunch","heavyBlow","sneakHit","ironHammer","doping","adversity","rage"].includes(id))return false;
-  if(id==="physical")s.deck=[...PHYSICAL_STARTER];
+ function selectStarter(id){if(s.phase!=="starter"||!["basic","physical","lightning","scatter","flow","dragonEgg","fireSmall","fireMedium","fireLarge","fireWaveSmall","fireWaveMedium","fireWaveLarge","thunderSmall","thunderMedium","thunderLarge","darkBolt","abyssBolt","mentalCollapse","curse","deathSong","hallucination","iceSpear","arcaneLance","shadowEcho","blizzard","thunderSurge","guideThrust","spellblade","bludgeon","rapidPunch","heavyBlow","sneakHit","ironHammer","doping","adversity","rage"].includes(id))return false;
+  if(id==="basic")s.deck=[...BASIC_B1_STARTER];
+  else if(id==="physical")s.deck=[...PHYSICAL_STARTER];
   else if(id==="dragonEgg")s.deck.push("dragonEgg","dragonFeed","dragonBreath");else s.deck.push(id);
   start();return true;}
  function protectors(){return s.stage===STAGES.length-1?alive().filter(e=>e.role==="guard").length:0;}
@@ -305,6 +309,15 @@ export function createB1Game(options={}){
   checkVictory();return true;
  }
  function intent(e){
+  // Early fights are scaled for the new 5-attack/5-defense starter.
+  // Legacy/specialized practice modes keep original AI damage values.
+  const easy=!s.practiceMode&&s.deck.includes("basicAttack")&&s.stage<3;
+  const early=(action)=>{
+   if(!easy||action.kind!=="attack")return action;
+   const damage=Math.max(2,action.damage-(s.stage===0?4:2));
+   return {...action,damage,label:action.label.replace(/\\d+(?=\\s*(?:×|$))/,String(damage))};
+  };
+
   if(!e||e.hp<=0)return{kind:"none",label:"撃破"};
   const t=s.turn;
   if(e.role==="boss"){
@@ -316,9 +329,9 @@ export function createB1Game(options={}){
   }
   if(e.role==="rat"){
    const n=(t-1)%3;
-   return n===0?{kind:"attack",label:"噛み砕く "+(9+e.strength),damage:9+e.strength}:
+   return n===0?early({kind:"attack",label:"噛み砕く "+(9+e.strength),damage:9+e.strength}):
     n===1?{kind:"buff",label:"殻を固める（防御6・攻撃＋2）",blockGain:6,strengthGain:2}:
-    {kind:"attack",label:"強打 "+(7+e.strength),damage:7+e.strength};
+    early({kind:"attack",label:"強打 "+(7+e.strength),damage:7+e.strength});
   }
   if(e.role==="carapace"){
     const n=(t-1)%3;
@@ -327,14 +340,14 @@ export function createB1Game(options={}){
       {kind:"attack",label:"重い一撃 8",damage:8};
    }
    if(e.role==="wolf")return t===2?{kind:"buff",label:"遠吠え（攻撃＋2）",strengthGain:2}:
-    {kind:"attack",label:"飛びかかり "+(6+e.strength),damage:6+e.strength};
+    early({kind:"attack",label:"飛びかかり "+(6+e.strength),damage:6+e.strength});
   if(e.role==="imp"||e.role==="guard"){
    const busy=(t+(e.id==="right"?1:0))%2===0;
    return busy?{kind:"buff",label:"盾を構える（防御4）",blockGain:4}:
-    {kind:"attack",label:"小突き 5",damage:5};
+    early({kind:"attack",label:"小突き 5",damage:5});
   }
   if(e.role==="ritual")return t===1?{kind:"buff",label:"闇の詠唱（毎ターン攻撃＋3）",ritualGain:3}:
-    {kind:"attack",label:"呪詛 "+(6+e.strength),damage:6+e.strength,ritualGain:3};
+    early({kind:"attack",label:"呪詛 "+(6+e.strength),damage:6+e.strength,ritualGain:3});
   if(e.role==="elite"){
    const n=(t-1)%3;
    return n===0?{kind:"attack",label:"二連斬り "+(7+e.strength)+"×2",damage:7+e.strength,hits:2}:

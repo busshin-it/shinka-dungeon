@@ -192,6 +192,7 @@ let game=createB1Game({seed:Date.now()}),targetId=null;
 // Direct physical trial URL lets players launch the deck without hunting for a
 // fifth card or dealing with a previously cached selection screen.
 if(new URLSearchParams(window.location.search).get("start")==="physical")game.selectStarter("physical");
+else if(new URLSearchParams(window.location.search).get("start")!=="choose")game.selectStarter("basic");
 const typeNames={attack:"攻撃",multi:"連撃",all:"全体攻撃",heal:"回復",poison:"状態異常",fragile:"状態異常",confuse:"混乱",curse:"呪い",hallucinate:"幻覚",guard:"防御",draw:"ドロー",energy:"魔力",power:"能力",dragon:"召喚",dragonFeed:"育成",dragonBreath:"全体攻撃",physicalPower:"強化",adversity:"反撃準備"};
 const art={rat:"wraith.webp",wolf:"bell-spirit.webp",imp:"gatekeeper.webp",guard:"gatekeeper.webp",carapace:"gatekeeper.webp",ritual:"wraith.webp",elite:"gatekeeper.webp",boss:"boss.webp"};
 // Single source for B1 original artwork across hand, shop and starter cards.
@@ -216,6 +217,8 @@ const B1_CARD_ART=Object.freeze({
    CSS fallback stays active until the corresponding WebP really exists.
    This mapping is shared by the hand, enlarged preview, shop and starter. */
 const B1_HQ_CARD_ART=Object.freeze({
+ "starter-basic-attack":"b1-starter-attack.webp",
+ "starter-basic-defense":"b1-starter-defense.webp",
  "starter-bolt":"b1-starter-bolt.webp",
  "starter-lightning":"b1-starter-lightning.webp",
  "starter-frost":"b1-starter-frost.webp",
