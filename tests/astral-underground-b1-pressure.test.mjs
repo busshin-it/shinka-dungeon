@@ -26,7 +26,7 @@ function win(g){
  assert.ok(turns<100,"battle did not end");
 }
 test("B1 scales from starter fights to an elite and a guarded boss",()=>{
- assert.equal(STAGES.length,5);
+ assert.equal(STAGES.length,12);
  assert.equal(STAGES[0].enemies[0].maxHp,42);
  assert.equal(STAGES[2].enemies[0].maxHp,52);
  assert.equal(STAGES[3].enemies[0].maxHp,82);
