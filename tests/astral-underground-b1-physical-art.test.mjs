@@ -34,7 +34,9 @@ test("physical images share hand, shop and preview renderers without changing ca
  const html=readFileSync(new URL("../v4-1/underground-b1-playtest.html",import.meta.url),"utf8");
  const css=readFileSync(new URL("../v4-1/underground-b1-fire.css",import.meta.url),"utf8");
  assert.ok(html.includes("const B1_CARD_ART=Object.freeze("));
- assert.ok(html.includes("const filename=B1_CARD_ART[artKey]"));
+ assert.ok(html.includes("const lowRes=B1_CARD_ART[artKey],highRes=B1_HQ_CARD_ART[artKey]"));
+ assert.ok(html.includes("const candidates=[highRes,lowRes]"),"HQ original first, existing AVIF second");
+ assert.ok(html.includes("img.src=\"./assets/\"+candidates[index]"),"loads next fallback on failure");
  assert.ok(html.includes("attachB1OriginalArt(picture,c.magicArt)"),"hand and starter art");
  assert.ok(html.includes("attachB1OriginalArt(thumb,card.magicArt)"),"shop art");
  assert.ok(html.includes('img.addEventListener("error"'),"fallback on missing image");

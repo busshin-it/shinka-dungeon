@@ -1,0 +1,72 @@
+{
+  "version": 1,
+  "description": "WebP outputs generated from approved source PNGs in ChatGPT conversation, before GitHub binary upload",
+  "dimensions": [
+    768,
+    1024
+  ],
+  "format": "WebP",
+  "quality": 83,
+  "assets": [
+    {
+      "filename": "b1-physical-bludgeon.webp",
+      "bytes": 177174,
+      "sha256": "8b581e0ea297ae6a58b91a515998d3e5adbc7a44bb522c2398e30d7c7b2ef5c0"
+    },
+    {
+      "filename": "b1-physical-rapid.webp",
+      "bytes": 198592,
+      "sha256": "265296dc69d541d16e7ed4096e59489365a677fc38ef39934ba1f8882c104b56"
+    },
+    {
+      "filename": "b1-physical-heavy.webp",
+      "bytes": 168070,
+      "sha256": "79788fe1b07593f708ef9ad539e567797a3dbd0770e3ce1d5d9e6a3f1adb580e"
+    },
+    {
+      "filename": "b1-physical-sneak.webp",
+      "bytes": 184628,
+      "sha256": "33bd4820da99058fbe94c8aa198f896cc434c57bbad210ab78af909b32f417b7"
+    },
+    {
+      "filename": "b1-physical-hammer.webp",
+      "bytes": 161860,
+      "sha256": "3edec0cab2130db796dfb788422cff4f48014aa719d530f94431bdd2da2a4030"
+    },
+    {
+      "filename": "b1-physical-doping.webp",
+      "bytes": 179734,
+      "sha256": "56b6694353852ea61af98cfa8c9fb4e35acbb7f4fdc4b3079069ecfe16f5659c"
+    },
+    {
+      "filename": "b1-physical-adversity.webp",
+      "bytes": 158164,
+      "sha256": "14901ac9e78e163da05d65a28a5ff4677f7b06d10f0c51815ec8534a5f1fd255"
+    },
+    {
+      "filename": "b1-physical-rage.webp",
+      "bytes": 206954,
+      "sha256": "27b1a73bb964ba4c8259abdfe6ba2af36d042717ab3f2241b7c07c915fec98e2"
+    },
+    {
+      "filename": "b1-dark-mental-collapse.webp",
+      "bytes": 157522,
+      "sha256": "dc1895e48d05786d544468d8ce60fa2306d37e68df13fd2a04668fc7a9ea372e"
+    },
+    {
+      "filename": "b1-dark-curse.webp",
+      "bytes": 189242,
+      "sha256": "52cd8c17f82ad3dd7426e0fa0ea45a7c063a26b5f1578475b27c0ff6ec38cd97"
+    },
+    {
+      "filename": "b1-dark-death-song.webp",
+      "bytes": 189464,
+      "sha256": "b7e6bb00491cc7e8373f759a69df230552570a84c6432ba57e39dcf043df2231"
+    },
+    {
+      "filename": "b1-dark-hallucination.webp",
+      "bytes": 187672,
+      "sha256": "8bb43743158e870b79cf255f584df236e3dedefafeea31f3c7f995e5766187fd"
+    }
+  ]
+}
