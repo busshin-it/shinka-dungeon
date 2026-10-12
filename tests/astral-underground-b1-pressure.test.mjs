@@ -30,7 +30,7 @@ test("B1 scales from starter fights to an elite and a guarded boss",()=>{
  assert.equal(STAGES[0].enemies[0].maxHp,42);
  assert.equal(STAGES[2].enemies[0].maxHp,52);
  assert.equal(STAGES[3].enemies[0].maxHp,82);
- assert.equal(STAGES[4].enemies.find(e=>e.role==="boss").maxHp,135);
+ assert.equal(STAGES.at(-1).enemies.find(e=>e.role==="boss").maxHp,135);
  assert.equal(STARTER.length,9);
  const g=createB1Game({seed:1});
  g.selectStarter("scatter");const s=g.snapshot();
