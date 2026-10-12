@@ -14,6 +14,12 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
+      - name: Check out importer from main
+        uses: actions/checkout@v4
+        with:
+          ref: main
+      - name: Preserve checksum-verified importer
+        run: cp scripts/import-b1-first-second-art.py /tmp/import-b1-first-second-art.py
       - name: Check out pending card-art branch
         uses: actions/checkout@v4
         with:
@@ -46,7 +52,7 @@ jobs:
             --output /tmp/b1-first-second-art.zip "$ASSET_URL"
 
       - name: Check SHA256 and import only approved card images
-        run: python3 scripts/import-b1-first-second-art.py /tmp/b1-first-second-art.zip
+        run: python3 /tmp/import-b1-first-second-art.py /tmp/b1-first-second-art.zip
 
       - name: Commit to the existing draft PR only
         run: |
