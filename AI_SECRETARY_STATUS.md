@@ -13,10 +13,10 @@
 - 正本：[asset-factory/CARD_ART_RULES_DRAFT.md](asset-factory/CARD_ART_RULES_DRAFT.md)。AGENTSとAsset Factory READMEから参照可能。
 - **文書のGitHub保存済み。画像原画の参照登録・Asset Factoryキュー更新・自動量産・画像実装は未着手**。既存の自動生成設定、画像、ゲームコードは変更していない。次は基準画像の保管と個別カード主題・構図の対応づけ。
 
-## 第31歩：B1基本カード中心の高画質イラスト6枚（2026-10-12・作業PR）
+## 第31歩：B1基本カード中心の高画質イラスト6枚（2026-10-12・PR #92統合済み）
 - 元原画1086×1448から768×1024 WebP 6点を登録。画像Git blob SHAは全件一致。
 - 魔弾／雷撃／氷の矢／守りに加え、攻撃絵→魔装斬、防御絵→返響の盾へ割当。カード新設なし、初期デッキ・戦闘・保存・竜と画像表示枠は変更なし。
-- 画像ルール・ファイルハッシュ・テストをGitHubへ追加。次はPR CI、main統合・Pages公開、その後実機確認。
+- 画像ルール・ファイルハッシュ・テストをGitHubへ追加し、GitHub Actions #38226773930 成功後、PR #92をmainへ統合済み。Pages公開と実機は別途確認。
 - 正本：[design/b1-starter-six-card-art-20261012.md](design/b1-starter-six-card-art-20261012.md)
 
 ## 第30歩：B1火・雷6枚の高画質化（2026-10-12・PR #91統合済み）
