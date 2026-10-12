@@ -43,7 +43,7 @@ export const CARDS = Object.freeze({
  blizzard:{name:"吹雪",cost:2,kind:"all",text:"敵全体に5ダメージ。弱体1を付与",damage:5,weaken:1,magicArt:"blizzard"},
  thunderSurge:{name:"雷の奔流",cost:2,kind:"all",text:"敵全体に4ダメージ。先に使った攻撃1回につき＋3（最大3回）",damage:4,perAttack:3,maxPriorAttacks:3,magicArt:"surge"},
  guideThrust:{name:"導魔突き",cost:1,kind:"attack",text:"5ダメージ。次の魔法攻撃＋4",damage:5,nextMagicBonus:4,weapon:true,magicArt:"guide"},
- spellblade:{name:"魔装斬",cost:1,kind:"attack",text:"7ダメージ。先に呪文を使っていれば防御4",damage:7,blockAfterSpell:4,weapon:true,magicArt:"starter-attack"},
+ spellblade:{name:"魔装斬",cost:1,kind:"attack",text:"7ダメージ。先に呪文を使っていれば防御4",damage:7,blockAfterSpell:4,weapon:true,magicArt:"spellblade"},
  bludgeon:{name:"殴打",cost:1,kind:"attack",text:"5ダメージ。手札に魔法がなければ7",damage:5,noMagicDamage:7,weapon:true,magicArt:"physical-bludgeon"},
  rapidPunch:{name:"連続殴打",cost:2,kind:"multi",text:"6ダメージ×2。手札に魔法がなければ8×2",damage:6,noMagicDamage:8,hits:2,weapon:true,magicArt:"physical-rapid"},
  heavyBlow:{name:"強打",cost:2,kind:"attack",text:"12ダメージ。手札に魔法がなければ16",damage:12,noMagicDamage:16,weapon:true,magicArt:"physical-heavy"},
