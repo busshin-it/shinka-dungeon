@@ -30,7 +30,7 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - run: npm ci
+      - run: npm install
       - name: Produce and QA one missing illustration
         run: node asset-factory/b1-card-auto.mjs
       - name: Verify no artwork regression
