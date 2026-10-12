@@ -1,0 +1,52 @@
+name: B1 Card Art Auto
+
+on:
+  # B1 cards only. One image per run, at most four daily runs.
+  schedule:
+    - cron: '11 1,7,13,19 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: b1-card-art-main
+  cancel-in-progress: false
+
+jobs:
+  generate:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    env:
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+      ASSET_FACTORY_IMAGE_MODEL: ${{ vars.ASSET_FACTORY_IMAGE_MODEL || 'gpt-image-2' }}
+      ASSET_FACTORY_QA_MODEL: ${{ vars.ASSET_FACTORY_QA_MODEL || 'gpt-5.6-luna' }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm ci
+      - name: Produce and QA one missing illustration
+        run: node asset-factory/b1-card-auto.mjs
+      - name: Verify no artwork regression
+        run: |
+          node --test tests/astral-underground-b1-card-auto.test.mjs
+          node --test tests/astral-underground-b1-starter-quality.test.mjs
+      - name: Persist approved artwork and progress
+        shell: bash
+        run: |
+          if [ -z "$(git status --porcelain -- asset-factory/b1-card-queue.json v4-1/b1-auto-card-index.mjs v4-1/assets)" ]; then
+            echo "No new QA-approved card art."
+            exit 0
+          fi
+          git config user.name "b1-card-art[bot]"
+          git config user.email "b1-card-art[bot]@users.noreply.github.com"
+          git add asset-factory/b1-card-queue.json v4-1/b1-auto-card-index.mjs v4-1/assets
+          git commit -m "B1 Card Art Auto: generate one QA-approved card"
+          git pull --rebase origin main
+          git push origin HEAD:main
