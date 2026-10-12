@@ -1,5 +1,7 @@
 // Isolated B1 playtest. Never reads or changes existing game saves.
 export const CARDS = Object.freeze({
+ basicAttack:{name:"攻撃",cost:1,kind:"attack",text:"5ダメージ",damage:5,weapon:true,magicArt:"starter-basic-attack"},
+ basicDefense:{name:"防御",cost:1,kind:"guard",text:"防御5",block:5,weapon:true,magicArt:"starter-basic-defense"},
  bolt:{name:"魔弾",cost:1,kind:"attack",text:"6ダメージ",damage:6,magicArt:"starter-bolt"},
  lightning:{name:"雷撃",cost:2,kind:"attack",text:"13ダメージ",damage:13,magicArt:"starter-lightning"},
  scatter:{name:"散弾",cost:1,kind:"all",text:"敵全体に6ダメージ",damage:6},
@@ -97,12 +99,13 @@ export function getB1Card(id){const up=typeof id==="string"&&id.endsWith("~"),ba
  if(base==="dragonFeed"){next.dragonGrowth=2;next.text="竜を2段階成長。手札を1枚選んで捨てる。廃棄";return next;}const stat=["damage","block","heal","poison","weaken","vulnerable","energyGain","draw","strengthGain","powerDraw"].find(k=>Number.isFinite(card[k])&&card[k]>0);if(stat){const bonus=["damage","block","heal"].includes(stat)?3:1;next[stat]+=bonus;next.text=card.text+"（"+stat+"＋"+bonus+"）";}else{next.cost=Math.max(0,card.cost-1);next.text=card.text+"（魔力－1）";}return next;}
 export const PHYSICAL_STARTER = Object.freeze(["bludgeon","bludgeon","bludgeon","bludgeon","rapidPunch","rapidPunch","sneakHit","doping","ironHammer"]);
 export const isB1Magic=id=>getB1Card(id)?.weapon!==true;
-export const STARTER = Object.freeze(["bolt","bolt","bolt","bolt","guard","guard","guard","guard","break"]);
+export const LEGACY_B1_STARTER = Object.freeze(["bolt","bolt","bolt","bolt","guard","guard","guard","guard","break"]);
+export const STARTER = Object.freeze([...Array(5).fill("basicAttack"),...Array(5).fill("basicDefense")]);
 export const STAGES = Object.freeze([
- {name:"B1・入口",hint:"硬い敵を相手に攻撃するか防御するか。次の攻撃を予測しよう。",enemies:[{id:"rat",name:"石牙獣",maxHp:42,role:"rat"}],rewards:["ward","double","poison","spark","flow","heal","frost","shadowEcho","guideThrust"]},
- {name:"B1・群れ",hint:"小型2体の同時攻撃。片方を先に倒すか、全体攻撃で削るか。",enemies:[{id:"wolf",name:"洞穴の狼",maxHp:17,role:"wolf"},{id:"imp",name:"盾の小鬼",maxHp:16,role:"imp"}],rewards:["charge","chain","fragile","focus","flare","lightning","drain","scatter","blizzard"]},
- {name:"B1・祭壇",hint:"呪術師は初手で力を溜め、毎ターン強くなる。長期戦は危険。",enemies:[{id:"priest",name:"洞窟の呪術師",maxHp:52,role:"ritual"}],rewards:["flow","strength","double","poison","ward","flare","heal","lightning","spellblade"]},
- {name:"B1・強敵",hint:"強敵が大技と連続攻撃を使う。大技の予告を見て防御を合わせよう。",enemies:[{id:"brute",name:"深層の番兵",maxHp:82,role:"elite"}],rewards:["strength","focus","charge","double","flare","ward","drain","fragile","thunderSurge"]},
+ {name:"B1・入口",hint:"硬い敵を相手に攻撃するか防御するか。次の攻撃を予測しよう。",enemies:[{id:"rat",name:"石牙獣",maxHp:22,role:"rat"}],rewards:["ward","double","poison","spark","flow","heal","frost","shadowEcho","guideThrust"]},
+ {name:"B1・群れ",hint:"小型2体の同時攻撃。片方を先に倒すか、全体攻撃で削るか。",enemies:[{id:"wolf",name:"洞穴の狼",maxHp:15,role:"wolf"},{id:"imp",name:"盾の小鬼",maxHp:14,role:"imp"}],rewards:["charge","chain","fragile","focus","flare","lightning","drain","scatter","blizzard"]},
+ {name:"B1・祭壇",hint:"呪術師は初手で力を溜め、毎ターン強くなる。長期戦は危険。",enemies:[{id:"priest",name:"洞窟の呪術師",maxHp:33,role:"ritual"}],rewards:["flow","strength","double","poison","ward","flare","heal","lightning","spellblade"]},
+ {name:"B1・強敵",hint:"強敵が大技と連続攻撃を使う。大技の予告を見て防御を合わせよう。",enemies:[{id:"brute",name:"深層の番兵",maxHp:52,role:"elite"}],rewards:["strength","focus","charge","double","flare","ward","drain","fragile","thunderSurge"]},
  {name:"B1・裂け目",hint:"2体の攻撃をさばき、次のカードを手に入れよう。",enemies:[{id:"wolf2",name:"裂け目の狼",maxHp:23,role:"wolf"},{id:"rat2",name:"石牙獣・若",maxHp:25,role:"rat"}],rewards:["thunderSmall","fireWaveSmall","sneakHit","shadowEcho","ward","double","strength","curse","frost"]},
  {name:"B1・晶洞",hint:"硬い殻を割って先へ。次の一手を考えよう。",enemies:[{id:"carapace2",name:"晶洞の石甲獣",maxHp:51,role:"carapace"}],rewards:["thunderMedium","fireWaveMedium","rapidPunch","heavyBlow","iceSpear","arcaneLance","flow","charge","drain"]},
  {name:"B1・祭司の残響",hint:"術師と小鬼。妨害と全体攻撃が役立つ。",enemies:[{id:"ritual2",name:"残響の呪術師",maxHp:47,role:"ritual"},{id:"imp2",name:"護衛の小鬼",maxHp:21,role:"imp"}],rewards:["mentalCollapse","deathSong","hallucination","blizzard","thunderSurge","chain","echoGuard","guideThrust","poison"]},
@@ -110,7 +113,7 @@ export const STAGES = Object.freeze([
  {name:"B1・霧の回廊",hint:"動きの速い2体。手数で戦おう。",enemies:[{id:"wolf3",name:"霧の狼",maxHp:29,role:"wolf"},{id:"imp3",name:"霧の小鬼",maxHp:26,role:"imp"}],rewards:["sneakHit","rapidPunch","shadowEcho","thunderSmall","bludgeon","heal","flow","charge","poison"]},
  {name:"B1・歯車の門",hint:"外殻と突進。弱体や呪いを使いこなそう。",enemies:[{id:"carapace3",name:"古代石甲獣",maxHp:58,role:"carapace"},{id:"rat3",name:"鉄牙獣",maxHp:30,role:"rat"}],rewards:["curse","iceSpear","frostBreak","adversity","thunderMedium","fireWaveMedium","ward","drain","lingeringPoison"]},
  {name:"B1・最深部の門",hint:"ラスボス前の最後の試練。今のデッキを磨こう。",enemies:[{id:"elite3",name:"門を守る番兵",maxHp:84,role:"elite"},{id:"imp4",name:"最後の小鬼",maxHp:33,role:"imp"}],rewards:["rage","ironHammer","fireWaveLarge","thunderLarge","mentalCollapse","deathSong","charge","double","flow"]},
- {name:"B1・最深部",hint:"護衛2体と長期戦。護衛の守りを崩し、溜めた大技を乗り切ろう。",enemies:[{id:"left",name:"盾の小鬼・左",maxHp:24,role:"guard"},{id:"boss",name:"地底の祭司",maxHp:135,role:"boss"},{id:"right",name:"盾の小鬼・右",maxHp:24,role:"guard"}],rewards:[]}
+ {name:"B1・最深部",hint:"護衛2体と長期戦。護衛の守りを崩し、溜めた大技を乗り切ろう。",enemies:[{id:"left",name:"盾の小鬼・左",maxHp:19,role:"guard"},{id:"boss",name:"地底の祭司",maxHp:118,role:"boss"},{id:"right",name:"盾の小鬼・右",maxHp:19,role:"guard"}],rewards:[]}
 ]);
 // First small map experiment: both routes rejoin the unchanged third fight.
 export const B1_FORK_ROUTES=Object.freeze({
@@ -139,8 +142,9 @@ export function createB1Game(options={}){
   const stage=s.stage===1?B1_FORK_ROUTES[s.selectedPath||"pack"]:STAGES[s.stage];s.enemies=stage.enemies.map(e=>({...clone(e),hp:e.maxHp,weaken:0,poison:0,vulnerable:0,block:0,strength:0,channelDamage:0,channelBroken:false,confusionAttacks:0,hallucinationAttacks:0,curses:[]}));s.turn=1;s.block=0;s.energy=3;s.attacksThisTurn=0;s.attackCardsThisTurn=0;s.darkCastsThisTurn=0;s.spellsThisTurn=0;s.pendingMagicAttackBonus=0;s.powerDraw=0;s.strength=0;s.dopingBonus=0;s.nextPhysicalAttackBonus=0;s.lastTurnHpLoss=0;
   s.dragonStage=-1;s.lastDragonEvolution=null;s.lastSynergy=null;s.hand=[];s.discard=[];s.exhaust=[];s.powers=[];s.draw=shuffle([...s.deck]);s.selected=s.enemies.find(e=>e.role!=="boss")?.id||s.enemies[0].id;s.phase="battle";drawCards(5);note(stage.name+"：戦闘開始。");
  }
- function selectStarter(id){if(s.phase!=="starter"||!["physical","lightning","scatter","flow","dragonEgg","fireSmall","fireMedium","fireLarge","fireWaveSmall","fireWaveMedium","fireWaveLarge","thunderSmall","thunderMedium","thunderLarge","darkBolt","abyssBolt","mentalCollapse","curse","deathSong","hallucination","iceSpear","arcaneLance","shadowEcho","blizzard","thunderSurge","guideThrust","spellblade","bludgeon","rapidPunch","heavyBlow","sneakHit","ironHammer","doping","adversity","rage"].includes(id))return false;
-  if(id==="physical")s.deck=[...PHYSICAL_STARTER];
+ function selectStarter(id){if(s.phase!=="starter"||!["basic","physical","lightning","scatter","flow","dragonEgg","fireSmall","fireMedium","fireLarge","fireWaveSmall","fireWaveMedium","fireWaveLarge","thunderSmall","thunderMedium","thunderLarge","darkBolt","abyssBolt","mentalCollapse","curse","deathSong","hallucination","iceSpear","arcaneLance","shadowEcho","blizzard","thunderSurge","guideThrust","spellblade","bludgeon","rapidPunch","heavyBlow","sneakHit","ironHammer","doping","adversity","rage"].includes(id))return false;
+  if(id==="basic")s.deck=[...STARTER];
+  else if(id==="physical")s.deck=[...PHYSICAL_STARTER];
   else if(id==="dragonEgg")s.deck.push("dragonEgg","dragonFeed","dragonBreath");else s.deck.push(id);
   start();return true;}
  function protectors(){return s.stage===STAGES.length-1?alive().filter(e=>e.role==="guard").length:0;}
@@ -305,6 +309,15 @@ export function createB1Game(options={}){
   checkVictory();return true;
  }
  function intent(e){
+  // Early fights are scaled for the new 5-attack/5-defense starter.
+  // Legacy/specialized practice modes keep original AI damage values.
+  const easy=!s.practiceMode&&s.deck.includes("basicAttack")&&s.stage<3;
+  const early=(action)=>{
+   if(!easy||action.kind!=="attack")return action;
+   const damage=Math.max(2,action.damage-(s.stage===0?4:2));
+   return {...action,damage,label:action.label.replace(/\\d+(?=\\s*(?:×|$))/,String(damage))};
+  };
+
   if(!e||e.hp<=0)return{kind:"none",label:"撃破"};
   const t=s.turn;
   if(e.role==="boss"){
@@ -316,9 +329,9 @@ export function createB1Game(options={}){
   }
   if(e.role==="rat"){
    const n=(t-1)%3;
-   return n===0?{kind:"attack",label:"噛み砕く "+(9+e.strength),damage:9+e.strength}:
+   return n===0?early({kind:"attack",label:"噛み砕く "+(9+e.strength),damage:9+e.strength}):
     n===1?{kind:"buff",label:"殻を固める（防御6・攻撃＋2）",blockGain:6,strengthGain:2}:
-    {kind:"attack",label:"強打 "+(7+e.strength),damage:7+e.strength};
+    early({kind:"attack",label:"強打 "+(7+e.strength),damage:7+e.strength});
   }
   if(e.role==="carapace"){
     const n=(t-1)%3;
@@ -327,14 +340,14 @@ export function createB1Game(options={}){
       {kind:"attack",label:"重い一撃 8",damage:8};
    }
    if(e.role==="wolf")return t===2?{kind:"buff",label:"遠吠え（攻撃＋2）",strengthGain:2}:
-    {kind:"attack",label:"飛びかかり "+(6+e.strength),damage:6+e.strength};
+    early({kind:"attack",label:"飛びかかり "+(6+e.strength),damage:6+e.strength});
   if(e.role==="imp"||e.role==="guard"){
    const busy=(t+(e.id==="right"?1:0))%2===0;
    return busy?{kind:"buff",label:"盾を構える（防御4）",blockGain:4}:
-    {kind:"attack",label:"小突き 5",damage:5};
+    early({kind:"attack",label:"小突き 5",damage:5});
   }
   if(e.role==="ritual")return t===1?{kind:"buff",label:"闇の詠唱（毎ターン攻撃＋3）",ritualGain:3}:
-    {kind:"attack",label:"呪詛 "+(6+e.strength),damage:6+e.strength,ritualGain:3};
+    early({kind:"attack",label:"呪詛 "+(6+e.strength),damage:6+e.strength,ritualGain:3});
   if(e.role==="elite"){
    const n=(t-1)%3;
    return n===0?{kind:"attack",label:"二連斬り "+(7+e.strength)+"×2",damage:7+e.strength,hits:2}:
