@@ -1,0 +1,69 @@
+{
+  "version": 1,
+  "source_dimensions": [
+    1086,
+    1448
+  ],
+  "dimensions": [
+    768,
+    1024
+  ],
+  "format": "WebP",
+  "quality": 83,
+  "art": [
+    {
+      "card_id": "spellblade",
+      "magic_art": "spellblade",
+      "name": "魔装斬",
+      "filename": "b1-starter-attack.webp",
+      "bytes": 160780,
+      "sha256": "90c79db0949d50ed628d1508bded2318a834f1ba53c16f5a8225a98f89186f1d",
+      "git_blob_sha": "ee6bc65f51136585413b6237397ea4b7d5c82cc3"
+    },
+    {
+      "card_id": "echoGuard",
+      "magic_art": "starter-defense",
+      "name": "返響の盾",
+      "filename": "b1-starter-defense.webp",
+      "bytes": 156694,
+      "sha256": "2aa92ead5ef289eeb7c653116f9104abea41869fba7fae5e02b109a65cf6d741",
+      "git_blob_sha": "fc870d804de2cb439bba4f80b3c93ba42094aa32"
+    },
+    {
+      "card_id": "bolt",
+      "magic_art": "starter-bolt",
+      "name": "魔弾",
+      "filename": "b1-starter-bolt.webp",
+      "bytes": 150852,
+      "sha256": "fd2591c59195254b7fe18256a5dbc8c89637126834a3b2010bfc7ac9f02be5cb",
+      "git_blob_sha": "d15b87fed21ff925991dc32cfff4fc5be09d4208"
+    },
+    {
+      "card_id": "lightning",
+      "magic_art": "starter-lightning",
+      "name": "雷撃",
+      "filename": "b1-starter-lightning.webp",
+      "bytes": 196900,
+      "sha256": "92f622840bb967f4d2a88e9e0faece5563453294f3adec09f722aec05be4012e",
+      "git_blob_sha": "5091de083588267461c5069be88571ed916538d1"
+    },
+    {
+      "card_id": "frost",
+      "magic_art": "starter-frost",
+      "name": "氷の矢",
+      "filename": "b1-starter-frost.webp",
+      "bytes": 182056,
+      "sha256": "ec6f07b4737c75195ed3d2d81a2fa14647b6c5d7ff4756cf4f07b46f597a2bef",
+      "git_blob_sha": "87a1a89ffbb664d6935e1114f087e9ff1cc7319a"
+    },
+    {
+      "card_id": "guard",
+      "magic_art": "starter-guard",
+      "name": "守り",
+      "filename": "b1-starter-guard.webp",
+      "bytes": 177740,
+      "sha256": "a7413080117445c78c4484e94a676b3dbdf49d9a6cbb01c27ad0b8ae68d77115",
+      "git_blob_sha": "f85a0200edcfb7a00ba9fcb0e0dc72ae57e3bf86"
+    }
+  ]
+}
