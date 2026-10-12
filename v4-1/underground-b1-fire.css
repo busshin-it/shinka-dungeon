@@ -367,3 +367,23 @@
  box-shadow:0 0 0 12px #e746423a,0 0 31px #ff9445;
  transform:translate(-50%,-50%) rotate(33deg);
 }
+
+
+/* New B1 starter-card originals: simple elemental placeholders remain if an
+   image fails to load.  The WebP itself is above these behind CSS (z-index:2).
+   In particular, magic bullet, lightning, frost and both shields are distinct. */
+.pilot-mode .b1-magic-art--starter-bolt{
+ background-image:radial-gradient(ellipse at 47% 44%,#ffefb3,#f3b04a 17%,#6a3260 43%,#14152d 88%);
+}
+.pilot-mode .b1-magic-art--starter-lightning{
+ background-image:linear-gradient(135deg,#091b42,#4286bc 44%,#d5f6ff 52%,#173967 75%,#10192c);
+}
+.pilot-mode .b1-magic-art--starter-frost{
+ background-image:radial-gradient(ellipse at 62% 38%,#f5fdff,#8ee1f4 23%,#276fbb 52%,#152a4c 89%);
+}
+.pilot-mode .b1-magic-art--starter-guard{
+ background-image:radial-gradient(ellipse at 48% 50%,#fff6d0,#e8b761 20%,#586d81 60%,#172334 95%);
+}
+.pilot-mode .b1-magic-art--starter-defense{
+ background-image:radial-gradient(ellipse at 52% 46%,#fff5ca,#c8a250 25%,#526a8f 59%,#18263a 95%);
+}
