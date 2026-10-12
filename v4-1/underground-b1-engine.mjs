@@ -103,6 +103,13 @@ export const STAGES = Object.freeze([
  {name:"B1・群れ",hint:"小型2体の同時攻撃。片方を先に倒すか、全体攻撃で削るか。",enemies:[{id:"wolf",name:"洞穴の狼",maxHp:17,role:"wolf"},{id:"imp",name:"盾の小鬼",maxHp:16,role:"imp"}],rewards:["charge","chain","fragile","focus","flare","lightning","drain","scatter","blizzard"]},
  {name:"B1・祭壇",hint:"呪術師は初手で力を溜め、毎ターン強くなる。長期戦は危険。",enemies:[{id:"priest",name:"洞窟の呪術師",maxHp:52,role:"ritual"}],rewards:["flow","strength","double","poison","ward","flare","heal","lightning","spellblade"]},
  {name:"B1・強敵",hint:"強敵が大技と連続攻撃を使う。大技の予告を見て防御を合わせよう。",enemies:[{id:"brute",name:"深層の番兵",maxHp:82,role:"elite"}],rewards:["strength","focus","charge","double","flare","ward","drain","fragile","thunderSurge"]},
+ {name:"B1・裂け目",hint:"2体の攻撃をさばき、次のカードを手に入れよう。",enemies:[{id:"wolf2",name:"裂け目の狼",maxHp:23,role:"wolf"},{id:"rat2",name:"石牙獣・若",maxHp:25,role:"rat"}],rewards:["thunderSmall","fireWaveSmall","sneakHit","shadowEcho","ward","double","strength","curse","frost"]},
+ {name:"B1・晶洞",hint:"硬い殻を割って先へ。次の一手を考えよう。",enemies:[{id:"carapace2",name:"晶洞の石甲獣",maxHp:51,role:"carapace"}],rewards:["thunderMedium","fireWaveMedium","rapidPunch","heavyBlow","iceSpear","arcaneLance","flow","charge","drain"]},
+ {name:"B1・祭司の残響",hint:"術師と小鬼。妨害と全体攻撃が役立つ。",enemies:[{id:"ritual2",name:"残響の呪術師",maxHp:47,role:"ritual"},{id:"imp2",name:"護衛の小鬼",maxHp:21,role:"imp"}],rewards:["mentalCollapse","deathSong","hallucination","blizzard","thunderSurge","chain","echoGuard","guideThrust","poison"]},
+ {name:"B1・黒曜の間",hint:"ひとりの強敵。守りと高火力の使い分け。",enemies:[{id:"elite2",name:"黒曜の守衛",maxHp:71,role:"elite"}],rewards:["fireWaveLarge","thunderLarge","ironHammer","rage","abyssBolt","focus","strength","ward","spellblade"]},
+ {name:"B1・霧の回廊",hint:"動きの速い2体。手数で戦おう。",enemies:[{id:"wolf3",name:"霧の狼",maxHp:29,role:"wolf"},{id:"imp3",name:"霧の小鬼",maxHp:26,role:"imp"}],rewards:["sneakHit","rapidPunch","shadowEcho","thunderSmall","bludgeon","heal","flow","charge","poison"]},
+ {name:"B1・歯車の門",hint:"外殻と突進。弱体や呪いを使いこなそう。",enemies:[{id:"carapace3",name:"古代石甲獣",maxHp:58,role:"carapace"},{id:"rat3",name:"鉄牙獣",maxHp:30,role:"rat"}],rewards:["curse","iceSpear","frostBreak","adversity","thunderMedium","fireWaveMedium","ward","drain","lingeringPoison"]},
+ {name:"B1・最深部の門",hint:"ラスボス前の最後の試練。今のデッキを磨こう。",enemies:[{id:"elite3",name:"門を守る番兵",maxHp:84,role:"elite"},{id:"imp4",name:"最後の小鬼",maxHp:33,role:"imp"}],rewards:["rage","ironHammer","fireWaveLarge","thunderLarge","mentalCollapse","deathSong","charge","double","flow"]},
  {name:"B1・最深部",hint:"護衛2体と長期戦。護衛の守りを崩し、溜めた大技を乗り切ろう。",enemies:[{id:"left",name:"盾の小鬼・左",maxHp:24,role:"guard"},{id:"boss",name:"地底の祭司",maxHp:135,role:"boss"},{id:"right",name:"盾の小鬼・右",maxHp:24,role:"guard"}],rewards:[]}
 ]);
 // First small map experiment: both routes rejoin the unchanged third fight.
@@ -412,30 +419,34 @@ export function createB1Game(options={}){
  function chooseReward(id){
   if(s.phase!=="reward"||(id!==null&&!s.rewards.includes(id)))return false;
   if(id){s.deck.push(id);note(getB1Card(id).name+"を習得。");}else note("報酬は見送った。");
-  s.phase="between";if(s.stage===1&&!s.practiceMode)s.restPending=true;if(s.stage===2&&!s.practiceMode)s.shopPending=true;return true;
+  // Normal mode: 11 rewards (1 card chosen from 3 after each victory).
+  s.phase="between";
+  if([1,5,10].includes(s.stage)&&!s.practiceMode){s.restPending=true;s.restUsed=false;s.restChoice=null;}
+  if([2,8].includes(s.stage)&&!s.practiceMode){s.shopPending=true;s.shopUsed=false;}
+  return true;
  }
  function chooseRest(kind,index=null){
- if(s.phase!=="between"||s.stage!==1||!s.restPending||s.restUsed||s.practiceMode)return false;
+ if(s.phase!=="between"||![1,5,10].includes(s.stage)||!s.restPending||s.restUsed||s.practiceMode)return false;
  if(kind==="heal"){const amount=Math.min(15,s.maxHp-s.hp);s.hp+=amount;note("休憩所：HPを"+amount+"回復。");}
  else if(kind==="upgrade"){if(!Number.isInteger(index)||index<0||index>=s.deck.length||s.deck[index].endsWith("~"))return false;const id=s.deck[index];s.deck[index]=id+"~";note("休憩所："+getB1Card(id).name+"を強化。");}
  else return false;s.restPending=false;s.restUsed=true;s.restChoice=kind;return true;
 }
 const SHOP_STOCK=Object.freeze([{id:"ward",price:35},{id:"chain",price:40},{id:"frostBreak",price:35},{id:"echoGuard",price:30},{id:"lingeringPoison",price:30},{id:"fireSmall",price:25},{id:"fireMedium",price:40},{id:"fireLarge",price:55},{id:"fireWaveSmall",price:30},{id:"fireWaveMedium",price:45},{id:"fireWaveLarge",price:60},{id:"thunderSmall",price:30},{id:"thunderMedium",price:45},{id:"thunderLarge",price:60},{id:"darkBolt",price:35},{id:"abyssBolt",price:45},{id:"iceSpear",price:40},{id:"arcaneLance",price:35},{id:"mentalCollapse",price:50},{id:"curse",price:30},{id:"deathSong",price:60},{id:"hallucination",price:35},{id:"shadowEcho",price:35},{id:"blizzard",price:45},{id:"thunderSurge",price:50},{id:"guideThrust",price:35},{id:"spellblade",price:35},{id:"bludgeon",price:25},{id:"rapidPunch",price:45},{id:"heavyBlow",price:40},{id:"sneakHit",price:30},{id:"ironHammer",price:60},{id:"doping",price:40},{id:"adversity",price:35},{id:"rage",price:65}]);
 function buyShop(id){
- if(s.phase!=="between"||s.stage!==2||!s.shopPending||s.shopUsed||s.practiceMode)return false;
+ if(s.phase!=="between"||![2,8].includes(s.stage)||!s.shopPending||s.shopUsed||s.practiceMode)return false;
  const item=SHOP_STOCK.find(item=>item.id===id);
  if(!item||s.gold<item.price||s.shopPurchases.includes(id))return false;
  s.gold-=item.price;s.deck.push(item.id);s.shopPurchases.push(item.id);
  note("商店："+getB1Card(item.id).name+"を"+item.price+"Gで購入。");return true;
 }
 function purgeShopCard(index){
- if(s.phase!=="between"||s.stage!==2||!s.shopPending||s.shopUsed||s.practiceMode||s.shopPurged||s.gold<30)return false;
+ if(s.phase!=="between"||![2,8].includes(s.stage)||!s.shopPending||s.shopUsed||s.practiceMode||s.shopPurged||s.gold<30)return false;
  if(!Number.isInteger(index)||index<0||index>=s.deck.length||s.deck.length<=1)return false;
  const id=s.deck.splice(index,1)[0];s.gold-=30;s.shopPurged=true;
  note("商店："+getB1Card(id).name+"を削除（30G）。");return true;
 }
 function leaveShop(){
- if(s.phase!=="between"||s.stage!==2||!s.shopPending||s.shopUsed||s.practiceMode)return false;
+ if(s.phase!=="between"||![2,8].includes(s.stage)||!s.shopPending||s.shopUsed||s.practiceMode)return false;
  s.shopPending=false;s.shopUsed=true;note("商店を後にした。");return true;
 }
 function choosePath(id){
@@ -454,9 +465,9 @@ function choosePath(id){
    const stage=s.stage===1?B1_FORK_ROUTES[s.selectedPath||"pack"]:STAGES[s.stage];
    return clone({...s,intents:s.enemies.map(e=>({id:e.id,...intent(e)})),
      stageName:s.stage===1?"B1・"+stage.name:stage.name,stageHint:stage.hint,
-     shopAvailable:s.phase==="between"&&s.stage===2&&s.shopPending&&!s.practiceMode,
+     shopAvailable:s.phase==="between"&&[2,8].includes(s.stage)&&s.shopPending&&!s.practiceMode,
      shopStock:SHOP_STOCK,
-     restAvailable:s.phase==="between"&&s.stage===1&&s.restPending&&!s.practiceMode,
+     restAvailable:s.phase==="between"&&[1,5,10].includes(s.stage)&&s.restPending&&!s.practiceMode,
       dragonName:s.dragonStage<0?null:DRAGON_STAGES[s.dragonStage],
       availablePaths:s.phase==="between"&&s.stage===0&&s.selectedPath===null?Object.keys(B1_FORK_ROUTES):[]});
   }
