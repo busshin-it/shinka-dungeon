@@ -1,0 +1,67 @@
+{
+  "version": 1,
+  "width": 768,
+  "height": 1024,
+  "source_size": [
+    1086,
+    1448
+  ],
+  "format": "WebP",
+  "quality": 83,
+  "files": [
+    {
+      "card_id": "fireWaveSmall",
+      "name": "火の雨",
+      "art": "fire-rain-small",
+      "filename": "fire-aoe-small.webp",
+      "original": "image-gen-4(10).png",
+      "bytes": 164888,
+      "sha256": "8b60389b3f4fb164fa204234be1c9db98f58986e4b378b88323eeee12399fc12"
+    },
+    {
+      "card_id": "fireWaveMedium",
+      "name": "炎の波",
+      "art": "fire-rain-medium",
+      "filename": "fire-aoe-medium.webp",
+      "original": "image-gen-5(4).png",
+      "bytes": 210968,
+      "sha256": "b9fd3b46eda87967c927d47eedb3912e9ceb5b8ad5b3c7af99beab0cd0689e8b"
+    },
+    {
+      "card_id": "fireWaveLarge",
+      "name": "業火の嵐",
+      "art": "fire-rain-large",
+      "filename": "fire-aoe-large.webp",
+      "original": "image-gen-6(4).png",
+      "bytes": 200944,
+      "sha256": "80857003537ec5899036ec6f5f341cf52925e11bb9247e9f13786ba8a5f353d3"
+    },
+    {
+      "card_id": "thunderSmall",
+      "name": "雷針",
+      "art": "thunder-small",
+      "filename": "thunder-single-small.webp",
+      "original": "image-gen-7(4).png",
+      "bytes": 143044,
+      "sha256": "c58c194c07f7e5d8e5d30f41bd5027c378efedc0ab8335f36419b7567b80a52b"
+    },
+    {
+      "card_id": "thunderMedium",
+      "name": "双雷槍",
+      "art": "thunder-medium",
+      "filename": "thunder-single-medium.webp",
+      "original": "image-gen-8(4).png",
+      "bytes": 192832,
+      "sha256": "5468a1c4c258d739502f53df5c3d96d9aa98774bd5e50571cd04627d48c33758"
+    },
+    {
+      "card_id": "thunderLarge",
+      "name": "天雷",
+      "art": "thunder-large",
+      "filename": "thunder-single-large.webp",
+      "original": "image-gen-9(2).png",
+      "bytes": 200222,
+      "sha256": "d3e0d75bd5d7f200c68cea57b827c4f2489b134f92c0f4005f661531ce3665b8"
+    }
+  ]
+}
