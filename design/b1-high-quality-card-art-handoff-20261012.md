@@ -10,8 +10,9 @@
 - ✅ `scripts/build_b1_card_hq.py` を追加し、元PNGから同じ規格に変換可能
 - ✅ `v4-1/underground-b1-playtest.html` に12枚分のWebP優先マッピングを追加
 - ✅ WebPファイルが未登録の場合、物理カードは現行AVIF、黒魔法カードは現行CSSにフォールバック
-- ⏳ **WebP12点のGitHubバイナリ登録は未完了**。コードの追加だけでは高画質表示にならない。チャットの作業領域では原画と生成ファイルを扱えるが、接続中のGitHub更新操作はUTF-8テキストとbase64文字列の登録のみで、作業領域のバイナリファイルを直接渡せない。
-- ⏳ CI／main統合／Pages配信／Android実機はそれぞれ未完了・別判定
+- ✅ **WebP12点をGitHubへバイナリ登録完了**：一時的な転送経路でbase64をGit blob化し、元データの Git SHA と12点すべて一致。`v4-1/assets/` 配下にファイルとしてGit treeを作成し、PR #90ブランチへ更新済み。転送に使った一時ファイルは削除済み。
+- ✅ 実ファイル込みのGitHub Actions #38218281957 成功。画像の期待サイズ・SHA256の照合を通過。
+- ⏳ main統合／Pages配信／Android実機はそれぞれ未完了・別判定
 
 ## 画像の対応表
 
@@ -32,11 +33,10 @@
 
 **画像出力パス**：`v4-1/assets/` 直下。**手札の原画位置**：既存 `object-fit:cover; object-position:50% 32%` のまま。ゲーム内カードサイズや戦闘ロジックは変更しない。
 
-## WebPをGitHubに登録するための残作業
+## WebP登録の履歴と公開後の残作業
 
-1. このチャットが作成した `b1-all-card-art-768x1024.zip`（物理8枚＋黒魔法4枚）を取得する。すべてのファイルはZIP内の `v4-1/assets/` 配下にある。
-2. ZIPを展開し、新しいWebPファイル12枚をGitHubの **同名の `v4-1/assets/` パス**へ登録する。ZIPファイル自体をこのディレクトリに置かない。
-3. GitHub側のPRブランチに12点の実ファイルが含まれること、全ファイルが768×1024のWebPであることを確認する。
+1. **GitHubへの登録済み**：PR #90にWebP12点を直接登録。元画像に対応するGit blob SHAと各ファイルの存在を確認済み。
+2. ハッシュ付き画像マニフェスト（`design/b1-card-hq-expected-manifest.json`）に一致することをテスト済み。
 4. `node --test tests/astral-underground-b1-hq-card-art.test.mjs tests/astral-underground-b1-physical-art.test.mjs` を含むGitHub Actionsの全検証に合格後、承認を得てmainに統合する。
 5. Pages公開後にPC・スマホ縦横・商店・報酬・拡大カードの表示を確認する。
 
