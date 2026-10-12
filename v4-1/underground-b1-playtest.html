@@ -126,9 +126,9 @@
 <dialog id="fireStarterDialog" class="b1-fire-dialog" aria-labelledby="fireStarterTitle"><h2 id="fireStarterTitle">火・雷・黒魔法・物理攻撃から選ぶ</h2><p>属性魔法を1枚選び、初期デッキに加えて開始します。</p><button id="physicalStarterDialogOpen" class="b1-physical-start-cta" type="button"><strong>⚔ 物理デッキで開始</strong><small>魔法0枚・物理9枚｜鉄槌も使用可能</small></button><div id="fireStarterChoices" class="b1-fire-starter-choices"></div><button id="fireStarterClose" type="button" class="quiet">戻る</button></dialog>
 <nav class="journey" aria-label="冒険の進み具合"><span>✦</span><span id="turnNum"></span></nav>
 <section id="setupPanel" class="stage pilot-setup b1-ref-setup" hidden><div class="pilot-setup-content b1-ref-panel">
-<button id="physicalStarterOpen" class="b1-physical-start-cta" type="button"><strong>⚔ 物理デッキで開始</strong><small>魔法0枚・物理9枚｜鉄槌も使用可能</small></button>
+
 <div class="pilot-setup-head b1-ref-head"><img src="./assets/hero.webp" alt="蒼星の魔法師"><div><h2 id="setupHeading">護符を選ぶ</h2><span class="b1-ref-title-rule" aria-hidden="true"></span><p id="setupHint"></p></div></div>
-<div id="setupChoices" class="pilot-choices"></div><div class="pilot-setup-actions"><button id="fireStarterOpen" class="quiet" type="button">✦ 属性魔法で開始</button><button id="bossComboPractice" class="primary" type="button">連鎖コンボ14枚で練習</button><button id="bossPractice" class="quiet" type="button">安定型14枚で練習</button><button id="bossBasicPractice" class="quiet" type="button">基本10枚で練習</button><button id="setupReroll" class="quiet" type="button">↻ 別の候補</button></div>
+<button id="basicStarterOpen" class="b1-basic-start" type="button"><strong>冒険を始める</strong><span>攻撃5枚・防御5枚から出発。12戦でカードを集めよう</span></button><details class="b1-advanced-start"><summary>特殊デッキ・ボス練習</summary><div id="setupChoices" class="pilot-choices"></div><div class="pilot-setup-actions"><button id="fireStarterOpen" class="quiet" type="button">✦ 属性魔法で開始</button><button id="bossComboPractice" class="primary" type="button">連鎖コンボ14枚で練習</button><button id="bossPractice" class="quiet" type="button">安定型14枚で練習</button><button id="bossBasicPractice" class="quiet" type="button">基本10枚で練習</button><button id="setupReroll" class="quiet" type="button">↻ 別の候補</button></div></details>
 </div></section>
 <div id="playScreen" class="pilot-play" hidden>
   <section class="stage" aria-label="戦闘画面">
@@ -187,6 +187,7 @@ import {CARDS,STAGES,createB1Game,getB1Card,IDEAL_B1_BOSS_DECK,COMBO_B1_BOSS_DEC
 import {attachB1Actions} from "./underground-b1-actions.mjs";
 import {showB1Feedback} from "./underground-b1-feedback.mjs";
 import {getB1DragonVisual} from "./underground-b1-dragon-visuals.mjs";
+import {B1_AUTO_CARD_ART} from "./b1-auto-card-index.mjs";
 const el=id=>document.getElementById(id);
 let game=createB1Game({seed:Date.now()}),targetId=null;
 // Direct physical trial URL lets players launch the deck without hunting for a
@@ -216,6 +217,8 @@ const B1_CARD_ART=Object.freeze({
    CSS fallback stays active until the corresponding WebP really exists.
    This mapping is shared by the hand, enlarged preview, shop and starter. */
 const B1_HQ_CARD_ART=Object.freeze({
+ "basic-attack":"b1-starter-attack.webp",
+ "basic-defense":"b1-starter-defense.webp",
  "starter-bolt":"b1-starter-bolt.webp",
  "starter-lightning":"b1-starter-lightning.webp",
  "starter-frost":"b1-starter-frost.webp",
@@ -236,7 +239,8 @@ const B1_HQ_CARD_ART=Object.freeze({
  "hallucination":"b1-dark-hallucination.webp"
 });
 // Static asset inventory: original art (HQ or other existing files), not CSS art.
-function b1ArtInventory(card){
+function b1ArtInventory(card,id){
+ if(B1_AUTO_CARD_ART[id])return {hasOriginal:true,file:B1_AUTO_CARD_ART[id]};
  if(card.magicArt){
   const filename=B1_HQ_CARD_ART[card.magicArt]||B1_CARD_ART[card.magicArt];
   return filename?{hasOriginal:true,file:filename}:{hasOriginal:false,file:null};
@@ -247,7 +251,7 @@ function b1ArtInventory(card){
 }
 function renderB1CardCatalog(missingOnly=false){
  const entries=Object.entries(CARDS);
- const missing=entries.filter(([,card])=>!b1ArtInventory(card).hasOriginal);
+ const missing=entries.filter(([,card])=>!b1ArtInventory(card,id).hasOriginal);
  el("b1CardCatalogSummary").textContent=entries.length+"種類中、独立原画または専用画像あり "+(entries.length-missing.length)+"種類／原画なし "+missing.length+"種類（CSS仮絵も原画なしに含む）";
  el("b1CatalogAll").setAttribute("aria-pressed",String(!missingOnly));
  el("b1CatalogMissing").setAttribute("aria-pressed",String(missingOnly));
@@ -256,7 +260,7 @@ function renderB1CardCatalog(missingOnly=false){
   const item=document.createElement("article");item.className="b1-catalog-item";
   const art=cardButton(id);art.disabled=true;art.tabIndex=-1;
   const meta=document.createElement("div");meta.className="b1-catalog-meta";
-  const result=b1ArtInventory(card);
+  const result=b1ArtInventory(card,id);
   const flag=document.createElement("span");flag.className="b1-catalog-status"+(result.hasOriginal?"":" b1-catalog-missing");
   flag.textContent=result.hasOriginal?"画像あり"+(result.quality==="low"?"（軽量版）":""):"原画なし";
   const text=document.createElement("p");text.textContent="魔力 "+card.cost+"｜"+card.text;
@@ -265,7 +269,7 @@ function renderB1CardCatalog(missingOnly=false){
 }
 const unavailableB1Art=new Set();
 function attachB1OriginalArt(parent,artKey){
- const lowRes=B1_CARD_ART[artKey],highRes=B1_HQ_CARD_ART[artKey];
+ const lowRes=B1_CARD_ART[artKey],highRes=B1_AUTO_CARD_ART[artKey.startsWith("auto-")?artKey.slice(5):""]||B1_HQ_CARD_ART[artKey];
  const candidates=[highRes,lowRes].filter(Boolean).filter(filename=>!unavailableB1Art.has(filename));
  if(!candidates.length)return;
  const img=document.createElement("img");
@@ -285,6 +289,8 @@ function attachB1OriginalArt(parent,artKey){
 /* Hand-only short labels: the full engine text remains in accessible labels and
    the enlarged, full-description preview. Nothing here changes card mechanics. */
 function b1HandSummary(id,card){
+ if(id.replace(/~$/,"")==="basicAttack")return card.damage+"ダメージ";
+ if(id.replace(/~$/,"")==="basicDefense")return "防御"+card.block;
  const bare=id.replace(/~$/,"");
  switch(bare){
   case "bludgeon":return card.damage+"ダメージ / 魔法なし"+card.noMagicDamage;
@@ -307,6 +313,9 @@ function b1HandSummary(id,card){
  }
 }
 const percent=(n,max)=>Math.max(0,Math.min(100,Math.round(n*100/Math.max(1,max))))+"%";
+function b1VisualKey(id,card){
+ const base=id.replace(/~$/,"");return B1_AUTO_CARD_ART[base]?"auto-"+base:card.magicArt;
+}
 function cardButton(id){
  const c=getB1Card(id),btn=document.createElement("button");btn.type="button";btn.className="card pilot-card b1-text-card";
  const cost=document.createElement("span");cost.className="cost";cost.textContent=c.cost;
@@ -318,9 +327,10 @@ function cardButton(id){
  if(c.fireArt){
    const picture=document.createElement("span");picture.className="b1-fire-card-art b1-fire-art--"+c.fireArt;
    picture.setAttribute("aria-hidden","true");btn.classList.add("b1-art-card","b1-fire-card");btn.append(picture);
- }else if(c.magicArt){
-   const picture=document.createElement("span");picture.className="b1-magic-card-art b1-magic-art--"+c.magicArt;
-   picture.setAttribute("aria-hidden","true");attachB1OriginalArt(picture,c.magicArt);btn.classList.add("b1-art-card","b1-magic-card");btn.append(picture);
+ }else if(b1VisualKey(id,c)){
+   const key=b1VisualKey(id,c);
+   const picture=document.createElement("span");picture.className="b1-magic-card-art b1-magic-art--"+key;
+   picture.setAttribute("aria-hidden","true");attachB1OriginalArt(picture,key);btn.classList.add("b1-art-card","b1-magic-card");btn.append(picture);
  }else if(c.art){
    const stage=c.kind==="dragon"?0:c.kind==="dragonFeed"?1:Math.max(2,game.snapshot().dragonStage);
    const visual=getB1DragonVisual(stage);
@@ -343,8 +353,8 @@ function current(s){
  return s.enemies.find(e=>e.id===targetId)||s.enemies[0];
 }
 function renderSetup(){
- el("setupHeading").textContent="最初の戦い方を選ぶ";
- el("setupHint").textContent="魔法1枚を追加するか、物理だけの9枚で開始。魔法なしなら鉄槌が使える。竜の卵は召喚・育成・竜息の3枚で開始。";
+ el("setupHeading").textContent="攻撃と防御から冒険へ";
+ el("setupHint").textContent="最初は攻撃5枚・防御5枚だけ。戦闘ごとに新しいカードを選び、デッキを育てよう。";
  const target=el("setupChoices");target.replaceChildren();
  for(const id of ["lightning","scatter","flow","dragonEgg"]){
    const b=cardButton(id);b.classList.add("pilot-start-card");
@@ -486,10 +496,10 @@ function renderOverlay(s){
    const items=el("shopItems");items.replaceChildren();
    s.shopStock.forEach(item=>{const card=getB1Card(item.id),b=document.createElement("button");b.type="button";b.className="b1-shop-item";b.disabled=s.gold<item.price||s.shopPurchases.includes(item.id);
     b.textContent=card.name+"｜"+card.text+"｜"+item.price+" G"+(s.shopPurchases.includes(item.id)?"（購入済み）":"");
-     if(card.fireArt||card.magicArt){
+     if(card.fireArt||b1VisualKey(item.id,card)){
      const thumb=document.createElement("span");
-     thumb.className=card.fireArt?"b1-fire-shop-thumb b1-fire-art--"+card.fireArt:"b1-fire-shop-thumb b1-magic-card-art b1-magic-art--"+card.magicArt;
-     thumb.setAttribute("aria-hidden","true");if(card.magicArt)attachB1OriginalArt(thumb,card.magicArt);b.prepend(thumb);
+     thumb.className=card.fireArt?"b1-fire-shop-thumb b1-fire-art--"+card.fireArt:"b1-fire-shop-thumb b1-magic-card-art b1-magic-art--"+b1VisualKey(item.id,card);
+     thumb.setAttribute("aria-hidden","true");if(b1VisualKey(item.id,card))attachB1OriginalArt(thumb,b1VisualKey(item.id,card));b.prepend(thumb);
     }
      b.addEventListener("click",()=>{if(game.buyShop(item.id))render();});items.append(b);});
    const purge=el("shopPurgeOpen");purge.disabled=s.shopPurged||s.gold<30||s.deck.length<=1;
@@ -605,7 +615,7 @@ el("shopPurgeOpen").addEventListener("click",()=>{
  });
 });
 el("shopLeave").addEventListener("click",()=>{if(game.leaveShop())render();});
-el("physicalStarterOpen").addEventListener("click",()=>{if(game.selectStarter("physical")){targetId=null;render();}});
+el("basicStarterOpen").addEventListener("click",()=>{if(game.selectStarter("basic")){targetId=null;render();}});
 el("physicalStarterDialogOpen").addEventListener("click",()=>{if(game.selectStarter("physical")){el("fireStarterDialog").close();targetId=null;render();}});
 el("fireStarterOpen").addEventListener("click",()=>{if(game.snapshot().phase==="starter")el("fireStarterDialog").showModal();});
 el("fireStarterClose").addEventListener("click",()=>el("fireStarterDialog").close());
