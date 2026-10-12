@@ -2,6 +2,11 @@
 
 > 2026-10-11時点のGitHub記録に基づく短い要約。最新の状態は[CURRENT_STATE.md](CURRENT_STATE.md)を正本とする。以前の詳細な29KBの全文は[保存用ブランチ](https://github.com/busshin-it/shinka-dungeon/blob/archive/secretary-before-compaction-20261011/AI_SECRETARY_STATUS.md)に保管。
 
+## 最新の確認（2026-10-12）・カード原画第3弾
+- PR #98：魔力点火・破魔雷・双雷・魔導の研究・毒炎の画像をGitHubへ実登録し、B1のカードIDと一元描画に接続。原画5点のSHA256/形式・画像欠落時のCSSフォールバックを自動テスト。
+- Asset Factory CI #38262661932／Astral game verification #38262661964 成功後、PR #98をmain `8ef597c` へ統合。Pages公開反映とAndroid・PCでの視認性は未確認。
+- [詳細](design/b1-third-five-art-20261012.md)。他の生成済み画像グループは今回のmain統合に含まない。
+
 ## B1物理カード8枚・画像ファイル登録（2026-10-12）
 - PR #88：物理8枚に個別AVIF画像を実装。生成済み原画からの軽量版で、カードID・ファイル名の対応を保存。手札・商店・開始画面で共通表示し、画像なし時はCSS仮絵へ戻す。画像のGitHub blob登録と専用回帰テストの成功を確認した。
 - 旧本編・カード効果・竜カード画像は変更なし。main統合・Pages配信は別途照合する。元高精細PNGと今回の180×240 AVIFは画質が異なるため、Android実機での見え方を確認して必要なら高解像度へ差し替える。
