@@ -331,9 +331,9 @@ export function createB1Game(options={}){
   }
   if(e.role==="rat"){
    const n=(t-1)%3;
-   return n===0?{kind:"attack",label:"噛み砕く "+((early?5:9)+e.strength),damage:9+e.strength}:
+   return n===0?{kind:"attack",label:"噛み砕く "+((early?5:9)+e.strength),damage:(early?5:9)+e.strength}:
     n===1?{kind:"buff",label:"殻を固める（防御6・攻撃＋2）",blockGain:6,strengthGain:2}:
-    {kind:"attack",label:"強打 "+((early?4:7)+e.strength),damage:7+e.strength};
+    {kind:"attack",label:"強打 "+((early?4:7)+e.strength),damage:(early?4:7)+e.strength};
   }
   if(e.role==="carapace"){
     const n=(t-1)%3;
@@ -342,14 +342,14 @@ export function createB1Game(options={}){
       {kind:"attack",label:"重い一撃 8",damage:8};
    }
    if(e.role==="wolf")return t===2?{kind:"buff",label:"遠吠え（攻撃＋2）",strengthGain:2}:
-    {kind:"attack",label:"飛びかかり "+((early?4:6)+e.strength),damage:6+e.strength};
+    {kind:"attack",label:"飛びかかり "+((early?4:6)+e.strength),damage:(early?4:6)+e.strength};
   if(e.role==="imp"||e.role==="guard"){
    const busy=(t+(e.id==="right"?1:0))%2===0;
    return busy?{kind:"buff",label:"盾を構える（防御4）",blockGain:4}:
     {kind:"attack",label:"小突き "+(early?3:5),damage:early?3:5};
   }
-  if(e.role==="ritual")return t===1?{kind:"buff",label:"闇の詠唱（毎ターン攻撃＋3）",ritualGain:early?1:3}:
-    {kind:"attack",label:"呪詛 "+(6+e.strength),damage:6+e.strength,ritualGain:3};
+  if(e.role==="ritual")return t===1?{kind:"buff",label:"闇の詠唱（毎ターン攻撃＋"+(early?1:3)+"）",ritualGain:early?1:3}:
+    {kind:"attack",label:"呪詛 "+((early?4:6)+e.strength),damage:(early?4:6)+e.strength,ritualGain:early?1:3};
   if(e.role==="elite"){
    const n=(t-1)%3;
    return n===0?{kind:"attack",label:"二連斬り "+((earlyElite?5:7)+e.strength)+"×2",damage:(earlyElite?5:7)+e.strength,hits:2}:
