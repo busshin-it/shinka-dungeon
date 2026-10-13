@@ -1,6 +1,6 @@
 # 進化ダンジョン｜カード枠再設計・防御V1（試作）
 
-**状態：V1からV2へ更新済み。V2の画像案は承認済み、ゲーム内での実機レビュー前。全カード共通の確定ルールではない。**
+**状態：V2をmainへ実装済み（PR #108）。画像案は承認済み、ゲーム実機の見た目を確認中。全カード共通の確定ルールではない。**
 **PR：[#107](https://github.com/busshin-it/shinka-dungeon/pull/107)**
 
 ## V2：ユーザーが採用した画像の方向性（2026-10-13）
@@ -18,7 +18,7 @@
 - **可読性**：通常のカード操作・aria-labelを維持し、手札の小型表示と拡大表示では別の文字・宝石の大きさを使用。
 - **設計範囲**：B1の `basicDefense` のみ。休憩所の金色「強化前／後」比較画面では現行の専用UIを優先し、他の56種にはまだ展開しない。
 
-実装：`v4-1/underground-b1-defense-prototype.css` をV2用に差し替え、`v4-1/underground-b1-playtest.html` の `data-b1-design` を `defense-v2` に更新。
+実装：`v4-1/underground-b1-defense-prototype.css` をV2用に差し替え、`v4-1/underground-b1-playtest.html` の `data-b1-design` を `defense-v2` に更新。**PR #108 をmain `c5dd923` に統合済み。Astral game verification #38352345981 は成功。**
 
 **次の承認ゲート**：実ゲームで「図鑑・手札・カード拡大・報酬」をPC/スマホで確認。特に文字の重なり・カードの下部・小型手札のドラッグを点検し、見た目がOKなら正式な `design/CARD_UI_DESIGN_RULES.md` を作る。
 
