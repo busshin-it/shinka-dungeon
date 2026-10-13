@@ -2,6 +2,11 @@
 
 > 2026-10-13時点のGitHub記録に基づく要約。最新の状態は[CURRENT_STATE.md](CURRENT_STATE.md)を正本とする。以前の詳細な29KBの全文は[保存用ブランチ](https://github.com/busshin-it/shinka-dungeon/blob/archive/secretary-before-compaction-20261011/AI_SECRETARY_STATUS.md)に保管。
 
+## 最新の確認（2026-10-13）・第4弾5枚をmainへ直接登録
+- PR #101：霜砕き／余毒の頁／闇弾／奈落弾／氷槍の高解像度WebP5枚をチャット→GitHub Git Data APIへ直接登録。元画像のGit blob SHAとGitHub側のSHAが全件一致し、既存B1カード表示へ接続。ZIPの手動添付は不要だった。
+- Asset Factory CI #38330624497、Astral game verification #38330624501 合格後、main `0104f34` に統合。カード数57、効果・保存・旧本編不変。
+- 残り原画なし5枚。**Pages公開／Android・PC実機は要確認**。直結転送は今回の作業で成功したが、将来の無人生成・アップロードを常設したわけではない。[記録](design/b1-fourth-five-card-art-20261013.md)。
+
 ## 最新の確認（2026-10-13）・B1原画10枚をmainへ統合
 - PR #99：第1弾「散弾・連鎖雷・小治癒・吸命・毒の印」と第2弾「脆弱の印・闘魔の印・火花・氷の結界・術式循環」計10枚のWebPを、所有者がPRに添付したZIPからSHA256チェック後に登録。GitHubコミット `33e23be4` で10個の画像ファイルを確認。
 - Asset Factory CI #38327624429 と Astral game verification #38327624464 が成功し、PR #99をmain `daf4bb4` に統合。カードの戦闘効果・保存・旧本編は不変。
