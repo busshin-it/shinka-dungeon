@@ -64,7 +64,19 @@ export const CARDS = Object.freeze({
  shieldMoss:{name:"小結界",cost:0,kind:"guard",text:"防御3",block:3,magicArt:"second-ward"},
  shieldMirror:{name:"反響結界",cost:1,kind:"guard",text:"防御5。敵の攻撃を防ぐと反射3（このターン）",block:5,reflectDamage:3,magicArt:"starter-defense"},
  shieldSpore:{name:"封毒の盾",cost:1,kind:"guard",text:"防御4。毒か呪いの敵がいれば＋3",block:4,afflictedBlock:3,magicArt:"fourth-toxic-page"},
- shieldIncubate:{name:"育竜の護り",cost:1,kind:"guard",text:"防御6。竜がいて防御10以上なら竜を成長",block:6,shieldDragonGrowth:1,magicArt:"second-ward"}
+ shieldIncubate:{name:"育竜の護り",cost:1,kind:"guard",text:"防御6。竜がいて防御10以上なら竜を成長",block:6,shieldDragonGrowth:1,magicArt:"second-ward"},
+ thunderEcho:{name:"雷鳴の残響",cost:1,kind:"attack",damage:3,text:"3ダメージ。雷を2枚続けていれば1枚引く",lightning:true,chainDraw:1,magicArt:"first-chain"},
+ thunderJudgment:{name:"雷帝の裁き",cost:2,kind:"all",damage:5,text:"敵全体に5ダメージ。雷を2枚続けていれば追加5",lightning:true,chainDamage:5,magicArt:"surge"},
+ unbrokenMirror:{name:"不屈の鏡",cost:2,kind:"guard",block:8,text:"防御8。このターン反射で敵を倒すと2枚引く（1回）",reflectKillDraw:2,magicArt:"starter-defense"},
+ venomShield:{name:"毒棘の盾",cost:1,kind:"guard",block:5,text:"防御5。攻撃を防ぐと攻撃者へ毒2",poisonOnBlock:2,magicArt:"fourth-toxic-page"},
+ decayRitual:{name:"腐蝕の儀式",cost:2,kind:"decayRitual",poison:3,curseTurns:3,text:"敵1体に毒3と呪い。既に毒なら防御6",bonusBlock:6,magicArt:"fourth-toxic-page"},
+ dragonCovenant:{name:"竜守の契約",cost:1,kind:"guard",block:6,text:"防御6。竜がいて防御10以上なら成長",shieldDragonGrowth:1,magicArt:"second-ward"},
+ iceShatter:{name:"氷晶破砕",cost:1,kind:"attack",damage:6,weakBonus:4,text:"6ダメージ。弱体の敵には＋4",magicArt:"starter-frost"},
+ frozenTime:{name:"凍てつく時間",cost:2,kind:"allWeaken",weaken:3,draw:1,text:"敵全体に弱体3。1枚引く",magicArt:"second-ward"},
+ bloodBlade:{name:"血の魔剣",cost:0,kind:"attack",damage:12,hpCost:3,text:"HP3消費して12ダメージ",weapon:true,magicArt:"physical-adversity"},
+ finalBlow:{name:"終焉の一撃",cost:2,kind:"attack",damage:10,halfHpDamage:20,text:"10ダメージ。HP半分以下なら20",weapon:true,magicArt:"physical-rage"},
+ manaResonance:{name:"魔力共鳴",cost:1,kind:"energy",energyIfPrevSpell:1,text:"直前が魔法なら魔力1回復",magicArt:"third-mana-ignite"},
+ chaosPact:{name:"混沌の契約",cost:1,kind:"chaosPact",text:"毒2・弱体2・呪いからランダムに1つ付与",magicArt:"third-mana-ignite"}
 });
 export function getB1Card(id){const up=typeof id==="string"&&id.endsWith("~"),base=up?id.slice(0,-1):id;const card=CARDS[base];if(!card)return null;if(!up)return card;const next={...card,name:card.name+"＋"};if(Object.hasOwn({fireSmall:3,fireMedium:4,fireLarge:6,darkBolt:3,abyssBolt:4,iceSpear:3,arcaneLance:3},base)){
  const bonus={fireSmall:3,fireMedium:4,fireLarge:6,darkBolt:3,abyssBolt:4,iceSpear:3,arcaneLance:3}[base];
@@ -102,6 +114,12 @@ export function getB1Card(id){const up=typeof id==="string"&&id.endsWith("~"),ba
    "敵全体に"+next.damage+"ダメージ。HPが最大HPの1/3以下なら"+next.lowHpDamage;
   return next;
  }
+ if(Object.hasOwn({thunderEcho:2,thunderJudgment:3,iceShatter:3,bloodBlade:3,finalBlow:4},base)){next.damage+=({thunderEcho:2,thunderJudgment:3,iceShatter:3,bloodBlade:3,finalBlow:4})[base];if(base==="finalBlow")next.halfHpDamage+=8;next.text=card.text+"（基本威力＋）";return next;}
+ if(base==="frozenTime"){next.weaken=4;next.text="敵全体に弱体4。1枚引く";return next;}
+ if(base==="unbrokenMirror"||base==="venomShield"||base==="dragonCovenant"){next.block+=3;next.text=card.text+"（防御＋3）";return next;}
+ if(base==="decayRitual"){next.poison=5;next.text="敵1体に毒5と呪い。既に毒なら防御6";return next;}
+ if(base==="manaResonance"){next.cost=0;next.text="直前が魔法なら魔力1回復";return next;}
+ if(base==="chaosPact"){next.cost=0;next.text=card.text+"（魔力0）";return next;}
  if(base==="doping"){next.doping=3;next.text="物理攻撃＋3。魔法を使うと解除";return next;}
  if(base==="adversity"){next.cost=0;next.text="直前の敵ターンに失ったHP分、次の物理攻撃＋。魔法で解除";return next;}
  if(base==="dragonFeed"){next.dragonGrowth=2;next.text="竜を2段階成長。手札を1枚選んで捨てる。廃棄";return next;}
@@ -156,7 +174,8 @@ export function getB1RewardPool(stageIndex,deck=[]){
  if(!Number.isInteger(stageIndex)||stageIndex<0||stageIndex>=STAGES.length)return [];
  const hasEgg=Array.isArray(deck)&&deck.some(id=>id==="dragonEgg"||id==="dragonEgg~");
  const extra=B1_REWARD_EXTRA_POOLS[stageIndex].filter(id=>!["dragonFeed","dragonBreath"].includes(id)||hasEgg);
- return [...new Set([...STAGES[stageIndex].rewards,...extra])];
+ const additions=[["thunderEcho","iceShatter"],["frozenTime","venomShield"],["decayRitual","manaResonance"],["thunderJudgment","unbrokenMirror"],["dragonCovenant","bloodBlade"],["chaosPact","finalBlow"],["thunderEcho","frozenTime"],["venomShield","decayRitual"],["dragonCovenant","manaResonance"],["unbrokenMirror","chaosPact"],["thunderJudgment","finalBlow"],[]][stageIndex];
+ return [...new Set([...STAGES[stageIndex].rewards,...extra,...additions])];
 }
 // First small map experiment: both routes rejoin the unchanged third fight.
 export const B1_FORK_ROUTES=Object.freeze({
@@ -176,13 +195,13 @@ export function createB1Game(options={}){
  const random=()=>{seed=(Math.imul(seed,1664525)+1013904223)>>>0;return seed/4294967296;};
  const shuffle=a=>{for(let i=a.length-1;i>0;i--){const j=Math.floor(random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;};
  const testMaxHp=Number.isInteger(options.maxHp)&&options.maxHp>=1&&options.maxHp<=999?options.maxHp:75;
- let s={lightningStreak:0,reflectDamage:0,dopingBonus:0,nextPhysicalAttackBonus:0,lastTurnHpLoss:0,dragonStage:-1,lastDragonEvolution:null,lastSynergy:null,phase:"starter",stage:0,turn:1,hp:testMaxHp,maxHp:testMaxHp,energy:3,block:0,heroPoison:0,attacksThisTurn:0,attackCardsThisTurn:0,darkCastsThisTurn:0,spellsThisTurn:0,pendingMagicAttackBonus:0,powerDraw:0,strength:0,selected:null,deck:Array.isArray(options.testDeck)&&options.testDeck.length>0&&options.testDeck.length<=30&&options.testDeck.every(id=>Object.hasOwn(CARDS,id))?[...options.testDeck]:[...STARTER],hand:[],draw:[],discard:[],exhaust:[],powers:[],enemies:[],rewards:[],gold:0,shopPending:false,shopUsed:false,shopStock:[],shopPurchases:[],shopPurged:false,restPending:false,restUsed:false,restChoice:null,selectedPath:null,routeHistory:[],log:["最初に得意な魔法を1枚選んで地下迷宮へ。"]};
+ let s={nextTurnBonusDraw:0,previousSpell:false,reflectKillDraw:0,poisonOnBlock:0,lightningStreak:0,reflectDamage:0,dopingBonus:0,nextPhysicalAttackBonus:0,lastTurnHpLoss:0,dragonStage:-1,lastDragonEvolution:null,lastSynergy:null,phase:"starter",stage:0,turn:1,hp:testMaxHp,maxHp:testMaxHp,energy:3,block:0,heroPoison:0,attacksThisTurn:0,attackCardsThisTurn:0,darkCastsThisTurn:0,spellsThisTurn:0,pendingMagicAttackBonus:0,powerDraw:0,strength:0,selected:null,deck:Array.isArray(options.testDeck)&&options.testDeck.length>0&&options.testDeck.length<=30&&options.testDeck.every(id=>Object.hasOwn(CARDS,id))?[...options.testDeck]:[...STARTER],hand:[],draw:[],discard:[],exhaust:[],powers:[],enemies:[],rewards:[],gold:0,shopPending:false,shopUsed:false,shopStock:[],shopPurchases:[],shopPurged:false,restPending:false,restUsed:false,restChoice:null,selectedPath:null,routeHistory:[],log:["最初に得意な魔法を1枚選んで地下迷宮へ。"]};
  function note(t){s.log.unshift(t);s.log=s.log.slice(0,18);}
  const alive=()=>s.enemies.filter(e=>e.hp>0);
  const find=id=>s.enemies.find(e=>e.id===id&&e.hp>0);
  function drawCards(n){let drawn=0;for(let i=0;i<n&&s.hand.length<10;i++){if(!s.draw.length){if(!s.discard.length)break;s.draw=shuffle(s.discard.splice(0));}s.hand.push(s.draw.pop());drawn++;}return drawn;}
  function start(){
-  const stage=s.stage===1?B1_FORK_ROUTES[s.selectedPath||"pack"]:STAGES[s.stage];s.enemies=stage.enemies.map(e=>({...clone(e),maxHp:(!s.practiceMode&&s.deck.includes("basicAttack"))?Math.max(8,Math.round(e.maxHp*(s.stage<3?.66:s.stage<6?.82:s.stage===STAGES.length-1?.88:1))):e.maxHp,hp:(!s.practiceMode&&s.deck.includes("basicAttack"))?Math.max(8,Math.round(e.maxHp*(s.stage<3?.66:s.stage<6?.82:s.stage===STAGES.length-1?.88:1))):e.maxHp,weaken:0,poison:0,vulnerable:0,block:0,strength:0,channelDamage:0,channelBroken:false,confusionAttacks:0,hallucinationAttacks:0,curses:[]}));s.turn=1;s.block=0;s.energy=3;s.attacksThisTurn=0;s.attackCardsThisTurn=0;s.darkCastsThisTurn=0;s.spellsThisTurn=0;s.lightningStreak=0;s.reflectDamage=0;s.pendingMagicAttackBonus=0;s.powerDraw=0;s.strength=0;s.dopingBonus=0;s.nextPhysicalAttackBonus=0;s.lastTurnHpLoss=0;
+  const stage=s.stage===1?B1_FORK_ROUTES[s.selectedPath||"pack"]:STAGES[s.stage];s.enemies=stage.enemies.map(e=>({...clone(e),maxHp:(!s.practiceMode&&s.deck.includes("basicAttack"))?Math.max(8,Math.round(e.maxHp*(s.stage<3?.66:s.stage<6?.82:s.stage===STAGES.length-1?.88:1))):e.maxHp,hp:(!s.practiceMode&&s.deck.includes("basicAttack"))?Math.max(8,Math.round(e.maxHp*(s.stage<3?.66:s.stage<6?.82:s.stage===STAGES.length-1?.88:1))):e.maxHp,weaken:0,poison:0,vulnerable:0,block:0,strength:0,channelDamage:0,channelBroken:false,confusionAttacks:0,hallucinationAttacks:0,curses:[]}));s.turn=1;s.block=0;s.energy=3;s.attacksThisTurn=0;s.attackCardsThisTurn=0;s.darkCastsThisTurn=0;s.spellsThisTurn=0;s.lightningStreak=0;s.reflectDamage=0;s.reflectKillDraw=0;s.poisonOnBlock=0;s.previousSpell=false;s.nextTurnBonusDraw=0;s.pendingMagicAttackBonus=0;s.powerDraw=0;s.strength=0;s.dopingBonus=0;s.nextPhysicalAttackBonus=0;s.lastTurnHpLoss=0;
   s.heroPoison=0;s.dragonStage=-1;s.lastDragonEvolution=null;s.lastSynergy=null;s.hand=[];s.discard=[];s.exhaust=[];s.powers=[];s.draw=shuffle([...s.deck]);s.selected=s.enemies.find(e=>e.role!=="boss")?.id||s.enemies[0].id;s.phase="battle";drawCards(5);note(stage.name+"：戦闘開始。");
  }
  function selectStarter(id){if(s.phase!=="starter"||!["basic","physical","lightning","scatter","flow","dragonEgg","fireSmall","fireMedium","fireLarge","fireWaveSmall","fireWaveMedium","fireWaveLarge","thunderSmall","thunderMedium","thunderLarge","darkBolt","abyssBolt","mentalCollapse","curse","deathSong","hallucination","iceSpear","arcaneLance","shadowEcho","blizzard","thunderSurge","guideThrust","spellblade","bludgeon","rapidPunch","heavyBlow","sneakHit","ironHammer","doping","adversity","rage"].includes(id))return false;
@@ -246,17 +265,19 @@ export function createB1Game(options={}){
  function play(index,targetId){
   if(s.phase!=="battle"||!Number.isInteger(index)||index<0||index>=s.hand.length)return false;
   const id=s.hand[index],card=getB1Card(id);
-  if(!card||s.energy<card.cost||(card.requiresPureDeck&&s.deck.some(isB1Magic)))return false;
-  const targeted=["attack","multi","poison","fragile","confuse","curse","hallucinate"].includes(card.kind);
+  if(!card||s.energy<card.cost||(card.hpCost&&s.hp<=card.hpCost)||(card.requiresPureDeck&&s.deck.some(isB1Magic)))return false;
+  const targeted=["attack","multi","poison","fragile","confuse","curse","hallucinate","decayRitual","chaosPact"].includes(card.kind);
   if(card.kind==="dragonFeed"&&(s.dragonStage<0||!Number.isInteger(targetId)||targetId===index||targetId<0||targetId>=s.hand.length))return false;
   const target=targeted?find(targetId||s.selected):null;
   if(targeted&&!target)return false;
   s.lastSynergy=null;s.lastDragonEvolution=null;
   const synergy=(title,detail)=>{s.lastSynergy={cardId:id,title,detail};};
+  const priorStreak=s.lightningStreak,priorSpell=s.previousSpell;
   const lightningBonus=card.lightning?Math.min(4,s.lightningStreak)*2:0;
   s.lightningStreak=card.lightning?s.lightningStreak+1:0;
   s.hand.splice(index,1);
   s.energy-=card.cost;
+  if(card.hpCost){s.hp-=card.hpCost;note("血の魔剣：HPを"+card.hpCost+"消費。");}
   // The played physical card has left the hand before checking remaining magic.
   // Hand/deck magic classification uses the existing B1 weapon flag.
   const noMagicInHand=!s.hand.some(isB1Magic);
@@ -280,7 +301,7 @@ export function createB1Game(options={}){
    const weakReady=Boolean(card.weakBonus&&target.weaken>0);
    const magicBonus=card.weapon?0:s.pendingMagicAttackBonus;
     if(magicBonus){s.pendingMagicAttackBonus=0;synergy("導魔突き連携","次の魔法攻撃：威力＋"+magicBonus);}
-    const printed=card.noMagicDamage&&noMagicInHand?card.noMagicDamage:card.damage;
+    const printed=card.halfHpDamage&&s.hp*2<=s.maxHp?card.halfHpDamage:card.noMagicDamage&&noMagicInHand?card.noMagicDamage:card.damage;
     const base=printed+s.strength+magicBonus+(physical?s.dopingBonus:0)+(chainReady?6:0)+lightningBonus+(poisonReady?card.poisonBonus:0)+(weakReady?card.weakBonus:0);
     // 逆境 is a one-time bonus per attack card, not once per repeated hit.
     if(storedPhysicalBonus&&card.hits>1){
@@ -300,6 +321,7 @@ export function createB1Game(options={}){
     }
    if(card.weaken&&target.hp>0){target.weaken+=card.weaken;note(target.name+"に弱体＋"+card.weaken+"。");}
    if(card.vulnerable&&target.hp>0){target.vulnerable+=card.vulnerable;note(target.name+"に脆弱＋"+card.vulnerable+"。");}
+   if(card.chainDraw&&priorStreak>=2){const n=drawCards(card.chainDraw);note("雷鳴の残響："+n+"枚引いた。");}
    if(card.emptyMagicDraw&&noMagicInHand){
      const amount=drawCards(card.emptyMagicDraw);note("急襲：魔法がないため"+amount+"枚引いた。");
      synergy("急襲連携","魔法なし："+amount+"枚ドロー");
@@ -315,7 +337,7 @@ export function createB1Game(options={}){
    if(lightningBonus)synergy("雷連鎖","雷を連続"+s.lightningStreak+"枚：威力＋"+lightningBonus);
    for(const e of alive()){
     const bonus=card.confusionBonus&&e.confusionAttacks>0?card.confusionBonus:0;
-    const power=printed+s.strength+priorBonus+lightningBonus+magicBonus+bonus+(physical?s.dopingBonus+storedPhysicalBonus:0);
+    const power=printed+s.strength+priorBonus+lightningBonus+(card.chainDamage&&priorStreak>=2?card.chainDamage:0)+magicBonus+bonus+(physical?s.dopingBonus+storedPhysicalBonus:0);
     const base=e.vulnerable>0?Math.floor(power*1.5):power;
     const raw=Math.max(0,base-(e.role==="boss"?armor:0));
     const blocked=Math.min(e.block,raw);e.block-=blocked;
@@ -329,6 +351,18 @@ export function createB1Game(options={}){
    }else if(card.kind==="adversity"){
     s.nextPhysicalAttackBonus+=s.lastTurnHpLoss;
     note("逆境：次の物理攻撃＋"+s.nextPhysicalAttackBonus+"（直前ターンのHP被害："+s.lastTurnHpLoss+"）。");
+   }else if(card.kind==="allWeaken"){
+    for(const e of alive()){e.weaken+=card.weaken;note(e.name+"に弱体＋"+card.weaken+"。");}
+   }else if(card.kind==="decayRitual"){
+    const hadPoison=target.poison>0;target.poison+=card.poison;target.curses.push({next:1,turns:card.curseTurns});
+    if(hadPoison)s.block+=card.bonusBlock;
+    note(target.name+"に毒＋"+card.poison+"と呪い。"+(hadPoison?"防御＋"+card.bonusBlock:""));
+   }else if(card.kind==="chaosPact"){
+    const result=Math.floor(random()*3);
+    if(result===0)target.poison+=2;
+    else if(result===1)target.weaken+=2;
+    else target.curses.push({next:1,turns:3});
+    note("混沌の契約："+target.name+"に"+["毒2","弱体2","呪い"][result]+"。");
    }else if(card.kind==="confuse"){
     target.confusionAttacks+=card.confusionAttacks;note(target.name+"は混乱した（攻撃"+target.confusionAttacks+"回分）。");
    }else if(card.kind==="curse"){
@@ -344,14 +378,17 @@ export function createB1Game(options={}){
    const extra=afflicted?(card.afflictedBlock||0):0;
    s.block+=card.block+extra;note("防御＋"+(card.block+extra)+"。");
    if(extra)synergy("封毒の盾","毒・呪いの敵がいる：防御＋"+extra);
+   if(card.reflectKillDraw)s.reflectKillDraw=Math.max(s.reflectKillDraw,card.reflectKillDraw);
+   if(card.poisonOnBlock)s.poisonOnBlock=Math.max(s.poisonOnBlock,card.poisonOnBlock);
    if(card.reflectDamage){s.reflectDamage+=card.reflectDamage;note("反射の備え＋"+card.reflectDamage+"。");}
    if(card.shieldDragonGrowth&&s.dragonStage>=0&&s.block>=10){growDragon(card.shieldDragonGrowth);synergy("育竜の護り","防御10以上で竜が成長");}if(card.afterAttackDraw&&s.attacksThisTurn>0){const count=drawCards(card.afterAttackDraw);note("連携：カードを"+count+"枚引いた。");synergy("返響の盾連携","攻撃後：実際に"+count+"枚ドロー");}}
   else if(card.kind==="poison"){const alreadyPoisoned=target.poison>0;target.poison+=card.poison;note(target.name+"に毒＋"+card.poison+"。");if(card.vulnerable){target.vulnerable+=card.vulnerable;note(target.name+"に脆弱＋"+card.vulnerable+"。");}if(card.poisonDraw&&alreadyPoisoned){const count=drawCards(card.poisonDraw);note("連携：カードを"+count+"枚引いた。");synergy("余毒の頁連携","毒の敵から：実際に"+count+"枚ドロー");}}
   else if(card.kind==="fragile"){if(card.vulnerable){target.vulnerable+=card.vulnerable;note(target.name+"に脆弱＋"+card.vulnerable+"。");}if(card.weaken){target.weaken+=card.weaken;note(target.name+"に弱体＋"+card.weaken+"。");}}
-  else if(card.kind==="energy"){s.energy+=card.energyGain;note("魔力＋"+card.energyGain+"。");}
+  else if(card.kind==="energy"){const n=(card.energyGain||0)+(card.energyIfPrevSpell&&priorSpell?card.energyIfPrevSpell:0);s.energy+=n;note("魔力＋"+n+"。");}
   else if(card.kind==="power"){if(card.powerDraw){s.powerDraw+=card.powerDraw;note("毎ターンのドロー＋"+card.powerDraw+"。");}
    if(card.strengthGain){s.strength+=card.strengthGain;note("この戦闘中、攻撃威力＋"+card.strengthGain+"。");}}
   if(card.draw){drawCards(card.draw);note("カードを"+card.draw+"枚引いた。");}
+  s.previousSpell=!card.weapon;
   if(card.school==="dark")s.darkCastsThisTurn++;
   if(!card.weapon){
    s.spellsThisTurn++;
@@ -464,7 +501,7 @@ export function createB1Game(options={}){
   if(s.phase!=="battle"||!alive().length)return false;
   return s.hand.some(id=>{
    const card=getB1Card(id);
-   if(!card||card.cost>s.energy)return false;
+   if(!card||card.cost>s.energy||(card.hpCost&&s.hp<=card.hpCost))return false;
    if(card.requiresPureDeck&&s.deck.some(isB1Magic))return false;
    if(card.kind==="dragonFeed"&&(s.dragonStage<0||s.hand.length<2))return false;
    return true;
@@ -537,9 +574,11 @@ export function createB1Game(options={}){
       if(s.hp<=0)break;
      }
      note(e.name+"の"+action.label+"：防御"+totalBlocked+"、HP被害"+total+(confused?"（混乱の矛先はあなた）":"")+"。");
+     if(totalBlocked>0&&s.poisonOnBlock>0){e.poison+=s.poisonOnBlock;note("毒棘の盾："+e.name+"に毒＋"+s.poisonOnBlock+"。");}
      if(totalBlocked>0&&s.reflectDamage>0&&e.hp>0){
       const reflected=Math.min(s.reflectDamage,e.hp);e.hp-=reflected;recordBossDamage(e,reflected);
       note("反響結界："+e.name+"に"+reflected+"ダメージ反射。");
+      if(e.hp<=0&&s.reflectKillDraw>0){s.nextTurnBonusDraw+=s.reflectKillDraw;note("不屈の鏡：次のターンに"+s.reflectKillDraw+"枚追加で引く。");s.reflectKillDraw=0;}
      }
      if(s.hp<=0){s.phase="lost";note("HPが0になった。再挑戦してみよう。");break;}
     }
@@ -565,11 +604,11 @@ export function createB1Game(options={}){
    e.vulnerable=Math.max(0,e.vulnerable-1);
   }
   s.lastTurnHpLoss=Math.max(0,hpBeforeEnemies-s.hp);
-  s.block=0;s.reflectDamage=0;
+  s.block=0;s.reflectDamage=0;s.poisonOnBlock=0;s.reflectKillDraw=0;
   if(s.phase==="lost")return true;
   if(checkVictory())return true;
-  s.discard.push(...s.hand.splice(0));s.turn++;s.energy=3;s.attacksThisTurn=0;s.attackCardsThisTurn=0;s.darkCastsThisTurn=0;s.spellsThisTurn=0;s.lightningStreak=0;s.pendingMagicAttackBonus=0;
-  drawCards(5+s.powerDraw);return true;
+  s.discard.push(...s.hand.splice(0));s.turn++;s.energy=3;s.attacksThisTurn=0;s.attackCardsThisTurn=0;s.darkCastsThisTurn=0;s.spellsThisTurn=0;s.lightningStreak=0;s.previousSpell=false;s.pendingMagicAttackBonus=0;
+  drawCards(5+s.powerDraw+s.nextTurnBonusDraw);s.nextTurnBonusDraw=0;return true;
  }
  function chooseReward(id){
   if(s.phase!=="reward"||(id!==null&&!s.rewards.includes(id)))return false;

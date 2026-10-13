@@ -36,8 +36,8 @@ test("wheel anywhere over cards scrolls the list and offers keyboard access",()=
 test("legacy stage base contains 44, expanded extras make 60 of 65 available",()=>{
  const cards=Object.keys(CARDS);
  const rewardNames=new Set(STAGES.flatMap(stage=>stage.rewards));
- const omitted=cards.filter(id=>!rewardNames.has(id));
- assert.equal(cards.length,65);
+ const omitted=cards.slice(0,65).filter(id=>!rewardNames.has(id));
+ assert.equal(cards.length,77);
  assert.equal(STAGES.length,12);
  assert.equal(rewardNames.size,44);
  assert.deepEqual(omitted,["basicAttack","basicDefense","bolt","guard","break",
