@@ -364,10 +364,11 @@ const B1_CARD_FRAME_WAVE4=new Set([
  "lightningFlash","lightningFork","lightningSweep","lightningRelay",
  "shieldMoss","shieldMirror","shieldSpore","shieldIncubate"
 ]);
+const B1_CARD_FRAME_WAVE5=new Set(["thunderEcho","thunderJudgment","unbrokenMirror","venomShield","decayRitual","dragonCovenant","iceShatter","frozenTime","bloodBlade","finalBlow","manaResonance","chaosPact"]);
 function b1CardFrameRole(card){
  if(card.kind==="guard")return "guard";
  if(card.kind==="heal")return "heal";
- if(["poison","fragile","confuse","curse","hallucinate"].includes(card.kind))return "debuff";
+ if(["poison","fragile","confuse","curse","hallucinate","decayRitual","chaosPact","allWeaken"].includes(card.kind))return "debuff";
  if(["dragon","dragonFeed","dragonBreath"].includes(card.kind))return "dragon";
  if(["power","draw","energy","physicalPower","adversity"].includes(card.kind))return "skill";
  if(card.weapon)return "physical";
@@ -408,7 +409,7 @@ function cardButton(id){
   btn.dataset.b1Design="defense-v2";
  }
  const designId=id.endsWith("~")?id.slice(0,-1):id;
- if(B1_CARD_FRAME_WAVE1.has(designId)||B1_CARD_FRAME_WAVE2.has(designId)||B1_CARD_FRAME_WAVE3.has(designId)||B1_CARD_FRAME_WAVE4.has(designId)){
+ if(B1_CARD_FRAME_WAVE1.has(designId)||B1_CARD_FRAME_WAVE2.has(designId)||B1_CARD_FRAME_WAVE3.has(designId)||B1_CARD_FRAME_WAVE4.has(designId)||B1_CARD_FRAME_WAVE5.has(designId)){
   const role=b1CardFrameRole(c);
   btn.classList.add("b1-arcane-card","b1-frame-"+role);
   if(c.text.length>14)btn.classList.add("b1-frame-long-effect");
