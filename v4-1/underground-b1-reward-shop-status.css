@@ -347,3 +347,25 @@ body.pilot-mode #playScreen .b1-enemy-lineup.b1-two .b1-actor-figure img{
   height:clamp(105px,51dvh,245px);max-height:90%;
  }
 }
+
+
+/* B1 tactical enemy roles (original assets reused, with distinct glow/color).
+   Filters affect only artwork, never the transparent target buttons. */
+body.pilot-mode #playScreen .b1-role-venom .b1-actor-figure img{
+ filter:hue-rotate(80deg) saturate(1.6) drop-shadow(0 5px 15px #8aff74a6);
+}
+body.pilot-mode #playScreen .b1-role-berserker .b1-actor-figure img{
+ filter:sepia(.3) saturate(1.8) hue-rotate(-25deg) drop-shadow(0 6px 16px #f26e45a8);
+}
+body.pilot-mode #playScreen .b1-role-healer .b1-actor-figure img{
+ filter:brightness(1.14) saturate(1.05) drop-shadow(0 4px 17px #b2ffeca8);
+}
+body.pilot-mode #playScreen .b1-role-breaker .b1-actor-figure img{
+ filter:sepia(.55) saturate(1.35) hue-rotate(-12deg) drop-shadow(0 7px 15px #f4a354a8);
+}
+body.pilot-mode #playScreen .b1-role-banner .b1-actor-figure img{
+ filter:brightness(1.07) hue-rotate(35deg) drop-shadow(0 5px 17px #b8aaffb8);
+}
+body.pilot-mode #playScreen .b1-role-warder .b1-actor-figure img{
+ filter:brightness(1.08) hue-rotate(180deg) saturate(1.15) drop-shadow(0 5px 17px #72d7ffac);
+}
