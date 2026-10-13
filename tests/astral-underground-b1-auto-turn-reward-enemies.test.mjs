@@ -82,7 +82,7 @@ test("all 65 cards can be acquired by some existing gameplay route, not necessar
  const available=new Set([...STAGES.flatMap((s,i)=>getB1RewardPool(i,["dragonEgg"])),...g.snapshot().shopCatalog.map(i=>i.id),...STARTER,...BASIC_B1_STARTER,...PHYSICAL_STARTER,"dragonEgg","dragonFeed","dragonBreath"]);
  const unavailable=Object.keys(CARDS).filter(id=>!available.has(id));
  assert.deepEqual(unavailable,[]);
- assert.equal(Object.keys(CARDS).length,65);
+ assert.equal(Object.keys(CARDS).length,77);
  assert.equal(new Set(STAGES.flatMap(s=>s.rewards)).size,44);
 });
 
