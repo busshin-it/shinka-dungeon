@@ -1,5 +1,5 @@
 // B1-only pointer/touch/keyboard controls. Game rules remain in underground-b1-engine.
-export const needsB1Target=kind=>["attack","multi","poison","fragile","confuse","curse","hallucinate"].includes(kind);
+export const needsB1Target=kind=>["attack","multi","poison","fragile","confuse","curse","hallucinate","decayRitual","chaosPact"].includes(kind);
 // Centered fan. Maximum 7 degrees; outer cards are lower than the center.
 export function b1HandFanPose(index,total){
  const count=Math.max(1,Math.floor(Number(total)||1));
