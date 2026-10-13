@@ -94,8 +94,9 @@ test("hand-size defense card uses flowing title/effect and stays clear of overla
  assert.match(hand,/@media \(orientation:landscape\) and \(max-height:600px\)/);
  assert.match(hand,/@media \(orientation:landscape\) and \(max-height:350px\)/);
  assert.match(hand,/@media \(orientation:portrait\) and \(max-width:900px\)/);
- assert.ok(!hand.includes("touch-action:")&&!hand.includes("pointer-events:none"),
-  "do not disable tap/drag hitboxes");
+ assert.ok(!hand.includes("touch-action:")&&!hand.includes("pointer-events:auto"),
+  "do not replace the existing hand tap/drag hitboxes");
+ assert.match(hand,/pointer-events:none/,"only decorative pseudo-elements should ignore pointer hits");
  assert.ok(!hand.includes("height:100vh")&&!hand.includes("transform:rotate"),
   "do not change arena or hand fan dimensions");
 });
