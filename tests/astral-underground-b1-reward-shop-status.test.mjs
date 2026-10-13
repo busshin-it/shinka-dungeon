@@ -57,3 +57,40 @@ test("short landscape viewport has a bounded full-height hand and card choice ov
  const result=spawnSync(process.execPath,["--input-type=module","--check"],{input:script,encoding:"utf8"});
  assert.equal(result.status,0,result.stderr);
 });
+
+test("B1 status rows align to the visible head of each sprite, not the puppet slot top",()=>{
+ assert.match(html,/function b1PositionRow\(owner,row,img\)/);
+ assert.match(html,/const picturedTop=rect\.top\+\(rect\.height-img\.naturalHeight\*scale\)\/2/);
+ assert.match(html,/picturedTop-row\.offsetHeight-8/);
+ assert.match(html,/figure\.append\(status\)/);
+ assert.match(html,/for\(const figure of el\("enemyLineup"\)\.querySelectorAll\("\.b1-actor-figure"\)\)/);
+ assert.match(html,/window\.addEventListener\("resize",/);
+ assert.match(css,/body\.pilot-mode #playScreen \.b1-effect-chip\{/);
+ assert.match(css,/font-size:20px;font-weight:850/);
+ assert.match(css,/\.b1-effect-buff\{/);
+ assert.match(css,/\.b1-effect-debuff\{/);
+});
+
+test("upgrade choice opens fullscreen, independently of regular rest and shop",()=>{
+ assert.match(html,/el\("journeyPanel"\)\.classList\.add\("b1-upgrade-open"\)/);
+ assert.match(html,/el\("journeyPanel"\)\.classList\.remove\("b1-upgrade-open"\)/);
+ assert.match(html,/const panel=el\("journeyPanel"\);panel\.classList\.remove\("b1-upgrade-open"\)/);
+ assert.match(css,/#journeyPanel\.b1-upgrade-open/);
+ assert.match(css,/height:100dvh;min-height:0;max-height:none/);
+ assert.match(css,/#restUpgradeCards\.b1-rest-upgrades/);
+ assert.match(css,/grid-template-columns:repeat\(auto-fill,minmax\(176px,1fr\)\)/);
+ assert.match(css,/#journeyPanel\.b1-upgrade-open #restBack/);
+ assert.match(css,/\.b1-upgrade-image-choice \.b1-upgrade-effects/);
+});
+
+test("two enemy art is enlarged in its own layout without intercepting target clicks",()=>{
+ assert.match(css,/#playScreen \.b1-enemy-lineup\.b1-two\{/);
+ assert.match(css, /max-width:clamp\(155px,28vw,360px\)/);
+ assert.match(css,/\.b1-two \.b1-actor-figure img\{/);
+ assert.match(css,/pointer-events:none/);
+ assert.match(html,/b\.addEventListener\("click",\(\)=>actions\.handleTargetClick\(e\.id\)\)/);
+ const script=html.match(/<script type="module">([\s\S]*?)<\/script>/)?.[1];
+ assert.ok(script);
+ const check=spawnSync(process.execPath,["--input-type=module","--check"],{input:script,encoding:"utf8"});
+ assert.equal(check.status,0,check.stderr);
+});
