@@ -17,7 +17,7 @@ test("one scroll surface: the upgrade grid, not each card's text pane",()=>{
  assert.match(patch,/\.b1-evolution-choice \.b1-upgrade-effects\{[\s\S]*overflow:visible;/);
  assert.match(patch,/touch-action:pan-y/);
  assert.doesNotMatch(patch,/overflow\\s*:\\s*auto\\s*;/);
- assert.match(css,/\.pilot-overlay-window\{[\s\S]*height:100dvh;max-height:100dvh;min-height:0;[\s\S]*overflow:hidden/);
+ assert.match(css,/\.pilot-overlay-window\{[\s\S]*height:100dvh;min-height:0;max-height:100dvh;[\s\S]*overflow:hidden/);
 });
 test("wheel anywhere over cards scrolls the list and offers keyboard access",()=>{
  assert.match(html,/const b1UpgradeGrid=el\("restUpgradeCards"\)/);
