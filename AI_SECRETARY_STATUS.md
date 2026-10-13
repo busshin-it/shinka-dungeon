@@ -2,6 +2,11 @@
 
 > 2026-10-13時点のGitHub記録に基づく要約。最新の状態は[CURRENT_STATE.md](CURRENT_STATE.md)を正本とする。以前の詳細な29KBの全文は[保存用ブランチ](https://github.com/busshin-it/shinka-dungeon/blob/archive/secretary-before-compaction-20261011/AI_SECRETARY_STATUS.md)に保管。
 
+## 最新の確認（2026-10-13）・報酬／商店3枚／状態効果アイコン
+- ユーザーの画面3枚を根拠にB1の報酬カード原画の表示高を改善、商店をシード付きランダム3枚・画像付き削除、キャラ頭上に防御/攻撃UP/毒/弱体などの数値アイコンへ変更。従来の全商品固定表示を終了。実装はB1に限定し、ゲーム効果/保存/旧本編は不変。
+- PR #102をmain `2c4b2f3` に統合。Astral game verification #38332813382 成功、Pages #38332924704／#38332922970 成功。
+- **次：実機で報酬の見切れ、スマホ横の手札、商店3枚と削除画像、複数敵・ボスのアイコン位置を確認**。[記録](design/b1-reward-shop-status-ui-20261013.md)。
+
 ## 最新の確認（2026-10-13）・第4弾5枚をmainへ直接登録
 - PR #101：霜砕き／余毒の頁／闇弾／奈落弾／氷槍の高解像度WebP5枚をチャット→GitHub Git Data APIへ直接登録。元画像のGit blob SHAとGitHub側のSHAが全件一致し、既存B1カード表示へ接続。ZIPの手動添付は不要だった。
 - Asset Factory CI #38330624497、Astral game verification #38330624501 合格後、main `0104f34` に統合。カード数57、効果・保存・旧本編不変。
