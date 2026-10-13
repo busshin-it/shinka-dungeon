@@ -26,3 +26,9 @@ CI合格・main統合・Pages配信・Android/PC実機表示はそれぞれ別�
 
 ## 画像未完成の次候補
 魔力槍、影の反響、吹雪、雷の奔流、導魔突き。既存の火弾・灼流・獄炎砲は軽量アトラスなので、高画質化は別案件。
+
+## CIと統合の照合（2026-10-13）
+- Asset Factory CI #38330624497：success。
+- Astral game verification #38330624501：success。
+- PR #101をmain `0104f34`へsquash統合。
+- GitHub PagesのデプロイとAndroid/PC実機確認は別途判定する。
