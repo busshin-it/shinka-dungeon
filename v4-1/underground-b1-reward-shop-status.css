@@ -369,3 +369,248 @@ body.pilot-mode #playScreen .b1-role-banner .b1-actor-figure img{
 body.pilot-mode #playScreen .b1-role-warder .b1-actor-figure img{
  filter:brightness(1.08) hue-rotate(180deg) saturate(1.15) drop-shadow(0 5px 17px #72d7ffac);
 }
+
+
+/* B1 fifth-pass card styling: only the rest evolution grid and reward three.
+   Common hand, shop, target selection and original artwork stay unchanged. */
+
+/* The full-screen upgrade menu: gilded frames and a REAL before/after
+   comparison inside each card, rather than a small technical footnote. */
+body.pilot-mode #journeyPanel.b1-upgrade-open #restUpgradeCards.b1-rest-upgrades{
+ grid-template-columns:repeat(auto-fill,minmax(255px,1fr));
+ gap:clamp(10px,1.2vw,18px);
+ padding:14px 12px 22px;
+ align-content:start;
+}
+body.pilot-mode #journeyPanel.b1-upgrade-open .b1-evolution-choice{
+ box-sizing:border-box;position:relative;
+ display:flex;flex-direction:column;
+ width:100%;height:clamp(440px,68dvh,515px);
+ min-height:0;min-width:0;padding:0;
+ border:2px solid #e9bf66;border-radius:14px;
+ overflow:hidden;text-align:left;cursor:pointer;
+ color:#493215;
+ background:linear-gradient(155deg,#fff2c7 0%,#ecca81 35%,#f8e4b3 100%);
+ box-shadow:0 4px 0 #6f471d,0 12px 24px #070c1fa6,0 0 18px #eec66b3b;
+ transition:transform 150ms ease,box-shadow 150ms ease;
+}
+body.pilot-mode #journeyPanel.b1-upgrade-open .b1-evolution-choice::after{
+ content:"";position:absolute;inset:5px;
+ border:1px solid #fff3c980;border-radius:9px;pointer-events:none;z-index:5;
+}
+body.pilot-mode #journeyPanel.b1-upgrade-open .b1-evolution-choice:hover:not(:disabled),
+body.pilot-mode #journeyPanel.b1-upgrade-open .b1-evolution-choice:focus-visible:not(:disabled){
+ transform:translateY(-4px);
+ box-shadow:0 7px 0 #794a22,0 17px 32px #050b19d4,0 0 27px #f7d47b9e;
+ border-color:#fff2bc;
+}
+body.pilot-mode #journeyPanel.b1-upgrade-open .b1-evolution-choice:focus-visible{outline:3px solid #fff0a7;outline-offset:3px}
+body.pilot-mode #journeyPanel.b1-upgrade-open .b1-evolution-choice > :is(
+ .b1-magic-card-art,.b1-fire-card-art,.b1-dragon-card-art,.b1-dragon-card-sprite,.pilot-card-art
+){
+ display:block;position:relative;inset:auto;width:100%;
+ height:45%;flex:0 0 45%;min-height:0;max-height:none;
+ overflow:hidden;border-radius:0;
+ border-bottom:3px solid #ddad53;
+ filter:saturate(1.13) sepia(.12);
+}
+body.pilot-mode #journeyPanel.b1-upgrade-open .b1-evolution-choice .b1-original-card-img{
+ object-fit:cover;object-position:50% 26%;
+}
+body.pilot-mode #journeyPanel.b1-upgrade-open .b1-evolution-choice > .pilot-card-copy{
+ display:flex;flex-direction:column;
+ flex:1 1 0;max-height:none;min-height:0;
+ padding:9px 11px 12px;gap:6px;
+ overflow:auto;overscroll-behavior:contain;
+ color:#4d361c;
+ background:linear-gradient(180deg,#ffefc4 0%,#edd59e 100%);
+}
+body.pilot-mode #journeyPanel.b1-upgrade-open .b1-evolution-choice .b1-evolution-card-name{
+ display:block;font-size:clamp(17px,1.35vw,20px);line-height:1.2;
+ font-weight:900;letter-spacing:.025em;color:#573513;
+ margin:0;
+}
+body.pilot-mode #journeyPanel.b1-upgrade-open .b1-evolution-choice .b1-evolution-panel{
+ position:relative;display:flex;flex-direction:column;gap:4px;
+ min-width:0;flex:0 0 auto;padding:8px 10px;
+ border-radius:9px;text-align:left;
+}
+body.pilot-mode #journeyPanel.b1-upgrade-open .b1-evolution-choice .b1-evolution-before{
+ background:#fff9e8;border:1px solid #bea67c;color:#554b3e;
+}
+body.pilot-mode #journeyPanel.b1-upgrade-open .b1-evolution-choice .b1-upgrade-effects{
+ display:block;flex:0 0 auto;
+ min-height:0;margin:0;padding:0;border:0;
+ background:none;color:inherit;
+ overflow:visible;line-clamp:unset;-webkit-line-clamp:unset;
+}
+body.pilot-mode #journeyPanel.b1-upgrade-open .b1-evolution-choice .b1-evolution-after{
+ background:linear-gradient(115deg,#ffe8a1,#ffcf67);
+ border:1.5px solid #bf7c20;color:#482c07;
+ box-shadow:inset 0 1px #fff7d5,0 2px 9px #c78d2b58;
+}
+body.pilot-mode #journeyPanel.b1-upgrade-open .b1-evolution-choice .b1-evolution-heading{
+ display:block;margin-right:64px;
+ font-size:12px;line-height:1.2;font-weight:900;
+ color:inherit;letter-spacing:.06em;
+}
+body.pilot-mode #journeyPanel.b1-upgrade-open .b1-evolution-choice .b1-evolution-after .b1-evolution-heading{
+ color:#8d4205;font-size:13px;
+}
+body.pilot-mode #journeyPanel.b1-upgrade-open .b1-evolution-choice .b1-evolution-cost{
+ position:absolute;right:8px;top:7px;
+ font-weight:800;font-size:11px;color:#533e27;
+ border-radius:999px;border:1px solid #a9854a;
+ padding:2px 7px;background:#fff5d9;
+}
+body.pilot-mode #journeyPanel.b1-upgrade-open .b1-evolution-choice .b1-evolution-text{
+ display:block;white-space:normal;
+ color:inherit;font-size:clamp(13px,1vw,15px);line-height:1.45;
+ font-weight:650;overflow-wrap:anywhere;
+}
+body.pilot-mode #journeyPanel.b1-upgrade-open .b1-evolution-choice .b1-evolution-after .b1-evolution-text{
+ font-weight:850;font-size:clamp(14px,1.1vw,16px);
+}
+body.pilot-mode #journeyPanel.b1-upgrade-open .b1-evolution-choice > .cost{
+ background:#7d4f1f;color:#fff0c0;border:2px solid #fce9b2;
+ box-shadow:0 2px 8px #442100aa;
+}
+body.pilot-mode #journeyPanel.b1-upgrade-open .b1-evolution-choice > .type{
+ background:#71451f;color:#fff0bb;
+}
+body.pilot-mode #journeyPanel.b1-upgrade-open .b1-evolution-choice:disabled{
+ opacity:.68;cursor:default;filter:saturate(.6);
+}
+@media (max-width:720px){
+ body.pilot-mode #journeyPanel.b1-upgrade-open #restUpgradeCards.b1-rest-upgrades{
+  grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;padding:7px 5px 18px;
+ }
+ body.pilot-mode #journeyPanel.b1-upgrade-open .b1-evolution-choice{
+  height:clamp(355px,62dvh,450px);
+ }
+ body.pilot-mode #journeyPanel.b1-upgrade-open .b1-evolution-choice > :is(
+  .b1-magic-card-art,.b1-fire-card-art,.b1-dragon-card-art,.b1-dragon-card-sprite,.pilot-card-art
+ ){height:39%;flex-basis:39%}
+ body.pilot-mode #journeyPanel.b1-upgrade-open .b1-evolution-choice > .pilot-card-copy{
+  padding:7px;gap:4px;
+ }
+ body.pilot-mode #journeyPanel.b1-upgrade-open .b1-evolution-choice .b1-evolution-panel{padding:6px}
+ body.pilot-mode #journeyPanel.b1-upgrade-open .b1-evolution-choice .b1-evolution-text{font-size:12px}
+ body.pilot-mode #journeyPanel.b1-upgrade-open .b1-evolution-choice .b1-evolution-after .b1-evolution-text{font-size:13px}
+}
+@media (max-width:390px){
+ body.pilot-mode #journeyPanel.b1-upgrade-open #restUpgradeCards.b1-rest-upgrades{
+  grid-template-columns:1fr;
+ }
+ body.pilot-mode #journeyPanel.b1-upgrade-open .b1-evolution-choice{height:445px}
+ body.pilot-mode #journeyPanel.b1-upgrade-open .b1-evolution-choice > :is(
+  .b1-magic-card-art,.b1-fire-card-art,.b1-dragon-card-art,.b1-dragon-card-sprite,.pilot-card-art
+ ){height:48%;flex-basis:48%}
+}
+
+/* Reward moment: a gallery of three large, illustrated, dark-blue and
+   antique-gold cards. This is intentionally NOT shared with the hand/shop. */
+body.pilot-mode #journeyPanel.b1-reward-open .pilot-overlay-window{
+ width:min(1600px,calc(100vw - 24px));max-width:none;
+ padding:clamp(14px,2vw,30px);
+ max-height:calc(100dvh - 20px);overflow-y:auto;
+ background:linear-gradient(145deg,#102432,#172d40 70%,#0b1d2a);
+ border:1px solid #d8b97880;
+ box-shadow:0 24px 70px #02060bd8,0 0 0 1px #fff5d320 inset;
+}
+body.pilot-mode #journeyPanel.b1-reward-open #journeyTitle{
+ font-size:clamp(27px,3.1vw,41px);
+ color:#f6e5b4;letter-spacing:.04em;
+}
+body.pilot-mode #journeyPanel.b1-reward-open #rewardCards.pilot-rewards{
+ display:grid;grid-template-columns:repeat(3,minmax(0,1fr));
+ gap:clamp(12px,1.6vw,25px);margin:20px 0 16px;
+ align-items:stretch;
+}
+body.pilot-mode #journeyPanel.b1-reward-open #rewardCards .b1-reward-choice{
+ position:relative;box-sizing:border-box;
+ display:flex;flex-direction:column;
+ width:100%;height:clamp(390px,65dvh,565px);min-width:0;min-height:0;
+ overflow:hidden;padding:0;text-align:left;cursor:pointer;
+ color:#f8e9c9;background:#142637;
+ border:2px solid #9b855d;border-radius:14px;
+ box-shadow:0 5px 0 #07121c,0 18px 32px #020911d4;
+ transition:transform 170ms ease,border-color 170ms ease,box-shadow 170ms ease;
+}
+body.pilot-mode #journeyPanel.b1-reward-open #rewardCards .b1-reward-choice::after{
+ content:"";position:absolute;inset:5px;border:1px solid #d3b87468;
+ border-radius:9px;pointer-events:none;z-index:5;
+}
+body.pilot-mode #journeyPanel.b1-reward-open #rewardCards .b1-reward-choice:hover,
+body.pilot-mode #journeyPanel.b1-reward-open #rewardCards .b1-reward-choice:focus-visible{
+ transform:translateY(-6px);
+ border-color:#ffdc8e;
+ box-shadow:0 9px 0 #08131c,0 23px 40px #030910ef,0 0 26px #f5c87555;
+}
+body.pilot-mode #journeyPanel.b1-reward-open #rewardCards .b1-reward-choice:focus-visible{
+ outline:3px solid #ffe9b3;outline-offset:3px;
+}
+body.pilot-mode #journeyPanel.b1-reward-open #rewardCards .b1-reward-choice > :is(
+ .b1-magic-card-art,.b1-fire-card-art,.b1-dragon-card-art,.b1-dragon-card-sprite,.pilot-card-art
+){
+ display:block;position:relative;inset:auto;
+ width:100%;height:71%;flex:0 0 71%;
+ min-height:0;overflow:hidden;
+ border-radius:0;border-bottom:3px solid #b99a5e;
+ object-fit:cover;object-position:center 20%;
+}
+body.pilot-mode #journeyPanel.b1-reward-open #rewardCards .b1-reward-choice .b1-original-card-img{
+ object-fit:cover;object-position:50% 20%;
+}
+body.pilot-mode #journeyPanel.b1-reward-open #rewardCards .b1-reward-choice .pilot-card-copy{
+ box-sizing:border-box;display:flex;flex-direction:column;
+ flex:1 1 0;min-height:0;max-height:none;
+ padding:clamp(12px,1.35vw,20px);
+ gap:7px;overflow:auto;
+ background:linear-gradient(155deg,#20374c,#102536);
+ color:#f6ead7;
+}
+body.pilot-mode #journeyPanel.b1-reward-open #rewardCards .b1-reward-choice .pilot-card-copy strong{
+ color:#ffdf9b;
+ font-size:clamp(20px,1.75vw,27px);
+ line-height:1.2;font-weight:900;letter-spacing:.02em;
+ margin:0;
+}
+body.pilot-mode #journeyPanel.b1-reward-open #rewardCards .b1-reward-choice .pilot-card-copy .desc{
+ color:#f3e9d6;
+ font-size:clamp(14px,1.2vw,17px);line-height:1.4;
+ display:block;overflow:visible;-webkit-line-clamp:unset;
+}
+body.pilot-mode #journeyPanel.b1-reward-open #rewardCards .b1-reward-choice > .cost{
+ color:#fff4d1;background:#144357;
+ border:2px solid #ffdea0;font-size:18px;
+ box-shadow:0 4px 10px #09131ac9;z-index:7;
+}
+body.pilot-mode #journeyPanel.b1-reward-open #rewardCards .b1-reward-choice > .type{
+ color:#ffedbf;background:#203449dd;
+ border:1px solid #d4b06eaa;
+ z-index:7;
+}
+@media(max-width:720px){
+ body.pilot-mode #journeyPanel.b1-reward-open #rewardCards.pilot-rewards{
+  grid-template-columns:1fr;gap:15px;margin:14px 0;
+ }
+ body.pilot-mode #journeyPanel.b1-reward-open #rewardCards .b1-reward-choice{
+  height:clamp(365px,73dvh,520px);
+ }
+ body.pilot-mode #journeyPanel.b1-reward-open #rewardCards .b1-reward-choice > :is(
+  .b1-magic-card-art,.b1-fire-card-art,.b1-dragon-card-art,.b1-dragon-card-sprite,.pilot-card-art
+ ){height:66%;flex-basis:66%}
+}
+@media(orientation:landscape) and (max-height:570px){
+ body.pilot-mode #journeyPanel.b1-reward-open #rewardCards .b1-reward-choice{
+  height:clamp(250px,75dvh,390px);
+ }
+ body.pilot-mode #journeyPanel.b1-reward-open #rewardCards .b1-reward-choice > :is(
+  .b1-magic-card-art,.b1-fire-card-art,.b1-dragon-card-art,.b1-dragon-card-sprite,.pilot-card-art
+ ){height:63%;flex-basis:63%}
+}
+@media(prefers-reduced-motion:reduce){
+ body.pilot-mode #journeyPanel.b1-reward-open #rewardCards .b1-reward-choice,
+ body.pilot-mode #journeyPanel.b1-upgrade-open .b1-evolution-choice{transition:none}
+}

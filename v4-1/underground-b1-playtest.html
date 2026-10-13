@@ -527,7 +527,7 @@ function renderStage(s){
  el("relicStatus").hidden=true;
 }
 function renderOverlay(s){
- const panel=el("journeyPanel");panel.classList.remove("b1-upgrade-open");const show=["reward","between","won","lost"].includes(s.phase);panel.hidden=!show;
+ const panel=el("journeyPanel");panel.classList.remove("b1-upgrade-open");panel.classList.toggle("b1-reward-open",s.phase==="reward");const show=["reward","between","won","lost"].includes(s.phase);panel.hidden=!show;
  if(!show)return;
  const rewards=el("rewardCards");rewards.replaceChildren();
  const advance=el("advance"),skip=el("skipReward"),again=el("overlayRestart");
@@ -537,7 +537,7 @@ function renderOverlay(s){
   el("journeyHint").textContent="戦闘後にHPを最大6回復。次の敵に備えて3枚から1枚選ぶか、見送ろう。";
   rewards.hidden=false;skip.hidden=false;
   for(const id of s.rewards){
-    const btn=cardButton(id);btn.addEventListener("click",()=>{if(game.chooseReward(id))render();});rewards.append(btn);
+    const btn=cardButton(id);btn.classList.add("b1-reward-choice");btn.addEventListener("click",()=>{if(game.chooseReward(id))render();});rewards.append(btn);
   }
   }else if(s.phase==="between"){
   if(s.shopAvailable){
@@ -733,6 +733,42 @@ el("physicalStarterDialogOpen").addEventListener("click",()=>{if(game.selectStar
 el("fireStarterOpen").addEventListener("click",()=>{if(game.snapshot().phase==="starter")el("fireStarterDialog").showModal();});
 el("fireStarterClose").addEventListener("click",()=>el("fireStarterDialog").close());
 el("restHeal").addEventListener("click",()=>{if(game.chooseRest("heal"))render();});
+// Read the future card from the existing engine. Older fallback upgrades
+// include technical labels like "(damage+3)" in their descriptive text;
+// translate those into a full Japanese card effect without changing mechanics.
+function b1EvolutionEffectText(current,future){
+ const raw=future.text;
+ const mark=raw.match(/（(damage|block|heal|poison|weaken|vulnerable|energyGain|draw|strengthGain|powerDraw)＋(\d+)）$/);
+ if(!mark)return raw.replace(/（魔力－1）$/,"");
+ const key=mark[1],phrase=raw.slice(0,mark.index);
+ const patterns={
+  damage:/(\d+)(?=\s*ダメージ)/,
+  block:/(?<=防御)(\d+)/,
+  heal:/(\d+)(?=回復)/,
+  poison:/(?<=毒)(\d+)/,
+  weaken:/(?<=弱体)(\d+)/,
+  vulnerable:/(?<=脆弱)(\d+)/,
+  energyGain:/(?<=魔力＋)(\d+)/,
+  draw:/(\d+)(?=枚引く)/,
+  strengthGain:/(?<=攻撃威力＋)(\d+)/,
+  powerDraw:/(?<=ドロー＋)(\d+)/
+ };
+ const pattern=patterns[key];
+ const oldValue=current[key],newValue=future[key];
+ if(pattern&&pattern.test(phrase)){
+  return phrase.replace(pattern,number=>Number(number)===oldValue?String(newValue):number);
+ }
+ const labels={damage:"ダメージ",block:"防御",heal:"回復",poison:"毒",weaken:"弱体",
+  vulnerable:"脆弱",energyGain:"魔力獲得",draw:"ドロー",strengthGain:"攻撃威力",powerDraw:"毎ターンドロー"};
+ return phrase+" ／ "+labels[key]+"："+oldValue+" → "+newValue;
+}
+function b1EvolutionCompareBlock(label,effect,cost,variant){
+ const pane=document.createElement("span");pane.className="b1-evolution-panel b1-evolution-"+variant;
+ const header=document.createElement("span");header.className="b1-evolution-heading";header.textContent=label;
+ const costBadge=document.createElement("span");costBadge.className="b1-evolution-cost";costBadge.textContent="魔力 "+cost;
+ const summary=document.createElement("span");summary.className="b1-evolution-text";summary.textContent=effect;
+ pane.append(header,costBadge,summary);return pane;
+}
 el("restUpgrade").addEventListener("click",()=>{
  const state=game.snapshot();if(!state.restAvailable)return;
  const box=el("restUpgradeCards");box.replaceChildren();box.hidden=false;
@@ -740,12 +776,16 @@ el("restUpgrade").addEventListener("click",()=>{
  el("b1UpgradeListHint").hidden=false;el("restBack").hidden=false;
  state.deck.forEach((id,index)=>{
   const current=getB1Card(id),upgraded=id.endsWith("~"),future=getB1Card(upgraded?id:id+"~");
-  const card=cardButton(id);card.classList.add("b1-rest-upgrade-card","b1-upgrade-image-choice");
+  const futureText=b1EvolutionEffectText(current,future);
+  const card=cardButton(id);card.classList.add("b1-rest-upgrade-card","b1-upgrade-image-choice","b1-evolution-choice");
   card.disabled=upgraded;
+  const copy=card.querySelector(".pilot-card-copy");copy.replaceChildren();
+  const name=document.createElement("strong");name.className="b1-evolution-card-name";name.textContent=current.name;
+  const before=b1EvolutionCompareBlock("現在の効果",current.text,current.cost,"before");
   const meta=document.createElement("span");meta.className="b1-upgrade-effects";
-  meta.textContent=upgraded?"強化済み":"進化後："+future.text+"（魔力"+future.cost+"）";
-  card.append(meta);
-  card.setAttribute("aria-label",current.name+"。現在："+current.text+"。"+meta.textContent);
+  meta.append(b1EvolutionCompareBlock(upgraded?"進化済み":"✦ 進化後の効果",futureText,future.cost,"after"));
+  copy.append(name,before,meta);
+  card.setAttribute("aria-label",current.name+"。現在："+current.text+"、魔力"+current.cost+"。進化後："+futureText+"、魔力"+future.cost+(upgraded?"。強化済み":"。選択すると強化"));
   card.addEventListener("click",()=>{if(game.chooseRest("upgrade",index))render();});
   box.append(card);
  });
