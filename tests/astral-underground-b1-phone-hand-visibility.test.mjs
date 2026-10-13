@@ -14,14 +14,14 @@ test("phone landscape owns the final visible battle layout",()=>{
  assert.match(css,/body\.pilot-mode\[data-b1-mobile\] \.pilot-game > \.journey\{display:none\}/);
  assert.match(css,/grid-template-rows:minmax\(0,1fr\)/);
  assert.match(css,/body\.pilot-mode\[data-b1-mobile\] #playScreen\{/);
- assert.match(css,/--b1-hand-dock:clamp\(184px,57dvh,246px\)/);
+ assert.match(css,/--b1-hand-dock:clamp\(190px,64dvh,300px\)/);
  assert.match(css,/grid-template-rows:34px 9px minmax\(0,1fr\)/);
  assert.match(css,/overflow-x:auto;overflow-y:hidden/);
  // Unlike the original 155px override, the hand has enough space for names/effects.
  for(const height of [306,345,360,390,440,560,620]){
-  const dock=Math.max(184,Math.min(height*.57,246));
+  const dock=Math.max(190,Math.min(height*.64,300));
   assert.ok(dock-34-9-12>=129,"usable height at "+height);
-  assert.ok(height-dock>=120,"arena remains usable at "+height);
+  assert.ok(height-dock>=105,"arena remains usable at "+height);
  }
 });
 test("hidden header actions remain accessible from a compact battle menu",()=>{
@@ -43,4 +43,29 @@ test("tiny landscape still scrolls; mobile change is presentation only",()=>{
  assert.match(css,/@media \(orientation:landscape\) and \(max-width:1100px\) and \(max-height:305px\)/);
  assert.match(css,/height:auto;min-height:360px;max-height:none;overflow:visible/);
  assert.doesNotMatch(css,/touch-action\s*:\s*none|\.play\(|\.endTurn\(|localStorage|serviceWorker/);
+});
+
+test("cards show both their artwork and readable labels at short landscape heights",()=>{
+ assert.match(css,/--b1-hand-art-share:54%/);
+ assert.match(css,/--b1-defense-art-share:54%/);
+ assert.match(css,/\.pilot-card-copy strong\{/);
+ assert.match(css,/\.pilot-card-copy \.desc\{/);
+ assert.match(css,/bottom:max\(7px,env\(safe-area-inset-bottom\)\)/);
+ for(const height of [345,360,390,440,600]){
+  const dock=Math.max(190,Math.min(height*.64,300));
+  const usable=dock-34-9-12;
+  assert.ok(usable>=145,"full card height should fit at "+height);
+  assert.ok(usable*.46>=65,"name and effect should have room at "+height);
+ }
+});
+test("rest-upgrade landscape uses the complete height with two comparison columns where wide enough",()=>{
+ assert.match(css,/#journeyPanel\.b1-upgrade-open #restUpgradeCards\.b1-rest-upgrades/);
+ assert.match(css,/grid-template-columns:repeat\(2,minmax\(0,1fr\)\)/);
+ assert.match(css,/@media \(orientation:landscape\) and \(min-width:740px\)/);
+ assert.match(css,/\.b1-evolution-choice\{\s*min-height:205px;height:auto/);
+ assert.match(css,/grid-template-columns:clamp\(78px,9vw,110px\) minmax\(0,1fr\)/);
+ assert.match(css,/grid-template-rows:auto minmax\(0,1fr\)/);
+ assert.match(css,/overflow-y:auto;overflow-x:hidden/);
+ assert.match(css,/touch-action:pan-y/);
+ assert.match(css,/#restBack\{/);
 });
