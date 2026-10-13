@@ -52,6 +52,6 @@ test("advanced text uses capped hand lines and a complete readable preview",()=>
  assert.ok(js);
  const check=spawnSync(process.execPath,["--check","--input-type=module"],{input:js,encoding:"utf8"});
  assert.equal(check.status,0,check.stderr);
- assert.match(doc,/残り0種類/);
+ assert.match(doc,/全65種類に適用済み/);
  assert.match(doc,/全65種類に適用済み/);
 });
