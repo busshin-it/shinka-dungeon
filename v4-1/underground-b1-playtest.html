@@ -836,8 +836,10 @@ b1UpgradeGrid.addEventListener("wheel",event=>{
  if(maxScroll===0)return;
  const scale=event.deltaMode===1?18:event.deltaMode===2?b1UpgradeGrid.clientHeight:1;
  const next=Math.max(0,Math.min(maxScroll,b1UpgradeGrid.scrollTop+event.deltaY*scale));
- if(next===b1UpgradeGrid.scrollTop)return;
+ // Also swallow wheel input at the beginning/end so the background game
+ // cannot scroll when the upgrade list reaches its boundary.
  event.preventDefault();
+ if(next===b1UpgradeGrid.scrollTop)return;
  b1UpgradeGrid.scrollTop=next;
 },{passive:false});
 el("restUpgrade").addEventListener("click",()=>{
