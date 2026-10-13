@@ -14,12 +14,12 @@ test("phone landscape owns the final visible battle layout",()=>{
  assert.match(css,/body\.pilot-mode\[data-b1-mobile\] \.pilot-game > \.journey\{display:none\}/);
  assert.match(css,/grid-template-rows:minmax\(0,1fr\)/);
  assert.match(css,/body\.pilot-mode\[data-b1-mobile\] #playScreen\{/);
- assert.match(css,/--b1-hand-dock:clamp\(190px,64dvh,300px\)/);
+ assert.match(css,/--b1-hand-dock:clamp\(190px,54dvh,232px\)/);
  assert.match(css,/grid-template-rows:34px 9px minmax\(0,1fr\)/);
  assert.match(css,/overflow-x:auto;overflow-y:hidden/);
  // Unlike the original 155px override, the hand has enough space for names/effects.
  for(const height of [306,345,360,390,440,560,620]){
-  const dock=Math.max(190,Math.min(height*.64,300));
+  const dock=Math.max(190,Math.min(height*.54,232));
   assert.ok(dock-34-9-12>=129,"usable height at "+height);
   assert.ok(height-dock>=105,"arena remains usable at "+height);
  }
@@ -52,10 +52,10 @@ test("cards show both their artwork and readable labels at short landscape heigh
  assert.match(css,/\.pilot-card-copy \.desc\{/);
  assert.match(css,/bottom:max\(7px,env\(safe-area-inset-bottom\)\)/);
  for(const height of [345,360,390,440,600]){
-  const dock=Math.max(190,Math.min(height*.64,300));
+  const dock=Math.max(190,Math.min(height*.54,232));
   const usable=dock-34-9-12;
-  assert.ok(usable>=145,"full card height should fit at "+height);
-  assert.ok(usable*.46>=65,"name and effect should have room at "+height);
+  assert.ok(usable>=132,"compact card height should fit at "+height);
+  assert.ok(usable*.51>=65,"name and effect should have room at "+height);
  }
 });
 test("rest-upgrade landscape uses the complete height with two comparison columns where wide enough",()=>{
@@ -68,4 +68,14 @@ test("rest-upgrade landscape uses the complete height with two comparison column
  assert.match(css,/overflow-y:auto;overflow-x:hidden/);
  assert.match(css,/touch-action:pan-y/);
  assert.match(css,/#restBack\{/);
+});
+
+test("phone card shrink preserves readable name/effect and swipe gestures",()=>{
+ assert.match(css,/--b1-defense-art-share:49%/);
+ assert.match(css,/flex:0 0 clamp\(153px,17\.5vw,184px\)/);
+ assert.match(css,/margin-inline-start:-22px/);
+ assert.match(css,/\.pilot-card-copy strong\{/);
+ assert.match(css,/\.pilot-card-copy \.desc\{/);
+ assert.match(css,/overflow-x:auto;overflow-y:hidden/);
+ assert.doesNotMatch(css,/touch-action\s*:\s*none/);
 });
