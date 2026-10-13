@@ -17,11 +17,12 @@ function declared(name){
  const m=html.match(reg);assert.ok(m,name+" declaration missing");
  return [...m[1].matchAll(/"([A-Za-z]+)"/g)].map(x=>x[1]);
 }
-test("every one of the 57 cards is assigned once across three rollout waves",()=>{
+test("all 65 cards are assigned once across four approved frame waves",()=>{
  assert.deepEqual(declared("B1_CARD_FRAME_WAVE3"),last20);
- const all=[...declared("B1_CARD_FRAME_WAVE1"),...declared("B1_CARD_FRAME_WAVE2"),...declared("B1_CARD_FRAME_WAVE3")];
- assert.equal(all.length,57);
- assert.equal(new Set(all).size,57,"no duplicate implementation entries");
+ assert.deepEqual(declared("B1_CARD_FRAME_WAVE4"),["lightningFlash","lightningFork","lightningSweep","lightningRelay","shieldMoss","shieldMirror","shieldSpore","shieldIncubate"]);
+ const all=[...declared("B1_CARD_FRAME_WAVE1"),...declared("B1_CARD_FRAME_WAVE2"),...declared("B1_CARD_FRAME_WAVE3"),...declared("B1_CARD_FRAME_WAVE4")];
+ assert.equal(all.length,65);
+ assert.equal(new Set(all).size,65,"no duplicate implementation entries");
  assert.deepEqual(all.slice().sort(),Object.keys(CARDS).slice().sort());
  assert.match(html,/B1_CARD_FRAME_WAVE3\.has\(designId\)/);
  for(const id of last20){
@@ -52,5 +53,5 @@ test("advanced text uses capped hand lines and a complete readable preview",()=>
  const check=spawnSync(process.execPath,["--check","--input-type=module"],{input:js,encoding:"utf8"});
  assert.equal(check.status,0,check.stderr);
  assert.match(doc,/残り0種類/);
- assert.match(doc,/全57種類に適用済み/);
+ assert.match(doc,/全65種類に適用済み/);
 });
