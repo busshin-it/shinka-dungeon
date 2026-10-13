@@ -1,0 +1,219 @@
+/*
+ * B1 card design laboratory | Defense V1 | review candidate, NOT a universal rule.
+ *
+ * One opt-in card only: CARDS.basicDefense -> class .b1-defense-prototype
+ * Frame = weathered silver/bronze; mana = carved azure gem; name = forged plaque;
+ * action = dense, readable dark blue effect well; art stays central.
+ * No new art files, mechanics, shared hand geometry or required JS interactions.
+ *
+ * This stylesheet is intentionally loaded after other B1 stylesheets and may be
+ * removed without affecting the card builder or any other card.
+ */
+body.pilot-mode .pilot-card.b1-defense-prototype{
+ --b1-defense-art-share:65%;
+ --b1-defense-metal:#b8a178;
+ --b1-defense-ink:#edf4e9;
+ box-sizing:border-box;
+ position:relative;isolation:isolate;
+ display:flex;flex-direction:column;
+ padding:0;overflow:hidden;
+ color:var(--b1-defense-ink);
+ background:linear-gradient(112deg,#8299a4 0%,#304553 3%,#111f2e 8%,#10253a 58%,#5d7480 96%,#c5b78b 100%);
+ border:3px solid #afa078;
+ border-radius:13px;
+ box-shadow:inset 0 0 0 2px #273c52,inset 0 0 0 4px #dcc89a,
+  0 6px 17px #030c19a6;
+}
+body.pilot-mode .pilot-card.b1-defense-prototype::after{
+ content:"";position:absolute;inset:5px;
+ z-index:6;pointer-events:none;
+ border:1px solid #d8c3918c;border-radius:8px;
+ box-shadow:inset 0 0 0 1px #07131d99;
+}
+body.pilot-mode .pilot-card.b1-defense-prototype > .b1-magic-card-art{
+ box-sizing:border-box;
+ position:relative;inset:auto;
+ display:block;flex:0 0 var(--b1-defense-art-share);
+ width:100%;height:var(--b1-defense-art-share);
+ min-height:0;max-height:none;
+ overflow:hidden;border-radius:0;
+ border-bottom:3px solid #d5bc80;
+ background:#0a2639;
+}
+body.pilot-mode .pilot-card.b1-defense-prototype .b1-magic-card-art::after{
+ content:"";position:absolute;inset:0;z-index:2;
+ background:linear-gradient(180deg,#010f2417 0%,transparent 25%,transparent 58%,#07182a90 100%);
+ pointer-events:none;
+}
+body.pilot-mode .pilot-card.b1-defense-prototype .b1-original-card-img{
+ display:block;object-fit:cover;object-position:50% 31%;
+ filter:saturate(.96) contrast(1.07);
+}
+/* Blue enamel gemstone; identical value/position, upgraded artwork instead
+ * of creating an alien bespoke widget that would break touch cards. */
+body.pilot-mode .pilot-card.b1-defense-prototype > .cost{
+ box-sizing:border-box;
+ position:absolute;top:8px;left:8px;right:auto;z-index:8;
+ display:grid;place-items:center;
+ width:clamp(31px,2.6vw,43px);
+ height:clamp(31px,2.6vw,43px);
+ padding:0;margin:0;
+ border:2px solid #e5d7aa;
+ border-radius:35% 35% 45% 45%;
+ color:#fffcf1;
+ font:900 clamp(17px,1.5vw,22px)/1 Georgia,serif;
+ background:radial-gradient(circle at 30% 22%,#cceffc 0%,#327391 25%,#17455c 53%,#0a223c 85%);
+ box-shadow:0 3px 8px #010b17b9,inset 0 0 0 2px #143548,
+ inset 0 0 0 4px #79a9b9aa,0 0 10px #86e3ed47;
+}
+body.pilot-mode .pilot-card.b1-defense-prototype > .type{
+ box-sizing:border-box;position:absolute;z-index:8;
+ top:9px;right:9px;left:auto;
+ display:grid;place-items:center;
+ width:clamp(30px,2.5vw,41px);
+ height:clamp(30px,2.5vw,41px);
+ max-width:none;margin:0;padding:0;
+ border-radius:8px;border:1px solid #dbc89b;
+ background:linear-gradient(145deg,#5b7589,#162f40 54%,#0a1d29);
+ color:#f3e4b8;font-size:clamp(17px,1.4vw,21px);
+ text-shadow:0 1px 3px #03111b;
+ box-shadow:inset 0 0 0 2px #2c4d5e,0 2px 8px #010b17a8;
+ overflow:visible;
+}
+body.pilot-mode .pilot-card.b1-defense-prototype > .pilot-card-copy{
+ box-sizing:border-box;
+ display:flex;flex:1 1 0;flex-direction:column;align-items:center;
+ justify-content:flex-start;
+ min-height:0;max-height:none;
+ margin:0;padding:23px 8px 7px;
+ position:static;overflow:visible;
+ background:radial-gradient(ellipse at 50% 0%,#35526a 0%,#172d43 38%,#0a1a2c 100%);
+ border-top:1px solid #24384b;
+ color:#f1f3e5;gap:3px;
+}
+body.pilot-mode .pilot-card.b1-defense-prototype .pilot-card-copy strong{
+ position:absolute;
+ box-sizing:border-box;
+ z-index:7;top:calc(var(--b1-defense-art-share) - 18px);
+ left:9%;right:9%;width:82%;height:auto;min-height:29px;
+ display:flex;align-items:center;justify-content:center;
+ margin:0;padding:4px 10px;
+ overflow:visible;text-overflow:clip;white-space:normal;
+ border-radius:6px 6px 13px 13px;
+ border:2px solid #c6aa76;
+ color:#fff4d5!important;
+ background:linear-gradient(170deg,#778996 0%,#273e52 20%,#122f48 61%,#233d50 85%,#697d8b 100%);
+ box-shadow:inset 0 0 0 1px #d9cfb159,0 3px 9px #040b1abf;
+ text-shadow:0 1px 3px #06111dd6;
+ font:800 clamp(15px,1.25vw,19px)/1.2 "Yu Mincho","Hiragino Mincho ProN",Georgia,serif;
+ letter-spacing:.09em;
+}
+body.pilot-mode .pilot-card.b1-defense-prototype .pilot-card-copy .desc{
+ box-sizing:border-box;
+ display:flex;align-items:center;justify-content:center;gap:4px;
+ flex:0 0 auto;min-height:0;max-height:none;
+ width:100%;margin:0;padding:1px;
+ color:#f7f0dc!important;
+ font:750 clamp(12px,1vw,16px)/1.3 "Hiragino Sans","Yu Gothic",sans-serif;
+ text-align:center;white-space:normal;
+ overflow:hidden;text-overflow:clip;
+ -webkit-line-clamp:unset;line-clamp:unset;
+ background:transparent;
+}
+body.pilot-mode .pilot-card.b1-defense-prototype .pilot-card-copy .desc::before{
+ content:"✦";
+ color:#d9ca9c;font-size:.85em;
+}
+/* Small hand cards: preserve original fan dimensions and drag hitboxes. */
+body.pilot-mode #playScreen #hand.hand .pilot-card.b1-defense-prototype{
+ --b1-defense-art-share:66%;
+ padding:0;
+}
+body.pilot-mode #playScreen #hand.hand .pilot-card.b1-defense-prototype > .b1-magic-card-art{
+ height:var(--b1-defense-art-share);flex:0 0 var(--b1-defense-art-share);
+}
+body.pilot-mode #playScreen #hand.hand .pilot-card.b1-defense-prototype > .pilot-card-copy{
+ position:static;padding:20px 4px 3px;overflow:visible;
+ background:radial-gradient(ellipse at 50% 0%,#34526b,#0c1c2e 75%);
+}
+body.pilot-mode #playScreen #hand.hand .pilot-card.b1-defense-prototype .pilot-card-copy strong{
+ top:calc(var(--b1-defense-art-share) - 13px);
+ left:9%;right:9%;width:82%;
+ min-height:24px;padding:3px 4px;
+ font-size:clamp(12px,.98vw,16px);line-height:1.16;
+}
+body.pilot-mode #playScreen #hand.hand .pilot-card.b1-defense-prototype .pilot-card-copy .desc{
+ display:flex;min-height:0;padding:0;
+ font-size:clamp(11px,.88vw,14px);line-height:1.2;
+ color:#fff0d1;
+}
+/* Preview and reward can devote more space to artwork, without a scrollbar
+ * inside the text. The parent overlay itself retains scrolling when needed. */
+body.pilot-mode .b1-card-preview .pilot-card.b1-defense-prototype{
+ --b1-defense-art-share:68%;
+ border-width:3px;
+ background:#132e42;
+}
+body.pilot-mode .b1-card-preview .pilot-card.b1-defense-prototype > .b1-magic-card-art{
+ height:var(--b1-defense-art-share)!important;
+ flex:0 0 var(--b1-defense-art-share)!important;
+}
+body.pilot-mode .b1-card-preview .pilot-card.b1-defense-prototype > .pilot-card-copy{
+ padding:clamp(30px,5dvh,38px) 13px 9px!important;
+ overflow:visible!important;position:static;
+ background:radial-gradient(ellipse at 50% 0%,#35526b,#091e32 75%);
+}
+body.pilot-mode .b1-card-preview .pilot-card.b1-defense-prototype .pilot-card-copy strong{
+ font-size:clamp(20px,3.2dvh,26px);
+ min-height:34px;top:calc(var(--b1-defense-art-share) - 19px);
+}
+body.pilot-mode .b1-card-preview .pilot-card.b1-defense-prototype .pilot-card-copy .desc{
+ display:flex;overflow:hidden;font-size:clamp(17px,2.7dvh,21px);
+ color:#fff0dd;
+}
+body.pilot-mode #rewardCards .pilot-card.b1-defense-prototype{
+ --b1-defense-art-share:72%;
+}
+body.pilot-mode #rewardCards .pilot-card.b1-defense-prototype > .b1-magic-card-art{
+ height:var(--b1-defense-art-share);flex:0 0 var(--b1-defense-art-share);
+}
+body.pilot-mode #rewardCards .pilot-card.b1-defense-prototype > .pilot-card-copy{
+ position:static;padding:clamp(23px,3dvh,36px) 10px 8px;
+ overflow:visible;background:radial-gradient(ellipse at 50% 0%,#35526b,#102337 80%);
+}
+body.pilot-mode #rewardCards .pilot-card.b1-defense-prototype .pilot-card-copy strong{
+ top:calc(var(--b1-defense-art-share) - 20px);
+ min-height:34px;
+ font-size:clamp(19px,1.8vw,27px);
+}
+body.pilot-mode #rewardCards .pilot-card.b1-defense-prototype .pilot-card-copy .desc{
+ display:flex;font-size:clamp(15px,1.25vw,19px);color:#ffefda;
+}
+/* Card catalog uses exactly the same visual identity. */
+body.pilot-mode .b1-catalog-item .pilot-card.b1-defense-prototype > .pilot-card-copy{
+ position:static;overflow:visible;padding:23px 5px 4px;
+ background:radial-gradient(ellipse at 50% 0%,#34526b,#102439 80%);
+}
+body.pilot-mode .b1-catalog-item .pilot-card.b1-defense-prototype .pilot-card-copy strong{
+ top:calc(var(--b1-defense-art-share) - 14px);
+ font-size:14px;min-height:23px;
+}
+body.pilot-mode .b1-catalog-item .pilot-card.b1-defense-prototype .pilot-card-copy .desc{
+ display:flex;font-size:12px;color:#f7e8cb;
+}
+@media(max-height:580px){
+ body.pilot-mode #playScreen #hand.hand .pilot-card.b1-defense-prototype{
+  --b1-defense-art-share:61%;
+ }
+ body.pilot-mode #playScreen #hand.hand .pilot-card.b1-defense-prototype > .pilot-card-copy{
+  padding-top:18px;
+ }
+ body.pilot-mode #playScreen #hand.hand .pilot-card.b1-defense-prototype .pilot-card-copy strong{
+  min-height:21px;top:calc(var(--b1-defense-art-share) - 11px);font-size:12px;
+ }
+}
+@media(max-width:420px){
+ body.pilot-mode .pilot-card.b1-defense-prototype > .cost{width:30px;height:30px;font-size:17px}
+ body.pilot-mode .pilot-card.b1-defense-prototype > .type{width:29px;height:29px;font-size:16px}
+ body.pilot-mode #playScreen #hand.hand .pilot-card.b1-defense-prototype .pilot-card-copy .desc{font-size:11px}
+}
