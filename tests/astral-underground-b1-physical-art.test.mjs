@@ -38,7 +38,7 @@ test("physical images share hand, shop and preview renderers without changing ca
  assert.ok(html.includes("const candidates=[highRes,lowRes]"),"HQ original first, existing AVIF second");
  assert.ok(html.includes("img.src=\"./assets/\"+candidates[index]"),"loads next fallback on failure");
  assert.ok(html.includes("attachB1OriginalArt(picture,c.magicArt)"),"hand and starter art");
- assert.ok(html.includes("attachB1OriginalArt(thumb,card.magicArt)"),"shop art");
+ assert.ok(html.includes("const card=getB1Card(item.id),b=cardButton(item.id)"),"shop art");
  assert.ok(html.includes('img.addEventListener("error"'),"fallback on missing image");
  assert.ok(html.includes('img.className="b1-original-elemental-img b1-original-card-img"'));
  assert.ok(css.includes(".b1-original-elemental-img"));
