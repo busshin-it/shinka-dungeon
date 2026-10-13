@@ -29,7 +29,7 @@ test("four B1 trial spells have distinct effects, costs, shop prices and upgrade
   const after=game.snapshot();
   assert.equal(after.enemies.find(e=>e.id==="left").hp,left.hp-damage);
   assert.equal(after.energy,3-cost);
-  assert.ok(after.shopStock.some(item=>item.id===id&&item.price===price));
+  assert.ok(after.shopCatalog.some(item=>item.id===id&&item.price===price));
   if(id==="darkBolt"){
    assert.equal(c.draw,1);
    assert.equal(after.hand.length,s.hand.length,"1 played + 1 drawn");
