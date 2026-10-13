@@ -24,7 +24,7 @@ test("phase two includes 22 additional original-art cards and leaves 20 for late
  }
  assert.match(html,/B1_CARD_FRAME_WAVE1\.has\(designId\)\|\|B1_CARD_FRAME_WAVE2\.has\(designId\)/);
  assert.match(doc,/合計37種類適用/);
- assert.match(doc,/残り0種類/);
+ assert.match(doc,/全65種類に適用済み/);
 });
 test("fire sprites share illustrated frame geometry without modifying original sprite mapping",()=>{
  const generic=/ > :is\(\.b1-magic-card-art,\.b1-fire-card-art,\.b1-dragon-card-art,\.b1-dragon-card-sprite\)/g;
