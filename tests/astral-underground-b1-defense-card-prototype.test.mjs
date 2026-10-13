@@ -44,7 +44,7 @@ test("card renderer module remains parseable and card mechanics unchanged",()=>{
  assert.ok(src);
  const res=spawnSync(process.execPath,["--check","--input-type=module"],{input:src,encoding:"utf8"});
  assert.equal(res.status,0,res.stderr);
- assert.match(html,/btn\.setAttribute\("aria-label",c\.name\+"、魔力"\+c\.cost\+"。"\+c\.text\)/);
+ assert.match(html,/btn\.setAttribute\("aria-label",c\.name\+"、魔力"\+c\.cost\+"。"\+c\.text/);
 });
 
 test("V2 art-led hierarchy matches the approved mockup while retaining the real card data",()=>{
