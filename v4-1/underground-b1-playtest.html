@@ -344,15 +344,22 @@ const B1_CARD_FRAME_WAVE2=new Set([
  "flow","ward","charge","double","focus","flare","frostBreak",
  "echoGuard","lingeringPoison","darkBolt","abyssBolt","iceSpear","arcaneLance"
 ]);
+const B1_CARD_FRAME_WAVE3=new Set([
+ "mentalCollapse","curse","deathSong","hallucination","shadowEcho",
+ "blizzard","thunderSurge","guideThrust","spellblade",
+ "bludgeon","rapidPunch","heavyBlow","sneakHit","ironHammer",
+ "doping","adversity","rage","dragonEgg","dragonFeed","dragonBreath"
+]);
 function b1CardFrameRole(card){
  if(card.kind==="guard")return "guard";
  if(card.kind==="heal")return "heal";
  if(["poison","fragile","confuse","curse","hallucinate"].includes(card.kind))return "debuff";
+ if(["dragon","dragonFeed","dragonBreath"].includes(card.kind))return "dragon";
  if(["power","draw","energy","physicalPower","adversity"].includes(card.kind))return "skill";
  if(card.weapon)return "physical";
  return "spell";
 }
-const B1_FRAME_SYMBOL={physical:"⚔",spell:"✧",heal:"✚",debuff:"◆",skill:"✦"};
+const B1_FRAME_SYMBOL={physical:"⚔",spell:"✧",heal:"✚",debuff:"◆",skill:"✦",dragon:"✵"};
 function cardButton(id){
  const c=getB1Card(id),btn=document.createElement("button");btn.type="button";btn.className="card pilot-card b1-text-card";
  const cost=document.createElement("span");cost.className="cost";cost.textContent=c.cost;
@@ -387,7 +394,7 @@ function cardButton(id){
   btn.dataset.b1Design="defense-v2";
  }
  const designId=id.endsWith("~")?id.slice(0,-1):id;
- if(B1_CARD_FRAME_WAVE1.has(designId)||B1_CARD_FRAME_WAVE2.has(designId)){
+ if(B1_CARD_FRAME_WAVE1.has(designId)||B1_CARD_FRAME_WAVE2.has(designId)||B1_CARD_FRAME_WAVE3.has(designId)){
   const role=b1CardFrameRole(c);
   btn.classList.add("b1-arcane-card","b1-frame-"+role);
   if(c.text.length>14)btn.classList.add("b1-frame-long-effect");
