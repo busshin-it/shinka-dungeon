@@ -48,7 +48,7 @@ test("six new enemy types appear in distinct encounters without affecting all 12
   assert.ok(STAGES[stage].enemies.some(e=>e.role===role&&e.id===id),role);
   assert.ok(STAGES[stage].hint.length>10);
  }
- assert.equal(Object.keys(CARDS).length,77,"card catalog includes eight more cards");
+ assert.equal(Object.keys(CARDS).length,85,"card catalog includes eight more cards");
  const imgs={
   venom:"wraith.webp",berserker:"bell-spirit.webp",healer:"bell-spirit.webp",
   breaker:"bell-spirit.webp",banner:"bell-spirit.webp",warder:"bell-spirit.webp"
