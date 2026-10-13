@@ -2,6 +2,10 @@
 
 > 2026-10-13時点のGitHub記録に基づく要約。最新の状態は[CURRENT_STATE.md](CURRENT_STATE.md)を正本とする。以前の詳細な29KBの全文は[保存用ブランチ](https://github.com/busshin-it/shinka-dungeon/blob/archive/secretary-before-compaction-20261011/AI_SECRETARY_STATUS.md)に保管。
 
+## 実機再フィードバック（2026-10-13）・手札と強化候補
+- 上ヘッダー撤去は反映されていたが、戦闘手札の名前・効果が下に隠れ、休憩所で横長1列の強化候補が小さくなっていた。B1最終CSSを調整して手札ドックを64dvh（190～300px）、絵54％、カード内の名前・効果領域を確保。休憩所は広い横画面で2列の読みやすい比較カードへ変更。[再修正記録](design/b1-phone-landscape-hand-visibility-20261013.md)。
+- ゲームロジック・77枚・既存セーブ・PC表示は不変。次はCI→main→Pages→Android実機の文字切れ・スクロール・ドラッグを確認。
+
 ## 最新の確認（2026-10-13）・Android横画面の手札視認性
 - ユーザーの実機画像で、無駄な上部ヘッダーとカードの下部見切れを確認。報酬CSSの手札高さ上書きが原因候補と特定。B1専用の最終CSSで横画面のヘッダー非表示・手札ドック約57dvhを指定。図鑑／最初からはターン終了横の「⋯」で引き続き操作できる。
 - B1の既存77カード・保存・戦闘ルール・PC表示・他モードは無変更。[原因と元に戻す方法](design/b1-phone-landscape-hand-visibility-20261013.md)。
