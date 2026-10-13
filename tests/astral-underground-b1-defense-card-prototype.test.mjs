@@ -75,3 +75,39 @@ test("V2 excludes evolution-comparison cards so the approved evolution UI stays 
  assert.match(css,/#shopItems/);
  assert.match(css,/#shopPurgeCards/);
 });
+
+test("hand-size defense card uses flowing title/effect and stays clear of overlap",()=>{
+ const hand=css.slice(css.indexOf("/* V3: compact defense card"));
+ assert.ok(hand.length>2000,"dedicated compact layout exists");
+ assert.match(hand,/#playScreen #hand\.hand \.pilot-card\.b1-defense-prototype:not\(\.b1-evolution-choice\)/);
+ assert.match(hand,/--b1-defense-art-share:64%/);
+ assert.match(hand,/> \.pilot-card-copy\{/);
+ assert.match(hand,/position:relative;display:flex;flex:1 1 0;flex-direction:column/);
+ assert.match(hand,/overflow:visible/);
+ assert.match(hand,/\.pilot-card-copy strong\{/);
+ assert.match(hand,/position:relative;z-index:7;/);
+ assert.match(hand,/top:auto;bottom:auto;left:auto;right:auto/);
+ assert.match(hand,/margin:-12px -5px 0/);
+ assert.match(hand,/\.pilot-card-copy \.desc\{/);
+ assert.match(hand,/flex:1 1 auto;min-height:22px/);
+ assert.match(hand,/background:transparent;color:#fff0d5!important/);
+ assert.match(hand,/@media \(orientation:landscape\) and \(max-height:600px\)/);
+ assert.match(hand,/@media \(orientation:landscape\) and \(max-height:350px\)/);
+ assert.match(hand,/@media \(orientation:portrait\) and \(max-width:900px\)/);
+ assert.ok(!hand.includes("touch-action:")&&!hand.includes("pointer-events:none"),
+  "do not disable tap/drag hitboxes");
+ assert.ok(!hand.includes("height:100vh")&&!hand.includes("transform:rotate"),
+  "do not change arena or hand fan dimensions");
+});
+test("approved full-size and evolution designs remain intact alongside the hand-only fix",()=>{
+ const handStart=css.indexOf("/* V3: compact defense card");
+ const original=css.slice(0,handStart);
+ assert.match(original,/\.b1-card-preview \.pilot-card\.b1-defense-prototype/);
+ assert.match(original,/#rewardCards \.pilot-card\.b1-defense-prototype/);
+ assert.match(original,/#shopItems \.pilot-card\.b1-defense-prototype/);
+ assert.match(original,/\.b1-evolution-choice/);
+ assert.match(html,/if\(id==="basicDefense"\)/);
+ assert.match(html,/btn\.dataset\.b1Design="defense-v2"/);
+ assert.equal(getB1Card("basicDefense").block,5);
+ assert.equal(getB1Card("basicDefense").cost,1);
+});
