@@ -47,11 +47,12 @@ export function attachB1Actions({hand,stage,enemyPuppet,choices,cards,read,selec
  function showPreview(button){
   if(!button||active?.moved||read().phase!=="battle")return;
   const index=Number(button.dataset.b1Hand);
-  // Inspection is allowed even when there is not enough energy to PLAY.
-  // Hand cards are ~190-230px; the old 224px cap never looked enlarged.
+  // Inspection remains available even without enough energy to PLAY.
+  // A compact 1.2-1.5x peek is enough. 390px overlaid the entire arena at
+  // Chrome/OS zoom; keep it to at most 280 CSS pixels and 58% viewport height.
   const r=button.getBoundingClientRect();
-  const heightBound=Math.max(175,Math.min(window.innerHeight*.78,560));
-  const width=Math.round(Math.min(390,window.innerWidth*.82,heightBound/1.39));
+  const heightBound=Math.max(170,Math.min(window.innerHeight*.58,400));
+  const width=Math.round(Math.min(280,window.innerWidth*.60,heightBound/1.39));
   const height=Math.round(width*1.39);
   const left=Math.max(6,Math.min(window.innerWidth-width-6,r.left+r.width/2-width/2));
   const top=Math.max(6,Math.min(window.innerHeight-height-6,r.top-height-18));
