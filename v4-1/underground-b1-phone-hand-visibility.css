@@ -24,7 +24,7 @@
   body.pilot-mode[data-b1-mobile] #playScreen{
     height:100%;min-height:0;overflow:hidden;
     /* The old late override (36dvh/155px) left only the tops of cards visible. */
-    --b1-hand-dock:clamp(235px,67dvh,308px);
+    --b1-hand-dock:clamp(190px,64dvh,300px);
     --b1-hand-art-share:54%;
   }
   body.pilot-mode[data-b1-mobile] #playScreen > .table{
