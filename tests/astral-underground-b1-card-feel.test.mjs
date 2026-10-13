@@ -25,8 +25,8 @@ test("large card preview is outside scrolling hand and never intercepts touches"
  assert.match(css,/\.b1-card-preview\[hidden\]\{display:none!important\}/);
  assert.match(css,/\.b1-card-preview .*?\.pilot-card\.b1-art-card/s);
  assert.match(css,/\.b1-card-preview .*?\.pilot-card \.desc/s);
- assert.match(js,/window\.innerHeight\*\.78/);
- assert.match(js,/Math\.min\(390,window\.innerWidth\*\.82,heightBound\/1\.39\)/);
+ assert.match(js,/window\.innerHeight\*\.58/);
+ assert.match(js,/Math\.min\(280,window\.innerWidth\*\.60,heightBound\/1\.39\)/);
  assert.match(js,/button\.addEventListener\("focus"/);
  assert.match(js,/button\.addEventListener\("click",\(\)=>handleCardClick\(index\)\)/);
  assert.match(js,/button\.addEventListener\("blur"/);
