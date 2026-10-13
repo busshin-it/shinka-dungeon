@@ -33,8 +33,8 @@ test("shop lists only rolled three offers and uses original in-game card images 
 });
 
 test("buffs and debuffs appear on the player, single enemy and separate enemy actors",()=>{
- assert.ok(html.includes('id="b1HeroEffects"'));
- assert.ok(html.includes('id="b1SoloEnemyEffects"'));
+ assert.ok(html.includes('spot.id=id')); assert.ok(html.includes('"b1HeroEffects"'));
+ assert.ok(html.includes('"b1SoloEnemyEffects"'));
  assert.ok(html.includes('b1DisplayConditions(status,b1EnemyConditions(e,s))'));
  assert.ok(html.includes('b1DisplayConditions(el("b1HeroEffects"),b1HeroConditions(s))'));
  assert.ok(html.includes('b1DisplayConditions(el("b1SoloEnemyEffects"),b1EnemyConditions(enemy,s))'));
