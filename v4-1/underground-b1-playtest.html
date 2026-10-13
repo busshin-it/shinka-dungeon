@@ -827,6 +827,11 @@ function b1EvolutionCompareBlock(label,effect,cost,variant){
 el("restUpgrade").addEventListener("click",()=>{
  const state=game.snapshot();if(!state.restAvailable)return;
  const box=el("restUpgradeCards");box.replaceChildren();box.hidden=false;
+ // Each visit starts at the first card. Never inherit stale scroll from the
+ // previous full-window scroller or a previous upgrade visit.
+ const upgradeWindow=el("journeyPanel").querySelector(".pilot-overlay-window");
+ if(upgradeWindow)upgradeWindow.scrollTop=0;
+ box.scrollTop=0;
  el("journeyPanel").classList.add("b1-upgrade-open");
  el("b1UpgradeListHint").hidden=false;el("restBack").hidden=false;
  state.deck.forEach((id,index)=>{
@@ -848,7 +853,11 @@ el("restUpgrade").addEventListener("click",()=>{
   box.append(card);
  });
 });
-el("restBack").addEventListener("click",()=>{el("journeyPanel").classList.remove("b1-upgrade-open");el("restUpgradeCards").hidden=true;el("b1UpgradeListHint").hidden=true;el("restBack").hidden=true;});
+el("restBack").addEventListener("click",()=>{
+ el("restUpgradeCards").scrollTop=0;
+ el("journeyPanel").classList.remove("b1-upgrade-open");
+ el("restUpgradeCards").hidden=true;el("b1UpgradeListHint").hidden=true;el("restBack").hidden=true;
+});
 el("b1CardCatalogOpen").addEventListener("click",()=>{renderB1CardCatalog();el("b1CardCatalogDialog").showModal();});
 el("b1CardCatalogClose").addEventListener("click",()=>el("b1CardCatalogDialog").close());
 el("b1CatalogAll").addEventListener("click",()=>renderB1CardCatalog(false));
