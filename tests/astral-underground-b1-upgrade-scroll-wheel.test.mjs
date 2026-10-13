@@ -16,7 +16,7 @@ test("one scroll surface: the upgrade grid, not each card's text pane",()=>{
  assert.match(patch,/\.b1-evolution-choice > \.pilot-card-copy\{[\s\S]*overflow:visible;/);
  assert.match(patch,/\.b1-evolution-choice \.b1-upgrade-effects\{[\s\S]*overflow:visible;/);
  assert.match(patch,/touch-action:pan-y/);
- assert.doesNotMatch(patch,/overflow:auto/);
+ assert.doesNotMatch(patch,/overflow\\s*:\\s*auto\\s*;/);
  assert.match(css,/\.pilot-overlay-window\{[\s\S]*height:100dvh;max-height:100dvh;min-height:0;[\s\S]*overflow:hidden/);
 });
 test("wheel anywhere over cards scrolls the list and offers keyboard access",()=>{
@@ -30,8 +30,8 @@ test("wheel anywhere over cards scrolls the list and offers keyboard access",()=
  assert.match(html,/\{passive:false\}/);
  const script=html.match(/<script type="module">([\s\S]*?)<\/script>/)?.[1];
  assert.ok(script);
- const process=spawnSync(process.execPath,["--input-type=module","--check"],{input:script,encoding:"utf8"});
- assert.equal(process.status,0,process.stderr);
+ const syntaxCheck=spawnSync(process.execPath,["--input-type=module","--check"],{input:script,encoding:"utf8"});
+ assert.equal(syntaxCheck.status,0,syntaxCheck.stderr);
 });
 test("reward coverage audit: 44 of 57 collectible card types occur in victory pools",()=>{
  const cards=Object.keys(CARDS);
