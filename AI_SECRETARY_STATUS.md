@@ -2,6 +2,11 @@
 
 > 2026-10-13時点のGitHub記録に基づく要約。最新の状態は[CURRENT_STATE.md](CURRENT_STATE.md)を正本とする。以前の詳細な29KBの全文は[保存用ブランチ](https://github.com/busshin-it/shinka-dungeon/blob/archive/secretary-before-compaction-20261011/AI_SECRETARY_STATUS.md)に保管。
 
+## 最新の確認（2026-10-13）・小型手札の防御カード表示を改善
+- [PR #109](https://github.com/busshin-it/shinka-dungeon/pull/109)をmain `9767696`に統合。防御カードの小型手札で重なっていた名前・効果・旧ベージュ背景を手札限定CSSで修正。大きなカードV2の見た目は保持し、効果と手札ドラッグは変更なし。
+- Astral game verification #38353403602成功。[デザイン記録](design/b1-defense-card-frame-prototype-20261013.md)に小型版の高さ調整と未確認事項を追記。
+- **次：GitHub Pages公開確認→PC/スマホで手札の見切れ・ドラッグを実機確認→承認後に共通MDへ正式化**。
+
 ## 最新の確認（2026-10-13）・採用画像の「防御」カードV2
 - PR #108をmain `c5dd923` に統合。V1の枠を刷新し、金縁の深藍カード、青い丸宝石・金色の盾章・アート連動の横長名板・すっきりした効果欄を「防御」1枚だけへ実装。57枚のうちその他56枚とカード効果は変更しない。
 - Astral game verification #38352345981 はsuccess。 [V2のデザイン記録](design/b1-defense-card-frame-prototype-20261013.md) に採用方向とV1の反省を保存。
