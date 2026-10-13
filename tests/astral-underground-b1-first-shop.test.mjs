@@ -2,7 +2,7 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import {createB1Game} from "../v4-1/underground-b1-engine.mjs";
 function clear(g){let n=0;while(g.snapshot().phase==="battle"&&n++<80){let x=0;while(g.snapshot().phase==="battle"&&x++<20){const s=g.snapshot(),t=s.enemies.find(e=>e.hp>0),i=s.hand.findIndex(k=>k==="lightning"&&s.energy>=2);if(i<0||!t)break;assert.equal(g.play(i,t.id),true);}if(g.snapshot().phase==="battle")g.endTurn();}assert.equal(g.snapshot().phase,"reward");}
-function reachShop(){const g=createB1Game({seed:17,maxHp:999,testDeck:Array(12).fill("lightning")});g.selectStarter("scatter");clear(g);g.chooseReward(null);g.choosePath("pack");g.nextBattle();clear(g);g.chooseReward(null);g.chooseRest("heal");g.nextBattle();clear(g);g.chooseReward(null);assert.equal(g.snapshot().shopAvailable,true);return g;}
+function reachShop(seed=17){const g=createB1Game({seed,maxHp:999,testDeck:Array(12).fill("lightning")});g.selectStarter("scatter");clear(g);g.chooseReward(null);g.choosePath("pack");g.nextBattle();clear(g);g.chooseReward(null);g.chooseRest("heal");g.nextBattle();clear(g);g.chooseReward(null);assert.equal(g.snapshot().shopAvailable,true);return g;}
 test("gold earned on victory and first shop has three stable, distinct offers",()=>{
  const g=reachShop(),s=g.snapshot();
  assert.equal(s.gold,60);
@@ -25,5 +25,11 @@ test("only offered cards can be purchased; price, deck, rebuy and leave rules re
  assert.deepEqual(g.snapshot().shopStock,start.shopStock);
  assert.equal(g.leaveShop(),true);assert.equal(g.buyShop(notOffered),false);
  assert.equal(g.nextBattle(),true);assert.equal(g.snapshot().stage,3);
+});
+test("three-card shop depends on seed but never rerolls within a visit",()=>{
+ const selections=[17,18,19,20].map(seed=>reachShop(seed).snapshot().shopStock.map(x=>x.id).join(","));
+ assert.ok(new Set(selections).size>1,"different seeds should vary shop offers");
+ const repeat=reachShop(17);
+ assert.equal(repeat.snapshot().shopStock.map(x=>x.id).join(","),selections[0],"same seed is reproducible");
 });
 test("shop can be left without purchase and practice cannot shop",()=>{const g=reachShop();assert.equal(g.leaveShop(),true);assert.equal(g.snapshot().gold,60);const p=createB1Game();p.startBossPractice("combo");assert.equal(p.buyShop("ward"),false);});
