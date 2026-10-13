@@ -1,3 +1,7 @@
+## 進行中（2026-10-14）・スマホ報酬の全文表示
+- 実機写真で報酬3枚の効果が名前板に隠れていた。スマホのみ、手札の縮小と「報酬は縦1列の横長カード＋実効果全文＋一覧だけスクロール」に切り替え。既存カード効果・報酬抽選・PCは変更しない。[判断と戻し方](design/b1-mobile-reward-readable-20261014.md)。
+- CI・main統合・Pages公開・Android実機の最終文字表示はそれぞれ別の結果で扱う。
+
 # 進化ダンジョン｜秘書AI用の現在地
 
 > 2026-10-13時点のGitHub記録に基づく要約。最新の状態は[CURRENT_STATE.md](CURRENT_STATE.md)を正本とする。以前の詳細な29KBの全文は[保存用ブランチ](https://github.com/busshin-it/shinka-dungeon/blob/archive/secretary-before-compaction-20261011/AI_SECRETARY_STATUS.md)に保管。
