@@ -268,3 +268,88 @@ body.pilot-mode .b1-catalog-item .pilot-card.b1-defense-prototype .pilot-card-co
 @media(prefers-reduced-motion:reduce){
  body.pilot-mode .pilot-card.b1-defense-prototype{animation:none}
 }
+
+/* V3: compact defense card follows the approved hand-size mockup.
+ * Keep the LARGE card exactly as approved. Only inside the battle hand:
+ * - use the art's real bottom edge, never viewport-% absolute title offsets
+ * - title overlaps the art by a small, fixed number of pixels
+ * - the remaining effect line stays in the same navy panel, never behind
+ *   the title nor on the legacy parchment/cream background
+ * - only basicDefense gets these rules; gestures, hit boxes and rotations
+ *   remain owned by underground-b1-actions.mjs and hand-fan.css. */
+body.pilot-mode #playScreen #hand.hand .pilot-card.b1-defense-prototype:not(.b1-evolution-choice){
+ --b1-defense-art-share:64%;
+ display:flex;flex-direction:column;
+}
+body.pilot-mode #playScreen #hand.hand .pilot-card.b1-defense-prototype:not(.b1-evolution-choice) > .b1-magic-card-art{
+ position:relative;inset:auto;display:block;
+ height:var(--b1-defense-art-share);flex:0 0 var(--b1-defense-art-share);
+ width:100%;min-height:0;max-height:none;
+}
+body.pilot-mode #playScreen #hand.hand .pilot-card.b1-defense-prototype:not(.b1-evolution-choice) > .pilot-card-copy{
+ position:relative;display:flex;flex:1 1 0;flex-direction:column;
+ align-items:stretch;justify-content:flex-start;
+ min-height:0;max-height:none;margin:0;padding:0 5px 5px;gap:0;
+ overflow:visible;
+ background:radial-gradient(ellipse at 50% 45%,#243f59 0%,#11283e 45%,#071a2e 100%);
+ border-top:1px solid #bfa062;
+}
+body.pilot-mode #playScreen #hand.hand .pilot-card.b1-defense-prototype:not(.b1-evolution-choice) .pilot-card-copy strong{
+ position:relative;z-index:7;
+ top:auto;bottom:auto;left:auto;right:auto;
+ width:calc(100% + 10px);height:auto;min-height:27px;
+ flex:0 0 auto;align-self:center;margin:-12px -5px 0;
+ padding:3px 8px;
+ display:flex;justify-content:center;align-items:center;
+ background:linear-gradient(110deg,#29445c,#0c2540 29%,#091b31 72%,#2d4960);
+ border:0;border-top:2px solid #f8dca0;border-bottom:2px solid #c39a58;
+ border-radius:5px 5px 8px 8px;
+ box-shadow:0 1px 0 #d2b56a88,0 3px 8px #03101cca;
+ color:#fff1d5!important;
+ font-size:clamp(15px,1.25vw,19px);line-height:1.15;
+ letter-spacing:.055em;text-align:center;white-space:nowrap;
+ overflow:hidden;text-overflow:clip;
+}
+body.pilot-mode #playScreen #hand.hand .pilot-card.b1-defense-prototype:not(.b1-evolution-choice) .pilot-card-copy strong::before{
+ content:none;
+}
+body.pilot-mode #playScreen #hand.hand .pilot-card.b1-defense-prototype:not(.b1-evolution-choice) .pilot-card-copy .desc{
+ position:relative;top:auto;bottom:auto;
+ display:flex;align-items:center;justify-content:center;
+ flex:1 1 auto;min-height:22px;max-height:none;width:100%;
+ margin:0;padding:3px 2px 0;gap:5px;
+ background:transparent;color:#fff0d5!important;
+ font-size:clamp(12px,1vw,16px);line-height:1.15;font-weight:850;
+ white-space:nowrap;overflow:hidden;text-overflow:clip;
+ text-align:center;
+}
+body.pilot-mode #playScreen #hand.hand .pilot-card.b1-defense-prototype:not(.b1-evolution-choice) .pilot-card-copy .desc::before{
+ content:"✦";color:#f7d184;flex:0 0 auto;font-size:.9em;
+}
+@media (orientation:landscape) and (max-height:600px){
+ body.pilot-mode #playScreen #hand.hand .pilot-card.b1-defense-prototype:not(.b1-evolution-choice){
+  --b1-defense-art-share:61%;
+ }
+ body.pilot-mode #playScreen #hand.hand .pilot-card.b1-defense-prototype:not(.b1-evolution-choice) .pilot-card-copy strong{
+  min-height:24px;margin-top:-10px;padding:3px 5px;font-size:14px;
+ }
+ body.pilot-mode #playScreen #hand.hand .pilot-card.b1-defense-prototype:not(.b1-evolution-choice) .pilot-card-copy .desc{
+  min-height:18px;font-size:12px;padding-top:2px;
+ }
+}
+@media (orientation:landscape) and (max-height:350px){
+ body.pilot-mode #playScreen #hand.hand .pilot-card.b1-defense-prototype:not(.b1-evolution-choice){
+  --b1-defense-art-share:58%;
+ }
+ body.pilot-mode #playScreen #hand.hand .pilot-card.b1-defense-prototype:not(.b1-evolution-choice) .pilot-card-copy strong{
+  min-height:21px;margin-top:-8px;font-size:12px;
+ }
+ body.pilot-mode #playScreen #hand.hand .pilot-card.b1-defense-prototype:not(.b1-evolution-choice) .pilot-card-copy .desc{
+  min-height:17px;font-size:11px;
+ }
+}
+@media (orientation:portrait) and (max-width:900px){
+ body.pilot-mode[data-b1-mobile] #playScreen #hand.hand .pilot-card.b1-defense-prototype:not(.b1-evolution-choice){
+  --b1-defense-art-share:62%;
+ }
+}
