@@ -106,6 +106,7 @@
 <link rel="stylesheet" href="./underground-b1-card-visibility.css">
 <link rel="stylesheet" href="./underground-b1-reward-shop-status.css">
 <link rel="stylesheet" href="./underground-b1-defense-prototype.css">
+<link rel="stylesheet" href="./underground-b1-phone-hand-visibility.css">
 </head>
 <body class="planning-mode pilot-mode" data-b1-mobile="true"><main class="game pilot-game">
 <header class="masthead"><div><h1>蒼星の回廊 <small>進化ダンジョン</small></h1></div><div class="header-actions">
@@ -150,7 +151,7 @@
   </section>
 
   <section class="table" aria-label="カード操作">
-    <div class="controls"><div class="energy"><b id="energy">2</b><span>魔力<small id="energyRule">次＋3 / 上限5</small></span></div><div class="piles"><span>山札 <b id="drawCount">0</b></span><span>捨て札 <b id="discardCount">0</b></span><span>消滅 <b id="exhaustCount">0</b></span></div><button id="deckButton" class="quiet" type="button" disabled>デッキ 10枚</button><button id="endTurn" class="primary" type="button">ターン終了 <span>→</span></button></div>
+    <div class="controls"><div class="energy"><b id="energy">2</b><span>魔力<small id="energyRule">次＋3 / 上限5</small></span></div><div class="piles"><span>山札 <b id="drawCount">0</b></span><span>捨て札 <b id="discardCount">0</b></span><span>消滅 <b id="exhaustCount">0</b></span></div><button id="deckButton" class="quiet" type="button" disabled>デッキ 10枚</button><button id="endTurn" class="primary" type="button">ターン終了 <span>→</span></button><details id="b1MobileQuickMenu" class="b1-mobile-quick-menu"><summary aria-label="ゲームメニュー" title="ゲームメニュー">⋯</summary><div class="b1-mobile-quick-panel"><button id="b1MobileCatalog" class="quiet" type="button">カード図鑑</button><button id="b1MobileRestart" class="quiet" type="button">最初から</button></div></details></div>
     <div class="hand-label"><h2>あなたの手札</h2><span id="relicStatus" class="relic-status" hidden></span><div id="effectBadges" class="pilot-chips" aria-label="状態効果"></div></div><div id="hand" class="hand"></div><div id="handPanelHome" class="hand-panel-home"><section id="cardPanel" class="card-panel" aria-label="選んだカードの効果" hidden><div id="cardReview" class="panel-content" aria-live="polite"></div><div class="panel-actions"><button id="playCard" class="primary" type="button" disabled>カードを選んでください</button><button id="cancelCard" class="quiet" type="button" aria-label="カードの選択を解除">×</button></div></section></div>
   </section>
 
@@ -891,6 +892,8 @@ el("advance").addEventListener("click",()=>{if(game.nextBattle()){targetId=null;
 el("skipReward").addEventListener("click",()=>{if(game.chooseReward(null))render();});
 el("overlayRestart").addEventListener("click",reset);
 el("restart").addEventListener("click",()=>{if(confirm("最初からやり直しますか？"))reset();});
+el("b1MobileCatalog").addEventListener("click",()=>{el("b1MobileQuickMenu").open=false;el("b1CardCatalogOpen").click();});
+el("b1MobileRestart").addEventListener("click",()=>{el("b1MobileQuickMenu").open=false;el("restart").click();});
 render();
 </script>
 </body>
