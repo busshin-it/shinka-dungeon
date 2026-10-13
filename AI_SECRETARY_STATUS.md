@@ -2,6 +2,11 @@
 
 > 2026-10-13時点のGitHub記録に基づく要約。最新の状態は[CURRENT_STATE.md](CURRENT_STATE.md)を正本とする。以前の詳細な29KBの全文は[保存用ブランチ](https://github.com/busshin-it/shinka-dungeon/blob/archive/secretary-before-compaction-20261011/AI_SECRETARY_STATUS.md)に保管。
 
+## 最新の確認（2026-10-13）・防御カード1枚の新デザイン試作
+- PR #107をmain `364d9b9` に統合。既存「防御」`basicDefense` だけに古代魔導札の枠（青宝石コスト、古銀の装飾、盾アイコン、イラストと一体の名前板、簡潔な効果欄）を試作。他の56枚とカード効果・操作は不変。
+- Astral game verification #38349925119 はsuccess。MDは**試作ルール**として[保存](design/b1-defense-card-frame-prototype-20261013.md)。ユーザー実機の見た目評価後に正式なカードUI規約を作る。
+- **次：GitHub Pages公開を確認→図鑑の防御カードと実際の手札の見切れを確認→ユーザーが承認した仕様をMDの確定ルールにする**。
+
 ## 最新の確認（2026-10-13）・金色進化カードと大きな報酬3択
 - PR #106をmain `728371f` に統合。休憩所の全画面進化選択で、金色カードの中に現在と進化後の効果・魔力を2段で大きく表示。報酬3択も紺金の大型カード化し、原画とテキストの見栄えを改善。
 - 全57種類の進化表記と、通常の報酬選択などの回帰テストを実施。Astral game verification #38348074739 成功。カード数値・強化処理・抽選・保存・旧本編は不変。
