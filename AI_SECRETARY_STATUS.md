@@ -2,6 +2,11 @@
 
 > 2026-10-13時点のGitHub記録に基づく要約。最新の状態は[CURRENT_STATE.md](CURRENT_STATE.md)を正本とする。以前の詳細な29KBの全文は[保存用ブランチ](https://github.com/busshin-it/shinka-dungeon/blob/archive/secretary-before-compaction-20261011/AI_SECRETARY_STATUS.md)に保管。
 
+## 最新の確認（2026-10-13）・進化の二重スクロール除去と報酬44/57種の検証
+- [PR #115](https://github.com/busshin-it/shinka-dungeon/pull/115) をmain `37c085a` に統合。進化候補カード本文内の `overflow:auto` による二重スクロールを解除。長い文章はカード全体を伸ばし、候補一覧 `#restUpgradeCards` のみが縦スクロール。wheelを一覧へ送り、背景への伝播も防ぐ。
+- Astral game verification #38362763620成功。**実機のスクロール挙動はまだ確認待ち**。[原因分析と実装記録](design/b1-upgrade-scroll-reward-audit-20261013.md)。
+- 報酬プールをコード監査し、カード定義57種類中、勝利後の候補44種類、残り13種類は基本カード5／商店向け5／竜開始3。**報酬抽選は未変更**。次にゲームデザイン方針が決まれば候補の拡大を別PRで行う。
+
 ## 最新の確認（2026-10-13）・カードの過拡大と進化スクロール挙動を再修正
 - [PR #114](https://github.com/busshin-it/shinka-dungeon/pull/114) をmain `8f7d061` に統合。実機画像を受けて大きすぎる拡大カードを390→280 CSS px上限に縮小。進化画面は全画面をスクロールする方式を廃止し、**見出し・戻るを固定してカード一覧だけを縦スクロール**。入退場時に位置をリセット。
 - 全ゲームCI #38359859250 成功。カード効果57枚、戦闘、魔物画像、保存は不変。[正式UIデザインルール](design/CARD_UI_DESIGN_RULES.md)にも今回のサイズと操作制約を記載。
