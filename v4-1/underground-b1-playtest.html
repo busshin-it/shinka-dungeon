@@ -338,6 +338,12 @@ const B1_CARD_FRAME_WAVE1=new Set([
  "basicAttack","basicDefense","guard","bolt","lightning","frost",
  "scatter","chain","heal","drain","poison","fragile","strength","spark","break"
 ]);
+const B1_CARD_FRAME_WAVE2=new Set([
+ "fireSmall","fireMedium","fireLarge","fireWaveSmall","fireWaveMedium",
+ "fireWaveLarge","thunderSmall","thunderMedium","thunderLarge",
+ "flow","ward","charge","double","focus","flare","frostBreak",
+ "echoGuard","lingeringPoison","darkBolt","abyssBolt","iceSpear","arcaneLance"
+]);
 function b1CardFrameRole(card){
  if(card.kind==="guard")return "guard";
  if(card.kind==="heal")return "heal";
@@ -381,7 +387,7 @@ function cardButton(id){
   btn.dataset.b1Design="defense-v2";
  }
  const designId=id.endsWith("~")?id.slice(0,-1):id;
- if(B1_CARD_FRAME_WAVE1.has(designId)){
+ if(B1_CARD_FRAME_WAVE1.has(designId)||B1_CARD_FRAME_WAVE2.has(designId)){
   const role=b1CardFrameRole(c);
   btn.classList.add("b1-arcane-card","b1-frame-"+role);
   if(c.text.length>14)btn.classList.add("b1-frame-long-effect");
