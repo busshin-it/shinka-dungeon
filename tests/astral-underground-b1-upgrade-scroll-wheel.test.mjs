@@ -33,7 +33,7 @@ test("wheel anywhere over cards scrolls the list and offers keyboard access",()=
  const syntaxCheck=spawnSync(process.execPath,["--input-type=module","--check"],{input:script,encoding:"utf8"});
  assert.equal(syntaxCheck.status,0,syntaxCheck.stderr);
 });
-test("reward coverage audit: 44 of 65 collectible card types occur in victory pools",()=>{
+test("legacy stage base contains 44, expanded extras make 60 of 65 available",()=>{
  const cards=Object.keys(CARDS);
  const rewardNames=new Set(STAGES.flatMap(stage=>stage.rewards));
  const omitted=cards.filter(id=>!rewardNames.has(id));
@@ -42,7 +42,9 @@ test("reward coverage audit: 44 of 65 collectible card types occur in victory po
  assert.equal(rewardNames.size,44);
  assert.deepEqual(omitted,["basicAttack","basicDefense","bolt","guard","break",
   "fireSmall","fireMedium","fireLarge","darkBolt","doping",
-  "dragonEgg","dragonFeed","dragonBreath"]);
+  "dragonEgg","dragonFeed","dragonBreath",
+  "lightningFlash","lightningFork","lightningSweep","lightningRelay",
+  "shieldMoss","shieldMirror","shieldSpore","shieldIncubate"]);
  for(const stage of STAGES.slice(0,-1))assert.equal(stage.rewards.length,9);
  assert.equal(STAGES.at(-1).rewards.length,0);
 });
