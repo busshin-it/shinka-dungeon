@@ -81,6 +81,13 @@ const cards=[
   ]
 ];
 
+test('B1 first and second illustrations use ten distinct card IDs, art keys and files',()=>{
+ assert.equal(cards.length,10);
+ for(const index of [0,2,3]){
+  assert.equal(new Set(cards.map(card=>card[index])).size,10);
+ }
+});
+
 for(const [id,name,key,filename,sha256] of cards){
  test('B1 original art: '+name+' / '+id,async()=>{
   const match=engine.match(new RegExp('(?:^|\\n)\\s*'+id+':\\{[^\\n]*','m'));
@@ -94,7 +101,8 @@ for(const [id,name,key,filename,sha256] of cards){
   assert.equal(meta.width,768);
   assert.equal(meta.height,1024);
   assert.equal(createHash('sha256').update(bytes).digest('hex'),sha256);
-  assert.ok((await stat(full)).size>50000);
+  const fileSize=(await stat(full)).size;
+  assert.ok(fileSize>50000 && fileSize<=800000,'Unexpected artwork size: '+filename);
  });
 }
 test('B1 shared card rendering retains missing image CSS fallback',()=>{
