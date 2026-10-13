@@ -2,6 +2,11 @@
 
 > 2026-10-13時点のGitHub記録に基づく要約。最新の状態は[CURRENT_STATE.md](CURRENT_STATE.md)を正本とする。以前の詳細な29KBの全文は[保存用ブランチ](https://github.com/busshin-it/shinka-dungeon/blob/archive/secretary-before-compaction-20261011/AI_SECRETARY_STATUS.md)に保管。
 
+## 最新の確認（2026-10-13）・竜カードを通常報酬へ解放
+- [PR #116](https://github.com/busshin-it/shinka-dungeon/pull/116) をmain `9b11582` に統合。初期デッキの種類に依存せず竜の卵が勝利後に出る。卵を持つと竜の餌・竜息も追加。商店向け5種も通常報酬へ加え、基本5種以外の **52/57種類**が通常報酬で取得可能になった。
+- 元の9候補/ステージに追加候補を加え、3択＋見送るを維持。竜の餌が卵なしで候補に出ない条件を専用テストで検証。Astral game verification #38370895439 成功。[設計ルール](GAME_DESIGN.md)、[詳細記録](design/b1-open-dragon-rewards-20261013.md)。
+- **次：Pages公開状態を確認し、手元PCで竜の卵が報酬に出ること、取得後に餌・竜息へ展開できることを実機検証。スクロールのユーザー再確認も別件として継続。**
+
 ## 最新の確認（2026-10-13）・進化の二重スクロール除去と報酬44/57種の検証
 - [PR #115](https://github.com/busshin-it/shinka-dungeon/pull/115) をmain `37c085a` に統合。進化候補カード本文内の `overflow:auto` による二重スクロールを解除。長い文章はカード全体を伸ばし、候補一覧 `#restUpgradeCards` のみが縦スクロール。wheelを一覧へ送り、背景への伝播も防ぐ。
 - Astral game verification #38362763620成功。**実機のスクロール挙動はまだ確認待ち**。[原因分析と実装記録](design/b1-upgrade-scroll-reward-audit-20261013.md)。
