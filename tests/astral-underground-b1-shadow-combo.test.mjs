@@ -72,9 +72,9 @@ test("thunder surge scales with prior ATTACK CARDS, not the number of multihit s
  const g=practice(["double","thunderSurge"]);
  play(g,"double");const before=hp(g);
  const after=play(g,"thunderSurge");
- assert.equal(before-hp(g),7,"base4 + one attack card * 3");
+ assert.equal(before-hp(g),9,"base4 + one attack card * 3 + consecutive lightning * 2");
  assert.equal(after.attackCardsThisTurn,2);
- assert.equal(after.lastSynergy?.title,"雷の奔流連携");
+ assert.equal(after.lastSynergy?.title,"雷連鎖");
  const plain=practice(["thunderSurge"]);
  const pre=hp(plain);
  play(plain,"thunderSurge");
