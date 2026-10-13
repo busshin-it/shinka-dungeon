@@ -463,7 +463,9 @@ function renderTargets(s){
   const fill=document.createElement("i");fill.style.width=percent(e.hp,e.maxHp);meter.append(fill);
   const status=document.createElement("span");status.className="b1-actor-status b1-effect-row";
   b1DisplayConditions(status,b1EnemyConditions(e,s));
-  b.append(intentEl,status,figure,name,hp,meter);
+  figure.append(status);
+  image.addEventListener("load",()=>requestAnimationFrame(b1PlaceConditionRows),{once:true});
+  b.append(intentEl,figure,name,hp,meter);
   if(e.role==="boss"&&e.hp>0&&(s.turn-1)%4<3){
    const channel=document.createElement("span");channel.className="b1-actor-cast";
    channel.textContent=e.channelBroken?"詠唱中断！":"詠唱阻止 "+e.channelDamage+"/"+B1_BOSS_CHANNEL_THRESHOLD;
@@ -523,7 +525,7 @@ function renderStage(s){
  el("relicStatus").hidden=true;
 }
 function renderOverlay(s){
- const panel=el("journeyPanel");const show=["reward","between","won","lost"].includes(s.phase);panel.hidden=!show;
+ const panel=el("journeyPanel");panel.classList.remove("b1-upgrade-open");const show=["reward","between","won","lost"].includes(s.phase);panel.hidden=!show;
  if(!show)return;
  const rewards=el("rewardCards");rewards.replaceChildren();
  const advance=el("advance"),skip=el("skipReward"),again=el("overlayRestart");
@@ -599,6 +601,7 @@ function render(){
  });
  el("endTurn").hidden=s.phase!=="battle";el("endTurn").disabled=s.phase!=="battle";
  el("log").textContent=s.log.join("\n");actions.sync();
+ if(s.phase==="battle")requestAnimationFrame(b1PlaceConditionRows);
 }
 const gameStage=document.querySelector("#playScreen .stage");
 // Reuse the identical original stage DOM; mount B1-only indicators at runtime.
@@ -606,6 +609,32 @@ for(const [owner,id,label] of [["heroPuppet","b1HeroEffects","味方の状態"],
  const spot=document.createElement("span");spot.id=id;spot.className="b1-effect-row";
  spot.setAttribute("aria-label",label);el(owner).append(spot);
 }
+// Align each condition row to the DISPLAYED top of the character image,
+// rather than to the top of the much taller puppet/target box.
+// Object-fit:contain leaves large invisible margins on landscape monitors.
+function b1PositionRow(owner,row,img){
+ if(!owner||!row||row.hidden||!img?.complete||!img.naturalWidth)return;
+ const frame=owner.getBoundingClientRect(),rect=img.getBoundingClientRect();
+ if(!frame.width||!rect.width||!rect.height)return;
+ const scale=Math.min(rect.width/img.naturalWidth,rect.height/img.naturalHeight);
+ const picturedTop=rect.top+(rect.height-img.naturalHeight*scale)/2;
+ const stageTop=gameStage.getBoundingClientRect().top;
+ const y=Math.max(stageTop+12,picturedTop-row.offsetHeight-8);
+ row.style.top=Math.round(y-frame.top)+"px";
+ row.style.left=Math.round(rect.left+rect.width/2-frame.left)+"px";
+ row.style.bottom="auto";
+}
+function b1PlaceConditionRows(){
+ b1PositionRow(el("heroPuppet"),el("b1HeroEffects"),el("heroPuppet").querySelector("img"));
+ b1PositionRow(el("enemyPuppet"),el("b1SoloEnemyEffects"),el("enemyArt"));
+ for(const figure of el("enemyLineup").querySelectorAll(".b1-actor-figure")){
+  b1PositionRow(figure,figure.querySelector(".b1-actor-status"),figure.querySelector("img"));
+ }
+}
+for(const selector of ["#heroPuppet img","#enemyArt"]){
+ document.querySelector(selector).addEventListener("load",()=>requestAnimationFrame(b1PlaceConditionRows));
+}
+window.addEventListener("resize",()=>requestAnimationFrame(b1PlaceConditionRows));
 const feedDialog=document.createElement("dialog");feedDialog.className="b1-deck-dialog b1-feed-dialog";document.body.append(feedDialog);
 function showDragonFeedChoice(index,cardId,sourceRect){
  const before=game.snapshot();if(before.dragonStage<0)return false;
@@ -680,6 +709,7 @@ el("restHeal").addEventListener("click",()=>{if(game.chooseRest("heal"))render()
 el("restUpgrade").addEventListener("click",()=>{
  const state=game.snapshot();if(!state.restAvailable)return;
  const box=el("restUpgradeCards");box.replaceChildren();box.hidden=false;
+ el("journeyPanel").classList.add("b1-upgrade-open");
  el("b1UpgradeListHint").hidden=false;el("restBack").hidden=false;
  state.deck.forEach((id,index)=>{
   const current=getB1Card(id),upgraded=id.endsWith("~"),future=getB1Card(upgraded?id:id+"~");
@@ -693,7 +723,7 @@ el("restUpgrade").addEventListener("click",()=>{
   box.append(card);
  });
 });
-el("restBack").addEventListener("click",()=>{el("restUpgradeCards").hidden=true;el("b1UpgradeListHint").hidden=true;el("restBack").hidden=true;});
+el("restBack").addEventListener("click",()=>{el("journeyPanel").classList.remove("b1-upgrade-open");el("restUpgradeCards").hidden=true;el("b1UpgradeListHint").hidden=true;el("restBack").hidden=true;});
 el("b1CardCatalogOpen").addEventListener("click",()=>{renderB1CardCatalog();el("b1CardCatalogDialog").showModal();});
 el("b1CardCatalogClose").addEventListener("click",()=>el("b1CardCatalogDialog").close());
 el("b1CatalogAll").addEventListener("click",()=>renderB1CardCatalog(false));
