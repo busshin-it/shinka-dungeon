@@ -139,7 +139,7 @@ export const STAGES = Object.freeze([
 // "竜の餌" and "竜息" only become reward choices after the deck already owns
 // a "竜の卵" (including its upgraded version), avoiding dead offers.
 export const B1_REWARD_EXTRA_POOLS=Object.freeze([
- Object.freeze(["dragonEgg","fireSmall","lightningRelay","shieldMirror"]),
+ Object.freeze(["dragonEgg","fireSmall","lightningFlash","shieldMoss"]),
  Object.freeze(["dragonFeed","dragonBreath","darkBolt","lightningFork","shieldSpore"]),
  Object.freeze(["dragonEgg","dragonFeed","dragonBreath","fireMedium","lightningSweep","shieldIncubate"]),
  Object.freeze(["dragonFeed","dragonBreath","doping","lightningFlash","shieldMirror"]),
@@ -149,7 +149,7 @@ export const B1_REWARD_EXTRA_POOLS=Object.freeze([
  Object.freeze(["dragonFeed","dragonBreath","fireLarge","lightningFork","shieldSpore"]),
  Object.freeze(["dragonEgg","dragonFeed","dragonBreath","fireMedium","lightningFlash","shieldIncubate"]),
  Object.freeze(["dragonFeed","dragonBreath","doping","lightningSweep","shieldMirror"]),
- Object.freeze(["dragonEgg","dragonFeed","dragonBreath","fireLarge"]),
+ Object.freeze(["dragonEgg","dragonFeed","dragonBreath","fireLarge","lightningRelay","shieldMirror"]),
  Object.freeze([])
 ]);
 export function getB1RewardPool(stageIndex,deck=[]){
