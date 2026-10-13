@@ -2,6 +2,11 @@
 
 > 2026-10-13時点のGitHub記録に基づく要約。最新の状態は[CURRENT_STATE.md](CURRENT_STATE.md)を正本とする。以前の詳細な29KBの全文は[保存用ブランチ](https://github.com/busshin-it/shinka-dungeon/blob/archive/secretary-before-compaction-20261011/AI_SECRETARY_STATUS.md)に保管。
 
+## 最新の確認（2026-10-13）・57枚のカードUI共通化を完了
+- デザインは「防御」V3を正本として[正式ルール](design/CARD_UI_DESIGN_RULES.md)へ記録し、AGENTS.mdから参照。カード生成の `b1-arcane-card` 共通枠を15→37→57種類に段階展開。[PR #110](https://github.com/busshin-it/shinka-dungeon/pull/110)、[PR #111](https://github.com/busshin-it/shinka-dungeon/pull/111)、[PR #112](https://github.com/busshin-it/shinka-dungeon/pull/112) がmainへ統合済み。
+- ゲーム全体のCI #38354502671、#38354849271、#38355316009成功。カードの機能・効果・画像・保存と旧本編は不変。竜と炎の画像スプライト、長文の効果表示も保護。
+- **次：Pages公開照合、PC/スマホで原画の見切れ・カードの掴みやすさ・金色進化UIを実機確認。** CI成功と実機動作は別。
+
 ## 最新の確認（2026-10-13）・小型手札の防御カード表示を改善
 - [PR #109](https://github.com/busshin-it/shinka-dungeon/pull/109)をmain `9767696`に統合。防御カードの小型手札で重なっていた名前・効果・旧ベージュ背景を手札限定CSSで修正。大きなカードV2の見た目は保持し、効果と手札ドラッグは変更なし。
 - Astral game verification #38353403602成功。[デザイン記録](design/b1-defense-card-frame-prototype-20261013.md)に小型版の高さ調整と未確認事項を追記。
