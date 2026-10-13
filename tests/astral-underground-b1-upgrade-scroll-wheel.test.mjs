@@ -33,11 +33,11 @@ test("wheel anywhere over cards scrolls the list and offers keyboard access",()=
  const syntaxCheck=spawnSync(process.execPath,["--input-type=module","--check"],{input:script,encoding:"utf8"});
  assert.equal(syntaxCheck.status,0,syntaxCheck.stderr);
 });
-test("reward coverage audit: 44 of 57 collectible card types occur in victory pools",()=>{
+test("reward coverage audit: 44 of 65 collectible card types occur in victory pools",()=>{
  const cards=Object.keys(CARDS);
  const rewardNames=new Set(STAGES.flatMap(stage=>stage.rewards));
  const omitted=cards.filter(id=>!rewardNames.has(id));
- assert.equal(cards.length,57);
+ assert.equal(cards.length,65);
  assert.equal(STAGES.length,12);
  assert.equal(rewardNames.size,44);
  assert.deepEqual(omitted,["basicAttack","basicDefense","bolt","guard","break",
