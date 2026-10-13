@@ -676,3 +676,58 @@ body.pilot-mode #journeyPanel.b1-upgrade-open #restBack[hidden]{display:none}
   padding:6px 5px 16px;scrollbar-gutter:auto;
  }
 }
+
+
+/* B1 2026-10-13 scrolling root fix.
+ * The gold upgrade cards used overflow:auto on .pilot-card-copy, creating
+ * dozens of nested scrolling regions inside a scrollable grid. The mouse
+ * wheel could scroll card text (or do nothing), rather than the deck.
+ * One scroller ONLY: #restUpgradeCards. All card content contributes to
+ * card height instead of being trapped behind an internal scroll bar. */
+body.pilot-mode #journeyPanel.b1-upgrade-open #restUpgradeCards.b1-rest-upgrades{
+ overflow-y:auto;
+ overflow-x:hidden;
+ overscroll-behavior-y:contain;
+ scroll-behavior:auto;
+ touch-action:pan-y;
+}
+body.pilot-mode #journeyPanel.b1-upgrade-open #restUpgradeCards.b1-rest-upgrades .b1-evolution-choice{
+ height:auto;
+ min-height:0;
+ align-self:stretch;
+ display:flex;
+ flex-direction:column;
+ overflow:hidden;
+ touch-action:pan-y;
+}
+body.pilot-mode #journeyPanel.b1-upgrade-open #restUpgradeCards.b1-rest-upgrades .b1-evolution-choice > :is(
+ .b1-magic-card-art,.b1-fire-card-art,.b1-dragon-card-art,.b1-dragon-card-sprite,.pilot-card-art
+){
+ position:relative;
+ height:clamp(175px,28dvh,250px);
+ flex:0 0 auto;
+ min-height:0;
+}
+body.pilot-mode #journeyPanel.b1-upgrade-open #restUpgradeCards.b1-rest-upgrades .b1-evolution-choice > .pilot-card-copy{
+ display:flex;
+ flex:1 0 auto;
+ height:auto;
+ min-height:0;
+ max-height:none;
+ overflow:visible;
+ overscroll-behavior:auto;
+ touch-action:pan-y;
+}
+body.pilot-mode #journeyPanel.b1-upgrade-open #restUpgradeCards.b1-rest-upgrades .b1-evolution-choice .b1-upgrade-effects{
+ overflow:visible;
+ height:auto;
+ max-height:none;
+}
+@media(max-width:720px){
+ body.pilot-mode #journeyPanel.b1-upgrade-open #restUpgradeCards.b1-rest-upgrades .b1-evolution-choice > :is(
+  .b1-magic-card-art,.b1-fire-card-art,.b1-dragon-card-art,.b1-dragon-card-sprite,.pilot-card-art
+ ){
+  height:clamp(140px,22dvh,215px);
+  flex:0 0 auto;
+ }
+}
