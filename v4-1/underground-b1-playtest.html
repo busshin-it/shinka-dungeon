@@ -855,7 +855,7 @@ el("restUpgrade").addEventListener("click",()=>{
  state.deck.forEach((id,index)=>{
   const current=getB1Card(id),upgraded=id.endsWith("~"),future=getB1Card(upgraded?id:id+"~");
   const futureText=b1EvolutionEffectText(current,future);
-  const card=cardButton(id);card.classList.remove("b1-arcane-card");
+  const card=cardButton(id);card.classList.remove("b1-arcane-card");card.classList.remove("b1-defense-prototype");
   const originType=card.querySelector(".type");originType.textContent=typeNames[current.kind]||current.kind;
   originType.removeAttribute("data-symbol");
   card.classList.add("b1-rest-upgrade-card","b1-upgrade-image-choice","b1-evolution-choice");
