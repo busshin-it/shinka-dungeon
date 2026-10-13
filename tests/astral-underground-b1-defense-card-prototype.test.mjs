@@ -25,10 +25,10 @@ test("all preview contexts use the same opt-in protective frame without disturbi
  assert.equal(styles.at(-1),"./underground-b1-defense-prototype.css");
  assert.equal(styles.at(-2),"./underground-b1-reward-shop-status.css");
  for(const selector of [
-  ".pilot-card.b1-defense-prototype","body.pilot-mode #playScreen #hand.hand .pilot-card.b1-defense-prototype",
-  "body.pilot-mode .b1-card-preview .pilot-card.b1-defense-prototype",
-  "body.pilot-mode #rewardCards .pilot-card.b1-defense-prototype",
-  "body.pilot-mode .b1-catalog-item .pilot-card.b1-defense-prototype"
+  ".pilot-card.b1-arcane-card","body.pilot-mode #playScreen #hand.hand .pilot-card.b1-arcane-card",
+  "body.pilot-mode .b1-card-preview .pilot-card.b1-arcane-card",
+  "body.pilot-mode #rewardCards .pilot-card.b1-arcane-card",
+  "body.pilot-mode .b1-catalog-item .pilot-card.b1-arcane-card"
  ])assert.ok(css.includes(selector),selector);
  assert.match(css,/pointer-events:none/);
  assert.match(css,/--b1-defense-art-share:65%/);
@@ -58,7 +58,7 @@ test("V2 art-led hierarchy matches the approved mockup while retaining the real 
  assert.match(css,/\.pilot-card-copy \.desc::before/);
  assert.match(css,/\.pilot-card-copy strong\{/);
  assert.match(css,/\.pilot-card-copy \.desc\{/);
- assert.match(css,/\.pilot-card\.b1-defense-prototype:not\(\.b1-evolution-choice\)/);
+ assert.match(css,/\.pilot-card\.b1-arcane-card:not\(\.b1-evolution-choice\)/);
  assert.match(css,/background:linear-gradient\(150deg,#0a1b30/);
  assert.ok(!css.includes("overflow:auto"),"no in-card scrollbars for basic defense");
  assert.equal(getB1Card("basicDefense").text,"防御5");
@@ -66,7 +66,7 @@ test("V2 art-led hierarchy matches the approved mockup while retaining the real 
 });
 test("V2 excludes evolution-comparison cards so the approved evolution UI stays independent",()=>{
  const baseline=css.slice(0,css.indexOf("/* Small fanned hand cards"));
- for(const m of baseline.matchAll(/body\.pilot-mode \.pilot-card\.b1-defense-prototype[^\{]*\{/g)){
+ for(const m of baseline.matchAll(/body\.pilot-mode \.pilot-card\.b1-arcane-card[^\{]*\{/g)){
   assert.ok(m[0].includes(":not(.b1-evolution-choice)"),m[0]);
  }
  assert.match(css,/#playScreen #hand\.hand/);
@@ -77,9 +77,9 @@ test("V2 excludes evolution-comparison cards so the approved evolution UI stays 
 });
 
 test("hand-size defense card uses flowing title/effect and stays clear of overlap",()=>{
- const hand=css.slice(css.indexOf("/* V3: compact defense card"));
+ const hand=css.slice(css.indexOf("/* V3 shared hand card flow"));
  assert.ok(hand.length>2000,"dedicated compact layout exists");
- assert.match(hand,/#playScreen #hand\.hand \.pilot-card\.b1-defense-prototype:not\(\.b1-evolution-choice\)/);
+ assert.match(hand,/#playScreen #hand\.hand \.pilot-card\.b1-arcane-card:not\(\.b1-evolution-choice\)/);
  assert.match(hand,/--b1-defense-art-share:64%/);
  assert.match(hand,/> \.pilot-card-copy\{/);
  assert.match(hand,/position:relative;display:flex;flex:1 1 0;flex-direction:column/);
@@ -94,17 +94,18 @@ test("hand-size defense card uses flowing title/effect and stays clear of overla
  assert.match(hand,/@media \(orientation:landscape\) and \(max-height:600px\)/);
  assert.match(hand,/@media \(orientation:landscape\) and \(max-height:350px\)/);
  assert.match(hand,/@media \(orientation:portrait\) and \(max-width:900px\)/);
- assert.ok(!hand.includes("touch-action:")&&!hand.includes("pointer-events:none"),
-  "do not disable tap/drag hitboxes");
+ assert.ok(!hand.includes("touch-action:")&&!hand.includes("pointer-events:auto"),
+  "do not replace the existing hand tap/drag hitboxes");
+ assert.match(hand,/pointer-events:none/,"only decorative pseudo-elements should ignore pointer hits");
  assert.ok(!hand.includes("height:100vh")&&!hand.includes("transform:rotate"),
   "do not change arena or hand fan dimensions");
 });
 test("approved full-size and evolution designs remain intact alongside the hand-only fix",()=>{
- const handStart=css.indexOf("/* V3: compact defense card");
+ const handStart=css.indexOf("/* V3 shared hand card flow");
  const original=css.slice(0,handStart);
- assert.match(original,/\.b1-card-preview \.pilot-card\.b1-defense-prototype/);
- assert.match(original,/#rewardCards \.pilot-card\.b1-defense-prototype/);
- assert.match(original,/#shopItems \.pilot-card\.b1-defense-prototype/);
+ assert.match(original,/\.b1-card-preview \.pilot-card\.b1-arcane-card/);
+ assert.match(original,/#rewardCards \.pilot-card\.b1-arcane-card/);
+ assert.match(original,/#shopItems \.pilot-card\.b1-arcane-card/);
  assert.match(original,/\.b1-evolution-choice/);
  assert.match(html,/if\(id==="basicDefense"\)/);
  assert.match(html,/btn\.dataset\.b1Design="defense-v2"/);

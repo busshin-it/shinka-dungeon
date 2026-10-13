@@ -332,6 +332,21 @@ function b1HandSummary(id,card){
  }
 }
 const percent=(n,max)=>Math.max(0,Math.min(100,Math.round(n*100/Math.max(1,max))))+"%";
+// Stage 1: approved Defense V3 frame, rolled out by card role. The set is
+// intentionally explicit: future waves are opt-in after UI regression checks.
+const B1_CARD_FRAME_WAVE1=new Set([
+ "basicAttack","basicDefense","guard","bolt","lightning","frost",
+ "scatter","chain","heal","drain","poison","fragile","strength","spark","break"
+]);
+function b1CardFrameRole(card){
+ if(card.kind==="guard")return "guard";
+ if(card.kind==="heal")return "heal";
+ if(["poison","fragile","confuse","curse","hallucinate"].includes(card.kind))return "debuff";
+ if(["power","draw","energy","physicalPower","adversity"].includes(card.kind))return "skill";
+ if(card.weapon)return "physical";
+ return "spell";
+}
+const B1_FRAME_SYMBOL={physical:"⚔",spell:"✧",heal:"✚",debuff:"◆",skill:"✦"};
 function cardButton(id){
  const c=getB1Card(id),btn=document.createElement("button");btn.type="button";btn.className="card pilot-card b1-text-card";
  const cost=document.createElement("span");cost.className="cost";cost.textContent=c.cost;
@@ -359,12 +374,21 @@ function cardButton(id){
    }
  }
  btn.append(copy);
- // Approved visual direction V2: only the existing basicDefense card.
- // The shield is drawn in CSS, not as a platform-specific emoji glyph.
+ // Approved Defense V3 template, extended gradually to 14 more cards.
+ // The CSS-drawn shield stays identical; other roles use small text glyphs.
  if(id==="basicDefense"){
   btn.classList.add("b1-defense-prototype");
   btn.dataset.b1Design="defense-v2";
-  type.textContent="";type.title="防御カード";type.setAttribute("aria-hidden","true");
+ }
+ const designId=id.endsWith("~")?id.slice(0,-1):id;
+ if(B1_CARD_FRAME_WAVE1.has(designId)){
+  const role=b1CardFrameRole(c);
+  btn.classList.add("b1-arcane-card","b1-frame-"+role);
+  if(c.text.length>14)btn.classList.add("b1-frame-long-effect");
+  type.textContent="";
+  if(role!=="guard")type.dataset.symbol=B1_FRAME_SYMBOL[role];
+  type.title=(typeNames[c.kind]||c.kind)+"カード";
+  type.setAttribute("aria-hidden","true");
  }
  btn.setAttribute("aria-label",c.name+"、魔力"+c.cost+"。"+c.text);
  return btn;
@@ -785,7 +809,10 @@ el("restUpgrade").addEventListener("click",()=>{
  state.deck.forEach((id,index)=>{
   const current=getB1Card(id),upgraded=id.endsWith("~"),future=getB1Card(upgraded?id:id+"~");
   const futureText=b1EvolutionEffectText(current,future);
-  const card=cardButton(id);card.classList.add("b1-rest-upgrade-card","b1-upgrade-image-choice","b1-evolution-choice");
+  const card=cardButton(id);card.classList.remove("b1-arcane-card");
+  const originType=card.querySelector(".type");originType.textContent=typeNames[current.kind]||current.kind;
+  originType.removeAttribute("data-symbol");
+  card.classList.add("b1-rest-upgrade-card","b1-upgrade-image-choice","b1-evolution-choice");
   card.disabled=upgraded;
   const copy=card.querySelector(".pilot-card-copy");copy.replaceChildren();
   const name=document.createElement("strong");name.className="b1-evolution-card-name";name.textContent=current.name;
