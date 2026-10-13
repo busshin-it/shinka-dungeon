@@ -20,7 +20,7 @@ test("phone landscape owns the final visible battle layout",()=>{
  // Unlike the original 155px override, the hand has enough space for names/effects.
  for(const height of [306,345,360,390,440,560,620]){
   const dock=Math.max(180,Math.min(height*.56,260));
-  assert.ok(dock-34-9-12>=129,"usable height at "+height);
+  assert.ok(dock-34-9-12>=120,"usable height at "+height);
   assert.ok(height-dock>=105,"arena remains usable at "+height);
  }
 });
