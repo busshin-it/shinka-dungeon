@@ -3,9 +3,9 @@ import assert from "node:assert/strict";
 import {CARDS,getB1Card,STAGES,getB1RewardPool,createB1Game} from "../v4-1/underground-b1-engine.mjs";
 const ids=["thunderEcho","thunderJudgment","unbrokenMirror","venomShield","decayRitual","dragonCovenant","iceShatter","frozenTime","bloodBlade","finalBlow","manaResonance","chaosPact"];
 test("12 cards have upgrades and can all appear as rewards",()=>{
- assert.equal(Object.keys(CARDS).length,77);
+ assert.equal(Object.keys(CARDS).length,85);
  const pool=new Set(STAGES.flatMap((_,i)=>getB1RewardPool(i,["dragonEgg"])));
- assert.equal(pool.size,72);
+ assert.equal(pool.size,80);
  for(const id of ids){assert.ok(pool.has(id),id);assert.ok(getB1Card(id+"~")?.text,id);}
 });
 test("HP-cost cannot kill its owner",()=>{
