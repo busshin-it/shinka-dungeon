@@ -196,7 +196,7 @@ let game=createB1Game({seed:Date.now()}),targetId=null;
 // fifth card or dealing with a previously cached selection screen.
 if(new URLSearchParams(window.location.search).get("start")==="physical")game.selectStarter("physical");
 else if(new URLSearchParams(window.location.search).get("start")!=="choose")game.selectStarter("basic");
-const typeNames={attack:"攻撃",multi:"連撃",all:"全体攻撃",heal:"回復",poison:"状態異常",fragile:"状態異常",confuse:"混乱",curse:"呪い",hallucinate:"幻覚",guard:"防御",draw:"ドロー",energy:"魔力",power:"能力",dragon:"召喚",dragonFeed:"育成",dragonBreath:"全体攻撃",physicalPower:"強化",adversity:"反撃準備"};
+const typeNames={attack:"攻撃",multi:"連撃",all:"全体攻撃",heal:"回復",poison:"状態異常",fragile:"状態異常",confuse:"混乱",curse:"呪い",hallucinate:"幻覚",guard:"防御",draw:"ドロー",energy:"魔力",power:"能力",dragon:"召喚",dragonFeed:"育成",dragonBreath:"全体攻撃",physicalPower:"強化",adversity:"反撃準備",allPoison:"全体状態異常"};
 // B1 enemy visual policy: monsters and supernatural creatures ONLY.
 // Never use the human character portraits (gatekeeper, bow-watcher,
 // librarian-noa, tide-star-sentinel) as enemy sprites. Keep AI roles intact.
@@ -366,10 +366,11 @@ const B1_CARD_FRAME_WAVE4=new Set([
  "shieldMoss","shieldMirror","shieldSpore","shieldIncubate"
 ]);
 const B1_CARD_FRAME_WAVE5=new Set(["thunderEcho","thunderJudgment","unbrokenMirror","venomShield","decayRitual","dragonCovenant","iceShatter","frozenTime","bloodBlade","finalBlow","manaResonance","chaosPact"]);
+const B1_CARD_FRAME_WAVE6=new Set(["sparkWard","sparkBreath","frostNeedle","iceFinisher","venomCloud","curseSlash","dragonWing","ironResolve"]);
 function b1CardFrameRole(card){
  if(card.kind==="guard")return "guard";
  if(card.kind==="heal")return "heal";
- if(["poison","fragile","confuse","curse","hallucinate","decayRitual","chaosPact","allWeaken"].includes(card.kind))return "debuff";
+ if(["poison","fragile","confuse","curse","hallucinate","decayRitual","chaosPact","allWeaken","allPoison"].includes(card.kind))return "debuff";
  if(["dragon","dragonFeed","dragonBreath"].includes(card.kind))return "dragon";
  if(["power","draw","energy","physicalPower","adversity"].includes(card.kind))return "skill";
  if(card.weapon)return "physical";
@@ -410,7 +411,7 @@ function cardButton(id){
   btn.dataset.b1Design="defense-v2";
  }
  const designId=id.endsWith("~")?id.slice(0,-1):id;
- if(B1_CARD_FRAME_WAVE1.has(designId)||B1_CARD_FRAME_WAVE2.has(designId)||B1_CARD_FRAME_WAVE3.has(designId)||B1_CARD_FRAME_WAVE4.has(designId)||B1_CARD_FRAME_WAVE5.has(designId)){
+ if(B1_CARD_FRAME_WAVE1.has(designId)||B1_CARD_FRAME_WAVE2.has(designId)||B1_CARD_FRAME_WAVE3.has(designId)||B1_CARD_FRAME_WAVE4.has(designId)||B1_CARD_FRAME_WAVE5.has(designId)||B1_CARD_FRAME_WAVE6.has(designId)){
   const role=b1CardFrameRole(c);
   btn.classList.add("b1-arcane-card","b1-frame-"+role);
   if(c.text.length>14)btn.classList.add("b1-frame-long-effect");
