@@ -66,8 +66,8 @@ test("new enemy designs are real role-specific enemies with their own artwork an
  assert.equal(STAGES[8].enemies[0].name,"霧の針獣");
  assert.equal(STAGES[10].enemies[1].role,"watcher");
  assert.equal(STAGES[10].enemies[1].name,"星守りの霊獣");
- assert.match(html,/archer:"bow-watcher\.webp"/);
- assert.match(html,/watcher:"tide-star-sentinel\.webp"/);
+ assert.match(html,/archer:"bell-spirit\.webp"/);
+ assert.match(html,/watcher:"wraith\.webp"/);
  for(const filename of ["bell-spirit.webp","wraith.webp"]){
   assert.ok(readFileSync(new URL("../v4-1/assets/"+filename,import.meta.url)).length>1000,filename);
  }
