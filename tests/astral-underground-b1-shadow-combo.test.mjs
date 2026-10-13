@@ -38,7 +38,7 @@ test("all five new cards have playable stats, upgrade previews, and shop availab
   assert.equal(g.selectStarter(id),true);
   assert.equal(g.snapshot().deck.length,STARTER.length+1);
   assert.ok(g.snapshot().deck.includes(id));
-  const shop=g.snapshot().shopStock.find(x=>x.id===id);
+  const shop=g.snapshot().shopCatalog.find(x=>x.id===id);
   assert.deepEqual(shop,{id,price});
  }
  assert.equal(Object.keys(CARDS).length,57);
