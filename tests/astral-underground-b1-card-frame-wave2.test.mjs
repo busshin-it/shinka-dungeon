@@ -27,7 +27,7 @@ test("phase two includes 22 additional original-art cards and leaves 20 for late
  assert.match(doc,/残り0種類/);
 });
 test("fire sprites share illustrated frame geometry without modifying original sprite mapping",()=>{
- const generic=/ > :is\(\.b1-magic-card-art,\.b1-fire-card-art\)/g;
+ const generic=/ > :is\(\.b1-magic-card-art,\.b1-fire-card-art,\.b1-dragon-card-art,\.b1-dragon-card-sprite\)/g;
  const matches=[...css.matchAll(generic)];
  assert.ok(matches.length>=5,"base, hand, preview, reward, V3 all use same art slot");
  assert.match(css,/> \.b1-fire-card-art\{/);
