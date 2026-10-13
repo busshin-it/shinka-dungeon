@@ -73,7 +73,7 @@ test("all six art filenames map to optional B1 DOM images and preserve CSS fallb
  assert.match(html,/unavailableB1Art/);
  assert.match(html,/img\.addEventListener\("error"/);
  assert.match(html,/attachB1OriginalArt\(picture,c\.magicArt\)/);
- assert.match(html,/attachB1OriginalArt\(thumb,card\.magicArt\)/);
+ assert.match(html,/const card=getB1Card\(item\.id\),b=cardButton\(item\.id\)/);
  assert.match(css,/\.b1-original-elemental-img/);
  assert.match(css,/object-fit:cover/);
  assert.match(css,/pointer-events:none/);
