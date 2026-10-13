@@ -492,6 +492,7 @@ function choosePath(id){
      stageName:s.stage===1?"B1・"+stage.name:stage.name,stageHint:stage.hint,
      shopAvailable:s.phase==="between"&&[2,8].includes(s.stage)&&s.shopPending&&!s.practiceMode,
      shopStock:s.shopStock,
+     shopCatalog:SHOP_STOCK, // Every obtainable card/price; NOT today's three visible offers.
      restAvailable:s.phase==="between"&&[1,5,10].includes(s.stage)&&s.restPending&&!s.practiceMode,
       dragonName:s.dragonStage<0?null:DRAGON_STAGES[s.dragonStage],
       availablePaths:s.phase==="between"&&s.stage===0&&s.selectedPath===null?Object.keys(B1_FORK_ROUTES):[]});
