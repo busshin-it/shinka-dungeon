@@ -19,7 +19,7 @@ function practice(cardId){
 test("six elemental spells: costs, upgrade texts, accessible starter/shop and distinct temporary art",()=>{
  const html=readFileSync(new URL("../v4-1/underground-b1-playtest.html",import.meta.url),"utf8");
  const css=readFileSync(new URL("../v4-1/underground-b1-fire.css",import.meta.url),"utf8");
- assert.equal(Object.keys(CARDS).length,65);
+ assert.equal(Object.keys(CARDS).length,77);
  for(const [id,kind,art,cost,damage,upgrade,price] of spells){
   assert.equal(CARDS[id].kind,kind);
   assert.equal(CARDS[id].cost,cost);
