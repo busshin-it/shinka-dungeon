@@ -288,3 +288,62 @@ body.pilot-mode #journeyPanel.b1-upgrade-open #restBack{
  }
  body.pilot-mode #journeyPanel.b1-upgrade-open .b1-upgrade-image-choice{height:275px}
 }
+
+
+/* 2026-10-13 feedback: reward art should take most of each card and favor
+   the upper focal point, but the text and bottom border must remain reachable. */
+body.pilot-mode #rewardCards .pilot-card {
+ height:clamp(224px,36dvh,300px);
+ min-height:0;
+}
+body.pilot-mode #rewardCards .pilot-card.b1-art-card > :is(
+ .b1-magic-card-art,.b1-fire-card-art,.b1-dragon-card-art,.b1-dragon-card-sprite,.pilot-card-art
+){
+ height:70%;flex:0 0 70%;
+ object-position:center 17%;
+}
+body.pilot-mode #rewardCards .pilot-card.b1-art-card .b1-original-card-img{
+ object-fit:cover;object-position:50% 14%;
+}
+body.pilot-mode #rewardCards .pilot-card .pilot-card-copy{
+ flex:1 1 0;min-height:0;padding:7px 10px 7px;
+}
+body.pilot-mode #rewardCards .pilot-card .pilot-card-copy strong{margin-bottom:3px}
+body.pilot-mode #journeyPanel:not(.b1-upgrade-open) .pilot-overlay-window{
+ overflow-y:auto;overscroll-behavior:contain;max-height:calc(100dvh - 24px);
+}
+
+/* The huge duo sprites were 100% of the entire actor track. Limit them
+   to approximately the hero's visible height without shrinking hit targets. */
+body.pilot-mode #playScreen .b1-enemy-lineup.b1-two .b1-actor-figure{
+ overflow:visible;align-items:flex-end;justify-content:center;
+}
+body.pilot-mode #playScreen .b1-enemy-lineup.b1-two .b1-actor-figure img{
+ width:96%;
+ max-width:clamp(145px,23vw,310px);
+ height:clamp(185px,49dvh,400px);
+ max-height:90%;
+ object-fit:contain;object-position:center bottom;
+ margin:0 auto;pointer-events:none;
+}
+@media(max-width:760px){
+ body.pilot-mode #playScreen .b1-enemy-lineup.b1-two .b1-actor-figure img{
+  width:102%;max-width:210px;height:clamp(142px,45dvh,320px);
+ }
+}
+@media(max-width:430px){
+ body.pilot-mode #playScreen .b1-enemy-lineup.b1-two .b1-actor-figure img{
+  width:105%;max-width:155px;height:clamp(125px,43dvh,290px);
+ }
+}
+@media(orientation:landscape) and (max-height:540px){
+ body.pilot-mode #rewardCards .pilot-card{
+  height:clamp(170px,40dvh,218px);
+ }
+ body.pilot-mode #rewardCards .pilot-card.b1-art-card > :is(
+  .b1-magic-card-art,.b1-fire-card-art,.b1-dragon-card-art,.b1-dragon-card-sprite,.pilot-card-art
+ ){height:68%;flex-basis:68%}
+ body.pilot-mode #playScreen .b1-enemy-lineup.b1-two .b1-actor-figure img{
+  height:clamp(105px,51dvh,245px);max-height:90%;
+ }
+}
