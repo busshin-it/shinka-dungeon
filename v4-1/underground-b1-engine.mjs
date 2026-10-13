@@ -104,16 +104,16 @@ export const BASIC_B1_STARTER = Object.freeze([...Array(5).fill("basicAttack"),.
 export const STAGES = Object.freeze([
  {name:"B1・入口",hint:"硬い敵を相手に攻撃するか防御するか。次の攻撃を予測しよう。",enemies:[{id:"rat",name:"石牙獣",maxHp:42,role:"rat"}],rewards:["ward","double","poison","spark","flow","heal","frost","shadowEcho","guideThrust"]},
  {name:"B1・群れ",hint:"小型2体の同時攻撃。片方を先に倒すか、全体攻撃で削るか。",enemies:[{id:"wolf",name:"洞穴の狼",maxHp:17,role:"wolf"},{id:"imp",name:"盾の小鬼",maxHp:16,role:"imp"}],rewards:["charge","chain","fragile","focus","flare","lightning","drain","scatter","blizzard"]},
- {name:"B1・祭壇",hint:"呪術師は初手で力を溜め、毎ターン強くなる。長期戦は危険。",enemies:[{id:"priest",name:"洞窟の呪術師",maxHp:52,role:"ritual"}],rewards:["flow","strength","double","poison","ward","flare","heal","lightning","spellblade"]},
- {name:"B1・強敵",hint:"強敵が大技と連続攻撃を使う。大技の予告を見て防御を合わせよう。",enemies:[{id:"brute",name:"深層の番兵",maxHp:82,role:"elite"}],rewards:["strength","focus","charge","double","flare","ward","drain","fragile","thunderSurge"]},
- {name:"B1・裂け目",hint:"毒使いを先に倒すか、石牙獣の強化を止めるか。継続毒は防御を貫く。",enemies:[{id:"venom2",name:"裂け目の毒遣い",maxHp:23,role:"venom"},{id:"rat2",name:"石牙獣・若",maxHp:25,role:"rat"}],rewards:["thunderSmall","fireWaveSmall","sneakHit","shadowEcho","ward","double","strength","curse","frost"]},
- {name:"B1・晶洞",hint:"狂戦士の溜めを見て防御し、疲労の隙に大技を撃とう。",enemies:[{id:"berserker2",name:"晶洞の狂戦士",maxHp:51,role:"berserker"}],rewards:["thunderMedium","fireWaveMedium","rapidPunch","heavyBlow","iceSpear","arcaneLance","flow","charge","drain"]},
- {name:"B1・祭司の残響",hint:"治療師が呪術師を回復する。治療を止めるか、呪術師を集中攻撃するか。",enemies:[{id:"ritual2",name:"残響の呪術師",maxHp:47,role:"ritual"},{id:"healer2",name:"残響の治療師",maxHp:21,role:"healer"}],rewards:["mentalCollapse","deathSong","hallucination","blizzard","thunderSurge","chain","echoGuard","guideThrust","poison"]},
- {name:"B1・黒曜の間",hint:"防御を6削る破盾と強打。攻撃が来るターンを見て守ろう。",enemies:[{id:"breaker2",name:"黒曜の破盾兵",maxHp:71,role:"breaker"}],rewards:["fireWaveLarge","thunderLarge","ironHammer","rage","abyssBolt","focus","strength","ward","spellblade"]},
- {name:"B1・霧の回廊",hint:"旗手が弓兵の攻撃を強化する。旗手を倒すか、弓兵を先に倒すか。",enemies:[{id:"mistArcher",name:"霧の弓兵",maxHp:29,role:"archer"},{id:"banner3",name:"霧の旗手",maxHp:26,role:"banner"}],rewards:["sneakHit","rapidPunch","shadowEcho","thunderSmall","bludgeon","heal","flow","charge","poison"]},
- {name:"B1・歯車の門",hint:"盾守が石甲獣へ防御を配る。毒・呪い・先制攻撃で突破しよう。",enemies:[{id:"carapace3",name:"古代石甲獣",maxHp:58,role:"carapace"},{id:"warder3",name:"歯車の盾守",maxHp:30,role:"warder"}],rewards:["curse","iceSpear","frostBreak","adversity","thunderMedium","fireWaveMedium","ward","drain","lingeringPoison"]},
- {name:"B1・最深部の門",hint:"ラスボス前の最後の試練。今のデッキを磨こう。",enemies:[{id:"elite3",name:"門を守る番兵",maxHp:84,role:"elite"},{id:"starWatcher",name:"星守りの監視者",maxHp:33,role:"watcher"}],rewards:["rage","ironHammer","fireWaveLarge","thunderLarge","mentalCollapse","deathSong","charge","double","flow"]},
- {name:"B1・最深部",hint:"護衛2体と長期戦。護衛の守りを崩し、溜めた大技を乗り切ろう。",enemies:[{id:"left",name:"盾の小鬼・左",maxHp:24,role:"guard"},{id:"boss",name:"地底の祭司",maxHp:135,role:"boss"},{id:"right",name:"盾の小鬼・右",maxHp:24,role:"guard"}],rewards:[]}
+ {name:"B1・祭壇",hint:"呪霊は初手で力を溜め、毎ターン強くなる。長期戦は危険。",enemies:[{id:"priest",name:"洞窟の呪霊",maxHp:52,role:"ritual"}],rewards:["flow","strength","double","poison","ward","flare","heal","lightning","spellblade"]},
+ {name:"B1・強敵",hint:"強敵が大技と連続攻撃を使う。大技の予告を見て防御を合わせよう。",enemies:[{id:"brute",name:"深層の巨獣",maxHp:82,role:"elite"}],rewards:["strength","focus","charge","double","flare","ward","drain","fragile","thunderSurge"]},
+ {name:"B1・裂け目",hint:"毒胞獣を先に倒すか、石牙獣の強化を止めるか。継続毒は防御を貫く。",enemies:[{id:"venom2",name:"裂け目の毒胞獣",maxHp:23,role:"venom"},{id:"rat2",name:"石牙獣・若",maxHp:25,role:"rat"}],rewards:["thunderSmall","fireWaveSmall","sneakHit","shadowEcho","ward","double","strength","curse","frost"]},
+ {name:"B1・晶洞",hint:"裂岩獣の溜めを見て防御し、疲労の隙に大技を撃とう。",enemies:[{id:"berserker2",name:"晶洞の裂岩獣",maxHp:51,role:"berserker"}],rewards:["thunderMedium","fireWaveMedium","rapidPunch","heavyBlow","iceSpear","arcaneLance","flow","charge","drain"]},
+ {name:"B1・祭司の残響",hint:"癒し胞子が呪霊を回復する。回復を止めるか、呪霊を集中攻撃するか。",enemies:[{id:"ritual2",name:"残響の呪霊",maxHp:47,role:"ritual"},{id:"healer2",name:"残響の癒し胞子",maxHp:21,role:"healer"}],rewards:["mentalCollapse","deathSong","hallucination","blizzard","thunderSurge","chain","echoGuard","guideThrust","poison"]},
+ {name:"B1・黒曜の間",hint:"防御を6削る破盾と強打。攻撃が来るターンを見て守ろう。",enemies:[{id:"breaker2",name:"黒曜の破盾獣",maxHp:71,role:"breaker"}],rewards:["fireWaveLarge","thunderLarge","ironHammer","rage","abyssBolt","focus","strength","ward","spellblade"]},
+ {name:"B1・霧の回廊",hint:"鳴き獣が針獣の攻撃を強化する。どちらを先に倒すか。",enemies:[{id:"mistArcher",name:"霧の針獣",maxHp:29,role:"archer"},{id:"banner3",name:"霧の鳴き獣",maxHp:26,role:"banner"}],rewards:["sneakHit","rapidPunch","shadowEcho","thunderSmall","bludgeon","heal","flow","charge","poison"]},
+ {name:"B1・歯車の門",hint:"甲殻獣が石甲獣へ防御を配る。毒・呪い・先制攻撃で突破しよう。",enemies:[{id:"carapace3",name:"古代石甲獣",maxHp:58,role:"carapace"},{id:"warder3",name:"歯車の甲殻獣",maxHp:30,role:"warder"}],rewards:["curse","iceSpear","frostBreak","adversity","thunderMedium","fireWaveMedium","ward","drain","lingeringPoison"]},
+ {name:"B1・最深部の門",hint:"ラスボス前の最後の試練。今のデッキを磨こう。",enemies:[{id:"elite3",name:"門を守る巨獣",maxHp:84,role:"elite"},{id:"starWatcher",name:"星守りの霊獣",maxHp:33,role:"watcher"}],rewards:["rage","ironHammer","fireWaveLarge","thunderLarge","mentalCollapse","deathSong","charge","double","flow"]},
+ {name:"B1・最深部",hint:"護衛2体と長期戦。護衛の守りを崩し、溜めた大技を乗り切ろう。",enemies:[{id:"left",name:"盾の小鬼・左",maxHp:24,role:"guard"},{id:"boss",name:"地底の異形主",maxHp:135,role:"boss"},{id:"right",name:"盾の小鬼・右",maxHp:24,role:"guard"}],rewards:[]}
 ]);
 // First small map experiment: both routes rejoin the unchanged third fight.
 export const B1_FORK_ROUTES=Object.freeze({
@@ -151,7 +151,7 @@ export function createB1Game(options={}){
  function recordBossDamage(e,n){
   if(e.role!=="boss"||n<=0||e.channelBroken||(s.turn-1)%4===3)return;
   e.channelDamage+=n;
-  if(e.channelDamage>=B1_BOSS_CHANNEL_THRESHOLD){e.channelBroken=true;note("地底の祭司の詠唱が崩れた！ 地鳴りを阻止。");}
+  if(e.channelDamage>=B1_BOSS_CHANNEL_THRESHOLD){e.channelBroken=true;note("地底の異形主の詠唱が崩れた！ 地鳴りを阻止。");}
  }
  function hit(target,base,hits=1){
   if(!target||target.hp<=0)return 0;

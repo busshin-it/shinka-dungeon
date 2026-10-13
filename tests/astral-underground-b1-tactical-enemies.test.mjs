@@ -50,8 +50,8 @@ test("six new enemy types appear in distinct encounters without affecting all 12
  }
  assert.equal(Object.keys(CARDS).length,57,"card catalog is unchanged");
  const imgs={
-  venom:"wraith.webp",berserker:"gatekeeper.webp",healer:"librarian-noa.webp",
-  breaker:"gatekeeper.webp",banner:"tide-star-sentinel.webp",warder:"gatekeeper.webp"
+  venom:"wraith.webp",berserker:"bell-spirit.webp",healer:"bell-spirit.webp",
+  breaker:"bell-spirit.webp",banner:"bell-spirit.webp",warder:"bell-spirit.webp"
  };
  for(const [role,img] of Object.entries(imgs)){
   assert.ok(html.includes(role+':"'+img+'"'),role+" artwork mapping");
