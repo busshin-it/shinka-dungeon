@@ -161,3 +161,130 @@ body.pilot-mode #effectBadges{display:none}
  body.pilot-mode #shopItems .b1-shop-offer .pilot-card-copy{padding-bottom:26px}
  body.pilot-mode .b1-enemy-lineup .b1-actor-status .b1-effect-chip{min-width:20px;min-height:19px;font-size:11px}
 }
+
+
+/* 2026-10-13 follow-up: center numerical badges above the VISIBLE head.
+   JavaScript calculates top/left from the contained, displayed image rect,
+   so a tall transparent puppet slot does not send badges to the screen top. */
+body.pilot-mode #playScreen #b1HeroEffects,
+body.pilot-mode #playScreen #b1SoloEnemyEffects,
+body.pilot-mode #playScreen .b1-enemy-lineup .b1-actor-figure .b1-actor-status.b1-effect-row{
+ position:absolute;z-index:14;top:0;left:50%;right:auto;
+ transform:translateX(-50%);bottom:auto;
+ display:flex;flex-wrap:wrap;align-items:center;justify-content:center;
+ width:max-content;max-width:min(280px,72vw);
+ min-height:0;overflow:visible;pointer-events:none;
+}
+body.pilot-mode #playScreen .b1-effect-chip{
+ min-width:36px;min-height:34px;padding:4px 7px;gap:4px;
+ border-radius:10px;border-width:2px;
+ box-shadow:0 3px 13px #000e,0 0 0 1px #f4edc657;
+ font-size:20px;font-weight:850;filter:drop-shadow(0 1px 2px #000b);
+}
+body.pilot-mode #playScreen .b1-effect-chip small{font-size:14px;font-weight:900}
+body.pilot-mode #playScreen .b1-effect-buff{
+ background:#133f32f5;border-color:#a1efb3;color:#f3ffe9;
+}
+body.pilot-mode #playScreen .b1-effect-debuff{
+ background:#582037f5;border-color:#ffaeaf;color:#fff3ea;
+}
+body.pilot-mode #playScreen .b1-enemy-lineup .b1-actor-status .b1-effect-chip{
+ min-width:33px;min-height:30px;padding:3px 6px;font-size:18px;
+}
+body.pilot-mode #playScreen .b1-enemy-lineup .b1-actor-status .b1-effect-chip small{font-size:13px}
+@media(max-width:600px){
+ body.pilot-mode #playScreen .b1-effect-chip,
+ body.pilot-mode #playScreen .b1-enemy-lineup .b1-actor-status .b1-effect-chip{
+  min-width:27px;min-height:26px;padding:3px 4px;font-size:15px;
+ }
+ body.pilot-mode #playScreen .b1-effect-chip small,
+ body.pilot-mode #playScreen .b1-enemy-lineup .b1-actor-status .b1-effect-chip small{font-size:11px}
+}
+
+/* The two-target encounter is NOT the three-target boss formation.
+   Give each enemy a tall silhouette with very little empty horizontal gap.
+   Portraits may slightly overlap, but click targets remain separate columns. */
+body.pilot-mode #playScreen .b1-enemy-lineup.b1-two{
+ left:40%;right:2%;column-gap:clamp(0px,0.5vw,8px);
+ overflow:visible;
+}
+body.pilot-mode #playScreen .b1-enemy-lineup.b1-two .b1-enemy-actor{
+ min-width:0;overflow:visible;z-index:1;
+}
+body.pilot-mode #playScreen .b1-enemy-lineup.b1-two .b1-enemy-actor[aria-pressed="true"]{z-index:3}
+body.pilot-mode #playScreen .b1-enemy-lineup.b1-two .b1-actor-figure{overflow:visible}
+body.pilot-mode #playScreen .b1-enemy-lineup.b1-two .b1-actor-figure img{
+ display:block;width:115%;height:100%;max-width:clamp(155px,28vw,360px);
+ max-height:100%;margin:0 auto;object-fit:contain;object-position:center bottom;
+ pointer-events:none;
+}
+@media(max-width:760px){
+ body.pilot-mode #playScreen .b1-enemy-lineup.b1-two{left:38%;right:1%;column-gap:0}
+ body.pilot-mode #playScreen .b1-enemy-lineup.b1-two .b1-actor-figure img{
+  width:121%;height:100%;max-width:220px;
+ }
+}
+@media(max-width:430px){
+ body.pilot-mode #playScreen .b1-enemy-lineup.b1-two{left:36%;right:1%;column-gap:0}
+ body.pilot-mode #playScreen .b1-enemy-lineup.b1-two .b1-actor-figure img{
+  width:125%;height:100%;max-width:160px;
+ }
+}
+
+/* Only the REST UPGRADE picker takes the full screen. Normal camp rest,
+   victory rewards, shop and all other overlays retain their compact styles. */
+body.pilot-mode #journeyPanel.b1-upgrade-open{
+ box-sizing:border-box;inset:0;padding:0;
+ align-items:stretch;justify-items:stretch;
+}
+body.pilot-mode.b1-rest-active #journeyPanel.b1-upgrade-open .pilot-overlay-window{
+ box-sizing:border-box;width:100vw;max-width:none;
+ height:100dvh;min-height:0;max-height:none;
+ margin:0;padding:clamp(10px,1.8vw,25px);
+ border-radius:0;display:flex;flex-direction:column;gap:8px;overflow:hidden;
+}
+body.pilot-mode #journeyPanel.b1-upgrade-open #restSite{
+ display:flex;flex-direction:column;flex:1 1 auto;
+ min-height:0;max-height:none;overflow:hidden;padding:10px;
+}
+body.pilot-mode #journeyPanel.b1-upgrade-open .b1-rest-options,
+body.pilot-mode #journeyPanel.b1-upgrade-open #restSite > p:not(#b1UpgradeListHint){display:none}
+body.pilot-mode #journeyPanel.b1-upgrade-open #b1UpgradeListHint{
+ flex:0 0 auto;font-size:14px;color:#ffe4a3;margin:0 0 5px;
+}
+body.pilot-mode #journeyPanel.b1-upgrade-open #restUpgradeCards.b1-rest-upgrades{
+ display:grid;grid-template-columns:repeat(auto-fill,minmax(176px,1fr));
+ align-content:start;gap:12px;flex:1 1 auto;
+ width:100%;height:100%;min-height:0;max-height:none;
+ margin:0;padding:8px;overflow:auto;overscroll-behavior:contain;
+}
+body.pilot-mode #journeyPanel.b1-upgrade-open #restUpgradeCards[hidden]{display:none}
+body.pilot-mode #journeyPanel.b1-upgrade-open .b1-upgrade-image-choice{
+ height:clamp(250px,50dvh,385px);min-height:0;
+}
+body.pilot-mode #journeyPanel.b1-upgrade-open .b1-upgrade-image-choice > :is(.b1-magic-card-art,.b1-fire-card-art,.b1-dragon-card-art,.b1-dragon-card-sprite){
+ height:54%;flex-basis:54%;
+}
+body.pilot-mode #journeyPanel.b1-upgrade-open .b1-upgrade-image-choice > .pilot-card-copy{
+ max-height:26%;flex:1 1 auto;padding:7px 9px 4px;
+}
+body.pilot-mode #journeyPanel.b1-upgrade-open .b1-upgrade-image-choice .b1-upgrade-effects{
+ font-size:12px;min-height:42px;line-height:1.3;
+}
+body.pilot-mode #journeyPanel.b1-upgrade-open #restBack{
+ flex:0 0 auto;align-self:flex-end;min-height:42px;padding:9px 22px;
+}
+@media(max-width:600px){
+ body.pilot-mode #journeyPanel.b1-upgrade-open #restUpgradeCards.b1-rest-upgrades{
+  grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;padding:4px;
+ }
+ body.pilot-mode #journeyPanel.b1-upgrade-open .b1-upgrade-image-choice{
+  height:clamp(240px,42dvh,315px);
+ }
+}
+@media (orientation:landscape) and (max-height:540px){
+ body.pilot-mode #journeyPanel.b1-upgrade-open #restUpgradeCards.b1-rest-upgrades{
+  grid-template-columns:repeat(auto-fill,minmax(165px,1fr));
+ }
+ body.pilot-mode #journeyPanel.b1-upgrade-open .b1-upgrade-image-choice{height:275px}
+}
