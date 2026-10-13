@@ -34,13 +34,13 @@ body.pilot-mode .pilot-card.b1-arcane-card:not(.b1-evolution-choice)::after{
  border:1px solid #d2ac6b94;border-radius:7px;
  box-shadow:inset 0 0 0 1px #3140579c;
 }
-body.pilot-mode .pilot-card.b1-arcane-card:not(.b1-evolution-choice) > :is(.b1-magic-card-art,.b1-fire-card-art){
+body.pilot-mode .pilot-card.b1-arcane-card:not(.b1-evolution-choice) > :is(.b1-magic-card-art,.b1-fire-card-art,.b1-dragon-card-art,.b1-dragon-card-sprite){
  position:relative;inset:auto;box-sizing:border-box;
  display:block;flex:0 0 var(--b1-defense-art-share);
  width:100%;height:var(--b1-defense-art-share);min-height:0;max-height:none;
  overflow:hidden;border-radius:0;
  border-bottom:2px solid #f1cc80;
- background:#1b2a42;
+ background-color:#1b2a42;
 }
 body.pilot-mode .pilot-card.b1-arcane-card:not(.b1-evolution-choice) .b1-magic-card-art::after{
  content:"";position:absolute;z-index:2;inset:0;pointer-events:none;
@@ -146,7 +146,7 @@ body.pilot-mode .pilot-card.b1-arcane-card:not(.b1-evolution-choice) .pilot-card
 body.pilot-mode #playScreen #hand.hand .pilot-card.b1-arcane-card{
  --b1-defense-art-share:64%;
 }
-body.pilot-mode #playScreen #hand.hand .pilot-card.b1-arcane-card > :is(.b1-magic-card-art,.b1-fire-card-art){
+body.pilot-mode #playScreen #hand.hand .pilot-card.b1-arcane-card > :is(.b1-magic-card-art,.b1-fire-card-art,.b1-dragon-card-art,.b1-dragon-card-sprite){
  height:var(--b1-defense-art-share);flex:0 0 var(--b1-defense-art-share);
 }
 body.pilot-mode #playScreen #hand.hand .pilot-card.b1-arcane-card > .pilot-card-copy{
@@ -175,7 +175,7 @@ body.pilot-mode #playScreen #hand.hand .pilot-card.b1-arcane-card > .type{
 body.pilot-mode .b1-card-preview .pilot-card.b1-arcane-card{
  --b1-defense-art-share:68%;
 }
-body.pilot-mode .b1-card-preview .pilot-card.b1-arcane-card > :is(.b1-magic-card-art,.b1-fire-card-art){
+body.pilot-mode .b1-card-preview .pilot-card.b1-arcane-card > :is(.b1-magic-card-art,.b1-fire-card-art,.b1-dragon-card-art,.b1-dragon-card-sprite){
  height:var(--b1-defense-art-share)!important;
  flex:0 0 var(--b1-defense-art-share)!important;
 }
@@ -194,7 +194,7 @@ body.pilot-mode .b1-card-preview .pilot-card.b1-arcane-card .pilot-card-copy .de
 body.pilot-mode #rewardCards .pilot-card.b1-arcane-card{
  --b1-defense-art-share:71%;
 }
-body.pilot-mode #rewardCards .pilot-card.b1-arcane-card > :is(.b1-magic-card-art,.b1-fire-card-art){
+body.pilot-mode #rewardCards .pilot-card.b1-arcane-card > :is(.b1-magic-card-art,.b1-fire-card-art,.b1-dragon-card-art,.b1-dragon-card-sprite){
  height:var(--b1-defense-art-share);flex:0 0 var(--b1-defense-art-share);
 }
 body.pilot-mode #rewardCards .pilot-card.b1-arcane-card > .pilot-card-copy{
@@ -281,7 +281,7 @@ body.pilot-mode #playScreen #hand.hand .pilot-card.b1-arcane-card:not(.b1-evolut
  --b1-defense-art-share:64%;
  display:flex;flex-direction:column;
 }
-body.pilot-mode #playScreen #hand.hand .pilot-card.b1-arcane-card:not(.b1-evolution-choice) > :is(.b1-magic-card-art,.b1-fire-card-art){
+body.pilot-mode #playScreen #hand.hand .pilot-card.b1-arcane-card:not(.b1-evolution-choice) > :is(.b1-magic-card-art,.b1-fire-card-art,.b1-dragon-card-art,.b1-dragon-card-sprite){
  position:relative;inset:auto;display:block;
  height:var(--b1-defense-art-share);flex:0 0 var(--b1-defense-art-share);
  width:100%;min-height:0;max-height:none;
@@ -427,4 +427,33 @@ body.pilot-mode .pilot-card.b1-arcane-card:not(.b1-evolution-choice) > .b1-fire-
 }
 body.pilot-mode #playScreen #hand.hand .pilot-card.b1-arcane-card:not(.b1-evolution-choice) > .b1-fire-card-art{
  min-height:0;
+}
+
+/* Wave 3: dragons and long-effect physical/dark cards use the same frame.
+   Never overwrite an artwork background IMAGE with the frame's color:
+   fire relies on sprite-position backgrounds and dragons draw from ::before. */
+body.pilot-mode .pilot-card.b1-arcane-card.b1-frame-dragon:not(.b1-evolution-choice) > .type{
+ border-color:#b2dcf7;
+ background:linear-gradient(150deg,#8a69a2,#28375b 55%,#101831);
+}
+body.pilot-mode .pilot-card.b1-arcane-card.b1-frame-dragon:not(.b1-evolution-choice) > .type::before{
+ content:attr(data-symbol);
+ position:absolute;inset:0;left:0;top:0;width:100%;height:100%;
+ display:flex;align-items:center;justify-content:center;
+ transform:none;clip-path:none;border:0;background:none;
+ color:#fbe5c6;font:900 clamp(17px,1.65vw,26px)/1 Georgia,serif;
+ text-shadow:0 1px 4px #090921,0 0 10px #e8d5a8;
+}
+body.pilot-mode .pilot-card.b1-arcane-card.b1-frame-dragon:not(.b1-evolution-choice) > .type::after{display:none}
+body.pilot-mode .pilot-card.b1-arcane-card:not(.b1-evolution-choice) > .b1-dragon-card-art:not(.b1-dragon-card-sprite){
+ object-fit:cover;object-position:center 28%;
+}
+body.pilot-mode .pilot-card.b1-arcane-card:not(.b1-evolution-choice) > .b1-dragon-card-sprite{
+ background-color:#241c22;
+}
+/* Long curse and tactical texts are never reduced to microscopic lettering.
+   Show at most two lines on small hand cards; full effect is available in
+   the lifted preview and in the original accessible button label. */
+body.pilot-mode #playScreen #hand.hand .pilot-card.b1-arcane-card.b1-frame-long-effect:not(.b1-evolution-choice) .pilot-card-copy .desc{
+ font-size:clamp(11px,.95vw,13px);line-height:1.22;
 }
