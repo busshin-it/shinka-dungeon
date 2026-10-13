@@ -76,7 +76,15 @@ export const CARDS = Object.freeze({
  bloodBlade:{name:"血の魔剣",cost:0,kind:"attack",damage:12,hpCost:3,text:"HP3消費して12ダメージ",weapon:true,magicArt:"physical-adversity"},
  finalBlow:{name:"終焉の一撃",cost:2,kind:"attack",damage:10,halfHpDamage:20,text:"10ダメージ。HP半分以下なら20",weapon:true,magicArt:"physical-rage"},
  manaResonance:{name:"魔力共鳴",cost:1,kind:"energy",energyIfPrevSpell:1,text:"直前が魔法なら魔力1回復",magicArt:"third-mana-ignite"},
- chaosPact:{name:"混沌の契約",cost:1,kind:"chaosPact",text:"毒2・弱体2・呪いからランダムに1つ付与",magicArt:"third-mana-ignite"}
+ chaosPact:{name:"混沌の契約",cost:1,kind:"chaosPact",text:"毒2・弱体2・呪いからランダムに1つ付与",magicArt:"third-mana-ignite"},
+ sparkWard:{name:"蓄雷結界",cost:1,kind:"guard",block:5,lightning:true,text:"防御5。雷連鎖を切らない",magicArt:"second-ward"},
+ sparkBreath:{name:"雷呼吸",cost:0,kind:"draw",draw:1,lightning:true,exhaust:true,text:"1枚引く。雷連鎖を継続。廃棄",magicArt:"second-flow"},
+ frostNeedle:{name:"霜の楔",cost:1,kind:"fragile",weaken:2,vulnerable:1,text:"敵1体に弱体2・脆弱1",magicArt:"starter-frost"},
+ iceFinisher:{name:"氷棘の追撃",cost:1,kind:"attack",damage:5,weakBonus:5,text:"5ダメージ。弱体の敵には＋5",magicArt:"fourth-frost-shatter"},
+ venomCloud:{name:"毒霧の帳",cost:2,kind:"allPoison",poison:3,text:"敵全体に毒3。単体相手では効率が低い",magicArt:"fourth-toxic-page"},
+ curseSlash:{name:"影縫い",cost:1,kind:"attack",damage:6,curseOnHitTurns:2,school:"dark",text:"6ダメージ。生き残った敵に2ターンの呪い",magicArt:"shadow"},
+ dragonWing:{name:"護竜の翼",cost:1,kind:"guard",block:4,dragonBlockPerStage:1,dragonBlockCap:5,text:"防御4。竜の成長段階に応じ最大＋5",magicArt:"second-ward"},
+ ironResolve:{name:"鋼の呼吸",cost:1,kind:"physicalPower",doping:1,draw:1,weapon:true,text:"物理攻撃＋1（魔法で解除）。1枚引く",magicArt:"physical-doping"}
 });
 export function getB1Card(id){const up=typeof id==="string"&&id.endsWith("~"),base=up?id.slice(0,-1):id;const card=CARDS[base];if(!card)return null;if(!up)return card;const next={...card,name:card.name+"＋"};if(Object.hasOwn({fireSmall:3,fireMedium:4,fireLarge:6,darkBolt:3,abyssBolt:4,iceSpear:3,arcaneLance:3},base)){
  const bonus={fireSmall:3,fireMedium:4,fireLarge:6,darkBolt:3,abyssBolt:4,iceSpear:3,arcaneLance:3}[base];
@@ -120,6 +128,14 @@ export function getB1Card(id){const up=typeof id==="string"&&id.endsWith("~"),ba
  if(base==="decayRitual"){next.poison=5;next.text="敵1体に毒5と呪い。既に毒なら防御6";return next;}
  if(base==="manaResonance"){next.cost=0;next.text="直前が魔法なら魔力1回復";return next;}
  if(base==="chaosPact"){next.cost=0;next.text=card.text+"（魔力0）";return next;}
+ if(base==="sparkWard"){next.block=7;next.text="防御7。雷連鎖を切らない";return next;}
+ if(base==="sparkBreath"){next.draw=2;next.text="2枚引く。雷連鎖を継続。廃棄";return next;}
+ if(base==="frostNeedle"){next.weaken=3;next.vulnerable=1;next.text="敵1体に弱体3・脆弱1";return next;}
+ if(base==="iceFinisher"){next.damage=8;next.text="8ダメージ。弱体の敵には＋5";return next;}
+ if(base==="venomCloud"){next.poison=4;next.text="敵全体に毒4";return next;}
+ if(base==="curseSlash"){next.damage=9;next.text="9ダメージ。生き残った敵に2ターンの呪い";return next;}
+ if(base==="dragonWing"){next.block=6;next.text="防御6。竜の成長段階に応じ最大＋5";return next;}
+ if(base==="ironResolve"){next.doping=2;next.text="物理攻撃＋2（魔法で解除）。1枚引く";return next;}
  if(base==="doping"){next.doping=3;next.text="物理攻撃＋3。魔法を使うと解除";return next;}
  if(base==="adversity"){next.cost=0;next.text="直前の敵ターンに失ったHP分、次の物理攻撃＋。魔法で解除";return next;}
  if(base==="dragonFeed"){next.dragonGrowth=2;next.text="竜を2段階成長。手札を1枚選んで捨てる。廃棄";return next;}
@@ -175,7 +191,8 @@ export function getB1RewardPool(stageIndex,deck=[]){
  const hasEgg=Array.isArray(deck)&&deck.some(id=>id==="dragonEgg"||id==="dragonEgg~");
  const extra=B1_REWARD_EXTRA_POOLS[stageIndex].filter(id=>!["dragonFeed","dragonBreath"].includes(id)||hasEgg);
  const additions=[["thunderEcho","iceShatter"],["frozenTime","venomShield"],["decayRitual","manaResonance"],["thunderJudgment","unbrokenMirror"],["dragonCovenant","bloodBlade"],["chaosPact","finalBlow"],["thunderEcho","frozenTime"],["venomShield","decayRitual"],["dragonCovenant","manaResonance"],["unbrokenMirror","chaosPact"],["thunderJudgment","finalBlow"],[]][stageIndex];
- return [...new Set([...STAGES[stageIndex].rewards,...extra,...additions])];
+ const cross=[["sparkWard","frostNeedle"],["sparkBreath","ironResolve"],["iceFinisher","venomCloud"],["curseSlash","dragonWing"],["sparkWard","venomCloud"],["frostNeedle","curseSlash"],["iceFinisher","ironResolve"],["dragonWing","sparkBreath"],["sparkWard","curseSlash"],["venomCloud","dragonWing"],["iceFinisher","sparkBreath"],[]][stageIndex];
+ return [...new Set([...STAGES[stageIndex].rewards,...extra,...additions,...cross])];
 }
 // First small map experiment: both routes rejoin the unchanged third fight.
 export const B1_FORK_ROUTES=Object.freeze({
@@ -319,6 +336,7 @@ export function createB1Game(options={}){
       note("影の反響：カードを"+count+"枚引いた。");
       synergy("闇魔法連携","闇の後：実際に"+count+"枚ドロー");
     }
+   if(card.curseOnHitTurns&&target.hp>0){target.curses.push({next:1,turns:card.curseOnHitTurns});note(target.name+"に呪い（"+card.curseOnHitTurns+"ターン）。");}
    if(card.weaken&&target.hp>0){target.weaken+=card.weaken;note(target.name+"に弱体＋"+card.weaken+"。");}
    if(card.vulnerable&&target.hp>0){target.vulnerable+=card.vulnerable;note(target.name+"に脆弱＋"+card.vulnerable+"。");}
    if(card.chainDraw&&priorStreak>=2){const n=drawCards(card.chainDraw);note("雷鳴の残響："+n+"枚引いた。");}
@@ -351,6 +369,8 @@ export function createB1Game(options={}){
    }else if(card.kind==="adversity"){
     s.nextPhysicalAttackBonus+=s.lastTurnHpLoss;
     note("逆境：次の物理攻撃＋"+s.nextPhysicalAttackBonus+"（直前ターンのHP被害："+s.lastTurnHpLoss+"）。");
+   }else if(card.kind==="allPoison"){
+    for(const e of alive()){e.poison+=card.poison;note(e.name+"に毒＋"+card.poison+"。");}
    }else if(card.kind==="allWeaken"){
     for(const e of alive()){e.weaken+=card.weaken;note(e.name+"に弱体＋"+card.weaken+"。");}
    }else if(card.kind==="decayRitual"){
@@ -376,7 +396,9 @@ export function createB1Game(options={}){
   }else if(card.kind==="guard"){
    const afflicted=alive().some(e=>e.poison>0||e.curses.length>0);
    const extra=afflicted?(card.afflictedBlock||0):0;
-   s.block+=card.block+extra;note("防御＋"+(card.block+extra)+"。");
+   const dragonExtra=card.dragonBlockPerStage&&s.dragonStage>=0?Math.min(card.dragonBlockCap||5,s.dragonStage*card.dragonBlockPerStage):0;
+   s.block+=card.block+extra+dragonExtra;note("防御＋"+(card.block+extra+dragonExtra)+"。");
+   if(dragonExtra)synergy("護竜の翼","竜の成長による防御＋"+dragonExtra);
    if(extra)synergy("封毒の盾","毒・呪いの敵がいる：防御＋"+extra);
    if(card.reflectKillDraw)s.reflectKillDraw=Math.max(s.reflectKillDraw,card.reflectKillDraw);
    if(card.poisonOnBlock)s.poisonOnBlock=Math.max(s.poisonOnBlock,card.poisonOnBlock);
