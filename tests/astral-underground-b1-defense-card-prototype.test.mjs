@@ -10,8 +10,8 @@ const css=readFileSync(new URL("../v4-1/underground-b1-defense-prototype.css",im
 test("defense visual experiment only opts in one basicDefense card",()=>{
  assert.match(html,/if\(id==="basicDefense"\)\{/);
  assert.match(html,/btn\.classList\.add\("b1-defense-prototype"\)/);
- assert.match(html,/btn\.dataset\.b1Design="defense-v1"/);
- assert.match(html,/type\.textContent="🛡"/);
+ assert.match(html,/btn\.dataset\.b1Design="defense-v2"/);
+ assert.match(html,/type\.textContent=""/);
  assert.doesNotMatch(html,/if\(id==="guard"\).*b1-defense-prototype/);
  assert.equal(Object.keys(CARDS).length,57);
  assert.equal(getB1Card("basicDefense").name,"防御");
@@ -45,4 +45,33 @@ test("card renderer module remains parseable and card mechanics unchanged",()=>{
  const res=spawnSync(process.execPath,["--check","--input-type=module"],{input:src,encoding:"utf8"});
  assert.equal(res.status,0,res.stderr);
  assert.match(html,/btn\.setAttribute\("aria-label",c\.name\+"、魔力"\+c\.cost\+"。"\+c\.text\)/);
+});
+
+test("V2 art-led hierarchy matches the approved mockup while retaining the real card data",()=>{
+ assert.match(css,/--b1-defense-art-share:65%/);
+ assert.match(css,/background:radial-gradient\(circle at 35% 20%/);
+ assert.match(css,/> \.type::before/);
+ assert.match(css,/> \.type::after/);
+ assert.match(css,/clip-path:polygon\(50% 0,100% 14%/);
+ assert.match(css,/\.pilot-card-copy strong::before/);
+ assert.match(css,/content:"✦"/);
+ assert.match(css,/\.pilot-card-copy \.desc::before/);
+ assert.match(css,/\.pilot-card-copy strong\{/);
+ assert.match(css,/\.pilot-card-copy \.desc\{/);
+ assert.match(css,/\.pilot-card\.b1-defense-prototype:not\(\.b1-evolution-choice\)/);
+ assert.match(css,/background:linear-gradient\(150deg,#0a1b30/);
+ assert.ok(!css.includes("overflow:auto"),"no in-card scrollbars for basic defense");
+ assert.equal(getB1Card("basicDefense").text,"防御5");
+ assert.equal(getB1Card("basicDefense~").text.includes("防御"),true);
+});
+test("V2 excludes evolution-comparison cards so the approved evolution UI stays independent",()=>{
+ const baseline=css.slice(0,css.indexOf("/* Small fanned hand cards"));
+ for(const m of baseline.matchAll(/body\.pilot-mode \.pilot-card\.b1-defense-prototype[^\{]*\{/g)){
+  assert.ok(m[0].includes(":not(.b1-evolution-choice)"),m[0]);
+ }
+ assert.match(css,/#playScreen #hand\.hand/);
+ assert.match(css,/#rewardCards/);
+ assert.match(css,/\.b1-catalog-item/);
+ assert.match(css,/#shopItems/);
+ assert.match(css,/#shopPurgeCards/);
 });
