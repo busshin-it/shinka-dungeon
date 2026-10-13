@@ -22,8 +22,9 @@ test("defense visual experiment only opts in one basicDefense card",()=>{
 });
 test("all preview contexts use the same opt-in protective frame without disturbing hand actions",()=>{
  const styles=[...html.matchAll(/<link rel="stylesheet" href="([^"]+)"/g)].map(x=>x[1]);
- assert.equal(styles.at(-1),"./underground-b1-defense-prototype.css");
- assert.equal(styles.at(-2),"./underground-b1-reward-shop-status.css");
+ assert.equal(styles.at(-1),"./underground-b1-phone-hand-visibility.css");
+ assert.equal(styles.at(-2),"./underground-b1-defense-prototype.css");
+ assert.equal(styles.at(-3),"./underground-b1-reward-shop-status.css");
  for(const selector of [
   ".pilot-card.b1-arcane-card","body.pilot-mode #playScreen #hand.hand .pilot-card.b1-arcane-card",
   "body.pilot-mode .b1-card-preview .pilot-card.b1-arcane-card",
