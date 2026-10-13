@@ -2,6 +2,11 @@
 
 > 2026-10-13時点のGitHub記録に基づく要約。最新の状態は[CURRENT_STATE.md](CURRENT_STATE.md)を正本とする。以前の詳細な29KBの全文は[保存用ブランチ](https://github.com/busshin-it/shinka-dungeon/blob/archive/secretary-before-compaction-20261011/AI_SECRETARY_STATUS.md)に保管。
 
+## 最新の確認（2026-10-13）・カードの過拡大と進化スクロール挙動を再修正
+- [PR #114](https://github.com/busshin-it/shinka-dungeon/pull/114) をmain `8f7d061` に統合。実機画像を受けて大きすぎる拡大カードを390→280 CSS px上限に縮小。進化画面は全画面をスクロールする方式を廃止し、**見出し・戻るを固定してカード一覧だけを縦スクロール**。入退場時に位置をリセット。
+- 全ゲームCI #38359859250 成功。カード効果57枚、戦闘、魔物画像、保存は不変。[正式UIデザインルール](design/CARD_UI_DESIGN_RULES.md)にも今回のサイズと操作制約を記載。
+- **次：Pages公開結果とWindows PC実画面でのサイズ・マウスホイール・最下段の到達・スマホのスワイプを確認。**
+
 ## 最新の確認（2026-10-13）・拡大カード、進化スクロール、魔物の敵のみ
 - [PR #113](https://github.com/busshin-it/shinka-dungeon/pull/113)をmain `89a4cbc` に統合。カードプレビュー最大390px／PC hover対応、全画面進化カードの単一縦スクロール、B1敵の人間画像除外と魔物名称へ変更。
 - Astral game verification #38358352876 成功。カード57種類・敵ID/役割/能力・セーブ・報酬・ドラッグは不変。既存の魔物原画を再利用し、**新規モンスター原画は未制作**。[記録](design/b1-preview-scroll-monster-only-20261013.md)。
