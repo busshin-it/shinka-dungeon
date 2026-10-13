@@ -26,7 +26,7 @@ test("phone landscape owns the final visible battle layout",()=>{
 });
 test("hidden header actions remain accessible from a compact battle menu",()=>{
  assert.match(html,/id="b1MobileQuickMenu"/);
- assert.match(html,/summary aria-label="ゲームメニュー"/);
+ assert.match(html,/summary aria-label="設定・更新メニュー"/);
  for(const id of ["b1MobileCatalog","b1MobileRestart","b1CardCatalogOpen","restart"]){
   assert.ok(html.includes('id="'+id+'"'),id);
  }
