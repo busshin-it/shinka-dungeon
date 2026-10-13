@@ -104,6 +104,7 @@
 <link rel="stylesheet" href="./underground-b1-hand-fan.css">
 <link rel="stylesheet" href="./underground-b1-overlay-hand.css">
 <link rel="stylesheet" href="./underground-b1-card-visibility.css">
+<link rel="stylesheet" href="./underground-b1-reward-shop-status.css">
 </head>
 <body class="planning-mode pilot-mode" data-b1-mobile="true"><main class="game pilot-game">
 <header class="masthead"><div><h1>蒼星の回廊 <small>進化ダンジョン</small></h1></div><div class="header-actions">
@@ -134,13 +135,13 @@
   <section class="stage" aria-label="戦闘画面">
     <div class="stage-shade"></div>
     <div class="hud hero-hud"><span class="eyebrow">THE WANDERER</span><h2>蒼星の魔法師</h2><div class="hp-line"><span>HP</span><strong id="heroHp">60 / 60</strong></div><div id="heroMeter" class="hp-bar" role="meter" aria-label="旅人のHP" aria-valuemin="0" aria-valuemax="60"><i id="heroFill"></i></div><p id="heroStatus">ブロック 0</p><p id="dragonHud" class="b1-dragon-hud" hidden aria-live="polite"></p><p id="planningStatus" class="planning-status"></p><p id="charm" class="charm"></p></div>
-    <div id="heroPuppet" class="puppet hero-puppet"><i class="orb-glow" aria-hidden="true"></i><img src="./assets/hero.webp" alt="銀髪と藍紫の帽子、青い球の杖を持つ魔法師"></div>
+    <div id="heroPuppet" class="puppet hero-puppet"><i class="orb-glow" aria-hidden="true"></i><img src="./assets/hero.webp" alt="銀髪と藍紫の帽子、青い球の杖を持つ魔法師"><span id="b1HeroEffects" class="b1-effect-row b1-hero-effects" aria-label="味方の状態"></span></div>
     <aside id="b1DragonCompanion" class="b1-dragon-companion" hidden aria-label="召喚したドラゴン">
       <div id="b1DragonPortrait" class="b1-dragon-portrait" role="img"></div>
       <div class="b1-dragon-caption"><strong id="b1DragonTitle"></strong><span id="b1DragonGrowth"></span></div>
     </aside>
     <div class="stage-title"><span id="roomName">地下迷宮 B1</span><small id="round">第1/12戦</small><div id="targetChoices" class="b1-targets" aria-label="攻撃する敵を選ぶ"></div></div>
-    <div id="b1Campfire" class="b1-campfire" hidden aria-label="休憩所の焚き火"><span class="b1-camp-flame" aria-hidden="true">🔥</span><strong>旅路の休息</strong></div><div id="enemyPuppet" class="puppet enemy-puppet"><img id="enemyArt" src="./assets/gatekeeper.webp" alt="蒼鎧の門番"></div>
+    <div id="b1Campfire" class="b1-campfire" hidden aria-label="休憩所の焚き火"><span class="b1-camp-flame" aria-hidden="true">🔥</span><strong>旅路の休息</strong></div><div id="enemyPuppet" class="puppet enemy-puppet"><img id="enemyArt" src="./assets/gatekeeper.webp" alt="蒼鎧の門番"><span id="b1SoloEnemyEffects" class="b1-effect-row b1-solo-effects" aria-label="敵の状態"></span></div>
     <div class="hud enemy-hud"><span class="eyebrow">IN YOUR PATH</span><h2 id="enemyName">蒼鎧の門番</h2><div class="hp-line"><span>HP</span><strong id="enemyHp">48 / 48</strong></div><div id="enemyMeter" class="hp-bar" role="meter" aria-label="敵のHP" aria-valuemin="0" aria-valuemax="48"><i id="enemyFill"></i></div><div id="intent" class="intent"><small>このターン終了時</small><strong id="intentName">剣のひと振り 7</strong><span id="intentText"></span><div id="breakTrack" class="break-track" hidden><i id="breakFill"></i></div></div></div>
     
     <div id="enemyLineup" class="b1-enemy-lineup" aria-label="敵を選ぶ戦闘エリア" hidden></div>
@@ -396,6 +397,43 @@ function renderSetup(){
 }
 // Enemy sprite buttons live on the original stage, not in a separate target list.
 // Every living enemy has its own clickable art, HP, intent and debuffs.
+// Unified condition indicators: a readable icon and a numeric amount
+// directly above the affected character. Full names remain accessible.
+function b1EnemyConditions(e,s){
+ const list=[];
+ if(e.block>0)list.push(["🛡",e.block,"防御","buff"]);
+ if(e.strength>0)list.push(["⚔",e.strength,"攻撃上昇","buff"]);
+ if(e.weaken>0)list.push(["❄",e.weaken,"弱体","debuff"]);
+ if(e.poison>0)list.push(["☠",e.poison,"毒","debuff"]);
+ if(e.vulnerable>0)list.push(["💥",e.vulnerable,"脆弱","debuff"]);
+ if(e.confusionAttacks>0)list.push(["🎲",e.confusionAttacks,"混乱","debuff"]);
+ if(e.hallucinationAttacks>0)list.push(["👁",e.hallucinationAttacks,"幻覚","debuff"]);
+ if(e.curses?.length)list.push(["✧",e.curses.reduce((sum,x)=>sum+x.next,0),"呪い（"+e.curses.length+"重）","debuff"]);
+ if(e.role==="boss"){const n=s.enemies.filter(x=>x.role==="guard"&&x.hp>0).length;if(n)list.push(["🛡",n,"護衛数","buff"]);}
+ return list;
+}
+function b1HeroConditions(s){
+ const list=[];
+ if(s.block>0)list.push(["🛡",s.block,"防御","buff"]);
+ if(s.strength>0)list.push(["⚔",s.strength,"攻撃上昇","buff"]);
+ if(s.dopingBonus>0)list.push(["💪",s.dopingBonus,"物理攻撃上昇","buff"]);
+ if(s.nextPhysicalAttackBonus>0)list.push(["🔥",s.nextPhysicalAttackBonus,"次の物理攻撃上昇","buff"]);
+ if(s.powerDraw>0)list.push(["📖",s.powerDraw,"毎ターン追加ドロー","buff"]);
+ return list;
+}
+function b1DisplayConditions(container,items){
+ container.replaceChildren();
+ container.hidden=items.length===0;
+ container.setAttribute("aria-label",items.map(x=>x[2]+" "+x[1]).join("、")||"状態効果なし");
+ for(const [icon,count,name,kind] of items){
+  const badge=document.createElement("span");badge.className="b1-effect-chip b1-effect-"+kind;
+  badge.title=name+" "+count;
+  badge.setAttribute("aria-label",name+" "+count);
+  const symbol=document.createElement("span");symbol.className="b1-effect-symbol";symbol.textContent=icon;symbol.setAttribute("aria-hidden","true");
+  const value=document.createElement("small");value.textContent=count;value.setAttribute("aria-hidden","true");
+  badge.append(symbol,value);container.append(badge);
+ }
+}
 function renderTargets(s){
  const many=s.enemies.length>1,stage=gameStage,lineup=el("enemyLineup");
  stage.classList.toggle("b1-multi",many);
@@ -423,15 +461,9 @@ function renderTargets(s){
   const hp=document.createElement("span");hp.className="b1-actor-hp";hp.textContent="HP "+e.hp+" / "+e.maxHp;
   const meter=document.createElement("span");meter.className="b1-actor-hpbar";
   const fill=document.createElement("i");fill.style.width=percent(e.hp,e.maxHp);meter.append(fill);
-  const status=document.createElement("span");status.className="b1-actor-status";
-  const parts=[];if(e.block>0)parts.push("盾"+e.block);if(e.weaken>0)parts.push("弱"+e.weaken);
-  if(e.poison>0)parts.push("毒"+e.poison);if(e.vulnerable>0)parts.push("脆"+e.vulnerable);
-   if(e.confusionAttacks>0)parts.push("混"+e.confusionAttacks);
-   if(e.hallucinationAttacks>0)parts.push("幻"+e.hallucinationAttacks);
-   if(e.curses?.length)parts.push("呪"+e.curses.reduce((total,curse)=>total+curse.next,0)+"("+e.curses.length+"重)");
-  if(e.role==="boss"){const n=s.enemies.filter(x=>x.role==="guard"&&x.hp>0).length;if(n)parts.push("護衛"+n);}
-  status.textContent=parts.join(" · ")||" ";
-  b.append(intentEl,figure,name,hp,meter,status);
+  const status=document.createElement("span");status.className="b1-actor-status b1-effect-row";
+  b1DisplayConditions(status,b1EnemyConditions(e,s));
+  b.append(intentEl,status,figure,name,hp,meter);
   if(e.role==="boss"&&e.hp>0&&(s.turn-1)%4<3){
    const channel=document.createElement("span");channel.className="b1-actor-cast";
    channel.textContent=e.channelBroken?"詠唱中断！":"詠唱阻止 "+e.channelDamage+"/"+B1_BOSS_CHANNEL_THRESHOLD;
@@ -446,6 +478,8 @@ function renderTargets(s){
 function renderStage(s){
  const enemy=current(s);if(!enemy)return;
  renderTargets(s);
+ b1DisplayConditions(el("b1HeroEffects"),b1HeroConditions(s));
+ b1DisplayConditions(el("b1SoloEnemyEffects"),b1EnemyConditions(enemy,s));
  el("heroHp").textContent=s.hp+" / "+s.maxHp;el("heroFill").style.width=percent(s.hp,s.maxHp);
  el("heroMeter").setAttribute("aria-valuemax",s.maxHp);el("heroMeter").setAttribute("aria-valuenow",s.hp);
  el("enemyName").textContent=enemy.name;el("enemyHp").textContent=enemy.hp+" / "+enemy.maxHp;
@@ -507,14 +541,17 @@ function renderOverlay(s){
    el("journeyHint").textContent="戦闘で集めたゴールドでカードを買おう。購入せずに進むこともできます。";
    el("shopSite").hidden=false;el("shopBalance").textContent="所持金："+s.gold+" G";
    const items=el("shopItems");items.replaceChildren();
-   s.shopStock.forEach(item=>{const card=getB1Card(item.id),b=document.createElement("button");b.type="button";b.className="b1-shop-item";b.disabled=s.gold<item.price||s.shopPurchases.includes(item.id);
-    b.textContent=card.name+"｜"+card.text+"｜"+item.price+" G"+(s.shopPurchases.includes(item.id)?"（購入済み）":"");
-     if(card.fireArt||card.magicArt){
-     const thumb=document.createElement("span");
-     thumb.className=card.fireArt?"b1-fire-shop-thumb b1-fire-art--"+card.fireArt:"b1-fire-shop-thumb b1-magic-card-art b1-magic-art--"+card.magicArt;
-     thumb.setAttribute("aria-hidden","true");if(card.magicArt)attachB1OriginalArt(thumb,card.magicArt);b.prepend(thumb);
-    }
-     b.addEventListener("click",()=>{if(game.buyShop(item.id))render();});items.append(b);});
+   s.shopStock.forEach(item=>{
+    const card=getB1Card(item.id),b=cardButton(item.id);
+    const sold=s.shopPurchases.includes(item.id);
+    b.classList.add("b1-shop-item","b1-shop-offer");
+    b.disabled=s.gold<item.price||sold;
+    b.setAttribute("aria-label",card.name+"。"+card.text+"。価格 "+item.price+"G。"+(sold?"購入済み":b.disabled?"所持金不足":"購入可能"));
+    const price=document.createElement("span");price.className="b1-shop-price";
+    price.textContent=sold?"購入済み":item.price+" G";
+    b.append(price);
+    b.addEventListener("click",()=>{if(game.buyShop(item.id))render();});items.append(b);
+   });
    const purge=el("shopPurgeOpen");purge.disabled=s.shopPurged||s.gold<30||s.deck.length<=1;
    purge.textContent=s.shopPurged?"カード削除済み":s.gold<30?"カード削除（30G不足）":"30Gでカードを1枚削除";
   }else if(s.restAvailable){el("journeyTitle").textContent="休憩所｜第"+(s.stage+2)+"戦の前";el("journeyHint").textContent="回復か強化、どちらか一つだけ選べます。";el("restSite").hidden=false;el("restHeal").disabled=s.hp>=s.maxHp;}else if(s.stage===0&&!s.practiceMode){
@@ -622,9 +659,11 @@ el("shopPurgeOpen").addEventListener("click",()=>{
  const s=game.snapshot();if(!s.shopAvailable||s.shopPurged||s.gold<30)return;
  const box=el("shopPurgeCards");box.replaceChildren();box.hidden=false;
  s.deck.forEach((id,index)=>{
-  const card=getB1Card(id),button=document.createElement("button");button.type="button";
-  button.className="b1-shop-purge-card";button.textContent=card.name+"｜"+card.text;
-  button.addEventListener("click",()=>{if(game.purgeShopCard(index))render();});box.append(button);
+  const card=getB1Card(id),button=cardButton(id);
+  button.classList.add("b1-shop-purge-card");
+  button.setAttribute("aria-label",card.name+"。"+card.text+"。30Gでデッキから削除");
+  button.addEventListener("click",()=>{if(game.purgeShopCard(index))render();});
+  box.append(button);
  });
 });
 el("shopLeave").addEventListener("click",()=>{if(game.leaveShop())render();});
