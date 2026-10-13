@@ -77,12 +77,12 @@ test("new enemy designs are real role-specific enemies with their own artwork an
  assert.match(engine,/hits:2/);
 });
 
-test("all 57 cards can be acquired by some existing gameplay route, not necessarily as fight rewards",()=>{
+test("all 65 cards can be acquired by some existing gameplay route, not necessarily as fight rewards",()=>{
  const g=createB1Game();
  const available=new Set([...STAGES.flatMap(s=>s.rewards),...g.snapshot().shopCatalog.map(i=>i.id),...STARTER,...BASIC_B1_STARTER,...PHYSICAL_STARTER,"dragonEgg","dragonFeed","dragonBreath"]);
  const unavailable=Object.keys(CARDS).filter(id=>!available.has(id));
  assert.deepEqual(unavailable,[]);
- assert.equal(Object.keys(CARDS).length,57);
+ assert.equal(Object.keys(CARDS).length,65);
  assert.equal(new Set(STAGES.flatMap(s=>s.rewards)).size,44);
 });
 
