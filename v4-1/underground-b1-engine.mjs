@@ -501,7 +501,7 @@ export function createB1Game(options={}){
   if(s.phase!=="battle"||!alive().length)return false;
   return s.hand.some(id=>{
    const card=getB1Card(id);
-   if(!card||card.cost>s.energy)return false;
+   if(!card||card.cost>s.energy||(card.hpCost&&s.hp<=card.hpCost))return false;
    if(card.requiresPureDeck&&s.deck.some(isB1Magic))return false;
    if(card.kind==="dragonFeed"&&(s.dragonStage<0||s.hand.length<2))return false;
    return true;
