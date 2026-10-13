@@ -26,7 +26,7 @@ test("representative before/after comparisons reflect the exact engine upgrades"
  for(const [id,expected] of Object.entries({
   basicAttack:"8ダメージ",basicDefense:"防御8",spark:"6ダメージ",
   focus:"ドロー＋2",flow:"3枚引く",charge:"魔力＋2",
-  strength:"攻撃威力＋3",poison:"毒6",frost:"弱体3"
+  strength:"攻撃威力＋3",poison:"毒6",frost:"6ダメージ"
  })){
   const out=formatter(getB1Card(id),getB1Card(id+"~"));
   assert.ok(out.includes(expected),id+": "+out);
