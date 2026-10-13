@@ -105,6 +105,7 @@
 <link rel="stylesheet" href="./underground-b1-overlay-hand.css">
 <link rel="stylesheet" href="./underground-b1-card-visibility.css">
 <link rel="stylesheet" href="./underground-b1-reward-shop-status.css">
+<link rel="stylesheet" href="./underground-b1-defense-prototype.css">
 </head>
 <body class="planning-mode pilot-mode" data-b1-mobile="true"><main class="game pilot-game">
 <header class="masthead"><div><h1>蒼星の回廊 <small>進化ダンジョン</small></h1></div><div class="header-actions">
@@ -358,6 +359,13 @@ function cardButton(id){
    }
  }
  btn.append(copy);
+ // Design laboratory V1: opt in ONLY the existing "防御" card. Keep the
+ // card DOM, rule text and gameplay actions unchanged for all 56 others.
+ if(id==="basicDefense"){
+  btn.classList.add("b1-defense-prototype");
+  btn.dataset.b1Design="defense-v1";
+  type.textContent="🛡";type.title="防御カード";type.setAttribute("aria-hidden","true");
+ }
  btn.setAttribute("aria-label",c.name+"、魔力"+c.cost+"。"+c.text);
  return btn;
 }
