@@ -45,14 +45,16 @@ export function attachB1Actions({hand,stage,enemyPuppet,choices,cards,read,selec
  preview.setAttribute("aria-hidden","true");document.body.append(preview);
  function hidePreview(){preview.hidden=true;previewIndex=null;preview.textContent="";}
  function showPreview(button){
-  if(!button||button.disabled||active?.moved)return;
+  if(!button||active?.moved||read().phase!=="battle")return;
   const index=Number(button.dataset.b1Hand);
-  if(!usable(index))return;
+  // Inspection is allowed even when there is not enough energy to PLAY.
+  // Hand cards are ~190-230px; the old 224px cap never looked enlarged.
   const r=button.getBoundingClientRect();
-  const width=Math.round(Math.min(window.innerHeight<450?168:224,Math.max(136,window.innerWidth*.195)));
+  const heightBound=Math.max(175,Math.min(window.innerHeight*.78,560));
+  const width=Math.round(Math.min(390,window.innerWidth*.82,heightBound/1.39));
   const height=Math.round(width*1.39);
   const left=Math.max(6,Math.min(window.innerWidth-width-6,r.left+r.width/2-width/2));
-  const top=Math.max(5,r.top-height-12);
+  const top=Math.max(6,Math.min(window.innerHeight-height-6,r.top-height-18));
   preview.style.width=width+"px";preview.style.height=height+"px";
   preview.style.left=left+"px";preview.style.top=top+"px";
   if(previewIndex!==index||preview.hidden){
@@ -261,7 +263,9 @@ export function attachB1Actions({hand,stage,enemyPuppet,choices,cards,read,selec
  function bindHandCard(button,index){
   button.dataset.b1Hand=String(index);button.draggable=false;
   button.addEventListener("click",()=>handleCardClick(index));
-  // Hover tilts the hand card; one click selects and lifts its preview.
+  // Desktop hover opens the LARGE floating copy immediately; a click still
+  // selects the original playable card and all drag/target rules remain.
+  button.addEventListener("pointerenter",e=>{if(e.pointerType==="mouse"&&!active)showPreview(button);});
   button.addEventListener("pointerleave",()=>{if(picked!==index&&!active)hidePreview();});
   button.addEventListener("focus",()=>showPreview(button));
   button.addEventListener("blur",()=>{if(picked!==index&&!active)hidePreview();});
