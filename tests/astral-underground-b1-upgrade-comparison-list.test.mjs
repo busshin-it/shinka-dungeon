@@ -21,7 +21,7 @@ test("upgrade picker now shows both full effects alongside a thumbnail in compac
  assert.match(html,/b1EvolutionCompareBlock\(upgraded\?"進化済み":"✦ 進化後の効果",futureText,future\.cost,"after"\)/);
  assert.match(html,/game\.chooseRest\("upgrade",index\)/);
  assert.match(html,/card\.classList\.remove\("b1-defense-prototype"\)/);
- assert.equal(Object.keys(CARDS).length,65);
+ assert.equal(Object.keys(CARDS).length,77);
 });
 test("UI builder module remains parseable",()=>{
  const script=html.match(/<script type="module">([\s\S]*?)<\/script>/)?.[1];
