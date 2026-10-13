@@ -115,6 +115,30 @@ export const STAGES = Object.freeze([
  {name:"B1・最深部の門",hint:"ラスボス前の最後の試練。今のデッキを磨こう。",enemies:[{id:"elite3",name:"門を守る巨獣",maxHp:84,role:"elite"},{id:"starWatcher",name:"星守りの霊獣",maxHp:33,role:"watcher"}],rewards:["rage","ironHammer","fireWaveLarge","thunderLarge","mentalCollapse","deathSong","charge","double","flow"]},
  {name:"B1・最深部",hint:"護衛2体と長期戦。護衛の守りを崩し、溜めた大技を乗り切ろう。",enemies:[{id:"left",name:"盾の小鬼・左",maxHp:24,role:"guard"},{id:"boss",name:"地底の異形主",maxHp:135,role:"boss"},{id:"right",name:"盾の小鬼・右",maxHp:24,role:"guard"}],rewards:[]}
 ]);
+// Bonus cards are available to ALL starting decks, not a dragon-exclusive
+// class. Preserve the original 9-card stage pools and boss/fork structure.
+// "竜の餌" and "竜息" only become reward choices after the deck already owns
+// a "竜の卵" (including its upgraded version), avoiding dead offers.
+export const B1_REWARD_EXTRA_POOLS=Object.freeze([
+ Object.freeze(["dragonEgg","fireSmall"]),
+ Object.freeze(["dragonFeed","dragonBreath","darkBolt"]),
+ Object.freeze(["dragonEgg","dragonFeed","dragonBreath","fireMedium"]),
+ Object.freeze(["dragonFeed","dragonBreath","doping"]),
+ Object.freeze(["dragonEgg","dragonFeed","dragonBreath","fireSmall"]),
+ Object.freeze(["dragonFeed","dragonBreath","fireLarge"]),
+ Object.freeze(["dragonEgg","dragonFeed","dragonBreath","darkBolt"]),
+ Object.freeze(["dragonFeed","dragonBreath","fireLarge"]),
+ Object.freeze(["dragonEgg","dragonFeed","dragonBreath","fireMedium"]),
+ Object.freeze(["dragonFeed","dragonBreath","doping"]),
+ Object.freeze(["dragonEgg","dragonFeed","dragonBreath","fireLarge"]),
+ Object.freeze([])
+]);
+export function getB1RewardPool(stageIndex,deck=[]){
+ if(!Number.isInteger(stageIndex)||stageIndex<0||stageIndex>=STAGES.length)return [];
+ const hasEgg=Array.isArray(deck)&&deck.some(id=>id==="dragonEgg"||id==="dragonEgg~");
+ const extra=B1_REWARD_EXTRA_POOLS[stageIndex].filter(id=>!["dragonFeed","dragonBreath"].includes(id)||hasEgg);
+ return [...new Set([...STAGES[stageIndex].rewards,...extra])];
+}
 // First small map experiment: both routes rejoin the unchanged third fight.
 export const B1_FORK_ROUTES=Object.freeze({
  pack:{name:"群れの坑道",hint:"洞穴の狼＋盾の小鬼。攻撃対象を選び、2体の動きを読む。",enemies:STAGES[1].enemies},
@@ -197,7 +221,7 @@ export function createB1Game(options={}){
  function checkVictory(){
   if(alive().length>0)return false;
   if(s.stage===STAGES.length-1){s.phase="won";note("地下迷宮B1を突破！");}
-  else{if(!s.practiceMode){s.gold+=s.stage===3?35:20;note("ゴールドを獲得。所持："+s.gold+"G。");}const healed=Math.min(6,s.maxHp-s.hp);s.hp+=healed;s.phase="reward";s.rewards=shuffle([...STAGES[s.stage].rewards]).slice(0,3);note("勝利！HPを"+healed+"回復。技を1枚覚えるか、見送ろう。");}
+  else{if(!s.practiceMode){s.gold+=s.stage===3?35:20;note("ゴールドを獲得。所持："+s.gold+"G。");}const healed=Math.min(6,s.maxHp-s.hp);s.hp+=healed;s.phase="reward";s.rewards=shuffle(getB1RewardPool(s.stage,s.deck)).slice(0,3);note("勝利！HPを"+healed+"回復。技を1枚覚えるか、見送ろう。");}
   return true;
  }
  function play(index,targetId){

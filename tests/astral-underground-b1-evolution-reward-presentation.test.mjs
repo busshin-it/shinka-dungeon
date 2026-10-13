@@ -2,7 +2,7 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import {readFileSync} from "node:fs";
 import {spawnSync} from "node:child_process";
-import {CARDS,getB1Card,STAGES,createB1Game} from "../v4-1/underground-b1-engine.mjs";
+import {CARDS,getB1Card,STAGES,getB1RewardPool,createB1Game} from "../v4-1/underground-b1-engine.mjs";
 const html=readFileSync(new URL("../v4-1/underground-b1-playtest.html",import.meta.url),"utf8");
 const css=readFileSync(new URL("../v4-1/underground-b1-reward-shop-status.css",import.meta.url),"utf8");
 
@@ -48,7 +48,7 @@ test("full-screen gold upgrade choices contain actual current and evolved effect
  assert.match(css,/\.b1-evolution-choice \.b1-evolution-text/);
  assert.match(css,/minmax\(255px,1fr\)/);
 });
-test("reward visual overhaul is isolated to three-choice overlay and preserves original rewards",()=>{
+test("reward visual overhaul preserves exactly three legal choices from expanded stage pools",()=>{
  assert.match(html,/panel\.classList\.toggle\("b1-reward-open",s\.phase==="reward"\)/);
  assert.match(html,/btn\.classList\.add\("b1-reward-choice"\)/);
  assert.match(html,/game\.chooseReward\(id\)/);
@@ -66,7 +66,7 @@ test("reward visual overhaul is isolated to three-choice overlay and preserves o
  }
  assert.equal(g.snapshot().phase,"reward");
  assert.equal(g.snapshot().rewards.length,3);
- assert.deepEqual(g.snapshot().rewards.filter(x=>STAGES[0].rewards.includes(x)),g.snapshot().rewards);
+ assert.deepEqual(g.snapshot().rewards.filter(x=>getB1RewardPool(0,g.snapshot().deck).includes(x)),g.snapshot().rewards);
  assert.equal(g.chooseReward(g.snapshot().rewards[0]),true);
 });
 test("game inline module and stylesheet references stay syntactically valid",()=>{
