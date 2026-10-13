@@ -195,7 +195,7 @@ let game=createB1Game({seed:Date.now()}),targetId=null;
 if(new URLSearchParams(window.location.search).get("start")==="physical")game.selectStarter("physical");
 else if(new URLSearchParams(window.location.search).get("start")!=="choose")game.selectStarter("basic");
 const typeNames={attack:"攻撃",multi:"連撃",all:"全体攻撃",heal:"回復",poison:"状態異常",fragile:"状態異常",confuse:"混乱",curse:"呪い",hallucinate:"幻覚",guard:"防御",draw:"ドロー",energy:"魔力",power:"能力",dragon:"召喚",dragonFeed:"育成",dragonBreath:"全体攻撃",physicalPower:"強化",adversity:"反撃準備"};
-const art={rat:"wraith.webp",wolf:"bell-spirit.webp",imp:"gatekeeper.webp",guard:"gatekeeper.webp",carapace:"gatekeeper.webp",ritual:"wraith.webp",elite:"gatekeeper.webp",boss:"boss.webp"};
+const art={rat:"wraith.webp",wolf:"bell-spirit.webp",imp:"gatekeeper.webp",guard:"gatekeeper.webp",carapace:"gatekeeper.webp",ritual:"wraith.webp",elite:"gatekeeper.webp",boss:"boss.webp",archer:"bow-watcher.webp",watcher:"tide-star-sentinel.webp"};
 // Single source for B1 original artwork across hand, shop and starter cards.
 // Any missing file falls back to the existing CSS placeholder without affecting play.
 const B1_CARD_ART=Object.freeze({
@@ -576,7 +576,32 @@ function renderOverlay(s){
  }
 }
 let lastTurnKey=null;
+let b1AutoEndTimer=null;
+function b1ScheduleAutoEnd(state){
+ if(state.phase!=="battle"||game.hasPlayableCard())return;
+ // A short reading window and a phase/turn key avoid surprising auto-actions.
+ // Open card dialogs pause the countdown, allowing the player to inspect cards.
+ const stage=state.stage,turn=state.turn;
+ const check=()=>{
+  b1AutoEndTimer=null;
+  const now=game.snapshot();
+  if(now.phase!=="battle"||now.stage!==stage||now.turn!==turn||game.hasPlayableCard())return;
+  if(document.querySelector("dialog[open]")){
+   b1AutoEndTimer=setTimeout(check,500);
+   return;
+  }
+  const before=now;
+  actions.cancel();
+  if(game.endTurn()){
+   render();
+   showB1Feedback({stage:gameStage,hero:el("heroPuppet"),enemy:el("enemyPuppet"),choices:el("enemyLineup"),before,after:game.snapshot(),turnEnded:true});
+  }
+ };
+ el("planningStatus").textContent="使えるカードがないため、自動でターンを終了します。";
+ b1AutoEndTimer=setTimeout(check,800);
+}
 function render(){
+ if(b1AutoEndTimer!==null){clearTimeout(b1AutoEndTimer);b1AutoEndTimer=null;}
  const s=game.snapshot();
  document.body.classList.toggle("b1-rest-active",Boolean(s.restAvailable));
  el("b1Campfire").hidden=!s.restAvailable;
@@ -601,7 +626,7 @@ function render(){
  });
  el("endTurn").hidden=s.phase!=="battle";el("endTurn").disabled=s.phase!=="battle";
  el("log").textContent=s.log.join("\n");actions.sync();
- if(s.phase==="battle")requestAnimationFrame(b1PlaceConditionRows);
+ if(s.phase==="battle"){requestAnimationFrame(b1PlaceConditionRows);b1ScheduleAutoEnd(s);}
 }
 const gameStage=document.querySelector("#playScreen .stage");
 // Reuse the identical original stage DOM; mount B1-only indicators at runtime.

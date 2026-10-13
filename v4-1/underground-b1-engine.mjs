@@ -110,9 +110,9 @@ export const STAGES = Object.freeze([
  {name:"B1・晶洞",hint:"硬い殻を割って先へ。次の一手を考えよう。",enemies:[{id:"carapace2",name:"晶洞の石甲獣",maxHp:51,role:"carapace"}],rewards:["thunderMedium","fireWaveMedium","rapidPunch","heavyBlow","iceSpear","arcaneLance","flow","charge","drain"]},
  {name:"B1・祭司の残響",hint:"術師と小鬼。妨害と全体攻撃が役立つ。",enemies:[{id:"ritual2",name:"残響の呪術師",maxHp:47,role:"ritual"},{id:"imp2",name:"護衛の小鬼",maxHp:21,role:"imp"}],rewards:["mentalCollapse","deathSong","hallucination","blizzard","thunderSurge","chain","echoGuard","guideThrust","poison"]},
  {name:"B1・黒曜の間",hint:"ひとりの強敵。守りと高火力の使い分け。",enemies:[{id:"elite2",name:"黒曜の守衛",maxHp:71,role:"elite"}],rewards:["fireWaveLarge","thunderLarge","ironHammer","rage","abyssBolt","focus","strength","ward","spellblade"]},
- {name:"B1・霧の回廊",hint:"動きの速い2体。手数で戦おう。",enemies:[{id:"wolf3",name:"霧の狼",maxHp:29,role:"wolf"},{id:"imp3",name:"霧の小鬼",maxHp:26,role:"imp"}],rewards:["sneakHit","rapidPunch","shadowEcho","thunderSmall","bludgeon","heal","flow","charge","poison"]},
+ {name:"B1・霧の回廊",hint:"動きの速い2体。手数で戦おう。",enemies:[{id:"mistArcher",name:"霧の弓兵",maxHp:29,role:"archer"},{id:"imp3",name:"霧の小鬼",maxHp:26,role:"imp"}],rewards:["sneakHit","rapidPunch","shadowEcho","thunderSmall","bludgeon","heal","flow","charge","poison"]},
  {name:"B1・歯車の門",hint:"外殻と突進。弱体や呪いを使いこなそう。",enemies:[{id:"carapace3",name:"古代石甲獣",maxHp:58,role:"carapace"},{id:"rat3",name:"鉄牙獣",maxHp:30,role:"rat"}],rewards:["curse","iceSpear","frostBreak","adversity","thunderMedium","fireWaveMedium","ward","drain","lingeringPoison"]},
- {name:"B1・最深部の門",hint:"ラスボス前の最後の試練。今のデッキを磨こう。",enemies:[{id:"elite3",name:"門を守る番兵",maxHp:84,role:"elite"},{id:"imp4",name:"最後の小鬼",maxHp:33,role:"imp"}],rewards:["rage","ironHammer","fireWaveLarge","thunderLarge","mentalCollapse","deathSong","charge","double","flow"]},
+ {name:"B1・最深部の門",hint:"ラスボス前の最後の試練。今のデッキを磨こう。",enemies:[{id:"elite3",name:"門を守る番兵",maxHp:84,role:"elite"},{id:"starWatcher",name:"星守りの監視者",maxHp:33,role:"watcher"}],rewards:["rage","ironHammer","fireWaveLarge","thunderLarge","mentalCollapse","deathSong","charge","double","flow"]},
  {name:"B1・最深部",hint:"護衛2体と長期戦。護衛の守りを崩し、溜めた大技を乗り切ろう。",enemies:[{id:"left",name:"盾の小鬼・左",maxHp:24,role:"guard"},{id:"boss",name:"地底の祭司",maxHp:135,role:"boss"},{id:"right",name:"盾の小鬼・右",maxHp:24,role:"guard"}],rewards:[]}
 ]);
 // First small map experiment: both routes rejoin the unchanged third fight.
@@ -346,6 +346,20 @@ export function createB1Game(options={}){
    return busy?{kind:"buff",label:"盾を構える（防御4）",blockGain:4}:
     early({kind:"attack",label:"小突き 5",damage:5});
   }
+  // Distinct mid/late-game opponents; each retains the B1 buff/attack
+  // vocabulary and predictable visible intents rather than new systems.
+  if(e.role==="archer"){
+   const n=(t-1)%3;
+   return n===0?{kind:"attack",label:"狙い撃ち "+(8+e.strength),damage:8+e.strength}:
+    n===1?{kind:"buff",label:"弓を研ぐ（攻撃＋2）",strengthGain:2}:
+    {kind:"attack",label:"連射 "+(5+e.strength)+"×2",damage:5+e.strength,hits:2};
+  }
+  if(e.role==="watcher"){
+   const n=(t-1)%3;
+   return n===0?{kind:"buff",label:"星の防壁（防御6）",blockGain:6}:
+    n===1?{kind:"attack",label:"星針 "+(7+e.strength),damage:7+e.strength}:
+    {kind:"attack",label:"流星の連撃 "+(4+e.strength)+"×2",damage:4+e.strength,hits:2};
+  }
   if(e.role==="ritual")return t===1?{kind:"buff",label:"闇の詠唱（毎ターン攻撃＋3）",ritualGain:3}:
     early({kind:"attack",label:"呪詛 "+(6+e.strength),damage:6+e.strength,ritualGain:3});
   if(e.role==="elite"){
@@ -355,6 +369,18 @@ export function createB1Game(options={}){
     {kind:"attack",label:"渾身の一撃 "+(16+e.strength),damage:16+e.strength};
   }
   return{kind:"attack",label:"攻撃 6",damage:6};
+ }
+ // Exact engine-level check used by optional UI auto-pass. It must not consume
+ // RNG, mutate state or end a turn when a 0-cost action is still playable.
+ function hasPlayableCard(){
+  if(s.phase!=="battle"||!alive().length)return false;
+  return s.hand.some(id=>{
+   const card=getB1Card(id);
+   if(!card||card.cost>s.energy)return false;
+   if(card.requiresPureDeck&&s.deck.some(isB1Magic))return false;
+   if(card.kind==="dragonFeed"&&(s.dragonStage<0||s.hand.length<2))return false;
+   return true;
+  });
  }
  function endTurn(){
   if(s.phase!=="battle")return false;
@@ -506,5 +532,5 @@ function choosePath(id){
   start();note("練習モード："+(mode==="combo"?"連鎖コンボ14枚":mode==="ideal"?"安定型14枚":mode==="test"?"検証用デッキ":"基本の10枚")+"でボスに挑戦。");
   return true;
  }
- return {snapshot,selectStarter,startBossPractice,play,endTurn,chooseReward,chooseRest,buyShop,purgeShopCard,leaveShop,choosePath,nextBattle};
+ return {snapshot,selectStarter,startBossPractice,play,endTurn,hasPlayableCard,chooseReward,chooseRest,buyShop,purgeShopCard,leaveShop,choosePath,nextBattle};
 }
