@@ -2,6 +2,11 @@
 
 > 2026-10-13時点のGitHub記録に基づく要約。最新の状態は[CURRENT_STATE.md](CURRENT_STATE.md)を正本とする。以前の詳細な29KBの全文は[保存用ブランチ](https://github.com/busshin-it/shinka-dungeon/blob/archive/secretary-before-compaction-20261011/AI_SECRETARY_STATUS.md)に保管。
 
+## 最新の確認（2026-10-13）・拡大カード、進化スクロール、魔物の敵のみ
+- [PR #113](https://github.com/busshin-it/shinka-dungeon/pull/113)をmain `89a4cbc` に統合。カードプレビュー最大390px／PC hover対応、全画面進化カードの単一縦スクロール、B1敵の人間画像除外と魔物名称へ変更。
+- Astral game verification #38358352876 成功。カード57種類・敵ID/役割/能力・セーブ・報酬・ドラッグは不変。既存の魔物原画を再利用し、**新規モンスター原画は未制作**。[記録](design/b1-preview-scroll-monster-only-20261013.md)。
+- **次：Pages公開結果照合、PC/スマホでhover・クリック拡大・進化一覧の最下部までスクロール・敵の顔を実機確認。** 繰り返しの多い敵画像は後続の専用原画制作で改善する。
+
 ## 最新の確認（2026-10-13）・57枚のカードUI共通化を完了
 - デザインは「防御」V3を正本として[正式ルール](design/CARD_UI_DESIGN_RULES.md)へ記録し、AGENTS.mdから参照。カード生成の `b1-arcane-card` 共通枠を15→37→57種類に段階展開。[PR #110](https://github.com/busshin-it/shinka-dungeon/pull/110)、[PR #111](https://github.com/busshin-it/shinka-dungeon/pull/111)、[PR #112](https://github.com/busshin-it/shinka-dungeon/pull/112) がmainへ統合済み。
 - ゲーム全体のCI #38354502671、#38354849271、#38355316009成功。カードの機能・効果・画像・保存と旧本編は不変。竜と炎の画像スプライト、長文の効果表示も保護。
