@@ -37,7 +37,7 @@ test("the familiar opening deck and spell stats have not changed",()=>{
  assert.equal(CARDS.guard.block,5);
  assert.equal(CARDS.spellblade.damage,7);assert.equal(CARDS.spellblade.blockAfterSpell,4);
  assert.equal(CARDS.echoGuard.block,4);assert.equal(CARDS.echoGuard.afterAttackDraw,2);
- assert.equal(Object.keys(CARDS).length,65);
+ assert.equal(Object.keys(CARDS).length,77);
  const game=createB1Game({seed:17});
  assert.deepEqual(game.snapshot().deck,STARTER);
  assert.equal(cardByName.get("bolt").magic_art,"starter-bolt");
