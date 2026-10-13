@@ -359,12 +359,12 @@ function cardButton(id){
    }
  }
  btn.append(copy);
- // Design laboratory V1: opt in ONLY the existing "防御" card. Keep the
- // card DOM, rule text and gameplay actions unchanged for all 56 others.
+ // Approved visual direction V2: only the existing basicDefense card.
+ // The shield is drawn in CSS, not as a platform-specific emoji glyph.
  if(id==="basicDefense"){
   btn.classList.add("b1-defense-prototype");
-  btn.dataset.b1Design="defense-v1";
-  type.textContent="🛡";type.title="防御カード";type.setAttribute("aria-hidden","true");
+  btn.dataset.b1Design="defense-v2";
+  type.textContent="";type.title="防御カード";type.setAttribute("aria-hidden","true");
  }
  btn.setAttribute("aria-label",c.name+"、魔力"+c.cost+"。"+c.text);
  return btn;
