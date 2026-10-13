@@ -824,6 +824,22 @@ function b1EvolutionCompareBlock(label,effect,cost,variant){
  const summary=document.createElement("span");summary.className="b1-evolution-text";summary.textContent=effect;
  pane.append(header,costBadge,summary);return pane;
 }
+// Route the wheel through the ONE evolution list. Card artwork and text
+// must never intercept a wheel gesture as a second nested scrolling pane.
+const b1UpgradeGrid=el("restUpgradeCards");
+b1UpgradeGrid.setAttribute("tabindex","0");
+b1UpgradeGrid.setAttribute("role","region");
+b1UpgradeGrid.setAttribute("aria-label","強化するカード一覧");
+b1UpgradeGrid.addEventListener("wheel",event=>{
+ if(b1UpgradeGrid.hidden||!el("journeyPanel").classList.contains("b1-upgrade-open"))return;
+ const maxScroll=Math.max(0,b1UpgradeGrid.scrollHeight-b1UpgradeGrid.clientHeight);
+ if(maxScroll===0)return;
+ const scale=event.deltaMode===1?18:event.deltaMode===2?b1UpgradeGrid.clientHeight:1;
+ const next=Math.max(0,Math.min(maxScroll,b1UpgradeGrid.scrollTop+event.deltaY*scale));
+ if(next===b1UpgradeGrid.scrollTop)return;
+ event.preventDefault();
+ b1UpgradeGrid.scrollTop=next;
+},{passive:false});
 el("restUpgrade").addEventListener("click",()=>{
  const state=game.snapshot();if(!state.restAvailable)return;
  const box=el("restUpgradeCards");box.replaceChildren();box.hidden=false;
