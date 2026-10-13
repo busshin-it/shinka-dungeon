@@ -14,12 +14,12 @@ test("phone landscape owns the final visible battle layout",()=>{
  assert.match(css,/body\.pilot-mode\[data-b1-mobile\] \.pilot-game > \.journey\{display:none\}/);
  assert.match(css,/grid-template-rows:minmax\(0,1fr\)/);
  assert.match(css,/body\.pilot-mode\[data-b1-mobile\] #playScreen\{/);
- assert.match(css,/--b1-hand-dock:clamp\(190px,64dvh,300px\)/);
+ assert.match(css,/--b1-hand-dock:clamp\(180px,56dvh,260px\)/);
  assert.match(css,/grid-template-rows:34px 9px minmax\(0,1fr\)/);
  assert.match(css,/overflow-x:auto;overflow-y:hidden/);
  // Unlike the original 155px override, the hand has enough space for names/effects.
  for(const height of [306,345,360,390,440,560,620]){
-  const dock=Math.max(190,Math.min(height*.64,300));
+  const dock=Math.max(180,Math.min(height*.56,260));
   assert.ok(dock-34-9-12>=129,"usable height at "+height);
   assert.ok(height-dock>=105,"arena remains usable at "+height);
  }
@@ -46,16 +46,16 @@ test("tiny landscape still scrolls; mobile change is presentation only",()=>{
 });
 
 test("cards show both their artwork and readable labels at short landscape heights",()=>{
- assert.match(css,/--b1-hand-art-share:54%/);
- assert.match(css,/--b1-defense-art-share:54%/);
+ assert.match(css,/--b1-hand-art-share:53%/);
+ assert.match(css,/--b1-defense-art-share:53%/);
  assert.match(css,/\.pilot-card-copy strong\{/);
  assert.match(css,/\.pilot-card-copy \.desc\{/);
  assert.match(css,/bottom:max\(7px,env\(safe-area-inset-bottom\)\)/);
  for(const height of [345,360,390,440,600]){
-  const dock=Math.max(190,Math.min(height*.64,300));
+  const dock=Math.max(180,Math.min(height*.56,260));
   const usable=dock-34-9-12;
-  assert.ok(usable>=145,"full card height should fit at "+height);
-  assert.ok(usable*.46>=65,"name and effect should have room at "+height);
+  assert.ok(usable>=118,"full card height should fit at "+height);
+  assert.ok(usable*.47>=55,"name and effect should have room at "+height);
  }
 });
 test("rest-upgrade landscape uses the complete height with two comparison columns where wide enough",()=>{
@@ -68,4 +68,25 @@ test("rest-upgrade landscape uses the complete height with two comparison column
  assert.match(css,/overflow-y:auto;overflow-x:hidden/);
  assert.match(css,/touch-action:pan-y/);
  assert.match(css,/#restBack\{/);
+});
+
+test("phone hand keeps gameplay gestures while reducing the oversized 300px dock",()=>{
+ assert.match(css,/--b1-hand-dock:clamp\(180px,56dvh,260px\)/);
+ assert.match(css,/flex:0 0 clamp\(148px,17vw,177px\)/);
+ assert.match(css,/margin-inline-start:-19px/);
+ assert.doesNotMatch(css,/touch-action:none/);
+});
+test("reward screen is a scrollable three-row choice list with readable full effects",()=>{
+ assert.match(html,/btn\.classList\.add\("b1-reward-choice"\)/);
+ assert.match(html,/game\.chooseReward\(id\)/);
+ assert.match(css,/@media \(orientation:landscape\) and \(max-width:1100px\) and \(max-height:620px\),\s*\(orientation:portrait\) and \(max-width:720px\)/);
+ assert.match(css,/#journeyPanel\.b1-reward-open #rewardCards\.pilot-rewards\{[\s\S]*?grid-template-columns:minmax\(0,1fr\)/);
+ assert.match(css,/grid-auto-rows:max-content/);
+ assert.match(css,/#journeyPanel\.b1-reward-open #rewardCards \.b1-reward-choice\{[\s\S]*?grid-template-columns:clamp\(98px,17vw,138px\) minmax\(0,1fr\)/);
+ assert.match(css,/#journeyPanel\.b1-reward-open #rewardCards \.b1-reward-choice \.pilot-card-copy strong\{[\s\S]*?position:static/);
+ assert.match(css,/#journeyPanel\.b1-reward-open #rewardCards \.b1-reward-choice \.pilot-card-copy \.desc\{[\s\S]*?white-space:normal;overflow:visible/);
+ assert.match(css,/-webkit-line-clamp:unset;line-clamp:unset/);
+ assert.match(css,/overflow-y:auto;overflow-x:hidden/);
+ assert.match(css,/#journeyPanel\.b1-reward-open \.pilot-overlay-actions\{/);
+ assert.match(html,/rewards\.hidden=false;skip\.hidden=false/);
 });
