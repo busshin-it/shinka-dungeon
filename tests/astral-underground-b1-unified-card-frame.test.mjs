@@ -67,7 +67,7 @@ test("design rules are definitive while rollout status, guard styling and undo i
  assert.match(guide,/正式ルール/);
  assert.match(guide,/防御/);
  assert.match(guide,/15種類/);
- assert.match(guide,/20種類/);
+ assert.match(guide,/残り0種類/);
  assert.match(guide,/手札/);
  assert.match(guide,/強化/);
  assert.match(guide,/アクセシビリティ/);
