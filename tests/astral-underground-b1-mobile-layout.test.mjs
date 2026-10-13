@@ -13,13 +13,14 @@ function styles(){
 }
 test("B1 keeps mobile and gesture CSS order, then loads the final illustrated-hand override",()=>{
  const refs=styles();
- assert.equal(refs.at(-1),"underground-b1-defense-prototype.css");
- assert.equal(refs.at(-2),"underground-b1-reward-shop-status.css");
- assert.equal(refs.at(-3),"underground-b1-card-visibility.css");
- assert.equal(refs.at(-4),"underground-b1-overlay-hand.css");
- assert.equal(refs.at(-5),"underground-b1-hand-fan.css");
- assert.equal(refs.at(-6),"underground-b1-fire.css");
- assert.equal(refs.at(-7),"underground-b1-mobile.css");
+ assert.equal(refs.at(-1),"underground-b1-phone-hand-visibility.css");
+ assert.equal(refs.at(-2),"underground-b1-defense-prototype.css");
+ assert.equal(refs.at(-3),"underground-b1-reward-shop-status.css");
+ assert.equal(refs.at(-4),"underground-b1-card-visibility.css");
+ assert.equal(refs.at(-5),"underground-b1-overlay-hand.css");
+ assert.equal(refs.at(-6),"underground-b1-hand-fan.css");
+ assert.equal(refs.at(-7),"underground-b1-fire.css");
+ assert.equal(refs.at(-8),"underground-b1-mobile.css");
  assert.ok(refs.indexOf("underground-b1-mobile.css")<refs.indexOf("underground-b1-fire.css"));
  assert.ok(refs.indexOf("underground-b1-fire.css")<refs.indexOf("underground-b1-hand-fan.css"));
  assert.ok(refs.indexOf("six-paths-stage.css")<refs.indexOf("underground-b1-mobile.css"));
