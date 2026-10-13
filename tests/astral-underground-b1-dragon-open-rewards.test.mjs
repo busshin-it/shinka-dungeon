@@ -33,7 +33,7 @@ test("dragon feed and breath are gated by owning the egg, not by starter class",
  assert.ok(!getB1RewardPool(0,["dragonEgg"]).includes("dragonFeed"));
 });
 test("reward variants cover all 52 non-basic cards while preserving 11 battles, stage bases, and 3 choices",()=>{
- assert.equal(Object.keys(CARDS).length,57);
+ assert.equal(Object.keys(CARDS).length,65);
  assert.equal(STAGES.length,12);
  assert.equal(B1_REWARD_EXTRA_POOLS.length,12);
  const oldPool=new Set(STAGES.flatMap(s=>s.rewards));
