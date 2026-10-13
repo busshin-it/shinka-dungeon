@@ -106,12 +106,12 @@ export const STAGES = Object.freeze([
  {name:"B1・群れ",hint:"小型2体の同時攻撃。片方を先に倒すか、全体攻撃で削るか。",enemies:[{id:"wolf",name:"洞穴の狼",maxHp:17,role:"wolf"},{id:"imp",name:"盾の小鬼",maxHp:16,role:"imp"}],rewards:["charge","chain","fragile","focus","flare","lightning","drain","scatter","blizzard"]},
  {name:"B1・祭壇",hint:"呪術師は初手で力を溜め、毎ターン強くなる。長期戦は危険。",enemies:[{id:"priest",name:"洞窟の呪術師",maxHp:52,role:"ritual"}],rewards:["flow","strength","double","poison","ward","flare","heal","lightning","spellblade"]},
  {name:"B1・強敵",hint:"強敵が大技と連続攻撃を使う。大技の予告を見て防御を合わせよう。",enemies:[{id:"brute",name:"深層の番兵",maxHp:82,role:"elite"}],rewards:["strength","focus","charge","double","flare","ward","drain","fragile","thunderSurge"]},
- {name:"B1・裂け目",hint:"2体の攻撃をさばき、次のカードを手に入れよう。",enemies:[{id:"wolf2",name:"裂け目の狼",maxHp:23,role:"wolf"},{id:"rat2",name:"石牙獣・若",maxHp:25,role:"rat"}],rewards:["thunderSmall","fireWaveSmall","sneakHit","shadowEcho","ward","double","strength","curse","frost"]},
- {name:"B1・晶洞",hint:"硬い殻を割って先へ。次の一手を考えよう。",enemies:[{id:"carapace2",name:"晶洞の石甲獣",maxHp:51,role:"carapace"}],rewards:["thunderMedium","fireWaveMedium","rapidPunch","heavyBlow","iceSpear","arcaneLance","flow","charge","drain"]},
- {name:"B1・祭司の残響",hint:"術師と小鬼。妨害と全体攻撃が役立つ。",enemies:[{id:"ritual2",name:"残響の呪術師",maxHp:47,role:"ritual"},{id:"imp2",name:"護衛の小鬼",maxHp:21,role:"imp"}],rewards:["mentalCollapse","deathSong","hallucination","blizzard","thunderSurge","chain","echoGuard","guideThrust","poison"]},
- {name:"B1・黒曜の間",hint:"ひとりの強敵。守りと高火力の使い分け。",enemies:[{id:"elite2",name:"黒曜の守衛",maxHp:71,role:"elite"}],rewards:["fireWaveLarge","thunderLarge","ironHammer","rage","abyssBolt","focus","strength","ward","spellblade"]},
- {name:"B1・霧の回廊",hint:"動きの速い2体。手数で戦おう。",enemies:[{id:"mistArcher",name:"霧の弓兵",maxHp:29,role:"archer"},{id:"imp3",name:"霧の小鬼",maxHp:26,role:"imp"}],rewards:["sneakHit","rapidPunch","shadowEcho","thunderSmall","bludgeon","heal","flow","charge","poison"]},
- {name:"B1・歯車の門",hint:"外殻と突進。弱体や呪いを使いこなそう。",enemies:[{id:"carapace3",name:"古代石甲獣",maxHp:58,role:"carapace"},{id:"rat3",name:"鉄牙獣",maxHp:30,role:"rat"}],rewards:["curse","iceSpear","frostBreak","adversity","thunderMedium","fireWaveMedium","ward","drain","lingeringPoison"]},
+ {name:"B1・裂け目",hint:"毒使いを先に倒すか、石牙獣の強化を止めるか。継続毒は防御を貫く。",enemies:[{id:"venom2",name:"裂け目の毒遣い",maxHp:23,role:"venom"},{id:"rat2",name:"石牙獣・若",maxHp:25,role:"rat"}],rewards:["thunderSmall","fireWaveSmall","sneakHit","shadowEcho","ward","double","strength","curse","frost"]},
+ {name:"B1・晶洞",hint:"狂戦士の溜めを見て防御し、疲労の隙に大技を撃とう。",enemies:[{id:"berserker2",name:"晶洞の狂戦士",maxHp:51,role:"berserker"}],rewards:["thunderMedium","fireWaveMedium","rapidPunch","heavyBlow","iceSpear","arcaneLance","flow","charge","drain"]},
+ {name:"B1・祭司の残響",hint:"治療師が呪術師を回復する。治療を止めるか、呪術師を集中攻撃するか。",enemies:[{id:"ritual2",name:"残響の呪術師",maxHp:47,role:"ritual"},{id:"healer2",name:"残響の治療師",maxHp:21,role:"healer"}],rewards:["mentalCollapse","deathSong","hallucination","blizzard","thunderSurge","chain","echoGuard","guideThrust","poison"]},
+ {name:"B1・黒曜の間",hint:"防御を6削る破盾と強打。攻撃が来るターンを見て守ろう。",enemies:[{id:"breaker2",name:"黒曜の破盾兵",maxHp:71,role:"breaker"}],rewards:["fireWaveLarge","thunderLarge","ironHammer","rage","abyssBolt","focus","strength","ward","spellblade"]},
+ {name:"B1・霧の回廊",hint:"旗手が弓兵の攻撃を強化する。旗手を倒すか、弓兵を先に倒すか。",enemies:[{id:"mistArcher",name:"霧の弓兵",maxHp:29,role:"archer"},{id:"banner3",name:"霧の旗手",maxHp:26,role:"banner"}],rewards:["sneakHit","rapidPunch","shadowEcho","thunderSmall","bludgeon","heal","flow","charge","poison"]},
+ {name:"B1・歯車の門",hint:"盾守が石甲獣へ防御を配る。毒・呪い・先制攻撃で突破しよう。",enemies:[{id:"carapace3",name:"古代石甲獣",maxHp:58,role:"carapace"},{id:"warder3",name:"歯車の盾守",maxHp:30,role:"warder"}],rewards:["curse","iceSpear","frostBreak","adversity","thunderMedium","fireWaveMedium","ward","drain","lingeringPoison"]},
  {name:"B1・最深部の門",hint:"ラスボス前の最後の試練。今のデッキを磨こう。",enemies:[{id:"elite3",name:"門を守る番兵",maxHp:84,role:"elite"},{id:"starWatcher",name:"星守りの監視者",maxHp:33,role:"watcher"}],rewards:["rage","ironHammer","fireWaveLarge","thunderLarge","mentalCollapse","deathSong","charge","double","flow"]},
  {name:"B1・最深部",hint:"護衛2体と長期戦。護衛の守りを崩し、溜めた大技を乗り切ろう。",enemies:[{id:"left",name:"盾の小鬼・左",maxHp:24,role:"guard"},{id:"boss",name:"地底の祭司",maxHp:135,role:"boss"},{id:"right",name:"盾の小鬼・右",maxHp:24,role:"guard"}],rewards:[]}
 ]);
@@ -133,14 +133,14 @@ export function createB1Game(options={}){
  const random=()=>{seed=(Math.imul(seed,1664525)+1013904223)>>>0;return seed/4294967296;};
  const shuffle=a=>{for(let i=a.length-1;i>0;i--){const j=Math.floor(random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;};
  const testMaxHp=Number.isInteger(options.maxHp)&&options.maxHp>=1&&options.maxHp<=999?options.maxHp:75;
- let s={dopingBonus:0,nextPhysicalAttackBonus:0,lastTurnHpLoss:0,dragonStage:-1,lastDragonEvolution:null,lastSynergy:null,phase:"starter",stage:0,turn:1,hp:testMaxHp,maxHp:testMaxHp,energy:3,block:0,attacksThisTurn:0,attackCardsThisTurn:0,darkCastsThisTurn:0,spellsThisTurn:0,pendingMagicAttackBonus:0,powerDraw:0,strength:0,selected:null,deck:Array.isArray(options.testDeck)&&options.testDeck.length>0&&options.testDeck.length<=30&&options.testDeck.every(id=>Object.hasOwn(CARDS,id))?[...options.testDeck]:[...STARTER],hand:[],draw:[],discard:[],exhaust:[],powers:[],enemies:[],rewards:[],gold:0,shopPending:false,shopUsed:false,shopStock:[],shopPurchases:[],shopPurged:false,restPending:false,restUsed:false,restChoice:null,selectedPath:null,routeHistory:[],log:["最初に得意な魔法を1枚選んで地下迷宮へ。"]};
+ let s={dopingBonus:0,nextPhysicalAttackBonus:0,lastTurnHpLoss:0,dragonStage:-1,lastDragonEvolution:null,lastSynergy:null,phase:"starter",stage:0,turn:1,hp:testMaxHp,maxHp:testMaxHp,energy:3,block:0,heroPoison:0,attacksThisTurn:0,attackCardsThisTurn:0,darkCastsThisTurn:0,spellsThisTurn:0,pendingMagicAttackBonus:0,powerDraw:0,strength:0,selected:null,deck:Array.isArray(options.testDeck)&&options.testDeck.length>0&&options.testDeck.length<=30&&options.testDeck.every(id=>Object.hasOwn(CARDS,id))?[...options.testDeck]:[...STARTER],hand:[],draw:[],discard:[],exhaust:[],powers:[],enemies:[],rewards:[],gold:0,shopPending:false,shopUsed:false,shopStock:[],shopPurchases:[],shopPurged:false,restPending:false,restUsed:false,restChoice:null,selectedPath:null,routeHistory:[],log:["最初に得意な魔法を1枚選んで地下迷宮へ。"]};
  function note(t){s.log.unshift(t);s.log=s.log.slice(0,18);}
  const alive=()=>s.enemies.filter(e=>e.hp>0);
  const find=id=>s.enemies.find(e=>e.id===id&&e.hp>0);
  function drawCards(n){let drawn=0;for(let i=0;i<n&&s.hand.length<10;i++){if(!s.draw.length){if(!s.discard.length)break;s.draw=shuffle(s.discard.splice(0));}s.hand.push(s.draw.pop());drawn++;}return drawn;}
  function start(){
   const stage=s.stage===1?B1_FORK_ROUTES[s.selectedPath||"pack"]:STAGES[s.stage];s.enemies=stage.enemies.map(e=>({...clone(e),maxHp:(!s.practiceMode&&s.deck.includes("basicAttack"))?Math.max(8,Math.round(e.maxHp*(s.stage<3?.66:s.stage<6?.82:s.stage===STAGES.length-1?.88:1))):e.maxHp,hp:(!s.practiceMode&&s.deck.includes("basicAttack"))?Math.max(8,Math.round(e.maxHp*(s.stage<3?.66:s.stage<6?.82:s.stage===STAGES.length-1?.88:1))):e.maxHp,weaken:0,poison:0,vulnerable:0,block:0,strength:0,channelDamage:0,channelBroken:false,confusionAttacks:0,hallucinationAttacks:0,curses:[]}));s.turn=1;s.block=0;s.energy=3;s.attacksThisTurn=0;s.attackCardsThisTurn=0;s.darkCastsThisTurn=0;s.spellsThisTurn=0;s.pendingMagicAttackBonus=0;s.powerDraw=0;s.strength=0;s.dopingBonus=0;s.nextPhysicalAttackBonus=0;s.lastTurnHpLoss=0;
-  s.dragonStage=-1;s.lastDragonEvolution=null;s.lastSynergy=null;s.hand=[];s.discard=[];s.exhaust=[];s.powers=[];s.draw=shuffle([...s.deck]);s.selected=s.enemies.find(e=>e.role!=="boss")?.id||s.enemies[0].id;s.phase="battle";drawCards(5);note(stage.name+"：戦闘開始。");
+  s.heroPoison=0;s.dragonStage=-1;s.lastDragonEvolution=null;s.lastSynergy=null;s.hand=[];s.discard=[];s.exhaust=[];s.powers=[];s.draw=shuffle([...s.deck]);s.selected=s.enemies.find(e=>e.role!=="boss")?.id||s.enemies[0].id;s.phase="battle";drawCards(5);note(stage.name+"：戦闘開始。");
  }
  function selectStarter(id){if(s.phase!=="starter"||!["basic","physical","lightning","scatter","flow","dragonEgg","fireSmall","fireMedium","fireLarge","fireWaveSmall","fireWaveMedium","fireWaveLarge","thunderSmall","thunderMedium","thunderLarge","darkBolt","abyssBolt","mentalCollapse","curse","deathSong","hallucination","iceSpear","arcaneLance","shadowEcho","blizzard","thunderSurge","guideThrust","spellblade","bludgeon","rapidPunch","heavyBlow","sneakHit","ironHammer","doping","adversity","rage"].includes(id))return false;
   if(id==="basic")s.deck=[...BASIC_B1_STARTER];
@@ -360,6 +360,41 @@ export function createB1Game(options={}){
     n===1?{kind:"attack",label:"星針 "+(7+e.strength),damage:7+e.strength}:
     {kind:"attack",label:"流星の連撃 "+(4+e.strength)+"×2",damage:4+e.strength,hits:2};
   }
+  // Tactical enemies use predictable intents; the visible forecast names the
+  // ally to be helped, so the player can make an informed target choice.
+  const partner=alive().find(other=>other.id!==e.id);
+  if(e.role==="venom"){
+   const n=(t-1)%3;
+   return n===0?{kind:"poisonHero",label:"毒煙：毒2を付与",poisonGain:2}:
+    n===1?{kind:"attack",label:"毒刃 "+(7+e.strength),damage:7+e.strength}:
+    {kind:"attack",label:"牽制 "+(5+e.strength),damage:5+e.strength};
+  }
+  if(e.role==="berserker"){
+   const n=(t-1)%3,angered=e.hp*2<=e.maxHp;
+   return n===0?{kind:"buff",label:angered?"激昂（攻撃＋3）":"闘気を溜める（攻撃＋2）",strengthGain:angered?3:2}:
+    n===1?{kind:"attack",label:"暴走斬り "+(12+e.strength+(angered?5:0)),damage:12+e.strength+(angered?5:0)}:
+    {kind:"rest",label:"疲労：無防備の隙"};
+  }
+  if(e.role==="healer"){
+   const wounded=alive().filter(other=>other.id!==e.id&&other.hp<other.maxHp).sort((a,b)=>(a.hp/a.maxHp)-(b.hp/b.maxHp))[0];
+   return t%2===0?(wounded?{kind:"healAlly",label:wounded.name+"を8回復",allyId:wounded.id,healAmount:8}:
+    {kind:"buff",label:"祈りの防御4",blockGain:4}):
+    {kind:"attack",label:"護身の杖 "+(5+e.strength),damage:5+e.strength};
+  }
+  if(e.role==="breaker"){
+   const n=(t-1)%3;
+   return n===0?{kind:"attack",label:"破盾 "+(8+e.strength)+"（防御－6）",damage:8+e.strength,blockBreak:6}:
+    n===1?{kind:"attack",label:"重撃 "+(11+e.strength),damage:11+e.strength}:
+    {kind:"buff",label:"盾を立てる（防御7）",blockGain:7};
+  }
+  if(e.role==="banner"){
+   return t%2===1&&partner?{kind:"buffAlly",label:partner.name+"の攻撃＋2",allyId:partner.id,strengthGain:2}:
+    {kind:"attack",label:"旗槍 "+(5+e.strength),damage:5+e.strength};
+  }
+  if(e.role==="warder"){
+   return t%2===1&&partner?{kind:"shieldAlly",label:partner.name+"に防御9",allyId:partner.id,blockGain:9}:
+    {kind:"attack",label:"盾突き "+(6+e.strength),damage:6+e.strength};
+  }
   if(e.role==="ritual")return t===1?{kind:"buff",label:"闇の詠唱（毎ターン攻撃＋3）",ritualGain:3}:
     early({kind:"attack",label:"呪詛 "+(6+e.strength),damage:6+e.strength,ritualGain:3});
   if(e.role==="elite"){
@@ -391,6 +426,14 @@ export function createB1Game(options={}){
    if(!growDragon(1)&&s.dragonStage===DRAGON_STAGES.length-1)
     dragonStrike(DRAGON_EVOLUTION_DAMAGE[s.dragonStage],true,"神龍の炎");
    if(checkVictory())return true;
+  }
+  // Hero poison ticks at the start of the enemy phase, then decays.
+  // It is an explicit temporary combat status, reset on each new battle.
+  if(s.heroPoison>0){
+   const n=Math.min(s.heroPoison,s.hp);
+   s.hp=Math.max(0,s.hp-n);s.heroPoison=Math.max(0,s.heroPoison-1);
+   note("毒の継続ダメージ："+n+"（防御を無視）。");
+   if(s.hp===0){s.phase="lost";note("毒で倒れた。");return true;}
   }
   for(const e of [...s.enemies]){
    if(e.hp<=0)continue;
@@ -427,6 +470,11 @@ export function createB1Game(options={}){
      const dealt=hit(victim,raw,action.hits||1);
      note("混乱した"+e.name+"は味方の"+victim.name+"を攻撃（"+dealt+"ダメージ）。");
     }else{
+     if(action.blockBreak){
+      const broken=Math.min(s.block,action.blockBreak);
+      s.block-=broken;
+      note(e.name+"の破盾で防御"+broken+"を失った。");
+     }
      let total=0,totalBlocked=0;
      for(let hitNo=0;hitNo<(action.hits||1);hitNo++){
       const raw=e.weaken>0?Math.floor(action.damage*.75):action.damage;
@@ -438,6 +486,17 @@ export function createB1Game(options={}){
      note(e.name+"の"+action.label+"：防御"+totalBlocked+"、HP被害"+total+(confused?"（混乱の矛先はあなた）":"")+"。");
      if(s.hp<=0){s.phase="lost";note("HPが0になった。再挑戦してみよう。");break;}
     }
+   }else if(action.kind==="poisonHero"){
+    s.heroPoison+=action.poisonGain;
+    note(e.name+"："+action.label+"。現在の毒"+s.heroPoison+"。");
+   }else if(action.kind==="healAlly"||action.kind==="buffAlly"||action.kind==="shieldAlly"){
+    const ally=find(action.allyId);
+    if(ally){
+     if(action.kind==="healAlly")ally.hp=Math.min(ally.maxHp,ally.hp+action.healAmount);
+     if(action.kind==="buffAlly")ally.strength+=action.strengthGain;
+     if(action.kind==="shieldAlly")ally.block+=action.blockGain;
+     note(e.name+"："+action.label+"。");
+    }else note(e.name+"は支援対象を失った。");
    }else if(action.kind==="buff"){
     if(action.blockGain)e.block+=action.blockGain;
     if(action.strengthGain)e.strength+=action.strengthGain;

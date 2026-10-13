@@ -195,7 +195,7 @@ let game=createB1Game({seed:Date.now()}),targetId=null;
 if(new URLSearchParams(window.location.search).get("start")==="physical")game.selectStarter("physical");
 else if(new URLSearchParams(window.location.search).get("start")!=="choose")game.selectStarter("basic");
 const typeNames={attack:"攻撃",multi:"連撃",all:"全体攻撃",heal:"回復",poison:"状態異常",fragile:"状態異常",confuse:"混乱",curse:"呪い",hallucinate:"幻覚",guard:"防御",draw:"ドロー",energy:"魔力",power:"能力",dragon:"召喚",dragonFeed:"育成",dragonBreath:"全体攻撃",physicalPower:"強化",adversity:"反撃準備"};
-const art={rat:"wraith.webp",wolf:"bell-spirit.webp",imp:"gatekeeper.webp",guard:"gatekeeper.webp",carapace:"gatekeeper.webp",ritual:"wraith.webp",elite:"gatekeeper.webp",boss:"boss.webp",archer:"bow-watcher.webp",watcher:"tide-star-sentinel.webp"};
+const art={rat:"wraith.webp",wolf:"bell-spirit.webp",imp:"gatekeeper.webp",guard:"gatekeeper.webp",carapace:"gatekeeper.webp",ritual:"wraith.webp",elite:"gatekeeper.webp",boss:"boss.webp",archer:"bow-watcher.webp",watcher:"tide-star-sentinel.webp",venom:"wraith.webp",berserker:"gatekeeper.webp",healer:"librarian-noa.webp",breaker:"gatekeeper.webp",banner:"tide-star-sentinel.webp",warder:"gatekeeper.webp"};
 // Single source for B1 original artwork across hand, shop and starter cards.
 // Any missing file falls back to the existing CSS placeholder without affecting play.
 const B1_CARD_ART=Object.freeze({
@@ -415,6 +415,7 @@ function b1EnemyConditions(e,s){
 function b1HeroConditions(s){
  const list=[];
  if(s.block>0)list.push(["🛡",s.block,"防御","buff"]);
+ if(s.heroPoison>0)list.push(["☠",s.heroPoison,"継続毒（防御を無視）","debuff"]);
  if(s.strength>0)list.push(["⚔",s.strength,"攻撃上昇","buff"]);
  if(s.dopingBonus>0)list.push(["💪",s.dopingBonus,"物理攻撃上昇","buff"]);
  if(s.nextPhysicalAttackBonus>0)list.push(["🔥",s.nextPhysicalAttackBonus,"次の物理攻撃上昇","buff"]);
@@ -447,9 +448,10 @@ function renderTargets(s){
   const attack=move?.kind==="attack";
   const predicted=attack?(e.weaken>0?Math.floor(move.damage*.75):move.damage):0;
   const intent=attack?(e.confusionAttacks>0?"🎲 ":"⚔ ")+predicted+(move.hits>1?" × "+move.hits:""):
-    move?.kind==="buff"?"✦ "+move.label:"✧ "+(move?.label||"準備");
+    ["buff","buffAlly","shieldAlly","healAlly"].includes(move?.kind)?"✦ "+move.label:
+    move?.kind==="poisonHero"?"☠ "+move.label:"✧ "+(move?.label||"準備");
   const b=document.createElement("button");
-  b.type="button";b.dataset.b1Enemy=e.id;b.className="b1-enemy-actor"+(e.role==="boss"?" b1-boss":"");
+  b.type="button";b.dataset.b1Enemy=e.id;b.className="b1-enemy-actor b1-role-"+e.role+(e.role==="boss"?" b1-boss":"");
   b.disabled=e.hp<=0;b.setAttribute("aria-pressed",String(targetId===e.id));
   if(e.channelBroken)b.classList.add("b1-cast-broken");
   b.setAttribute("aria-label",e.name+"、HP "+e.hp+" / "+e.maxHp+"。次の行動："+(move?.label||"撃破")+"。"+(e.confusionAttacks>0?"混乱で攻撃対象はランダム。":"")+(e.hallucinationAttacks>0?"幻覚で命中率50%。":"")+(targetId===e.id?"現在の標的。":"攻撃対象に選べる。"));

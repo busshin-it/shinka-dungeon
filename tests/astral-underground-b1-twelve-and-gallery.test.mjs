@@ -30,7 +30,7 @@ test("a high-HP B1 trial can obtain a card after each of eleven battles and even
    let strikes=0;
    while(g.snapshot().phase==="battle"&&strikes++<20){
     const s=g.snapshot(),target=s.enemies.find(e=>e.hp>0);
-    const index=s.hand.findIndex(id=>getB1Card(id).kind==="attack"&&s.energy>=getB1Card(id).cost);
+    const index=s.hand.findIndex(id=>{const card=getB1Card(id);return card.kind==="attack"&&s.energy>=card.cost&&!(card.requiresPureDeck&&s.deck.some(k=>getB1Card(k).weapon!==true));});
     if(index<0||!target)break;
     assert.equal(g.play(index,target.id),true);
    }
