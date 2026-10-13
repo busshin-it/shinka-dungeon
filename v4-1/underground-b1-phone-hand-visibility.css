@@ -24,7 +24,7 @@
   body.pilot-mode[data-b1-mobile] #playScreen{
     height:100%;min-height:0;overflow:hidden;
     /* The old late override (36dvh/155px) left only the tops of cards visible. */
-    --b1-hand-dock:clamp(190px,64dvh,300px);
+    --b1-hand-dock:clamp(190px,54dvh,232px);
     --b1-hand-art-share:54%;
   }
   body.pilot-mode[data-b1-mobile] #playScreen > .table{
@@ -154,5 +154,130 @@
 @media (orientation:landscape) and (max-width:1100px) and (max-height:305px){
   body.pilot-mode[data-b1-mobile] .pilot-game{
     height:auto;min-height:360px;max-height:none;overflow:visible;
+  }
+}
+
+/* 2026-10-14 mobile feedback: hand should be compact again.
+   Keep enough space for the real name/effect; do not alter gestures. */
+@media (orientation:landscape) and (max-width:1100px) and (max-height:620px){
+  body.pilot-mode[data-b1-mobile] #playScreen #hand.hand .pilot-card{
+    flex:0 0 clamp(153px,17.5vw,184px);
+    width:clamp(153px,17.5vw,184px);
+    min-width:clamp(153px,17.5vw,184px);
+  }
+  body.pilot-mode[data-b1-mobile] #playScreen #hand.hand .pilot-card + .pilot-card{
+    margin-inline-start:-22px;
+  }
+  body.pilot-mode[data-b1-mobile] #playScreen #hand.hand .pilot-card.b1-arcane-card:not(.b1-evolution-choice){
+    --b1-defense-art-share:49%;
+  }
+  body.pilot-mode[data-b1-mobile] #playScreen #hand.hand .pilot-card.b1-arcane-card:not(.b1-evolution-choice) .pilot-card-copy strong{
+    min-height:23px;font-size:clamp(12px,1.2vw,15px);
+  }
+  body.pilot-mode[data-b1-mobile] #playScreen #hand.hand .pilot-card.b1-arcane-card:not(.b1-evolution-choice) .pilot-card-copy .desc{
+    min-height:22px;font-size:clamp(11px,1vw,13px);
+  }
+}
+
+/* The large three-card portrait gallery is a desktop treatment. On a phone
+   use readable horizontal image + effect rows in ONE scrollable list.
+   Winner/choice handlers, card text, 3-choice RNG and skip remain untouched. */
+@media (orientation:landscape) and (max-width:1100px) and (max-height:620px),
+       (orientation:portrait) and (max-width:760px) {
+  body.pilot-mode[data-b1-mobile] #journeyPanel.b1-reward-open{
+    padding:6px;
+  }
+  body.pilot-mode[data-b1-mobile] #journeyPanel.b1-reward-open > .pilot-overlay-window{
+    box-sizing:border-box;display:flex;flex-direction:column;
+    width:calc(100vw - 12px);max-width:none;
+    height:calc(100dvh - 12px);min-height:0;max-height:calc(100dvh - 12px);
+    overflow:hidden;padding:8px 10px 8px;gap:5px;
+  }
+  body.pilot-mode[data-b1-mobile] #journeyPanel.b1-reward-open #journeyTitle{
+    flex:0 0 auto;margin:0;
+    font-size:clamp(18px,2.3vw,24px);line-height:1.2;
+  }
+  body.pilot-mode[data-b1-mobile] #journeyPanel.b1-reward-open #journeyHint{
+    flex:0 0 auto;margin:0;
+    font-size:clamp(11px,1.25vw,13px);line-height:1.25;
+  }
+  body.pilot-mode[data-b1-mobile] #journeyPanel.b1-reward-open #rewardCards.pilot-rewards{
+    display:grid;grid-template-columns:minmax(0,1fr);
+    gap:8px;margin:0;padding:3px 5px 9px;
+    width:100%;height:auto;flex:1 1 0;min-height:0;
+    align-items:start;align-content:start;
+    overflow-y:auto;overflow-x:hidden;touch-action:pan-y;
+    overscroll-behavior-y:contain;-webkit-overflow-scrolling:touch;
+  }
+  body.pilot-mode[data-b1-mobile] #journeyPanel.b1-reward-open #rewardCards .b1-reward-choice{
+    box-sizing:border-box;display:grid;
+    grid-template-columns:clamp(92px,17vw,155px) minmax(0,1fr);
+    grid-template-rows:minmax(112px,auto);
+    gap:0;width:100%;height:auto;min-height:112px;max-height:none;
+    margin:0;padding:0;border-radius:9px;overflow:hidden;
+    transform:none;touch-action:pan-y;
+  }
+  body.pilot-mode[data-b1-mobile] #journeyPanel.b1-reward-open #rewardCards .b1-reward-choice:hover,
+  body.pilot-mode[data-b1-mobile] #journeyPanel.b1-reward-open #rewardCards .b1-reward-choice:focus-visible{
+    transform:none;
+  }
+  body.pilot-mode[data-b1-mobile] #journeyPanel.b1-reward-open #rewardCards .b1-reward-choice > :is(
+    .b1-magic-card-art,.b1-fire-card-art,.b1-dragon-card-art,
+    .b1-dragon-card-sprite,.pilot-card-art
+  ){
+    box-sizing:border-box;grid-column:1;grid-row:1;
+    display:block;position:relative;inset:auto;
+    width:100%;height:100%;min-height:112px;max-height:none;
+    flex:none;border-right:2px solid #b99a5e;border-bottom:0;
+    overflow:hidden;object-fit:cover;object-position:50% 28%;
+  }
+  body.pilot-mode[data-b1-mobile] #journeyPanel.b1-reward-open #rewardCards .b1-reward-choice .b1-original-card-img{
+    object-fit:cover;object-position:50% 30%;
+  }
+  body.pilot-mode[data-b1-mobile] #journeyPanel.b1-reward-open #rewardCards .b1-reward-choice > .pilot-card-copy{
+    box-sizing:border-box;grid-column:2;grid-row:1;
+    position:relative;display:flex;flex-direction:column;
+    align-items:stretch;justify-content:center;
+    flex:none;min-width:0;min-height:112px;max-height:none;
+    width:100%;height:auto;margin:0;
+    padding:9px 48px 10px 12px;gap:6px;
+    overflow:visible;background:linear-gradient(155deg,#20374c,#102536);
+  }
+  /* The normal full-size gold nameplate uses absolute top:71%.
+     Restore document flow so the reward explanation is never covered. */
+  body.pilot-mode[data-b1-mobile] #journeyPanel.b1-reward-open #rewardCards .b1-reward-choice .pilot-card-copy strong{
+    box-sizing:border-box;position:static;inset:auto;
+    display:block;flex:0 0 auto;width:100%;height:auto;
+    min-height:0;margin:0;padding:0;
+    font-size:clamp(16px,1.85vw,20px);line-height:1.2;
+    font-weight:900;letter-spacing:.02em;text-align:left;
+    white-space:normal;overflow:visible;
+    background:none;border:0;border-radius:0;box-shadow:none;
+  }
+  body.pilot-mode[data-b1-mobile] #journeyPanel.b1-reward-open #rewardCards .b1-reward-choice .pilot-card-copy strong::before{
+    content:none;
+  }
+  body.pilot-mode[data-b1-mobile] #journeyPanel.b1-reward-open #rewardCards .b1-reward-choice .pilot-card-copy .desc{
+    position:static;display:block;flex:0 0 auto;
+    width:100%;min-height:0;max-height:none;
+    margin:0;padding:0;
+    font-size:clamp(13px,1.45vw,16px);line-height:1.4;
+    text-align:left;white-space:normal;overflow:visible;
+    text-overflow:clip;-webkit-line-clamp:unset;line-clamp:unset;
+    overflow-wrap:anywhere;color:#f3e9d6;
+  }
+  body.pilot-mode[data-b1-mobile] #journeyPanel.b1-reward-open #rewardCards .b1-reward-choice > .cost{
+    top:6px;left:6px;
+    width:35px;height:35px;font-size:18px;
+  }
+  body.pilot-mode[data-b1-mobile] #journeyPanel.b1-reward-open #rewardCards .b1-reward-choice > .type{
+    top:8px;right:7px;width:32px;height:34px;
+  }
+  body.pilot-mode[data-b1-mobile] #journeyPanel.b1-reward-open .pilot-overlay-actions{
+    flex:0 0 auto;min-height:37px;margin:0;
+    justify-content:flex-end;align-items:center;
+  }
+  body.pilot-mode[data-b1-mobile] #journeyPanel.b1-reward-open .pilot-overlay-actions #skipReward{
+    min-height:36px;padding:7px 16px;
   }
 }
