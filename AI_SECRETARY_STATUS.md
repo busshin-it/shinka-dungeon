@@ -1,6 +1,11 @@
 # 進化ダンジョン｜秘書AI用の現在地
 
-> 2026-10-11時点のGitHub記録に基づく短い要約。最新の状態は[CURRENT_STATE.md](CURRENT_STATE.md)を正本とする。以前の詳細な29KBの全文は[保存用ブランチ](https://github.com/busshin-it/shinka-dungeon/blob/archive/secretary-before-compaction-20261011/AI_SECRETARY_STATUS.md)に保管。
+> 2026-10-13時点のGitHub記録に基づく要約。最新の状態は[CURRENT_STATE.md](CURRENT_STATE.md)を正本とする。以前の詳細な29KBの全文は[保存用ブランチ](https://github.com/busshin-it/shinka-dungeon/blob/archive/secretary-before-compaction-20261011/AI_SECRETARY_STATUS.md)に保管。
+
+## 最新の確認（2026-10-13）・B1原画10枚をmainへ統合
+- PR #99：第1弾「散弾・連鎖雷・小治癒・吸命・毒の印」と第2弾「脆弱の印・闘魔の印・火花・氷の結界・術式循環」計10枚のWebPを、所有者がPRに添付したZIPからSHA256チェック後に登録。GitHubコミット `33e23be4` で10個の画像ファイルを確認。
+- Asset Factory CI #38327624429 と Astral game verification #38327624464 が成功し、PR #99をmain `daf4bb4` に統合。カードの戦闘効果・保存・旧本編は不変。
+- **次：GitHub Pages公開への反映とAndroid／PC実機表示を照合**。チャット生成原画のGitHub自動アップロード経路はまだ未整備。[詳細](design/b1-first-second-ten-art-20261013.md)。
 
 ## 最新の確認（2026-10-12）・カード原画第3弾
 - PR #98：魔力点火・破魔雷・双雷・魔導の研究・毒炎の画像をGitHubへ実登録し、B1のカードIDと一元描画に接続。原画5点のSHA256/形式・画像欠落時のCSSフォールバックを自動テスト。
