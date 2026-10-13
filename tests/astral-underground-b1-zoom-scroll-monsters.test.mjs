@@ -9,9 +9,9 @@ const actions=read("underground-b1-actions.mjs");
 const css=read("underground-b1-reward-shop-status.css");
 const html=read("underground-b1-playtest.html");
 
-test("hand inspection is substantially larger than 190-230px hand and works on mouse hover and touch selection",()=>{
- assert.match(actions,/Math\.min\(390,window\.innerWidth\*\.82,heightBound\/1\.39\)/);
- assert.match(actions,/Math\.min\(window\.innerHeight\*\.78,560\)/);
+test("hand inspection is a restrained viewport-bounded peek with mouse hover and touch selection",()=>{
+ assert.match(actions,/Math\.min\(280,window\.innerWidth\*\.60,heightBound\/1\.39\)/);
+ assert.match(actions,/Math\.min\(window\.innerHeight\*\.58,400\)/);
  assert.match(actions,/pointerenter",e=>\{if\(e\.pointerType==="mouse"&&!active\)showPreview\(button\)/);
  assert.match(actions,/button\.addEventListener\("click",\(\)=>handleCardClick\(index\)\)/);
  assert.match(actions,/if\(!button\|\|active\?\.moved\|\|read\(\)\.phase!=="battle"\)return/);
@@ -21,17 +21,21 @@ test("hand inspection is substantially larger than 190-230px hand and works on m
  assert.equal(result.status,0,result.stderr);
 });
 
-test("upgrade has exactly one touch-friendly full-page scroll container, with no nested hidden grid scroll",()=>{
- const start=css.indexOf("/* B1 usability 2026-10-13");
+test("upgrade scrolls only the card grid with stationary header and Back control",()=>{
+ const start=css.indexOf("/* B1 usability follow-up 2026-10-13");
  assert.ok(start>=0);
  const rule=css.slice(start);
- assert.match(rule,/\.pilot-overlay-window\{[\s\S]*overflow-y:auto;overflow-x:hidden/);
- assert.match(rule,/height:100dvh;max-height:100dvh/);
+ assert.match(rule,/\.pilot-overlay-window\{[\s\S]*display:flex;flex-direction:column/);
+ assert.match(rule,/height:100dvh;min-height:0;max-height:100dvh/);
+ assert.match(rule,/\.pilot-overlay-window\{[\s\S]*overflow:hidden/);
+ assert.match(rule,/#restSite\{[\s\S]*display:flex;flex-direction:column;[\s\S]*flex:1 1 0;/);
+ assert.match(rule,/#restUpgradeCards\.b1-rest-upgrades\{[\s\S]*flex:1 1 0;[\s\S]*height:auto;min-height:0;max-height:none;[\s\S]*overflow-y:auto;overflow-x:hidden/);
  assert.match(rule,/touch-action:pan-y/);
- assert.match(rule,/#restSite\{[\s\S]*height:auto;min-height:0;max-height:none;[\s\S]*overflow:visible/);
- assert.match(rule,/#restUpgradeCards\.b1-rest-upgrades\{[\s\S]*flex:none;height:auto;min-height:0;max-height:none;[\s\S]*overflow:visible/);
- assert.match(rule,/#restBack\{[\s\S]*position:sticky;bottom:0/);
+ assert.match(rule,/-webkit-overflow-scrolling:touch/);
+ assert.match(rule,/#restBack\{[\s\S]*display:block;position:static;[\s\S]*flex:0 0 auto/);
  assert.match(rule,/#restBack\[hidden\]\{display:none\}/);
+ assert.match(html,/box\.scrollTop=0/);
+ assert.match(html,/el\("restUpgradeCards"\)\.scrollTop=0/);
  assert.match(html,/id="restUpgradeCards"/);
 });
 
