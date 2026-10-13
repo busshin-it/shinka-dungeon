@@ -614,3 +614,50 @@ body.pilot-mode #journeyPanel.b1-reward-open #rewardCards .b1-reward-choice > .t
  body.pilot-mode #journeyPanel.b1-reward-open #rewardCards .b1-reward-choice,
  body.pilot-mode #journeyPanel.b1-upgrade-open .b1-evolution-choice{transition:none}
 }
+
+
+/* B1 usability 2026-10-13: The upgrade grid was nested inside a fixed
+ * overflow:hidden flexbox and given height:100%, so some browsers could
+ * display the first row but had no accessible scrolling surface.
+ * Use exactly ONE vertical scroller for the fullscreen picker: its window.
+ * Card buttons retain native pan-y, while hand drag behavior stays separate. */
+body.pilot-mode.b1-rest-active #journeyPanel.b1-upgrade-open .pilot-overlay-window{
+ display:block;
+ box-sizing:border-box;
+ height:100dvh;max-height:100dvh;min-height:0;
+ overflow-y:auto;overflow-x:hidden;
+ overscroll-behavior-y:contain;
+ -webkit-overflow-scrolling:touch;
+ touch-action:pan-y;
+ scrollbar-gutter:stable;
+}
+body.pilot-mode #journeyPanel.b1-upgrade-open #restSite{
+ display:block;box-sizing:border-box;
+ width:100%;height:auto;min-height:0;max-height:none;
+ overflow:visible;padding:10px;
+}
+body.pilot-mode #journeyPanel.b1-upgrade-open #restUpgradeCards.b1-rest-upgrades{
+ display:grid;
+ flex:none;height:auto;min-height:0;max-height:none;
+ overflow:visible;overscroll-behavior:auto;
+ align-content:start;align-items:start;
+ margin-bottom:12px;
+ touch-action:pan-y;
+}
+body.pilot-mode #journeyPanel.b1-upgrade-open .b1-evolution-choice{
+ touch-action:pan-y;overscroll-behavior:auto;
+}
+body.pilot-mode #journeyPanel.b1-upgrade-open #restBack{
+ display:block;position:sticky;bottom:0;z-index:9;
+ margin:8px 2px 4px auto;
+ box-shadow:0 3px 13px #06111fbb;
+}
+body.pilot-mode #journeyPanel.b1-upgrade-open #restBack[hidden]{display:none}
+@media(max-width:720px){
+ body.pilot-mode.b1-rest-active #journeyPanel.b1-upgrade-open .pilot-overlay-window{
+  padding:10px 9px 18px;scrollbar-gutter:auto;
+ }
+ body.pilot-mode #journeyPanel.b1-upgrade-open #restUpgradeCards.b1-rest-upgrades{
+  padding-bottom:18px;
+ }
+}
