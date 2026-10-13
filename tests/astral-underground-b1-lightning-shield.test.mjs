@@ -5,9 +5,9 @@ import {CARDS,getB1Card,STAGES,getB1RewardPool,createB1Game} from "../v4-1/under
 const ids=["lightningFlash","lightningFork","lightningSweep","lightningRelay",
  "shieldMoss","shieldMirror","shieldSpore","shieldIncubate"];
 test("eight new cards have coherent upgraded versions and all can appear in normal rewards",()=>{
- assert.equal(Object.keys(CARDS).length,77);
+ assert.equal(Object.keys(CARDS).length,85);
  const available=new Set(STAGES.flatMap((stage,i)=>getB1RewardPool(i,["dragonEgg"])));
- assert.equal(available.size,72); // the original 5 starter basics remain starter-only
+ assert.equal(available.size,80); // the original 5 starter basics remain starter-only
  for(const id of ids){
   const card=getB1Card(id),upgrade=getB1Card(id+"~");
   assert.ok(card&&upgrade,id);
