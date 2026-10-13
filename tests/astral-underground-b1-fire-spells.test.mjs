@@ -25,7 +25,7 @@ test("three fire spells have correct cost, power, upgraded effect and single ene
   assert.equal(after.enemies.find(x=>x.id==="left").hp,left.hp-damage);
   assert.equal(after.enemies.find(x=>x.id==="right").hp,right.hp);
   assert.equal(after.energy,3-cost);
-  assert.ok(after.shopStock.some(item=>item.id===id&&item.price===price));
+  assert.ok(after.shopCatalog.some(item=>item.id===id&&item.price===price));
  }
 });
 test("all three fire spells are accessible directly as starter choices without changing classic starters",()=>{
@@ -89,8 +89,16 @@ test("shop permits one card removal for 30G with safe accounting and entry guard
  assert.equal(after.shopPurged,true);
  assert.equal(g.purgeShopCard(0),false);
  assert.equal(g.buyShop("fireMedium"),false,"can't afford after purging");
- assert.equal(g.buyShop("fireSmall"),true,"remaining gold may still buy a new fire card");
- assert.equal(g.snapshot().gold,5);
+ const offers=g.snapshot().shopStock;
+ const affordable=offers.find(item=>item.price<=g.snapshot().gold);
+ if(affordable){
+  assert.equal(g.buyShop(affordable.id),true,"an offered affordable card may be purchased");
+  assert.equal(g.snapshot().gold,30-affordable.price);
+  assert.equal(g.buyShop(affordable.id),false,"same offer cannot be bought twice");
+ }else{
+  for(const item of offers)assert.equal(g.buyShop(item.id),false,"unaffordable offers stay blocked");
+  assert.equal(g.snapshot().gold,30);
+ }
  assert.equal(g.leaveShop(),true);
  assert.equal(g.purgeShopCard(0),false);
  assert.equal(g.buyShop("fireSmall"),false);

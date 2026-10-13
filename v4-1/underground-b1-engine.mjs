@@ -133,7 +133,7 @@ export function createB1Game(options={}){
  const random=()=>{seed=(Math.imul(seed,1664525)+1013904223)>>>0;return seed/4294967296;};
  const shuffle=a=>{for(let i=a.length-1;i>0;i--){const j=Math.floor(random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;};
  const testMaxHp=Number.isInteger(options.maxHp)&&options.maxHp>=1&&options.maxHp<=999?options.maxHp:75;
- let s={dopingBonus:0,nextPhysicalAttackBonus:0,lastTurnHpLoss:0,dragonStage:-1,lastDragonEvolution:null,lastSynergy:null,phase:"starter",stage:0,turn:1,hp:testMaxHp,maxHp:testMaxHp,energy:3,block:0,attacksThisTurn:0,attackCardsThisTurn:0,darkCastsThisTurn:0,spellsThisTurn:0,pendingMagicAttackBonus:0,powerDraw:0,strength:0,selected:null,deck:Array.isArray(options.testDeck)&&options.testDeck.length>0&&options.testDeck.length<=30&&options.testDeck.every(id=>Object.hasOwn(CARDS,id))?[...options.testDeck]:[...STARTER],hand:[],draw:[],discard:[],exhaust:[],powers:[],enemies:[],rewards:[],gold:0,shopPending:false,shopUsed:false,shopPurchases:[],shopPurged:false,restPending:false,restUsed:false,restChoice:null,selectedPath:null,routeHistory:[],log:["最初に得意な魔法を1枚選んで地下迷宮へ。"]};
+ let s={dopingBonus:0,nextPhysicalAttackBonus:0,lastTurnHpLoss:0,dragonStage:-1,lastDragonEvolution:null,lastSynergy:null,phase:"starter",stage:0,turn:1,hp:testMaxHp,maxHp:testMaxHp,energy:3,block:0,attacksThisTurn:0,attackCardsThisTurn:0,darkCastsThisTurn:0,spellsThisTurn:0,pendingMagicAttackBonus:0,powerDraw:0,strength:0,selected:null,deck:Array.isArray(options.testDeck)&&options.testDeck.length>0&&options.testDeck.length<=30&&options.testDeck.every(id=>Object.hasOwn(CARDS,id))?[...options.testDeck]:[...STARTER],hand:[],draw:[],discard:[],exhaust:[],powers:[],enemies:[],rewards:[],gold:0,shopPending:false,shopUsed:false,shopStock:[],shopPurchases:[],shopPurged:false,restPending:false,restUsed:false,restChoice:null,selectedPath:null,routeHistory:[],log:["最初に得意な魔法を1枚選んで地下迷宮へ。"]};
  function note(t){s.log.unshift(t);s.log=s.log.slice(0,18);}
  const alive=()=>s.enemies.filter(e=>e.hp>0);
  const find=id=>s.enemies.find(e=>e.id===id&&e.hp>0);
@@ -435,7 +435,7 @@ export function createB1Game(options={}){
   // Normal mode: 11 rewards (1 card chosen from 3 after each victory).
   s.phase="between";
   if([1,5,10].includes(s.stage)&&!s.practiceMode){s.restPending=true;s.restUsed=false;s.restChoice=null;}
-  if([2,8].includes(s.stage)&&!s.practiceMode){s.shopPending=true;s.shopUsed=false;}
+  if([2,8].includes(s.stage)&&!s.practiceMode){s.shopPending=true;s.shopUsed=false;s.shopStock=rollShopStock();}
   return true;
  }
  function chooseRest(kind,index=null){
@@ -445,9 +445,21 @@ export function createB1Game(options={}){
  else return false;s.restPending=false;s.restUsed=true;s.restChoice=kind;return true;
 }
 const SHOP_STOCK=Object.freeze([{id:"ward",price:35},{id:"chain",price:40},{id:"frostBreak",price:35},{id:"echoGuard",price:30},{id:"lingeringPoison",price:30},{id:"fireSmall",price:25},{id:"fireMedium",price:40},{id:"fireLarge",price:55},{id:"fireWaveSmall",price:30},{id:"fireWaveMedium",price:45},{id:"fireWaveLarge",price:60},{id:"thunderSmall",price:30},{id:"thunderMedium",price:45},{id:"thunderLarge",price:60},{id:"darkBolt",price:35},{id:"abyssBolt",price:45},{id:"iceSpear",price:40},{id:"arcaneLance",price:35},{id:"mentalCollapse",price:50},{id:"curse",price:30},{id:"deathSong",price:60},{id:"hallucination",price:35},{id:"shadowEcho",price:35},{id:"blizzard",price:45},{id:"thunderSurge",price:50},{id:"guideThrust",price:35},{id:"spellblade",price:35},{id:"bludgeon",price:25},{id:"rapidPunch",price:45},{id:"heavyBlow",price:40},{id:"sneakHit",price:30},{id:"ironHammer",price:60},{id:"doping",price:40},{id:"adversity",price:35},{id:"rage",price:65}]);
+// Each visit receives exactly three distinct offers. Use a separate deterministic
+// random stream so a shop preview never changes combat or reward shuffle results.
+function rollShopStock(){
+ const pool=[...SHOP_STOCK];
+ let state=(((Number(options.seed)>>>0)||20261010)^Math.imul(s.stage+1,0x9e3779b1))>>>0;
+ for(let i=pool.length-1;i>0;i--){
+  state=(Math.imul(state,1664525)+1013904223)>>>0;
+  const j=state%(i+1);
+  [pool[i],pool[j]]=[pool[j],pool[i]];
+ }
+ return pool.slice(0,3);
+}
 function buyShop(id){
  if(s.phase!=="between"||![2,8].includes(s.stage)||!s.shopPending||s.shopUsed||s.practiceMode)return false;
- const item=SHOP_STOCK.find(item=>item.id===id);
+ const item=s.shopStock.find(item=>item.id===id);
  if(!item||s.gold<item.price||s.shopPurchases.includes(id))return false;
  s.gold-=item.price;s.deck.push(item.id);s.shopPurchases.push(item.id);
  note("商店："+getB1Card(item.id).name+"を"+item.price+"Gで購入。");return true;
@@ -479,7 +491,8 @@ function choosePath(id){
    return clone({...s,intents:s.enemies.map(e=>({id:e.id,...intent(e)})),
      stageName:s.stage===1?"B1・"+stage.name:stage.name,stageHint:stage.hint,
      shopAvailable:s.phase==="between"&&[2,8].includes(s.stage)&&s.shopPending&&!s.practiceMode,
-     shopStock:SHOP_STOCK,
+     shopStock:s.shopStock,
+     shopCatalog:SHOP_STOCK, // Every obtainable card/price; NOT today's three visible offers.
      restAvailable:s.phase==="between"&&[1,5,10].includes(s.stage)&&s.restPending&&!s.practiceMode,
       dragonName:s.dragonStage<0?null:DRAGON_STAGES[s.dragonStage],
       availablePaths:s.phase==="between"&&s.stage===0&&s.selectedPath===null?Object.keys(B1_FORK_ROUTES):[]});

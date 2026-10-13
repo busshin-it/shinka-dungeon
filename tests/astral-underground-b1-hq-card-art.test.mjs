@@ -64,7 +64,7 @@ test("registered 768x1024 WebP images match the approved export manifest exactly
 test("all 12 IDs still share the existing card, shop and preview renderer",()=>{
  for(const expression of [
   "attachB1OriginalArt(picture,c.magicArt)",
-  "attachB1OriginalArt(thumb,card.magicArt)",
+  "const card=getB1Card(item.id),b=cardButton(item.id)",
   'img.className="b1-original-elemental-img b1-original-card-img"',
   'img.addEventListener("error",'
  ])assert.ok(html.includes(expression),expression);

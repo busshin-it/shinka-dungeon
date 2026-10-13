@@ -26,7 +26,7 @@ test("new black magic is distinct, has approved trial descriptions and upgrades"
   const start=createB1Game({seed:17});
   assert.equal(start.selectStarter(id),true);
   assert.ok(start.snapshot().deck.includes(id));
-  assert.ok(start.snapshot().shopStock.some(item=>item.id===id));
+  assert.ok(start.snapshot().shopCatalog.some(item=>item.id===id));
  }
  assert.equal(CARDS.mentalCollapse.confusionAttacks,2);
  assert.equal(getB1Card("mentalCollapse~").confusionAttacks,3);

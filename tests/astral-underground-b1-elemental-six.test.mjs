@@ -31,7 +31,7 @@ test("six elemental spells: costs, upgrade texts, accessible starter/shop and di
   const game=createB1Game();
   assert.equal(game.selectStarter(id),true,id+" starter");
   assert.equal(game.snapshot().deck.length,STARTER.length+1);
-  assert.deepEqual(game.snapshot().shopStock.find(x=>x.id===id),{id,price});
+  assert.deepEqual(game.snapshot().shopCatalog.find(x=>x.id===id),{id,price});
   assert.ok(html.includes('"'+id+'"'));
   assert.ok(css.includes("b1-magic-art--"+art));
  }

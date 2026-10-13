@@ -46,7 +46,7 @@ test("the familiar opening deck and spell stats have not changed",()=>{
 
 test("all six images reuse the hand/reward/preview and shop paths with safe fallback",()=>{
  assert.match(html,/attachB1OriginalArt\(picture,c\.magicArt\)/);
- assert.match(html,/attachB1OriginalArt\(thumb,card\.magicArt\)/);
+ assert.match(html,/const card=getB1Card\(item\.id\),b=cardButton\(item\.id\)/);
  assert.match(html,/const candidates=\[highRes,lowRes\]/);
  assert.match(html,/else img\.remove\(\)/);
  assert.match(html,/img\.className="b1-original-elemental-img b1-original-card-img"/);
