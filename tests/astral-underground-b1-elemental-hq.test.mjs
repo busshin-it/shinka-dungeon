@@ -33,7 +33,7 @@ test("all six B1 fire/lightning spell cards have distinct, fully uploaded origin
 
 test("the same uploaded artwork is used across hand, enlargement, shop and starters",()=>{
  assert.match(html,/attachB1OriginalArt\(picture,c\.magicArt\)/);
- assert.match(html,/attachB1OriginalArt\(thumb,card\.magicArt\)/);
+ assert.match(html,/const card=getB1Card\(item\.id\),b=cardButton\(item\.id\)/);
  assert.match(html,/const candidates=\[highRes,lowRes\]/);
  assert.match(html,/img\.addEventListener\("error"/);
  assert.match(css,/object-position:50% 32%/);
