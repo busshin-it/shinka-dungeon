@@ -8,7 +8,7 @@ test("eight new cards and upgrades join regular rewards",()=>{
  assert.equal(Object.keys(CARDS).length,85);
  const rewards=new Set(STAGES.flatMap((_,i)=>getB1RewardPool(i,["dragonEgg"])));
  assert.equal(rewards.size,80);
- for(const id of added){assert.ok(rewards.has(id),id);assert.ok(getB1Card(id+"~")?.text.includes(getB1Card(id).name)?true:getB1Card(id+"~")?.text,id);}
+ for(const id of added){assert.ok(rewards.has(id),id);assert.ok(getB1Card(id+"~")?.text,id);}
 });
 test("lightning guard and cycle keep a streak, without repeated 0-cost draws",()=>{
  const g=practice(["sparkWard","sparkBreath","lightningFlash"]);
@@ -32,6 +32,6 @@ test("dragon wing values dragon growth; physical focus supplies draw and modest 
  const d=practice(["dragonEgg","dragonEgg","dragonWing"]);
  use(d,"dragonEgg");use(d,"dragonEgg");const before=d.snapshot().block;
  use(d,"dragonWing");assert.equal(d.snapshot().dragonStage,1);assert.equal(d.snapshot().block-before,5);
- const p=practice(["ironResolve","bludgeon","basicDefense","basicAttack","guard","bludgeon"]);
+ const p=practice(["ironResolve","bludgeon","basicDefense","basicAttack","guard"]);
  use(p,"ironResolve");assert.equal(p.snapshot().dopingBonus,1);
 });
