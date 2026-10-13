@@ -2,7 +2,7 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import {readFileSync} from "node:fs";
 import {spawnSync} from "node:child_process";
-import {createB1Game,STAGES,B1_FORK_ROUTES} from "../v4-1/underground-b1-engine.mjs";
+import {createB1Game,STAGES,B1_FORK_ROUTES,getB1RewardPool} from "../v4-1/underground-b1-engine.mjs";
 
 function clearBattle(g){
  let turns=0;
@@ -61,7 +61,7 @@ test("the pack fork keeps the original two-monster stage, including its rewards"
  const snap=g.snapshot();
  assert.equal(snap.phase,"reward");
  assert.equal(snap.rewards.length,3);
- assert.ok(snap.rewards.every(id=>STAGES[1].rewards.includes(id)));
+ assert.ok(snap.rewards.every(id=>getB1RewardPool(1,snap.deck).includes(id)));
  assert.equal(g.chooseReward(null),true);
  assert.equal(g.nextBattle(),true);
  assert.equal(g.snapshot().stage,2);
@@ -76,7 +76,7 @@ test("stone route has distinctive defense intent and rejoins the same third batt
  assert.equal(first.intents[0].kind,"buff");
  clearBattle(g);
  assert.equal(g.snapshot().rewards.length,3);
- assert.ok(g.snapshot().rewards.every(id=>STAGES[1].rewards.includes(id)));
+ assert.ok(g.snapshot().rewards.every(id=>getB1RewardPool(1,g.snapshot().deck).includes(id)));
  assert.equal(g.chooseReward(null),true);
  assert.equal(g.nextBattle(),true);
  assert.equal(g.snapshot().stageName,STAGES[2].name);

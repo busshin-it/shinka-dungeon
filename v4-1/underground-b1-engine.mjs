@@ -3,16 +3,16 @@ export const CARDS = Object.freeze({
  basicAttack:{name:"攻撃",cost:1,kind:"attack",text:"5ダメージ",damage:5,weapon:true,magicArt:"starter-basic-attack"},
  basicDefense:{name:"防御",cost:1,kind:"guard",text:"防御5",block:5,weapon:true,magicArt:"starter-basic-defense"},
  bolt:{name:"魔弾",cost:1,kind:"attack",text:"6ダメージ",damage:6,magicArt:"starter-bolt"},
- lightning:{name:"雷撃",cost:2,kind:"attack",text:"13ダメージ",damage:13,magicArt:"starter-lightning"},
+ lightning:{name:"雷撃",cost:2,kind:"attack",text:"13ダメージ",damage:13,magicArt:"starter-lightning",lightning:true},
  scatter:{name:"散弾",cost:1,kind:"all",text:"敵全体に6ダメージ",damage:6,magicArt:"first-scatter"},
- chain:{name:"連鎖雷",cost:1,kind:"attack",text:"5ダメージ。先に攻撃していれば＋6",damage:5,chain:true,magicArt:"first-chain"},
+ chain:{name:"連鎖雷",cost:1,kind:"attack",text:"5ダメージ。先に攻撃していれば＋6",damage:5,chain:true,magicArt:"first-chain",lightning:true},
  heal:{name:"小治癒",cost:1,kind:"heal",text:"HP6回復。廃棄",heal:6,exhaust:true,magicArt:"first-heal"},
  drain:{name:"吸命",cost:2,kind:"attack",text:"8ダメージ。HP3回復。廃棄",damage:8,heal:3,exhaust:true,magicArt:"first-drain"},
  frost:{name:"氷の矢",cost:1,kind:"attack",text:"3ダメージ。弱体2を付与",damage:3,weaken:2,magicArt:"starter-frost"},
  poison:{name:"毒の印",cost:1,kind:"poison",text:"毒5を付与（敵ターンに発動・毎回−1）",poison:5,magicArt:"first-poison"},
  fragile:{name:"脆弱の印",cost:1,kind:"fragile",text:"脆弱2を付与（攻撃被害＋50％）",vulnerable:2,magicArt:"second-fragile"},
  guard:{name:"守り",cost:1,kind:"guard",text:"防御5",block:5,magicArt:"starter-guard"},
- break:{name:"破魔雷",cost:2,kind:"attack",text:"8ダメージ。脆弱2を付与",damage:8,vulnerable:2,magicArt:"third-holy-thunder"},
+ break:{name:"破魔雷",cost:2,kind:"attack",text:"8ダメージ。脆弱2を付与",damage:8,vulnerable:2,magicArt:"third-holy-thunder",lightning:true},
  strength:{name:"闘魔の印",cost:1,kind:"power",text:"この戦闘中、攻撃威力＋2",strengthGain:2,magicArt:"second-strength"},
  spark:{name:"火花",cost:0,kind:"attack",text:"3ダメージ",damage:3,magicArt:"second-spark"},
  fireSmall:{name:"火弾",cost:1,kind:"attack",text:"敵1体に6ダメージ",damage:6,fireArt:"small",firePower:1},
@@ -21,13 +21,13 @@ export const CARDS = Object.freeze({
  fireWaveSmall:{name:"火の雨",cost:0,kind:"all",text:"敵全体に2ダメージ",damage:2,magicArt:"fire-rain-small"},
  fireWaveMedium:{name:"炎の波",cost:2,kind:"all",text:"敵全体に9ダメージ",damage:9,magicArt:"fire-rain-medium"},
  fireWaveLarge:{name:"業火の嵐",cost:3,kind:"all",text:"敵全体に15ダメージ",damage:15,magicArt:"fire-rain-large"},
- thunderSmall:{name:"雷針",cost:1,kind:"attack",text:"敵1体に7ダメージ",damage:7,magicArt:"thunder-small"},
- thunderMedium:{name:"双雷槍",cost:2,kind:"multi",text:"敵1体に7ダメージを2回",damage:7,hits:2,magicArt:"thunder-medium"},
- thunderLarge:{name:"天雷",cost:3,kind:"attack",text:"敵1体に21ダメージ",damage:21,magicArt:"thunder-large"},
+ thunderSmall:{name:"雷針",cost:1,kind:"attack",text:"敵1体に7ダメージ",damage:7,magicArt:"thunder-small",lightning:true},
+ thunderMedium:{name:"双雷槍",cost:2,kind:"multi",text:"敵1体に7ダメージを2回",damage:7,hits:2,magicArt:"thunder-medium",lightning:true},
+ thunderLarge:{name:"天雷",cost:3,kind:"attack",text:"敵1体に21ダメージ",damage:21,magicArt:"thunder-large",lightning:true},
  flow:{name:"術式循環",cost:1,kind:"draw",text:"カードを2枚引く",draw:2,magicArt:"second-flow"},
  ward:{name:"氷の結界",cost:1,kind:"guard",text:"防御7。カードを1枚引く",block:7,draw:1,magicArt:"second-ward"},
  charge:{name:"魔力点火",cost:0,kind:"energy",text:"魔力＋1。廃棄",energyGain:1,exhaust:true,magicArt:"third-mana-ignite"},
- double:{name:"双雷",cost:1,kind:"multi",text:"4ダメージを2回",damage:4,hits:2,magicArt:"third-twin-thunder"},
+ double:{name:"双雷",cost:1,kind:"multi",text:"4ダメージを2回",damage:4,hits:2,magicArt:"third-twin-thunder",lightning:true},
  focus:{name:"魔導の研究",cost:1,kind:"power",text:"この戦闘中、毎ターンのドロー＋1",powerDraw:1,magicArt:"third-arcane-study"},
  flare:{name:"毒炎",cost:1,kind:"attack",text:"6ダメージ。毒の敵なら＋6",damage:6,poisonBonus:6,magicArt:"third-poison-flame"},
  frostBreak:{name:"霜砕き",cost:1,kind:"attack",text:"5ダメージ。弱体の敵には＋7",damage:5,weakBonus:7,magicArt:"fourth-frost-shatter"},
@@ -43,7 +43,7 @@ export const CARDS = Object.freeze({
  hallucination:{name:"幻覚",cost:1,kind:"hallucinate",text:"敵1体の次の2回の攻撃が50％で失敗",hallucinationAttacks:2,school:"dark",magicArt:"hallucination"},
  shadowEcho:{name:"影の反響",cost:1,kind:"attack",text:"4ダメージ。先に闇魔法を使っていれば2枚引く",damage:4,drawAfterDark:2,school:"dark",magicArt:"shadow"},
  blizzard:{name:"吹雪",cost:2,kind:"all",text:"敵全体に5ダメージ。弱体1を付与",damage:5,weaken:1,magicArt:"blizzard"},
- thunderSurge:{name:"雷の奔流",cost:2,kind:"all",text:"敵全体に4ダメージ。先に使った攻撃1回につき＋3（最大3回）",damage:4,perAttack:3,maxPriorAttacks:3,magicArt:"surge"},
+ thunderSurge:{name:"雷の奔流",cost:2,kind:"all",text:"敵全体に4ダメージ。先に使った攻撃1回につき＋3（最大3回）",damage:4,perAttack:3,maxPriorAttacks:3,magicArt:"surge",lightning:true},
  guideThrust:{name:"導魔突き",cost:1,kind:"attack",text:"5ダメージ。次の魔法攻撃＋4",damage:5,nextMagicBonus:4,weapon:true,magicArt:"guide"},
  spellblade:{name:"魔装斬",cost:1,kind:"attack",text:"7ダメージ。先に呪文を使っていれば防御4",damage:7,blockAfterSpell:4,weapon:true,magicArt:"spellblade"},
  bludgeon:{name:"殴打",cost:1,kind:"attack",text:"5ダメージ。手札に魔法がなければ7",damage:5,noMagicDamage:7,weapon:true,magicArt:"physical-bludgeon"},
@@ -56,7 +56,15 @@ export const CARDS = Object.freeze({
  rage:{name:"逆鱗",cost:3,kind:"all",text:"敵全体に10ダメージ。HPが最大HPの1/3以下なら20",damage:10,lowHpDamage:20,weapon:true,magicArt:"physical-rage"},
  dragonEgg:{name:"竜の卵",cost:1,kind:"dragon",text:"竜を召喚。既にいるなら1段階成長。",art:"b1-dragon-egg.webp"},
  dragonFeed:{name:"竜の餌",cost:0,kind:"dragonFeed",text:"竜を1段階成長。手札を1枚選んで捨てる。廃棄",dragonGrowth:1,exhaust:true,art:"b1-dragon-feed.webp"},
- dragonBreath:{name:"竜息",cost:1,kind:"dragonBreath",text:"敵全体に4＋竜の段階×3ダメージ。",damage:4,dragonPowerPerStage:3,art:"b1-dragon-breath.webp"}
+ dragonBreath:{name:"竜息",cost:1,kind:"dragonBreath",text:"敵全体に4＋竜の段階×3ダメージ。",damage:4,dragonPowerPerStage:3,art:"b1-dragon-breath.webp"},
+ lightningFlash:{name:"雷光",cost:0,kind:"attack",text:"2ダメージ。雷を続けるほど＋2（最大＋8）",damage:2,lightning:true,magicArt:"thunder-small"},
+ lightningFork:{name:"跳雷",cost:1,kind:"multi",text:"3ダメージを2回。雷連鎖で強化",damage:3,hits:2,lightning:true,magicArt:"third-twin-thunder"},
+ lightningSweep:{name:"雷の環",cost:1,kind:"all",text:"敵全体に2ダメージ。雷連鎖で強化",damage:2,lightning:true,magicArt:"surge"},
+ lightningRelay:{name:"導電",cost:1,kind:"draw",text:"2枚引く。雷連鎖を継続",draw:2,lightning:true,magicArt:"second-flow"},
+ shieldMoss:{name:"小結界",cost:0,kind:"guard",text:"防御3",block:3,magicArt:"second-ward"},
+ shieldMirror:{name:"反響結界",cost:1,kind:"guard",text:"防御5。敵の攻撃を防ぐと反射3（このターン）",block:5,reflectDamage:3,magicArt:"starter-defense"},
+ shieldSpore:{name:"封毒の盾",cost:1,kind:"guard",text:"防御4。毒か呪いの敵がいれば＋3",block:4,afflictedBlock:3,magicArt:"fourth-toxic-page"},
+ shieldIncubate:{name:"育竜の護り",cost:1,kind:"guard",text:"防御6。竜がいて防御10以上なら竜を成長",block:6,shieldDragonGrowth:1,magicArt:"second-ward"}
 });
 export function getB1Card(id){const up=typeof id==="string"&&id.endsWith("~"),base=up?id.slice(0,-1):id;const card=CARDS[base];if(!card)return null;if(!up)return card;const next={...card,name:card.name+"＋"};if(Object.hasOwn({fireSmall:3,fireMedium:4,fireLarge:6,darkBolt:3,abyssBolt:4,iceSpear:3,arcaneLance:3},base)){
  const bonus={fireSmall:3,fireMedium:4,fireLarge:6,darkBolt:3,abyssBolt:4,iceSpear:3,arcaneLance:3}[base];
@@ -96,7 +104,18 @@ export function getB1Card(id){const up=typeof id==="string"&&id.endsWith("~"),ba
  }
  if(base==="doping"){next.doping=3;next.text="物理攻撃＋3。魔法を使うと解除";return next;}
  if(base==="adversity"){next.cost=0;next.text="直前の敵ターンに失ったHP分、次の物理攻撃＋。魔法で解除";return next;}
- if(base==="dragonFeed"){next.dragonGrowth=2;next.text="竜を2段階成長。手札を1枚選んで捨てる。廃棄";return next;}const stat=["damage","block","heal","poison","weaken","vulnerable","energyGain","draw","strengthGain","powerDraw"].find(k=>Number.isFinite(card[k])&&card[k]>0);if(stat){const bonus=["damage","block","heal"].includes(stat)?3:1;next[stat]+=bonus;next.text=card.text+"（"+stat+"＋"+bonus+"）";}else{next.cost=Math.max(0,card.cost-1);next.text=card.text+"（魔力－1）";}return next;}
+ if(base==="dragonFeed"){next.dragonGrowth=2;next.text="竜を2段階成長。手札を1枚選んで捨てる。廃棄";return next;}
+ if(["lightningFlash","lightningFork","lightningSweep","lightningRelay",
+     "shieldMoss","shieldMirror","shieldSpore","shieldIncubate"].includes(base)){
+  if(base==="lightningRelay"){next.draw=3;next.text="3枚引く。雷連鎖を継続";}
+  else if(base==="shieldMirror"){next.block=7;next.reflectDamage=4;next.text="防御7。敵の攻撃を防ぐと反射4（このターン）";}
+  else if(base==="shieldSpore"){next.block=6;next.afflictedBlock=3;next.text="防御6。毒か呪いの敵がいれば＋3";}
+  else if(base==="shieldIncubate"){next.block=8;next.text="防御8。竜がいて防御10以上なら竜を成長";}
+  else {next[base==="shieldMoss"?"block":"damage"]+=2;
+   next.text=base==="shieldMoss"?"防御5":base==="lightningFlash"?"4ダメージ。雷を続けるほど＋2（最大＋8）":
+    base==="lightningFork"?"5ダメージを2回。雷連鎖で強化":"敵全体に4ダメージ。雷連鎖で強化";}
+  return next;
+ }const stat=["damage","block","heal","poison","weaken","vulnerable","energyGain","draw","strengthGain","powerDraw"].find(k=>Number.isFinite(card[k])&&card[k]>0);if(stat){const bonus=["damage","block","heal"].includes(stat)?3:1;next[stat]+=bonus;next.text=card.text+"（"+stat+"＋"+bonus+"）";}else{next.cost=Math.max(0,card.cost-1);next.text=card.text+"（魔力－1）";}return next;}
 export const PHYSICAL_STARTER = Object.freeze(["bludgeon","bludgeon","bludgeon","bludgeon","rapidPunch","rapidPunch","sneakHit","doping","ironHammer"]);
 export const isB1Magic=id=>getB1Card(id)?.weapon!==true;
 export const STARTER = Object.freeze(["bolt","bolt","bolt","bolt","guard","guard","guard","guard","break"]);
@@ -120,17 +139,17 @@ export const STAGES = Object.freeze([
 // "竜の餌" and "竜息" only become reward choices after the deck already owns
 // a "竜の卵" (including its upgraded version), avoiding dead offers.
 export const B1_REWARD_EXTRA_POOLS=Object.freeze([
- Object.freeze(["dragonEgg","fireSmall"]),
- Object.freeze(["dragonFeed","dragonBreath","darkBolt"]),
- Object.freeze(["dragonEgg","dragonFeed","dragonBreath","fireMedium"]),
- Object.freeze(["dragonFeed","dragonBreath","doping"]),
- Object.freeze(["dragonEgg","dragonFeed","dragonBreath","fireSmall"]),
- Object.freeze(["dragonFeed","dragonBreath","fireLarge"]),
- Object.freeze(["dragonEgg","dragonFeed","dragonBreath","darkBolt"]),
- Object.freeze(["dragonFeed","dragonBreath","fireLarge"]),
- Object.freeze(["dragonEgg","dragonFeed","dragonBreath","fireMedium"]),
- Object.freeze(["dragonFeed","dragonBreath","doping"]),
- Object.freeze(["dragonEgg","dragonFeed","dragonBreath","fireLarge"]),
+ Object.freeze(["dragonEgg","fireSmall","lightningFlash","shieldMoss"]),
+ Object.freeze(["dragonFeed","dragonBreath","darkBolt","lightningFork","shieldSpore"]),
+ Object.freeze(["dragonEgg","dragonFeed","dragonBreath","fireMedium","lightningSweep","shieldIncubate"]),
+ Object.freeze(["dragonFeed","dragonBreath","doping","lightningFlash","shieldMirror"]),
+ Object.freeze(["dragonEgg","dragonFeed","dragonBreath","fireSmall","lightningFork","shieldSpore"]),
+ Object.freeze(["dragonFeed","dragonBreath","fireLarge","lightningRelay","shieldIncubate"]),
+ Object.freeze(["dragonEgg","dragonFeed","dragonBreath","darkBolt","lightningSweep","shieldMirror"]),
+ Object.freeze(["dragonFeed","dragonBreath","fireLarge","lightningFork","shieldSpore"]),
+ Object.freeze(["dragonEgg","dragonFeed","dragonBreath","fireMedium","lightningFlash","shieldIncubate"]),
+ Object.freeze(["dragonFeed","dragonBreath","doping","lightningSweep","shieldMirror"]),
+ Object.freeze(["dragonEgg","dragonFeed","dragonBreath","fireLarge","lightningRelay","shieldMirror"]),
  Object.freeze([])
 ]);
 export function getB1RewardPool(stageIndex,deck=[]){
@@ -157,13 +176,13 @@ export function createB1Game(options={}){
  const random=()=>{seed=(Math.imul(seed,1664525)+1013904223)>>>0;return seed/4294967296;};
  const shuffle=a=>{for(let i=a.length-1;i>0;i--){const j=Math.floor(random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;};
  const testMaxHp=Number.isInteger(options.maxHp)&&options.maxHp>=1&&options.maxHp<=999?options.maxHp:75;
- let s={dopingBonus:0,nextPhysicalAttackBonus:0,lastTurnHpLoss:0,dragonStage:-1,lastDragonEvolution:null,lastSynergy:null,phase:"starter",stage:0,turn:1,hp:testMaxHp,maxHp:testMaxHp,energy:3,block:0,heroPoison:0,attacksThisTurn:0,attackCardsThisTurn:0,darkCastsThisTurn:0,spellsThisTurn:0,pendingMagicAttackBonus:0,powerDraw:0,strength:0,selected:null,deck:Array.isArray(options.testDeck)&&options.testDeck.length>0&&options.testDeck.length<=30&&options.testDeck.every(id=>Object.hasOwn(CARDS,id))?[...options.testDeck]:[...STARTER],hand:[],draw:[],discard:[],exhaust:[],powers:[],enemies:[],rewards:[],gold:0,shopPending:false,shopUsed:false,shopStock:[],shopPurchases:[],shopPurged:false,restPending:false,restUsed:false,restChoice:null,selectedPath:null,routeHistory:[],log:["最初に得意な魔法を1枚選んで地下迷宮へ。"]};
+ let s={lightningStreak:0,reflectDamage:0,dopingBonus:0,nextPhysicalAttackBonus:0,lastTurnHpLoss:0,dragonStage:-1,lastDragonEvolution:null,lastSynergy:null,phase:"starter",stage:0,turn:1,hp:testMaxHp,maxHp:testMaxHp,energy:3,block:0,heroPoison:0,attacksThisTurn:0,attackCardsThisTurn:0,darkCastsThisTurn:0,spellsThisTurn:0,pendingMagicAttackBonus:0,powerDraw:0,strength:0,selected:null,deck:Array.isArray(options.testDeck)&&options.testDeck.length>0&&options.testDeck.length<=30&&options.testDeck.every(id=>Object.hasOwn(CARDS,id))?[...options.testDeck]:[...STARTER],hand:[],draw:[],discard:[],exhaust:[],powers:[],enemies:[],rewards:[],gold:0,shopPending:false,shopUsed:false,shopStock:[],shopPurchases:[],shopPurged:false,restPending:false,restUsed:false,restChoice:null,selectedPath:null,routeHistory:[],log:["最初に得意な魔法を1枚選んで地下迷宮へ。"]};
  function note(t){s.log.unshift(t);s.log=s.log.slice(0,18);}
  const alive=()=>s.enemies.filter(e=>e.hp>0);
  const find=id=>s.enemies.find(e=>e.id===id&&e.hp>0);
  function drawCards(n){let drawn=0;for(let i=0;i<n&&s.hand.length<10;i++){if(!s.draw.length){if(!s.discard.length)break;s.draw=shuffle(s.discard.splice(0));}s.hand.push(s.draw.pop());drawn++;}return drawn;}
  function start(){
-  const stage=s.stage===1?B1_FORK_ROUTES[s.selectedPath||"pack"]:STAGES[s.stage];s.enemies=stage.enemies.map(e=>({...clone(e),maxHp:(!s.practiceMode&&s.deck.includes("basicAttack"))?Math.max(8,Math.round(e.maxHp*(s.stage<3?.66:s.stage<6?.82:s.stage===STAGES.length-1?.88:1))):e.maxHp,hp:(!s.practiceMode&&s.deck.includes("basicAttack"))?Math.max(8,Math.round(e.maxHp*(s.stage<3?.66:s.stage<6?.82:s.stage===STAGES.length-1?.88:1))):e.maxHp,weaken:0,poison:0,vulnerable:0,block:0,strength:0,channelDamage:0,channelBroken:false,confusionAttacks:0,hallucinationAttacks:0,curses:[]}));s.turn=1;s.block=0;s.energy=3;s.attacksThisTurn=0;s.attackCardsThisTurn=0;s.darkCastsThisTurn=0;s.spellsThisTurn=0;s.pendingMagicAttackBonus=0;s.powerDraw=0;s.strength=0;s.dopingBonus=0;s.nextPhysicalAttackBonus=0;s.lastTurnHpLoss=0;
+  const stage=s.stage===1?B1_FORK_ROUTES[s.selectedPath||"pack"]:STAGES[s.stage];s.enemies=stage.enemies.map(e=>({...clone(e),maxHp:(!s.practiceMode&&s.deck.includes("basicAttack"))?Math.max(8,Math.round(e.maxHp*(s.stage<3?.66:s.stage<6?.82:s.stage===STAGES.length-1?.88:1))):e.maxHp,hp:(!s.practiceMode&&s.deck.includes("basicAttack"))?Math.max(8,Math.round(e.maxHp*(s.stage<3?.66:s.stage<6?.82:s.stage===STAGES.length-1?.88:1))):e.maxHp,weaken:0,poison:0,vulnerable:0,block:0,strength:0,channelDamage:0,channelBroken:false,confusionAttacks:0,hallucinationAttacks:0,curses:[]}));s.turn=1;s.block=0;s.energy=3;s.attacksThisTurn=0;s.attackCardsThisTurn=0;s.darkCastsThisTurn=0;s.spellsThisTurn=0;s.lightningStreak=0;s.reflectDamage=0;s.pendingMagicAttackBonus=0;s.powerDraw=0;s.strength=0;s.dopingBonus=0;s.nextPhysicalAttackBonus=0;s.lastTurnHpLoss=0;
   s.heroPoison=0;s.dragonStage=-1;s.lastDragonEvolution=null;s.lastSynergy=null;s.hand=[];s.discard=[];s.exhaust=[];s.powers=[];s.draw=shuffle([...s.deck]);s.selected=s.enemies.find(e=>e.role!=="boss")?.id||s.enemies[0].id;s.phase="battle";drawCards(5);note(stage.name+"：戦闘開始。");
  }
  function selectStarter(id){if(s.phase!=="starter"||!["basic","physical","lightning","scatter","flow","dragonEgg","fireSmall","fireMedium","fireLarge","fireWaveSmall","fireWaveMedium","fireWaveLarge","thunderSmall","thunderMedium","thunderLarge","darkBolt","abyssBolt","mentalCollapse","curse","deathSong","hallucination","iceSpear","arcaneLance","shadowEcho","blizzard","thunderSurge","guideThrust","spellblade","bludgeon","rapidPunch","heavyBlow","sneakHit","ironHammer","doping","adversity","rage"].includes(id))return false;
@@ -234,6 +253,8 @@ export function createB1Game(options={}){
   if(targeted&&!target)return false;
   s.lastSynergy=null;s.lastDragonEvolution=null;
   const synergy=(title,detail)=>{s.lastSynergy={cardId:id,title,detail};};
+  const lightningBonus=card.lightning?Math.min(4,s.lightningStreak)*2:0;
+  s.lightningStreak=card.lightning?s.lightningStreak+1:0;
   s.hand.splice(index,1);
   s.energy-=card.cost;
   // The played physical card has left the hand before checking remaining magic.
@@ -260,7 +281,7 @@ export function createB1Game(options={}){
    const magicBonus=card.weapon?0:s.pendingMagicAttackBonus;
     if(magicBonus){s.pendingMagicAttackBonus=0;synergy("導魔突き連携","次の魔法攻撃：威力＋"+magicBonus);}
     const printed=card.noMagicDamage&&noMagicInHand?card.noMagicDamage:card.damage;
-    const base=printed+s.strength+magicBonus+(physical?s.dopingBonus:0)+(chainReady?6:0)+(poisonReady?card.poisonBonus:0)+(weakReady?card.weakBonus:0);
+    const base=printed+s.strength+magicBonus+(physical?s.dopingBonus:0)+(chainReady?6:0)+lightningBonus+(poisonReady?card.poisonBonus:0)+(weakReady?card.weakBonus:0);
     // 逆境 is a one-time bonus per attack card, not once per repeated hit.
     if(storedPhysicalBonus&&card.hits>1){
      hit(target,base+storedPhysicalBonus,1);
@@ -269,6 +290,7 @@ export function createB1Game(options={}){
    if(weakReady)synergy("霜砕き連携","弱体追撃：威力＋"+card.weakBonus);
    else if(poisonReady)synergy("毒炎連携","毒の敵へ：威力＋"+card.poisonBonus);
    else if(chainReady)synergy("連鎖雷連携","攻撃後：威力＋6");
+   if(lightningBonus)synergy("雷連鎖","雷を連続"+s.lightningStreak+"枚：威力＋"+lightningBonus);
     if(card.blockAfterSpell&&s.spellsThisTurn>0){s.block+=card.blockAfterSpell;note("魔装斬：防御＋"+card.blockAfterSpell+"。");synergy("魔装斬連携","先に呪文：防御＋"+card.blockAfterSpell);}
     if(card.nextMagicBonus){s.pendingMagicAttackBonus+=card.nextMagicBonus;note("次の魔法攻撃＋"+card.nextMagicBonus+"。");}
     if(card.drawAfterDark&&s.darkCastsThisTurn>0){
@@ -290,9 +312,10 @@ export function createB1Game(options={}){
    const magicBonus=s.pendingMagicAttackBonus;
    if(magicBonus){s.pendingMagicAttackBonus=0;synergy("導魔突き連携","次の全体魔法：威力＋"+magicBonus);}
    if(priorBonus)synergy("雷の奔流連携","先行攻撃："+priorBonus+"ダメージ増");
+   if(lightningBonus)synergy("雷連鎖","雷を連続"+s.lightningStreak+"枚：威力＋"+lightningBonus);
    for(const e of alive()){
     const bonus=card.confusionBonus&&e.confusionAttacks>0?card.confusionBonus:0;
-    const power=printed+s.strength+priorBonus+magicBonus+bonus+(physical?s.dopingBonus+storedPhysicalBonus:0);
+    const power=printed+s.strength+priorBonus+lightningBonus+magicBonus+bonus+(physical?s.dopingBonus+storedPhysicalBonus:0);
     const base=e.vulnerable>0?Math.floor(power*1.5):power;
     const raw=Math.max(0,base-(e.role==="boss"?armor:0));
     const blocked=Math.min(e.block,raw);e.block-=blocked;
@@ -316,7 +339,13 @@ export function createB1Game(options={}){
     note(target.name+"は幻覚を見た（攻撃"+target.hallucinationAttacks+"回分、命中50％）。");
    }else if(card.kind==="heal"){
    const n=Math.min(card.heal,s.maxHp-s.hp);s.hp+=n;note("HPを"+n+"回復。");
-  }else if(card.kind==="guard"){s.block+=card.block;note("防御＋"+card.block+"。");if(card.afterAttackDraw&&s.attacksThisTurn>0){const count=drawCards(card.afterAttackDraw);note("連携：カードを"+count+"枚引いた。");synergy("返響の盾連携","攻撃後：実際に"+count+"枚ドロー");}}
+  }else if(card.kind==="guard"){
+   const afflicted=alive().some(e=>e.poison>0||e.curses.length>0);
+   const extra=afflicted?(card.afflictedBlock||0):0;
+   s.block+=card.block+extra;note("防御＋"+(card.block+extra)+"。");
+   if(extra)synergy("封毒の盾","毒・呪いの敵がいる：防御＋"+extra);
+   if(card.reflectDamage){s.reflectDamage+=card.reflectDamage;note("反射の備え＋"+card.reflectDamage+"。");}
+   if(card.shieldDragonGrowth&&s.dragonStage>=0&&s.block>=10){growDragon(card.shieldDragonGrowth);synergy("育竜の護り","防御10以上で竜が成長");}if(card.afterAttackDraw&&s.attacksThisTurn>0){const count=drawCards(card.afterAttackDraw);note("連携：カードを"+count+"枚引いた。");synergy("返響の盾連携","攻撃後：実際に"+count+"枚ドロー");}}
   else if(card.kind==="poison"){const alreadyPoisoned=target.poison>0;target.poison+=card.poison;note(target.name+"に毒＋"+card.poison+"。");if(card.vulnerable){target.vulnerable+=card.vulnerable;note(target.name+"に脆弱＋"+card.vulnerable+"。");}if(card.poisonDraw&&alreadyPoisoned){const count=drawCards(card.poisonDraw);note("連携：カードを"+count+"枚引いた。");synergy("余毒の頁連携","毒の敵から：実際に"+count+"枚ドロー");}}
   else if(card.kind==="fragile"){if(card.vulnerable){target.vulnerable+=card.vulnerable;note(target.name+"に脆弱＋"+card.vulnerable+"。");}if(card.weaken){target.weaken+=card.weaken;note(target.name+"に弱体＋"+card.weaken+"。");}}
   else if(card.kind==="energy"){s.energy+=card.energyGain;note("魔力＋"+card.energyGain+"。");}
@@ -508,6 +537,10 @@ export function createB1Game(options={}){
       if(s.hp<=0)break;
      }
      note(e.name+"の"+action.label+"：防御"+totalBlocked+"、HP被害"+total+(confused?"（混乱の矛先はあなた）":"")+"。");
+     if(totalBlocked>0&&s.reflectDamage>0&&e.hp>0){
+      const reflected=Math.min(s.reflectDamage,e.hp);e.hp-=reflected;recordBossDamage(e,reflected);
+      note("反響結界："+e.name+"に"+reflected+"ダメージ反射。");
+     }
      if(s.hp<=0){s.phase="lost";note("HPが0になった。再挑戦してみよう。");break;}
     }
    }else if(action.kind==="poisonHero"){
@@ -532,10 +565,10 @@ export function createB1Game(options={}){
    e.vulnerable=Math.max(0,e.vulnerable-1);
   }
   s.lastTurnHpLoss=Math.max(0,hpBeforeEnemies-s.hp);
-  s.block=0;
+  s.block=0;s.reflectDamage=0;
   if(s.phase==="lost")return true;
   if(checkVictory())return true;
-  s.discard.push(...s.hand.splice(0));s.turn++;s.energy=3;s.attacksThisTurn=0;s.attackCardsThisTurn=0;s.darkCastsThisTurn=0;s.spellsThisTurn=0;s.pendingMagicAttackBonus=0;
+  s.discard.push(...s.hand.splice(0));s.turn++;s.energy=3;s.attacksThisTurn=0;s.attackCardsThisTurn=0;s.darkCastsThisTurn=0;s.spellsThisTurn=0;s.lightningStreak=0;s.pendingMagicAttackBonus=0;
   drawCards(5+s.powerDraw);return true;
  }
  function chooseReward(id){

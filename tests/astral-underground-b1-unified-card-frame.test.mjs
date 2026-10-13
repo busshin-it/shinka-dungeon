@@ -15,7 +15,7 @@ test("approved card frame wave 1 applies to exactly 15 cards, no accidental othe
  const ids=[...match[1].matchAll(/"([A-Za-z]+)"/g)].map(x=>x[1]);
  assert.deepEqual(ids,batch);
  assert.equal(new Set(ids).size,ids.length);
- assert.equal(Object.keys(CARDS).length,57);
+ assert.equal(Object.keys(CARDS).length,65);
  for(const id of ids){
   assert.ok(getB1Card(id)&&getB1Card(id).magicArt,id+" must show the existing painting");
   assert.ok(getB1Card(id+"~"),id+" upgraded variant preserved");
@@ -67,7 +67,7 @@ test("design rules are definitive while rollout status, guard styling and undo i
  assert.match(guide,/正式ルール/);
  assert.match(guide,/防御/);
  assert.match(guide,/15種類/);
- assert.match(guide,/残り0種類/);
+ assert.match(guide,/全65種類に適用済み/);
  assert.match(guide,/手札/);
  assert.match(guide,/強化/);
  assert.match(guide,/アクセシビリティ/);

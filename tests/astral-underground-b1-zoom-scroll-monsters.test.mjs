@@ -58,7 +58,7 @@ test("all role art mappings are supernatural monsters, not human portraits",()=>
 
 test("enemy display names are monsters, encounter roles and balance are unchanged",()=>{
  assert.equal(STAGES.length,12);
- assert.equal(Object.keys(CARDS).length,57);
+ assert.equal(Object.keys(CARDS).length,65);
  const names=[...STAGES.flatMap(x=>x.enemies.map(e=>e.name)),...B1_FORK_ROUTES.stone.enemies.map(e=>e.name)];
  for(const name of names)assert.doesNotMatch(name,/治療師|弓兵|呪術師|番兵|破盾兵|旗手|毒遣い|狂戦士|祭司|監視者|盾守/);
  assert.equal(STAGES[6].enemies.find(e=>e.id==="healer2").role,"healer");

@@ -13,7 +13,7 @@ test("defense visual experiment only opts in one basicDefense card",()=>{
  assert.match(html,/btn\.dataset\.b1Design="defense-v2"/);
  assert.match(html,/type\.textContent=""/);
  assert.doesNotMatch(html,/if\(id==="guard"\).*b1-defense-prototype/);
- assert.equal(Object.keys(CARDS).length,57);
+ assert.equal(Object.keys(CARDS).length,65);
  assert.equal(getB1Card("basicDefense").name,"防御");
  assert.equal(getB1Card("basicDefense").cost,1);
  assert.equal(getB1Card("basicDefense").text,"防御5");
@@ -44,7 +44,7 @@ test("card renderer module remains parseable and card mechanics unchanged",()=>{
  assert.ok(src);
  const res=spawnSync(process.execPath,["--check","--input-type=module"],{input:src,encoding:"utf8"});
  assert.equal(res.status,0,res.stderr);
- assert.match(html,/btn\.setAttribute\("aria-label",c\.name\+"、魔力"\+c\.cost\+"。"\+c\.text\)/);
+ assert.match(html,/btn\.setAttribute\("aria-label",c\.name\+"、魔力"\+c\.cost\+"。"\+c\.text/);
 });
 
 test("V2 art-led hierarchy matches the approved mockup while retaining the real card data",()=>{

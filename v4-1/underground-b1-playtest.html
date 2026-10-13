@@ -360,6 +360,10 @@ const B1_CARD_FRAME_WAVE3=new Set([
  "bludgeon","rapidPunch","heavyBlow","sneakHit","ironHammer",
  "doping","adversity","rage","dragonEgg","dragonFeed","dragonBreath"
 ]);
+const B1_CARD_FRAME_WAVE4=new Set([
+ "lightningFlash","lightningFork","lightningSweep","lightningRelay",
+ "shieldMoss","shieldMirror","shieldSpore","shieldIncubate"
+]);
 function b1CardFrameRole(card){
  if(card.kind==="guard")return "guard";
  if(card.kind==="heal")return "heal";
@@ -376,7 +380,7 @@ function cardButton(id){
  const type=document.createElement("span");type.className="type";type.textContent=typeNames[c.kind]||c.kind;
  const copy=document.createElement("span");copy.className="pilot-card-copy";
  const name=document.createElement("strong");name.textContent=c.name;
- const desc=document.createElement("span");desc.className="desc";desc.textContent=c.text;
+ const desc=document.createElement("span");desc.className="desc";desc.textContent=c.text+(c.lightning?" ⚡連鎖":"");
  copy.append(name,desc);btn.append(cost,type);
  if(c.fireArt){
    const picture=document.createElement("span");picture.className="b1-fire-card-art b1-fire-art--"+c.fireArt;
@@ -404,7 +408,7 @@ function cardButton(id){
   btn.dataset.b1Design="defense-v2";
  }
  const designId=id.endsWith("~")?id.slice(0,-1):id;
- if(B1_CARD_FRAME_WAVE1.has(designId)||B1_CARD_FRAME_WAVE2.has(designId)||B1_CARD_FRAME_WAVE3.has(designId)){
+ if(B1_CARD_FRAME_WAVE1.has(designId)||B1_CARD_FRAME_WAVE2.has(designId)||B1_CARD_FRAME_WAVE3.has(designId)||B1_CARD_FRAME_WAVE4.has(designId)){
   const role=b1CardFrameRole(c);
   btn.classList.add("b1-arcane-card","b1-frame-"+role);
   if(c.text.length>14)btn.classList.add("b1-frame-long-effect");
@@ -413,7 +417,7 @@ function cardButton(id){
   type.title=(typeNames[c.kind]||c.kind)+"カード";
   type.setAttribute("aria-hidden","true");
  }
- btn.setAttribute("aria-label",c.name+"、魔力"+c.cost+"。"+c.text);
+ btn.setAttribute("aria-label",c.name+"、魔力"+c.cost+"。"+c.text+(c.lightning?"。雷の連続使用で威力が上昇":""));
  return btn;
 }
 function reset(){actions.cancel();game=createB1Game({seed:Date.now()});targetId=null;render();}
@@ -475,6 +479,8 @@ function b1HeroConditions(s){
  if(s.dopingBonus>0)list.push(["💪",s.dopingBonus,"物理攻撃上昇","buff"]);
  if(s.nextPhysicalAttackBonus>0)list.push(["🔥",s.nextPhysicalAttackBonus,"次の物理攻撃上昇","buff"]);
  if(s.powerDraw>0)list.push(["📖",s.powerDraw,"毎ターン追加ドロー","buff"]);
+ if(s.lightningStreak>0)list.push(["⚡",s.lightningStreak,"雷連鎖（次の雷は＋"+Math.min(4,s.lightningStreak)*2+"）","buff"]);
+ if(s.reflectDamage>0)list.push(["✧",s.reflectDamage,"結界の反射（防御成功時）","buff"]);
  return list;
 }
 function b1DisplayConditions(container,items){

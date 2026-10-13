@@ -11,8 +11,8 @@ const end=html.indexOf("\nfunction b1EvolutionCompareBlock(",start);
 assert.ok(start>=0&&end>start,"upgrade formatter present");
 const formatter=Function("return ("+html.slice(start,end).trim()+")")();
 
-test("every one of 57 existing upgrades has a Japanese, readable full effect, not raw internal stat keys",()=>{
- assert.equal(Object.keys(CARDS).length,57);
+test("every one of 65 existing upgrades has a Japanese, readable full effect, not raw internal stat keys",()=>{
+ assert.equal(Object.keys(CARDS).length,65);
  for(const id of Object.keys(CARDS)){
   const current=getB1Card(id),future=getB1Card(id+"~");
   assert.ok(current&&future,id);
