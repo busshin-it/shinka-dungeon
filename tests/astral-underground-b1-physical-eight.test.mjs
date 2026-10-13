@@ -16,7 +16,7 @@ function cast(g,id,target="left"){
 }
 function hp(g,id="left"){return g.snapshot().enemies.find(e=>e.id===id).hp;}
 test("B1 physical pack has exactly eight cards, upgrades, selectable starters and merchant entries",()=>{
- assert.equal(Object.keys(CARDS).length,57);
+ assert.equal(Object.keys(CARDS).length,65);
  const g=createB1Game({seed:1});
  assert.equal(STARTER.length,9);
  for(const id of IDS){
