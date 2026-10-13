@@ -196,7 +196,17 @@ let game=createB1Game({seed:Date.now()}),targetId=null;
 if(new URLSearchParams(window.location.search).get("start")==="physical")game.selectStarter("physical");
 else if(new URLSearchParams(window.location.search).get("start")!=="choose")game.selectStarter("basic");
 const typeNames={attack:"攻撃",multi:"連撃",all:"全体攻撃",heal:"回復",poison:"状態異常",fragile:"状態異常",confuse:"混乱",curse:"呪い",hallucinate:"幻覚",guard:"防御",draw:"ドロー",energy:"魔力",power:"能力",dragon:"召喚",dragonFeed:"育成",dragonBreath:"全体攻撃",physicalPower:"強化",adversity:"反撃準備"};
-const art={rat:"wraith.webp",wolf:"bell-spirit.webp",imp:"gatekeeper.webp",guard:"gatekeeper.webp",carapace:"gatekeeper.webp",ritual:"wraith.webp",elite:"gatekeeper.webp",boss:"boss.webp",archer:"bow-watcher.webp",watcher:"tide-star-sentinel.webp",venom:"wraith.webp",berserker:"gatekeeper.webp",healer:"librarian-noa.webp",breaker:"gatekeeper.webp",banner:"tide-star-sentinel.webp",warder:"gatekeeper.webp"};
+// B1 enemy visual policy: monsters and supernatural creatures ONLY.
+// Never use the human character portraits (gatekeeper, bow-watcher,
+// librarian-noa, tide-star-sentinel) as enemy sprites. Keep AI roles intact.
+// Distinct role tints still come from underground-b1-reward-shop-status.css.
+// Creature illustrations are reused until dedicated enemy monster art arrives.
+const art={rat:"wraith.webp",wolf:"bell-spirit.webp",imp:"bell-spirit.webp",
+ guard:"bell-spirit.webp",carapace:"bell-spirit.webp",ritual:"wraith.webp",
+ elite:"bell-spirit.webp",boss:"boss.webp",archer:"bell-spirit.webp",
+ watcher:"wraith.webp",venom:"wraith.webp",berserker:"bell-spirit.webp",
+ healer:"bell-spirit.webp",breaker:"bell-spirit.webp",banner:"bell-spirit.webp",
+ warder:"bell-spirit.webp"};
 // Single source for B1 original artwork across hand, shop and starter cards.
 // Any missing file falls back to the existing CSS placeholder without affecting play.
 const B1_CARD_ART=Object.freeze({
@@ -503,7 +513,7 @@ function renderTargets(s){
   b.title=e.name+"　"+(move?.label||"撃破");
   const intentEl=document.createElement("span");intentEl.className="b1-actor-intent"+(attack?" b1-hit-intent":"");intentEl.textContent=e.hp>0?intent:"撃破";
   const figure=document.createElement("span");figure.className="b1-actor-figure";
-  const image=document.createElement("img");image.src="./assets/"+(art[e.role]||"gatekeeper.webp");image.alt="";image.draggable=false;figure.append(image);
+  const image=document.createElement("img");image.src="./assets/"+(art[e.role]||"bell-spirit.webp");image.alt="";image.draggable=false;figure.append(image);
   const name=document.createElement("span");name.className="b1-actor-name";name.textContent=e.name;
   const hp=document.createElement("span");hp.className="b1-actor-hp";hp.textContent="HP "+e.hp+" / "+e.maxHp;
   const meter=document.createElement("span");meter.className="b1-actor-hpbar";
@@ -534,8 +544,8 @@ function renderStage(s){
  el("enemyName").textContent=enemy.name;el("enemyHp").textContent=enemy.hp+" / "+enemy.maxHp;
  el("enemyFill").style.width=percent(enemy.hp,enemy.maxHp);
  el("enemyMeter").setAttribute("aria-valuemax",enemy.maxHp);el("enemyMeter").setAttribute("aria-valuenow",enemy.hp);
- el("enemyArt").src="./assets/"+(art[enemy.role]||"gatekeeper.webp");
- el("enemyArt").alt=enemy.name+"（既存イラストを仮使用）";
+ el("enemyArt").src="./assets/"+(art[enemy.role]||"bell-spirit.webp");
+ el("enemyArt").alt=enemy.name+"（魔物の立ち絵）";
  el("roomName").textContent=s.stageName;el("round").textContent="第"+(s.stage+1)+" / "+STAGES.length+"戦";
  el("turnNum").textContent="TURN "+s.turn;
  el("energy").textContent=s.energy;el("energyRule").textContent="毎ターン3";
