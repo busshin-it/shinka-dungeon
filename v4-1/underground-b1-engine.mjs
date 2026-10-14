@@ -55,7 +55,7 @@ export const CARDS = Object.freeze({
  adversity:{name:"逆境",cost:1,kind:"adversity",text:"直前の敵ターンに失ったHP分、次の物理攻撃＋。魔法で解除",weapon:true,magicArt:"physical-adversity"},
  rage:{name:"逆鱗",cost:3,kind:"all",text:"敵全体に10ダメージ。HPが最大HPの1/3以下なら20",damage:10,lowHpDamage:20,weapon:true,magicArt:"physical-rage"},
  dragonEgg:{name:"竜の卵",cost:1,kind:"dragon",text:"竜を召喚。既にいるなら1段階成長。",art:"b1-dragon-egg.webp"},
- dragonFeed:{name:"竜の餌",cost:0,kind:"dragonFeed",text:"竜を1段階成長。手札を1枚選んで捨てる。廃棄",dragonGrowth:1,exhaust:true,art:"b1-dragon-feed.webp"},
+ dragonFeed:{name:"竜の餌",cost:1,kind:"dragonFeed",text:"竜を1段階成長。手札を1枚選んで捨てる。廃棄",dragonGrowth:1,exhaust:true,art:"b1-dragon-feed.webp"},
  dragonBreath:{name:"竜息",cost:1,kind:"dragonBreath",text:"敵全体に4＋竜の段階×3ダメージ。",damage:4,dragonPowerPerStage:3,art:"b1-dragon-breath.webp"},
  lightningFlash:{name:"雷光",cost:0,kind:"attack",text:"2ダメージ。雷を続けるほど＋2（最大＋8）",damage:2,lightning:true,magicArt:"thunder-small"},
  lightningFork:{name:"跳雷",cost:1,kind:"multi",text:"3ダメージを2回。雷連鎖で強化",damage:3,hits:2,lightning:true,magicArt:"third-twin-thunder"},
