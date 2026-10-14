@@ -812,7 +812,7 @@ function choosePath(id){
  function enterRouteRoom(type){
   if(!routeTrial||s.practiceMode||!["battle","elite","rest","shop","event","treasure","boss"].includes(type))return false;
   if(s.phase==="starter")return false;
-  if(s.phase!=="between"||s.weaponPending||s.restPending||s.shopPending)return false;
+  if(s.phase!=="between"||s.weaponPending||s.restPending||s.shopPending||s.eventPending)return false;
   if(type==="battle"||type==="elite"||type==="boss"){
    s.routeBossActive=type==="boss";
    s.routeElitePending=type==="elite";
@@ -821,12 +821,27 @@ function choosePath(id){
   }
   if(type==="rest"){s.restPending=true;s.restUsed=false;s.restChoice=null;}
   if(type==="shop"){s.shopPending=true;s.shopUsed=false;s.shopStock=rollShopStock();s.shopPurchases=[];s.shopPurged=false;}
-  if(type==="event"){s.gold+=25;note("出来事：金貨25Gを発見。");}
+  if(type==="event"){s.eventPending=true;note("出来事：選択肢から一つ選ぼう。");}
   if(type==="treasure"){s.weaponPending=true;s.weaponOffered=getB1WeaponOffers(runSeed);note("宝箱：武器を選ぼう。");}
   return true;
  }
+ function chooseRouteEvent(choice,index=null){
+  if(!routeTrial||s.phase!=="between"||!s.eventPending||s.practiceMode)return false;
+  if(choice==="gold"){s.gold+=25;note("出来事：25Gを獲得。");}
+  else if(choice==="heal"){const amount=Math.min(12,s.maxHp-s.hp);if(!amount)return false;s.hp+=amount;note("出来事：HPを"+amount+"回復。");}
+  else if(choice==="blood"){
+   if(s.hp<=12)return false;
+   const pool=getB1RewardPool(Math.max(0,Math.min(s.stage,STAGES.length-1)),s.deck);
+   const id=pool[0];if(!id)return false;
+   s.hp-=12;s.deck.push(id);note("血の契約：HP12を支払い、"+getB1Card(id).name+"を獲得。");
+  }else if(choice==="upgrade"){
+   if(s.gold<30||!Number.isInteger(index)||index<0||index>=s.deck.length||s.deck[index].endsWith("~"))return false;
+   s.gold-=30;s.deck[index]+="~";note("古代の祭壇：30Gでカードを強化。");
+  }else return false;
+  s.eventPending=false;return true;
+ }
  function routeLeaveRoom(){
-  if(!routeTrial||s.phase!=="between"||s.weaponPending)return false;
+  if(!routeTrial||s.phase!=="between"||s.weaponPending||s.eventPending)return false;
   if(s.restPending){s.restPending=false;s.restUsed=true;}
   if(s.shopPending){s.shopPending=false;s.shopUsed=true;}
   return true;
@@ -875,5 +890,5 @@ function choosePath(id){
   start();note("練習モード："+(mode==="combo"?"連鎖コンボ14枚":mode==="ideal"?"安定型14枚":mode==="test"?"検証用デッキ":"基本の10枚")+"でボスに挑戦。");
   return true;
  }
- return {snapshot,selectStarter,startBossPractice,play,endTurn,hasPlayableCard,chooseReward,chooseWeapon,chooseRest,buyShop,purgeShopCard,leaveShop,choosePath,nextBattle,enterRouteRoom,routeLeaveRoom,exportCheckpoint,restoreCheckpoint};
+ return {snapshot,selectStarter,startBossPractice,play,endTurn,hasPlayableCard,chooseReward,chooseWeapon,chooseRest,buyShop,purgeShopCard,leaveShop,choosePath,nextBattle,enterRouteRoom,routeLeaveRoom,chooseRouteEvent,exportCheckpoint,restoreCheckpoint};
 }
