@@ -425,7 +425,7 @@ function cardButton(id){
  btn.setAttribute("aria-label",c.name+"、魔力"+c.cost+"。"+c.text+(c.lightning?"。雷の連続使用で威力が上昇":""));
  return btn;
 }
-function reset(){actions.cancel();game=createB1Game({seed:Date.now()});targetId=null;render();}
+function reset(){actions.cancel();game=createB1Game({seed:Date.now(),tacticalEncounters:true});targetId=null;render();}
 function current(s){
  if(!s.enemies.some(e=>e.id===targetId&&e.hp>0))targetId=s.enemies.find(e=>e.hp>0)?.id||null;
  return s.enemies.find(e=>e.id===targetId)||s.enemies[0];
