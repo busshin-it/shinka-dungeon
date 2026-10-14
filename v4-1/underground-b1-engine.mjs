@@ -168,6 +168,35 @@ export const STAGES = Object.freeze([
  {name:"B1・最深部の門",hint:"ラスボス前の最後の試練。今のデッキを磨こう。",enemies:[{id:"elite3",name:"門を守る巨獣",maxHp:84,role:"elite"},{id:"starWatcher",name:"星守りの霊獣",maxHp:33,role:"watcher"}],rewards:["rage","ironHammer","fireWaveLarge","thunderLarge","mentalCollapse","deathSong","charge","double","flow"]},
  {name:"B1・最深部",hint:"護衛2体と長期戦。護衛の守りを崩し、溜めた大技を乗り切ろう。",enemies:[{id:"left",name:"盾の小鬼・左",maxHp:24,role:"guard"},{id:"boss",name:"地底の異形主",maxHp:135,role:"boss"},{id:"right",name:"盾の小鬼・右",maxHp:24,role:"guard"}],rewards:[]}
 ]);
+// Four battle archetypes for the 12-fight B1 journey. Original STAGES and
+// the boss remain untouched; the mobile B1 page opts into these variants.
+// Every variant has a clear intent and a different efficient counter strategy.
+export const B1_TACTICAL_ENCOUNTERS=Object.freeze({
+ 3:Object.freeze({
+  name:"B1・暴走の炉",
+  hint:"暴走焔獣は攻撃力が上がり続ける。雷連鎖や大技で短期決戦を狙おう。",
+  enemies:Object.freeze([{id:"rampBeast",name:"暴走焔獣",maxHp:74,role:"ramp"}])
+ }),
+ 5:Object.freeze({
+  name:"B1・針虫の巣",
+  hint:"針甲虫3体が別々に攻撃。反射結界や全体攻撃・全体毒が有効。",
+  enemies:Object.freeze([
+   {id:"needleA",name:"針甲虫・赤",maxHp:20,role:"needle"},
+   {id:"needleB",name:"針甲虫・青",maxHp:19,role:"needle"},
+   {id:"needleC",name:"針甲虫・黒",maxHp:21,role:"needle"}
+  ])
+ }),
+ 7:Object.freeze({
+  name:"B1・黒曜の甲殻",
+  hint:"黒曜装甲獣は厚い防御を張る。毒・呪いなら防御を無視して削れる。",
+  enemies:Object.freeze([{id:"bulwarkBeast",name:"黒曜装甲獣",maxHp:72,role:"bulwark"}])
+ }),
+ 9:Object.freeze({
+  name:"B1・永劫の晶窟",
+  hint:"悠久晶獣は再生と守りで長期戦へ。竜を育てて逆転を狙おう。",
+  enemies:Object.freeze([{id:"ancientCrystal",name:"悠久晶獣",maxHp:78,role:"ancient"}])
+ })
+});
 // Bonus cards are available to ALL starting decks, not a dragon-exclusive
 // class. Preserve the original 9-card stage pools and boss/fork structure.
 // "竜の餌" and "竜息" only become reward choices after the deck already owns
@@ -211,14 +240,19 @@ export function createB1Game(options={}){
  let seed=(Number(options.seed)>>>0)||20261010;
  const random=()=>{seed=(Math.imul(seed,1664525)+1013904223)>>>0;return seed/4294967296;};
  const shuffle=a=>{for(let i=a.length-1;i>0;i--){const j=Math.floor(random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;};
+ const useTacticalEnemies=options.tacticalEncounters===true;
  const testMaxHp=Number.isInteger(options.maxHp)&&options.maxHp>=1&&options.maxHp<=999?options.maxHp:75;
  let s={nextTurnBonusDraw:0,previousSpell:false,reflectKillDraw:0,poisonOnBlock:0,lightningStreak:0,reflectDamage:0,dopingBonus:0,nextPhysicalAttackBonus:0,lastTurnHpLoss:0,dragonStage:-1,lastDragonEvolution:null,lastSynergy:null,phase:"starter",stage:0,turn:1,hp:testMaxHp,maxHp:testMaxHp,energy:3,block:0,heroPoison:0,attacksThisTurn:0,attackCardsThisTurn:0,darkCastsThisTurn:0,spellsThisTurn:0,pendingMagicAttackBonus:0,powerDraw:0,strength:0,selected:null,deck:Array.isArray(options.testDeck)&&options.testDeck.length>0&&options.testDeck.length<=30&&options.testDeck.every(id=>Object.hasOwn(CARDS,id))?[...options.testDeck]:[...STARTER],hand:[],draw:[],discard:[],exhaust:[],powers:[],enemies:[],rewards:[],gold:0,shopPending:false,shopUsed:false,shopStock:[],shopPurchases:[],shopPurged:false,restPending:false,restUsed:false,restChoice:null,selectedPath:null,routeHistory:[],log:["最初に得意な魔法を1枚選んで地下迷宮へ。"]};
  function note(t){s.log.unshift(t);s.log=s.log.slice(0,18);}
  const alive=()=>s.enemies.filter(e=>e.hp>0);
  const find=id=>s.enemies.find(e=>e.id===id&&e.hp>0);
  function drawCards(n){let drawn=0;for(let i=0;i<n&&s.hand.length<10;i++){if(!s.draw.length){if(!s.discard.length)break;s.draw=shuffle(s.discard.splice(0));}s.hand.push(s.draw.pop());drawn++;}return drawn;}
+ function encounterAt(stageIndex){
+  return stageIndex===1?B1_FORK_ROUTES[s.selectedPath||"pack"]:
+   (useTacticalEnemies&&!s.practiceMode&&B1_TACTICAL_ENCOUNTERS[stageIndex])||STAGES[stageIndex];
+ }
  function start(){
-  const stage=s.stage===1?B1_FORK_ROUTES[s.selectedPath||"pack"]:STAGES[s.stage];s.enemies=stage.enemies.map(e=>({...clone(e),maxHp:(!s.practiceMode&&s.deck.includes("basicAttack"))?Math.max(8,Math.round(e.maxHp*(s.stage<3?.66:s.stage<6?.82:s.stage===STAGES.length-1?.88:1))):e.maxHp,hp:(!s.practiceMode&&s.deck.includes("basicAttack"))?Math.max(8,Math.round(e.maxHp*(s.stage<3?.66:s.stage<6?.82:s.stage===STAGES.length-1?.88:1))):e.maxHp,weaken:0,poison:0,vulnerable:0,block:0,strength:0,channelDamage:0,channelBroken:false,confusionAttacks:0,hallucinationAttacks:0,curses:[]}));s.turn=1;s.block=0;s.energy=3;s.attacksThisTurn=0;s.attackCardsThisTurn=0;s.darkCastsThisTurn=0;s.spellsThisTurn=0;s.lightningStreak=0;s.reflectDamage=0;s.reflectKillDraw=0;s.poisonOnBlock=0;s.previousSpell=false;s.nextTurnBonusDraw=0;s.pendingMagicAttackBonus=0;s.powerDraw=0;s.strength=0;s.dopingBonus=0;s.nextPhysicalAttackBonus=0;s.lastTurnHpLoss=0;
+  const stage=encounterAt(s.stage);s.enemies=stage.enemies.map(e=>({...clone(e),maxHp:(!s.practiceMode&&s.deck.includes("basicAttack"))?Math.max(8,Math.round(e.maxHp*(s.stage<3?.66:s.stage<6?.82:s.stage===STAGES.length-1?.88:1))):e.maxHp,hp:(!s.practiceMode&&s.deck.includes("basicAttack"))?Math.max(8,Math.round(e.maxHp*(s.stage<3?.66:s.stage<6?.82:s.stage===STAGES.length-1?.88:1))):e.maxHp,weaken:0,poison:0,vulnerable:0,block:0,strength:0,channelDamage:0,channelBroken:false,confusionAttacks:0,hallucinationAttacks:0,curses:[]}));s.turn=1;s.block=0;s.energy=3;s.attacksThisTurn=0;s.attackCardsThisTurn=0;s.darkCastsThisTurn=0;s.spellsThisTurn=0;s.lightningStreak=0;s.reflectDamage=0;s.reflectKillDraw=0;s.poisonOnBlock=0;s.previousSpell=false;s.nextTurnBonusDraw=0;s.pendingMagicAttackBonus=0;s.powerDraw=0;s.strength=0;s.dopingBonus=0;s.nextPhysicalAttackBonus=0;s.lastTurnHpLoss=0;
   s.heroPoison=0;s.dragonStage=-1;s.lastDragonEvolution=null;s.lastSynergy=null;s.hand=[];s.discard=[];s.exhaust=[];s.powers=[];s.draw=shuffle([...s.deck]);s.selected=s.enemies.find(e=>e.role!=="boss")?.id||s.enemies[0].id;s.phase="battle";drawCards(5);note(stage.name+"：戦闘開始。");
  }
  function selectStarter(id){if(s.phase!=="starter"||!["basic","physical","lightning","scatter","flow","dragonEgg","fireSmall","fireMedium","fireLarge","fireWaveSmall","fireWaveMedium","fireWaveLarge","thunderSmall","thunderMedium","thunderLarge","darkBolt","abyssBolt","mentalCollapse","curse","deathSong","hallucination","iceSpear","arcaneLance","shadowEcho","blizzard","thunderSurge","guideThrust","spellblade","bludgeon","rapidPunch","heavyBlow","sneakHit","ironHammer","doping","adversity","rage"].includes(id))return false;
@@ -460,6 +494,40 @@ export function createB1Game(options={}){
   }
   // Distinct mid/late-game opponents; each retains the B1 buff/attack
   // vocabulary and predictable visible intents rather than new systems.
+  // Fast-growing attacker: attack damage is telegraphed using the current
+  // strength. The next round's buildup does not retroactively alter preview.
+  if(e.role==="ramp"){
+   const n=(t-1)%3;
+   return n===0?{kind:"buff",label:"灼熱の鼓動（攻撃＋3）",strengthGain:3}:
+    n===1?{kind:"attack",label:"炎爪 "+(8+e.strength)+"（次回攻撃＋2）",damage:8+e.strength,ritualGain:2}:
+    {kind:"attack",label:"暴走連撃 "+(5+e.strength)+"×2（次回攻撃＋1）",damage:5+e.strength,hits:2,ritualGain:1};
+  }
+  // Three independently acting monsters; each blocked attack can trigger
+  // a separate reflection instead of artificially reflecting four hits once.
+  if(e.role==="needle"){
+   const n=(t-1)%3;
+   return n===0?{kind:"attack",label:"針刺し "+(4+e.strength),damage:4+e.strength}:
+    n===1?{kind:"attack",label:"毒針ではない連突 "+(5+e.strength),damage:5+e.strength}:
+    {kind:"buff",label:"殻に隠れる（防御4）",blockGain:4};
+  }
+  // Heavy block makes direct attacks inefficient; poison and curses still
+  // bypass block through the existing enemy phase and cannot be cleansed.
+  if(e.role==="bulwark"){
+   const n=(t-1)%4;
+   return n===0?{kind:"buff",label:"黒曜の外殻（防御16）",blockGain:16}:
+    n===1?{kind:"attack",label:"装甲突進 "+(9+e.strength),damage:9+e.strength}:
+    n===2?{kind:"buff",label:"厚い外殻（防御14）",blockGain:14}:
+    {kind:"attack",label:"岩砕き "+(12+e.strength),damage:12+e.strength};
+  }
+  // Regeneration is limited to its maximum HP and slowly grows damage:
+  // blocking and dragon growth matter, while stalling forever is costly.
+  if(e.role==="ancient"){
+   const n=(t-1)%4;
+   return n===0?{kind:"buff",label:"永劫の殻（防御10）",blockGain:10}:
+    n===1?{kind:"attack",label:"水晶の鐘 "+(9+e.strength),damage:9+e.strength}:
+    n===2?{kind:"healSelf",label:"晶核の再生（HP8回復・攻撃＋2）",healAmount:8,strengthGain:2}:
+    {kind:"attack",label:"時の重圧 "+(11+e.strength),damage:11+e.strength};
+  }
   if(e.role==="archer"){
    const n=(t-1)%3;
    return n===0?{kind:"attack",label:"狙い撃ち "+(8+e.strength),damage:8+e.strength}:
@@ -604,6 +672,11 @@ export function createB1Game(options={}){
      }
      if(s.hp<=0){s.phase="lost";note("HPが0になった。再挑戦してみよう。");break;}
     }
+   }else if(action.kind==="healSelf"){
+    const restored=Math.min(action.healAmount||0,e.maxHp-e.hp);
+    e.hp+=restored;
+    if(action.strengthGain)e.strength+=action.strengthGain;
+    note(e.name+"："+action.label+"。回復"+restored+"、現在HP"+e.hp+"。");
    }else if(action.kind==="poisonHero"){
     s.heroPoison+=action.poisonGain;
     note(e.name+"："+action.label+"。現在の毒"+s.heroPoison+"。");
@@ -690,7 +763,7 @@ function choosePath(id){
    if(s.restPending){s.restPending=false;s.restUsed=true;s.restChoice="skipped";}if(s.shopPending){s.shopPending=false;s.shopUsed=true;}s.stage++;start();return true;
   }
  function snapshot(){
-   const stage=s.stage===1?B1_FORK_ROUTES[s.selectedPath||"pack"]:STAGES[s.stage];
+   const stage=encounterAt(s.stage);
    return clone({...s,intents:s.enemies.map(e=>({id:e.id,...intent(e)})),
      stageName:s.stage===1?"B1・"+stage.name:stage.name,stageHint:stage.hint,
      shopAvailable:s.phase==="between"&&[2,8].includes(s.stage)&&s.shopPending&&!s.practiceMode,
