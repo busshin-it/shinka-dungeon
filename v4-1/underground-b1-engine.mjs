@@ -830,6 +830,24 @@ function choosePath(id){
   if(s.shopPending){s.shopPending=false;s.shopUsed=true;}
   return true;
  }
+ function exportCheckpoint(){
+  if(!routeTrial||s.practiceMode)return null;
+  return {version:1,runSeed,randomState:seed,state:clone(s)};
+ }
+ function restoreCheckpoint(checkpoint){
+  if(!routeTrial||!checkpoint||checkpoint.version!==1||checkpoint.runSeed!==runSeed)return false;
+  const incoming=checkpoint.state;
+  if(!incoming||typeof incoming!=="object"||Array.isArray(incoming)||
+     !["starter","battle","reward","between","won","lost"].includes(incoming.phase)||
+     !Number.isInteger(incoming.stage)||incoming.stage<0||incoming.stage>=STAGES.length||
+     !Number.isInteger(incoming.hp)||incoming.hp<0||incoming.hp>999||
+     !Number.isInteger(incoming.maxHp)||incoming.maxHp<1||incoming.maxHp>999||
+     !Array.isArray(incoming.deck)||incoming.deck.length>300||
+     !incoming.deck.every(id=>typeof id==="string"&&!!getB1Card(id)&&Object.hasOwn(CARDS,id.replace(/~$/,"")))||
+     !Array.isArray(incoming.enemies)||incoming.enemies.length>3||
+     !Number.isInteger(checkpoint.randomState)||checkpoint.randomState<0||checkpoint.randomState>4294967295)return false;
+  s=clone(incoming);seed=checkpoint.randomState>>>0;return true;
+ }
  function snapshot(){
    const stage=encounterAt(s.stage);
    return clone({...s,intents:s.enemies.map(e=>({id:e.id,...intent(e)})),
@@ -856,5 +874,5 @@ function choosePath(id){
   start();note("練習モード："+(mode==="combo"?"連鎖コンボ14枚":mode==="ideal"?"安定型14枚":mode==="test"?"検証用デッキ":"基本の10枚")+"でボスに挑戦。");
   return true;
  }
- return {snapshot,selectStarter,startBossPractice,play,endTurn,hasPlayableCard,chooseReward,chooseWeapon,chooseRest,buyShop,purgeShopCard,leaveShop,choosePath,nextBattle,enterRouteRoom,routeLeaveRoom};
+ return {snapshot,selectStarter,startBossPractice,play,endTurn,hasPlayableCard,chooseReward,chooseWeapon,chooseRest,buyShop,purgeShopCard,leaveShop,choosePath,nextBattle,enterRouteRoom,routeLeaveRoom,exportCheckpoint,restoreCheckpoint};
 }
