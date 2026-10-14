@@ -17,7 +17,7 @@ button{font:inherit;cursor:pointer}header button{background:#293b51;color:white;
 .room.selected{border:2px solid #faad51}
 .boss{max-width:230px;margin:0 auto 6px;min-height:70px;width:100%;display:block;background:#582e37;border:2px solid #e79886;color:white;border-radius:15px;font-size:19px}
 .boss:disabled{opacity:.55}p.note{font-size:12px;line-height:1.7;color:#abb8c9}
-#combat,#choices{background:#15243a;border:1px solid #677a92;border-radius:14px;padding:14px;margin:12px 0}#combat[hidden],#choices[hidden]{display:none}#enemies,#hand,#choiceList{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0}.choice,#hand button,#enemies button{background:#29394f;border:1px solid #7188a4;color:white;border-radius:9px;padding:11px;text-align:left;flex:1 1 135px;min-width:110px}#enemies .target{border-color:#f6ba64;background:#3c3441}#hand button:disabled{opacity:.35}#endTurn{padding:12px;background:#da9d48;border:0;border-radius:9px;font-weight:bold}#battleInfo{line-height:1.8}#map{scroll-margin-top:90px}.room{position:relative}.floor:after{content:"";pointer-events:none;position:absolute;top:-17px;left:51%;width:2px;height:16px;background:repeating-linear-gradient(to bottom,#c6b282 0px,#c6b282 4px,transparent 4px,transparent 7px);opacity:.7}.floor:last-child:after{display:none}button:focus-visible{outline:3px solid #ffcf80;outline-offset:2px}
+#combat,#choices{background:#15243a;border:1px solid #677a92;border-radius:14px;padding:14px;margin:12px 0}#combat[hidden],#choices[hidden]{display:none}#enemies,#hand,#choiceList{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0}.choice,#hand button,#enemies button{background:#29394f;border:1px solid #7188a4;color:white;border-radius:9px;padding:11px;text-align:left;flex:1 1 135px;min-width:110px}#enemies .target{border-color:#f6ba64;background:#3c3441}#hand button:disabled{opacity:.35}#endTurn{padding:12px;background:#da9d48;border:0;border-radius:9px;font-weight:bold}#battleInfo{line-height:1.8}#map{scroll-margin-top:90px}.room{position:relative}.route-edges{pointer-events:none;position:absolute;top:-17px;left:0;width:100%;height:18px;overflow:visible}.route-edges line{stroke:#b9a476;stroke-width:2;stroke-dasharray:4 3;opacity:.65}.route-edges line.passed{stroke:#81d3aa;opacity:1;stroke-width:3}button:focus-visible{outline:3px solid #ffcf80;outline-offset:2px}
 </style></head><body><main>
 <header><h1>地下迷宮 B1｜進路選択</h1><button id="restart" type="button">新しい地図</button></header>
 <p class="sub">下から上へ登る15階層。金色の部屋を選んで、戦闘や休憩を進めます。</p>
@@ -81,6 +81,28 @@ function render(){
    const label=document.createElement("small");label.textContent=name;btn.append(ico,label);row.append(btn);
   }
   container.append(row);
+ }
+ // Draw true graph edges instead of suggesting connections that do not exist.
+ const rows=[...container.querySelectorAll(".floor")];
+ for(let index=1;index<rows.length;index++){
+  const row=rows[index],upper=rows[index-1],floor=16-index;
+  const nodes=map.floors[floor-1],upperNodes=map.floors[floor];
+  const svg=document.createElementNS("http://www.w3.org/2000/svg","svg");
+  svg.setAttribute("class","route-edges");
+  const box=row.getBoundingClientRect();svg.setAttribute("viewBox","0 0 "+box.width+" 18");svg.setAttribute("preserveAspectRatio","none");
+  const lowerButtons=row.querySelectorAll(".room"),upperButtons=upper.querySelectorAll(".room");
+  for(const node of nodes){
+   for(const next of node.next){
+    const target=upperNodes.find(n=>n.id===next);if(!target)continue;
+    const a=lowerButtons[node.lane].getBoundingClientRect(),b=upperButtons[target.lane].getBoundingClientRect();
+    const line=document.createElementNS("http://www.w3.org/2000/svg","line");
+    line.setAttribute("x1",a.left-box.left+a.width/2);line.setAttribute("y1","18");
+    line.setAttribute("x2",b.left-box.left+b.width/2);line.setAttribute("y2","0");
+    if(path.includes(node.id)&&path.includes(target.id))line.setAttribute("class","passed");
+    svg.append(line);
+   }
+  }
+  row.append(svg);
  }
  if(!path.length)window.scrollTo(0,document.body.scrollHeight);
  else if(s.phase!=="battle"){const current=container.querySelectorAll(".floor");const active=[...current].find(row=>row.querySelector(".done")&&row.textContent.includes(String(path.length)));if(active&&path.length>0)active.scrollIntoView({block:"center",behavior:"instant"});}
