@@ -139,7 +139,16 @@ body.pilot-mode #playScreen .stage.b1-room-arrival{animation:b1-room-arrival .28
  body.pilot-mode #journeyPanel .pilot-overlay-window.b1-route-enter,
  body.pilot-mode #playScreen .stage.b1-room-arrival{animation:none}
 }
-</style><style>.b1-ascending-node{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;line-height:1.2}.b1-ascending-node .b1-room-benefit{display:block;font-size:10px;color:#dfd2b9;line-height:1.15}.b1-ascending-node.selectable .b1-room-benefit{color:#ffe6b6}</style><style>.b1-event-options{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;max-height:55vh;overflow:auto;padding:8px}.b1-event-option{background:linear-gradient(160deg,#244057,#172638);color:#f9ead0;border:1px solid #b79d70;border-radius:12px;min-height:90px;padding:13px;display:flex;flex-direction:column;gap:10px;align-items:center;justify-content:center}.b1-event-option small{line-height:1.4;color:#d4d3d2}.b1-event-option:disabled{opacity:.42}.b1-event-option:focus-visible{outline:3px solid #ffe19a}</style><style>.b1-event-options.b1-event-upgrade-list{display:flex;flex-direction:column;align-items:stretch;overflow-y:auto;max-height:52vh}.b1-event-upgrade-list .b1-event-option{flex:0 0 auto;min-height:88px;width:100%}.b1-event-back{position:sticky;top:0;z-index:2;align-self:flex-start;padding:10px 14px;border:1px solid #bea16f;border-radius:8px;background:#122637;color:#ffe5ac;cursor:pointer}</style></head>
+</style><style>.b1-ascending-node{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;line-height:1.2}.b1-ascending-node .b1-room-benefit{display:block;font-size:10px;color:#dfd2b9;line-height:1.15}.b1-ascending-node.selectable .b1-room-benefit{color:#ffe6b6}</style><style>.b1-event-options{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;max-height:55vh;overflow:auto;padding:8px}.b1-event-option{background:linear-gradient(160deg,#244057,#172638);color:#f9ead0;border:1px solid #b79d70;border-radius:12px;min-height:90px;padding:13px;display:flex;flex-direction:column;gap:10px;align-items:center;justify-content:center}.b1-event-option small{line-height:1.4;color:#d4d3d2}.b1-event-option:disabled{opacity:.42}.b1-event-option:focus-visible{outline:3px solid #ffe19a}</style><style>.b1-event-options.b1-event-upgrade-list{display:flex;flex-direction:column;align-items:stretch;overflow-y:auto;max-height:52vh}.b1-event-upgrade-list .b1-event-option{flex:0 0 auto;min-height:88px;width:100%}.b1-event-back{position:sticky;top:0;z-index:2;align-self:flex-start;padding:10px 14px;border:1px solid #bea16f;border-radius:8px;background:#122637;color:#ffe5ac;cursor:pointer}</style><style>
+/* B1 event altar: one fixed navigation area and one scrolling illustrated-card grid. */
+body.pilot-mode #journeyPanel #b1EventSite.b1-event-site{display:flex;flex-direction:column;min-height:0;max-height:61dvh}
+body.pilot-mode #journeyPanel #b1EventSite[hidden]{display:none}
+body.pilot-mode #journeyPanel #b1EventUpgradeBack{flex:0 0 auto;position:static;align-self:flex-start;margin:0 0 8px}
+body.pilot-mode #journeyPanel #b1EventUpgradeBack[hidden]{display:none}
+body.pilot-mode #journeyPanel #b1EventOptions.b1-event-evolution-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,210px),1fr));align-content:start;gap:12px;flex:1 1 0;height:auto;min-height:0;max-height:none;overflow-y:auto;overscroll-behavior-y:contain}
+body.pilot-mode #journeyPanel #b1EventOptions.b1-event-evolution-grid .b1-evolution-choice{width:100%;min-width:0;max-width:none;min-height:270px;height:auto;box-sizing:border-box}
+@media (max-width:580px){body.pilot-mode #journeyPanel #b1EventOptions.b1-event-evolution-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}}
+</style></head>
 <body class="planning-mode pilot-mode" data-b1-mobile="true"><main class="game pilot-game">
 <header class="masthead"><div><h1>蒼星の回廊 <small>進化ダンジョン</small></h1></div><div class="header-actions">
 <button id="b1Install" class="quiet" type="button" hidden>アプリにする</button>
@@ -204,7 +213,7 @@ body.pilot-mode #playScreen .stage.b1-room-arrival{animation:b1-room-arrival .28
  </div>
  <div class="b1-map-nodes"><span class="b1-map-node future">第3戦・祭壇</span><span class="b1-map-arrow">→</span><span class="b1-map-node future">第4戦・強敵</span><span class="b1-map-arrow">→</span><span class="b1-map-node future">第5〜11戦・深層の試練</span><span class="b1-map-arrow">→</span><span class="b1-map-node future">第12戦・ラスボス</span></div>
  <p class="b1-map-hint">旧マップ</p></div></div>
-<div id="restSite" class="b1-rest-site" hidden><p>焚き火のそばで、次の戦いに備えよう。</p><div class="b1-rest-options"><button id="restHeal" type="button" class="b1-rest-option"><strong>HPを15回復</strong><small>失ったHPだけ回復</small></button><button id="restUpgrade" type="button" class="b1-rest-option"><strong>カードを1枚強化</strong><small>デッキから選ぶ</small></button></div><p id="b1UpgradeListHint" hidden>強化するカードを画像から選択してください。強化前と強化後の効果を比較できます。</p><div id="restUpgradeCards" class="b1-rest-upgrades" hidden></div><button id="restBack" type="button" class="quiet" hidden>戻る</button></div><div id="shopSite" class="b1-shop-site" hidden><p id="shopBalance"></p><div id="shopItems" class="b1-shop-items"></div><div class="b1-shop-purge"><button id="shopPurgeOpen" type="button" class="quiet">30Gでカードを1枚削除</button><div id="shopPurgeCards" class="b1-shop-purge-cards" hidden></div></div><button type="button" id="shopLeave" class="quiet">商店を出る →</button></div><div id="b1EventSite" class="b1-event-site" hidden><div id="b1EventOptions" class="b1-event-options"></div></div><div id="weaponSite" class="b1-weapon-site" hidden>
+<div id="restSite" class="b1-rest-site" hidden><p>焚き火のそばで、次の戦いに備えよう。</p><div class="b1-rest-options"><button id="restHeal" type="button" class="b1-rest-option"><strong>HPを15回復</strong><small>失ったHPだけ回復</small></button><button id="restUpgrade" type="button" class="b1-rest-option"><strong>カードを1枚強化</strong><small>デッキから選ぶ</small></button></div><p id="b1UpgradeListHint" hidden>強化するカードを画像から選択してください。強化前と強化後の効果を比較できます。</p><div id="restUpgradeCards" class="b1-rest-upgrades" hidden></div><button id="restBack" type="button" class="quiet" hidden>戻る</button></div><div id="shopSite" class="b1-shop-site" hidden><p id="shopBalance"></p><div id="shopItems" class="b1-shop-items"></div><div class="b1-shop-purge"><button id="shopPurgeOpen" type="button" class="quiet">30Gでカードを1枚削除</button><div id="shopPurgeCards" class="b1-shop-purge-cards" hidden></div></div><button type="button" id="shopLeave" class="quiet">商店を出る →</button></div><div id="b1EventSite" class="b1-event-site" hidden><button id="b1EventUpgradeBack" class="b1-event-back" type="button" hidden>← イベント選択に戻る</button><div id="b1EventOptions" class="b1-event-options"></div></div><div id="weaponSite" class="b1-weapon-site" hidden>
  <div id="weaponChoices" class="b1-weapon-choices" aria-label="武器を選ぶ"></div>
  <button id="skipWeapon" type="button" class="quiet b1-weapon-skip">武器を見送る</button>
 </div>
@@ -672,7 +681,7 @@ function renderOverlay(s){
  if(!show)return;
  const rewards=el("rewardCards");rewards.replaceChildren();
  const advance=el("advance"),skip=el("skipReward"),again=el("overlayRestart");
- advance.hidden=true;skip.hidden=true;again.hidden=true;rewards.hidden=true;el("weaponSite").hidden=true;el("b1EventSite").hidden=true;el("routeMap").hidden=true;el("restSite").hidden=true;el("shopSite").hidden=true;el("shopPurgeCards").hidden=true;el("restUpgradeCards").hidden=true;el("b1UpgradeListHint").hidden=true;el("restBack").hidden=true;
+ advance.hidden=true;skip.hidden=true;again.hidden=true;rewards.hidden=true;el("weaponSite").hidden=true;el("b1EventSite").hidden=true;el("b1EventUpgradeBack").hidden=true;el("routeMap").hidden=true;el("restSite").hidden=true;el("shopSite").hidden=true;el("shopPurgeCards").hidden=true;el("restUpgradeCards").hidden=true;el("b1UpgradeListHint").hidden=true;el("restBack").hidden=true;
  if(s.phase==="reward"){
   el("journeyTitle").textContent="第"+(s.stage+1)+"戦に勝利";
   el("journeyHint").textContent="戦闘後にHPを最大6回復。次の敵に備えて3枚から1枚選ぶか、見送ろう。";
@@ -683,7 +692,8 @@ function renderOverlay(s){
   }else if(s.phase==="between"){
   if(s.eventPending){
    el("b1EventSite").hidden=false;
-   const host=el("b1EventOptions");host.replaceChildren();host.classList.remove("b1-event-upgrade-list");
+   const host=el("b1EventOptions");host.replaceChildren();host.classList.remove("b1-event-upgrade-list","b1-event-evolution-grid");
+   const back=el("b1EventUpgradeBack");back.hidden=!b1EventUpgradeOpen;
    const upgrading=b1EventUpgradeOpen;
    el("journeyTitle").textContent=upgrading?"古代の祭壇｜強化するカードを選ぶ":"迷宮の出来事｜一つ選ぼう";
    el("journeyHint").textContent=upgrading?"強化前と強化後を見て、30Gで強化するカードを選ぼう。":"金貨・回復・血の契約・古代の祭壇から一つ選ぼう。";
@@ -705,13 +715,24 @@ function renderOverlay(s){
     button.addEventListener("click",()=>{b1EventUpgradeOpen=true;render();});
     host.append(button);
    }else{
-    host.classList.add("b1-event-upgrade-list");
-    const back=document.createElement("button");back.type="button";back.className="b1-event-back";
-    back.textContent="← イベント選択に戻る";
-    back.addEventListener("click",()=>{b1EventUpgradeOpen=false;render();});host.append(back);
+    host.classList.add("b1-event-upgrade-list","b1-event-evolution-grid");
     for(const item of valid){
      const current=getB1Card(item.id),future=getB1Card(item.id+"~");
-     add(current.name,"現在："+current.text+" → 強化後："+future.text+"｜30G","upgrade",item.index);
+     const card=cardButton(item.id);
+     card.classList.remove("b1-arcane-card","b1-defense-prototype");
+     const originType=card.querySelector(".type");
+     originType.textContent=typeNames[current.kind]||current.kind;
+     originType.removeAttribute("data-symbol");
+     card.classList.add("b1-rest-upgrade-card","b1-upgrade-image-choice","b1-evolution-choice");
+     const copy=card.querySelector(".pilot-card-copy");copy.replaceChildren();
+     const name=document.createElement("strong");name.className="b1-evolution-card-name";name.textContent=current.name;
+     const before=b1EvolutionCompareBlock("現在の効果",current.text,current.cost,"before");
+     const meta=document.createElement("span");meta.className="b1-upgrade-effects";
+     meta.append(b1EvolutionCompareBlock("✦ 進化後の効果",b1EvolutionEffectText(current,future),future.cost,"after"));
+     copy.append(name,before,meta);
+     card.setAttribute("aria-label",current.name+"。現在："+current.text+"、魔力"+current.cost+"。進化後："+b1EvolutionEffectText(current,future)+"、魔力"+future.cost+"。30Gで強化");
+     card.addEventListener("click",()=>{if(game.chooseRouteEvent("upgrade",item.index)){b1EventUpgradeOpen=false;render();}});
+     host.append(card);
     }
    }
   }else if(s.weaponPending){
@@ -1086,6 +1107,7 @@ b1UpgradeGrid.addEventListener("wheel",event=>{
  if(next===b1UpgradeGrid.scrollTop)return;
  b1UpgradeGrid.scrollTop=next;
 },{passive:false});
+el("b1EventUpgradeBack").addEventListener("click",()=>{b1EventUpgradeOpen=false;render();});
 el("restUpgrade").addEventListener("click",()=>{
  const state=game.snapshot();if(!state.restAvailable)return;
  const box=el("restUpgradeCards");box.replaceChildren();box.hidden=false;
