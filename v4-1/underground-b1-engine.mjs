@@ -279,7 +279,7 @@ export function createB1Game(options={}){
   else if(id==="physical")s.deck=[...PHYSICAL_STARTER];
   else if(id==="dragonEgg")s.deck.push("dragonEgg","dragonFeed","dragonBreath");else s.deck.push(id);
   start();return true;}
- function protectors(){return s.stage===STAGES.length-1?alive().filter(e=>e.role==="guard").length:0;}
+ function protectors(){return ((routeTrial&&s.routeBossActive)||s.stage===STAGES.length-1)?alive().filter(e=>e.role==="guard").length:0;}
  function recordBossDamage(e,n){
   if(e.role!=="boss"||n<=0||e.channelBroken||(s.turn-1)%4===3)return;
   e.channelDamage+=n;
