@@ -1,8 +1,8 @@
 import test from "node:test";import assert from "node:assert/strict";import {readFileSync} from "node:fs";import {spawnSync} from "node:child_process";import {createB1Game} from "../v4-1/underground-b1-engine.mjs";
 test("route mode selects exactly three cards before first combat",()=>{
  const g=createB1Game({seed:123,routeTrial:true,tacticalEncounters:true,weaponTrial:true});
- const initial=g.snapshot().deck.length;
  assert.equal(g.selectStarter("basic"),true);
+ const initial=g.snapshot().deck.length;
  for(let n=0;n<3;n++){
   const s=g.snapshot();assert.equal(s.phase,"starterPick");assert.equal(s.starterPicksDone,n);assert.equal(s.starterOffers.length,3);
   assert.equal(g.chooseStarterPick("no-such-card"),false);
