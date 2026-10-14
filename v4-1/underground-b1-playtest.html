@@ -626,7 +626,7 @@ function renderOverlay(s){
    };
    for(const id of s.weaponOffered){
     const w=B1_WEAPONS[id],button=document.createElement("button");
-    button.type="button";button.className="b1-weapon-choice";
+    button.type="button";button.className="b1-weapon-choice b1-weapon-image-choice";
     const art=document.createElement("img");art.className="b1-weapon-art";
     art.src="./assets/"+weaponArt[id];art.alt="";art.loading="eager";art.decoding="async";
     art.draggable=false;button.dataset.weapon=id;
