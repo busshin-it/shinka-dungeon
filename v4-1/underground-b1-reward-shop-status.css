@@ -371,6 +371,22 @@ body.pilot-mode #playScreen .b1-role-warder .b1-actor-figure img{
 }
 
 
+/* Four new tactical creatures. Reuse existing MONSTER illustrations only.
+   Dedicated art can replace these without changing the target/intent handlers. */
+body.pilot-mode #playScreen .b1-role-ramp .b1-actor-figure img{
+ filter:sepia(.75) saturate(1.8) hue-rotate(-32deg) drop-shadow(0 6px 18px #ff5a2cb3);
+}
+body.pilot-mode #playScreen .b1-role-needle .b1-actor-figure img{
+ filter:hue-rotate(85deg) saturate(1.15) drop-shadow(0 5px 13px #a1c6ffa8);
+}
+body.pilot-mode #playScreen .b1-role-bulwark .b1-actor-figure img{
+ filter:grayscale(.42) contrast(1.22) drop-shadow(0 6px 18px #9dacb7ba);
+}
+body.pilot-mode #playScreen .b1-role-ancient .b1-actor-figure img{
+ filter:hue-rotate(190deg) saturate(1.24) brightness(1.13) drop-shadow(0 4px 17px #b1c4f4b8);
+}
+
+
 /* B1 fifth-pass card styling: only the rest evolution grid and reward three.
    Common hand, shop, target selection and original artwork stay unchanged. */
 
