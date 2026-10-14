@@ -1000,3 +1000,78 @@ body.pilot-mode #journeyPanel.b1-weapon-open #weaponSite .b1-weapon-skip{
   height:auto;min-height:105px;
  }
 }
+
+
+/* Weapon altar: reuse four existing illustrations (no image generation).
+   Keep the three selections in one landscape viewport, artwork on top,
+   weapon name and full effect below. Scoped to the weapon modal only. */
+body.pilot-mode #journeyPanel.b1-weapon-open #weaponChoices .b1-weapon-choice.b1-weapon-image-choice{
+ box-sizing:border-box;display:flex;flex-direction:column;
+ justify-content:flex-start;align-items:stretch;
+ padding:0;gap:0;overflow:hidden;
+ background:linear-gradient(165deg,#183248,#132738);
+ color:#f9eacb;
+}
+body.pilot-mode #journeyPanel.b1-weapon-open #weaponChoices .b1-weapon-image-choice .b1-weapon-art{
+ box-sizing:border-box;display:block;flex:0 0 49%;
+ width:100%;height:49%;min-height:0;max-height:55%;
+ margin:0;border:0;border-radius:0;
+ object-fit:cover;object-position:50% 37%;
+ border-bottom:1px solid #b39360a8;
+ pointer-events:none;
+}
+body.pilot-mode #journeyPanel.b1-weapon-open #weaponChoices .b1-weapon-image-choice[data-weapon="thunderStaff"] .b1-weapon-art{object-position:50% 45%}
+body.pilot-mode #journeyPanel.b1-weapon-open #weaponChoices .b1-weapon-image-choice[data-weapon="oldClub"] .b1-weapon-art{object-position:50% 31%}
+body.pilot-mode #journeyPanel.b1-weapon-open #weaponChoices .b1-weapon-image-choice[data-weapon="mirrorStaff"] .b1-weapon-art{object-position:50% 42%}
+body.pilot-mode #journeyPanel.b1-weapon-open #weaponChoices .b1-weapon-image-choice[data-weapon="dragonStaff"] .b1-weapon-art{object-position:50% 31%}
+body.pilot-mode #journeyPanel.b1-weapon-open #weaponChoices .b1-weapon-image-choice .b1-weapon-info{
+ box-sizing:border-box;display:flex;flex:1 1 0;
+ min-height:0;width:100%;min-width:0;
+ flex-direction:column;justify-content:center;align-items:center;
+ padding:7px 11px;gap:6px;text-align:center;
+}
+body.pilot-mode #journeyPanel.b1-weapon-open #weaponChoices .b1-weapon-image-choice .b1-weapon-info strong{
+ font-size:clamp(16px,1.9vw,23px);line-height:1.2;
+ color:#f5deb0;text-shadow:0 1px 4px #000b;
+}
+body.pilot-mode #journeyPanel.b1-weapon-open #weaponChoices .b1-weapon-image-choice .b1-weapon-info .b1-weapon-detail{
+ font-size:clamp(12px,1.25vw,16px);line-height:1.32;
+ color:#f5e8d0;white-space:normal;overflow-wrap:anywhere;
+}
+body.pilot-mode #journeyPanel.b1-weapon-open #weaponChoices .b1-weapon-image-choice:focus-visible{
+ outline:3px solid #ffe5a9;outline-offset:-3px;
+}
+@media (orientation:landscape) and (max-height:620px){
+ body.pilot-mode #journeyPanel.b1-weapon-open #weaponChoices .b1-weapon-image-choice .b1-weapon-art{
+  flex-basis:39%;height:39%;max-height:43%;
+ }
+ body.pilot-mode #journeyPanel.b1-weapon-open #weaponChoices .b1-weapon-image-choice .b1-weapon-info{
+  padding:4px 7px;gap:4px;
+ }
+ body.pilot-mode #journeyPanel.b1-weapon-open #weaponChoices .b1-weapon-image-choice .b1-weapon-info strong{
+  font-size:clamp(15px,1.8vw,19px);
+ }
+ body.pilot-mode #journeyPanel.b1-weapon-open #weaponChoices .b1-weapon-image-choice .b1-weapon-info .b1-weapon-detail{
+  font-size:clamp(11px,1.2vw,14px);line-height:1.25;
+ }
+}
+@media (orientation:landscape) and (max-height:345px){
+ body.pilot-mode #journeyPanel.b1-weapon-open #weaponChoices .b1-weapon-image-choice .b1-weapon-art{
+  flex-basis:30%;height:30%;
+ }
+ body.pilot-mode #journeyPanel.b1-weapon-open #weaponChoices .b1-weapon-image-choice .b1-weapon-info{
+  padding:3px 5px;gap:3px;
+ }
+}
+@media (orientation:portrait) and (max-width:580px){
+ body.pilot-mode #journeyPanel.b1-weapon-open #weaponChoices .b1-weapon-image-choice{
+  min-height:112px;flex-direction:row;
+ }
+ body.pilot-mode #journeyPanel.b1-weapon-open #weaponChoices .b1-weapon-image-choice .b1-weapon-art{
+  flex:0 0 36%;width:36%;height:100%;max-height:none;border-bottom:0;
+  border-right:1px solid #b39360a8;
+ }
+ body.pilot-mode #journeyPanel.b1-weapon-open #weaponChoices .b1-weapon-image-choice .b1-weapon-info{
+  gap:4px;padding:8px 10px;
+ }
+}
