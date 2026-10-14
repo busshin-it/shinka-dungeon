@@ -16,5 +16,5 @@ test("elite rewards are gated by route trial, earned on victory, and cleared",()
  assert.equal(standard.enterRouteRoom("elite"),false);
 });
 test("route hints state the exact implemented rewards",()=>{
- for(const needle of ["勝利：カード3択＋追加40G","HP15回復 またはカード強化","金貨25Gを発見","金貨でカードを購入","ROUTE_HINT[node.type]"])assert.ok(screen.includes(needle),needle);
+ for(const needle of ["勝利：カード3択＋追加40G","HP15回復 またはカード強化","金貨・治癒・契約・強化の選択","金貨でカードを購入","ROUTE_HINT[node.type]"])assert.ok(screen.includes(needle),needle);
 });
