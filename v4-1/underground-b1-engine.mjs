@@ -330,7 +330,7 @@ export function createB1Game(options={}){
  function checkVictory(){
   if(alive().length>0)return false;
   if((routeTrial&&s.routeBossActive)||(!routeTrial&&s.stage===STAGES.length-1)){s.phase="won";note("地下迷宮B1を突破！");}
-  else{if(!s.practiceMode){s.gold+=s.stage===3?35:20;note("ゴールドを獲得。所持："+s.gold+"G。");}const healed=Math.min(6,s.maxHp-s.hp);s.hp+=healed;s.phase="reward";s.rewards=shuffle(getB1RewardPool(s.stage,s.deck)).slice(0,3);note("勝利！HPを"+healed+"回復。技を1枚覚えるか、見送ろう。");}
+  else{if(!s.practiceMode){const base=s.stage===3?35:20;const eliteBonus=routeTrial&&s.routeElitePending?40:0;s.gold+=base+eliteBonus;note("ゴールドを"+(base+eliteBonus)+"G獲得。所持："+s.gold+"G。");if(eliteBonus)note("強敵突破報酬：追加40Gを獲得！");s.routeElitePending=false;}const healed=Math.min(6,s.maxHp-s.hp);s.hp+=healed;s.phase="reward";s.rewards=shuffle(getB1RewardPool(s.stage,s.deck)).slice(0,3);note("勝利！HPを"+healed+"回復。技を1枚覚えるか、見送ろう。");}
   return true;
  }
  function play(index,targetId){
@@ -815,6 +815,7 @@ function choosePath(id){
   if(s.phase!=="between"||s.weaponPending||s.restPending||s.shopPending)return false;
   if(type==="battle"||type==="elite"||type==="boss"){
    s.routeBossActive=type==="boss";
+   s.routeElitePending=type==="elite";
    if(type!=="boss")s.stage=Math.min(10,s.stage+1);
    start();return true;
   }
