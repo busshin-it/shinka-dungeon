@@ -139,7 +139,7 @@ body.pilot-mode #playScreen .stage.b1-room-arrival{animation:b1-room-arrival .28
  body.pilot-mode #journeyPanel .pilot-overlay-window.b1-route-enter,
  body.pilot-mode #playScreen .stage.b1-room-arrival{animation:none}
 }
-</style><style>.b1-ascending-node{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;line-height:1.2}.b1-ascending-node .b1-room-benefit{display:block;font-size:10px;color:#dfd2b9;line-height:1.15}.b1-ascending-node.selectable .b1-room-benefit{color:#ffe6b6}</style><style>.b1-event-options{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;max-height:55vh;overflow:auto;padding:8px}.b1-event-option{background:linear-gradient(160deg,#244057,#172638);color:#f9ead0;border:1px solid #b79d70;border-radius:12px;min-height:90px;padding:13px;display:flex;flex-direction:column;gap:10px;align-items:center;justify-content:center}.b1-event-option small{line-height:1.4;color:#d4d3d2}.b1-event-option:disabled{opacity:.42}.b1-event-option:focus-visible{outline:3px solid #ffe19a}</style></head>
+</style><style>.b1-ascending-node{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;line-height:1.2}.b1-ascending-node .b1-room-benefit{display:block;font-size:10px;color:#dfd2b9;line-height:1.15}.b1-ascending-node.selectable .b1-room-benefit{color:#ffe6b6}</style><style>.b1-event-options{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;max-height:55vh;overflow:auto;padding:8px}.b1-event-option{background:linear-gradient(160deg,#244057,#172638);color:#f9ead0;border:1px solid #b79d70;border-radius:12px;min-height:90px;padding:13px;display:flex;flex-direction:column;gap:10px;align-items:center;justify-content:center}.b1-event-option small{line-height:1.4;color:#d4d3d2}.b1-event-option:disabled{opacity:.42}.b1-event-option:focus-visible{outline:3px solid #ffe19a}</style><style>.b1-event-options.b1-event-upgrade-list{display:flex;flex-direction:column;align-items:stretch;overflow-y:auto;max-height:52vh}.b1-event-upgrade-list .b1-event-option{flex:0 0 auto;min-height:88px;width:100%}.b1-event-back{position:sticky;top:0;z-index:2;align-self:flex-start;padding:10px 14px;border:1px solid #bea16f;border-radius:8px;background:#122637;color:#ffe5ac;cursor:pointer}</style></head>
 <body class="planning-mode pilot-mode" data-b1-mobile="true"><main class="game pilot-game">
 <header class="masthead"><div><h1>蒼星の回廊 <small>進化ダンジョン</small></h1></div><div class="header-actions">
 <button id="b1Install" class="quiet" type="button" hidden>アプリにする</button>
@@ -253,6 +253,7 @@ function loadJourney(){
   routeSeed=saved.routeSeed;routeMap=map;routePath=valid;game=restored;return true;
  }catch(_){return false;}
 }
+let b1EventUpgradeOpen=false;
 const resumed=loadJourney();
 // Direct physical trial URL lets players launch the deck without hunting for a
 // fifth card or dealing with a previously cached selection screen.
@@ -486,7 +487,7 @@ function cardButton(id){
  btn.setAttribute("aria-label",c.name+"、魔力"+c.cost+"。"+c.text+(c.lightning?"。雷の連続使用で威力が上昇":""));
  return btn;
 }
-function reset(){try{localStorage.removeItem(B1_JOURNEY_SAVE_KEY);}catch(_){}actions.cancel();if(weaponToastTimer!==null){clearTimeout(weaponToastTimer);weaponToastTimer=null;}lastWeaponCue=0;el("b1WeaponToast").hidden=true;routeSeed=Date.now();routeMap=createB1RouteMap(routeSeed);routePath=["f1-l1"];game=createB1Game({seed:routeSeed,tacticalEncounters:true,weaponTrial:true,routeTrial:true});targetId=null;render();}
+function reset(){b1EventUpgradeOpen=false;try{localStorage.removeItem(B1_JOURNEY_SAVE_KEY);}catch(_){}actions.cancel();if(weaponToastTimer!==null){clearTimeout(weaponToastTimer);weaponToastTimer=null;}lastWeaponCue=0;el("b1WeaponToast").hidden=true;routeSeed=Date.now();routeMap=createB1RouteMap(routeSeed);routePath=["f1-l1"];game=createB1Game({seed:routeSeed,tacticalEncounters:true,weaponTrial:true,routeTrial:true});targetId=null;render();}
 function current(s){
  if(!s.enemies.some(e=>e.id===targetId&&e.hp>0))targetId=s.enemies.find(e=>e.hp>0)?.id||null;
  return s.enemies.find(e=>e.id===targetId)||s.enemies[0];
@@ -681,24 +682,38 @@ function renderOverlay(s){
   }
   }else if(s.phase==="between"){
   if(s.eventPending){
-   el("journeyTitle").textContent="迷宮の出来事｜一つ選ぼう";
-   el("journeyHint").textContent="金貨を受け取るか、体力・金貨と引き換えに力を得るか。選択すると次の階へ進めます。";
    el("b1EventSite").hidden=false;
-   const host=el("b1EventOptions");host.replaceChildren();
+   const host=el("b1EventOptions");host.replaceChildren();host.classList.remove("b1-event-upgrade-list");
+   const upgrading=b1EventUpgradeOpen;
+   el("journeyTitle").textContent=upgrading?"古代の祭壇｜強化するカードを選ぶ":"迷宮の出来事｜一つ選ぼう";
+   el("journeyHint").textContent=upgrading?"強化前と強化後を見て、30Gで強化するカードを選ぼう。":"金貨・回復・血の契約・古代の祭壇から一つ選ぼう。";
    const add=(label,description,choice,index=null,disabled=false)=>{
     const b=document.createElement("button");b.type="button";b.className="b1-event-option";
     const title=document.createElement("strong");title.textContent=label;
     const hint=document.createElement("small");hint.textContent=description;
     b.append(title,hint);b.disabled=disabled;
-    b.addEventListener("click",()=>{if(game.chooseRouteEvent(choice,index))render();});host.append(b);
+    b.addEventListener("click",()=>{if(game.chooseRouteEvent(choice,index)){b1EventUpgradeOpen=false;render();}});host.append(b);
    };
-   add("金貨を持ち帰る","25Gを獲得する","gold");
-   add("泉で傷を癒やす","HPを12回復する","heal",null,s.hp>=s.maxHp);
-   add("血の契約","HP12を払いカード1枚を手に入れる","blood",null,s.hp<=12);
    const valid=s.deck.map((id,index)=>({id,index})).filter(item=>!item.id.endsWith("~"));
-   if(s.gold>=30&&valid.length)for(const item of valid){
-    add("古代の祭壇｜"+getB1Card(item.id).name,"30Gを払ってこのカードを強化","upgrade",item.index);
-   }else add("古代の祭壇","30Gと未強化カードが必要です","upgrade",null,true);
+   if(!upgrading){
+    add("金貨を持ち帰る","25Gを獲得する","gold");
+    add("泉で傷を癒やす","HPを12回復する","heal",null,s.hp>=s.maxHp);
+    add("血の契約","HP12を払ってカード1枚を手に入れる","blood",null,s.hp<=12);
+    const button=document.createElement("button");button.type="button";button.className="b1-event-option";
+    button.innerHTML="<strong>古代の祭壇</strong><small>30Gで好きなカードを強化</small>";
+    button.disabled=s.gold<30||!valid.length;
+    button.addEventListener("click",()=>{b1EventUpgradeOpen=true;render();});
+    host.append(button);
+   }else{
+    host.classList.add("b1-event-upgrade-list");
+    const back=document.createElement("button");back.type="button";back.className="b1-event-back";
+    back.textContent="← イベント選択に戻る";
+    back.addEventListener("click",()=>{b1EventUpgradeOpen=false;render();});host.append(back);
+    for(const item of valid){
+     const current=getB1Card(item.id),future=getB1Card(item.id+"~");
+     add(current.name,"現在："+current.text+" → 強化後："+future.text+"｜30G","upgrade",item.index);
+    }
+   }
   }else if(s.weaponPending){
    el("journeyTitle").textContent="魔具の祭壇｜武器を1つ選ぶ";
    el("journeyHint").textContent="武器は手札に入らず、冒険中ずっと効果が発動します。今回は刻印なし。";
