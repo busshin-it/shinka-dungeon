@@ -7,7 +7,7 @@
 header{display:flex;justify-content:space-between;align-items:center;gap:12px}h1{font-size:21px;margin:0}.sub{color:#b6c5d6;font-size:13px;margin:8px 0 20px}
 button{font:inherit;cursor:pointer}header button{background:#293b51;color:white;border:1px solid #7187a0;border-radius:8px;padding:9px 12px}
 #status{border:1px solid #667995;background:#1b293e;padding:12px;border-radius:10px;position:sticky;top:0;z-index:4;margin-bottom:14px}
-#map{display:flex;flex-direction:column-reverse;gap:16px;padding:20px 4px 30px}
+#map{display:flex;flex-direction:column;gap:16px;padding:20px 4px 30px}
 .floor{display:grid;grid-template-columns:34px repeat(3,minmax(0,1fr));gap:7px;align-items:center;position:relative}
 .floor-label{font-size:12px;color:#c1cbd8;text-align:right;padding-right:3px}
 .room{border:1px solid #526581;border-radius:12px;background:#202f43;color:#c4d0dc;padding:8px 2px;min-height:58px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px}
@@ -17,36 +17,87 @@ button{font:inherit;cursor:pointer}header button{background:#293b51;color:white;
 .room.selected{border:2px solid #faad51}
 .boss{max-width:230px;margin:0 auto 6px;min-height:70px;width:100%;display:block;background:#582e37;border:2px solid #e79886;color:white;border-radius:15px;font-size:19px}
 .boss:disabled{opacity:.55}p.note{font-size:12px;line-height:1.7;color:#abb8c9}
+#combat,#choices{background:#15243a;border:1px solid #677a92;border-radius:14px;padding:14px;margin:12px 0}#combat[hidden],#choices[hidden]{display:none}#enemies,#hand,#choiceList{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0}.choice,#hand button,#enemies button{background:#29394f;border:1px solid #7188a4;color:white;border-radius:9px;padding:11px;text-align:left;flex:1 1 135px;min-width:110px}#enemies .target{border-color:#f6ba64;background:#3c3441}#hand button:disabled{opacity:.35}#endTurn{padding:12px;background:#da9d48;border:0;border-radius:9px;font-weight:bold}#battleInfo{line-height:1.8}#map{scroll-margin-top:90px}.room{position:relative}.floor:after{content:"";pointer-events:none;position:absolute;top:-17px;left:51%;width:2px;height:16px;background:repeating-linear-gradient(to bottom,#c6b282 0px,#c6b282 4px,transparent 4px,transparent 7px);opacity:.7}.floor:last-child:after{display:none}button:focus-visible{outline:3px solid #ffcf80;outline-offset:2px}
 </style></head><body><main>
 <header><h1>地下迷宮 B1｜進路選択</h1><button id="restart" type="button">新しい地図</button></header>
-<p class="sub">15階層＋ボスの操作試作。金色の部屋から進む道を選びます。</p>
-<div id="status" role="status" aria-live="polite"></div><div id="map" aria-label="分岐マップ"></div>
-<p class="note">※この画面はマップ操作の試作品です。部屋を選ぶと進路だけ記録されます。戦闘・報酬・HP・武器・保存・既存B1本編にはまだ接続していません。</p>
+<p class="sub">下から上へ登る15階層。金色の部屋を選んで、戦闘や休憩を進めます。</p>
+<div id="status" role="status" aria-live="polite"></div><section id="combat" hidden aria-label="戦闘"><div id="battleInfo"></div><div id="enemies"></div><div id="hand"></div><button id="endTurn" type="button">ターン終了</button></section><section id="choices" hidden><h2 id="choiceTitle"></h2><div id="choiceList"></div></section><div id="map" aria-label="分岐マップ"></div>
+<p class="note">この15階層は試遊モードです。既存B1のカード・敵AIを使用しますが、本編12戦と保存データは変更しません。ページを閉じると試遊は終了します。</p>
 </main><script type="module">
 import {createB1RouteMap,availableB1Rooms,chooseB1Room} from "./underground-b1-route-map.mjs";
+import {createB1Game,getB1Card,B1_WEAPONS} from "./underground-b1-engine.mjs";
+const $=id=>document.getElementById(id);
 const labels={battle:["⚔","戦闘"],elite:["☠","強敵"],event:["?","イベント"],shop:["＄","商人"],rest:["♨","休憩"],treasure:["◆","宝箱"]};
-const status=document.getElementById("status"),container=document.getElementById("map");
-let seed=Math.floor(Math.random()*4294967295),map=createB1RouteMap(seed),path=[];
-function draw(){
- const available=new Set(availableB1Rooms(map,path));
- const last=path.at(-1);const floor=path.length+(last==="boss"?0:1);
- status.textContent=last==="boss"?"ボスへ到着！ マップ試作完了":`現在地：${path.length}階まで進行 / 次に選ぶ部屋：${Math.min(floor,16)}階`;
- container.replaceChildren();
- const boss=document.createElement("button");boss.type="button";boss.className="boss";boss.textContent="♛ 16階｜ボス";boss.disabled=!available.has("boss");boss.addEventListener("click",()=>{const next=chooseB1Room(map,path,"boss");if(next){path=next;draw();}});container.append(boss);
+let seed=(Date.now()>>>0)||1,map=createB1RouteMap(seed),path=[],game=createB1Game({seed,tacticalEncounters:true,weaponTrial:true,routeTrial:true}),selectedEnemy=null,pendingRoom=null;
+function button(text,onClick,cls="choice"){const b=document.createElement("button");b.type="button";b.className=cls;b.textContent=text;b.addEventListener("click",onClick);return b;}
+function showChoice(title,options){$("choices").hidden=false;$("combat").hidden=true;$("choiceTitle").textContent=title;$("choiceList").replaceChildren(...options.map(([t,fn])=>button(t,fn)));}
+function handleRoom(id,type){
+ if(game.snapshot().phase==="starter"&&type!=="battle")return;
+ if(type==="battle"&&game.snapshot().phase==="starter"){pendingRoom=id;showChoice("冒険を始める｜最初のデッキ",[
+  ["基本デッキ",()=>beginStarter("basic")],["雷デッキ",()=>beginStarter("lightning")],
+  ["物理デッキ",()=>beginStarter("physical")],["竜の卵デッキ",()=>beginStarter("dragonEgg")]
+ ]);return;}
+ if(!game.enterRouteRoom(type))return;
+ const next=chooseB1Room(map,path,id);if(!next)return;path=next;
+ if(type==="event"){game.routeLeaveRoom();}
+ render();
+}
+function beginStarter(starter){if(!game.selectStarter(starter))return;const next=chooseB1Room(map,path,pendingRoom);if(!next)return;path=next;pendingRoom=null;render();}
+function finishNonCombat(){if(game.routeLeaveRoom())render();}
+function render(){
+ const s=game.snapshot(),available=new Set(s.phase==="battle"||s.phase==="reward"||s.weaponPending||s.restPending||s.shopPending||s.phase==="won"||s.phase==="lost"?[]:availableB1Rooms(map,path));
+ $("status").textContent=`踏破 ${path.filter(x=>x!=="boss").length}/15階｜HP ${s.hp}/${s.maxHp}｜金貨 ${s.gold}G｜${s.phase==="battle"?"戦闘中":s.phase==="reward"?"戦利品選択":s.phase==="lost"?"冒険失敗":s.phase==="won"?"踏破成功":"次の部屋を選択"}`;
+ $("combat").hidden=true;$("choices").hidden=true;
+ if(s.phase==="battle")renderCombat(s);
+ else if(s.phase==="reward")showChoice("勝利！カード報酬",[
+  ...s.rewards.map(id=>{const card=getB1Card(id);return [card.name+"｜"+card.text,()=>{if(game.chooseReward(id))render();}];}),
+  ["見送る",()=>{if(game.chooseReward(null))render();}]
+ ]);
+ else if(s.phase==="lost"||s.phase==="won")showChoice(s.phase==="won"?"ボス撃破！":"冒険失敗", [["新しい冒険",restart]]);
+ else if(s.weaponPending)showChoice("宝箱｜武器を選ぶ",[
+  ...s.weaponOffered.map(id=>[B1_WEAPONS[id].name+"｜"+B1_WEAPONS[id].text,()=>{if(game.chooseWeapon(id)){finishNonCombat();}}]),
+  ["見送る",()=>{if(game.chooseWeapon(null))finishNonCombat();}]
+ ]);
+ else if(s.restPending)showChoice("休憩所",[
+  ["HPを15回復",()=>{if(game.chooseRest("heal"))finishNonCombat();}],
+  ...s.deck.map((id,i)=>{const card=getB1Card(id);return [card.name+" を強化",()=>{if(game.chooseRest("upgrade",i))finishNonCombat();}];}).filter((_,i)=>!s.deck[i].endsWith("~")),
+  ["休憩を見送る",finishNonCombat]
+ ]);
+ else if(s.shopPending)showChoice("商人｜所持金 "+s.gold+"G",[
+  ...s.shopStock.map(item=>{const card=getB1Card(item.id);return [card.name+" "+item.price+"G",()=>{if(game.buyShop(item.id))render();}];}),
+  ["商店を出る",()=>{if(game.leaveShop())render();}]
+ ]);
+ const container=$("map");container.replaceChildren();
+ const boss=button("♛ 16階｜ボス",()=>handleRoom("boss","boss"),"boss");boss.disabled=!available.has("boss");container.append(boss);
  for(const nodes of [...map.floors].reverse()){
   const row=document.createElement("div");row.className="floor";
   const label=document.createElement("span");label.className="floor-label";label.textContent=nodes[0].floor+"F";row.append(label);
   for(const node of nodes){
-   const btn=document.createElement("button");btn.type="button";const [symbol,text]=labels[node.type];
-   const done=path.includes(node.id);btn.className="room"+(available.has(node.id)?" available":"")+(done?" done":"")+(last===node.id?" selected":"");
-   btn.disabled=!available.has(node.id);btn.setAttribute("aria-label",`${node.floor}階 ${text}${done?" 通過済み":available.has(node.id)?" 選択可能":""}`);
-   const ico=document.createElement("span");ico.className="symbol";ico.textContent=done?"✓":symbol;const name=document.createElement("small");name.textContent=text;btn.append(ico,name);
-   btn.addEventListener("click",()=>{const next=chooseB1Room(map,path,node.id);if(next){path=next;draw();}});
-   row.append(btn);
+   const btn=button("",()=>handleRoom(node.id,node.type),"room");
+   const [symbol,name]=labels[node.type],done=path.includes(node.id),enabled=available.has(node.id);
+   btn.className+=" "+(done?"done":enabled?"available":"");btn.disabled=!enabled;
+   btn.setAttribute("aria-label",node.floor+"階 "+name+(done?" 通過済み":enabled?" 選択可能":""));
+   const ico=document.createElement("span");ico.className="symbol";ico.textContent=done?"✓":symbol;
+   const label=document.createElement("small");label.textContent=name;btn.append(ico,label);row.append(btn);
   }
   container.append(row);
  }
 }
-document.getElementById("restart").addEventListener("click",()=>{seed=(seed+977)>>>0;map=createB1RouteMap(seed);path=[];draw();});
-draw();
+function renderCombat(s){
+ $("combat").hidden=false;
+ $("battleInfo").textContent=`第${path.length}階の戦闘｜HP ${s.hp}/${s.maxHp}｜防御${s.block}｜魔力${s.energy}｜ターン${s.turn}｜${s.log[0]||""}`;
+ const enemyList=$("enemies");enemyList.replaceChildren();
+ for(const enemy of s.enemies.filter(e=>e.hp>0)){
+  const intent=s.intents.find(i=>i.id===enemy.id);
+  const b=button(enemy.name+" HP "+enemy.hp+"/"+enemy.maxHp+"｜予告 "+(intent?.label||""),()=>{selectedEnemy=enemy.id;render();});
+  if(selectedEnemy===enemy.id)b.classList.add("target");enemyList.append(b);
+ }
+ if(!s.enemies.some(e=>e.id===selectedEnemy&&e.hp>0))selectedEnemy=s.enemies.find(e=>e.hp>0)?.id||null;
+ const hand=$("hand");hand.replaceChildren();
+ s.hand.forEach((id,index)=>{const card=getB1Card(id),b=button(card.name+"（"+card.cost+"）｜"+card.text,()=>{if(game.play(index,selectedEnemy))render();});b.disabled=card.cost>s.energy;hand.append(b);});
+}
+function restart(){seed=(seed+977)>>>0;map=createB1RouteMap(seed);path=[];game=createB1Game({seed,tacticalEncounters:true,weaponTrial:true,routeTrial:true});pendingRoom=null;selectedEnemy=null;render();}
+$("endTurn").addEventListener("click",()=>{if(game.endTurn())render();});
+$("restart").addEventListener("click",restart);
+render();
 </script></body></html>
