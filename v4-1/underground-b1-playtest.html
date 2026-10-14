@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="ja" data-b1-build="2026.10.14.7"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#0d1821">
+<html lang="ja" data-b1-build="2026.10.14.8"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#0d1821">
 <title>地下迷宮 B1｜魔法使いの試遊</title><link rel="manifest" href="./b1-manifest.webmanifest"><link rel="apple-touch-icon" href="./icons/apple-touch-icon.png"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><link rel="stylesheet" href="./planning.css"><link rel="stylesheet" href="./six-paths-stage.css"><link rel="stylesheet" href="./underground-b1-actions.css"><link rel="stylesheet" href="./underground-b1-actors.css"><link rel="stylesheet" href="./underground-b1-map.css">
 <style>
 /* B1 uses the SAME original Astral/pilot arena and hand stylesheets.
@@ -151,7 +151,7 @@
   </section>
 
   <section class="table" aria-label="カード操作">
-    <div class="controls"><div class="energy"><b id="energy">2</b><span>魔力<small id="energyRule">次＋3 / 上限5</small></span></div><div class="piles"><span>山札 <b id="drawCount">0</b></span><span>捨て札 <b id="discardCount">0</b></span><span>消滅 <b id="exhaustCount">0</b></span></div><button id="deckButton" class="quiet" type="button" disabled>デッキ 10枚</button><button id="endTurn" class="primary" type="button">ターン終了 <span>→</span></button><details id="b1MobileQuickMenu" class="b1-mobile-quick-menu"><summary aria-label="設定・更新メニュー" title="設定・更新">⋯</summary><div class="b1-mobile-quick-panel"><button id="b1MobileCatalog" class="quiet" type="button">カード図鑑</button><button id="b1MobileRestart" class="quiet" type="button">最初から</button><button id="b1MobileUpdate" class="quiet" type="button">最新版に更新</button><span id="b1MobileVersion" class="b1-mobile-version">表示中: 2026.10.14.7</span><span id="b1MobileUpdateStatus" class="b1-update-status" role="status" aria-live="polite"></span></div></details></div>
+    <div class="controls"><div class="energy"><b id="energy">2</b><span>魔力<small id="energyRule">次＋3 / 上限5</small></span></div><div class="piles"><span>山札 <b id="drawCount">0</b></span><span>捨て札 <b id="discardCount">0</b></span><span>消滅 <b id="exhaustCount">0</b></span></div><button id="deckButton" class="quiet" type="button" disabled>デッキ 10枚</button><button id="endTurn" class="primary" type="button">ターン終了 <span>→</span></button><details id="b1MobileQuickMenu" class="b1-mobile-quick-menu"><summary aria-label="設定・更新メニュー" title="設定・更新">⋯</summary><div class="b1-mobile-quick-panel"><button id="b1MobileCatalog" class="quiet" type="button">カード図鑑</button><button id="b1MobileRestart" class="quiet" type="button">最初から</button><button id="b1MobileUpdate" class="quiet" type="button">最新版に更新</button><span id="b1MobileVersion" class="b1-mobile-version">表示中: 2026.10.14.8</span><span id="b1MobileUpdateStatus" class="b1-update-status" role="status" aria-live="polite"></span></div></details></div>
     <div class="hand-label"><h2>あなたの手札</h2><span id="relicStatus" class="relic-status" hidden></span><div id="effectBadges" class="pilot-chips" aria-label="状態効果"></div></div><div id="hand" class="hand"></div><div id="handPanelHome" class="hand-panel-home"><section id="cardPanel" class="card-panel" aria-label="選んだカードの効果" hidden><div id="cardReview" class="panel-content" aria-live="polite"></div><div class="panel-actions"><button id="playCard" class="primary" type="button" disabled>カードを選んでください</button><button id="cancelCard" class="quiet" type="button" aria-label="カードの選択を解除">×</button></div></section></div>
   </section>
 
@@ -627,9 +627,14 @@ function renderOverlay(s){
    for(const id of s.weaponOffered){
     const w=B1_WEAPONS[id],button=document.createElement("button");
     button.type="button";button.className="b1-weapon-choice b1-weapon-image-choice";
-    const art=document.createElement("img");art.className="b1-weapon-art";
-    art.src="./assets/"+weaponArt[id];art.alt="";art.loading="eager";art.decoding="async";
-    art.draggable=false;button.dataset.weapon=id;
+    // The old 2.5KB dragon-feed thumbnail was blurry on landscape phones.
+    // Use the existing high-definition evolution atlas, without image generation.
+    const dragonHd=id==="dragonStaff";
+    const art=document.createElement(dragonHd?"span":"img");
+    art.className="b1-weapon-art"+(dragonHd?" b1-weapon-dragon-hd":"");
+    if(dragonHd)art.setAttribute("aria-hidden","true");
+    else{art.src="./assets/"+weaponArt[id];art.alt="";art.loading="eager";art.decoding="async";art.draggable=false;}
+    button.dataset.weapon=id;
     const name=document.createElement("strong");name.textContent=w.name;
     const detail=document.createElement("span");detail.className="b1-weapon-detail";detail.textContent=w.text;
     const info=document.createElement("span");info.className="b1-weapon-info";

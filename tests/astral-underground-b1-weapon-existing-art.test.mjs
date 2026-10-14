@@ -21,7 +21,7 @@ test("four weapon options use four existing local illustrations, not emoji-only 
   assert.match(inSource,new RegExp(id+':"'+file.replaceAll(".","\\.")+'"'));
   assert.ok(existsSync(new URL("../v4-1/assets/"+file,import.meta.url)),file+" is shipped with the app");
  }
- assert.match(html,/art=document\.createElement\("img"\)/);
+ assert.match(html,/art=document\.createElement\(dragonHd\?"span":"img"\)/);
  assert.match(html,/art\.src="\.\/assets\/("\+weaponArt\[id\]|[^\n]+)/);
  assert.match(html,/art\.alt=""/,"decorative picture: accessible weapon name is already on button");
  assert.match(html,/button\.append\(art,info\)/);
@@ -53,7 +53,7 @@ test("art has a bounded top region and effect is visible in 3-up landscape",()=>
 });
 
 test("installed app update displays the image build consistently",()=>{
- assert.equal(release.build,"2026.10.14.7");
- assert.match(html,/data-b1-build="2026\.10\.14\.7"/);
- assert.match(update,/B1_BUILD = "2026\.10\.14\.7"/);
+ assert.match(release.build,/^[0-9]{4}[.][0-9]{2}[.][0-9]{2}[.][0-9]+$/);
+ assert.ok(html.includes('data-b1-build="'+release.build+'"'));
+ assert.ok(update.includes('B1_BUILD = "'+release.build+'"'));
 });

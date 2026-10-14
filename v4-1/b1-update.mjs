@@ -1,6 +1,6 @@
 // B1-specific manual refresh control. No service worker registration, no
 // cache deletion, and no automatic reload during an active run.
-export const B1_BUILD = "2026.10.14.7";
+export const B1_BUILD = "2026.10.14.8";
 
 export function initB1Updater(win = window, doc = document){
  const button=doc.getElementById("b1MobileUpdate");
