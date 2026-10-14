@@ -7,6 +7,7 @@ const html=readFileSync(new URL("../v4-1/underground-b1-journey.html",import.met
 test("route checkpoint restores deck, hand, hp and deterministic RNG",()=>{
  const first=createB1Game({seed:9191,routeTrial:true,tacticalEncounters:true,weaponTrial:true});
  assert.equal(first.selectStarter("lightning"),true);
+ for(let i=0;i<3;i++)assert.equal(first.chooseStarterPick(first.snapshot().starterOffers[0]),true);
  const original=first.snapshot(),saved=JSON.parse(JSON.stringify(first.exportCheckpoint()));
  const replay=createB1Game({seed:9191,routeTrial:true,tacticalEncounters:true,weaponTrial:true});
  assert.equal(replay.restoreCheckpoint(saved),true);
