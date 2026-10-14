@@ -1,0 +1,1014 @@
+<!doctype html>
+<html lang="ja" data-b1-build="2026.10.14.route1"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#0d1821">
+<title>地下迷宮 B1｜15階層の冒険</title><link rel="manifest" href="./b1-manifest.webmanifest"><link rel="apple-touch-icon" href="./icons/apple-touch-icon.png"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><link rel="stylesheet" href="./planning.css"><link rel="stylesheet" href="./six-paths-stage.css"><link rel="stylesheet" href="./underground-b1-actions.css"><link rel="stylesheet" href="./underground-b1-actors.css"><link rel="stylesheet" href="./underground-b1-map.css">
+<style>
+/* B1 uses the SAME original Astral/pilot arena and hand stylesheets.
+   Extra chrome here is only the multi-target control and text-only cards. */
+.pilot-mode .stage-title{z-index:6;pointer-events:none}
+.pilot-mode .b1-targets{display:flex;gap:4px;justify-content:center;flex-wrap:wrap;max-width:min(410px,46vw);margin:8px auto 0;pointer-events:auto}
+.pilot-mode .b1-targets button{padding:4px 7px;border:1px solid #66808a;background:#142e3edb;border-radius:5px;color:#e0edf0;font-size:10px;line-height:1.25;max-width:138px}
+.pilot-mode .b1-targets button[aria-pressed="true"]{border-color:var(--gold);color:var(--paper);background:#5d4b33}
+.pilot-mode .b1-targets button:disabled{opacity:.4}
+.pilot-mode .pilot-card.b1-text-card .pilot-card-copy{padding:37px 10px 10px;flex:1}
+.pilot-mode .pilot-choices{grid-template-columns:repeat(4,minmax(0,1fr))}
+.pilot-mode .pilot-rewards{grid-template-columns:repeat(3,minmax(0,1fr))}
+.pilot-mode .pilot-choices .pilot-start-card{min-height:158px}
+.pilot-mode .pilot-rewards .pilot-card{min-height:155px}
+.pilot-mode #setupReroll{display:none}
+.pilot-mode .pilot-setup-actions{justify-content:center;flex-wrap:wrap;gap:9px;margin-top:16px}
+.b1-deck-dialog{background:#172d3b;color:#efe5cb;border:1px solid #a89e82;border-radius:12px;padding:21px 25px;width:min(550px,92vw);max-height:84dvh;overflow:auto;box-shadow:0 14px 50px #000b}
+.b1-deck-dialog::backdrop{background:#000a}
+.b1-deck-dialog h2{margin:0 0 8px}
+.b1-deck-dialog p{color:#c4d3ce;font-size:12px}
+.b1-deck-dialog ul{list-style:none;padding:0;display:grid;gap:8px;font-size:12px;margin:16px 0}
+.b1-deck-dialog li{border-bottom:1px solid #53646e;padding-bottom:7px}
+
+@media(max-width:760px){
+.pilot-mode .b1-targets{max-width:min(380px,57vw);gap:3px}
+.pilot-mode .b1-targets button{font-size:9px;padding:4px;max-width:98px}
+.pilot-mode .pilot-choices,.pilot-mode .pilot-rewards{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+
+/* Four starter cards on desktop; card illustration stays above the description. */
+.pilot-mode .pilot-setup{box-sizing:border-box;overflow-x:hidden}
+.pilot-mode .pilot-setup-content{box-sizing:border-box;width:min(1000px,100%);max-width:calc(100vw - 30px);min-width:0}
+.pilot-mode .pilot-choices{width:100%;max-width:100%;gap:12px}
+.pilot-mode .pilot-choices .pilot-start-card{
+ box-sizing:border-box;min-width:0;width:100%;min-height:218px;height:218px;
+ display:flex;flex-direction:column;overflow:hidden;padding:0;
+}
+.pilot-mode .pilot-choices .pilot-start-card.b1-art-card .b1-dragon-card-art{
+ display:block;position:static;inset:auto;width:100%;height:112px;flex:0 0 112px;
+ object-fit:cover;object-position:center 44%;border-radius:0;
+ filter:none;background:#142838;pointer-events:none;
+}
+.pilot-mode .pilot-choices .pilot-start-card.b1-art-card .pilot-card-copy{
+ display:block;box-sizing:border-box;flex:1 1 auto;min-height:0;overflow:hidden;
+ padding:11px 12px 10px;color:#193143;
+}
+.pilot-mode .pilot-choices .pilot-start-card.b1-art-card .pilot-card-copy strong{
+ color:#142a35;font-size:15px;margin:0 0 5px;
+}
+.pilot-mode .pilot-choices .pilot-start-card.b1-art-card .pilot-card-copy .desc{
+ color:#314b55;font-size:11px;line-height:1.43;-webkit-line-clamp:3;line-clamp:3;
+}
+.pilot-mode .pilot-choices .pilot-start-card.b1-art-card .type{
+ z-index:3;margin:0;max-width:calc(100% - 52px);
+}
+.pilot-mode .pilot-choices .pilot-start-card.b1-art-card .cost{z-index:3}
+
+/* Apply the same non-overlapping art/text split in hand and reward cards. */
+.pilot-mode .hand .pilot-card.b1-art-card,
+.pilot-mode .pilot-rewards .pilot-card.b1-art-card{display:flex;flex-direction:column}
+.pilot-mode .hand .pilot-card.b1-art-card .b1-dragon-card-art,
+.pilot-mode .pilot-rewards .pilot-card.b1-art-card .b1-dragon-card-art{
+ display:block;position:static;inset:auto;box-sizing:border-box;
+ width:100%;height:70px;flex:0 0 70px;object-fit:cover;object-position:center 46%;
+ border-radius:0;filter:none;
+}
+.pilot-mode .hand .pilot-card.b1-art-card .pilot-card-copy,
+.pilot-mode .pilot-rewards .pilot-card.b1-art-card .pilot-card-copy{
+ display:block;position:static;min-height:0;flex:1 1 auto;padding:8px 9px;
+ overflow:hidden;color:#172e3d;
+}
+.pilot-mode .hand .pilot-card.b1-art-card .pilot-card-copy strong,
+.pilot-mode .pilot-rewards .pilot-card.b1-art-card .pilot-card-copy strong{color:#172e3d;font-size:12px}
+.pilot-mode .hand .pilot-card.b1-art-card .pilot-card-copy .desc,
+.pilot-mode .pilot-rewards .pilot-card.b1-art-card .pilot-card-copy .desc{color:#314b55}
+@media(max-width:850px){
+ .pilot-mode .pilot-choices{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+ .pilot-mode .pilot-choices .pilot-start-card{height:198px;min-height:198px}
+ .pilot-mode .pilot-choices .pilot-start-card.b1-art-card .b1-dragon-card-art{height:90px;flex-basis:90px}
+}
+@media(max-width:420px){
+ .pilot-mode .pilot-setup-content{padding:12px;max-width:calc(100vw - 16px)}
+ .pilot-mode .pilot-choices .pilot-start-card{height:185px;min-height:185px}
+ .pilot-mode .pilot-choices .pilot-start-card.b1-art-card .b1-dragon-card-art{height:76px;flex-basis:76px}
+ .pilot-mode .pilot-choices .pilot-start-card.b1-art-card .pilot-card-copy{padding:7px 9px}
+ .pilot-mode .pilot-choices .pilot-start-card.b1-art-card .pilot-card-copy strong{font-size:13px}
+ .pilot-mode .pilot-choices .pilot-start-card.b1-art-card .pilot-card-copy .desc{font-size:10px}
+}
+.b1-install-guide{background:#172d3b;color:#f0e7d7;border:1px solid #b3a17b;border-radius:12px;
+ padding:20px;max-width:min(480px,calc(100vw - 36px));max-height:80dvh;overflow:auto;box-shadow:0 15px 50px #000c}
+.b1-install-guide::backdrop{background:#050b16bd}
+.b1-install-guide h2{font-size:19px;margin:0 0 10px}
+.b1-install-guide p{font-size:13px;line-height:1.65;margin:0 0 12px}
+.b1-install-guide .b1-install-disclaimer{color:#a7bbbf;font-size:11px}
+[hidden]#b1Install{display:none!important}
+</style>
+<link rel="stylesheet" href="./underground-b1-starter-art.css">
+<link rel="stylesheet" href="./underground-b1-dragon-visuals.css">
+<link rel="stylesheet" href="./underground-b1-depth-and-catalog.css">
+<link rel="stylesheet" href="./underground-b1-weapon-feedback.css">
+<link rel="stylesheet" href="./underground-b1-mobile.css">
+<link rel="stylesheet" href="./underground-b1-fire.css">
+<link rel="stylesheet" href="./underground-b1-hand-fan.css">
+<link rel="stylesheet" href="./underground-b1-overlay-hand.css">
+<link rel="stylesheet" href="./underground-b1-card-visibility.css">
+<link rel="stylesheet" href="./underground-b1-reward-shop-status.css">
+<link rel="stylesheet" href="./underground-b1-defense-prototype.css">
+<link rel="stylesheet" href="./underground-b1-phone-hand-visibility.css">
+<style>
+.b1-ascending-map{width:min(95vw,720px);max-height:58vh;overflow:hidden}
+.b1-ascending-scroll{display:flex;flex-direction:column;gap:18px;max-height:53vh;overflow:auto;overscroll-behavior:contain;padding:14px 8px}
+.b1-ascending-floor{display:grid;grid-template-columns:30px repeat(3,minmax(0,1fr));gap:6px;position:relative;align-items:center}
+.b1-ascending-floor>span{font-size:12px;color:#b8c0d2}
+.b1-ascending-node,.b1-ascending-boss{font:inherit;font-size:12px;min-height:46px;padding:8px 3px;border-radius:10px;border:1px solid #67768c;background:#223247;color:#eff3fa}
+.b1-ascending-node:disabled,.b1-ascending-boss:disabled{opacity:.42}
+.b1-ascending-node.selectable,.b1-ascending-boss:not(:disabled){border:2px solid #f2bb68;background:#493c2b;color:#ffe2aa;cursor:pointer}
+.b1-ascending-node.visited{background:#244d40;border-color:#8bcfa7;color:#d3ffe1}
+.b1-ascending-boss{display:block;width:55%;margin:0 auto 12px;background:#573140}
+.b1-ascending-floor:after{content:"";position:absolute;left:51%;top:-16px;height:14px;border-left:2px dotted #a3a9b7;pointer-events:none}
+.b1-ascending-floor:last-child:after{display:none}
+</style></head>
+<body class="planning-mode pilot-mode" data-b1-mobile="true"><main class="game pilot-game">
+<header class="masthead"><div><h1>蒼星の回廊 <small>進化ダンジョン</small></h1></div><div class="header-actions">
+<button id="b1Install" class="quiet" type="button" hidden>アプリにする</button>
+<button id="b1CardCatalogOpen" class="quiet" type="button">カード図鑑</button>
+<button id="restart" class="quiet" type="button">最初から</button>
+<details class="pilot-menu"><summary>メニュー</summary><div class="pilot-menu-links">
+<a href="./planning.html">以前の6戦版</a>
+<a href="./six-paths-pilot.html?mode=long-journey&pace=quick&setup=forge&fresh=1">12戦・新しい旅</a>
+<a href="./six-paths-pilot.html?mode=long-journey">通常12戦</a>
+<a href="./six-paths-pilot.html?mode=legacy-enemies">敵6戦・新カード</a>
+<a href="./six-paths-pilot.html">3戦の試作</a></div></details></div></header>
+<dialog id="b1InstallGuide" class="b1-install-guide" aria-labelledby="b1InstallGuideTitle">
+<h2 id="b1InstallGuideTitle">アプリとしてホーム画面に追加</h2>
+<p>AndroidのChromeなら、右上の「︙」を押して「アプリをインストール」または「ホーム画面に追加」を選んでください。</p>
+<p>追加したアイコンから開くと、対応端末ではアドレスバーのないアプリ画面になります。iPhoneはSafariの共有メニューから「ホーム画面に追加」を選んでください。</p>
+<p class="b1-install-disclaimer">インストール操作は端末側で行います。オフラインでのB1プレイには対応していません。</p>
+<button type="button" id="b1InstallGuideClose" class="primary">閉じる</button>
+</dialog>
+<dialog id="fireStarterDialog" class="b1-fire-dialog" aria-labelledby="fireStarterTitle"><h2 id="fireStarterTitle">火・雷・黒魔法・物理攻撃から選ぶ</h2><p>属性魔法を1枚選び、初期デッキに加えて開始します。</p><button id="physicalStarterDialogOpen" class="b1-physical-start-cta" type="button"><strong>⚔ 物理デッキで開始</strong><small>魔法0枚・物理9枚｜鉄槌も使用可能</small></button><div id="fireStarterChoices" class="b1-fire-starter-choices"></div><button id="fireStarterClose" type="button" class="quiet">戻る</button></dialog>
+<nav class="journey" aria-label="冒険の進み具合"><span>✦</span><span id="turnNum"></span></nav>
+<section id="setupPanel" class="stage pilot-setup b1-ref-setup" hidden><div class="pilot-setup-content b1-ref-panel">
+<button id="physicalStarterOpen" class="b1-physical-start-cta" type="button"><strong>⚔ 物理デッキで開始</strong><small>魔法0枚・物理9枚｜鉄槌も使用可能</small></button>
+<div class="pilot-setup-head b1-ref-head"><img src="./assets/hero.webp" alt="蒼星の魔法師"><div><h2 id="setupHeading">護符を選ぶ</h2><span class="b1-ref-title-rule" aria-hidden="true"></span><p id="setupHint"></p></div></div>
+<div id="setupChoices" class="pilot-choices"></div><div class="pilot-setup-actions"><button id="fireStarterOpen" class="quiet" type="button">✦ 属性魔法で開始</button><button id="bossComboPractice" class="primary" type="button">連鎖コンボ14枚で練習</button><button id="bossPractice" class="quiet" type="button">安定型14枚で練習</button><button id="bossBasicPractice" class="quiet" type="button">基本10枚で練習</button><button id="setupReroll" class="quiet" type="button">↻ 別の候補</button></div>
+</div></section>
+<div id="playScreen" class="pilot-play" hidden>
+  <section class="stage" aria-label="戦闘画面">
+    <div class="stage-shade"></div>
+    <div class="hud hero-hud"><span class="eyebrow">THE WANDERER</span><h2>蒼星の魔法師</h2><div class="hp-line"><span>HP</span><strong id="heroHp">60 / 60</strong></div><div id="heroMeter" class="hp-bar" role="meter" aria-label="旅人のHP" aria-valuemin="0" aria-valuemax="60"><i id="heroFill"></i></div><p id="heroStatus">ブロック 0</p><div id="b1WeaponIndicator" class="b1-weapon-indicator" hidden role="status" aria-live="polite"><span id="b1WeaponSymbol" class="b1-weapon-indicator-symbol" aria-hidden="true"></span><span class="b1-weapon-indicator-copy"><strong id="b1WeaponName"></strong><small id="b1WeaponReady"></small></span></div><p id="dragonHud" class="b1-dragon-hud" hidden aria-live="polite"></p><p id="planningStatus" class="planning-status"></p><p id="charm" class="charm"></p></div>
+    <div id="heroPuppet" class="puppet hero-puppet"><i class="orb-glow" aria-hidden="true"></i><img src="./assets/hero.webp" alt="銀髪と藍紫の帽子、青い球の杖を持つ魔法師"></div>
+    <aside id="b1DragonCompanion" class="b1-dragon-companion" hidden aria-label="召喚したドラゴン">
+      <div id="b1DragonPortrait" class="b1-dragon-portrait" role="img"></div>
+      <div class="b1-dragon-caption"><strong id="b1DragonTitle"></strong><span id="b1DragonGrowth"></span></div>
+    </aside>
+    <div class="stage-title"><span id="roomName">地下迷宮 B1</span><small id="round">第1/12戦</small><div id="targetChoices" class="b1-targets" aria-label="攻撃する敵を選ぶ"></div></div>
+    <div id="b1Campfire" class="b1-campfire" hidden aria-label="休憩所の焚き火"><span class="b1-camp-flame" aria-hidden="true">🔥</span><strong>旅路の休息</strong></div><div id="enemyPuppet" class="puppet enemy-puppet"><img id="enemyArt" src="./assets/gatekeeper.webp" alt="蒼鎧の門番"></div>
+    <div class="hud enemy-hud"><span class="eyebrow">IN YOUR PATH</span><h2 id="enemyName">蒼鎧の門番</h2><div class="hp-line"><span>HP</span><strong id="enemyHp">48 / 48</strong></div><div id="enemyMeter" class="hp-bar" role="meter" aria-label="敵のHP" aria-valuemin="0" aria-valuemax="48"><i id="enemyFill"></i></div><div id="intent" class="intent"><small>このターン終了時</small><strong id="intentName">剣のひと振り 7</strong><span id="intentText"></span><div id="breakTrack" class="break-track" hidden><i id="breakFill"></i></div></div></div>
+    
+    <div id="enemyLineup" class="b1-enemy-lineup" aria-label="敵を選ぶ戦闘エリア" hidden></div>
+    <div id="b1WeaponToast" class="b1-weapon-toast" hidden role="status" aria-live="polite"></div>
+    <div id="battleLog" class="battle-log" role="status" aria-live="polite">魔法を選んで地下迷宮へ。</div>
+  </section>
+
+  <section class="table" aria-label="カード操作">
+    <div class="controls"><div class="energy"><b id="energy">2</b><span>魔力<small id="energyRule">次＋3 / 上限5</small></span></div><div class="piles"><span>山札 <b id="drawCount">0</b></span><span>捨て札 <b id="discardCount">0</b></span><span>消滅 <b id="exhaustCount">0</b></span></div><button id="deckButton" class="quiet" type="button" disabled>デッキ 10枚</button><button id="endTurn" class="primary" type="button">ターン終了 <span>→</span></button><details id="b1MobileQuickMenu" class="b1-mobile-quick-menu"><summary aria-label="設定・更新メニュー" title="設定・更新">⋯</summary><div class="b1-mobile-quick-panel"><button id="b1MobileCatalog" class="quiet" type="button">カード図鑑</button><button id="b1MobileRestart" class="quiet" type="button">最初から</button><button id="b1MobileUpdate" class="quiet" type="button">最新版に更新</button><span id="b1MobileVersion" class="b1-mobile-version">表示中: 2026.10.14.9</span><span id="b1MobileUpdateStatus" class="b1-update-status" role="status" aria-live="polite"></span></div></details></div>
+    <div class="hand-label"><h2>あなたの手札</h2><span id="relicStatus" class="relic-status" hidden></span><div id="effectBadges" class="pilot-chips" aria-label="状態効果"></div></div><div id="hand" class="hand"></div><div id="handPanelHome" class="hand-panel-home"><section id="cardPanel" class="card-panel" aria-label="選んだカードの効果" hidden><div id="cardReview" class="panel-content" aria-live="polite"></div><div class="panel-actions"><button id="playCard" class="primary" type="button" disabled>カードを選んでください</button><button id="cancelCard" class="quiet" type="button" aria-label="カードの選択を解除">×</button></div></section></div>
+  </section>
+
+
+<section id="journeyPanel" class="pilot-overlay" hidden><div class="pilot-overlay-window">
+<h2 id="journeyTitle"></h2><p id="journeyHint"></p>
+<div id="routeMap" class="b1-route-map b1-ascending-map" hidden aria-label="B1の15階層分岐マップ"><div id="ascendingMap" class="b1-ascending-scroll"></div><div hidden>
+ <div class="b1-map-header"><span>地下迷宮 B1｜最初の分かれ道</span><span class="b1-map-progress">現在地：入口を突破</span></div>
+ <div class="b1-map-nodes"><span class="b1-map-node done">✓ 第1戦・入口</span><span class="b1-map-arrow">↓ どちらか選ぶ</span></div>
+ <div class="b1-map-branch">
+  <button type="button" class="b1-map-path" data-route="pack" aria-label="群れの坑道へ進む。洞穴の狼と盾の小鬼、2体との戦い">
+   <img src="./assets/bell-spirit.webp" alt="" draggable="false"><span class="b1-map-path-copy"><span class="b1-map-path-kind">左ルート｜複数の敵</span><strong>群れの坑道</strong><span class="b1-map-path-desc">狼＋盾の小鬼。2体の攻撃をどうしのぐ？</span></span>
+  </button>
+  <button type="button" class="b1-map-path" data-route="stone" aria-label="石甲の回廊へ進む。硬い防御を持つ石甲の番獣、1体との戦い">
+   <img src="./assets/gatekeeper.webp" alt="" draggable="false"><span class="b1-map-path-copy"><span class="b1-map-path-kind">右ルート｜硬い敵</span><strong>石甲の回廊</strong><span class="b1-map-path-desc">石甲の番獣。防御8と重い攻撃に対処。</span></span>
+  </button>
+ </div>
+ <div class="b1-map-nodes"><span class="b1-map-node future">第3戦・祭壇</span><span class="b1-map-arrow">→</span><span class="b1-map-node future">第4戦・強敵</span><span class="b1-map-arrow">→</span><span class="b1-map-node future">第5〜11戦・深層の試練</span><span class="b1-map-arrow">→</span><span class="b1-map-node future">第12戦・ラスボス</span></div>
+ <p class="b1-map-hint">旧マップ</p></div></div>
+<div id="restSite" class="b1-rest-site" hidden><p>焚き火のそばで、次の戦いに備えよう。</p><div class="b1-rest-options"><button id="restHeal" type="button" class="b1-rest-option"><strong>HPを15回復</strong><small>失ったHPだけ回復</small></button><button id="restUpgrade" type="button" class="b1-rest-option"><strong>カードを1枚強化</strong><small>デッキから選ぶ</small></button></div><p id="b1UpgradeListHint" hidden>強化するカードを画像から選択してください。強化前と強化後の効果を比較できます。</p><div id="restUpgradeCards" class="b1-rest-upgrades" hidden></div><button id="restBack" type="button" class="quiet" hidden>戻る</button></div><div id="shopSite" class="b1-shop-site" hidden><p id="shopBalance"></p><div id="shopItems" class="b1-shop-items"></div><div class="b1-shop-purge"><button id="shopPurgeOpen" type="button" class="quiet">30Gでカードを1枚削除</button><div id="shopPurgeCards" class="b1-shop-purge-cards" hidden></div></div><button type="button" id="shopLeave" class="quiet">商店を出る →</button></div><div id="weaponSite" class="b1-weapon-site" hidden>
+ <div id="weaponChoices" class="b1-weapon-choices" aria-label="武器を選ぶ"></div>
+ <button id="skipWeapon" type="button" class="quiet b1-weapon-skip">武器を見送る</button>
+</div>
+<div id="rewardCards" class="pilot-rewards" hidden></div>
+<div class="pilot-overlay-actions"><button id="skipReward" class="quiet" type="button" hidden>見送る</button>
+<button id="overlayRestart" class="quiet" type="button" hidden>もう一度</button><button id="advance" class="primary" type="button">次へ →</button></div>
+</div></section>
+<div id="stats" hidden></div><div id="status" hidden></div><div id="enemy" hidden></div><div id="effects" hidden></div><pre id="log" hidden></pre></div>
+<span id="modeDescription" hidden></span>
+<details class="pilot-help"><summary>？</summary><div class="pilot-help-content"><strong>遊び方</strong>
+<span>敵の姿と次の行動を見よう。攻撃カードを狙った敵の姿へドラッグして離す。</span>
+<span>クリックなら攻撃カードを選ぶ→敵の姿を押す。防御・補助は画面に出すか1回押す。Escで解除。</span><span>B1専用の効果と仮数値を試せます。商店・休憩・進化でデッキを育てよう。</span>
+<a href="./planning.html">以前の進化ダンジョンを開く</a></div></details>
+</main>
+<dialog id="b1CardCatalogDialog" class="b1-catalog-dialog" aria-labelledby="b1CatalogTitle"><div class="b1-catalog-top"><h2 id="b1CatalogTitle">カード図鑑｜全57種類</h2><button id="b1CardCatalogClose" class="quiet" type="button">閉じる ×</button></div><p id="b1CardCatalogSummary"></p><div class="b1-catalog-filters"><button type="button" id="b1CatalogAll" aria-pressed="true">すべて</button><button type="button" id="b1CatalogMissing" aria-pressed="false">原画なし</button></div><div id="b1CardCatalogItems" class="b1-catalog-grid"></div></dialog>
+<script type="module" src="./b1-install.mjs"></script>
+<script type="module" src="./b1-update.mjs"></script>
+<script type="module">
+import {CARDS,STAGES,B1_WEAPONS,createB1Game,getB1Card,IDEAL_B1_BOSS_DECK,COMBO_B1_BOSS_DECK,B1_BOSS_CHANNEL_THRESHOLD} from "./underground-b1-engine.mjs";
+import {attachB1Actions} from "./underground-b1-actions.mjs";
+import {createB1RouteMap,availableB1Rooms,chooseB1Room} from "./underground-b1-route-map.mjs";
+import {showB1Feedback} from "./underground-b1-feedback.mjs";
+import {getB1DragonVisual} from "./underground-b1-dragon-visuals.mjs";
+const el=id=>document.getElementById(id);
+let routeSeed=Date.now(),routeMap=createB1RouteMap(routeSeed),routePath=["f1-l1"];
+let game=createB1Game({seed:routeSeed,tacticalEncounters:true,weaponTrial:true,routeTrial:true}),targetId=null;
+// Direct physical trial URL lets players launch the deck without hunting for a
+// fifth card or dealing with a previously cached selection screen.
+if(new URLSearchParams(window.location.search).get("start")==="physical")game.selectStarter("physical");
+else if(new URLSearchParams(window.location.search).get("start")!=="choose")game.selectStarter("basic");
+const typeNames={attack:"攻撃",multi:"連撃",all:"全体攻撃",heal:"回復",poison:"状態異常",fragile:"状態異常",confuse:"混乱",curse:"呪い",hallucinate:"幻覚",guard:"防御",draw:"ドロー",energy:"魔力",power:"能力",dragon:"召喚",dragonFeed:"育成",dragonBreath:"全体攻撃",physicalPower:"強化",adversity:"反撃準備",allPoison:"全体状態異常"};
+// B1 enemy visual policy: monsters and supernatural creatures ONLY.
+// Never use the human character portraits (gatekeeper, bow-watcher,
+// librarian-noa, tide-star-sentinel) as enemy sprites. Keep AI roles intact.
+// Distinct role tints still come from underground-b1-reward-shop-status.css.
+// Creature illustrations are reused until dedicated enemy monster art arrives.
+const art={rat:"wraith.webp",wolf:"bell-spirit.webp",imp:"bell-spirit.webp",
+ guard:"bell-spirit.webp",carapace:"bell-spirit.webp",ritual:"wraith.webp",
+ elite:"bell-spirit.webp",boss:"boss.webp",archer:"bell-spirit.webp",
+ watcher:"wraith.webp",venom:"wraith.webp",berserker:"bell-spirit.webp",
+ healer:"bell-spirit.webp",breaker:"bell-spirit.webp",banner:"bell-spirit.webp",
+ warder:"bell-spirit.webp",ramp:"bell-spirit.webp",needle:"bell-spirit.webp",
+ bulwark:"bell-spirit.webp",ancient:"wraith.webp"};
+// Single source for B1 original artwork across hand, shop and starter cards.
+// Any missing file falls back to the existing CSS placeholder without affecting play.
+const B1_CARD_ART=Object.freeze({
+ "fire-rain-small":"fire-aoe-small.webp",
+ "fire-rain-medium":"fire-aoe-medium.webp",
+ "fire-rain-large":"fire-aoe-large.webp",
+ "thunder-small":"thunder-single-small.webp",
+ "thunder-medium":"thunder-single-medium.webp",
+ "thunder-large":"thunder-single-large.webp",
+ "physical-bludgeon":"b1-physical-bludgeon.avif",
+ "physical-rapid":"b1-physical-rapid.avif",
+ "physical-heavy":"b1-physical-heavy.avif",
+ "physical-sneak":"b1-physical-sneak.avif",
+ "physical-hammer":"b1-physical-hammer.avif",
+ "physical-doping":"b1-physical-doping.avif",
+ "physical-adversity":"b1-physical-adversity.avif",
+ "physical-rage":"b1-physical-rage.avif"
+});
+/* 768x1024 originals are preferred when installed. The existing tiny AVIF or
+   CSS fallback stays active until the corresponding WebP really exists.
+   This mapping is shared by the hand, enlarged preview, shop and starter. */
+const B1_HQ_CARD_ART=Object.freeze({
+ "fourth-frost-shatter":"b1-frost-shatter.webp",
+ "fourth-toxic-page":"b1-toxic-page.webp",
+ "dark":"b1-dark-bolt.webp",
+ "abyss":"b1-abyss-bolt.webp",
+ "ice":"b1-ice-lance.webp",
+ "first-scatter":"b1-auto-scatter.webp",
+ "first-chain":"b1-auto-chain.webp",
+ "first-heal":"b1-auto-heal.webp",
+ "first-drain":"b1-auto-drain.webp",
+ "first-poison":"b1-auto-poison.webp",
+ "second-fragile":"b1-fragile.webp",
+ "second-strength":"b1-power.webp",
+ "second-spark":"b1-spark.webp",
+ "second-ward":"b1-ice-barrier.webp",
+ "second-flow":"b1-cycle.webp",
+ "third-mana-ignite":"b1-mana-ignite.webp",
+ "third-holy-thunder":"b1-holy-thunder.webp",
+ "third-twin-thunder":"b1-twin-thunder.webp",
+ "third-arcane-study":"b1-arcane-study.webp",
+ "third-poison-flame":"b1-poison-flame.webp",
+ "starter-basic-attack":"b1-starter-attack.webp",
+ "starter-basic-defense":"b1-starter-defense.webp",
+ "starter-bolt":"b1-starter-bolt.webp",
+ "starter-lightning":"b1-starter-lightning.webp",
+ "starter-frost":"b1-starter-frost.webp",
+ "starter-guard":"b1-starter-guard.webp",
+ "spellblade":"b1-starter-attack.webp",
+ "starter-defense":"b1-starter-defense.webp",
+ "physical-bludgeon":"b1-physical-bludgeon.webp",
+ "physical-rapid":"b1-physical-rapid.webp",
+ "physical-heavy":"b1-physical-heavy.webp",
+ "physical-sneak":"b1-physical-sneak.webp",
+ "physical-hammer":"b1-physical-hammer.webp",
+ "physical-doping":"b1-physical-doping.webp",
+ "physical-adversity":"b1-physical-adversity.webp",
+ "physical-rage":"b1-physical-rage.webp",
+ "mental-collapse":"b1-dark-mental-collapse.webp",
+ "curse":"b1-dark-curse.webp",
+ "death-song":"b1-dark-death-song.webp",
+ "hallucination":"b1-dark-hallucination.webp"
+});
+// Static asset inventory: original art (HQ or other existing files), not CSS art.
+function b1ArtInventory(card){
+ if(card.magicArt){
+  const filename=B1_HQ_CARD_ART[card.magicArt]||B1_CARD_ART[card.magicArt];
+  return filename?{hasOriginal:true,file:filename}:{hasOriginal:false,file:null};
+ }
+ if(card.fireArt)return {hasOriginal:true,file:"b1-fire-spells-atlas.webp",quality:"low"};
+ if(card.art)return {hasOriginal:true,file:card.art};
+ return {hasOriginal:false,file:null};
+}
+function renderB1CardCatalog(missingOnly=false){
+ const entries=Object.entries(CARDS);
+ const missing=entries.filter(([,card])=>!b1ArtInventory(card).hasOriginal);
+ el("b1CardCatalogSummary").textContent=entries.length+"種類中、独立原画または専用画像あり "+(entries.length-missing.length)+"種類／原画なし "+missing.length+"種類（CSS仮絵も原画なしに含む）";
+ el("b1CatalogAll").setAttribute("aria-pressed",String(!missingOnly));
+ el("b1CatalogMissing").setAttribute("aria-pressed",String(missingOnly));
+ const grid=el("b1CardCatalogItems");grid.replaceChildren();
+ for(const [id,card] of (missingOnly?missing:entries)){
+  const item=document.createElement("article");item.className="b1-catalog-item";
+  const art=cardButton(id);art.disabled=true;art.tabIndex=-1;
+  const meta=document.createElement("div");meta.className="b1-catalog-meta";
+  const result=b1ArtInventory(card);
+  const flag=document.createElement("span");flag.className="b1-catalog-status"+(result.hasOriginal?"":" b1-catalog-missing");
+  flag.textContent=result.hasOriginal?"画像あり"+(result.quality==="low"?"（軽量版）":""):"原画なし";
+  const text=document.createElement("p");text.textContent="魔力 "+card.cost+"｜"+card.text;
+  meta.append(flag,text);item.append(art,meta);grid.append(item);
+ }
+}
+const unavailableB1Art=new Set();
+function attachB1OriginalArt(parent,artKey){
+ const lowRes=B1_CARD_ART[artKey],highRes=B1_HQ_CARD_ART[artKey];
+ const candidates=[highRes,lowRes].filter(Boolean).filter(filename=>!unavailableB1Art.has(filename));
+ if(!candidates.length)return;
+ const img=document.createElement("img");
+ img.className="b1-original-elemental-img b1-original-card-img";
+ img.alt="";img.decoding="async";img.draggable=false;
+ img.loading="lazy";
+ let index=0;
+ img.addEventListener("error",()=>{
+  unavailableB1Art.add(candidates[index]);
+  index++;
+  if(index<candidates.length)img.src="./assets/"+candidates[index];
+  else img.remove(); // Existing CSS fallback remains visible.
+ });
+ img.src="./assets/"+candidates[index];
+ parent.append(img);
+}
+/* Hand-only short labels: the full engine text remains in accessible labels and
+   the enlarged, full-description preview. Nothing here changes card mechanics. */
+function b1HandSummary(id,card){
+ const bare=id.replace(/~$/,"");
+ switch(bare){
+  case "bludgeon":return card.damage+"ダメージ / 魔法なし"+card.noMagicDamage;
+  case "rapidPunch":return card.damage+"×2 / 魔法なし"+card.noMagicDamage+"×2";
+  case "heavyBlow":return card.damage+"ダメージ / 魔法なし"+card.noMagicDamage;
+  case "sneakHit":return card.damage+"ダメージ / 魔法なし＋1枚";
+  case "ironHammer":return card.damage+"ダメージ / デッキに魔法があると不可";
+  case "doping":return "物理攻撃＋"+card.doping+" / 魔法で消失";
+  case "adversity":return "前ターンの被害分＋ / 魔法で消失";
+  case "rage":return "全体"+card.damage+" / HP1/3以下で"+card.lowHpDamage;
+  case "mentalCollapse":return "敵味方ランダム攻撃 ×"+card.confusionAttacks;
+  case "curse":return "呪い：1→2→3"+(card.curseTurns>3?"→4":"")+" / 重複可";
+  case "deathSong":return "全体"+card.damage+" / 混乱中＋"+card.confusionBonus;
+  case "hallucination":return "命中50％（次"+card.hallucinationAttacks+"攻撃）";
+  case "fireWaveSmall":case "fireWaveMedium":case "fireWaveLarge":
+   return "全体"+card.damage+"ダメージ";
+  case "thunderSmall":case "thunderLarge":return "単体"+card.damage+"ダメージ";
+  case "thunderMedium":return "単体"+card.damage+"×"+card.hits;
+  default:return card.text;
+ }
+}
+const percent=(n,max)=>Math.max(0,Math.min(100,Math.round(n*100/Math.max(1,max))))+"%";
+// Stage 1: approved Defense V3 frame, rolled out by card role. The set is
+// intentionally explicit: future waves are opt-in after UI regression checks.
+const B1_CARD_FRAME_WAVE1=new Set([
+ "basicAttack","basicDefense","guard","bolt","lightning","frost",
+ "scatter","chain","heal","drain","poison","fragile","strength","spark","break"
+]);
+const B1_CARD_FRAME_WAVE2=new Set([
+ "fireSmall","fireMedium","fireLarge","fireWaveSmall","fireWaveMedium",
+ "fireWaveLarge","thunderSmall","thunderMedium","thunderLarge",
+ "flow","ward","charge","double","focus","flare","frostBreak",
+ "echoGuard","lingeringPoison","darkBolt","abyssBolt","iceSpear","arcaneLance"
+]);
+const B1_CARD_FRAME_WAVE3=new Set([
+ "mentalCollapse","curse","deathSong","hallucination","shadowEcho",
+ "blizzard","thunderSurge","guideThrust","spellblade",
+ "bludgeon","rapidPunch","heavyBlow","sneakHit","ironHammer",
+ "doping","adversity","rage","dragonEgg","dragonFeed","dragonBreath"
+]);
+const B1_CARD_FRAME_WAVE4=new Set([
+ "lightningFlash","lightningFork","lightningSweep","lightningRelay",
+ "shieldMoss","shieldMirror","shieldSpore","shieldIncubate"
+]);
+const B1_CARD_FRAME_WAVE5=new Set(["thunderEcho","thunderJudgment","unbrokenMirror","venomShield","decayRitual","dragonCovenant","iceShatter","frozenTime","bloodBlade","finalBlow","manaResonance","chaosPact"]);
+const B1_CARD_FRAME_WAVE6=new Set(["sparkWard","sparkBreath","frostNeedle","iceFinisher","venomCloud","curseSlash","dragonWing","ironResolve"]);
+function b1CardFrameRole(card){
+ if(card.kind==="guard")return "guard";
+ if(card.kind==="heal")return "heal";
+ if(["poison","fragile","confuse","curse","hallucinate","decayRitual","chaosPact","allWeaken","allPoison"].includes(card.kind))return "debuff";
+ if(["dragon","dragonFeed","dragonBreath"].includes(card.kind))return "dragon";
+ if(["power","draw","energy","physicalPower","adversity"].includes(card.kind))return "skill";
+ if(card.weapon)return "physical";
+ return "spell";
+}
+const B1_FRAME_SYMBOL={physical:"⚔",spell:"✧",heal:"✚",debuff:"◆",skill:"✦",dragon:"✵"};
+function cardButton(id){
+ const c=getB1Card(id),btn=document.createElement("button");btn.type="button";btn.className="card pilot-card b1-text-card";
+ const cost=document.createElement("span");cost.className="cost";cost.textContent=c.cost;
+ const type=document.createElement("span");type.className="type";type.textContent=typeNames[c.kind]||c.kind;
+ const copy=document.createElement("span");copy.className="pilot-card-copy";
+ const name=document.createElement("strong");name.textContent=c.name;
+ const desc=document.createElement("span");desc.className="desc";desc.textContent=c.text+(c.lightning?" ⚡連鎖":"");
+ copy.append(name,desc);btn.append(cost,type);
+ if(c.fireArt){
+   const picture=document.createElement("span");picture.className="b1-fire-card-art b1-fire-art--"+c.fireArt;
+   picture.setAttribute("aria-hidden","true");btn.classList.add("b1-art-card","b1-fire-card");btn.append(picture);
+ }else if(c.magicArt){
+   const picture=document.createElement("span");picture.className="b1-magic-card-art b1-magic-art--"+c.magicArt;
+   picture.setAttribute("aria-hidden","true");attachB1OriginalArt(picture,c.magicArt);btn.classList.add("b1-art-card","b1-magic-card");btn.append(picture);
+ }else if(c.art){
+   const stage=c.kind==="dragon"?0:c.kind==="dragonFeed"?1:Math.max(2,game.snapshot().dragonStage);
+   const visual=getB1DragonVisual(stage);
+   if(visual){
+     const sprite=document.createElement("span");sprite.className="b1-dragon-card-art b1-dragon-card-sprite";
+     sprite.style.backgroundPosition=visual.position;sprite.setAttribute("aria-hidden","true");
+     btn.classList.add("b1-art-card");btn.append(sprite);
+   }else{
+     const img=document.createElement("img");img.className="b1-dragon-card-art";img.src="./assets/"+c.art;
+     img.alt="";img.loading="lazy";btn.classList.add("b1-art-card");btn.append(img);
+   }
+ }
+ btn.append(copy);
+ // Approved Defense V3 template, extended gradually to 14 more cards.
+ // The CSS-drawn shield stays identical; other roles use small text glyphs.
+ if(id==="basicDefense"){
+  btn.classList.add("b1-defense-prototype");
+  btn.dataset.b1Design="defense-v2";
+ }
+ const designId=id.endsWith("~")?id.slice(0,-1):id;
+ if(B1_CARD_FRAME_WAVE1.has(designId)||B1_CARD_FRAME_WAVE2.has(designId)||B1_CARD_FRAME_WAVE3.has(designId)||B1_CARD_FRAME_WAVE4.has(designId)||B1_CARD_FRAME_WAVE5.has(designId)||B1_CARD_FRAME_WAVE6.has(designId)){
+  const role=b1CardFrameRole(c);
+  btn.classList.add("b1-arcane-card","b1-frame-"+role);
+  if(c.text.length>14)btn.classList.add("b1-frame-long-effect");
+  type.textContent="";
+  if(role!=="guard")type.dataset.symbol=B1_FRAME_SYMBOL[role];
+  type.title=(typeNames[c.kind]||c.kind)+"カード";
+  type.setAttribute("aria-hidden","true");
+ }
+ btn.setAttribute("aria-label",c.name+"、魔力"+c.cost+"。"+c.text+(c.lightning?"。雷の連続使用で威力が上昇":""));
+ return btn;
+}
+function reset(){actions.cancel();if(weaponToastTimer!==null){clearTimeout(weaponToastTimer);weaponToastTimer=null;}lastWeaponCue=0;el("b1WeaponToast").hidden=true;routeSeed=Date.now();routeMap=createB1RouteMap(routeSeed);routePath=["f1-l1"];game=createB1Game({seed:routeSeed,tacticalEncounters:true,weaponTrial:true,routeTrial:true});targetId=null;render();}
+function current(s){
+ if(!s.enemies.some(e=>e.id===targetId&&e.hp>0))targetId=s.enemies.find(e=>e.hp>0)?.id||null;
+ return s.enemies.find(e=>e.id===targetId)||s.enemies[0];
+}
+function renderSetup(){
+ el("setupHeading").textContent="最初の戦い方を選ぶ";
+ el("setupHint").textContent="魔法1枚を追加するか、物理だけの9枚で開始。魔法なしなら鉄槌が使える。竜の卵は召喚・育成・竜息の3枚で開始。";
+ const target=el("setupChoices");target.replaceChildren();
+ for(const id of ["lightning","scatter","flow","dragonEgg"]){
+   const b=cardButton(id);b.classList.add("pilot-start-card");
+   if(id==="dragonEgg"){
+    // The starter benefit is all three dragon cards; never leave an image-only option.
+    const description="召喚・育成・竜息の3枚で開始。進化すると攻撃。次の戦闘は卵から。";
+    b.querySelector(".desc").textContent=description;
+    b.setAttribute("aria-label","竜の卵、魔力1。"+description);
+   }
+    // Each card shows its own section of the approved reference artwork.
+    b.querySelector(".b1-dragon-card-art")?.remove();
+    const artPanel=document.createElement("span");
+    artPanel.className="b1-starter-card-art b1-starter-card-art--"+id;
+    artPanel.setAttribute("aria-hidden","true");
+    b.classList.add("b1-art-card");
+    b.insertBefore(artPanel,b.querySelector(".pilot-card-copy"));
+   b.addEventListener("click",()=>{if(game.selectStarter(id)){targetId=null;render();}});
+   target.append(b);
+ }
+ const fireChoices=el("fireStarterChoices");fireChoices.replaceChildren();
+ for(const id of ["fireSmall","fireMedium","fireLarge","fireWaveSmall","fireWaveMedium","fireWaveLarge","thunderSmall","thunderMedium","thunderLarge","darkBolt","abyssBolt","mentalCollapse","curse","deathSong","hallucination","iceSpear","arcaneLance","shadowEcho","blizzard","thunderSurge","guideThrust","spellblade","bludgeon","rapidPunch","heavyBlow","sneakHit","ironHammer","doping","adversity","rage"]){
+  const b=cardButton(id);b.classList.add("b1-fire-starter-card");
+  b.addEventListener("click",()=>{if(game.selectStarter(id)){el("fireStarterDialog").close();targetId=null;render();}});
+  fireChoices.append(b);
+ }
+}
+// Enemy sprite buttons live on the original stage, not in a separate target list.
+// Every living enemy has its own clickable art, HP, intent and debuffs.
+// Unified condition indicators: a readable icon and a numeric amount
+// directly above the affected character. Full names remain accessible.
+function b1EnemyConditions(e,s){
+ const list=[];
+ if(e.block>0)list.push(["🛡",e.block,"防御","buff"]);
+ if(e.strength>0)list.push(["⚔",e.strength,"攻撃上昇","buff"]);
+ if(e.weaken>0)list.push(["❄",e.weaken,"弱体","debuff"]);
+ if(e.poison>0)list.push(["☠",e.poison,"毒","debuff"]);
+ if(e.vulnerable>0)list.push(["💥",e.vulnerable,"脆弱","debuff"]);
+ if(e.confusionAttacks>0)list.push(["🎲",e.confusionAttacks,"混乱","debuff"]);
+ if(e.hallucinationAttacks>0)list.push(["👁",e.hallucinationAttacks,"幻覚","debuff"]);
+ if(e.curses?.length)list.push(["✧",e.curses.reduce((sum,x)=>sum+x.next,0),"呪い（"+e.curses.length+"重）","debuff"]);
+ if(e.role==="boss"){const n=s.enemies.filter(x=>x.role==="guard"&&x.hp>0).length;if(n)list.push(["🛡",n,"護衛数","buff"]);}
+ return list;
+}
+function b1HeroConditions(s){
+ const list=[];
+ if(s.block>0)list.push(["🛡",s.block,"防御","buff"]);
+ if(s.heroPoison>0)list.push(["☠",s.heroPoison,"継続毒（防御を無視）","debuff"]);
+ if(s.strength>0)list.push(["⚔",s.strength,"攻撃上昇","buff"]);
+ if(s.dopingBonus>0)list.push(["💪",s.dopingBonus,"物理攻撃上昇","buff"]);
+ if(s.nextPhysicalAttackBonus>0)list.push(["🔥",s.nextPhysicalAttackBonus,"次の物理攻撃上昇","buff"]);
+ if(s.powerDraw>0)list.push(["📖",s.powerDraw,"毎ターン追加ドロー","buff"]);
+ if(s.lightningStreak>0)list.push(["⚡",s.lightningStreak,"雷連鎖（次の雷は＋"+Math.min(4,s.lightningStreak)*2+"）","buff"]);
+ if(s.reflectDamage>0)list.push(["✧",s.reflectDamage,"結界の反射（防御成功時）","buff"]);
+ return list;
+}
+function b1DisplayConditions(container,items){
+ container.replaceChildren();
+ container.hidden=items.length===0;
+ container.setAttribute("aria-label",items.map(x=>x[2]+" "+x[1]).join("、")||"状態効果なし");
+ for(const [icon,count,name,kind] of items){
+  const badge=document.createElement("span");badge.className="b1-effect-chip b1-effect-"+kind;
+  badge.title=name+" "+count;
+  badge.setAttribute("aria-label",name+" "+count);
+  const symbol=document.createElement("span");symbol.className="b1-effect-symbol";symbol.textContent=icon;symbol.setAttribute("aria-hidden","true");
+  const value=document.createElement("small");value.textContent=count;value.setAttribute("aria-hidden","true");
+  badge.append(symbol,value);container.append(badge);
+ }
+}
+function renderTargets(s){
+ const many=s.enemies.length>1,stage=gameStage,lineup=el("enemyLineup");
+ stage.classList.toggle("b1-multi",many);
+ lineup.hidden=!many;
+ lineup.classList.toggle("b1-two",s.enemies.length===2);
+ el("targetChoices").replaceChildren();
+ lineup.replaceChildren();
+ if(!many)return;
+ for(const e of s.enemies){
+  const move=s.intents.find(i=>i.id===e.id);
+  const attack=move?.kind==="attack";
+  const predicted=attack?(e.weaken>0?Math.floor(move.damage*.75):move.damage):0;
+  const intent=attack?(e.confusionAttacks>0?"🎲 ":"⚔ ")+predicted+(move.hits>1?" × "+move.hits:""):
+    ["buff","buffAlly","shieldAlly","healAlly"].includes(move?.kind)?"✦ "+move.label:
+    move?.kind==="poisonHero"?"☠ "+move.label:"✧ "+(move?.label||"準備");
+  const b=document.createElement("button");
+  b.type="button";b.dataset.b1Enemy=e.id;b.className="b1-enemy-actor b1-role-"+e.role+(e.role==="boss"?" b1-boss":"");
+  b.disabled=e.hp<=0;b.setAttribute("aria-pressed",String(targetId===e.id));
+  if(e.channelBroken)b.classList.add("b1-cast-broken");
+  b.setAttribute("aria-label",e.name+"、HP "+e.hp+" / "+e.maxHp+"。次の行動："+(move?.label||"撃破")+"。"+(e.confusionAttacks>0?"混乱で攻撃対象はランダム。":"")+(e.hallucinationAttacks>0?"幻覚で命中率50%。":"")+(targetId===e.id?"現在の標的。":"攻撃対象に選べる。"));
+  b.title=e.name+"　"+(move?.label||"撃破");
+  const intentEl=document.createElement("span");intentEl.className="b1-actor-intent"+(attack?" b1-hit-intent":"");intentEl.textContent=e.hp>0?intent:"撃破";
+  const figure=document.createElement("span");figure.className="b1-actor-figure";
+  const image=document.createElement("img");image.src="./assets/"+(art[e.role]||"bell-spirit.webp");image.alt="";image.draggable=false;figure.append(image);
+  const name=document.createElement("span");name.className="b1-actor-name";name.textContent=e.name;
+  const hp=document.createElement("span");hp.className="b1-actor-hp";hp.textContent="HP "+e.hp+" / "+e.maxHp;
+  const meter=document.createElement("span");meter.className="b1-actor-hpbar";
+  const fill=document.createElement("i");fill.style.width=percent(e.hp,e.maxHp);meter.append(fill);
+  const status=document.createElement("span");status.className="b1-actor-status b1-effect-row";
+  b1DisplayConditions(status,b1EnemyConditions(e,s));
+  figure.append(status);
+  image.addEventListener("load",()=>requestAnimationFrame(b1PlaceConditionRows),{once:true});
+  b.append(intentEl,figure,name,hp,meter);
+  if(e.role==="boss"&&e.hp>0&&(s.turn-1)%4<3){
+   const channel=document.createElement("span");channel.className="b1-actor-cast";
+   channel.textContent=e.channelBroken?"詠唱中断！":"詠唱阻止 "+e.channelDamage+"/"+B1_BOSS_CHANNEL_THRESHOLD;
+   const bar=document.createElement("span");bar.className="b1-actor-cast-bar";
+   const i=document.createElement("i");i.style.width=percent(Math.min(e.channelDamage,B1_BOSS_CHANNEL_THRESHOLD),B1_BOSS_CHANNEL_THRESHOLD);bar.append(i);
+   channel.append(bar);b.append(channel);
+  }
+  b.addEventListener("click",()=>actions.handleTargetClick(e.id));
+  lineup.append(b);
+ }
+}
+function renderStage(s){
+ const enemy=current(s);if(!enemy)return;
+ renderTargets(s);
+ b1DisplayConditions(el("b1HeroEffects"),b1HeroConditions(s));
+ b1DisplayConditions(el("b1SoloEnemyEffects"),b1EnemyConditions(enemy,s));
+ el("heroHp").textContent=s.hp+" / "+s.maxHp;el("heroFill").style.width=percent(s.hp,s.maxHp);
+ el("heroMeter").setAttribute("aria-valuemax",s.maxHp);el("heroMeter").setAttribute("aria-valuenow",s.hp);
+ el("enemyName").textContent=enemy.name;el("enemyHp").textContent=enemy.hp+" / "+enemy.maxHp;
+ el("enemyFill").style.width=percent(enemy.hp,enemy.maxHp);
+ el("enemyMeter").setAttribute("aria-valuemax",enemy.maxHp);el("enemyMeter").setAttribute("aria-valuenow",enemy.hp);
+ el("enemyArt").src="./assets/"+(art[enemy.role]||"bell-spirit.webp");
+ el("enemyArt").alt=enemy.name+"（魔物の立ち絵）";
+ el("roomName").textContent=s.stageName;el("round").textContent="第"+(s.stage+1)+" / "+STAGES.length+"戦";
+ el("turnNum").textContent="TURN "+s.turn;
+ el("energy").textContent=s.energy;el("energyRule").textContent="毎ターン3";
+ el("drawCount").textContent=s.draw.length;el("discardCount").textContent=s.discard.length;
+ el("deckButton").textContent="デッキ "+s.deck.length+"枚";el("deckButton").disabled=false;el("exhaustCount").textContent=s.exhaust.length;
+ el("battleLog").textContent=s.log[0]||s.stageHint;
+ el("charm").textContent=s.practiceMode==="combo"?"コンボ：闘魔の印 → 散弾 → 連鎖雷。術式循環・魔力点火で手数を増やす。":(s.practiceMode?"ボス練習 · ":"地下迷宮 B1 · ")+s.stageHint;
+ el("heroStatus").textContent="防御 "+s.block;
+ const dragon=el("dragonHud");dragon.hidden=s.dragonStage<0;
+ dragon.textContent=s.dragonStage<0?"":"🐉 竜："+s.dragonName+"（"+(s.dragonStage+1)+"/9） · 進化で攻撃・戦闘ごとに卵から";
+ const dragonVisual=getB1DragonVisual(s.dragonStage);
+ const companion=el("b1DragonCompanion");companion.hidden=!dragonVisual;
+ if(dragonVisual){
+   const portrait=el("b1DragonPortrait");portrait.style.backgroundPosition=dragonVisual.position;
+   portrait.setAttribute("aria-label",dragonVisual.label+"の姿");
+   el("b1DragonTitle").textContent=dragonVisual.label;
+   el("b1DragonGrowth").textContent="進化 "+(s.dragonStage+1)+"/9 · "+s.dragonName;
+ }
+ el("planningStatus").textContent=s.energy<=0?"魔力がないのでターン終了しよう。":"敵を選び、カードを使おう。";
+ const next=s.intents.find(i=>i.id===enemy.id);
+ el("intent").classList.toggle("calm",next?.kind!=="attack");
+ const reduced=next?.kind==="attack"?(enemy.weaken>0?Math.floor(next.damage*.75):next.damage):0;
+ el("intentName").textContent=next?.kind==="attack"?(enemy.confusionAttacks>0?"🎲 ":"⚔ ")+reduced+(next.hits>1?" × "+next.hits:""): "✧ "+(next?.label||"次は準備");
+ el("intentText").textContent=next?.label||"";
+ const casting=enemy.role==="boss"&&(s.turn-1)%4<3;
+ el("breakTrack").hidden=!casting;
+ el("breakFill").style.width=casting?percent(Math.min(enemy.channelDamage,B1_BOSS_CHANNEL_THRESHOLD),B1_BOSS_CHANNEL_THRESHOLD):"0%";
+ if(casting)el("intentText").textContent=(enemy.channelBroken?"詠唱中断済み":"詠唱阻止 "+enemy.channelDamage+"/"+B1_BOSS_CHANNEL_THRESHOLD)+" · "+(next?.label||"");
+ if(next?.kind==="attack")el("intentText").textContent+=(enemy.confusionAttacks>0?" · 狙いランダム":"")+(enemy.hallucinationAttacks>0?" · 命中50％":"");
+ const effects=el("effectBadges");effects.replaceChildren();
+ const chips=[["薬力",s.dopingBonus],["逆境",s.nextPhysicalAttackBonus],["前ターンHP被害",s.lastTurnHpLoss],["🛡",s.block],["敵防御",enemy.block],["敵強化",enemy.strength],["自強化",s.strength],["❄",enemy.weaken],["☠",enemy.poison],["✧",enemy.vulnerable],["混乱",enemy.confusionAttacks],["幻覚",enemy.hallucinationAttacks],["呪い",enemy.curses?.reduce((sum,curse)=>sum+curse.next,0)||0],["📖",s.powerDraw]];
+ if(enemy.role==="boss"){const n=s.enemies.filter(e=>e.role==="guard"&&e.hp>0).length;if(n)chips.push(["護衛",n*2]);}
+ for(const [name,n] of chips){if(n<=0)continue;const chip=document.createElement("span");chip.className="pilot-chip";chip.textContent=name+" "+n;effects.append(chip);}
+ const weaponHud=el("b1WeaponIndicator");
+ weaponHud.hidden=!s.weapon;
+ if(s.weapon){
+  const info=s.weaponStatus;
+  el("b1WeaponSymbol").textContent=s.weapon.symbol;
+  el("b1WeaponName").textContent=s.weapon.name;
+  el("b1WeaponReady").textContent=info?.detail||"";
+  weaponHud.dataset.ready=String(Boolean(info?.ready));
+  weaponHud.title=s.weapon.name+"｜"+(info?.detail||s.weapon.text);
+ }
+ const equipped=el("relicStatus");
+ equipped.hidden=!s.weapon;
+ equipped.textContent=s.weapon?s.weapon.symbol+" "+s.weapon.name+"｜"+s.weapon.text:"";
+ equipped.title=s.weapon?.text||"";
+}
+function renderOverlay(s){
+ const panel=el("journeyPanel");panel.classList.remove("b1-upgrade-open");panel.classList.toggle("b1-reward-open",s.phase==="reward");panel.classList.toggle("b1-weapon-open",s.phase==="between"&&Boolean(s.weaponPending));const show=["reward","between","won","lost"].includes(s.phase);panel.hidden=!show;
+ if(!show)return;
+ const rewards=el("rewardCards");rewards.replaceChildren();
+ const advance=el("advance"),skip=el("skipReward"),again=el("overlayRestart");
+ advance.hidden=true;skip.hidden=true;again.hidden=true;rewards.hidden=true;el("weaponSite").hidden=true;el("routeMap").hidden=true;el("restSite").hidden=true;el("shopSite").hidden=true;el("shopPurgeCards").hidden=true;el("restUpgradeCards").hidden=true;el("b1UpgradeListHint").hidden=true;el("restBack").hidden=true;
+ if(s.phase==="reward"){
+  el("journeyTitle").textContent="第"+(s.stage+1)+"戦に勝利";
+  el("journeyHint").textContent="戦闘後にHPを最大6回復。次の敵に備えて3枚から1枚選ぶか、見送ろう。";
+  rewards.hidden=false;skip.hidden=false;
+  for(const id of s.rewards){
+    const btn=cardButton(id);btn.classList.add("b1-reward-choice");btn.addEventListener("click",()=>{if(game.chooseReward(id))render();});rewards.append(btn);
+  }
+  }else if(s.phase==="between"){
+  if(s.weaponPending){
+   el("journeyTitle").textContent="魔具の祭壇｜武器を1つ選ぶ";
+   el("journeyHint").textContent="武器は手札に入らず、冒険中ずっと効果が発動します。今回は刻印なし。";
+   const site=el("weaponSite"),choices=el("weaponChoices");site.hidden=false;choices.replaceChildren();
+   // Reuse existing game artwork. These are thematic crops, not new images.
+   const weaponArt={
+    thunderStaff:"b1-holy-thunder.webp",
+    oldClub:"b1-physical-bludgeon.webp",
+    mirrorStaff:"moon-mirror.webp",
+    dragonStaff:"b1-dragon-feed.webp"
+   };
+   for(const id of s.weaponOffered){
+    const w=B1_WEAPONS[id],button=document.createElement("button");
+    button.type="button";button.className="b1-weapon-choice b1-weapon-image-choice";
+    // The old 2.5KB dragon-feed thumbnail was blurry on landscape phones.
+    // Use the existing high-definition evolution atlas, without image generation.
+    const dragonHd=id==="dragonStaff";
+    const art=document.createElement(dragonHd?"span":"img");
+    art.className="b1-weapon-art"+(dragonHd?" b1-weapon-dragon-hd":"");
+    if(dragonHd)art.setAttribute("aria-hidden","true");
+    else{art.src="./assets/"+weaponArt[id];art.alt="";art.loading="eager";art.decoding="async";art.draggable=false;}
+    button.dataset.weapon=id;
+    const name=document.createElement("strong");name.textContent=w.name;
+    const detail=document.createElement("span");detail.className="b1-weapon-detail";detail.textContent=w.text;
+    const info=document.createElement("span");info.className="b1-weapon-info";
+    info.append(name,detail);
+    button.append(art,info);
+    button.setAttribute("aria-label",w.name+"。"+w.text);
+    button.addEventListener("click",()=>{if(game.chooseWeapon(id))render();});
+    choices.append(button);
+   }
+  }else if(s.shopAvailable){
+   el("journeyTitle").textContent="地下迷宮の商店";
+   el("journeyHint").textContent="戦闘で集めたゴールドでカードを買おう。購入せずに進むこともできます。";
+   el("shopSite").hidden=false;el("shopBalance").textContent="所持金："+s.gold+" G";
+   const items=el("shopItems");items.replaceChildren();
+   s.shopStock.forEach(item=>{
+    const card=getB1Card(item.id),b=cardButton(item.id);
+    const sold=s.shopPurchases.includes(item.id);
+    b.classList.add("b1-shop-item","b1-shop-offer");
+    b.disabled=s.gold<item.price||sold;
+    b.setAttribute("aria-label",card.name+"。"+card.text+"。価格 "+item.price+"G。"+(sold?"購入済み":b.disabled?"所持金不足":"購入可能"));
+    const price=document.createElement("span");price.className="b1-shop-price";
+    price.textContent=sold?"購入済み":item.price+" G";
+    b.append(price);
+    b.addEventListener("click",()=>{if(game.buyShop(item.id))render();});items.append(b);
+   });
+   const purge=el("shopPurgeOpen");purge.disabled=s.shopPurged||s.gold<30||s.deck.length<=1;
+   purge.textContent=s.shopPurged?"カード削除済み":s.gold<30?"カード削除（30G不足）":"30Gでカードを1枚削除";
+  }else if(s.restAvailable){el("journeyTitle").textContent="休憩所｜第"+(s.stage+2)+"戦の前";el("journeyHint").textContent="回復か強化、どちらか一つだけ選べます。";el("restSite").hidden=false;el("restHeal").disabled=s.hp>=s.maxHp;}else if(!s.practiceMode){
+   el("journeyTitle").textContent="行き先を選ぼう｜"+Math.min(routePath.length+1,16)+"階";
+   el("journeyHint").textContent="道でつながった金色の部屋だけ選べます。下から上へ進もう。";
+   el("routeMap").hidden=false;renderAscendingMap();
+  }else if(s.stage===0&&!s.practiceMode){
+   el("journeyTitle").textContent="次に進む道を選ぼう";
+   el("journeyHint").textContent="敵の数が違う2つの道。HPとデッキを引き継ぎ、選んだ敵と第2戦を戦います。";
+   el("routeMap").hidden=false;
+  }else{
+   el("journeyTitle").textContent="次の戦いへ";
+   el("journeyHint").textContent="HPとカードを引き継ぎます。次の敵に合わせてデッキを育てよう。";
+   advance.hidden=false;advance.textContent="第"+(s.stage+2)+"戦へ →";
+  }
+ }else if(s.phase==="won"){
+  el("journeyTitle").textContent=s.practiceMode?"ラスボス撃破！ 練習成功":"地下迷宮 B1 踏破！";
+  el("journeyHint").textContent="護衛を先に倒した？ ボスに直接攻撃した？ 最初の魔法を変えて再挑戦しよう。";
+  again.hidden=false;again.textContent="もう一度";
+ }else{
+  el("journeyTitle").textContent="冒険終了";
+  el("journeyHint").textContent="敵の予告と魔力の使い方を振り返って再挑戦しよう。";
+  again.hidden=false;again.textContent="再挑戦";
+ }
+}
+let lastTurnKey=null;
+let b1AutoEndTimer=null;
+let lastWeaponCue=0,weaponToastTimer=null;
+function showWeaponCue(state){
+ const event=state.weaponActivation;
+ if(!event||event.seq<=lastWeaponCue||!state.weapon)return;
+ lastWeaponCue=event.seq;
+ if(state.phase!=="battle")return;
+ const toast=el("b1WeaponToast"),hud=el("b1WeaponIndicator");
+ if(weaponToastTimer!==null)clearTimeout(weaponToastTimer);
+ toast.textContent=state.weapon.symbol+" "+state.weapon.name+" 発動！ "+event.detail;
+ toast.hidden=false;
+ toast.classList.remove("b1-weapon-toast-pop");void toast.offsetWidth;
+ toast.classList.add("b1-weapon-toast-pop");
+ hud.classList.remove("b1-weapon-flash");void hud.offsetWidth;
+ hud.classList.add("b1-weapon-flash");
+ weaponToastTimer=setTimeout(()=>{toast.hidden=true;toast.classList.remove("b1-weapon-toast-pop");hud.classList.remove("b1-weapon-flash");weaponToastTimer=null;},1700);
+}
+function b1ScheduleAutoEnd(state){
+ if(state.phase!=="battle"||game.hasPlayableCard())return;
+ // A short reading window and a phase/turn key avoid surprising auto-actions.
+ // Open card dialogs pause the countdown, allowing the player to inspect cards.
+ const stage=state.stage,turn=state.turn;
+ const check=()=>{
+  b1AutoEndTimer=null;
+  const now=game.snapshot();
+  if(now.phase!=="battle"||now.stage!==stage||now.turn!==turn||game.hasPlayableCard())return;
+  if(document.querySelector("dialog[open]")){
+   b1AutoEndTimer=setTimeout(check,500);
+   return;
+  }
+  const before=now;
+  actions.cancel();
+  if(game.endTurn()){
+   render();
+   showB1Feedback({stage:gameStage,hero:el("heroPuppet"),enemy:el("enemyPuppet"),choices:el("enemyLineup"),before,after:game.snapshot(),turnEnded:true});
+  }
+ };
+ el("planningStatus").textContent="使えるカードがないため、自動でターンを終了します。";
+ b1AutoEndTimer=setTimeout(check,800);
+}
+function render(){
+ if(b1AutoEndTimer!==null){clearTimeout(b1AutoEndTimer);b1AutoEndTimer=null;}
+ const s=game.snapshot();
+ document.body.classList.toggle("b1-rest-active",Boolean(s.restAvailable));
+ el("b1Campfire").hidden=!s.restAvailable;
+ const turnKey=s.stage+":"+s.turn+":"+s.phase;
+ const newTurn=turnKey!==lastTurnKey;
+ lastTurnKey=turnKey;
+ el("setupPanel").hidden=s.phase!=="starter";el("playScreen").hidden=s.phase==="starter";
+ if(s.phase==="starter"){renderSetup();return;}
+ renderStage(s);renderOverlay(s);showWeaponCue(s);
+ const hand=el("hand");hand.replaceChildren();hand.hidden=s.phase!=="battle";
+ if(s.phase==="battle")s.hand.forEach((id,index)=>{
+  const c=getB1Card(id),b=cardButton(id);
+  const handDesc=b.querySelector(".desc");
+  if(handDesc){
+   handDesc.dataset.b1FullDesc=c.text;
+   handDesc.textContent=b1HandSummary(id,c);
+  }
+  b.setAttribute("aria-label",c.name+"、魔力"+c.cost+"、"+c.text);
+  b.disabled=c.cost>s.energy||(c.requiresPureDeck&&s.deck.some(id=>getB1Card(id)?.weapon!==true))||(c.kind==="dragonFeed"&&(s.dragonStage<0||s.hand.length<2));
+  actions.bindHandCard(b,index);hand.append(b);
+  if(newTurn){b.classList.add("b1-dealt");b.style.animationDelay=(index*45)+"ms";}
+ });
+ el("endTurn").hidden=s.phase!=="battle";el("endTurn").disabled=s.phase!=="battle";
+ el("log").textContent=s.log.join("\n");actions.sync();
+ if(s.phase==="battle"){requestAnimationFrame(b1PlaceConditionRows);b1ScheduleAutoEnd(s);}
+}
+const gameStage=document.querySelector("#playScreen .stage");
+// Reuse the identical original stage DOM; mount B1-only indicators at runtime.
+for(const [owner,id,label] of [["heroPuppet","b1HeroEffects","味方の状態"],["enemyPuppet","b1SoloEnemyEffects","敵の状態"]]){
+ const spot=document.createElement("span");spot.id=id;spot.className="b1-effect-row";
+ spot.setAttribute("aria-label",label);el(owner).append(spot);
+}
+// Align each condition row to the DISPLAYED top of the character image,
+// rather than to the top of the much taller puppet/target box.
+// Object-fit:contain leaves large invisible margins on landscape monitors.
+function b1PositionRow(owner,row,img){
+ if(!owner||!row||row.hidden||!img?.complete||!img.naturalWidth)return;
+ const frame=owner.getBoundingClientRect(),rect=img.getBoundingClientRect();
+ if(!frame.width||!rect.width||!rect.height)return;
+ const scale=Math.min(rect.width/img.naturalWidth,rect.height/img.naturalHeight);
+ const picturedTop=rect.top+(rect.height-img.naturalHeight*scale)/2;
+ const stageTop=gameStage.getBoundingClientRect().top;
+ const y=Math.max(stageTop+12,picturedTop-row.offsetHeight-8);
+ row.style.top=Math.round(y-frame.top)+"px";
+ row.style.left=Math.round(rect.left+rect.width/2-frame.left)+"px";
+ row.style.bottom="auto";
+}
+function b1PlaceConditionRows(){
+ b1PositionRow(el("heroPuppet"),el("b1HeroEffects"),el("heroPuppet").querySelector("img"));
+ b1PositionRow(el("enemyPuppet"),el("b1SoloEnemyEffects"),el("enemyArt"));
+ for(const figure of el("enemyLineup").querySelectorAll(".b1-actor-figure")){
+  b1PositionRow(figure,figure.querySelector(".b1-actor-status"),figure.querySelector("img"));
+ }
+}
+for(const selector of ["#heroPuppet img","#enemyArt"]){
+ document.querySelector(selector).addEventListener("load",()=>requestAnimationFrame(b1PlaceConditionRows));
+}
+window.addEventListener("resize",()=>requestAnimationFrame(b1PlaceConditionRows));
+const feedDialog=document.createElement("dialog");feedDialog.className="b1-deck-dialog b1-feed-dialog";document.body.append(feedDialog);
+function showDragonFeedChoice(index,cardId,sourceRect){
+ const before=game.snapshot();if(before.dragonStage<0)return false;
+ const eligible=before.hand.map((id,i)=>({id,i})).filter(x=>x.i!==index);
+ if(!eligible.length)return false;
+ feedDialog.replaceChildren();
+ const title=document.createElement("h2");title.textContent="竜の餌｜捨てるカードを選ぶ";
+ const hint=document.createElement("p");hint.textContent="この1枚を捨てて、竜を"+getB1Card(cardId).dragonGrowth+"段階進化。進化先に応じて敵へ攻撃します。";
+ const row=document.createElement("div");row.className="b1-feed-choices";
+ for(const option of eligible){const b=document.createElement("button");b.type="button";b.className="b1-feed-choice";b.textContent=getB1Card(option.id).name+" を捨てる";
+ b.addEventListener("click",()=>{if(!game.play(index,option.i))return;feedDialog.close();render();showB1Feedback({stage:gameStage,hero:el("heroPuppet"),enemy:el("enemyPuppet"),choices:el("enemyLineup"),before,after:game.snapshot(),card:getB1Card(cardId),sourceRect});});row.append(b);}
+ const cancel=document.createElement("button");cancel.type="button";cancel.className="quiet";cancel.textContent="キャンセル";cancel.addEventListener("click",()=>feedDialog.close());
+ feedDialog.append(title,hint,row,cancel);feedDialog.showModal();return true;
+}
+const actions=attachB1Actions({
+ hand:el("hand"),stage:gameStage,enemyPuppet:el("enemyPuppet"),choices:el("enemyLineup"),cards:new Proxy(CARDS,{get:(_,id)=>getB1Card(id)}),
+ read:()=>game.snapshot(),selectedTarget:()=>targetId,
+ cast:(index,id,cardId,sourceRect,before)=>{
+  if(cardId.replace(/~$/,"")==="dragonFeed")return showDragonFeedChoice(index,cardId,sourceRect);
+  if(!game.play(index,id))return false;
+  render();
+  showB1Feedback({stage:gameStage,hero:el("heroPuppet"),enemy:el("enemyPuppet"),choices:el("enemyLineup"),before,after:game.snapshot(),card:getB1Card(cardId),targetId:id,sourceRect});
+  return true;
+ },
+ inspectTarget:id=>{targetId=id;render();}
+});
+el("bossComboPractice").addEventListener("click",()=>{if(game.startBossPractice("combo")){targetId="boss";render();}});
+el("bossPractice").addEventListener("click",()=>{if(game.startBossPractice("ideal")){targetId="boss";render();}});
+el("bossBasicPractice").addEventListener("click",()=>{if(game.startBossPractice("baseline")){targetId="boss";render();}});
+const deckModal=document.createElement("dialog");
+deckModal.className="b1-deck-dialog";
+document.body.append(deckModal);
+el("deckButton").addEventListener("click",()=>{
+ const s=game.snapshot(),counts=new Map();
+ for(const id of s.deck)counts.set(id,(counts.get(id)||0)+1);
+ deckModal.replaceChildren();
+ const title=document.createElement("h2");title.textContent="現在のデッキ（"+s.deck.length+"枚）";deckModal.append(title);
+ const hint=document.createElement("p");hint.textContent=s.practiceMode==="combo"?"連鎖コンボ14枚：闘魔の印で火力を強化→散弾で3体へ攻撃→連鎖雷で追加6。術式循環で必要な札を引き、魔力点火で使える枚数を増やす。":s.practiceMode==="ideal"?"安定型14枚：散弾で護衛を処理し、氷の結界・魔導の研究で守りと継続ドローを重視。":s.practiceMode==="baseline"?"基本カードだけでボスを攻略できるか比べる構成。":"戦闘の進行に応じて手に入れたカードの一覧。";deckModal.append(hint);
+ const list=document.createElement("ul");
+ for(const [id,n] of counts){
+  const item=document.createElement("li");item.textContent=getB1Card(id).name+" ×"+n+"  ─  "+getB1Card(id).text;
+  list.append(item);
+ }
+ deckModal.append(list);
+ const close=document.createElement("button");close.type="button";close.className="quiet";close.textContent="閉じる";close.addEventListener("click",()=>deckModal.close());deckModal.append(close);
+ deckModal.showModal();
+});
+el("endTurn").addEventListener("click",()=>{const before=game.snapshot();actions.cancel();if(game.endTurn()){render();showB1Feedback({stage:gameStage,hero:el("heroPuppet"),enemy:el("enemyPuppet"),choices:el("enemyLineup"),before,after:game.snapshot(),turnEnded:true});}});
+
+// New route mode reuses this page's real card art, drag controls, enemies and effects.
+const ROOM_LABEL={battle:"⚔ 戦闘",elite:"☠ 強敵",event:"? 出来事",shop:"＄ 商人",rest:"♨ 休憩",treasure:"◆ 宝箱"};
+function renderAscendingMap(){
+ const host=el("ascendingMap");host.replaceChildren();
+ const choices=new Set(availableB1Rooms(routeMap,routePath));
+ const boss=document.createElement("button");boss.type="button";boss.className="b1-ascending-boss";
+ boss.textContent="♛ 16階 ボス";boss.disabled=!choices.has("boss");
+ boss.addEventListener("click",()=>goToRouteRoom("boss","boss"));host.append(boss);
+ for(const nodes of [...routeMap.floors].reverse()){
+  const row=document.createElement("div");row.className="b1-ascending-floor";
+  const floor=document.createElement("span");floor.textContent=nodes[0].floor+"F";row.append(floor);
+  for(const node of nodes){
+   const b=document.createElement("button");b.type="button";b.textContent=ROOM_LABEL[node.type];
+   b.disabled=!choices.has(node.id);b.className="b1-ascending-node"+(choices.has(node.id)?" selectable":"")+(routePath.includes(node.id)?" visited":"");
+   b.addEventListener("click",()=>goToRouteRoom(node.id,node.type));row.append(b);
+  }host.append(row);
+ }
+ const next=host.querySelector(".selectable");
+ if(next)requestAnimationFrame(()=>next.scrollIntoView({block:"center",behavior:"instant"}));
+}
+function goToRouteRoom(id,type){
+ const next=chooseB1Room(routeMap,routePath,id);
+ if(!next||!game.enterRouteRoom(type))return;
+ routePath=next;targetId=null;actions.cancel();render();
+}
+
+el("routeMap").addEventListener("click",event=>{
+ const chosen=event.target.closest("button[data-route]");
+ if(!chosen||!game.choosePath(chosen.dataset.route))return;
+ actions.cancel();
+ if(game.nextBattle()){targetId=null;render();}
+});
+el("shopPurgeOpen").addEventListener("click",()=>{
+ const s=game.snapshot();if(!s.shopAvailable||s.shopPurged||s.gold<30)return;
+ const box=el("shopPurgeCards");box.replaceChildren();box.hidden=false;
+ s.deck.forEach((id,index)=>{
+  const card=getB1Card(id),button=cardButton(id);
+  button.classList.add("b1-shop-purge-card");
+  button.setAttribute("aria-label",card.name+"。"+card.text+"。30Gでデッキから削除");
+  button.addEventListener("click",()=>{if(game.purgeShopCard(index))render();});
+  box.append(button);
+ });
+});
+el("shopLeave").addEventListener("click",()=>{if(game.leaveShop())render();});
+el("physicalStarterOpen").addEventListener("click",()=>{if(game.selectStarter("physical")){targetId=null;render();}});
+el("physicalStarterDialogOpen").addEventListener("click",()=>{if(game.selectStarter("physical")){el("fireStarterDialog").close();targetId=null;render();}});
+el("fireStarterOpen").addEventListener("click",()=>{if(game.snapshot().phase==="starter")el("fireStarterDialog").showModal();});
+el("fireStarterClose").addEventListener("click",()=>el("fireStarterDialog").close());
+el("restHeal").addEventListener("click",()=>{if(game.chooseRest("heal"))render();});
+// Read the future card from the existing engine. Older fallback upgrades
+// include technical labels like "(damage+3)" in their descriptive text;
+// translate those into a full Japanese card effect without changing mechanics.
+function b1EvolutionEffectText(current,future){
+ const raw=future.text;
+ const mark=raw.match(/（(damage|block|heal|poison|weaken|vulnerable|energyGain|draw|strengthGain|powerDraw)＋(\d+)）$/);
+ if(!mark)return raw.replace(/（魔力－1）$/,"");
+ const key=mark[1],phrase=raw.slice(0,mark.index);
+ const patterns={
+  damage:/(\d+)(?=\s*ダメージ)/,
+  block:/(?<=防御)(\d+)/,
+  heal:/(\d+)(?=回復)/,
+  poison:/(?<=毒)(\d+)/,
+  weaken:/(?<=弱体)(\d+)/,
+  vulnerable:/(?<=脆弱)(\d+)/,
+  energyGain:/(?<=魔力＋)(\d+)/,
+  draw:/(\d+)(?=枚引く)/,
+  strengthGain:/(?<=攻撃威力＋)(\d+)/,
+  powerDraw:/(?<=ドロー＋)(\d+)/
+ };
+ const pattern=patterns[key];
+ const oldValue=current[key],newValue=future[key];
+ if(pattern&&pattern.test(phrase)){
+  return phrase.replace(pattern,number=>Number(number)===oldValue?String(newValue):number);
+ }
+ const labels={damage:"ダメージ",block:"防御",heal:"回復",poison:"毒",weaken:"弱体",
+  vulnerable:"脆弱",energyGain:"魔力獲得",draw:"ドロー",strengthGain:"攻撃威力",powerDraw:"毎ターンドロー"};
+ return phrase+" ／ "+labels[key]+"："+oldValue+" → "+newValue;
+}
+function b1EvolutionCompareBlock(label,effect,cost,variant){
+ const pane=document.createElement("span");pane.className="b1-evolution-panel b1-evolution-"+variant;
+ const header=document.createElement("span");header.className="b1-evolution-heading";header.textContent=label;
+ const costBadge=document.createElement("span");costBadge.className="b1-evolution-cost";costBadge.textContent="魔力 "+cost;
+ const summary=document.createElement("span");summary.className="b1-evolution-text";summary.textContent=effect;
+ pane.append(header,costBadge,summary);return pane;
+}
+// Route the wheel through the ONE evolution list. Card artwork and text
+// must never intercept a wheel gesture as a second nested scrolling pane.
+const b1UpgradeGrid=el("restUpgradeCards");
+b1UpgradeGrid.setAttribute("tabindex","0");
+b1UpgradeGrid.setAttribute("role","region");
+b1UpgradeGrid.setAttribute("aria-label","強化するカード一覧");
+b1UpgradeGrid.addEventListener("wheel",event=>{
+ if(b1UpgradeGrid.hidden||!el("journeyPanel").classList.contains("b1-upgrade-open"))return;
+ const maxScroll=Math.max(0,b1UpgradeGrid.scrollHeight-b1UpgradeGrid.clientHeight);
+ if(maxScroll===0)return;
+ const scale=event.deltaMode===1?18:event.deltaMode===2?b1UpgradeGrid.clientHeight:1;
+ const next=Math.max(0,Math.min(maxScroll,b1UpgradeGrid.scrollTop+event.deltaY*scale));
+ // Also swallow wheel input at the beginning/end so the background game
+ // cannot scroll when the upgrade list reaches its boundary.
+ event.preventDefault();
+ if(next===b1UpgradeGrid.scrollTop)return;
+ b1UpgradeGrid.scrollTop=next;
+},{passive:false});
+el("restUpgrade").addEventListener("click",()=>{
+ const state=game.snapshot();if(!state.restAvailable)return;
+ const box=el("restUpgradeCards");box.replaceChildren();box.hidden=false;
+ // Each visit starts at the first card. Never inherit stale scroll from the
+ // previous full-window scroller or a previous upgrade visit.
+ const upgradeWindow=el("journeyPanel").querySelector(".pilot-overlay-window");
+ if(upgradeWindow)upgradeWindow.scrollTop=0;
+ box.scrollTop=0;
+ el("journeyPanel").classList.add("b1-upgrade-open");
+ el("b1UpgradeListHint").hidden=false;el("restBack").hidden=false;
+ state.deck.forEach((id,index)=>{
+  const current=getB1Card(id),upgraded=id.endsWith("~"),future=getB1Card(upgraded?id:id+"~");
+  const futureText=b1EvolutionEffectText(current,future);
+  const card=cardButton(id);card.classList.remove("b1-arcane-card");card.classList.remove("b1-defense-prototype");
+  const originType=card.querySelector(".type");originType.textContent=typeNames[current.kind]||current.kind;
+  originType.removeAttribute("data-symbol");
+  card.classList.add("b1-rest-upgrade-card","b1-upgrade-image-choice","b1-evolution-choice");
+  card.disabled=upgraded;
+  const copy=card.querySelector(".pilot-card-copy");copy.replaceChildren();
+  const name=document.createElement("strong");name.className="b1-evolution-card-name";name.textContent=current.name;
+  const before=b1EvolutionCompareBlock("現在の効果",current.text,current.cost,"before");
+  const meta=document.createElement("span");meta.className="b1-upgrade-effects";
+  meta.append(b1EvolutionCompareBlock(upgraded?"進化済み":"✦ 進化後の効果",futureText,future.cost,"after"));
+  copy.append(name,before,meta);
+  card.setAttribute("aria-label",current.name+"。現在："+current.text+"、魔力"+current.cost+"。進化後："+futureText+"、魔力"+future.cost+(upgraded?"。強化済み":"。選択すると強化"));
+  card.addEventListener("click",()=>{if(game.chooseRest("upgrade",index))render();});
+  box.append(card);
+ });
+});
+el("restBack").addEventListener("click",()=>{
+ el("restUpgradeCards").scrollTop=0;
+ el("journeyPanel").classList.remove("b1-upgrade-open");
+ el("restUpgradeCards").hidden=true;el("b1UpgradeListHint").hidden=true;el("restBack").hidden=true;
+});
+el("b1CardCatalogOpen").addEventListener("click",()=>{renderB1CardCatalog();el("b1CardCatalogDialog").showModal();});
+el("b1CardCatalogClose").addEventListener("click",()=>el("b1CardCatalogDialog").close());
+el("b1CatalogAll").addEventListener("click",()=>renderB1CardCatalog(false));
+el("b1CatalogMissing").addEventListener("click",()=>renderB1CardCatalog(true));
+el("advance").addEventListener("click",()=>{if(game.nextBattle()){targetId=null;render();}});
+el("skipReward").addEventListener("click",()=>{if(game.chooseReward(null))render();});
+el("skipWeapon").addEventListener("click",()=>{if(game.chooseWeapon(null))render();});
+el("overlayRestart").addEventListener("click",reset);
+el("restart").addEventListener("click",()=>{if(confirm("最初からやり直しますか？"))reset();});
+el("b1MobileCatalog").addEventListener("click",()=>{el("b1MobileQuickMenu").open=false;el("b1CardCatalogOpen").click();});
+el("b1MobileRestart").addEventListener("click",()=>{el("b1MobileQuickMenu").open=false;el("restart").click();});
+render();
+</script>
+</body>
+</html>
