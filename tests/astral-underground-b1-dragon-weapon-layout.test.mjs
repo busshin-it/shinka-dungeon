@@ -49,7 +49,7 @@ test("dragon portrait moves from the middle to a smaller upper-left safe area",(
 test("bump installed PWA build in sync across HTML, JS and public release file",()=>{
  const js=readFileSync(new URL("../v4-1/b1-update.mjs",import.meta.url),"utf8");
  const release=JSON.parse(readFileSync(new URL("../v4-1/b1-release.json",import.meta.url),"utf8"));
- assert.match(release.build,/^\\d{4}\\.\\d{2}\\.\\d{2}\\.\\d+$/);
+ assert.match(release.build,/^[0-9]{4}[.][0-9]{2}[.][0-9]{2}[.][0-9]+$/);
  assert.ok(html.includes('data-b1-build="'+release.build+'"'));
  assert.ok(js.includes('B1_BUILD = "'+release.build+'"'));
 });
