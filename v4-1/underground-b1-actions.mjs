@@ -79,7 +79,7 @@ export function attachB1Actions({hand,stage,enemyPuppet,choices,cards,read,selec
   choices.querySelectorAll("[data-b1-enemy]").forEach(b=>b.classList.toggle("b1-pending-target",picked!==null&&b.dataset.b1Enemy===selectedTarget()));
   enemyPuppet.classList.toggle("b1-pending-target",picked!==null&&!stage.classList.contains("b1-multi"));
  }
- function cancel(){picked=null;hidePreview();message("");mark();}
+ function cancel(){picked=null;hidePreview();message("");stage.classList.remove("b1-target-locked");mark();}
  function select(index){
   picked=index;showPreview(hand.querySelector('[data-b1-hand="'+index+'"]'));
   message(needsB1Target(usable(index)?.card?.kind)?"敵を1回タップして発動。ドラッグでも使えます。":"戦闘画面を1回タップして発動。ドラッグでも使えます。");
@@ -141,6 +141,7 @@ export function attachB1Actions({hand,stage,enemyPuppet,choices,cards,read,selec
   choices.querySelectorAll(".b1-drop-target").forEach(b=>b.classList.remove("b1-drop-target"));enemyPuppet.classList.remove("b1-drop-target");
   hovered=id;
   if(id){targetElement(id)?.classList.add("b1-drop-target");if(id===selectedTarget()&&!stage.classList.contains("b1-multi"))enemyPuppet.classList.add("b1-drop-target");}
+  stage.classList.toggle("b1-target-locked",Boolean(id));
  }
  function glideGhost(){
   ghostFrame=0;
@@ -166,7 +167,12 @@ export function attachB1Actions({hand,stage,enemyPuppet,choices,cards,read,selec
    const x=active.rect.left+active.rect.width/2,y=active.rect.top+active.rect.height*.1;
    const cx=(x+e.clientX)/2,cy=Math.min(y,e.clientY)-75;
    curve.setAttribute("d","M"+x+" "+y+" Q"+cx+" "+cy+" "+e.clientX+" "+e.clientY);
-   highlight(pointerTarget(e.clientX,e.clientY));
+   const aimed=pointerTarget(e.clientX,e.clientY);
+   highlight(aimed);
+   if(aimed){const anchor=targetElement(aimed)||enemyPuppet;const r=anchor.getBoundingClientRect();
+    const tx=r.left+r.width/2,ty=r.top+r.height*.42;
+    curve.setAttribute("d","M"+x+" "+y+" Q"+((x+tx)/2)+" "+(Math.min(y,ty)-75)+" "+tx+" "+ty);
+   }
   }
  }
  function beginGhost(e){
@@ -193,7 +199,7 @@ export function attachB1Actions({hand,stage,enemyPuppet,choices,cards,read,selec
    }else node.remove();
   }else ghost?.remove();
   ghost=null;hovered=null;hand.classList.remove("b1-hand-dragging");
-  stage.classList.remove("b1-casting");zone.classList.remove("b1-valid");arrow.classList.remove("b1-visible");
+  stage.classList.remove("b1-casting","b1-target-locked");zone.classList.remove("b1-valid");arrow.classList.remove("b1-visible");
   hand.querySelectorAll(".b1-drag-source,.b1-pressing").forEach(b=>b.classList.remove("b1-drag-source","b1-pressing"));
   choices.querySelectorAll(".b1-drop-target").forEach(b=>b.classList.remove("b1-drop-target"));
   enemyPuppet.classList.remove("b1-drop-target");active=null;
@@ -267,9 +273,9 @@ export function attachB1Actions({hand,stage,enemyPuppet,choices,cards,read,selec
   // Desktop hover opens the LARGE floating copy immediately; a click still
   // selects the original playable card and all drag/target rules remain.
   button.addEventListener("pointerenter",e=>{if(e.pointerType==="mouse"&&!active)showPreview(button);});
-  button.addEventListener("pointerleave",()=>{if(picked!==index&&!active)hidePreview();});
+  button.addEventListener("pointerleave",()=>{button.style.removeProperty("--b1-tilt-x");button.style.removeProperty("--b1-tilt-y");if(picked!==index&&!active)hidePreview();});
   button.addEventListener("focus",()=>showPreview(button));
-  button.addEventListener("blur",()=>{if(picked!==index&&!active)hidePreview();});
+  button.addEventListener("blur",()=>{button.style.removeProperty("--b1-tilt-x");button.style.removeProperty("--b1-tilt-y");if(picked!==index&&!active)hidePreview();});
  }
  hand.addEventListener("scroll",()=>{if(!active?.moved)hidePreview();},{passive:true});
  hand.addEventListener("pointermove",e=>{

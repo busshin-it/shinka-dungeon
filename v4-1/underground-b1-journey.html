@@ -171,6 +171,13 @@ body.pilot-mode #journeyPanel #b1EventOptions.b1-event-blood-grid .pilot-card{mi
  body.pilot-mode #setupPanel.b1-start-picking #b1StarterPickPanel{min-height:0}
  body.pilot-mode #setupPanel.b1-start-picking #b1StarterPickCards .pilot-card{min-height:285px}
 }
+</style><style>
+/* Combat input clarity only: highlight the actual hovered enemy and show tactile card feedback. */
+body.pilot-mode .b1-target-locked .b1-drop-target{filter:brightness(1.16) drop-shadow(0 0 13px #f3ca78);outline:2px solid #f4c875;outline-offset:3px}
+body.pilot-mode #hand [data-b1-hand]{transition:filter 110ms ease-out,box-shadow 110ms ease-out}
+body.pilot-mode #hand [data-b1-hand].b1-pressing{filter:brightness(1.12);box-shadow:0 0 19px #e3ba7299}
+body.pilot-mode #hand [data-b1-hand].b1-drag-source{filter:brightness(.72)}
+@media(prefers-reduced-motion:reduce){body.pilot-mode #hand [data-b1-hand]{transition:none}}
 </style></head>
 <body class="planning-mode pilot-mode" data-b1-mobile="true"><main class="game pilot-game">
 <header class="masthead"><div><h1>蒼星の回廊 <small>進化ダンジョン</small></h1></div><div class="header-actions">
