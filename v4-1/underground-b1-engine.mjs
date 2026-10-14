@@ -278,7 +278,23 @@ export function createB1Game(options={}){
   if(id==="basic")s.deck=[...BASIC_B1_STARTER];
   else if(id==="physical")s.deck=[...PHYSICAL_STARTER];
   else if(id==="dragonEgg")s.deck.push("dragonEgg","dragonFeed","dragonBreath");else s.deck.push(id);
+  if(routeTrial){
+   s.phase="starterPick";s.starterPicksDone=0;
+   s.starterOffers=rollStarterOffers();return true;
+  }
   start();return true;}
+ function rollStarterOffers(){
+  // Derive from existing reward pool; use the run's RNG, never Math.random.
+  const pool=[...new Set(getB1RewardPool(0,s.deck))].filter(id=>!!getB1Card(id));
+  return shuffle(pool).slice(0,3);
+ }
+ function chooseStarterPick(id){
+  if(!routeTrial||s.phase!=="starterPick"||!s.starterOffers.includes(id))return false;
+  s.deck.push(id);s.starterPicksDone++;note("初期カード："+getB1Card(id).name+"を獲得。");
+  if(s.starterPicksDone===3){s.starterOffers=[];start();}
+  else s.starterOffers=rollStarterOffers();
+  return true;
+ }
  function protectors(){return ((routeTrial&&s.routeBossActive)||s.stage===STAGES.length-1)?alive().filter(e=>e.role==="guard").length:0;}
  function recordBossDamage(e,n){
   if(e.role!=="boss"||n<=0||e.channelBroken||(s.turn-1)%4===3)return;
@@ -852,7 +868,7 @@ function choosePath(id){
   if(!routeTrial||!checkpoint||checkpoint.version!==1||checkpoint.runSeed!==runSeed)return false;
   const incoming=checkpoint.state;
   if(!incoming||typeof incoming!=="object"||Array.isArray(incoming)||
-     !["starter","battle","reward","between","won","lost"].includes(incoming.phase)||
+     !["starter","starterPick","battle","reward","between","won","lost"].includes(incoming.phase)||
      !Number.isInteger(incoming.stage)||incoming.stage<0||incoming.stage>=STAGES.length||
      !Number.isInteger(incoming.hp)||incoming.hp<0||incoming.hp>999||
      !Number.isInteger(incoming.maxHp)||incoming.maxHp<1||incoming.maxHp>999||
@@ -888,5 +904,5 @@ function choosePath(id){
   start();note("練習モード："+(mode==="combo"?"連鎖コンボ14枚":mode==="ideal"?"安定型14枚":mode==="test"?"検証用デッキ":"基本の10枚")+"でボスに挑戦。");
   return true;
  }
- return {snapshot,selectStarter,startBossPractice,play,endTurn,hasPlayableCard,chooseReward,chooseWeapon,chooseRest,buyShop,purgeShopCard,leaveShop,choosePath,nextBattle,enterRouteRoom,routeLeaveRoom,chooseRouteEvent,exportCheckpoint,restoreCheckpoint};
+ return {snapshot,selectStarter,chooseStarterPick,startBossPractice,play,endTurn,hasPlayableCard,chooseReward,chooseWeapon,chooseRest,buyShop,purgeShopCard,leaveShop,choosePath,nextBattle,enterRouteRoom,routeLeaveRoom,chooseRouteEvent,exportCheckpoint,restoreCheckpoint};
 }
