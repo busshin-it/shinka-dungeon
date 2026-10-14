@@ -507,7 +507,7 @@ export function createB1Game(options={}){
   if(e.role==="needle"){
    const n=(t-1)%3;
    return n===0?{kind:"attack",label:"針刺し "+(4+e.strength),damage:4+e.strength}:
-    n===1?{kind:"attack",label:"毒針ではない連突 "+(5+e.strength),damage:5+e.strength}:
+    n===1?{kind:"attack",label:"連続針突き "+(5+e.strength),damage:5+e.strength}:
     {kind:"buff",label:"殻に隠れる（防御4）",blockGain:4};
   }
   // Heavy block makes direct attacks inefficient; poison and curses still
