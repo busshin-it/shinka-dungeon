@@ -43,7 +43,7 @@ test("four tactical encounters are real monsters in four existing slots, without
    assert.ok(enemy.maxHp>0);
   }
  }
- assert.match(html,/createB1Game\(\{seed:Date\.now\(\),tacticalEncounters:true\}\)/);
+ assert.match(html,/createB1Game\(\{seed:Date\.now\(\),tacticalEncounters:true,weaponTrial:true\}\)/);
  for(const role of roles){
   assert.match(html,new RegExp(role+':"(?:bell-spirit|wraith)\\.webp"'));
   assert.ok(css.includes(".b1-role-"+role+" .b1-actor-figure img"),role);
