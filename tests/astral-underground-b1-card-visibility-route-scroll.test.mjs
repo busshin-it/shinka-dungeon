@@ -1,0 +1,5 @@
+import test from "node:test";import assert from "node:assert/strict";import {readFileSync} from "node:fs";import {spawnSync} from "node:child_process";
+const html=readFileSync(new URL("../v4-1/underground-b1-journey.html",import.meta.url),"utf8");
+test("starter and event card panels expose full artwork height",()=>{for(const q of ["#b1StarterPickCards .pilot-card{display:flex;min-height:340px","b1EventOptions.b1-event-blood-grid .pilot-card{min-height:320px","b1StarterPickPanel{max-height:none"])assert.ok(html.includes(q),q);});
+test("map scrolls to reachable choice using layout-relative coordinates",()=>{assert.ok(html.includes("target.top-outer.top-host.clientHeight/2+target.height/2"));assert.ok(!html.includes("next.offsetTop-host.offsetTop-host.clientHeight/2"));});
+test("inline module syntax passes",()=>{const script=html.match(/<script type="module">([\s\S]*?)<\/script>/)?.[1];assert.ok(script);const r=spawnSync(process.execPath,["--input-type=module","--check"],{input:script,encoding:"utf8"});assert.equal(r.status,0,r.stderr);});
