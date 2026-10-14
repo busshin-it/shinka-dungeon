@@ -392,3 +392,50 @@
 body.pilot-mode #playScreen .b1-mobile-quick-panel button#b1MobileUpdate{
   border-color:#a8bcbe;background:#1a4050;color:#fff3d4;
 }
+
+
+/* B1 dragon display repair: move the existing portrait out of the central
+   combat/hand overlap to the wizard's upper-left. Art and growth stay intact. */
+body.pilot-mode #playScreen .stage #b1DragonCompanion{
+ position:absolute;
+ left:clamp(12px,4.5vw,72px);
+ top:clamp(105px,27%,184px);
+ bottom:auto;right:auto;
+ width:clamp(65px,8.2vw,106px);
+ max-width:106px;max-height:40%;
+ z-index:5;
+ gap:2px;pointer-events:none;
+ filter:drop-shadow(0 3px 9px #0009);
+}
+body.pilot-mode #playScreen .stage #b1DragonCompanion .b1-dragon-portrait{
+ border-width:1px;border-radius:7px;
+ box-shadow:0 0 7px #f5752440;
+}
+body.pilot-mode #playScreen .stage #b1DragonCompanion .b1-dragon-caption{
+ box-sizing:border-box;max-width:100%;
+ padding:2px 3px;gap:1px;
+}
+body.pilot-mode #playScreen .stage #b1DragonCompanion .b1-dragon-caption strong{
+ font-size:clamp(9px,.93vw,12px);
+}
+body.pilot-mode #playScreen .stage #b1DragonCompanion .b1-dragon-caption span{
+ font-size:clamp(8px,.78vw,10px);
+}
+@media (orientation:landscape) and (max-height:620px){
+ body.pilot-mode #playScreen .stage #b1DragonCompanion{
+  left:clamp(8px,4vw,48px);
+  top:clamp(72px,25%,124px);
+  bottom:auto;width:clamp(44px,6.7vw,70px);
+  max-width:70px;max-height:38%;
+  z-index:5;
+ }
+ body.pilot-mode #playScreen .stage #b1DragonCompanion .b1-dragon-caption{
+  gap:0;padding:1px 2px;
+ }
+ body.pilot-mode #playScreen .stage #b1DragonCompanion .b1-dragon-caption strong{
+  font-size:9px;line-height:1.1;
+ }
+ body.pilot-mode #playScreen .stage #b1DragonCompanion .b1-dragon-caption span{
+  font-size:8px;line-height:1.1;
+ }
+}
