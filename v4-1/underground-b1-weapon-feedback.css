@@ -1,0 +1,77 @@
+/* B1: passive weapon feedback. UI only; engine bonuses and card frames stay unchanged. */
+body.pilot-mode #playScreen .b1-weapon-indicator[hidden],
+body.pilot-mode #playScreen .b1-weapon-toast[hidden]{display:none!important}
+body.pilot-mode #playScreen .b1-weapon-indicator{
+ box-sizing:border-box;position:relative;z-index:15;
+ width:max-content;max-width:min(258px,46vw);
+ display:flex;align-items:center;gap:6px;
+ margin:5px 0 2px;padding:5px 7px;
+ border:1px solid #c69a6278;border-radius:8px;
+ background:linear-gradient(100deg,#173249ee,#1c2943ef);
+ box-shadow:0 4px 11px #0008;color:#f7dfab;
+ pointer-events:none;
+}
+body.pilot-mode #playScreen .b1-weapon-indicator[data-ready="true"]{
+ border-color:#e4ba74b3;box-shadow:0 0 8px #f3bb4355,0 4px 10px #0009;
+}
+body.pilot-mode #playScreen .b1-weapon-indicator-symbol{
+ flex:0 0 auto;font-size:17px;line-height:1.1;
+}
+body.pilot-mode #playScreen .b1-weapon-indicator-copy{
+ display:flex;flex-direction:column;gap:2px;min-width:0;max-width:100%;
+}
+body.pilot-mode #playScreen .b1-weapon-indicator-copy strong{
+ font:700 12px/1.15 "Hiragino Sans","Yu Gothic",sans-serif;
+ white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:#ffe3a2;
+}
+body.pilot-mode #playScreen .b1-weapon-indicator-copy small{
+ font:600 10px/1.25 "Hiragino Sans","Yu Gothic",sans-serif;
+ white-space:normal;overflow-wrap:anywhere;color:#d2e4e9;
+}
+body.pilot-mode #playScreen .b1-weapon-toast{
+ position:absolute;z-index:38;
+ left:clamp(110px,26%,390px);top:clamp(95px,34%,225px);
+ box-sizing:border-box;max-width:min(325px,42vw);
+ padding:9px 13px;border:1px solid #f4ca7b;
+ border-radius:11px;background:linear-gradient(120deg,#1b334ff2,#493321f2);
+ color:#ffedc1;font:800 clamp(12px,1.2vw,16px)/1.4 "Hiragino Sans","Yu Gothic",sans-serif;
+ text-shadow:0 2px 6px #0009;box-shadow:0 0 22px #efbb5a77;
+ pointer-events:none;overflow-wrap:anywhere;
+}
+@keyframes b1WeaponCuePop{
+ 0%{opacity:0;transform:translateY(12px) scale(.91)}
+ 19%{opacity:1;transform:translateY(-6px) scale(1.05)}
+ 72%{opacity:1;transform:translateY(-6px) scale(1)}
+ 100%{opacity:0;transform:translateY(-22px) scale(.97)}
+}
+@keyframes b1WeaponHudGlow{
+ 0%{filter:brightness(1)}
+ 35%{filter:brightness(1.8) drop-shadow(0 0 8px #eec96d)}
+ 100%{filter:brightness(1)}
+}
+body.pilot-mode #playScreen .b1-weapon-toast-pop{
+ animation:b1WeaponCuePop 1.65s ease-out both;
+}
+body.pilot-mode #playScreen .b1-weapon-flash{
+ animation:b1WeaponHudGlow 1.1s ease-out both;
+}
+@media (orientation:landscape) and (max-height:620px){
+ body.pilot-mode #playScreen .b1-weapon-indicator{
+  max-width:min(184px,29vw);gap:4px;
+  padding:3px 5px;margin:3px 0 0;border-radius:6px;
+ }
+ body.pilot-mode #playScreen .b1-weapon-indicator-symbol{font-size:14px}
+ body.pilot-mode #playScreen .b1-weapon-indicator-copy{gap:0}
+ body.pilot-mode #playScreen .b1-weapon-indicator-copy strong{font-size:10px}
+ body.pilot-mode #playScreen .b1-weapon-indicator-copy small{
+  font-size:9px;line-height:1.18;max-height:22px;overflow:hidden;
+ }
+ body.pilot-mode #playScreen .b1-weapon-toast{
+  left:clamp(100px,23%,260px);top:28%;
+  max-width:40vw;font-size:12px;padding:5px 8px;
+ }
+}
+@media (prefers-reduced-motion:reduce){
+ body.pilot-mode #playScreen .b1-weapon-toast-pop,
+ body.pilot-mode #playScreen .b1-weapon-flash{animation:none}
+}
