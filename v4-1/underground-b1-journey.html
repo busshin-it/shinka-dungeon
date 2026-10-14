@@ -178,6 +178,18 @@ body.pilot-mode #hand [data-b1-hand]{transition:filter 110ms ease-out,box-shadow
 body.pilot-mode #hand [data-b1-hand].b1-pressing{filter:brightness(1.12);box-shadow:0 0 19px #e3ba7299}
 body.pilot-mode #hand [data-b1-hand].b1-drag-source{filter:brightness(.72)}
 @media(prefers-reduced-motion:reduce){body.pilot-mode #hand [data-b1-hand]{transition:none}}
+</style><style>
+/* Starting gear is a deliberately separate surface, not a giant magic card frame. */
+body.pilot-mode #setupPanel.b1-start-picking #b1StarterPickCards{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;align-items:stretch;min-height:0}
+body.pilot-mode #b1StarterPickCards .b1-start-weapon-choice{background:linear-gradient(150deg,#243c51,#142637);color:#f6e8cc;border:1px solid #d4b673;border-radius:14px;min-height:230px;min-width:0;padding:20px 14px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:13px;cursor:pointer;box-shadow:0 5px 18px #0005}
+body.pilot-mode #b1StarterPickCards .b1-start-weapon-choice:hover,body.pilot-mode #b1StarterPickCards .b1-start-weapon-choice:focus-visible{border-color:#ffe2a4;box-shadow:0 0 0 2px #eebc6c75}
+body.pilot-mode #b1StarterPickCards .b1-start-weapon-symbol{font-size:54px;line-height:1}
+body.pilot-mode #b1StarterPickCards .b1-start-weapon-choice strong{font-size:19px}
+body.pilot-mode #b1StarterPickCards .b1-start-weapon-choice small{font-size:13px;line-height:1.6;color:#d5d4ce}
+@media(max-width:780px){body.pilot-mode #setupPanel.b1-start-picking #b1StarterPickCards{grid-template-columns:repeat(2,minmax(0,1fr))}body.pilot-mode #b1StarterPickCards .b1-start-weapon-choice{min-height:185px}}
+/* The old 2px oval around the entire puppet is not a useful target cue. */
+body.pilot-mode #enemyPuppet.b1-drop-target,body.pilot-mode #enemyPuppet.b1-pending-target{outline:none!important;border-radius:0!important;box-shadow:none!important;filter:drop-shadow(0 0 9px #e8c781)!important}
+body.pilot-mode .b1-target-locked #enemyPuppet.b1-drop-target{outline:none!important;filter:drop-shadow(0 0 11px #e8c781)!important}
 </style></head>
 <body class="planning-mode pilot-mode" data-b1-mobile="true"><main class="game pilot-game">
 <header class="masthead"><div><h1>蒼星の回廊 <small>進化ダンジョン</small></h1></div><div class="header-actions">
@@ -202,7 +214,7 @@ body.pilot-mode #hand [data-b1-hand].b1-drag-source{filter:brightness(.72)}
 <section id="setupPanel" class="stage pilot-setup b1-ref-setup" hidden><div class="pilot-setup-content b1-ref-panel">
 <button id="physicalStarterOpen" class="b1-physical-start-cta" type="button"><strong>⚔ 物理デッキで開始</strong><small>魔法0枚・物理9枚｜鉄槌も使用可能</small></button>
 <div class="pilot-setup-head b1-ref-head"><img src="./assets/hero.webp" alt="蒼星の魔法師"><div><h2 id="setupHeading">護符を選ぶ</h2><span class="b1-ref-title-rule" aria-hidden="true"></span><p id="setupHint"></p></div></div>
-<div id="setupChoices" class="pilot-choices"></div><div id="b1StarterPickPanel" hidden><h3 id="b1StarterPickProgress"></h3><p>3枚から1枚を選ぼう。3回選ぶと1階の戦闘が始まります。</p><div id="b1StarterPickCards" class="pilot-choices"></div></div><div class="pilot-setup-actions"><button id="fireStarterOpen" class="quiet" type="button">✦ 属性魔法で開始</button><button id="bossComboPractice" class="primary" type="button">連鎖コンボ14枚で練習</button><button id="bossPractice" class="quiet" type="button">安定型14枚で練習</button><button id="bossBasicPractice" class="quiet" type="button">基本10枚で練習</button><button id="setupReroll" class="quiet" type="button">↻ 別の候補</button></div>
+<div id="setupChoices" class="pilot-choices"></div><div id="b1StarterPickPanel" hidden><h3 id="b1StarterPickProgress"></h3><p>武器を1つ選んで1階へ。冒険中のカードを組み合わせて、装備の能力を活かそう。</p><div id="b1StarterPickCards" class="pilot-choices"></div></div><div class="pilot-setup-actions"><button id="fireStarterOpen" class="quiet" type="button">✦ 属性魔法で開始</button><button id="bossComboPractice" class="primary" type="button">連鎖コンボ14枚で練習</button><button id="bossPractice" class="quiet" type="button">安定型14枚で練習</button><button id="bossBasicPractice" class="quiet" type="button">基本10枚で練習</button><button id="setupReroll" class="quiet" type="button">↻ 別の候補</button></div>
 </div></section>
 <div id="playScreen" class="pilot-play" hidden>
   <section class="stage" aria-label="戦闘画面">
@@ -903,13 +915,17 @@ function render(){
  if(s.phase==="starterPick"){
   el("setupPanel").classList.add("b1-start-picking");
   el("b1StarterPickPanel").hidden=false;
-  el("b1StarterPickProgress").textContent="冒険開始のカード選択 "+(s.starterPicksDone+1)+" / 3";
+  el("b1StarterPickProgress").textContent="冒険の装備を選ぶ";
   const cards=el("b1StarterPickCards");cards.replaceChildren();
-  for(const id of s.starterOffers){
-   const b=cardButton(id);b.classList.add("b1-reward-choice");
-   b.setAttribute("aria-label",getB1Card(id).name+"。"+getB1Card(id).text+"。このカードを初期デッキへ追加");
-   b.addEventListener("click",()=>{if(game.chooseStarterPick(id))render();});
-   cards.append(b);
+  for(const [id,weapon] of Object.entries(B1_WEAPONS)){
+   const btn=document.createElement("button");btn.type="button";btn.className="b1-start-weapon-choice";
+   const art=document.createElement("span");art.className="b1-start-weapon-symbol";art.textContent=weapon.symbol;art.setAttribute("aria-hidden","true");
+   const name=document.createElement("strong");name.textContent=weapon.name;
+   const info=document.createElement("small");info.textContent=weapon.text;
+   btn.append(art,name,info);
+   btn.setAttribute("aria-label",weapon.name+"。"+weapon.text+"。これを装備して冒険を始める");
+   btn.addEventListener("click",()=>{if(game.selectStartingWeapon(id))render();});
+   cards.append(btn);
   }
   saveJourney();return;
  }
