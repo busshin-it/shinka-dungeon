@@ -139,7 +139,7 @@ body.pilot-mode #playScreen .stage.b1-room-arrival{animation:b1-room-arrival .28
  body.pilot-mode #journeyPanel .pilot-overlay-window.b1-route-enter,
  body.pilot-mode #playScreen .stage.b1-room-arrival{animation:none}
 }
-</style></head>
+</style><style>.b1-ascending-node{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;line-height:1.2}.b1-ascending-node .b1-room-benefit{display:block;font-size:10px;color:#dfd2b9;line-height:1.15}.b1-ascending-node.selectable .b1-room-benefit{color:#ffe6b6}</style></head>
 <body class="planning-mode pilot-mode" data-b1-mobile="true"><main class="game pilot-game">
 <header class="masthead"><div><h1>蒼星の回廊 <small>進化ダンジョン</small></h1></div><div class="header-actions">
 <button id="b1Install" class="quiet" type="button" hidden>アプリにする</button>
@@ -907,6 +907,7 @@ el("endTurn").addEventListener("click",()=>{const before=game.snapshot();actions
 const ROOM_LABEL={battle:"⚔ 戦闘",elite:"☠ 強敵",event:"? 出来事",shop:"＄ 商人",rest:"♨ 休憩",treasure:"◆ 宝箱"};
 // Match the engine's existing rewards; do not promise an elite-only card or relic.
 const ROUTE_HINT={battle:"勝利：カード3択＋通常の金貨",elite:"勝利：カード3択＋追加40G",event:"金貨25Gを発見",shop:"金貨でカードを購入",rest:"HP15回復 またはカード強化",treasure:"武器3択（見送り可）",boss:"最終戦"};
+const ROUTE_SHORT={battle:"カード＋金貨",elite:"追加40G",event:"+25G",shop:"カード購入",rest:"回復／強化",treasure:"武器3択"};
 
 function renderAscendingMap(){
  const latest=routePath.at(-1);
@@ -921,7 +922,10 @@ function renderAscendingMap(){
   const row=document.createElement("div");row.className="b1-ascending-floor";
   const floor=document.createElement("span");floor.textContent=nodes[0].floor+"F";row.append(floor);
   for(const node of nodes){
-   const b=document.createElement("button");b.type="button";b.textContent=ROOM_LABEL[node.type];
+   const b=document.createElement("button");b.type="button";
+   const label=document.createElement("span");label.textContent=ROOM_LABEL[node.type];
+   const benefit=document.createElement("small");benefit.className="b1-room-benefit";benefit.textContent=ROUTE_SHORT[node.type];
+   b.append(label,benefit);
    b.disabled=!choices.has(node.id);b.className="b1-ascending-node"+(choices.has(node.id)?" selectable":"")+(routePath.includes(node.id)?" visited":"");
    b.title=ROOM_LABEL[node.type]+"｜"+ROUTE_HINT[node.type];
    b.setAttribute("aria-label",node.floor+"階 "+ROOM_LABEL[node.type]+"。"+ROUTE_HINT[node.type]+(choices.has(node.id)?"。選択可能":""));
