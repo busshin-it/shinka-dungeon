@@ -128,6 +128,17 @@
 .b1-ascending-node.visited{box-shadow:0 0 12px #80cda050}
 
 .b1-ascending-floor:last-child:after{display:none}
+</style><style>
+/* Short, nonblocking movement cues: preserve pointer/drag event handlers. */
+.b1-route-guidance{color:#e8d2a4;font-size:clamp(12px,1.2vw,16px);margin:8px 3px 0;text-align:center}
+body.pilot-mode #journeyPanel .pilot-overlay-window.b1-route-enter{animation:b1-route-enter .22s ease-out both}
+body.pilot-mode #playScreen .stage.b1-room-arrival{animation:b1-room-arrival .28s ease-out both}
+@keyframes b1-route-enter{from{opacity:.7;transform:translateY(9px)}to{opacity:1;transform:translateY(0)}}
+@keyframes b1-room-arrival{from{filter:brightness(.77)}to{filter:brightness(1)}}
+@media (prefers-reduced-motion:reduce){
+ body.pilot-mode #journeyPanel .pilot-overlay-window.b1-route-enter,
+ body.pilot-mode #playScreen .stage.b1-room-arrival{animation:none}
+}
 </style></head>
 <body class="planning-mode pilot-mode" data-b1-mobile="true"><main class="game pilot-game">
 <header class="masthead"><div><h1>蒼星の回廊 <small>進化ダンジョン</small></h1></div><div class="header-actions">
@@ -180,7 +191,7 @@
 
 <section id="journeyPanel" class="pilot-overlay" hidden><div class="pilot-overlay-window">
 <h2 id="journeyTitle"></h2><p id="journeyHint"></p>
-<div id="routeMap" class="b1-route-map b1-ascending-map" hidden aria-label="B1の15階層分岐マップ"><div id="ascendingMap" class="b1-ascending-scroll"></div><div hidden>
+<div id="routeMap" class="b1-route-map b1-ascending-map" hidden aria-label="B1の15階層分岐マップ"><div id="ascendingMap" class="b1-ascending-scroll"></div><p id="b1RouteGuidance" class="b1-route-guidance" aria-live="polite"></p><div hidden>
  <div class="b1-map-header"><span>地下迷宮 B1｜最初の分かれ道</span><span class="b1-map-progress">現在地：入口を突破</span></div>
  <div class="b1-map-nodes"><span class="b1-map-node done">✓ 第1戦・入口</span><span class="b1-map-arrow">↓ どちらか選ぶ</span></div>
  <div class="b1-map-branch">
@@ -871,6 +882,9 @@ el("endTurn").addEventListener("click",()=>{const before=game.snapshot();actions
 // New route mode reuses this page's real card art, drag controls, enemies and effects.
 const ROOM_LABEL={battle:"⚔ 戦闘",elite:"☠ 強敵",event:"? 出来事",shop:"＄ 商人",rest:"♨ 休憩",treasure:"◆ 宝箱"};
 function renderAscendingMap(){
+ const latest=routePath.at(-1);
+ const guidance=el("b1RouteGuidance");
+ if(guidance)guidance.textContent="現在地："+routePath.filter(id=>id!=="boss").length+"階を踏破 ｜ 次の部屋を選んで進む";
  const host=el("ascendingMap");host.replaceChildren();
  const choices=new Set(availableB1Rooms(routeMap,routePath));
  const boss=document.createElement("button");boss.type="button";boss.className="b1-ascending-boss";
@@ -916,7 +930,16 @@ function renderAscendingMap(){
 function goToRouteRoom(id,type){
  const next=chooseB1Room(routeMap,routePath,id);
  if(!next||!game.enterRouteRoom(type))return;
- routePath=next;targetId=null;actions.cancel();render();
+ routePath=next;targetId=null;actions.cancel();
+ const routeWindow=el("journeyPanel").querySelector(".pilot-overlay-window");
+ routeWindow.classList.remove("b1-route-enter");void routeWindow.offsetWidth;
+ routeWindow.classList.add("b1-route-enter");
+ render();
+ if(game.snapshot().phase==="battle"){
+  const stage=el("playScreen").querySelector(".stage");
+  stage.classList.remove("b1-room-arrival");void stage.offsetWidth;
+  stage.classList.add("b1-room-arrival");
+ }
 }
 
 el("routeMap").addEventListener("click",event=>{
