@@ -600,7 +600,7 @@ function renderStage(s){
  equipped.title=s.weapon?.text||"";
 }
 function renderOverlay(s){
- const panel=el("journeyPanel");panel.classList.remove("b1-upgrade-open");panel.classList.toggle("b1-reward-open",s.phase==="reward");const show=["reward","between","won","lost"].includes(s.phase);panel.hidden=!show;
+ const panel=el("journeyPanel");panel.classList.remove("b1-upgrade-open");panel.classList.toggle("b1-reward-open",s.phase==="reward");panel.classList.toggle("b1-weapon-open",s.phase==="between"&&Boolean(s.weaponPending));const show=["reward","between","won","lost"].includes(s.phase);panel.hidden=!show;
  if(!show)return;
  const rewards=el("rewardCards");rewards.replaceChildren();
  const advance=el("advance"),skip=el("skipReward"),again=el("overlayRestart");
