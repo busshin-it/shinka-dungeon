@@ -43,7 +43,7 @@ test("all role art mappings are supernatural monsters, not human portraits",()=>
  const m=html.match(/const art=\{([\s\S]*?)\};/);
  assert.ok(m);
  const mapped=[...m[1].matchAll(/\b(\w+):"([^"]+)"/g)].map(v=>({role:v[1],filename:v[2]}));
- const expected=["rat","wolf","imp","guard","carapace","ritual","elite","boss","archer","watcher","venom","berserker","healer","breaker","banner","warder"];
+ const expected=["rat","wolf","imp","guard","carapace","ritual","elite","boss","archer","watcher","venom","berserker","healer","breaker","banner","warder","ramp","needle","bulwark","ancient"];
  assert.deepEqual(mapped.map(x=>x.role).slice().sort(),expected.slice().sort());
  for(const {role,filename} of mapped){
   assert.ok(["wraith.webp","bell-spirit.webp","boss.webp"].includes(filename),role+" must use a monster painting");
