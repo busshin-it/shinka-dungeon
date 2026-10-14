@@ -82,6 +82,8 @@ function render(){
   }
   container.append(row);
  }
+ if(!path.length)window.scrollTo(0,document.body.scrollHeight);
+ else if(s.phase!=="battle"){const current=container.querySelectorAll(".floor");const active=[...current].find(row=>row.querySelector(".done")&&row.textContent.includes(String(path.length)));if(active&&path.length>0)active.scrollIntoView({block:"center",behavior:"instant"});}
 }
 function renderCombat(s){
  $("combat").hidden=false;
