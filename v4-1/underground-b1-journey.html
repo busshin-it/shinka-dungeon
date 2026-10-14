@@ -118,7 +118,15 @@
 .b1-ascending-node.selectable,.b1-ascending-boss:not(:disabled){border:2px solid #f2bb68;background:#493c2b;color:#ffe2aa;cursor:pointer}
 .b1-ascending-node.visited{background:#244d40;border-color:#8bcfa7;color:#d3ffe1}
 .b1-ascending-boss{display:block;width:55%;margin:0 auto 12px;background:#573140}
-.b1-ascending-floor:after{content:"";position:absolute;left:51%;top:-16px;height:14px;border-left:2px dotted #a3a9b7;pointer-events:none}
+.b1-route-lines{position:absolute;inset:0;width:100%;height:100%;overflow:visible;pointer-events:none;z-index:0}
+.b1-route-lines path{fill:none;stroke:#b5a17b;stroke-width:2;stroke-dasharray:4 4;opacity:.65;vector-effect:non-scaling-stroke}
+.b1-route-lines path.traveled{stroke:#94d3b6;stroke-width:3;stroke-dasharray:none;opacity:1}
+.b1-ascending-floor>button,.b1-ascending-floor>span{position:relative;z-index:1}
+.b1-ascending-scroll{background:radial-gradient(ellipse at 50% 45%,#314257 0%,#172638 75%);border:1px solid #71839b55;border-radius:12px;scroll-behavior:smooth}
+.b1-ascending-node{box-shadow:0 3px 10px #0007}
+.b1-ascending-node.selectable{box-shadow:0 0 0 2px #e5b35c66,0 0 18px #cf9e4866}
+.b1-ascending-node.visited{box-shadow:0 0 12px #80cda050}
+
 .b1-ascending-floor:last-child:after{display:none}
 </style></head>
 <body class="planning-mode pilot-mode" data-b1-mobile="true"><main class="game pilot-game">
@@ -877,8 +885,33 @@ function renderAscendingMap(){
    b.addEventListener("click",()=>goToRouteRoom(node.id,node.type));row.append(b);
   }host.append(row);
  }
- const next=host.querySelector(".selectable");
- if(next)requestAnimationFrame(()=>next.scrollIntoView({block:"center",behavior:"instant"}));
+ // Paths are drawn from the actual graph, with a visible curved link
+ // for each possible branch rather than one misleading centre line.
+ requestAnimationFrame(()=>{
+  const floors=[...host.querySelectorAll(".b1-ascending-floor")];
+  for(let i=1;i<floors.length;i++){
+   const lower=floors[i],higher=floors[i-1],level=routeMap.floors.length-i;
+   const nodes=routeMap.floors[level-1],targets=routeMap.floors[level];
+   const bounds=lower.getBoundingClientRect();
+   const svg=document.createElementNS("http://www.w3.org/2000/svg","svg");
+   svg.setAttribute("class","b1-route-lines");
+   svg.setAttribute("viewBox","0 0 "+bounds.width+" "+(bounds.height+18));
+   const buttons=[...lower.querySelectorAll("button")],upperButtons=[...higher.querySelectorAll("button")];
+   for(const node of nodes)for(const id of node.next){
+    const to=targets.find(t=>t.id===id);if(!to)continue;
+    const a=buttons[node.lane].getBoundingClientRect(),b=upperButtons[to.lane].getBoundingClientRect();
+    const x1=a.left-bounds.left+a.width/2,x2=b.left-bounds.left+b.width/2;
+    const path=document.createElementNS("http://www.w3.org/2000/svg","path");
+    path.setAttribute("d","M "+x1+" 0 Q "+((x1+x2)/2)+" -18 "+x2+" -18");
+    if(routePath.includes(node.id)&&routePath.includes(id))path.classList.add("traveled");
+    svg.append(path);
+   }
+   lower.append(svg);
+  }
+  const next=host.querySelector(".selectable");
+  if(next)host.scrollTop=Math.max(0,next.offsetTop-host.offsetTop-host.clientHeight/2);
+ });
+
 }
 function goToRouteRoom(id,type){
  const next=chooseB1Room(routeMap,routePath,id);
