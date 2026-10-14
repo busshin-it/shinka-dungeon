@@ -51,7 +51,7 @@ test("no card is changed and affinity detection is deterministic",()=>{
 test("new hint is limited to 15-floor reward visuals and accessible without affecting rewards",()=>{
  assert.match(html,/import \{getB1RewardWeaponAffinity\} from "\.\/underground-b1-reward-weapon-affinity\.mjs"/);
  assert.match(html,/const affinity=getB1RewardWeaponAffinity\(s\.weaponId,getB1Card\(id\)\)/);
- assert.match(html,/btn\.setAttribute\("aria-label",btn\.getAttribute\("aria-label"\)\+"。装備との相性："+affinity\.detail\)/);
+ assert.ok(html.includes('btn.setAttribute("aria-label",btn.getAttribute("aria-label")+"。装備との相性："+affinity.detail)'));
  assert.match(html,/game\.chooseReward\(id\)/);
  assert.match(html,/underground-b1-reward-weapon-affinity\.css/);
  assert.match(css,/#journeyPanel\.b1-reward-open #rewardCards \.b1-reward-choice \.b1-weapon-affinity-tag/);
