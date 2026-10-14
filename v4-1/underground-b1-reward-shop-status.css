@@ -1075,3 +1075,24 @@ body.pilot-mode #journeyPanel.b1-weapon-open #weaponChoices .b1-weapon-image-cho
   gap:4px;padding:8px 10px;
  }
 }
+
+
+/* B1 dragon-bone staff preview: replace the visibly pixelated 2.5KB thumbnail
+   with one existing 4x2 HIGH-RES dragon-evolution atlas cell.
+   This is a thematic placeholder, NOT dedicated dragon-bone staff artwork.
+   Respect cell aspect ratio to avoid stretched/squashed dragons. */
+body.pilot-mode #journeyPanel.b1-weapon-open #weaponChoices .b1-weapon-image-choice .b1-weapon-art.b1-weapon-dragon-hd{
+  position:relative;container-type:size;overflow:hidden;isolation:isolate;
+  background-color:#231c29;
+  background-image:none;
+}
+body.pilot-mode #journeyPanel.b1-weapon-open #weaponChoices .b1-weapon-image-choice .b1-weapon-art.b1-weapon-dragon-hd::before{
+  content:"";display:block;position:absolute;
+  top:50%;left:50%;transform:translate(-50%,-50%);
+  width:max(100cqw,75cqh);aspect-ratio:3/4;
+  background-image:url("./assets/b1-dragon-evolution-hd.avif");
+  background-size:400% 200%;
+  background-position:66.667% 100%;
+  background-repeat:no-repeat;
+  pointer-events:none;
+}
