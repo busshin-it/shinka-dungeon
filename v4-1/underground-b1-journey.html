@@ -158,6 +158,19 @@ body.pilot-mode #setupPanel.b1-start-picking #b1StarterPickPanel[hidden]{display
 body.pilot-mode #b1StarterPickCards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;overflow-y:auto;min-height:0;padding:8px}
 body.pilot-mode #b1StarterPickCards .b1-reward-choice{width:100%;min-width:0;max-width:none}
 @media(max-width:580px){body.pilot-mode #b1StarterPickCards{grid-template-columns:repeat(2,minmax(0,1fr))}}
+</style><style>
+/* Keep illustrated reward cards fully visible in the startup draft and blood contract. */
+body.pilot-mode #setupPanel.b1-start-picking{min-height:min(740px,94dvh);height:auto;overflow:visible}
+body.pilot-mode #setupPanel.b1-start-picking .pilot-setup-content{height:auto;max-height:none;overflow:visible}
+body.pilot-mode #setupPanel.b1-start-picking #b1StarterPickPanel{max-height:none;min-height:480px;width:min(96vw,1080px);max-width:1080px;padding:16px;box-sizing:border-box}
+body.pilot-mode #setupPanel.b1-start-picking #b1StarterPickCards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));align-items:start;overflow:visible;min-height:360px;max-height:none}
+body.pilot-mode #setupPanel.b1-start-picking #b1StarterPickCards .pilot-card{display:flex;min-height:340px;height:auto;max-height:none;overflow:visible}
+body.pilot-mode #journeyPanel #b1EventOptions.b1-event-blood-grid .pilot-card{min-height:320px;height:auto;max-height:none;overflow:visible}
+@media(max-width:720px){
+ body.pilot-mode #setupPanel.b1-start-picking #b1StarterPickCards{grid-template-columns:repeat(2,minmax(0,1fr));min-height:0}
+ body.pilot-mode #setupPanel.b1-start-picking #b1StarterPickPanel{min-height:0}
+ body.pilot-mode #setupPanel.b1-start-picking #b1StarterPickCards .pilot-card{min-height:285px}
+}
 </style></head>
 <body class="planning-mode pilot-mode" data-b1-mobile="true"><main class="game pilot-game">
 <header class="masthead"><div><h1>蒼星の回廊 <small>進化ダンジョン</small></h1></div><div class="header-actions">
@@ -1045,7 +1058,10 @@ function renderAscendingMap(){
    lower.append(svg);
   }
   const next=host.querySelector(".selectable");
-  if(next)host.scrollTop=Math.max(0,next.offsetTop-host.offsetTop-host.clientHeight/2);
+  if(next){
+   const outer=host.getBoundingClientRect(),target=next.getBoundingClientRect();
+   host.scrollTop=Math.max(0,Math.min(host.scrollHeight-host.clientHeight,host.scrollTop+target.top-outer.top-host.clientHeight/2+target.height/2));
+  }
  });
 
 }
