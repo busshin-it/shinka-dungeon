@@ -180,7 +180,7 @@ body.pilot-mode #hand [data-b1-hand].b1-drag-source{filter:brightness(.72)}
 @media(prefers-reduced-motion:reduce){body.pilot-mode #hand [data-b1-hand]{transition:none}}
 </style><style>
 /* Starting gear is a deliberately separate surface, not a giant magic card frame. */
-body.pilot-mode #setupPanel.b1-start-picking #b1StarterPickCards{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;align-items:stretch;min-height:0}
+body.pilot-mode #setupPanel.b1-start-picking #b1StarterPickCards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;align-items:stretch;min-height:0}
 body.pilot-mode #b1StarterPickCards .b1-start-weapon-choice{background:linear-gradient(150deg,#243c51,#142637);color:#f6e8cc;border:1px solid #d4b673;border-radius:14px;min-height:230px;min-width:0;padding:20px 14px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:13px;cursor:pointer;box-shadow:0 5px 18px #0005}
 body.pilot-mode #b1StarterPickCards .b1-start-weapon-choice:hover,body.pilot-mode #b1StarterPickCards .b1-start-weapon-choice:focus-visible{border-color:#ffe2a4;box-shadow:0 0 0 2px #eebc6c75}
 body.pilot-mode #b1StarterPickCards .b1-start-weapon-symbol{font-size:54px;line-height:1}
@@ -215,7 +215,7 @@ body.pilot-mode .b1-target-locked #enemyPuppet.b1-drop-target{outline:none!impor
 <section id="setupPanel" class="stage pilot-setup b1-ref-setup" hidden><div class="pilot-setup-content b1-ref-panel">
 <button id="physicalStarterOpen" class="b1-physical-start-cta" type="button"><strong>⚔ 物理デッキで開始</strong><small>魔法0枚・物理9枚｜鉄槌も使用可能</small></button>
 <div class="pilot-setup-head b1-ref-head"><img src="./assets/hero.webp" alt="蒼星の魔法師"><div><h2 id="setupHeading">護符を選ぶ</h2><span class="b1-ref-title-rule" aria-hidden="true"></span><p id="setupHint"></p></div></div>
-<div id="setupChoices" class="pilot-choices"></div><div id="b1StarterPickPanel" hidden><h3 id="b1StarterPickProgress"></h3><p>武器を1つ選んで1階へ。冒険中のカードを組み合わせて、装備の能力を活かそう。</p><div id="b1StarterPickCards" class="pilot-choices"></div></div><div class="pilot-setup-actions"><button id="fireStarterOpen" class="quiet" type="button">✦ 属性魔法で開始</button><button id="bossComboPractice" class="primary" type="button">連鎖コンボ14枚で練習</button><button id="bossPractice" class="quiet" type="button">安定型14枚で練習</button><button id="bossBasicPractice" class="quiet" type="button">基本10枚で練習</button><button id="setupReroll" class="quiet" type="button">↻ 別の候補</button></div>
+<div id="setupChoices" class="pilot-choices"></div><div id="b1StarterPickPanel" hidden><h3 id="b1StarterPickProgress"></h3><p>汎用装備を1つ選んで1階へ。カードの方向性は冒険中に決めよう。専門武器は途中で入手できます。</p><div id="b1StarterPickCards" class="pilot-choices"></div></div><div class="pilot-setup-actions"><button id="fireStarterOpen" class="quiet" type="button">✦ 属性魔法で開始</button><button id="bossComboPractice" class="primary" type="button">連鎖コンボ14枚で練習</button><button id="bossPractice" class="quiet" type="button">安定型14枚で練習</button><button id="bossBasicPractice" class="quiet" type="button">基本10枚で練習</button><button id="setupReroll" class="quiet" type="button">↻ 別の候補</button></div>
 </div></section>
 <div id="playScreen" class="pilot-play" hidden>
   <section class="stage" aria-label="戦闘画面">
@@ -275,7 +275,7 @@ body.pilot-mode .b1-target-locked #enemyPuppet.b1-drop-target{outline:none!impor
 <script type="module" src="./b1-install.mjs"></script>
 <script type="module" src="./b1-update.mjs"></script>
 <script type="module">
-import {CARDS,STAGES,B1_WEAPONS,createB1Game,getB1Card,IDEAL_B1_BOSS_DECK,COMBO_B1_BOSS_DECK,B1_BOSS_CHANNEL_THRESHOLD} from "./underground-b1-engine.mjs";
+import {CARDS,STAGES,B1_WEAPONS,B1_STARTER_GEAR,getB1StartingGearOffers,createB1Game,getB1Card,IDEAL_B1_BOSS_DECK,COMBO_B1_BOSS_DECK,B1_BOSS_CHANNEL_THRESHOLD} from "./underground-b1-engine.mjs";
 import {attachB1Actions} from "./underground-b1-actions.mjs";
 import {createB1RouteMap,availableB1Rooms,chooseB1Room} from "./underground-b1-route-map.mjs";
 import {showB1Feedback} from "./underground-b1-feedback.mjs";
@@ -926,9 +926,10 @@ function render(){
  if(s.phase==="starterPick"){
   el("setupPanel").classList.add("b1-start-picking");
   el("b1StarterPickPanel").hidden=false;
-  el("b1StarterPickProgress").textContent="冒険の装備を選ぶ";
+  el("b1StarterPickProgress").textContent="旅のお守りを1つ選ぶ";
   const cards=el("b1StarterPickCards");cards.replaceChildren();
-  for(const [id,weapon] of Object.entries(B1_WEAPONS)){
+  for(const id of getB1StartingGearOffers(routeSeed)){
+   const weapon=B1_STARTER_GEAR[id];
    const btn=document.createElement("button");btn.type="button";btn.className="b1-start-weapon-choice";
    const art=document.createElement("span");art.className="b1-start-weapon-symbol";art.textContent=weapon.symbol;art.setAttribute("aria-hidden","true");
    const name=document.createElement("strong");name.textContent=weapon.name;
