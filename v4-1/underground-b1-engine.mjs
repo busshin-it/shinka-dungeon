@@ -245,7 +245,8 @@ export const B1_WEAPONS=Object.freeze({
 export const getB1WeaponOffers=(seed)=>{const keys=Object.keys(B1_WEAPONS),start=(Number(seed)>>>0)%keys.length;return Array.from({length:3},(_,i)=>keys[(start+i)%keys.length]);};
 const clone=x=>JSON.parse(JSON.stringify(x));
 export function createB1Game(options={}){
- let seed=(Number(options.seed)>>>0)||20261010;
+ const runSeed=(Number(options.seed)>>>0)||20261010;
+ let seed=runSeed;
  const random=()=>{seed=(Math.imul(seed,1664525)+1013904223)>>>0;return seed/4294967296;};
  const shuffle=a=>{for(let i=a.length-1;i>0;i--){const j=Math.floor(random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;};
  const useTacticalEnemies=options.tacticalEncounters===true;
@@ -735,7 +736,7 @@ export function createB1Game(options={}){
   // Normal mode: 11 rewards (1 card chosen from 3 after each victory).
   s.phase="between";
   if(useWeapons&&!s.practiceMode&&s.stage===3&&!s.weaponId){
-   s.weaponPending=true;s.weaponOffered=getB1WeaponOffers(options.seed??seed);
+   s.weaponPending=true;s.weaponOffered=getB1WeaponOffers(runSeed);
    note("魔具の祭壇：3種類から武器を1つ選ぶか、見送ろう。");
   }
   if([1,5,10].includes(s.stage)&&!s.practiceMode){s.restPending=true;s.restUsed=false;s.restChoice=null;}
