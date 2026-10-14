@@ -190,7 +190,8 @@ body.pilot-mode #b1StarterPickCards .b1-start-weapon-choice small{font-size:13px
 /* The old 2px oval around the entire puppet is not a useful target cue. */
 body.pilot-mode #enemyPuppet.b1-drop-target,body.pilot-mode #enemyPuppet.b1-pending-target{outline:none!important;border-radius:0!important;box-shadow:none!important;filter:drop-shadow(0 0 9px #e8c781)!important}
 body.pilot-mode .b1-target-locked #enemyPuppet.b1-drop-target{outline:none!important;filter:drop-shadow(0 0 11px #e8c781)!important}
-</style></head>
+</style><link rel="stylesheet" href="./underground-b1-reward-weapon-affinity.css">
+</head>
 <body class="planning-mode pilot-mode" data-b1-mobile="true"><main class="game pilot-game">
 <header class="masthead"><div><h1>蒼星の回廊 <small>進化ダンジョン</small></h1></div><div class="header-actions">
 <button id="b1Install" class="quiet" type="button" hidden>アプリにする</button>
@@ -279,6 +280,7 @@ import {attachB1Actions} from "./underground-b1-actions.mjs";
 import {createB1RouteMap,availableB1Rooms,chooseB1Room} from "./underground-b1-route-map.mjs";
 import {showB1Feedback} from "./underground-b1-feedback.mjs";
 import {getB1DragonVisual} from "./underground-b1-dragon-visuals.mjs";
+import {getB1RewardWeaponAffinity} from "./underground-b1-reward-weapon-affinity.mjs";
 const el=id=>document.getElementById(id);
 let routeSeed=Date.now(),routeMap=createB1RouteMap(routeSeed),routePath=["f1-l1"];
 let game=createB1Game({seed:routeSeed,tacticalEncounters:true,weaponTrial:true,routeTrial:true}),targetId=null;
@@ -730,7 +732,16 @@ function renderOverlay(s){
   el("journeyHint").textContent="戦闘後にHPを最大6回復。次の敵に備えて3枚から1枚選ぶか、見送ろう。";
   rewards.hidden=false;skip.hidden=false;
   for(const id of s.rewards){
-    const btn=cardButton(id);btn.classList.add("b1-reward-choice");btn.addEventListener("click",()=>{if(game.chooseReward(id))render();});rewards.append(btn);
+    const btn=cardButton(id);btn.classList.add("b1-reward-choice");
+    const affinity=getB1RewardWeaponAffinity(s.weaponId,getB1Card(id));
+    if(affinity){
+     const tag=document.createElement("span");
+     tag.className="b1-weapon-affinity-tag";tag.textContent=affinity.label;
+     tag.title=affinity.detail;tag.setAttribute("aria-hidden","true");
+     btn.append(tag);
+     btn.setAttribute("aria-label",btn.getAttribute("aria-label")+"。装備との相性："+affinity.detail);
+    }
+    btn.addEventListener("click",()=>{if(game.chooseReward(id))render();});rewards.append(btn);
   }
   }else if(s.phase==="between"){
   if(s.eventPending){
