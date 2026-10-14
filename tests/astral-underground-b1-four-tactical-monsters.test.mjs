@@ -6,8 +6,8 @@ import {B1_TACTICAL_ENCOUNTERS,STAGES,createB1Game} from "../v4-1/underground-b1
 const html=readFileSync(new URL("../v4-1/underground-b1-playtest.html",import.meta.url),"utf8");
 const css=readFileSync(new URL("../v4-1/underground-b1-reward-shop-status.css",import.meta.url),"utf8");
 
-function reach(stage,enabled=true){
- const g=createB1Game({seed:20261014,maxHp:999,testDeck:Array(12).fill("thunderLarge"),tacticalEncounters:enabled});
+function reach(stage,enabled=true,deck=Array(12).fill("thunderLarge")){
+ const g=createB1Game({seed:20261014,maxHp:999,testDeck:deck,tacticalEncounters:enabled});
  assert.equal(g.selectStarter("scatter"),true);
  for(let i=0;i<stage;i++){
   let turns=0;
@@ -115,4 +115,44 @@ test("legacy encounters remain unchanged when tactical mode was not requested",(
  assert.equal(g.snapshot().stageName,STAGES[5].name);
  const h=reach(9,false);
  assert.equal(h.snapshot().enemies.find(e=>e.id==="warder3").role,"warder");
+});
+
+test("needle swarm rewards shielding: two independently blocked attackers reflect",()=>{
+ const deck=[...Array(12).fill("thunderLarge"),...Array(3).fill("shieldMirror")];
+ const g=reach(5,true,deck);
+ let prepared=false;
+ for(let n=0;n<16;n++){
+  const s=g.snapshot();
+  const index=s.hand.indexOf("shieldMirror");
+  if(index>=0&&s.intents.every(x=>x.kind==="attack")&&s.enemies.every(e=>e.hp>5)){
+   assert.equal(g.play(index),true);
+   const hp=s.enemies.map(e=>e.hp);
+   assert.equal(g.endTurn(),true);
+   const now=g.snapshot().enemies;
+   const reflected=now.filter((e,i)=>e.hp<hp[i]);
+   assert.ok(reflected.length>=2,"at least two separate attacks reflected");
+   prepared=true;break;
+  }
+  assert.equal(g.endTurn(),true);
+ }
+ assert.equal(prepared,true,"a shield card appears during the repeated attack cycle");
+});
+test("poison bypasses the bulwark's heavy block without changing direct attack rules",()=>{
+ const deck=[...Array(12).fill("thunderLarge"),...Array(3).fill("venomCloud")];
+ const g=reach(7,true,deck);
+ let poisoned=false;
+ for(let n=0;n<18;n++){
+  const s=g.snapshot(),index=s.hand.indexOf("venomCloud"),e=s.enemies[0];
+  if(index>=0&&e.block>=14&&s.energy>=2){
+   const hp=e.hp;
+   assert.equal(g.play(index),true);
+   assert.equal(g.snapshot().enemies[0].hp,hp,"poison applies without instant HP damage");
+   assert.equal(g.snapshot().enemies[0].poison,3);
+   assert.equal(g.endTurn(),true);
+   assert.equal(g.snapshot().enemies[0].hp,hp-3,"poison bypassed existing block");
+   poisoned=true;break;
+  }
+  assert.equal(g.endTurn(),true);
+ }
+ assert.equal(poisoned,true,"a poison opportunity occurs while armor is raised");
 });
