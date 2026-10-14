@@ -283,6 +283,12 @@ export function createB1Game(options={}){
    s.starterOffers=rollStarterOffers();return true;
   }
   start();return true;}
+ function selectStartingWeapon(id){
+  if(!routeTrial||s.phase!=="starterPick"||!Object.hasOwn(B1_WEAPONS,id)||s.weaponId)return false;
+  s.weaponId=id;s.starterOffers=[];s.starterPicksDone=0;
+  note("初期装備："+B1_WEAPONS[id].name+"を選択。");
+  start();return true;
+ }
  function rollStarterOffers(){
   // Derive from existing reward pool; use the run's RNG, never Math.random.
   const pool=[...new Set(getB1RewardPool(0,s.deck))].filter(id=>!!getB1Card(id));
@@ -904,5 +910,5 @@ function choosePath(id){
   start();note("練習モード："+(mode==="combo"?"連鎖コンボ14枚":mode==="ideal"?"安定型14枚":mode==="test"?"検証用デッキ":"基本の10枚")+"でボスに挑戦。");
   return true;
  }
- return {snapshot,selectStarter,chooseStarterPick,startBossPractice,play,endTurn,hasPlayableCard,chooseReward,chooseWeapon,chooseRest,buyShop,purgeShopCard,leaveShop,choosePath,nextBattle,enterRouteRoom,routeLeaveRoom,chooseRouteEvent,exportCheckpoint,restoreCheckpoint};
+ return {snapshot,selectStarter,selectStartingWeapon,chooseStarterPick,startBossPractice,play,endTurn,hasPlayableCard,chooseReward,chooseWeapon,chooseRest,buyShop,purgeShopCard,leaveShop,choosePath,nextBattle,enterRouteRoom,routeLeaveRoom,chooseRouteEvent,exportCheckpoint,restoreCheckpoint};
 }

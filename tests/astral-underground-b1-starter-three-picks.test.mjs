@@ -18,7 +18,7 @@ test("starter picks persist across checkpoints, and legacy mode still starts imm
 });
 test("three illustrated choices render before stage without overlay",()=>{
  const source=readFileSync(new URL("../v4-1/underground-b1-journey.html",import.meta.url),"utf8");
- for(const s of ['b1StarterPickCards','s.phase==="starterPick"','game.chooseStarterPick(id)','s.starterPicksDone+1','saveJourney();return;'])assert.ok(source.includes(s),s);
+ for(const s of ['b1StarterPickCards','s.phase==="starterPick"','game.selectStartingWeapon(id)','Object.entries(B1_WEAPONS)','saveJourney();return;'])assert.ok(source.includes(s),s);
  const script=source.match(/<script type="module">([\s\S]*?)<\/script>/)?.[1];
  const r=spawnSync(process.execPath,["--input-type=module","--check"],{input:script,encoding:"utf8"});assert.equal(r.status,0,r.stderr);
 });
