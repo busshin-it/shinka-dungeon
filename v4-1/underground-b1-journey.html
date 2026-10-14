@@ -190,6 +190,42 @@ body.pilot-mode #b1StarterPickCards .b1-start-weapon-choice small{font-size:13px
 /* The old 2px oval around the entire puppet is not a useful target cue. */
 body.pilot-mode #enemyPuppet.b1-drop-target,body.pilot-mode #enemyPuppet.b1-pending-target{outline:none!important;border-radius:0!important;box-shadow:none!important;filter:drop-shadow(0 0 9px #e8c781)!important}
 body.pilot-mode .b1-target-locked #enemyPuppet.b1-drop-target{outline:none!important;filter:drop-shadow(0 0 11px #e8c781)!important}
+</style><style>
+/* Blood-contract reward art: reserve a real illustration area above the effect/name. */
+body.pilot-mode #journeyPanel #b1EventOptions.b1-event-blood-grid .b1-blood-choice{
+ position:relative;display:flex;flex-direction:column;isolation:isolate;
+ height:clamp(290px,55vh,490px);min-height:290px;overflow:hidden;
+}
+body.pilot-mode #journeyPanel #b1EventOptions.b1-event-blood-grid .b1-blood-choice .b1-magic-card-art,
+body.pilot-mode #journeyPanel #b1EventOptions.b1-event-blood-grid .b1-blood-choice .b1-fire-card-art,
+body.pilot-mode #journeyPanel #b1EventOptions.b1-event-blood-grid .b1-blood-choice .b1-dragon-card-art{
+ position:relative;inset:auto;display:block;flex:1 1 55%;width:100%;height:55%;min-height:125px;
+ overflow:hidden;object-fit:cover;background-position:center;background-size:cover;
+}
+body.pilot-mode #journeyPanel #b1EventOptions.b1-event-blood-grid .b1-blood-choice .b1-original-card-img{
+ display:block;width:100%;height:100%;max-width:none;object-fit:cover;object-position:center;
+}
+body.pilot-mode #journeyPanel #b1EventOptions.b1-event-blood-grid .b1-blood-choice .pilot-card-copy{
+ position:relative;inset:auto;display:flex;flex-direction:column-reverse;justify-content:flex-end;
+ flex:0 0 auto;min-height:0;padding:8px 10px 13px;overflow:visible;z-index:2;
+}
+body.pilot-mode #journeyPanel #b1EventOptions.b1-event-blood-grid .b1-blood-choice .cost,
+body.pilot-mode #journeyPanel #b1EventOptions.b1-event-blood-grid .b1-blood-choice .type{z-index:4}
+@media(max-width:700px){
+ body.pilot-mode #journeyPanel #b1EventOptions.b1-event-blood-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+ body.pilot-mode #journeyPanel #b1EventOptions.b1-event-blood-grid .b1-blood-choice{height:clamp(240px,66dvh,390px);min-height:240px}
+ body.pilot-mode #journeyPanel #b1EventOptions.b1-event-blood-grid .b1-blood-choice .pilot-card-copy{padding:5px 6px 8px}
+}
+</style><style>
+/* Solo encounter only: match the hero's on-screen height without stretching art. */
+body.pilot-mode #playScreen .stage:not(.b1-multi) #enemyPuppet{
+ height:min(65%,370px);max-height:370px;width:min(29%,340px);
+}
+@media(max-width:760px){
+ body.pilot-mode #playScreen .stage:not(.b1-multi) #enemyPuppet{
+  height:min(61%,280px);width:min(30%,240px);
+ }
+}
 </style><link rel="stylesheet" href="./underground-b1-reward-weapon-affinity.css">
 </head>
 <body class="planning-mode pilot-mode" data-b1-mobile="true"><main class="game pilot-game">
