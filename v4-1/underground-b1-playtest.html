@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="ja" data-b1-build="2026.10.14.8"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#0d1821">
+<html lang="ja" data-b1-build="2026.10.14.9"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#0d1821">
 <title>地下迷宮 B1｜魔法使いの試遊</title><link rel="manifest" href="./b1-manifest.webmanifest"><link rel="apple-touch-icon" href="./icons/apple-touch-icon.png"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><link rel="stylesheet" href="./planning.css"><link rel="stylesheet" href="./six-paths-stage.css"><link rel="stylesheet" href="./underground-b1-actions.css"><link rel="stylesheet" href="./underground-b1-actors.css"><link rel="stylesheet" href="./underground-b1-map.css">
 <style>
 /* B1 uses the SAME original Astral/pilot arena and hand stylesheets.
@@ -99,6 +99,7 @@
 <link rel="stylesheet" href="./underground-b1-starter-art.css">
 <link rel="stylesheet" href="./underground-b1-dragon-visuals.css">
 <link rel="stylesheet" href="./underground-b1-depth-and-catalog.css">
+<link rel="stylesheet" href="./underground-b1-weapon-feedback.css">
 <link rel="stylesheet" href="./underground-b1-mobile.css">
 <link rel="stylesheet" href="./underground-b1-fire.css">
 <link rel="stylesheet" href="./underground-b1-hand-fan.css">
@@ -136,7 +137,7 @@
 <div id="playScreen" class="pilot-play" hidden>
   <section class="stage" aria-label="戦闘画面">
     <div class="stage-shade"></div>
-    <div class="hud hero-hud"><span class="eyebrow">THE WANDERER</span><h2>蒼星の魔法師</h2><div class="hp-line"><span>HP</span><strong id="heroHp">60 / 60</strong></div><div id="heroMeter" class="hp-bar" role="meter" aria-label="旅人のHP" aria-valuemin="0" aria-valuemax="60"><i id="heroFill"></i></div><p id="heroStatus">ブロック 0</p><p id="dragonHud" class="b1-dragon-hud" hidden aria-live="polite"></p><p id="planningStatus" class="planning-status"></p><p id="charm" class="charm"></p></div>
+    <div class="hud hero-hud"><span class="eyebrow">THE WANDERER</span><h2>蒼星の魔法師</h2><div class="hp-line"><span>HP</span><strong id="heroHp">60 / 60</strong></div><div id="heroMeter" class="hp-bar" role="meter" aria-label="旅人のHP" aria-valuemin="0" aria-valuemax="60"><i id="heroFill"></i></div><p id="heroStatus">ブロック 0</p><div id="b1WeaponIndicator" class="b1-weapon-indicator" hidden role="status" aria-live="polite"><span id="b1WeaponSymbol" class="b1-weapon-indicator-symbol" aria-hidden="true"></span><span class="b1-weapon-indicator-copy"><strong id="b1WeaponName"></strong><small id="b1WeaponReady"></small></span></div><p id="dragonHud" class="b1-dragon-hud" hidden aria-live="polite"></p><p id="planningStatus" class="planning-status"></p><p id="charm" class="charm"></p></div>
     <div id="heroPuppet" class="puppet hero-puppet"><i class="orb-glow" aria-hidden="true"></i><img src="./assets/hero.webp" alt="銀髪と藍紫の帽子、青い球の杖を持つ魔法師"></div>
     <aside id="b1DragonCompanion" class="b1-dragon-companion" hidden aria-label="召喚したドラゴン">
       <div id="b1DragonPortrait" class="b1-dragon-portrait" role="img"></div>
@@ -147,11 +148,12 @@
     <div class="hud enemy-hud"><span class="eyebrow">IN YOUR PATH</span><h2 id="enemyName">蒼鎧の門番</h2><div class="hp-line"><span>HP</span><strong id="enemyHp">48 / 48</strong></div><div id="enemyMeter" class="hp-bar" role="meter" aria-label="敵のHP" aria-valuemin="0" aria-valuemax="48"><i id="enemyFill"></i></div><div id="intent" class="intent"><small>このターン終了時</small><strong id="intentName">剣のひと振り 7</strong><span id="intentText"></span><div id="breakTrack" class="break-track" hidden><i id="breakFill"></i></div></div></div>
     
     <div id="enemyLineup" class="b1-enemy-lineup" aria-label="敵を選ぶ戦闘エリア" hidden></div>
+    <div id="b1WeaponToast" class="b1-weapon-toast" hidden role="status" aria-live="polite"></div>
     <div id="battleLog" class="battle-log" role="status" aria-live="polite">魔法を選んで地下迷宮へ。</div>
   </section>
 
   <section class="table" aria-label="カード操作">
-    <div class="controls"><div class="energy"><b id="energy">2</b><span>魔力<small id="energyRule">次＋3 / 上限5</small></span></div><div class="piles"><span>山札 <b id="drawCount">0</b></span><span>捨て札 <b id="discardCount">0</b></span><span>消滅 <b id="exhaustCount">0</b></span></div><button id="deckButton" class="quiet" type="button" disabled>デッキ 10枚</button><button id="endTurn" class="primary" type="button">ターン終了 <span>→</span></button><details id="b1MobileQuickMenu" class="b1-mobile-quick-menu"><summary aria-label="設定・更新メニュー" title="設定・更新">⋯</summary><div class="b1-mobile-quick-panel"><button id="b1MobileCatalog" class="quiet" type="button">カード図鑑</button><button id="b1MobileRestart" class="quiet" type="button">最初から</button><button id="b1MobileUpdate" class="quiet" type="button">最新版に更新</button><span id="b1MobileVersion" class="b1-mobile-version">表示中: 2026.10.14.8</span><span id="b1MobileUpdateStatus" class="b1-update-status" role="status" aria-live="polite"></span></div></details></div>
+    <div class="controls"><div class="energy"><b id="energy">2</b><span>魔力<small id="energyRule">次＋3 / 上限5</small></span></div><div class="piles"><span>山札 <b id="drawCount">0</b></span><span>捨て札 <b id="discardCount">0</b></span><span>消滅 <b id="exhaustCount">0</b></span></div><button id="deckButton" class="quiet" type="button" disabled>デッキ 10枚</button><button id="endTurn" class="primary" type="button">ターン終了 <span>→</span></button><details id="b1MobileQuickMenu" class="b1-mobile-quick-menu"><summary aria-label="設定・更新メニュー" title="設定・更新">⋯</summary><div class="b1-mobile-quick-panel"><button id="b1MobileCatalog" class="quiet" type="button">カード図鑑</button><button id="b1MobileRestart" class="quiet" type="button">最初から</button><button id="b1MobileUpdate" class="quiet" type="button">最新版に更新</button><span id="b1MobileVersion" class="b1-mobile-version">表示中: 2026.10.14.9</span><span id="b1MobileUpdateStatus" class="b1-update-status" role="status" aria-live="polite"></span></div></details></div>
     <div class="hand-label"><h2>あなたの手札</h2><span id="relicStatus" class="relic-status" hidden></span><div id="effectBadges" class="pilot-chips" aria-label="状態効果"></div></div><div id="hand" class="hand"></div><div id="handPanelHome" class="hand-panel-home"><section id="cardPanel" class="card-panel" aria-label="選んだカードの効果" hidden><div id="cardReview" class="panel-content" aria-live="polite"></div><div class="panel-actions"><button id="playCard" class="primary" type="button" disabled>カードを選んでください</button><button id="cancelCard" class="quiet" type="button" aria-label="カードの選択を解除">×</button></div></section></div>
   </section>
 
@@ -429,7 +431,7 @@ function cardButton(id){
  btn.setAttribute("aria-label",c.name+"、魔力"+c.cost+"。"+c.text+(c.lightning?"。雷の連続使用で威力が上昇":""));
  return btn;
 }
-function reset(){actions.cancel();game=createB1Game({seed:Date.now(),tacticalEncounters:true,weaponTrial:true});targetId=null;render();}
+function reset(){actions.cancel();if(weaponToastTimer!==null){clearTimeout(weaponToastTimer);weaponToastTimer=null;}lastWeaponCue=0;el("b1WeaponToast").hidden=true;game=createB1Game({seed:Date.now(),tacticalEncounters:true,weaponTrial:true});targetId=null;render();}
 function current(s){
  if(!s.enemies.some(e=>e.id===targetId&&e.hp>0))targetId=s.enemies.find(e=>e.hp>0)?.id||null;
  return s.enemies.find(e=>e.id===targetId)||s.enemies[0];
@@ -594,6 +596,16 @@ function renderStage(s){
  const chips=[["薬力",s.dopingBonus],["逆境",s.nextPhysicalAttackBonus],["前ターンHP被害",s.lastTurnHpLoss],["🛡",s.block],["敵防御",enemy.block],["敵強化",enemy.strength],["自強化",s.strength],["❄",enemy.weaken],["☠",enemy.poison],["✧",enemy.vulnerable],["混乱",enemy.confusionAttacks],["幻覚",enemy.hallucinationAttacks],["呪い",enemy.curses?.reduce((sum,curse)=>sum+curse.next,0)||0],["📖",s.powerDraw]];
  if(enemy.role==="boss"){const n=s.enemies.filter(e=>e.role==="guard"&&e.hp>0).length;if(n)chips.push(["護衛",n*2]);}
  for(const [name,n] of chips){if(n<=0)continue;const chip=document.createElement("span");chip.className="pilot-chip";chip.textContent=name+" "+n;effects.append(chip);}
+ const weaponHud=el("b1WeaponIndicator");
+ weaponHud.hidden=!s.weapon;
+ if(s.weapon){
+  const info=s.weaponStatus;
+  el("b1WeaponSymbol").textContent=s.weapon.symbol;
+  el("b1WeaponName").textContent=s.weapon.name;
+  el("b1WeaponReady").textContent=info?.detail||"";
+  weaponHud.dataset.ready=String(Boolean(info?.ready));
+  weaponHud.title=s.weapon.name+"｜"+(info?.detail||s.weapon.text);
+ }
  const equipped=el("relicStatus");
  equipped.hidden=!s.weapon;
  equipped.textContent=s.weapon?s.weapon.symbol+" "+s.weapon.name+"｜"+s.weapon.text:"";
@@ -683,6 +695,22 @@ function renderOverlay(s){
 }
 let lastTurnKey=null;
 let b1AutoEndTimer=null;
+let lastWeaponCue=0,weaponToastTimer=null;
+function showWeaponCue(state){
+ const event=state.weaponActivation;
+ if(!event||event.seq<=lastWeaponCue||!state.weapon)return;
+ lastWeaponCue=event.seq;
+ if(state.phase!=="battle")return;
+ const toast=el("b1WeaponToast"),hud=el("b1WeaponIndicator");
+ if(weaponToastTimer!==null)clearTimeout(weaponToastTimer);
+ toast.textContent=state.weapon.symbol+" "+state.weapon.name+" 発動！ "+event.detail;
+ toast.hidden=false;
+ toast.classList.remove("b1-weapon-toast-pop");void toast.offsetWidth;
+ toast.classList.add("b1-weapon-toast-pop");
+ hud.classList.remove("b1-weapon-flash");void hud.offsetWidth;
+ hud.classList.add("b1-weapon-flash");
+ weaponToastTimer=setTimeout(()=>{toast.hidden=true;toast.classList.remove("b1-weapon-toast-pop");hud.classList.remove("b1-weapon-flash");weaponToastTimer=null;},1700);
+}
 function b1ScheduleAutoEnd(state){
  if(state.phase!=="battle"||game.hasPlayableCard())return;
  // A short reading window and a phase/turn key avoid surprising auto-actions.
@@ -716,7 +744,7 @@ function render(){
  lastTurnKey=turnKey;
  el("setupPanel").hidden=s.phase!=="starter";el("playScreen").hidden=s.phase==="starter";
  if(s.phase==="starter"){renderSetup();return;}
- renderStage(s);renderOverlay(s);
+ renderStage(s);renderOverlay(s);showWeaponCue(s);
  const hand=el("hand");hand.replaceChildren();hand.hidden=s.phase!=="battle";
  if(s.phase==="battle")s.hand.forEach((id,index)=>{
   const c=getB1Card(id),b=cardButton(id);
