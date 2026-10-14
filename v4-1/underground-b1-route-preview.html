@@ -85,7 +85,7 @@ function render(){
  // Draw true graph edges instead of suggesting connections that do not exist.
  const rows=[...container.querySelectorAll(".floor")];
  for(let index=1;index<rows.length;index++){
-  const row=rows[index],upper=rows[index-1],floor=16-index;
+  const row=rows[index],upper=rows[index-1],floor=15-index;
   const nodes=map.floors[floor-1],upperNodes=map.floors[floor];
   const svg=document.createElementNS("http://www.w3.org/2000/svg","svg");
   svg.setAttribute("class","route-edges");
