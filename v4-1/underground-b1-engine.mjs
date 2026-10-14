@@ -251,7 +251,7 @@ export const B1_STARTER_GEAR=Object.freeze({
  travelPendant:Object.freeze({name:"旅人の護符",symbol:"✦",text:"毎ターン最初のカードを使うと、防御＋2。"}),
  dawnStone:Object.freeze({name:"夜明けの石",symbol:"☀️",text:"毎戦闘の1ターン目、魔力＋1。"}),
  coinPurse:Object.freeze({name:"旅の革袋",symbol:"💰",text:"戦闘勝利時、金貨を追加で10G獲得。"}),
- herbAmulet:Object.freeze({name:"薬草のお守り",symbol:"🌿",text:"戦闘勝利時、HPを追加で2回復する。"})
+ herbAmulet:Object.freeze({name:"薬草のお守り",symbol:"🌿",text:"戦闘後の通常回復がHP＋2増える。ボス以外で発動。"})
 });
 export const getB1StartingGearOffers=seed=>{
  const keys=Object.keys(B1_STARTER_GEAR),n=Number(seed)>>>0;
@@ -388,6 +388,8 @@ export function createB1Game(options={}){
   const weaponPhysicalBonus=s.weaponId==="oldClub"&&!s.weaponPhysicalUsed&&card.weapon===true&&["attack","multi","all"].includes(card.kind)?3:0;
   if(weaponPhysicalBonus)s.weaponPhysicalUsed=true;
   s.hand.splice(index,1);
+  s.starterGearCardsPlayed=(s.starterGearCardsPlayed||0)+1;
+  if(routeTrial&&s.weaponId==="travelPendant"&&s.starterGearCardsPlayed===1){s.block+=2;note("旅人の護符：防御＋2。");weaponFired("travelPendant","最初のカードで防御＋2");}
   s.energy-=card.cost;
   if(card.hpCost){s.hp-=card.hpCost;note("血の魔剣：HPを"+card.hpCost+"消費。");}
   // The played physical card has left the hand before checking remaining magic.
@@ -773,7 +775,8 @@ export function createB1Game(options={}){
   s.block=0;s.reflectDamage=0;s.poisonOnBlock=0;s.reflectKillDraw=0;s.weaponMirrorUsed=false;
   if(s.phase==="lost")return true;
   if(checkVictory())return true;
-  s.discard.push(...s.hand.splice(0));s.turn++;s.energy=3;s.attacksThisTurn=0;s.attackCardsThisTurn=0;s.darkCastsThisTurn=0;s.spellsThisTurn=0;s.lightningStreak=0;s.previousSpell=false;s.pendingMagicAttackBonus=0;s.weaponPhysicalUsed=false;
+  s.discard.push(...s.hand.splice(0));s.turn++;s.energy=3;s.attacksThisTurn=0;s.attackCardsThisTurn=0;s.darkCastsThisTurn=0;s.spellsThisTurn=0;s.lightningStreak=0;s.previousSpell=false;s.pendingMagicAttackBonus=0;s.weaponPhysicalUsed=false;s.starterGearCardsPlayed=0;
+  if(routeTrial&&s.weaponId==="hourglass"&&s.turn===2){s.energy+=1;note("時の砂時計：2ターン目の魔力＋1。");weaponFired("hourglass","2ターン目に魔力＋1");}
   drawCards(5+s.powerDraw+s.nextTurnBonusDraw);s.nextTurnBonusDraw=0;return true;
  }
  function chooseReward(id){
