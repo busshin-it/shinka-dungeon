@@ -821,7 +821,7 @@ function choosePath(id){
   }
   if(type==="rest"){s.restPending=true;s.restUsed=false;s.restChoice=null;}
   if(type==="shop"){s.shopPending=true;s.shopUsed=false;s.shopStock=rollShopStock();s.shopPurchases=[];s.shopPurged=false;}
-  if(type==="event"){s.eventPending=true;note("出来事：選択肢から一つ選ぼう。");}
+  if(type==="event"){s.eventPending=true;s.eventBloodOffers=getB1RewardPool(Math.max(0,Math.min(s.stage,STAGES.length-1)),s.deck).slice(0,3);note("出来事：選択肢から一つ選ぼう。");}
   if(type==="treasure"){s.weaponPending=true;s.weaponOffered=getB1WeaponOffers(runSeed);note("宝箱：武器を選ぼう。");}
   return true;
  }
@@ -830,15 +830,13 @@ function choosePath(id){
   if(choice==="gold"){s.gold+=25;note("出来事：25Gを獲得。");}
   else if(choice==="heal"){const amount=Math.min(12,s.maxHp-s.hp);if(!amount)return false;s.hp+=amount;note("出来事：HPを"+amount+"回復。");}
   else if(choice==="blood"){
-   if(s.hp<=12)return false;
-   const pool=getB1RewardPool(Math.max(0,Math.min(s.stage,STAGES.length-1)),s.deck);
-   const id=pool[0];if(!id)return false;
-   s.hp-=12;s.deck.push(id);note("血の契約：HP12を支払い、"+getB1Card(id).name+"を獲得。");
+   if(s.hp<=12||typeof index!=="string"||!Array.isArray(s.eventBloodOffers)||!s.eventBloodOffers.includes(index))return false;
+   s.hp-=12;s.deck.push(index);note("血の契約：HP12を支払い、"+getB1Card(index).name+"を獲得。");
   }else if(choice==="upgrade"){
    if(s.gold<30||!Number.isInteger(index)||index<0||index>=s.deck.length||s.deck[index].endsWith("~"))return false;
    s.gold-=30;s.deck[index]+="~";note("古代の祭壇：30Gでカードを強化。");
   }else return false;
-  s.eventPending=false;return true;
+  s.eventPending=false;s.eventBloodOffers=[];return true;
  }
  function routeLeaveRoom(){
   if(!routeTrial||s.phase!=="between"||s.weaponPending||s.eventPending)return false;
