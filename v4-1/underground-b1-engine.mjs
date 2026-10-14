@@ -251,6 +251,7 @@ export function createB1Game(options={}){
  const shuffle=a=>{for(let i=a.length-1;i>0;i--){const j=Math.floor(random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;};
  const useTacticalEnemies=options.tacticalEncounters===true;
  const useWeapons=options.weaponTrial===true;
+ const routeTrial=options.routeTrial===true;
  const testWeapon=useWeapons&&Array.isArray(options.testDeck)&&Object.hasOwn(B1_WEAPONS,options.testWeaponId||"")?options.testWeaponId:null;
  const testMaxHp=Number.isInteger(options.maxHp)&&options.maxHp>=1&&options.maxHp<=999?options.maxHp:75;
  let s={weaponId:testWeapon,weaponPending:false,weaponOffered:[],weaponPhysicalUsed:false,weaponMirrorUsed:false,weaponActivationId:0,weaponActivation:null,nextTurnBonusDraw:0,previousSpell:false,reflectKillDraw:0,poisonOnBlock:0,lightningStreak:0,reflectDamage:0,dopingBonus:0,nextPhysicalAttackBonus:0,lastTurnHpLoss:0,dragonStage:-1,lastDragonEvolution:null,lastSynergy:null,phase:"starter",stage:0,turn:1,hp:testMaxHp,maxHp:testMaxHp,energy:3,block:0,heroPoison:0,attacksThisTurn:0,attackCardsThisTurn:0,darkCastsThisTurn:0,spellsThisTurn:0,pendingMagicAttackBonus:0,powerDraw:0,strength:0,selected:null,deck:Array.isArray(options.testDeck)&&options.testDeck.length>0&&options.testDeck.length<=30&&options.testDeck.every(id=>Object.hasOwn(CARDS,id))?[...options.testDeck]:[...STARTER],hand:[],draw:[],discard:[],exhaust:[],powers:[],enemies:[],rewards:[],gold:0,shopPending:false,shopUsed:false,shopStock:[],shopPurchases:[],shopPurged:false,restPending:false,restUsed:false,restChoice:null,selectedPath:null,routeHistory:[],log:["最初に得意な魔法を1枚選んで地下迷宮へ。"]};
@@ -265,6 +266,7 @@ export function createB1Game(options={}){
  const find=id=>s.enemies.find(e=>e.id===id&&e.hp>0);
  function drawCards(n){let drawn=0;for(let i=0;i<n&&s.hand.length<10;i++){if(!s.draw.length){if(!s.discard.length)break;s.draw=shuffle(s.discard.splice(0));}s.hand.push(s.draw.pop());drawn++;}return drawn;}
  function encounterAt(stageIndex){
+  if(routeTrial&&s.routeBossActive)return STAGES[STAGES.length-1];
   return stageIndex===1?B1_FORK_ROUTES[s.selectedPath||"pack"]:
    (useTacticalEnemies&&!s.practiceMode&&B1_TACTICAL_ENCOUNTERS[stageIndex])||STAGES[stageIndex];
  }
@@ -327,7 +329,7 @@ export function createB1Game(options={}){
  }
  function checkVictory(){
   if(alive().length>0)return false;
-  if(s.stage===STAGES.length-1){s.phase="won";note("地下迷宮B1を突破！");}
+  if((routeTrial&&s.routeBossActive)||(!routeTrial&&s.stage===STAGES.length-1)){s.phase="won";note("地下迷宮B1を突破！");}
   else{if(!s.practiceMode){s.gold+=s.stage===3?35:20;note("ゴールドを獲得。所持："+s.gold+"G。");}const healed=Math.min(6,s.maxHp-s.hp);s.hp+=healed;s.phase="reward";s.rewards=shuffle(getB1RewardPool(s.stage,s.deck)).slice(0,3);note("勝利！HPを"+healed+"回復。技を1枚覚えるか、見送ろう。");}
   return true;
  }
@@ -741,23 +743,23 @@ export function createB1Game(options={}){
   if(id){s.deck.push(id);note(getB1Card(id).name+"を習得。");}else note("報酬は見送った。");
   // Normal mode: 11 rewards (1 card chosen from 3 after each victory).
   s.phase="between";
-  if(useWeapons&&!s.practiceMode&&s.stage===3&&!s.weaponId){
+  if(useWeapons&&!routeTrial&&!s.practiceMode&&s.stage===3&&!s.weaponId){
    s.weaponPending=true;s.weaponOffered=getB1WeaponOffers(runSeed);
    note("魔具の祭壇：3種類から武器を1つ選ぶか、見送ろう。");
   }
-  if([1,5,10].includes(s.stage)&&!s.practiceMode){s.restPending=true;s.restUsed=false;s.restChoice=null;}
-  if([2,8].includes(s.stage)&&!s.practiceMode){s.shopPending=true;s.shopUsed=false;s.shopStock=rollShopStock();}
+  if(!routeTrial&&[1,5,10].includes(s.stage)&&!s.practiceMode){s.restPending=true;s.restUsed=false;s.restChoice=null;}
+  if(!routeTrial&&[2,8].includes(s.stage)&&!s.practiceMode){s.shopPending=true;s.shopUsed=false;s.shopStock=rollShopStock();}
   return true;
  }
  function chooseWeapon(id){
-  if(!useWeapons||s.phase!=="between"||!s.weaponPending||s.stage!==3||s.practiceMode||
+  if(!useWeapons||s.phase!=="between"||!s.weaponPending||(!routeTrial&&s.stage!==3)||s.practiceMode||
      (id!==null&&!s.weaponOffered.includes(id)))return false;
   s.weaponId=id;s.weaponPending=false;s.weaponOffered=[];
   note(id?"武器を装備："+B1_WEAPONS[id].name+"。":"武器は見送った。");
   return true;
  }
  function chooseRest(kind,index=null){
- if(s.phase!=="between"||![1,5,10].includes(s.stage)||!s.restPending||s.restUsed||s.practiceMode)return false;
+ if(s.phase!=="between"||(!routeTrial&&![1,5,10].includes(s.stage))||!s.restPending||s.restUsed||s.practiceMode)return false;
  if(kind==="heal"){const amount=Math.min(15,s.maxHp-s.hp);s.hp+=amount;note("休憩所：HPを"+amount+"回復。");}
  else if(kind==="upgrade"){if(!Number.isInteger(index)||index<0||index>=s.deck.length||s.deck[index].endsWith("~"))return false;const id=s.deck[index];s.deck[index]=id+"~";note("休憩所："+getB1Card(id).name+"を強化。");}
  else return false;s.restPending=false;s.restUsed=true;s.restChoice=kind;return true;
@@ -776,20 +778,20 @@ function rollShopStock(){
  return pool.slice(0,3);
 }
 function buyShop(id){
- if(s.phase!=="between"||![2,8].includes(s.stage)||!s.shopPending||s.shopUsed||s.practiceMode)return false;
+ if(s.phase!=="between"||(!routeTrial&&![2,8].includes(s.stage))||!s.shopPending||s.shopUsed||s.practiceMode)return false;
  const item=s.shopStock.find(item=>item.id===id);
  if(!item||s.gold<item.price||s.shopPurchases.includes(id))return false;
  s.gold-=item.price;s.deck.push(item.id);s.shopPurchases.push(item.id);
  note("商店："+getB1Card(item.id).name+"を"+item.price+"Gで購入。");return true;
 }
 function purgeShopCard(index){
- if(s.phase!=="between"||![2,8].includes(s.stage)||!s.shopPending||s.shopUsed||s.practiceMode||s.shopPurged||s.gold<30)return false;
+ if(s.phase!=="between"||(!routeTrial&&![2,8].includes(s.stage))||!s.shopPending||s.shopUsed||s.practiceMode||s.shopPurged||s.gold<30)return false;
  if(!Number.isInteger(index)||index<0||index>=s.deck.length||s.deck.length<=1)return false;
  const id=s.deck.splice(index,1)[0];s.gold-=30;s.shopPurged=true;
  note("商店："+getB1Card(id).name+"を削除（30G）。");return true;
 }
 function leaveShop(){
- if(s.phase!=="between"||![2,8].includes(s.stage)||!s.shopPending||s.shopUsed||s.practiceMode)return false;
+ if(s.phase!=="between"||(!routeTrial&&![2,8].includes(s.stage))||!s.shopPending||s.shopUsed||s.practiceMode)return false;
  s.shopPending=false;s.shopUsed=true;note("商店を後にした。");return true;
 }
 function choosePath(id){
@@ -804,6 +806,30 @@ function choosePath(id){
    if(s.stage===0&&s.selectedPath===null)choosePath("pack");
    if(s.restPending){s.restPending=false;s.restUsed=true;s.restChoice="skipped";}if(s.shopPending){s.shopPending=false;s.shopUsed=true;}s.stage++;start();return true;
   }
+
+ // Only the separate ascending-map experiment calls these methods.
+ // Legacy 12-battle journeys never enter this branch.
+ function enterRouteRoom(type){
+  if(!routeTrial||s.practiceMode||!["battle","elite","rest","shop","event","treasure","boss"].includes(type))return false;
+  if(s.phase==="starter")return false;
+  if(s.phase!=="between"||s.weaponPending||s.restPending||s.shopPending)return false;
+  if(type==="battle"||type==="elite"||type==="boss"){
+   s.routeBossActive=type==="boss";
+   if(type!=="boss")s.stage=Math.min(10,s.stage+1);
+   start();return true;
+  }
+  if(type==="rest"){s.restPending=true;s.restUsed=false;s.restChoice=null;}
+  if(type==="shop"){s.shopPending=true;s.shopUsed=false;s.shopStock=rollShopStock();s.shopPurchases=[];s.shopPurged=false;}
+  if(type==="event"){s.gold+=25;note("出来事：金貨25Gを発見。");}
+  if(type==="treasure"){s.weaponPending=true;s.weaponOffered=getB1WeaponOffers(runSeed);note("宝箱：武器を選ぼう。");}
+  return true;
+ }
+ function routeLeaveRoom(){
+  if(!routeTrial||s.phase!=="between"||s.weaponPending)return false;
+  if(s.restPending){s.restPending=false;s.restUsed=true;}
+  if(s.shopPending){s.shopPending=false;s.shopUsed=true;}
+  return true;
+ }
  function snapshot(){
    const stage=encounterAt(s.stage);
    return clone({...s,intents:s.enemies.map(e=>({id:e.id,...intent(e)})),
@@ -814,10 +840,10 @@ function choosePath(id){
       s.weaponId==="oldClub"?{ready:!s.weaponPhysicalUsed,detail:s.weaponPhysicalUsed?"今ターン使用済み":"最初の物理攻撃＋3"}:
       s.weaponId==="mirrorStaff"?{ready:!s.weaponMirrorUsed,detail:s.weaponMirrorUsed?"今ターン使用済み":"防御成功で反射2"}:
       {ready:s.dragonStage>=0,detail:s.dragonStage<0?"竜の卵を召喚すると有効":"竜成長で防御＋3"},
-     shopAvailable:s.phase==="between"&&[2,8].includes(s.stage)&&s.shopPending&&!s.practiceMode,
+     shopAvailable:s.phase==="between"&&(routeTrial||[2,8].includes(s.stage))&&s.shopPending&&!s.practiceMode,
      shopStock:s.shopStock,
      shopCatalog:SHOP_STOCK, // Every obtainable card/price; NOT today's three visible offers.
-     restAvailable:s.phase==="between"&&[1,5,10].includes(s.stage)&&s.restPending&&!s.practiceMode,
+     restAvailable:s.phase==="between"&&(routeTrial||[1,5,10].includes(s.stage))&&s.restPending&&!s.practiceMode,
       dragonName:s.dragonStage<0?null:DRAGON_STAGES[s.dragonStage],
       availablePaths:s.phase==="between"&&s.stage===0&&s.selectedPath===null?Object.keys(B1_FORK_ROUTES):[]});
   }
@@ -830,5 +856,5 @@ function choosePath(id){
   start();note("練習モード："+(mode==="combo"?"連鎖コンボ14枚":mode==="ideal"?"安定型14枚":mode==="test"?"検証用デッキ":"基本の10枚")+"でボスに挑戦。");
   return true;
  }
- return {snapshot,selectStarter,startBossPractice,play,endTurn,hasPlayableCard,chooseReward,chooseWeapon,chooseRest,buyShop,purgeShopCard,leaveShop,choosePath,nextBattle};
+ return {snapshot,selectStarter,startBossPractice,play,endTurn,hasPlayableCard,chooseReward,chooseWeapon,chooseRest,buyShop,purgeShopCard,leaveShop,choosePath,nextBattle,enterRouteRoom,routeLeaveRoom};
 }
