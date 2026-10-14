@@ -192,7 +192,7 @@ import {attachB1Actions} from "./underground-b1-actions.mjs";
 import {showB1Feedback} from "./underground-b1-feedback.mjs";
 import {getB1DragonVisual} from "./underground-b1-dragon-visuals.mjs";
 const el=id=>document.getElementById(id);
-let game=createB1Game({seed:Date.now()}),targetId=null;
+let game=createB1Game({seed:Date.now(),tacticalEncounters:true}),targetId=null;
 // Direct physical trial URL lets players launch the deck without hunting for a
 // fifth card or dealing with a previously cached selection screen.
 if(new URLSearchParams(window.location.search).get("start")==="physical")game.selectStarter("physical");
@@ -208,7 +208,8 @@ const art={rat:"wraith.webp",wolf:"bell-spirit.webp",imp:"bell-spirit.webp",
  elite:"bell-spirit.webp",boss:"boss.webp",archer:"bell-spirit.webp",
  watcher:"wraith.webp",venom:"wraith.webp",berserker:"bell-spirit.webp",
  healer:"bell-spirit.webp",breaker:"bell-spirit.webp",banner:"bell-spirit.webp",
- warder:"bell-spirit.webp"};
+ warder:"bell-spirit.webp",ramp:"bell-spirit.webp",needle:"bell-spirit.webp",
+ bulwark:"bell-spirit.webp",ancient:"wraith.webp"};
 // Single source for B1 original artwork across hand, shop and starter cards.
 // Any missing file falls back to the existing CSS placeholder without affecting play.
 const B1_CARD_ART=Object.freeze({
