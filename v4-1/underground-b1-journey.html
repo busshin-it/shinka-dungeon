@@ -238,6 +238,16 @@ body.pilot-mode #rewardCards .b1-alternative-path-tag{
 @media(max-width:700px){
  body.pilot-mode #rewardCards .b1-alternative-path-tag{left:5px;top:37px;padding:2px 5px;font-size:9px}
 }
+</style><style>
+/* Four-card early-growth choices, without changing the existing three-card reward view. */
+body.pilot-mode #rewardCards.b1-early-double-draft{
+ display:grid;grid-template-columns:repeat(4,minmax(0,1fr));
+ gap:9px;max-height:56dvh;overflow-y:auto;overscroll-behavior:contain;
+}
+body.pilot-mode #rewardCards.b1-early-double-draft .b1-reward-choice{width:100%;min-width:0}
+@media(max-width:850px){
+ body.pilot-mode #rewardCards.b1-early-double-draft{grid-template-columns:repeat(2,minmax(0,1fr));max-height:55dvh}
+}
 </style><link rel="stylesheet" href="./underground-b1-reward-weapon-affinity.css">
 </head>
 <body class="planning-mode pilot-mode" data-b1-mobile="true"><main class="game pilot-game">
@@ -355,7 +365,7 @@ function loadJourney(){
   routeSeed=saved.routeSeed;routeMap=map;routePath=valid;game=restored;return true;
  }catch(_){return false;}
 }
-let b1EventUpgradeOpen=false,b1EventBloodOpen=false;
+let b1EventUpgradeOpen=false,b1EventBloodOpen=false,b1EventStudyOpen=false;
 const resumed=loadJourney();
 // Direct physical trial URL lets players launch the deck without hunting for a
 // fifth card or dealing with a previously cached selection screen.
@@ -590,7 +600,7 @@ function cardButton(id){
  btn.setAttribute("aria-label",c.name+"、魔力"+c.cost+"。"+c.text+(c.lightning?"。雷の連続使用で威力が上昇":""));
  return btn;
 }
-function reset(){el("b1StarterPickPanel").hidden=true;b1EventUpgradeOpen=false;b1EventBloodOpen=false;try{localStorage.removeItem(B1_JOURNEY_SAVE_KEY);}catch(_){}actions.cancel();if(weaponToastTimer!==null){clearTimeout(weaponToastTimer);weaponToastTimer=null;}lastWeaponCue=0;el("b1WeaponToast").hidden=true;routeSeed=Date.now();routeMap=createB1RouteMap(routeSeed);routePath=["f1-l1"];game=createB1Game({seed:routeSeed,tacticalEncounters:true,weaponTrial:true,routeTrial:true});game.selectStarter("basic");targetId=null;render();}
+function reset(){el("b1StarterPickPanel").hidden=true;b1EventUpgradeOpen=false;b1EventBloodOpen=false;b1EventStudyOpen=false;try{localStorage.removeItem(B1_JOURNEY_SAVE_KEY);}catch(_){}actions.cancel();if(weaponToastTimer!==null){clearTimeout(weaponToastTimer);weaponToastTimer=null;}lastWeaponCue=0;el("b1WeaponToast").hidden=true;routeSeed=Date.now();routeMap=createB1RouteMap(routeSeed);routePath=["f1-l1"];game=createB1Game({seed:routeSeed,tacticalEncounters:true,weaponTrial:true,routeTrial:true});game.selectStarter("basic");targetId=null;render();}
 function current(s){
  if(!s.enemies.some(e=>e.id===targetId&&e.hp>0))targetId=s.enemies.find(e=>e.hp>0)?.id||null;
  return s.enemies.find(e=>e.id===targetId)||s.enemies[0];
@@ -778,7 +788,9 @@ function renderOverlay(s){
  advance.hidden=true;skip.hidden=true;again.hidden=true;rewards.hidden=true;el("weaponSite").hidden=true;el("b1EventSite").hidden=true;el("b1EventUpgradeBack").hidden=true;el("routeMap").hidden=true;el("restSite").hidden=true;el("shopSite").hidden=true;el("shopPurgeCards").hidden=true;el("restUpgradeCards").hidden=true;el("b1UpgradeListHint").hidden=true;el("restBack").hidden=true;
  if(s.phase==="reward"){
   el("journeyTitle").textContent="第"+(s.stage+1)+"戦に勝利";
-  el("journeyHint").textContent="戦闘後にHPを最大6回復。次の敵に備えて3枚から1枚選ぶか、見送ろう。";
+  el("journeyHint").textContent=(s.rewardPicksTotal===2?"序盤は4候補から最大2枚を獲得。残り"+s.rewardPicksRemaining+"枚を選ぶか見送ろう。":"戦闘後にHPを最大6回復。次の敵に備えて3枚から1枚選ぶか、見送ろう。");
+  rewards.classList.toggle("b1-early-double-draft",s.rewardPicksTotal===2);
+  skip.textContent=s.rewardPicksTotal===2?"残りを見送る":"見送る";
   rewards.hidden=false;skip.hidden=false;
   for(const id of s.rewards){
     const btn=cardButton(id);btn.classList.add("b1-reward-choice");
@@ -804,10 +816,10 @@ function renderOverlay(s){
   if(s.eventPending){
    el("b1EventSite").hidden=false;
    const host=el("b1EventOptions");host.replaceChildren();host.classList.remove("b1-event-upgrade-list","b1-event-evolution-grid","b1-event-blood-grid");
-   const back=el("b1EventUpgradeBack");back.hidden=!(b1EventUpgradeOpen||b1EventBloodOpen);
-   const upgrading=b1EventUpgradeOpen,blood=b1EventBloodOpen;
-   el("journeyTitle").textContent=upgrading?"古代の祭壇｜強化するカードを選ぶ":blood?"血の契約｜カードを1枚選ぶ":"迷宮の出来事｜一つ選ぼう";
-   el("journeyHint").textContent=upgrading?"強化前と強化後を見て、30Gで強化するカードを選ぼう。":blood?"3枚から選ぼう。カード選択が確定するまでHPは減りません。":"金貨・回復・血の契約・古代の祭壇から一つ選ぼう。";
+   const back=el("b1EventUpgradeBack");back.hidden=!(b1EventUpgradeOpen||b1EventBloodOpen||b1EventStudyOpen);
+   const upgrading=b1EventUpgradeOpen,blood=b1EventBloodOpen,studying=b1EventStudyOpen;
+   el("journeyTitle").textContent=upgrading?"古代の祭壇｜強化するカードを選ぶ":blood?"血の契約｜カードを1枚選ぶ":studying?"古書の発見｜カードを1枚選ぶ":"迷宮の出来事｜一つ選ぼう";
+   el("journeyHint").textContent=upgrading?"強化前と強化後を見て、30Gで強化するカードを選ぼう。":blood?"3枚から選ぼう。カード選択が確定するまでHPは減りません。":studying?"序盤の冒険で1回だけ、HPを使わずカードを1枚習得。":"金貨・回復・血の契約・古代の祭壇から一つ選ぼう。";
    const add=(label,description,choice,index=null,disabled=false)=>{
     const b=document.createElement("button");b.type="button";b.className="b1-event-option";
     const title=document.createElement("strong");title.textContent=label;
@@ -816,8 +828,13 @@ function renderOverlay(s){
     b.addEventListener("click",()=>{if(game.chooseRouteEvent(choice,index)){b1EventUpgradeOpen=false;render();}});host.append(b);
    };
    const valid=s.deck.map((id,index)=>({id,index})).filter(item=>!item.id.endsWith("~"));
-   if(!upgrading&&!blood){
+   if(!upgrading&&!blood&&!studying){
     add("金貨を持ち帰る","25Gを獲得する","gold");
+    if(s.stage<=3&&!s.routeStudyUsed&&s.eventBloodOffers?.length){
+     const studyButton=document.createElement("button");studyButton.type="button";studyButton.className="b1-event-option";
+     studyButton.innerHTML="<strong>古書の発見</strong><small>序盤に1回だけ、無料でカードを1枚習得</small>";
+     studyButton.addEventListener("click",()=>{b1EventStudyOpen=true;render();});host.append(studyButton);
+    }
     add("泉で傷を癒やす","HPを12回復する","heal",null,s.hp>=s.maxHp);
     const bloodButton=document.createElement("button");bloodButton.type="button";bloodButton.className="b1-event-option";
     bloodButton.innerHTML="<strong>血の契約</strong><small>HP12と引き換えにカード3択</small>";
@@ -828,12 +845,12 @@ function renderOverlay(s){
     button.disabled=s.gold<30||!valid.length;
     button.addEventListener("click",()=>{b1EventUpgradeOpen=true;render();});
     host.append(button);
-   }else if(blood){
+   }else if(blood||studying){
     host.classList.add("b1-event-blood-grid");
     for(const id of s.eventBloodOffers||[]){
      const card=cardButton(id);card.classList.add("b1-reward-choice","b1-blood-choice");
-     card.setAttribute("aria-label",getB1Card(id).name+"。"+getB1Card(id).text+"。選ぶとHP12を消費");
-     card.addEventListener("click",()=>{if(game.chooseRouteEvent("blood",id)){b1EventBloodOpen=false;render();}});
+     card.setAttribute("aria-label",getB1Card(id).name+"。"+getB1Card(id).text+(studying?"。無料で習得":"。選ぶとHP12を消費"));
+     card.addEventListener("click",()=>{if(game.chooseRouteEvent(studying?"study":"blood",id)){b1EventBloodOpen=false;b1EventStudyOpen=false;render();}});
      host.append(card);
     }
    }else{
@@ -1249,7 +1266,7 @@ b1UpgradeGrid.addEventListener("wheel",event=>{
  if(next===b1UpgradeGrid.scrollTop)return;
  b1UpgradeGrid.scrollTop=next;
 },{passive:false});
-el("b1EventUpgradeBack").addEventListener("click",()=>{b1EventUpgradeOpen=false;b1EventBloodOpen=false;render();});
+el("b1EventUpgradeBack").addEventListener("click",()=>{b1EventUpgradeOpen=false;b1EventBloodOpen=false;b1EventStudyOpen=false;render();});
 el("restUpgrade").addEventListener("click",()=>{
  const state=game.snapshot();if(!state.restAvailable)return;
  const box=el("restUpgradeCards");box.replaceChildren();box.hidden=false;
