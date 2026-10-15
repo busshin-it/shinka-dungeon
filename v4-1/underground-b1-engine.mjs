@@ -1,4 +1,5 @@
 // Isolated B1 playtest. Never reads or changes existing game saves.
+import {selectB1EarlyGrowthOffers} from "./underground-b1-early-growth.mjs";
 export const CARDS = Object.freeze({
  basicAttack:{name:"攻撃",cost:1,kind:"attack",text:"5ダメージ",damage:5,weapon:true,magicArt:"starter-basic-attack"},
  basicDefense:{name:"防御",cost:1,kind:"guard",text:"防御5",block:5,weapon:true,magicArt:"starter-basic-defense"},
@@ -254,7 +255,7 @@ export function createB1Game(options={}){
  const routeTrial=options.routeTrial===true;
  const testWeapon=useWeapons&&Array.isArray(options.testDeck)&&Object.hasOwn(B1_WEAPONS,options.testWeaponId||"")?options.testWeaponId:null;
  const testMaxHp=Number.isInteger(options.maxHp)&&options.maxHp>=1&&options.maxHp<=999?options.maxHp:75;
- let s={weaponId:testWeapon,weaponPending:false,weaponOffered:[],weaponPhysicalUsed:false,weaponMirrorUsed:false,weaponActivationId:0,weaponActivation:null,nextTurnBonusDraw:0,previousSpell:false,reflectKillDraw:0,poisonOnBlock:0,lightningStreak:0,reflectDamage:0,dopingBonus:0,nextPhysicalAttackBonus:0,lastTurnHpLoss:0,dragonStage:-1,lastDragonEvolution:null,lastSynergy:null,phase:"starter",stage:0,turn:1,hp:testMaxHp,maxHp:testMaxHp,energy:3,block:0,heroPoison:0,attacksThisTurn:0,attackCardsThisTurn:0,darkCastsThisTurn:0,spellsThisTurn:0,pendingMagicAttackBonus:0,powerDraw:0,strength:0,selected:null,deck:Array.isArray(options.testDeck)&&options.testDeck.length>0&&options.testDeck.length<=30&&options.testDeck.every(id=>Object.hasOwn(CARDS,id))?[...options.testDeck]:[...STARTER],hand:[],draw:[],discard:[],exhaust:[],powers:[],enemies:[],rewards:[],gold:0,shopPending:false,shopUsed:false,shopStock:[],shopPurchases:[],shopPurged:false,restPending:false,restUsed:false,restChoice:null,selectedPath:null,routeHistory:[],log:["最初に得意な魔法を1枚選んで地下迷宮へ。"]};
+ let s={weaponId:testWeapon,weaponPending:false,weaponOffered:[],weaponPhysicalUsed:false,weaponMirrorUsed:false,weaponActivationId:0,weaponActivation:null,nextTurnBonusDraw:0,previousSpell:false,reflectKillDraw:0,poisonOnBlock:0,lightningStreak:0,reflectDamage:0,dopingBonus:0,nextPhysicalAttackBonus:0,lastTurnHpLoss:0,dragonStage:-1,lastDragonEvolution:null,lastSynergy:null,phase:"starter",stage:0,turn:1,hp:testMaxHp,maxHp:testMaxHp,energy:3,block:0,heroPoison:0,attacksThisTurn:0,attackCardsThisTurn:0,darkCastsThisTurn:0,spellsThisTurn:0,pendingMagicAttackBonus:0,powerDraw:0,strength:0,selected:null,deck:Array.isArray(options.testDeck)&&options.testDeck.length>0&&options.testDeck.length<=30&&options.testDeck.every(id=>Object.hasOwn(CARDS,id))?[...options.testDeck]:[...STARTER],hand:[],draw:[],discard:[],exhaust:[],powers:[],enemies:[],rewards:[],rewardPicksRemaining:0,rewardPicksTotal:0,routeStudyUsed:false,gold:0,shopPending:false,shopUsed:false,shopStock:[],shopPurchases:[],shopPurged:false,restPending:false,restUsed:false,restChoice:null,selectedPath:null,routeHistory:[],log:["最初に得意な魔法を1枚選んで地下迷宮へ。"]};
  function note(t){s.log.unshift(t);s.log=s.log.slice(0,18);}
  // UI-only event for genuine weapon activations, separate from combat synergy and RNG.
  function weaponFired(id,detail){
@@ -352,7 +353,13 @@ export function createB1Game(options={}){
  function checkVictory(){
   if(alive().length>0)return false;
   if((routeTrial&&s.routeBossActive)||(!routeTrial&&s.stage===STAGES.length-1)){s.phase="won";note("地下迷宮B1を突破！");}
-  else{if(!s.practiceMode){const base=s.stage===3?35:20;const eliteBonus=routeTrial&&s.routeElitePending?40:0;s.gold+=base+eliteBonus;note("ゴールドを"+(base+eliteBonus)+"G獲得。所持："+s.gold+"G。");if(eliteBonus)note("強敵突破報酬：追加40Gを獲得！");s.routeElitePending=false;}const healed=Math.min(6,s.maxHp-s.hp);s.hp+=healed;s.phase="reward";s.rewards=shuffle(getB1RewardPool(s.stage,s.deck)).slice(0,3);note("勝利！HPを"+healed+"回復。技を1枚覚えるか、見送ろう。");}
+  else{if(!s.practiceMode){const base=s.stage===3?35:20;const eliteBonus=routeTrial&&s.routeElitePending?40:0;s.gold+=base+eliteBonus;note("ゴールドを"+(base+eliteBonus)+"G獲得。所持："+s.gold+"G。");if(eliteBonus)note("強敵突破報酬：追加40Gを獲得！");s.routeElitePending=false;}const healed=Math.min(6,s.maxHp-s.hp);s.hp+=healed; s.phase="reward";
+   const earlyGrowth=routeTrial&&s.stage<3;
+   const pool=shuffle(getB1RewardPool(s.stage,s.deck));
+   s.rewards=earlyGrowth?selectB1EarlyGrowthOffers(pool,s.deck,s.weaponId,getB1Card,4):pool.slice(0,3);
+   s.rewardPicksTotal=earlyGrowth?Math.min(2,s.rewards.length):1;
+   s.rewardPicksRemaining=s.rewardPicksTotal;
+   note("勝利！HPを"+healed+"回復。"+(earlyGrowth?"4候補から最大2枚の技を覚えよう。":"技を1枚覚えるか、見送ろう。"));}
   return true;
  }
  function play(index,targetId){
@@ -763,6 +770,13 @@ export function createB1Game(options={}){
  function chooseReward(id){
   if(s.phase!=="reward"||(id!==null&&!s.rewards.includes(id)))return false;
   if(id){s.deck.push(id);note(getB1Card(id).name+"を習得。");}else note("報酬は見送った。");
+  if(routeTrial&&id&&(s.rewardPicksRemaining||1)>1){
+   s.rewardPicksRemaining--;
+   s.rewards=s.rewards.filter(cardId=>cardId!==id);
+   note("もう1枚を選ぶか、残りを見送ろう。");
+   return true;
+  }
+  s.rewardPicksRemaining=0;s.rewardPicksTotal=0;
   // Normal mode: 11 rewards (1 card chosen from 3 after each victory).
   s.phase="between";
   if(useWeapons&&!routeTrial&&!s.practiceMode&&s.stage===3&&!s.weaponId){
@@ -851,7 +865,11 @@ function choosePath(id){
   if(!routeTrial||s.phase!=="between"||!s.eventPending||s.practiceMode)return false;
   if(choice==="gold"){s.gold+=25;note("出来事：25Gを獲得。");}
   else if(choice==="heal"){const amount=Math.min(12,s.maxHp-s.hp);if(!amount)return false;s.hp+=amount;note("出来事：HPを"+amount+"回復。");}
-  else if(choice==="blood"){
+  else if(choice==="study"){
+   if(s.routeStudyUsed||s.stage>3||typeof index!=="string"||!s.eventBloodOffers?.includes(index))return false;
+   s.deck.push(index);s.routeStudyUsed=true;
+   note("古書の発見："+getB1Card(index).name+"を習得。");
+  }else if(choice==="blood"){
    if(s.hp<=12||typeof index!=="string"||!Array.isArray(s.eventBloodOffers)||!s.eventBloodOffers.includes(index))return false;
    s.hp-=12;s.deck.push(index);note("血の契約：HP12を支払い、"+getB1Card(index).name+"を獲得。");
   }else if(choice==="upgrade"){
