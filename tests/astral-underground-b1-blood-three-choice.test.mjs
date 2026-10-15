@@ -7,7 +7,7 @@ test("blood choice requires offered card and does not affect classic journeys",(
  assert.equal(route.chooseRouteEvent("blood","fireSmall"),false);
 });
 test("three choices in page and payment only on selection",()=>{
- for(const needle of ["s.eventBloodOffers||[]","game.chooseRouteEvent(\"blood\",id)","b1EventBloodOpen=true;render();","b1EventBloodOpen=false;render();","b1-event-blood-grid","cardButton(id)"])assert.ok(html.includes(needle),needle);
+ for(const needle of ["s.eventBloodOffers||[]","game.chooseRouteEvent(studying?\"study\":\"blood\",id)","b1EventBloodOpen=true;render();","b1EventBloodOpen=false;b1EventStudyOpen=false;render();","b1-event-blood-grid","cardButton(id)"])assert.ok(html.includes(needle),needle);
  const script=html.match(/<script type="module">([\s\S]*?)<\/script>/)?.[1];assert.ok(script);
  const check=spawnSync(process.execPath,["--input-type=module","--check"],{input:script,encoding:"utf8"});assert.equal(check.status,0,check.stderr);
 });
