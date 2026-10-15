@@ -226,6 +226,18 @@ body.pilot-mode #playScreen .stage:not(.b1-multi) #enemyPuppet{
   height:min(61%,280px);width:min(30%,240px);
  }
 }
+</style><style>
+/* Step 84: a subtle alternative-route hint; never cover card copy. */
+body.pilot-mode #rewardCards .b1-reward-choice{position:relative}
+body.pilot-mode #rewardCards .b1-alternative-path-tag{
+ position:absolute;left:8px;top:43px;z-index:8;max-width:calc(100% - 16px);
+ padding:3px 7px;border:1px solid #8caac4;border-radius:6px;
+ background:#142c40e8;color:#d9eafa;font-size:clamp(9px,.9vw,11px);line-height:1.2;
+ pointer-events:none;white-space:normal;text-align:left;
+}
+@media(max-width:700px){
+ body.pilot-mode #rewardCards .b1-alternative-path-tag{left:5px;top:37px;padding:2px 5px;font-size:9px}
+}
 </style><link rel="stylesheet" href="./underground-b1-reward-weapon-affinity.css">
 </head>
 <body class="planning-mode pilot-mode" data-b1-mobile="true"><main class="game pilot-game">
@@ -317,6 +329,7 @@ import {createB1RouteMap,availableB1Rooms,chooseB1Room} from "./underground-b1-r
 import {showB1Feedback} from "./underground-b1-feedback.mjs";
 import {getB1DragonVisual} from "./underground-b1-dragon-visuals.mjs";
 import {getB1RewardWeaponAffinity} from "./underground-b1-reward-weapon-affinity.mjs";
+import {getB1AlternativePathHint} from "./underground-b1-alternative-path.mjs";
 const el=id=>document.getElementById(id);
 let routeSeed=Date.now(),routeMap=createB1RouteMap(routeSeed),routePath=["f1-l1"];
 let game=createB1Game({seed:routeSeed,tacticalEncounters:true,weaponTrial:true,routeTrial:true}),targetId=null;
@@ -776,6 +789,14 @@ function renderOverlay(s){
      tag.title=affinity.detail;tag.setAttribute("aria-hidden","true");
      btn.append(tag);
      btn.setAttribute("aria-label",btn.getAttribute("aria-label")+"。装備との相性："+affinity.detail);
+    }
+    const alternative=getB1AlternativePathHint(s.weaponId,getB1Card(id),Boolean(affinity));
+    if(alternative){
+     const hint=document.createElement("span");
+     hint.className="b1-alternative-path-tag";hint.textContent=alternative.label;
+     hint.title=alternative.detail;hint.setAttribute("aria-hidden","true");
+     btn.append(hint);
+     btn.setAttribute("aria-label",btn.getAttribute("aria-label")+"。別の戦術："+alternative.detail);
     }
     btn.addEventListener("click",()=>{if(game.chooseReward(id))render();});rewards.append(btn);
   }
