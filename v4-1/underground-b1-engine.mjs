@@ -242,6 +242,21 @@ export const B1_WEAPONS=Object.freeze({
  mirrorStaff:Object.freeze({name:"月鏡の杖",symbol:"🌙",text:"毎ターン最初に敵の攻撃を防ぐと、その敵に2ダメージ反射。"}),
  dragonStaff:Object.freeze({name:"竜骨の杖",symbol:"🐉",text:"竜が成長するたび、防御＋3。竜の卵がなければ効果なし。"})
 });
+// The starting choices stay flexible. Specialized weapons are only offered later.
+export const B1_STARTER_GEAR=Object.freeze({
+ travelShield:Object.freeze({name:"旅の小盾",symbol:"🛡️",text:"戦闘開始時に防御4を得る。"}),
+ openJournal:Object.freeze({name:"星読みの手帳",symbol:"📖",text:"戦闘開始時、カードを追加で1枚引く。"}),
+ hourglass:Object.freeze({name:"時の砂時計",symbol:"⌛",text:"毎戦闘の2ターン目に魔力＋1。"}),
+ rhythmBell:Object.freeze({name:"調律の鈴",symbol:"🔔",text:"毎ターン3枚目のカードを使った時、1枚引く。"}),
+ travelPendant:Object.freeze({name:"旅人の護符",symbol:"✦",text:"毎ターン最初のカードを使うと、防御＋2。"}),
+ dawnStone:Object.freeze({name:"夜明けの石",symbol:"☀️",text:"毎戦闘の1ターン目、魔力＋1。"}),
+ coinPurse:Object.freeze({name:"旅の革袋",symbol:"💰",text:"戦闘勝利時、金貨を追加で10G獲得。"}),
+ herbAmulet:Object.freeze({name:"薬草のお守り",symbol:"🌿",text:"戦闘後の通常回復がHP＋2増える。ボス以外で発動。"})
+});
+export const getB1StartingGearOffers=seed=>{
+ const keys=Object.keys(B1_STARTER_GEAR),n=Number(seed)>>>0;
+ return [keys[n%keys.length],keys[(n+3)%keys.length],keys[(n+5)%keys.length]];
+};
 export const getB1WeaponOffers=(seed)=>{const keys=Object.keys(B1_WEAPONS),start=(Number(seed)>>>0)%keys.length;return Array.from({length:3},(_,i)=>keys[(start+i)%keys.length]);};
 const clone=x=>JSON.parse(JSON.stringify(x));
 export function createB1Game(options={}){
@@ -254,7 +269,7 @@ export function createB1Game(options={}){
  const routeTrial=options.routeTrial===true;
  const testWeapon=useWeapons&&Array.isArray(options.testDeck)&&Object.hasOwn(B1_WEAPONS,options.testWeaponId||"")?options.testWeaponId:null;
  const testMaxHp=Number.isInteger(options.maxHp)&&options.maxHp>=1&&options.maxHp<=999?options.maxHp:75;
- let s={weaponId:testWeapon,weaponPending:false,weaponOffered:[],weaponPhysicalUsed:false,weaponMirrorUsed:false,weaponActivationId:0,weaponActivation:null,nextTurnBonusDraw:0,previousSpell:false,reflectKillDraw:0,poisonOnBlock:0,lightningStreak:0,reflectDamage:0,dopingBonus:0,nextPhysicalAttackBonus:0,lastTurnHpLoss:0,dragonStage:-1,lastDragonEvolution:null,lastSynergy:null,phase:"starter",stage:0,turn:1,hp:testMaxHp,maxHp:testMaxHp,energy:3,block:0,heroPoison:0,attacksThisTurn:0,attackCardsThisTurn:0,darkCastsThisTurn:0,spellsThisTurn:0,pendingMagicAttackBonus:0,powerDraw:0,strength:0,selected:null,deck:Array.isArray(options.testDeck)&&options.testDeck.length>0&&options.testDeck.length<=30&&options.testDeck.every(id=>Object.hasOwn(CARDS,id))?[...options.testDeck]:[...STARTER],hand:[],draw:[],discard:[],exhaust:[],powers:[],enemies:[],rewards:[],gold:0,shopPending:false,shopUsed:false,shopStock:[],shopPurchases:[],shopPurged:false,restPending:false,restUsed:false,restChoice:null,selectedPath:null,routeHistory:[],log:["最初に得意な魔法を1枚選んで地下迷宮へ。"]};
+ let s={weaponId:testWeapon,weaponPending:false,weaponOffered:[],weaponPhysicalUsed:false,weaponMirrorUsed:false,starterGearCardsPlayed:0,weaponActivationId:0,weaponActivation:null,nextTurnBonusDraw:0,previousSpell:false,reflectKillDraw:0,poisonOnBlock:0,lightningStreak:0,reflectDamage:0,dopingBonus:0,nextPhysicalAttackBonus:0,lastTurnHpLoss:0,dragonStage:-1,lastDragonEvolution:null,lastSynergy:null,phase:"starter",stage:0,turn:1,hp:testMaxHp,maxHp:testMaxHp,energy:3,block:0,heroPoison:0,attacksThisTurn:0,attackCardsThisTurn:0,darkCastsThisTurn:0,spellsThisTurn:0,pendingMagicAttackBonus:0,powerDraw:0,strength:0,selected:null,deck:Array.isArray(options.testDeck)&&options.testDeck.length>0&&options.testDeck.length<=30&&options.testDeck.every(id=>Object.hasOwn(CARDS,id))?[...options.testDeck]:[...STARTER],hand:[],draw:[],discard:[],exhaust:[],powers:[],enemies:[],rewards:[],gold:0,shopPending:false,shopUsed:false,shopStock:[],shopPurchases:[],shopPurged:false,restPending:false,restUsed:false,restChoice:null,selectedPath:null,routeHistory:[],log:["最初に得意な魔法を1枚選んで地下迷宮へ。"]};
  function note(t){s.log.unshift(t);s.log=s.log.slice(0,18);}
  // UI-only event for genuine weapon activations, separate from combat synergy and RNG.
  function weaponFired(id,detail){
@@ -271,8 +286,8 @@ export function createB1Game(options={}){
    (useTacticalEnemies&&!s.practiceMode&&B1_TACTICAL_ENCOUNTERS[stageIndex])||STAGES[stageIndex];
  }
  function start(){
-  const stage=encounterAt(s.stage);s.enemies=stage.enemies.map(e=>({...clone(e),maxHp:(!s.practiceMode&&s.deck.includes("basicAttack"))?Math.max(8,Math.round(e.maxHp*(s.stage<3?.66:s.stage<6?.82:s.stage===STAGES.length-1?.88:1))):e.maxHp,hp:(!s.practiceMode&&s.deck.includes("basicAttack"))?Math.max(8,Math.round(e.maxHp*(s.stage<3?.66:s.stage<6?.82:s.stage===STAGES.length-1?.88:1))):e.maxHp,weaken:0,poison:0,vulnerable:0,block:0,strength:0,channelDamage:0,channelBroken:false,confusionAttacks:0,hallucinationAttacks:0,curses:[]}));s.turn=1;s.block=0;s.energy=3;s.attacksThisTurn=0;s.attackCardsThisTurn=0;s.darkCastsThisTurn=0;s.spellsThisTurn=0;s.lightningStreak=0;s.reflectDamage=0;s.reflectKillDraw=0;s.poisonOnBlock=0;s.previousSpell=false;s.nextTurnBonusDraw=0;s.pendingMagicAttackBonus=0;s.powerDraw=0;s.strength=0;s.dopingBonus=0;s.nextPhysicalAttackBonus=0;s.lastTurnHpLoss=0;s.weaponPhysicalUsed=false;s.weaponMirrorUsed=false;s.weaponActivation=null;
-  s.heroPoison=0;s.dragonStage=-1;s.lastDragonEvolution=null;s.lastSynergy=null;s.hand=[];s.discard=[];s.exhaust=[];s.powers=[];s.draw=shuffle([...s.deck]);s.selected=s.enemies.find(e=>e.role!=="boss")?.id||s.enemies[0].id;s.phase="battle";drawCards(5);note(stage.name+"：戦闘開始。");
+  const stage=encounterAt(s.stage);s.enemies=stage.enemies.map(e=>({...clone(e),maxHp:(!s.practiceMode&&s.deck.includes("basicAttack"))?Math.max(8,Math.round(e.maxHp*(s.stage<3?.66:s.stage<6?.82:s.stage===STAGES.length-1?.88:1))):e.maxHp,hp:(!s.practiceMode&&s.deck.includes("basicAttack"))?Math.max(8,Math.round(e.maxHp*(s.stage<3?.66:s.stage<6?.82:s.stage===STAGES.length-1?.88:1))):e.maxHp,weaken:0,poison:0,vulnerable:0,block:0,strength:0,channelDamage:0,channelBroken:false,confusionAttacks:0,hallucinationAttacks:0,curses:[]}));s.turn=1;s.block=0;s.energy=3;s.attacksThisTurn=0;s.attackCardsThisTurn=0;s.darkCastsThisTurn=0;s.spellsThisTurn=0;s.lightningStreak=0;s.reflectDamage=0;s.reflectKillDraw=0;s.poisonOnBlock=0;s.previousSpell=false;s.nextTurnBonusDraw=0;s.pendingMagicAttackBonus=0;s.powerDraw=0;s.strength=0;s.dopingBonus=0;s.nextPhysicalAttackBonus=0;s.lastTurnHpLoss=0;s.weaponPhysicalUsed=false;s.weaponMirrorUsed=false;s.starterGearCardsPlayed=0;s.weaponActivation=null;
+  s.heroPoison=0;s.dragonStage=-1;s.lastDragonEvolution=null;s.lastSynergy=null;s.hand=[];s.discard=[];s.exhaust=[];s.powers=[];s.draw=shuffle([...s.deck]);s.selected=s.enemies.find(e=>e.role!=="boss")?.id||s.enemies[0].id;s.phase="battle";if(s.weaponId==="travelShield"){s.block+=4;weaponFired("travelShield","開始時の防御＋4");}if(s.weaponId==="dawnStone"){s.energy+=1;weaponFired("dawnStone","初手の魔力＋1");}drawCards(s.weaponId==="openJournal"?6:5);if(s.weaponId==="openJournal")weaponFired("openJournal","開始時の手札＋1");note(stage.name+"：戦闘開始。");
  }
  function selectStarter(id){if(s.phase!=="starter"||!["basic","physical","lightning","scatter","flow","dragonEgg","fireSmall","fireMedium","fireLarge","fireWaveSmall","fireWaveMedium","fireWaveLarge","thunderSmall","thunderMedium","thunderLarge","darkBolt","abyssBolt","mentalCollapse","curse","deathSong","hallucination","iceSpear","arcaneLance","shadowEcho","blizzard","thunderSurge","guideThrust","spellblade","bludgeon","rapidPunch","heavyBlow","sneakHit","ironHammer","doping","adversity","rage"].includes(id))return false;
   if(id==="basic")s.deck=[...BASIC_B1_STARTER];
@@ -284,9 +299,9 @@ export function createB1Game(options={}){
   }
   start();return true;}
  function selectStartingWeapon(id){
-  if(!routeTrial||s.phase!=="starterPick"||!Object.hasOwn(B1_WEAPONS,id)||s.weaponId)return false;
+  if(!routeTrial||s.phase!=="starterPick"||!getB1StartingGearOffers(runSeed).includes(id)||s.weaponId)return false;
   s.weaponId=id;s.starterOffers=[];s.starterPicksDone=0;
-  note("初期装備："+B1_WEAPONS[id].name+"を選択。");
+  note("初期装備："+B1_STARTER_GEAR[id].name+"を選択。");
   start();return true;
  }
  function rollStarterOffers(){
@@ -352,7 +367,7 @@ export function createB1Game(options={}){
  function checkVictory(){
   if(alive().length>0)return false;
   if((routeTrial&&s.routeBossActive)||(!routeTrial&&s.stage===STAGES.length-1)){s.phase="won";note("地下迷宮B1を突破！");}
-  else{if(!s.practiceMode){const base=s.stage===3?35:20;const eliteBonus=routeTrial&&s.routeElitePending?40:0;s.gold+=base+eliteBonus;note("ゴールドを"+(base+eliteBonus)+"G獲得。所持："+s.gold+"G。");if(eliteBonus)note("強敵突破報酬：追加40Gを獲得！");s.routeElitePending=false;}const healed=Math.min(6,s.maxHp-s.hp);s.hp+=healed;s.phase="reward";s.rewards=shuffle(getB1RewardPool(s.stage,s.deck)).slice(0,3);note("勝利！HPを"+healed+"回復。技を1枚覚えるか、見送ろう。");}
+  else{if(!s.practiceMode){const base=s.stage===3?35:20;const eliteBonus=routeTrial&&s.routeElitePending?40:0;const gearGold=routeTrial&&s.weaponId==="coinPurse"?10:0;s.gold+=base+eliteBonus+gearGold;note("ゴールドを"+(base+eliteBonus+gearGold)+"G獲得。所持："+s.gold+"G。");if(gearGold)weaponFired("coinPurse","勝利報酬＋10G");if(eliteBonus)note("強敵突破報酬：追加40Gを獲得！");s.routeElitePending=false;}const extraHeal=routeTrial&&s.weaponId==="herbAmulet"?2:0;const healed=Math.min(6+extraHeal,s.maxHp-s.hp);s.hp+=healed;if(extraHeal&&healed>0)weaponFired("herbAmulet","勝利後の追加回復");s.phase="reward";s.rewards=shuffle(getB1RewardPool(s.stage,s.deck)).slice(0,3);note("勝利！HPを"+healed+"回復。技を1枚覚えるか、見送ろう。");}
   return true;
  }
  function play(index,targetId){
@@ -373,6 +388,8 @@ export function createB1Game(options={}){
   const weaponPhysicalBonus=s.weaponId==="oldClub"&&!s.weaponPhysicalUsed&&card.weapon===true&&["attack","multi","all"].includes(card.kind)?3:0;
   if(weaponPhysicalBonus)s.weaponPhysicalUsed=true;
   s.hand.splice(index,1);
+  s.starterGearCardsPlayed=(s.starterGearCardsPlayed||0)+1;
+  if(routeTrial&&s.weaponId==="travelPendant"&&s.starterGearCardsPlayed===1){s.block+=2;note("旅人の護符：防御＋2。");weaponFired("travelPendant","最初のカードで防御＋2");}
   s.energy-=card.cost;
   if(card.hpCost){s.hp-=card.hpCost;note("血の魔剣：HPを"+card.hpCost+"消費。");}
   // The played physical card has left the hand before checking remaining magic.
@@ -495,6 +512,7 @@ export function createB1Game(options={}){
   else if(card.kind==="power"){if(card.powerDraw){s.powerDraw+=card.powerDraw;note("毎ターンのドロー＋"+card.powerDraw+"。");}
    if(card.strengthGain){s.strength+=card.strengthGain;note("この戦闘中、攻撃威力＋"+card.strengthGain+"。");}}
   if(card.draw){drawCards(card.draw);note("カードを"+card.draw+"枚引いた。");}
+   if(s.weaponId==="rhythmBell"&&s.starterGearCardsPlayed===3){const n=drawCards(1);if(n){note("調律の鈴：カードを1枚引く。");weaponFired("rhythmBell","3枚目で1ドロー");}}
   s.previousSpell=!card.weapon;
   if(card.school==="dark")s.darkCastsThisTurn++;
   if(!card.weapon){
@@ -757,7 +775,8 @@ export function createB1Game(options={}){
   s.block=0;s.reflectDamage=0;s.poisonOnBlock=0;s.reflectKillDraw=0;s.weaponMirrorUsed=false;
   if(s.phase==="lost")return true;
   if(checkVictory())return true;
-  s.discard.push(...s.hand.splice(0));s.turn++;s.energy=3;s.attacksThisTurn=0;s.attackCardsThisTurn=0;s.darkCastsThisTurn=0;s.spellsThisTurn=0;s.lightningStreak=0;s.previousSpell=false;s.pendingMagicAttackBonus=0;s.weaponPhysicalUsed=false;
+  s.discard.push(...s.hand.splice(0));s.turn++;s.energy=3;s.attacksThisTurn=0;s.attackCardsThisTurn=0;s.darkCastsThisTurn=0;s.spellsThisTurn=0;s.lightningStreak=0;s.previousSpell=false;s.pendingMagicAttackBonus=0;s.weaponPhysicalUsed=false;s.starterGearCardsPlayed=0;
+  if(routeTrial&&s.weaponId==="hourglass"&&s.turn===2){s.energy+=1;note("時の砂時計：2ターン目の魔力＋1。");weaponFired("hourglass","2ターン目に魔力＋1");}
   drawCards(5+s.powerDraw+s.nextTurnBonusDraw);s.nextTurnBonusDraw=0;return true;
  }
  function chooseReward(id){
@@ -888,12 +907,13 @@ function choosePath(id){
    const stage=encounterAt(s.stage);
    return clone({...s,intents:s.enemies.map(e=>({id:e.id,...intent(e)})),
      stageName:s.stage===1?"B1・"+stage.name:stage.name,stageHint:stage.hint,
-     weapon:s.weaponId?B1_WEAPONS[s.weaponId]:null,
+     weapon:s.weaponId?(B1_STARTER_GEAR[s.weaponId]||B1_WEAPONS[s.weaponId]||null):null,
      weaponStatus:!s.weaponId?null:
       s.weaponId==="thunderStaff"?{ready:s.lightningStreak<3,detail:s.lightningStreak>=3?"雷3枚目を使用済み": "雷"+Math.min(s.lightningStreak,2)+"/3 · 3枚目の攻撃で発動"}:
       s.weaponId==="oldClub"?{ready:!s.weaponPhysicalUsed,detail:s.weaponPhysicalUsed?"今ターン使用済み":"最初の物理攻撃＋3"}:
       s.weaponId==="mirrorStaff"?{ready:!s.weaponMirrorUsed,detail:s.weaponMirrorUsed?"今ターン使用済み":"防御成功で反射2"}:
-      {ready:s.dragonStage>=0,detail:s.dragonStage<0?"竜の卵を召喚すると有効":"竜成長で防御＋3"},
+      s.weaponId==="dragonStaff"?{ready:s.dragonStage>=0,detail:s.dragonStage<0?"竜の卵を召喚すると有効":"竜成長で防御＋3"}:
+       {ready:true,detail:B1_STARTER_GEAR[s.weaponId]?.text||""},
      shopAvailable:s.phase==="between"&&(routeTrial||[2,8].includes(s.stage))&&s.shopPending&&!s.practiceMode,
      shopStock:s.shopStock,
      shopCatalog:SHOP_STOCK, // Every obtainable card/price; NOT today's three visible offers.
