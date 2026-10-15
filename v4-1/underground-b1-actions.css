@@ -74,3 +74,38 @@
 @media(prefers-reduced-motion:reduce){
  .pilot-mode .b1-synergy-toast{box-shadow:0 0 0 1px #f0cc79}
 }
+
+
+/* Step 83: clearer touch pickup and release, without changing gesture/game rules. */
+.pilot-mode .hand .pilot-card:not(:disabled):active:not(.b1-drag-source){
+  cursor:grabbing;
+  border-color:#f4d38c;
+  box-shadow:0 15px 28px #000b,0 0 0 2px #f0d497a8;
+}
+.pilot-mode .hand .pilot-card.b1-picked:not(:disabled):focus-visible{
+  outline:2px solid #f8e5b7;
+  outline-offset:3px;
+}
+.pilot-mode #enemyPuppet{
+  transition:filter 140ms ease-out;
+}
+.pilot-mode #enemyPuppet.b1-drop-target{
+  outline:none;
+  filter:drop-shadow(0 0 9px #ffe4a5) drop-shadow(0 0 20px #efb35f);
+}
+.pilot-mode #enemyPuppet.b1-pending-target{
+  filter:drop-shadow(0 0 13px #ffcd83);
+}
+@media(hover:none) and (pointer:coarse){
+  /* Hover can stick after touch on mobile; picked/pressed states own the lift. */
+  .pilot-mode .hand .pilot-card:not(:disabled):hover:not(.b1-picked):not(.b1-pressing){
+    transform:rotate(var(--b1-fan-angle,0deg));
+    box-shadow:none;
+  }
+  .pilot-mode .hand .pilot-card.b1-pressing:not(:disabled){
+    transform:translateY(-13px) rotate(0deg) scale(1.075);
+  }
+}
+@media(prefers-reduced-motion:reduce){
+  .pilot-mode #enemyPuppet{transition:none}
+}
