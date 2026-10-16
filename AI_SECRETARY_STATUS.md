@@ -1,3 +1,8 @@
+## 2026-10-16｜Asset Factory Autoの定期起動を一時停止
+- 無料GitHub Actions 2,000分到達・月5ドル予算設定を受け、`.github/workflows/asset-factory-auto.yml` から毎時17分の `schedule` と `.asset-factory-trigger` 更新時の `push` トリガーを取り外した。`workflow_dispatch` は保持し、手動での画像生成は可能。
+- 既存画像、`asset-factory/queue.json`、ゲーム本編、手動の `Asset Factory`、`B1 Card Art Batch`、Pagesは変更していない。全GitHub Actionsを停止する変更ではない。
+- mainに反映後のワークフローのトリガーを照合して停止を確認する。復旧時は `backup/pre-asset-factory-auto-pause-20261016` と比較し、明示的な承認を受けて元に戻す。
+
 ## 2026-10-16｜第86歩・コンボ成立の演出と休憩所デッキ整理
 - 15階層のみ。エンジンが実際に判定した連携で小さく発光。回復・強化と引き換えに基本札1枚を削除でき、旧12戦・保存・85種のカード効果は保護。[設計](design/b1-step86-combo-feedback-and-rest-trim-20261016.md)。
 - CI #38838110934 は成功（663テスト）。PR #157 をmainへ統合済み。Pages配信、Android実機の表示／タップ、楽しさの評価は未確認。戻す場合はPRをrevertする。

@@ -29,7 +29,7 @@ Asset Factory は、進化ダンジョンで発生した「大量の画像素材
 - 成功画像を指定の `assets/**` へ保存
 - queue.json の自動更新
 - GitHub Actions から複数ジョブを1枚ずつ順番に連続生成
-- 1時間ごとの自動運転で未完了キューを継続処理（`queue.json` の `auto_paused: true` で一時停止可能）
+- **一時停止中（2026-10-16〜）**：Asset Factory Autoの毎時定期実行およびpush実行は無効。現在は手動起動のみ。自動再開時はワークフローのトリガーを元に戻します。
 - 429 / 5xx の一時エラー再試行
 - ローカルテスト
 
@@ -58,6 +58,8 @@ APIキーはブラウザやリポジトリへ保存しません。
   - デフォルト: `gpt-5.6`
 
 ### 3. GitHub Actionsから起動
+
+**自動運転は現在一時停止中です。** `.github/workflows/asset-factory-auto.yml` には `workflow_dispatch` のみ残し、定期起動および `.asset-factory-trigger` のpush起動を削除しました。画像やキューは維持し、手動の `Asset Factory` は従来どおり使えます（OpenAI APIの画像生成料金は別途発生し得ます）。再開時は明示的にトリガーを復元してください。`B1 Card Art Batch` 等、別ワークフローの自動実行には影響しません。
 
 Actions → **Asset Factory** → Run workflow
 
