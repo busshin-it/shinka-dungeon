@@ -1,3 +1,7 @@
+## 2026-10-16｜報酬カードの見切れ修正
+- 15階層の4枚報酬をスマホ横向きでも2列＋リストスクロールにし、通常報酬・血の契約・商店も説明が見切れないよう修正。専用CSSを最後に読み込む。カード効果・旧12戦・保存は変更せず。[仕様と復旧](design/b1-reward-card-clipping-20261016.md)。
+- PR #160（Draft）でCI待ち。main・Pages・実機の表示検証はそれぞれ別。
+
 ## 2026-10-16｜B1 Card Art Batchの自動起動を一時停止
 - GitHub Actions使用量を減らす目的で、`.github/workflows/b1-card-art.yml` の6時間おきの`schedule`と`.b1-card-art-trigger`変更時の`push`を削除し、手動`workflow_dispatch`のみ残す。定期実行時は`B1_CARD_ART_ENABLED`フラグが有効な場合だけ画像生成される設計だったため、過去の起動数と実際の生成枚数は同義ではない。
 - 既存のカード原画、ゲーム、キュー、画像生成スクリプト、Pages、`Asset Factory`の手動実行は変更なし。手動で`B1 Card Art Batch`を起動するとOpenAI APIの費用が発生し得る。

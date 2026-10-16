@@ -1,0 +1,186 @@
+/* 15-floor journey only. Cards may grow to fit their real names and effects.
+   The OUTER list scrolls: never hide text or create a scroll area inside a card.
+   This file loads after the earlier reward/arcane/mobile CSS. */
+
+/* Standard victory rewards: keep illustrated cards, but give copy its own space. */
+body.pilot-mode #journeyPanel.b1-reward-open #rewardCards.pilot-rewards{
+  align-items:start;
+}
+body.pilot-mode #journeyPanel.b1-reward-open #rewardCards .b1-reward-choice{
+  height:auto;min-height:clamp(360px,63dvh,550px);max-height:none;
+  align-self:stretch;
+}
+body.pilot-mode #journeyPanel.b1-reward-open #rewardCards .b1-reward-choice > :is(
+  .b1-magic-card-art,.b1-fire-card-art,.b1-dragon-card-art,.b1-dragon-card-sprite,.pilot-card-art
+){
+  height:clamp(155px,35dvh,305px);flex:0 0 clamp(155px,35dvh,305px);
+  min-height:0;
+}
+body.pilot-mode #journeyPanel.b1-reward-open #rewardCards .b1-reward-choice > .pilot-card-copy{
+  position:relative;inset:auto;
+  display:flex;flex-direction:column;justify-content:flex-start;
+  flex:1 0 auto;width:100%;height:auto;min-height:0;max-height:none;
+  padding:12px 12px 16px;gap:8px;overflow:visible;
+}
+body.pilot-mode #journeyPanel.b1-reward-open #rewardCards .b1-reward-choice .pilot-card-copy strong{
+  position:static;inset:auto;display:block;flex:0 0 auto;
+  width:100%;height:auto;max-height:none;min-height:0;
+  margin:0;padding:5px 8px;overflow:visible;white-space:normal;
+  font-size:clamp(16px,1.55vw,23px);line-height:1.22;text-align:center;
+  background:#152d43;border:1px solid #b79a62;border-radius:5px;box-shadow:none;
+  overflow-wrap:anywhere;
+}
+body.pilot-mode #journeyPanel.b1-reward-open #rewardCards .b1-reward-choice .pilot-card-copy strong::before{
+  content:none;
+}
+body.pilot-mode #journeyPanel.b1-reward-open #rewardCards .b1-reward-choice .pilot-card-copy .desc{
+  display:block;position:static;flex:0 0 auto;
+  height:auto;min-height:0;max-height:none;
+  white-space:normal;overflow:visible;overflow-wrap:anywhere;
+  -webkit-line-clamp:unset;line-clamp:unset;
+  font-size:clamp(13px,1.15vw,17px);line-height:1.35;
+}
+
+/* Four early reward candidates: rows must never disappear beyond a clipped
+   one-row landscape grid. Keep a scrollable LIST and retain all four choices. */
+body.pilot-mode #journeyPanel.b1-reward-open #rewardCards.b1-early-double-draft{
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  grid-template-rows:none;grid-auto-rows:max-content;
+  align-content:start;overflow-y:auto;overflow-x:hidden;
+  max-height:min(67dvh,620px);min-height:0;overscroll-behavior-y:contain;
+  -webkit-overflow-scrolling:touch;touch-action:pan-y;
+}
+
+/* On a phone held sideways, retain three visible candidates when they fit,
+   but scroll the grid rather than cutting a long description or fourth card. */
+@media (orientation:landscape) and (max-width:1100px) and (max-height:620px){
+  body.pilot-mode[data-b1-mobile] #journeyPanel.b1-reward-open #rewardCards.pilot-rewards{
+    grid-template-columns:repeat(3,minmax(0,1fr));
+    grid-template-rows:none;grid-auto-rows:max-content;
+    align-items:start;align-content:start;
+    overflow-y:auto;overflow-x:hidden;overscroll-behavior-y:contain;
+    touch-action:pan-y;-webkit-overflow-scrolling:touch;
+  }
+  body.pilot-mode[data-b1-mobile] #journeyPanel.b1-reward-open #rewardCards .b1-reward-choice{
+    height:auto;min-height:clamp(192px,59dvh,275px);max-height:none;
+    align-self:stretch;touch-action:pan-y;
+  }
+  body.pilot-mode[data-b1-mobile] #journeyPanel.b1-reward-open #rewardCards .b1-reward-choice > :is(
+    .b1-magic-card-art,.b1-fire-card-art,.b1-dragon-card-art,.b1-dragon-card-sprite,.pilot-card-art
+  ){
+    height:clamp(52px,16dvh,90px);flex:0 0 clamp(52px,16dvh,90px);min-height:0;
+  }
+  body.pilot-mode[data-b1-mobile] #journeyPanel.b1-reward-open #rewardCards .b1-reward-choice > .pilot-card-copy{
+    flex:1 0 auto;min-height:0;height:auto;max-height:none;
+    padding:6px 7px 10px;gap:5px;overflow:visible;
+  }
+  body.pilot-mode[data-b1-mobile] #journeyPanel.b1-reward-open #rewardCards .b1-reward-choice .pilot-card-copy strong{
+    font-size:clamp(13px,1.8vw,17px);line-height:1.18;padding:3px 5px;
+  }
+  body.pilot-mode[data-b1-mobile] #journeyPanel.b1-reward-open #rewardCards .b1-reward-choice .pilot-card-copy .desc{
+    font-size:clamp(11.5px,1.55vw,14px);line-height:1.3;
+  }
+  body.pilot-mode[data-b1-mobile] #journeyPanel.b1-reward-open #rewardCards.b1-early-double-draft{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    grid-template-rows:none;grid-auto-rows:max-content;
+    max-height:none;height:auto;min-height:0;overflow-y:auto;overflow-x:hidden;
+  }
+}
+@media (orientation:landscape) and (max-height:365px){
+  body.pilot-mode[data-b1-mobile] #journeyPanel.b1-reward-open #rewardCards .b1-reward-choice{
+    min-height:190px;
+  }
+  body.pilot-mode[data-b1-mobile] #journeyPanel.b1-reward-open #rewardCards .b1-reward-choice > :is(
+    .b1-magic-card-art,.b1-fire-card-art,.b1-dragon-card-art,.b1-dragon-card-sprite,.pilot-card-art
+  ){height:52px;flex-basis:52px}
+}
+
+/* In portrait mode, maintain the existing horizontal image+text card,
+   using the outer list as the only scrollable area. */
+@media (orientation:portrait) and (max-width:760px){
+  body.pilot-mode[data-b1-mobile] #journeyPanel.b1-reward-open #rewardCards.b1-early-double-draft{
+    display:grid;grid-template-columns:minmax(0,1fr);
+    grid-template-rows:none;grid-auto-rows:max-content;
+    max-height:none;height:auto;overflow-y:auto;
+  }
+  body.pilot-mode[data-b1-mobile] #journeyPanel.b1-reward-open #rewardCards .b1-reward-choice{
+    min-height:112px;height:auto;
+  }
+  body.pilot-mode[data-b1-mobile] #journeyPanel.b1-reward-open #rewardCards .b1-reward-choice > .pilot-card-copy{
+    padding:9px 43px 10px 10px;
+  }
+}
+
+/* Event card picks (blood contract and the early free study):
+   do not force long descriptions into a clipped fixed-height card. */
+body.pilot-mode #journeyPanel #b1EventOptions.b1-event-blood-grid{
+  align-content:start;overflow-y:auto;overflow-x:hidden;
+  overscroll-behavior-y:contain;touch-action:pan-y;
+}
+body.pilot-mode #journeyPanel #b1EventOptions.b1-event-blood-grid .b1-blood-choice{
+  box-sizing:border-box;height:auto;min-height:290px;max-height:none;
+  overflow:hidden;display:flex;flex-direction:column;
+}
+body.pilot-mode #journeyPanel #b1EventOptions.b1-event-blood-grid .b1-blood-choice > :is(
+  .b1-magic-card-art,.b1-fire-card-art,.b1-dragon-card-art,.b1-dragon-card-sprite,.pilot-card-art
+){
+  position:relative;inset:auto;display:block;width:100%;
+  flex:0 0 175px;height:175px;min-height:0;max-height:none;
+}
+body.pilot-mode #journeyPanel #b1EventOptions.b1-event-blood-grid .b1-blood-choice .pilot-card-copy{
+  box-sizing:border-box;position:relative;inset:auto;
+  flex:1 0 auto;display:flex;flex-direction:column;
+  width:100%;height:auto;min-height:0;max-height:none;
+  padding:10px 9px 15px;gap:6px;overflow:visible;
+}
+body.pilot-mode #journeyPanel #b1EventOptions.b1-event-blood-grid .b1-blood-choice .pilot-card-copy strong{
+  position:static;inset:auto;width:100%;height:auto;max-height:none;min-height:0;
+  display:block;flex:0 0 auto;padding:5px 7px;margin:0;
+  white-space:normal;overflow:visible;overflow-wrap:anywhere;
+  text-align:center;line-height:1.24;
+}
+body.pilot-mode #journeyPanel #b1EventOptions.b1-event-blood-grid .b1-blood-choice .pilot-card-copy strong::before{content:none}
+body.pilot-mode #journeyPanel #b1EventOptions.b1-event-blood-grid .b1-blood-choice .pilot-card-copy .desc{
+  display:block;position:static;min-height:0;max-height:none;
+  white-space:normal;overflow:visible;overflow-wrap:anywhere;
+  -webkit-line-clamp:unset;line-clamp:unset;line-height:1.32;
+}
+@media (max-width:700px){
+  body.pilot-mode #journeyPanel #b1EventOptions.b1-event-blood-grid{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+  body.pilot-mode #journeyPanel #b1EventOptions.b1-event-blood-grid .b1-blood-choice{
+    min-height:245px;
+  }
+  body.pilot-mode #journeyPanel #b1EventOptions.b1-event-blood-grid .b1-blood-choice > :is(
+    .b1-magic-card-art,.b1-fire-card-art,.b1-dragon-card-art,.b1-dragon-card-sprite,.pilot-card-art
+  ){height:122px;flex-basis:122px}
+}
+@media (orientation:landscape) and (max-width:1000px){
+  body.pilot-mode #journeyPanel #b1EventOptions.b1-event-blood-grid{
+    grid-template-columns:repeat(3,minmax(0,1fr));
+  }
+}
+
+/* The shop is another acquisition surface. Make long effects readable
+   without an inner scroller or a three-line truncation. */
+body.pilot-mode #journeyPanel #shopItems .b1-shop-offer{
+  height:auto;min-height:265px;max-height:none;overflow:hidden;
+}
+body.pilot-mode #journeyPanel #shopItems .b1-shop-offer > :is(
+  .b1-magic-card-art,.b1-fire-card-art,.b1-dragon-card-art,.b1-dragon-card-sprite,.pilot-card-art
+){height:clamp(110px,20dvh,180px);flex:0 0 clamp(110px,20dvh,180px)}
+body.pilot-mode #journeyPanel #shopItems .b1-shop-offer .pilot-card-copy{
+  position:relative;inset:auto;display:flex;flex-direction:column;
+  height:auto;max-height:none;min-height:0;flex:1 0 auto;
+  padding:7px 9px 33px;gap:4px;overflow:visible;
+}
+body.pilot-mode #journeyPanel #shopItems .b1-shop-offer .pilot-card-copy strong{
+  position:static;inset:auto;max-height:none;min-height:0;height:auto;width:100%;
+  white-space:normal;overflow:visible;overflow-wrap:anywhere;
+}
+body.pilot-mode #journeyPanel #shopItems .b1-shop-offer .pilot-card-copy strong::before{content:none}
+body.pilot-mode #journeyPanel #shopItems .b1-shop-offer .pilot-card-copy .desc{
+  display:block;max-height:none;white-space:normal;
+  -webkit-line-clamp:unset;line-clamp:unset;overflow:visible;overflow-wrap:anywhere;
+}
