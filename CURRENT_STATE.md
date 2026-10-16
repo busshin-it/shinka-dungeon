@@ -1,5 +1,11 @@
 # 進化ダンジョン｜現在地
 
+## 2026-10-16｜Asset Factory Autoの定期起動を一時停止
+- 無料GitHub Actions 2,000分到達・月5ドル予算設定を受け、`.github/workflows/asset-factory-auto.yml` から毎時17分の `schedule` と `.asset-factory-trigger` 更新時の `push` トリガーを取り外した。`workflow_dispatch` は保持し、手動での画像生成は可能。
+- 既存画像、`asset-factory/queue.json`、ゲーム本編、手動の `Asset Factory`、`B1 Card Art Batch`、Pagesは変更していない。全GitHub Actionsを停止する変更ではない。
+- mainに反映後のワークフローのトリガーを照合して停止を確認する。復旧時は `backup/pre-asset-factory-auto-pause-20261016` と比較し、明示的な承認を受けて元に戻す。
+
+
 ## 第86歩（2026-10-16）：2枚コンボの実感と休憩所のデッキ整理（PR #157 統合済み）
 15階層で実際のコンボ成立時に敵・主人公へ短い発光を追加し、休憩では回復・強化の代わりに未強化基本カードを1枚だけ削除可能にする試作。カード85種の数値・旧12戦・保存形式は保護。Astral game verification #38838110934（663件合格）後、PR #157 をmainへ統合。Pages配信・実機・面白さは未確認。[設計と復旧](design/b1-step86-combo-feedback-and-rest-trim-20261016.md)。
 

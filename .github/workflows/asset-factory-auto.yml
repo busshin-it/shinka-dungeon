@@ -1,13 +1,8 @@
 name: Asset Factory Auto
 
+# Temporarily pause automatic triggers (2026-10-16); keep manual runs available.
+# To resume, restore schedule and push triggers with explicit approval.
 on:
-  push:
-    branches:
-      - main
-    paths:
-      - '.asset-factory-trigger'
-  schedule:
-    - cron: '17 * * * *'
   workflow_dispatch:
 
 permissions:
