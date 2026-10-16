@@ -798,6 +798,12 @@ export function createB1Game(options={}){
  if(s.phase!=="between"||(!routeTrial&&![1,5,10].includes(s.stage))||!s.restPending||s.restUsed||s.practiceMode)return false;
  if(kind==="heal"){const amount=Math.min(15,s.maxHp-s.hp);s.hp+=amount;note("休憩所：HPを"+amount+"回復。");}
  else if(kind==="upgrade"){if(!Number.isInteger(index)||index<0||index>=s.deck.length||s.deck[index].endsWith("~"))return false;const id=s.deck[index];s.deck[index]=id+"~";note("休憩所："+getB1Card(id).name+"を強化。");}
+ else if(kind==="refine"){
+  // Route-mode rest tradeoff: forego healing/upgrade to thin one basic card.
+  // Never delete an upgraded/basic-free card, and leave at least six cards.
+  if(!routeTrial||!Number.isInteger(index)||index<0||index>=s.deck.length||s.deck.length<=6||!["basicAttack","basicDefense"].includes(s.deck[index]))return false;
+  const id=s.deck.splice(index,1)[0];note("休憩所：基本カード「"+getB1Card(id).name+"」を1枚整理。");
+ }
  else return false;s.restPending=false;s.restUsed=true;s.restChoice=kind;return true;
 }
 const SHOP_STOCK=Object.freeze([{id:"ward",price:35},{id:"chain",price:40},{id:"frostBreak",price:35},{id:"echoGuard",price:30},{id:"lingeringPoison",price:30},{id:"fireSmall",price:25},{id:"fireMedium",price:40},{id:"fireLarge",price:55},{id:"fireWaveSmall",price:30},{id:"fireWaveMedium",price:45},{id:"fireWaveLarge",price:60},{id:"thunderSmall",price:30},{id:"thunderMedium",price:45},{id:"thunderLarge",price:60},{id:"darkBolt",price:35},{id:"abyssBolt",price:45},{id:"iceSpear",price:40},{id:"arcaneLance",price:35},{id:"mentalCollapse",price:50},{id:"curse",price:30},{id:"deathSong",price:60},{id:"hallucination",price:35},{id:"shadowEcho",price:35},{id:"blizzard",price:45},{id:"thunderSurge",price:50},{id:"guideThrust",price:35},{id:"spellblade",price:35},{id:"bludgeon",price:25},{id:"rapidPunch",price:45},{id:"heavyBlow",price:40},{id:"sneakHit",price:30},{id:"ironHammer",price:60},{id:"doping",price:40},{id:"adversity",price:35},{id:"rage",price:65}]);
