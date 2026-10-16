@@ -1,5 +1,11 @@
 # 進化ダンジョン｜現在地
 
+## 2026-10-16｜B1 Card Art Batchの自動起動を一時停止
+- GitHub Actions使用量を減らす目的で、`.github/workflows/b1-card-art.yml` の6時間おきの`schedule`と`.b1-card-art-trigger`変更時の`push`を削除し、手動`workflow_dispatch`のみ残す。定期実行時は`B1_CARD_ART_ENABLED`フラグが有効な場合だけ画像生成される設計だったため、過去の起動数と実際の生成枚数は同義ではない。
+- 既存のカード原画、ゲーム、キュー、画像生成スクリプト、Pages、`Asset Factory`の手動実行は変更なし。手動で`B1 Card Art Batch`を起動するとOpenAI APIの費用が発生し得る。
+- 復旧時は`backup/pre-b1-card-art-auto-pause-20261016`からトリガーを復元する。GitHub main反映後にワークフローの`on`が手動のみであることを確認する。
+
+
 ## 2026-10-16｜Asset Factory Autoの定期起動を一時停止
 - 無料GitHub Actions 2,000分到達・月5ドル予算設定を受け、`.github/workflows/asset-factory-auto.yml` から毎時17分の `schedule` と `.asset-factory-trigger` 更新時の `push` トリガーを取り外した。`workflow_dispatch` は保持し、手動での画像生成は可能。
 - 既存画像、`asset-factory/queue.json`、ゲーム本編、手動の `Asset Factory`、`B1 Card Art Batch`、Pagesは変更していない。全GitHub Actionsを停止する変更ではない。

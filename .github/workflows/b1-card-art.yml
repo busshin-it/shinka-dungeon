@@ -1,11 +1,9 @@
 name: B1 Card Art Batch
+# 2026-10-16: automatic runs paused to reduce Actions/API usage.
+# To resume, restore schedule/push from backup/pre-b1-card-art-auto-pause-20261016.
+# Manual runs remain available; card generation may incur OpenAI API charges.
 on:
-  push:
-    branches: [main]
-    paths: ['.b1-card-art-trigger']
   workflow_dispatch:
-  schedule:
-    - cron: '43 */6 * * *'
 permissions:
   contents: write
   pull-requests: write
@@ -14,7 +12,8 @@ concurrency:
   cancel-in-progress: false
 jobs:
   generate:
-    if: ${{ vars.B1_CARD_ART_ENABLED == 'true' || (github.event_name == 'push' && github.event.head_commit.message == 'test: run one B1 card illustration') }}
+    # Only explicit manual dispatch reaches this job.
+    if: ${{ github.event_name == 'workflow_dispatch' }}
     runs-on: ubuntu-latest
     timeout-minutes: 45
     env:
