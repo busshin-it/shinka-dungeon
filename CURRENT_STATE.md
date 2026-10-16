@@ -1,7 +1,7 @@
 # 進化ダンジョン｜現在地
 
-## 2026-10-16｜報酬4枚目・長い効果欄の見切れ修正（PR #160）
-15階層の序盤4枚報酬がスマホ横向きの3列×1行とoverflow:hiddenで切れる原因候補をCSSで修正。通常報酬・血の契約・無料学習・商店も名前と効果が伸びて読めるよう候補リスト単位でスクロール。カード85種・戦闘・保存・旧12戦は不変更。自動テスト・main・Pages・実機は別判定。[仕様](design/b1-reward-card-clipping-20261016.md)。
+## 2026-10-16｜報酬4枚目・長い効果欄の見切れ修正（PR #160 統合済み）
+15階層の序盤4枚報酬がスマホ横向きの3列×1行とoverflow:hiddenで切れる原因候補をCSSで修正。通常報酬・血の契約・無料学習・商店も名前と効果が伸びて読めるよう候補リスト単位でスクロール。カード85種・戦闘・保存・旧12戦は不変更。自動テスト Astral game verification #38889955375 合格・PR #160 main統合済み。Pages反映・実機は未確認。[仕様](design/b1-reward-card-clipping-20261016.md)。
 
 ## 2026-10-16｜B1 Card Art Batchの自動起動を一時停止
 - GitHub Actions使用量を減らす目的で、`.github/workflows/b1-card-art.yml` の6時間おきの`schedule`と`.b1-card-art-trigger`変更時の`push`を削除し、手動`workflow_dispatch`のみ残す。定期実行時は`B1_CARD_ART_ENABLED`フラグが有効な場合だけ画像生成される設計だったため、過去の起動数と実際の生成枚数は同義ではない。
