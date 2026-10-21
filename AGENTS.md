@@ -4,11 +4,13 @@
 
 ## 1. 共通の開発原則（正本は1つ）
 
-- [AI_EXTERNAL_BRAIN.md｜7つの共通原則](https://github.com/busshin-it/ai-development-brain/blob/main/AI_EXTERNAL_BRAIN.md)
-- [WORK_RULES.md｜安全な開発・テスト・引き継ぎ](https://github.com/busshin-it/ai-development-brain/blob/main/WORK_RULES.md)
+- [AI_START_HERE.md｜共通の短い入口](https://github.com/busshin-it/ai-development-brain/blob/main/AI_START_HERE.md)（作業開始時に実際に取得する）
+- 条件に応じて読む詳細：[AI_EXTERNAL_BRAIN.md｜7つの基本原則](https://github.com/busshin-it/ai-development-brain/blob/main/AI_EXTERNAL_BRAIN.md)／[WORK_RULES.md｜開発・検証・復旧の手順](https://github.com/busshin-it/ai-development-brain/blob/main/WORK_RULES.md)（短い入口にある必読条件に従う）
 - 必要なときだけ：[自動化・他アプリ連携](https://github.com/busshin-it/ai-development-brain/blob/main/AUTOMATION_ENGINEERING_PLAYBOOK.md)／[ゴールまでの現在地](https://github.com/busshin-it/ai-development-brain/blob/main/GOAL_PROGRESS_REPORTING.md)／[秘書AIの共通ルール](https://github.com/busshin-it/ai-development-brain/blob/main/SECRETARY_AI_RULES.md)
 
 **すべてのアプリは同じ7原則を使い、このアプリの仕様・判断・進捗・履歴はこのリポジトリで独立して管理する。** 共通ルールを全文コピーしない。アプリ間に固定の仕事の優先順位を作らない。外部ルールを取得できなければ、未確認と記録し、安全を要する操作は保留する。
+
+**基本の読み順：** この `AGENTS.md` → 共通の短い入口 → このアプリの `CURRENT_STATE.md`。必要な詳細資料とアプリ固有の設計書は作業に応じて実際に取得する。リンクがあるだけで読了とは扱わず、取得できない資料に依存する安全判断は保留する。
 
 ## 2. このプロジェクトで最初に読むもの
 最初に[CURRENT_STATE.md](CURRENT_STATE.md)で**短い現在地**を、[AI_HANDOFF.md](AI_HANDOFF.md)で**読み順・引き継ぎ時の注意**を確認する。以下のゲーム独自の設計正本は従来の読み順を維持する。ここでの読む順番はアプリの仕事の順位ではない。
